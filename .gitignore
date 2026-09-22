@@ -48,3 +48,5 @@ coverage/
 *.tmp
 *.temp
 .npmrc
+# Stale nested checkout artifacts from the previous repository layout
+/fresnica-ui/
