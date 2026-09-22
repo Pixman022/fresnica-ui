@@ -1,0 +1,228 @@
+// ============================================
+// Image — Fresnica Style
+// 中性媒体容器 + 错误占位 + 点击预览
+// ============================================
+
+// ---------- Frame ----------
+.image {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-sizing: border-box;
+    max-width: 100%;
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    background: var(--Fresnica-semantic-surface-default);
+    padding: var(--Fresnica-primitive-space-md);
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    line-height: 0;
+    vertical-align: middle;
+    flex-shrink: 0;
+    transition: transform var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard);
+}
+
+.img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard);
+}
+
+.loaded .img {
+    opacity: 1;
+}
+
+// ---------- Error placeholder (错误占位) ----------
+.error {
+    line-height: 1.5;
+    flex-direction: column;
+    gap: var(--Fresnica-primitive-space-sm);
+    color: var(--Fresnica-semantic-content-muted);
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-medium);
+}
+
+// ============================================
+// Color variants — theme-aware semantic surfaces
+// white 作为兼容名称复用 base .image；其余颜色仅用于文档媒体
+// ============================================
+
+// Default — neutral surface
+.image-default {
+    background: var(--Fresnica-semantic-surface-low);
+    color: var(--Fresnica-semantic-content-secondary);
+}
+
+// App Pink — 应用粉
+.image-app-pink {
+    background: color-mix(
+        in srgb,
+        var(--Fresnica-semantic-feedback-error) 12%,
+        var(--Fresnica-semantic-surface-default)
+    );
+    color: var(--Fresnica-semantic-feedback-error);
+}
+
+// Purple — 紫色
+.image-purple {
+    background: var(--Fresnica-semantic-accent-purple-container);
+    color: var(--Fresnica-semantic-accent-purple);
+}
+
+// App Blue — 应用蓝
+.image-app-blue {
+    background: var(--Fresnica-semantic-accent-blue-container);
+    color: var(--Fresnica-semantic-accent-blue);
+}
+
+// App Yellow — 应用黄
+.image-app-yellow {
+    background: var(--Fresnica-semantic-accent-yellow-container);
+    color: var(--Fresnica-semantic-accent-yellow);
+}
+
+// App Orange — 应用橙
+.image-app-orange {
+    background: var(--Fresnica-semantic-accent-orange-container);
+    color: var(--Fresnica-semantic-accent-orange);
+}
+
+// App Teal — 应用青
+.image-app-teal {
+    background: var(--Fresnica-semantic-feedback-success-container);
+    color: var(--Fresnica-semantic-content-on-success-container);
+}
+
+// App Green — 应用绿
+.image-app-green {
+    background: var(--Fresnica-semantic-feedback-success-container);
+    color: var(--Fresnica-semantic-content-on-success-container);
+}
+
+// App Red — 应用红
+.image-app-red {
+    background: var(--Fresnica-semantic-feedback-failure-container);
+    color: var(--Fresnica-semantic-content-on-failure-container);
+}
+
+// Lime Green — 青柠绿
+.image-lime-green {
+    background: var(--Fresnica-semantic-surface-low);
+    color: var(--Fresnica-semantic-content-secondary);
+}
+
+// Yellow-Green — 黄绿色
+.image-yellow-green {
+    background: var(--Fresnica-semantic-surface-low);
+    color: var(--Fresnica-semantic-content-secondary);
+}
+
+// Brown — 棕色
+.image-brown {
+    background: var(--Fresnica-semantic-surface-raised);
+    color: var(--Fresnica-semantic-content-secondary);
+}
+
+// Warm Peach Pink — 暖桃粉
+.image-warm-peach-pink {
+    background: var(--Fresnica-semantic-surface-low);
+    color: var(--Fresnica-semantic-content-secondary);
+}
+
+// ---------- Preview trigger (点击预览) ----------
+.preview {
+    font: inherit;
+    color: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: zoom-in;
+
+    &:focus-visible {
+        outline: 2px solid var(--Fresnica-semantic-focus-ring);
+        outline-offset: 2px;
+    }
+}
+
+// ---------- Preview mask (大图预览遮罩) ----------
+.mask {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--Fresnica-semantic-overlay-scrim);
+    animation: Fresnica-image-fade-in var(--Fresnica-primitive-motion-duration-base)
+        var(--Fresnica-primitive-motion-ease-standard);
+}
+
+.previewImg {
+    max-width: min(88vw, 1100px);
+    max-height: 86vh;
+    border-radius: var(--Fresnica-primitive-radius-lg);
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    object-fit: contain;
+    animation: Fresnica-image-zoom-in var(--Fresnica-primitive-motion-duration-base)
+        var(--Fresnica-primitive-motion-ease-standard);
+}
+
+.dialog {
+    position: relative;
+    display: inline-flex;
+    line-height: 0;
+}
+
+.closeBtn {
+    position: absolute;
+    top: var(--Fresnica-primitive-space-md);
+    right: var(--Fresnica-primitive-space-md);
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1.5px solid color-mix(in srgb, var(--Fresnica-semantic-content-on-primary) 75%, transparent);
+    border-radius: 50%;
+    background: var(--Fresnica-semantic-surface-highest);
+    color: var(--Fresnica-semantic-content-primary);
+    cursor: pointer;
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease;
+
+    &:hover {
+        background: var(--Fresnica-semantic-surface-raised);
+        transform: scale(1.06);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--Fresnica-semantic-focus-ring);
+        outline-offset: 2px;
+    }
+}
+
+@keyframes Fresnica-image-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes Fresnica-image-zoom-in {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

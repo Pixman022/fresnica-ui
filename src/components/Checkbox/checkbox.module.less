@@ -1,0 +1,163 @@
+// ============================================
+// Checkbox — Fresnica Style (Splash Circle)
+// ============================================
+.checkboxGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--Fresnica-primitive-space-lg);
+    font-family: var(--Fresnica-primitive-font-family-base);
+}
+
+.horizontal {
+    flex-direction: row;
+}
+
+.vertical {
+    flex-direction: column;
+    gap: var(--Fresnica-primitive-space-md);
+}
+
+// ---------- Item ----------
+.checkboxItem {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--Fresnica-primitive-space-sm);
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+// ---------- Sizes ----------
+.small {
+    --cbx-size: 18px;
+    --cbx-check-w: 10px;
+    --cbx-check-h: 9px;
+    .label {
+        font-size: var(--Fresnica-primitive-font-size-sm);
+    }
+}
+
+.middle {
+    --cbx-size: 22px;
+    --cbx-check-w: 12px;
+    --cbx-check-h: 11px;
+    .label {
+        font-size: var(--Fresnica-primitive-font-size-base);
+    }
+}
+
+.large {
+    --cbx-size: 28px;
+    --cbx-check-w: 15px;
+    --cbx-check-h: 14px;
+    .label {
+        font-size: var(--Fresnica-primitive-font-size-lg);
+    }
+}
+
+// ---------- Box (圆形) ----------
+.cbx {
+    position: relative;
+    width: var(--cbx-size);
+    height: var(--cbx-size);
+    flex-shrink: 0;
+    box-sizing: border-box;
+
+    input[type='checkbox'] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        -webkit-tap-highlight-color: transparent;
+        cursor: pointer;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: var(--cbx-size);
+        height: var(--cbx-size);
+        border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+        border-radius: 50%;
+        background: var(--Fresnica-semantic-surface-default);
+        transition: border-color var(--Fresnica-primitive-motion-duration-base)
+            var(--Fresnica-primitive-motion-ease-standard);
+
+        &:focus-visible {
+            outline: 2px solid var(--Fresnica-semantic-focus-ring);
+            outline-offset: 2px;
+        }
+    }
+
+    .check {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: var(--cbx-check-w);
+        height: var(--cbx-check-h);
+        transform: translate(-50%, -54%);
+        opacity: 0;
+        z-index: 1;
+        pointer-events: none;
+
+        path {
+            stroke: var(--Fresnica-semantic-content-on-primary);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    }
+
+    input:checked {
+        border-color: var(--Fresnica-semantic-action-primary);
+    }
+
+    input:checked ~ .check {
+        opacity: 1;
+    }
+}
+
+// ---------- Label ----------
+.label {
+    color: var(--Fresnica-semantic-content-secondary);
+    font-weight: var(--Fresnica-primitive-font-weight-medium);
+    letter-spacing: 0.01em;
+    transition: color var(--Fresnica-primitive-motion-duration-fast);
+}
+
+.checked .label {
+    color: var(--Fresnica-semantic-content-primary);
+}
+
+// ---------- Checked ----------
+.checked {
+    .cbx input {
+        background: var(--Fresnica-semantic-action-primary);
+    }
+}
+
+// ---------- Disabled ----------
+.disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+
+    .cbx input {
+        background: var(--Fresnica-semantic-surface-raised);
+        border-color: var(--Fresnica-semantic-border-default);
+    }
+
+    .cbx .check path {
+        stroke: var(--Fresnica-semantic-content-muted);
+    }
+
+    .label {
+        color: var(--Fresnica-semantic-content-muted);
+    }
+}
+
+.groupDisabled .checkboxItem {
+    cursor: not-allowed;
+}
+
+[data-theme='dark'] .cbx input[type='checkbox']:not(:checked):not(:disabled),
+:global(.dark) .cbx input[type='checkbox']:not(:checked):not(:disabled) {
+    border-color: var(--Fresnica-semantic-content-secondary);
+}

@@ -1,0 +1,108 @@
+.nav {
+    z-index: 5;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    gap: var(--Fresnica-primitive-space-xs);
+    min-height: 64px;
+    padding: var(--Fresnica-primitive-space-sm) var(--Fresnica-primitive-space-xs);
+    border: 0;
+    border-radius: 0;
+    background: var(--Fresnica-semantic-surface-default);
+}
+.position-static {
+    position: static;
+}
+.position-sticky {
+    position: sticky;
+    bottom: 0;
+}
+.position-fixed {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.safeArea {
+    padding-bottom: calc(var(--Fresnica-primitive-space-sm) + env(safe-area-inset-bottom, 0px));
+}
+.nav button {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--Fresnica-primitive-space-xs);
+    min-width: 56px;
+    border: 0;
+    border-radius: var(--Fresnica-primitive-radius-base);
+    background: transparent;
+    color: var(--Fresnica-semantic-content-secondary);
+    font: inherit;
+    font-size: var(--Fresnica-primitive-font-size-caption);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    cursor: pointer;
+}
+.nav button:disabled {
+    color: var(--Fresnica-semantic-content-disabled);
+    cursor: not-allowed;
+}
+.nav button:hover,
+.nav button:focus-visible {
+    color: var(--Fresnica-semantic-action-primary);
+    background: var(--Fresnica-semantic-action-primary-container);
+}
+.nav button:disabled:hover {
+    color: var(--Fresnica-semantic-content-disabled);
+    background: transparent;
+}
+.nav button:focus-visible {
+    outline: 2px solid var(--Fresnica-semantic-focus-ring);
+    outline-offset: 2px;
+}
+.nav .active,
+.nav .active .icon,
+.nav .active .label {
+    color: var(--Fresnica-semantic-action-primary);
+}
+
+.nav .active {
+    background: transparent;
+}
+
+// The selected item is intentionally indicated by color and icon weight only.
+// Keep it transparent even while the pointer is over it or it has keyboard focus.
+.nav .active:hover,
+.nav .active:focus-visible {
+    color: var(--Fresnica-semantic-action-primary);
+    background: transparent;
+}
+.icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    min-height: 24px;
+}
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    display: grid;
+    min-width: 16px;
+    min-height: 16px;
+    padding: 0 var(--Fresnica-primitive-space-xs);
+    place-items: center;
+    border-radius: var(--Fresnica-primitive-radius-pill);
+    background: var(--Fresnica-semantic-feedback-failure);
+    color: var(--Fresnica-semantic-content-on-primary);
+    font-size: var(--Fresnica-primitive-font-size-caption);
+    line-height: 1;
+}
+.label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

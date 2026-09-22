@@ -1,0 +1,97 @@
+.wrapper {
+    display: grid;
+    gap: var(--Fresnica-primitive-space-sm);
+    width: 100%;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    gap: var(--Fresnica-primitive-space-sm);
+    min-height: var(--Fresnica-primitive-size-control-base);
+    padding: 0 var(--Fresnica-primitive-space-sm) 0 var(--Fresnica-primitive-space-lg);
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-base);
+    background: var(--Fresnica-semantic-surface-default);
+    transition: border-color var(--Fresnica-primitive-motion-duration-fast)
+        var(--Fresnica-primitive-motion-ease-standard);
+}
+
+.field:focus-within {
+    border-color: var(--Fresnica-semantic-focus-ring);
+}
+
+.input {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--Fresnica-semantic-content-primary);
+    font: inherit;
+    font-family: var(--Fresnica-primitive-font-family-mono);
+    font-size: var(--Fresnica-primitive-font-size-base);
+}
+
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.actions {
+    display: inline-flex;
+    gap: var(--Fresnica-primitive-space-xs);
+    flex-shrink: 0;
+}
+
+.action {
+    display: inline-grid;
+    width: var(--Fresnica-primitive-size-control-sm);
+    height: var(--Fresnica-primitive-size-control-sm);
+    padding: 0;
+    place-items: center;
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    background: var(--Fresnica-semantic-surface-raised);
+    color: var(--Fresnica-semantic-content-secondary);
+    cursor: pointer;
+}
+
+.action:hover:not(:disabled) {
+    background: var(--Fresnica-semantic-surface-highest);
+}
+
+.action:focus-visible {
+    outline: 2px solid var(--Fresnica-semantic-focus-ring);
+    outline-offset: 2px;
+}
+
+.action:disabled,
+.input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.helper {
+    padding: 0 var(--Fresnica-primitive-space-sm);
+    color: var(--Fresnica-semantic-content-muted);
+    font-size: var(--Fresnica-primitive-font-size-caption);
+}
+
+.status-error {
+    border-color: var(--Fresnica-semantic-feedback-failure);
+}
+
+.status-error + .helper {
+    color: var(--Fresnica-semantic-feedback-failure);
+}
+
+.status-warning {
+    border-color: var(--Fresnica-semantic-feedback-warning);
+}
+
+.status-warning + .helper {
+    color: var(--Fresnica-semantic-feedback-warning);
+}

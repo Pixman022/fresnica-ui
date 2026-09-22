@@ -1,0 +1,26 @@
+.summary {
+    display: grid;
+    gap: var(--Fresnica-primitive-space-md);
+    padding: var(--Fresnica-primitive-space-lg) 0;
+    color: var(--Fresnica-semantic-content-primary);
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+}
+.item,
+.muted,
+.total {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--Fresnica-primitive-space-lg);
+}
+.muted {
+    color: var(--Fresnica-semantic-content-muted);
+}
+.total {
+    margin-top: 2px;
+    padding-top: var(--Fresnica-primitive-space-md);
+    border-top: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-light);
+    font-size: var(--Fresnica-primitive-font-size-base);
+}
+.total strong {
+    color: var(--Fresnica-semantic-action-primary);
+}

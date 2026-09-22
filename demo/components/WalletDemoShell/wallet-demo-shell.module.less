@@ -1,0 +1,143 @@
+.shell {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    // Keep the product canvas at the requested mobile proportion while allowing
+    // the documentation column to shrink safely on narrow viewports.
+    width: min(390px, 100%);
+    max-width: 100%;
+    height: 844px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--Fresnica-bg-color);
+    border: 1px solid var(--Fresnica-border-color);
+    border-radius: var(--Fresnica-border-radius-lg);
+    box-shadow: var(--Fresnica-shadow-base);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.shell::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100%;
+    min-width: 0;
+    font-size: var(--Fresnica-font-size-base);
+    line-height: var(--Fresnica-line-height-base);
+    overflow-x: hidden;
+}
+
+// Wallet demos predate the shared shell and still expose a documentation wrapper.
+// Normalize only that wrapper here; business sections keep their own semantic layout.
+.content > div {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    min-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: var(--Fresnica-shadow-base) !important;
+    background: var(--Fresnica-bg-color) !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+}
+
+.content > div > :first-child {
+    display: none !important;
+}
+
+.content > div > section,
+.content > div > article {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: var(--Fresnica-shadow-base) !important;
+    background: var(--Fresnica-surface) !important;
+}
+
+.content > div > article {
+    padding: var(--Fresnica-spacing-lg) !important;
+}
+
+.content > div > div:nth-child(2) {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: var(--Fresnica-shadow-base) !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+}
+
+.content > div > div:nth-child(2) > * {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.content main,
+.content section,
+.content article {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+// Prevent intrinsic flex/grid children (long Stellar addresses and labels in
+// particular) from widening the 390 px canvas before ellipsis can apply.
+.content > div > div:nth-child(2) > *,
+.content > div > div:nth-child(2) * {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.content [style*='display: flex'],
+.content [style*='display: grid'] {
+    min-width: 0;
+}
+
+.content button,
+.content input,
+.content select {
+    max-width: 100%;
+}
+
+// Keep every wallet action comfortably tappable inside the 390 px canvas.
+// Existing larger controls retain their authored size; compact actions are
+// promoted to the established base height instead of introducing a new value.
+.content button,
+.content [role='button'] {
+    min-width: var(--Fresnica-height-base);
+    min-height: var(--Fresnica-height-base);
+    touch-action: manipulation;
+}
+
+.content input,
+.content select,
+.content textarea {
+    min-height: var(--Fresnica-height-base);
+}

@@ -1,0 +1,210 @@
+.btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--Fresnica-primitive-space-sm);
+    min-height: var(--Fresnica-component-button-height);
+    padding: 0 var(--Fresnica-component-button-padding-x);
+    border: var(--Fresnica-primitive-border-width-default) solid transparent;
+    border-radius: var(--Fresnica-component-button-radius);
+    font-family: var(--Fresnica-primitive-font-family-base);
+    font-weight: var(--Fresnica-primitive-font-weight-semibold);
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: all var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard);
+}
+.btn:focus-visible {
+    outline: 2px solid var(--Fresnica-semantic-focus-ring);
+    outline-offset: 2px;
+}
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+}
+.btn-small {
+    min-height: var(--Fresnica-component-button-height-sm);
+    padding: 0 var(--Fresnica-primitive-space-md);
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    font-size: var(--Fresnica-primitive-font-size-sm);
+}
+.btn-middle {
+    min-height: var(--Fresnica-component-button-height);
+    font-size: var(--Fresnica-primitive-font-size-base);
+}
+.btn-large {
+    min-height: var(--Fresnica-component-button-height-lg);
+    padding: 0 var(--Fresnica-primitive-space-xl);
+    font-size: var(--Fresnica-primitive-font-size-lg);
+}
+.btn-default {
+    color: var(--Fresnica-semantic-content-primary);
+    background: var(--Fresnica-semantic-surface-default);
+    border-color: var(--Fresnica-semantic-border-default);
+}
+.btn-default:hover:not(:disabled) {
+    color: var(--Fresnica-semantic-action-primary);
+    border-color: var(--Fresnica-semantic-action-primary);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    transform: translateY(-1px);
+}
+.btn-default:active:not(:disabled) {
+    transform: scale(0.98);
+}
+.btn-primary {
+    color: var(--Fresnica-component-button-primary-content);
+    background: var(--Fresnica-component-button-primary-background);
+    border-color: var(--Fresnica-component-button-primary-background);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+}
+.btn-primary > span,
+.btn-primary .btn-icon,
+.btn-primary .btn-icon svg,
+.btn-primary .spinner {
+    color: var(--Fresnica-component-button-primary-content);
+    stroke: currentColor;
+}
+.btn-primary:hover:not(:disabled) {
+    background: var(--Fresnica-component-button-primary-background-hover);
+    border-color: var(--Fresnica-component-button-primary-background-hover);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    transform: translateY(-1px);
+}
+.btn-primary:active:not(:disabled) {
+    background: var(--Fresnica-component-button-primary-background-pressed);
+    border-color: var(--Fresnica-component-button-primary-background-pressed);
+    transform: scale(0.98);
+}
+.btn-inverse {
+    color: var(--Fresnica-semantic-content-on-inverse);
+    background: var(--Fresnica-semantic-surface-inverse);
+    border-color: var(--Fresnica-semantic-surface-inverse);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+}
+.btn-inverse:hover:not(:disabled) {
+    color: var(--Fresnica-semantic-content-on-inverse);
+    background: var(--Fresnica-semantic-surface-inverse-hover);
+    border-color: var(--Fresnica-semantic-surface-inverse-hover);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    transform: translateY(-1px);
+}
+.btn-inverse:active:not(:disabled) {
+    color: var(--Fresnica-semantic-content-on-inverse);
+    background: var(--Fresnica-semantic-surface-inverse-pressed);
+    border-color: var(--Fresnica-semantic-surface-inverse-pressed);
+    transform: scale(0.98);
+}
+.btn-dashed {
+    color: var(--Fresnica-semantic-content-primary);
+    background: var(--Fresnica-semantic-surface-default);
+    border-color: var(--Fresnica-semantic-border-default);
+    border-style: dashed;
+}
+.btn-dashed:hover:not(:disabled) {
+    color: var(--Fresnica-semantic-action-primary);
+    border-color: var(--Fresnica-semantic-action-primary);
+}
+
+[data-theme='dark'] .btn-default,
+[data-theme='dark'] .btn-dashed,
+:global(.dark) .btn-default,
+:global(.dark) .btn-dashed {
+    border-color: color-mix(in srgb, var(--Fresnica-semantic-content-primary) 32%, transparent);
+}
+.btn-text,
+.btn-link {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+}
+.btn-text {
+    color: var(--Fresnica-semantic-content-primary);
+}
+.btn-link {
+    color: var(--Fresnica-semantic-action-primary);
+}
+.btn-text:hover:not(:disabled) {
+    background: var(--Fresnica-semantic-surface-low);
+}
+.btn-link:hover:not(:disabled) {
+    color: var(--Fresnica-semantic-action-primary-hover);
+    text-decoration: underline;
+}
+.btn-danger.btn-primary {
+    color: var(--Fresnica-semantic-content-on-error);
+    background: var(--Fresnica-semantic-feedback-error);
+    border-color: var(--Fresnica-semantic-feedback-error);
+}
+.btn-danger.btn-primary:hover:not(:disabled) {
+    color: var(--Fresnica-semantic-content-on-error);
+    background: var(--Fresnica-semantic-feedback-error-hover);
+    border-color: var(--Fresnica-semantic-feedback-error-hover);
+}
+.btn-danger.btn-primary:active:not(:disabled) {
+    color: var(--Fresnica-semantic-content-on-error);
+    background: var(--Fresnica-semantic-feedback-error-pressed);
+    border-color: var(--Fresnica-semantic-feedback-error-pressed);
+}
+.btn-danger.btn-default,
+.btn-danger.btn-dashed,
+.btn-danger.btn-text,
+.btn-danger.btn-link {
+    color: var(--Fresnica-semantic-feedback-error);
+}
+.btn-danger.btn-default:hover:not(:disabled),
+.btn-danger.btn-dashed:hover:not(:disabled),
+.btn-danger.btn-text:hover:not(:disabled),
+.btn-danger.btn-link:hover:not(:disabled) {
+    color: var(--Fresnica-semantic-feedback-error-hover);
+    border-color: var(--Fresnica-semantic-feedback-error-hover);
+}
+.btn-danger.btn-default:active:not(:disabled),
+.btn-danger.btn-dashed:active:not(:disabled),
+.btn-danger.btn-text:active:not(:disabled),
+.btn-danger.btn-link:active:not(:disabled) {
+    color: var(--Fresnica-semantic-feedback-error-pressed);
+    border-color: var(--Fresnica-semantic-feedback-error-pressed);
+}
+.btn-danger.btn-default,
+.btn-danger.btn-dashed {
+    border-color: var(--Fresnica-semantic-feedback-error);
+}
+.btn-block {
+    display: flex;
+    width: 100%;
+}
+.btn-loading {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.82;
+}
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    color: currentColor;
+}
+.btn-icon svg {
+    color: currentColor;
+    stroke: currentColor;
+}
+.spinner {
+    flex: 0 0 auto;
+    animation: Fresnica-button-spin 0.85s linear infinite;
+}
+
+@keyframes Fresnica-button-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .spinner {
+        animation-duration: 1.8s;
+    }
+}

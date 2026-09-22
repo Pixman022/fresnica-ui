@@ -1,0 +1,163 @@
+.tabs {
+    overflow: hidden;
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-lg);
+    background: var(--Fresnica-semantic-surface-default);
+}
+.tabList {
+    display: flex;
+    gap: var(--Fresnica-primitive-space-xs);
+    overflow-x: auto;
+    padding: var(--Fresnica-primitive-space-sm);
+    border-bottom: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    background: var(--Fresnica-semantic-surface-default);
+    scrollbar-width: none;
+}
+.tabList::-webkit-scrollbar {
+    display: none;
+}
+.tabItem {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--Fresnica-primitive-space-sm);
+    min-height: 40px;
+    padding: 0 var(--Fresnica-primitive-space-lg);
+    border: 0;
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    background: transparent;
+    color: var(--Fresnica-semantic-content-secondary);
+    font-family: var(--Fresnica-primitive-font-family-base);
+    font-size: var(--Fresnica-primitive-font-size-base);
+    font-weight: var(--Fresnica-primitive-font-weight-semibold);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast) var(--Fresnica-primitive-motion-ease-standard);
+}
+.tabItem:hover {
+    background: var(--Fresnica-semantic-action-primary-container);
+    color: var(--Fresnica-semantic-action-primary);
+}
+.tabItem:disabled {
+    color: var(--Fresnica-semantic-content-disabled);
+    background: transparent;
+    cursor: not-allowed;
+}
+.tabItem.active {
+    background: var(--Fresnica-semantic-action-primary);
+    color: var(--Fresnica-semantic-content-on-primary);
+}
+.tabItem:focus-visible {
+    outline: 2px solid var(--Fresnica-semantic-focus-ring);
+    outline-offset: 2px;
+}
+.tabIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.tabLabel {
+    color: inherit;
+}
+.tabBadge {
+    display: inline-grid;
+    min-width: 20px;
+    min-height: 20px;
+    padding: 0 var(--Fresnica-primitive-space-xs);
+    place-items: center;
+    border-radius: var(--Fresnica-primitive-radius-pill);
+    background: var(--Fresnica-semantic-surface-highest);
+    color: var(--Fresnica-semantic-content-secondary);
+    font-size: var(--Fresnica-primitive-font-size-caption);
+}
+.active .tabBadge {
+    background: color-mix(in srgb, var(--Fresnica-semantic-content-on-primary) 18%, transparent);
+    color: inherit;
+}
+.size-compact .tabItem {
+    min-height: var(--Fresnica-primitive-size-control-compact);
+    padding: 0 var(--Fresnica-primitive-space-md);
+    font-size: var(--Fresnica-primitive-font-size-sm);
+}
+.variant-segmented {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+.variant-segmented .tabList {
+    padding: var(--Fresnica-primitive-space-xs);
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-control);
+    background: var(--Fresnica-semantic-surface-low);
+}
+.variant-segmented .tabItem {
+    flex: 1;
+    justify-content: center;
+}
+.variant-segmented .tabContent {
+    padding-right: 0;
+    padding-left: 0;
+}
+.variant-underline {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+.variant-underline .tabList {
+    gap: var(--Fresnica-primitive-space-lg);
+    padding: 0;
+    border-bottom: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    background: transparent;
+}
+.variant-underline .tabItem {
+    padding: 0;
+    border-radius: 0;
+}
+.variant-underline .tabItem:hover {
+    background: transparent;
+}
+.variant-underline .tabItem.active {
+    background: transparent;
+    color: var(--Fresnica-semantic-action-primary);
+}
+.variant-underline .tabItem.active::after {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    border-radius: var(--Fresnica-primitive-radius-pill);
+    background: var(--Fresnica-semantic-action-primary);
+    content: '';
+}
+.variant-underline .tabContent {
+    padding-right: 0;
+    padding-left: 0;
+}
+.tabState {
+    display: none;
+}
+.tabStateStatic {
+    display: none;
+}
+.tabContent {
+    min-height: 60px;
+    padding: var(--Fresnica-primitive-space-xl);
+    animation: fade-in var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard);
+}
+.tabContentInner {
+    min-height: 40px;
+    color: var(--Fresnica-semantic-content-secondary);
+    font-size: var(--Fresnica-primitive-font-size-base);
+    line-height: var(--Fresnica-primitive-line-height-base);
+}
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

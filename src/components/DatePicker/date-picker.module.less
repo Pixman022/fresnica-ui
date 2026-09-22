@@ -1,0 +1,434 @@
+.wrapper {
+    position: relative;
+    display: inline-block;
+    font-family: var(--Fresnica-primitive-font-family-base);
+    vertical-align: middle;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* 触发区 —— 视觉对齐 Input：中性表面、标准圆角、轻量边框。 */
+.trigger {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--Fresnica-primitive-space-sm);
+    background: var(--Fresnica-semantic-surface-default);
+    border: 1px solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-base);
+    cursor: pointer;
+    transition:
+        border-color var(--Fresnica-primitive-motion-duration-fast) var(--Fresnica-primitive-motion-ease-standard),
+        background-color var(--Fresnica-primitive-motion-duration-fast) var(--Fresnica-primitive-motion-ease-standard);
+}
+
+.trigger-small {
+    height: var(--Fresnica-primitive-size-control-compact);
+    padding: 0 var(--Fresnica-primitive-space-lg);
+    font-size: var(--Fresnica-primitive-font-size-sm);
+}
+
+.trigger-middle {
+    height: var(--Fresnica-primitive-size-control-base);
+    padding: 0 var(--Fresnica-primitive-space-lg);
+    font-size: var(--Fresnica-primitive-font-size-base);
+}
+
+.trigger-large {
+    height: var(--Fresnica-primitive-size-control-emphasis);
+    padding: 0 var(--Fresnica-primitive-space-xl);
+    font-size: var(--Fresnica-primitive-font-size-lg);
+}
+
+.trigger:hover {
+    border-color: var(--Fresnica-semantic-action-primary);
+    background: var(--Fresnica-semantic-surface-raised);
+}
+
+.trigger-open {
+    border-color: var(--Fresnica-semantic-action-primary);
+    background: var(--Fresnica-semantic-surface-raised);
+}
+
+.trigger:focus-visible {
+    outline: 2px solid var(--Fresnica-semantic-focus-ring);
+    outline-offset: 2px;
+}
+
+.trigger-error {
+    border-color: var(--Fresnica-semantic-feedback-error);
+}
+
+.trigger-warning {
+    border-color: var(--Fresnica-semantic-feedback-warning);
+}
+
+.value {
+    flex: 1;
+    color: var(--Fresnica-semantic-content-primary);
+    font-weight: var(--Fresnica-primitive-font-weight-medium);
+    letter-spacing: 0.01em;
+}
+
+.placeholder {
+    flex: 1;
+    color: var(--Fresnica-semantic-content-muted);
+    font-weight: var(--Fresnica-primitive-font-weight-regular);
+}
+
+.calendarIcon {
+    display: flex;
+    align-items: center;
+    color: var(--Fresnica-semantic-content-muted);
+}
+
+/* 范围模式触发区分隔线：开始 | 结束 */
+.rangeDivider {
+    width: 1px;
+    height: 16px;
+    margin: 0 2px;
+    background: var(--Fresnica-semantic-border-default);
+    flex-shrink: 0;
+}
+
+.clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-left: var(--Fresnica-primitive-space-xs);
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    color: var(--Fresnica-semantic-content-muted);
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    line-height: 1;
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast);
+}
+
+.clear:hover {
+    color: var(--Fresnica-semantic-content-primary);
+    background: var(--Fresnica-semantic-surface-raised);
+}
+
+.wrapper-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.wrapper-disabled .trigger,
+.wrapper-disabled .trigger:hover {
+    background: var(--Fresnica-semantic-state-disabled-background);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    cursor: not-allowed;
+}
+
+.wrapper-disabled .value,
+.wrapper-disabled .placeholder {
+    color: var(--Fresnica-semantic-content-disabled);
+}
+
+/* 弹出面板 */
+.panel {
+    position: absolute;
+    width: 280px;
+    padding: var(--Fresnica-primitive-space-lg);
+    background: var(--Fresnica-semantic-surface-default);
+    border: 1px solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-base);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+        opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panelVisible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 退场动效：与入场同款 0.2s 过渡，动画结束后由 closePanel 卸载面板 */
+.panelClosing {
+    opacity: 0;
+    transform: translateY(-6px);
+}
+
+/* 范围模式：左右双面板 */
+.panelRange {
+    width: 600px;
+}
+
+.rangePanels {
+    display: flex;
+    gap: var(--Fresnica-primitive-space-md);
+}
+
+.rangePanel {
+    width: 280px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--Fresnica-primitive-space-sm);
+}
+
+.headerGroup {
+    display: flex;
+    gap: var(--Fresnica-primitive-space-xs);
+}
+
+.navBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border: none;
+    background: transparent;
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    color: var(--Fresnica-semantic-content-muted);
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast);
+}
+
+.navBtn:hover {
+    background: var(--Fresnica-semantic-surface-raised);
+}
+
+.navIcon {
+    width: 16px;
+    height: auto;
+    display: block;
+}
+
+.labelBtn {
+    padding: var(--Fresnica-primitive-space-xs) var(--Fresnica-primitive-space-md);
+    border: none;
+    background: transparent;
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    color: var(--Fresnica-semantic-content-secondary);
+    font-family: inherit;
+    font-size: var(--Fresnica-primitive-font-size-base);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast);
+}
+
+.labelBtn:hover {
+    background: color-mix(in srgb, var(--Fresnica-semantic-action-primary) 12%, transparent);
+    color: var(--Fresnica-semantic-action-primary);
+}
+
+.yearLabel {
+    padding: var(--Fresnica-primitive-space-xs) var(--Fresnica-primitive-space-md);
+    color: var(--Fresnica-semantic-content-secondary);
+    font-size: var(--Fresnica-primitive-font-size-base);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+}
+
+/* 星期表头 + 日期网格 */
+.weekRow {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: var(--Fresnica-primitive-space-xs);
+}
+
+.weekCell {
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    color: var(--Fresnica-semantic-content-muted);
+    font-size: var(--Fresnica-primitive-font-size-caption);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    letter-spacing: 1px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--Fresnica-primitive-space-xs);
+}
+
+.dayCell {
+    width: 32px;
+    height: 32px;
+    /* 网格轨道约 34.29px 宽，固定 32×32 并居中，保证正圆而非椭圆 */
+    justify-self: center;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    color: var(--Fresnica-semantic-content-secondary);
+    font-family: inherit;
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-medium);
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast);
+}
+
+.dayCell:hover {
+    background: color-mix(in srgb, var(--Fresnica-semantic-action-primary) 12%, transparent);
+    color: var(--Fresnica-semantic-action-primary);
+}
+
+/* 范围模式与单选、Select 保持同一主题绿色交互语言 */
+.panelRange .dayCell:hover {
+    background: var(--Fresnica-semantic-action-primary-hover);
+    color: var(--Fresnica-semantic-content-on-primary);
+}
+
+.dayCellOutside {
+    color: var(--Fresnica-semantic-content-disabled);
+    font-weight: var(--Fresnica-primitive-font-weight-regular);
+}
+
+.dayCellToday {
+    outline: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-action-primary);
+    outline-offset: -2px;
+    color: var(--Fresnica-semantic-action-primary);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+}
+
+.dayCellSelected,
+.dayCellSelected:hover {
+    background: var(--Fresnica-semantic-action-primary);
+    color: var(--Fresnica-semantic-content-on-primary);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+}
+
+.dayCellSelected:hover {
+    background: var(--Fresnica-semantic-action-primary-hover);
+}
+
+/* 范围模式：选中日期使用主题绿色圆形与白色文字 */
+.dayCellInRange,
+.dayCellInRange:hover {
+    background: var(--Fresnica-semantic-action-primary);
+    border-radius: 50%;
+    color: var(--Fresnica-semantic-content-on-primary);
+    font-weight: var(--Fresnica-primitive-font-weight-semibold);
+}
+
+.dayCellInRange:hover {
+    background: var(--Fresnica-semantic-action-primary-hover);
+}
+
+/* 起止端点：主题绿色正圆 + 白色描边，文字白色 */
+.dayCellRangeStart,
+.dayCellRangeEnd,
+.dayCellRangeStart:hover,
+.dayCellRangeEnd:hover {
+    background: var(--Fresnica-semantic-action-primary);
+    border: 1px solid var(--Fresnica-semantic-content-on-primary);
+    border-radius: 50%;
+    color: var(--Fresnica-semantic-content-on-primary);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+}
+
+.dayCellRangeStart:hover,
+.dayCellRangeEnd:hover {
+    background: var(--Fresnica-semantic-action-primary-hover);
+}
+
+.dayCellDisabled,
+.dayCellDisabled:hover {
+    background: transparent;
+    color: var(--Fresnica-semantic-content-disabled);
+    cursor: not-allowed;
+}
+
+/* 月份 / 年份网格 */
+.grid3x4 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--Fresnica-primitive-space-xs);
+}
+
+.monthCell,
+.yearCell {
+    height: 36px;
+    border: none;
+    background: transparent;
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    color: var(--Fresnica-semantic-content-secondary);
+    font-family: inherit;
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-medium);
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast);
+}
+
+.monthCell:hover,
+.yearCell:hover {
+    background: color-mix(in srgb, var(--Fresnica-semantic-action-primary) 12%, transparent);
+    color: var(--Fresnica-semantic-action-primary);
+}
+
+.monthCellSelected,
+.monthCellSelected:hover,
+.yearCellSelected,
+.yearCellSelected:hover {
+    background: var(--Fresnica-semantic-action-primary);
+    color: var(--Fresnica-semantic-content-on-primary);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+}
+
+.monthCellSelected:hover,
+.yearCellSelected:hover {
+    background: var(--Fresnica-semantic-action-primary-hover);
+}
+
+/* 底部快捷区 */
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--Fresnica-primitive-space-sm);
+    margin-top: var(--Fresnica-primitive-space-sm);
+    padding-top: var(--Fresnica-primitive-space-sm);
+    border-top: 1px solid var(--Fresnica-semantic-border-light);
+}
+
+.todayBtn {
+    padding: var(--Fresnica-primitive-space-xs) var(--Fresnica-primitive-space-md);
+    border: none;
+    background: transparent;
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    color: var(--Fresnica-semantic-content-secondary);
+    font-family: inherit;
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast);
+}
+
+.todayBtn:hover {
+    background: var(--Fresnica-semantic-surface-raised);
+    color: var(--Fresnica-semantic-content-primary);
+}
+
+/* 底部「确定」按钮 */
+.confirmBtn {
+    padding: var(--Fresnica-primitive-space-sm) var(--Fresnica-primitive-space-lg);
+    border: none;
+    background: var(--Fresnica-semantic-surface-raised);
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    color: var(--Fresnica-semantic-content-secondary);
+    font-family: inherit;
+    font-size: var(--Fresnica-primitive-font-size-sm);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast);
+}
+
+.confirmBtn:hover {
+    background: var(--Fresnica-semantic-action-primary);
+    color: var(--Fresnica-semantic-content-on-primary);
+}

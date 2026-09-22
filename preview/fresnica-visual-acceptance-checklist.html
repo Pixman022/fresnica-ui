@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Fresnica UI 视觉验收清单</title>
+        <style>
+            :root {
+                color-scheme: light;
+                --primary: #00a875;
+                --primary-hover: #008f65;
+                --primary-soft: #e2f8f0;
+                --danger: #d83a3a;
+                --danger-soft: #fff0f0;
+                --warning: #a87500;
+                --warning-soft: #fff7db;
+                --text: #151a19;
+                --text-secondary: #5f6966;
+                --border: #dce3e0;
+                --surface: #ffffff;
+                --surface-low: #f5f7f6;
+                --page: #eef3f1;
+                --radius: 16px;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                background: var(--page);
+                color: var(--text);
+                font-family: Roboto, 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+                line-height: 1.5;
+            }
+
+            button,
+            input,
+            textarea {
+                font: inherit;
+            }
+
+            .app {
+                width: min(1180px, calc(100% - 32px));
+                margin: 24px auto 64px;
+            }
+
+            .header,
+            .toolbar,
+            .section {
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                background: var(--surface);
+            }
+
+            .header {
+                padding: 24px;
+            }
+
+            h1,
+            h2,
+            p {
+                margin-top: 0;
+            }
+
+            h1 {
+                margin-bottom: 8px;
+                font-size: 28px;
+                line-height: 1.25;
+            }
+
+            .intro {
+                max-width: 800px;
+                margin-bottom: 20px;
+                color: var(--text-secondary);
+            }
+
+            .progress-row {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                align-items: center;
+                gap: 16px;
+            }
+
+            .progress-track {
+                height: 10px;
+                overflow: hidden;
+                border-radius: 999px;
+                background: var(--surface-low);
+            }
+
+            .progress-bar {
+                width: 0;
+                height: 100%;
+                border-radius: inherit;
+                background: var(--primary);
+                transition: width 180ms ease;
+            }
+
+            .progress-copy {
+                min-width: 150px;
+                color: var(--text-secondary);
+                font-variant-numeric: tabular-nums;
+                text-align: right;
+            }
+
+            .summary {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 16px;
+            }
+
+            .summary span,
+            .badge {
+                padding: 4px 10px;
+                border-radius: 999px;
+                background: var(--surface-low);
+                color: var(--text-secondary);
+                font-size: 13px;
+                font-weight: 700;
+            }
+
+            .summary .passed {
+                background: var(--primary-soft);
+                color: var(--primary-hover);
+            }
+
+            .summary .failed {
+                background: var(--danger-soft);
+                color: var(--danger);
+            }
+
+            .toolbar {
+                position: sticky;
+                top: 12px;
+                z-index: 10;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin: 16px 0;
+                padding: 12px;
+            }
+
+            .toolbar button,
+            .preview-link,
+            .status-button {
+                min-height: 40px;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                background: var(--surface);
+                color: var(--text);
+                cursor: pointer;
+            }
+
+            .toolbar button {
+                padding: 0 14px;
+            }
+
+            .toolbar button:hover,
+            .toolbar button.active {
+                border-color: var(--primary);
+                background: var(--primary-soft);
+                color: var(--primary-hover);
+            }
+
+            .toolbar .export {
+                margin-left: auto;
+                border-color: var(--primary);
+                background: var(--primary);
+                color: #ffffff;
+                font-weight: 700;
+            }
+
+            .toolbar .export:hover {
+                background: var(--primary-hover);
+                color: #ffffff;
+            }
+
+            .toolbar .reset:hover {
+                border-color: var(--danger);
+                background: var(--danger-soft);
+                color: var(--danger);
+            }
+
+            .section {
+                margin-bottom: 16px;
+                padding: 20px;
+            }
+
+            .section-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                margin-bottom: 14px;
+            }
+
+            .section h2 {
+                margin-bottom: 0;
+                font-size: 20px;
+            }
+
+            .items {
+                display: grid;
+                gap: 10px;
+            }
+
+            .item {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) auto;
+                gap: 12px 20px;
+                padding: 16px;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                background: var(--surface);
+            }
+
+            .item[data-status='pass'] {
+                border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
+                background: color-mix(in srgb, var(--primary-soft) 55%, var(--surface));
+            }
+
+            .item[data-status='fail'] {
+                border-color: color-mix(in srgb, var(--danger) 48%, var(--border));
+                background: color-mix(in srgb, var(--danger-soft) 62%, var(--surface));
+            }
+
+            .item-title {
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+                min-width: 0;
+                font-weight: 700;
+            }
+
+            .item-id {
+                flex: none;
+                color: var(--primary-hover);
+                font-variant-numeric: tabular-nums;
+            }
+
+            .item-actions {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                gap: 8px;
+            }
+
+            .status-button {
+                min-height: 34px;
+                padding: 0 11px;
+                font-size: 13px;
+                font-weight: 700;
+            }
+
+            .status-button[data-value='pass'].selected {
+                border-color: var(--primary);
+                background: var(--primary);
+                color: #ffffff;
+            }
+
+            .status-button[data-value='fail'].selected {
+                border-color: var(--danger);
+                background: var(--danger);
+                color: #ffffff;
+            }
+
+            .status-button[data-value='pending'].selected {
+                border-color: var(--warning);
+                background: var(--warning-soft);
+                color: var(--warning);
+            }
+
+            .note {
+                grid-column: 1 / -1;
+                width: 100%;
+                min-height: 42px;
+                resize: vertical;
+                padding: 10px 12px;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                background: var(--surface-low);
+                color: var(--text);
+            }
+
+            .note:focus {
+                border-color: var(--primary);
+                outline: 2px solid color-mix(in srgb, var(--primary) 25%, transparent);
+            }
+
+            .preview-link {
+                display: inline-flex;
+                align-items: center;
+                min-height: 34px;
+                padding: 0 11px;
+                color: var(--primary-hover);
+                font-size: 13px;
+                font-weight: 700;
+                text-decoration: none;
+            }
+
+            .preview-link:hover {
+                border-color: var(--primary);
+                background: var(--primary-soft);
+            }
+
+            .hidden {
+                display: none;
+            }
+
+            .save-state {
+                margin-top: 14px;
+                color: var(--text-secondary);
+                font-size: 13px;
+            }
+
+            @media (max-width: 720px) {
+                .app {
+                    width: min(100% - 20px, 1180px);
+                    margin-top: 10px;
+                }
+
+                .header,
+                .section {
+                    padding: 16px;
+                }
+
+                .item {
+                    grid-template-columns: 1fr;
+                }
+
+                .item-actions {
+                    justify-content: flex-start;
+                }
+
+                .toolbar .export {
+                    margin-left: 0;
+                }
+
+                .progress-row {
+                    grid-template-columns: 1fr;
+                }
+
+                .progress-copy {
+                    text-align: left;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main class="app">
+            <header class="header">
+                <h1>Fresnica UI 视觉验收清单</h1>
+                <p class="intro">
+                    主检查尺寸为 移动端预设：320、360、390–393（393 主检查、390 兼容检查）、430；另检查 768
+                    平板与桌面宽度。每项请分别检查浅色与深色主题，并在 200%
+                    浏览器缩放下确认不裁切；发现问题时填写备注。结果会自动保存在当前浏览器中。
+                </p>
+                <div class="progress-row">
+                    <div class="progress-track" aria-label="验收进度">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    <div class="progress-copy" id="progressCopy">0 / 0 已验收</div>
+                </div>
+                <div class="summary">
+                    <span class="passed" id="passedCount">通过 0</span>
+                    <span class="failed" id="failedCount">不通过 0</span>
+                    <span id="pendingCount">待验收 0</span>
+                </div>
+                <div class="save-state" id="saveState">尚未修改</div>
+            </header>
+
+            <nav class="toolbar" aria-label="验收筛选和操作">
+                <button type="button" class="active" data-filter="all">全部</button>
+                <button type="button" data-filter="pending">待验收</button>
+                <button type="button" data-filter="fail">不通过</button>
+                <button type="button" data-filter="pass">已通过</button>
+                <button type="button" class="export" id="exportButton">导出验收结果</button>
+                <button type="button" class="reset" id="resetButton">清空结果</button>
+            </nav>
+
+            <div id="checklist"></div>
+        </main>
+
+        <script>
+            const STORAGE_KEY = 'fresnica-visual-acceptance-v1';
+            const designPreviewBase = '../demo-dist/index.html#';
+            const walletPreviewBase = '../demo-dist/examples.html#';
+            const previewHref = (route) =>
+                `${route.startsWith('/fresnica-') ? walletPreviewBase : designPreviewBase}${route}`;
+
+            const sections = [
+                {
+                    title: 'A. 全局规范',
+                    items: [
+                        ['G01', '浅色主题主色为 #00A875，深色主题主色为 #00CA8A。'],
+                        ['G02', '所有绿色实心背景上的文字和图标都是白色。'],
+                        ['G03', '深色模式文字清晰，没有黑色文字或过暗的灰色文字。'],
+                        ['G04', '卡片、菜单和弹层通过背景层级与描边区分，没有投影。'],
+                        ['G05', '页面圆角、间距和控件高度整体统一。'],
+                        ['G06', '所有功能图标均为 Lucide 风格，没有动物、植物或动森元素。'],
+                        ['G07', '页面和示例中没有 animal 名称或旧主题内容。'],
+                        ['G08', '所有业务内容仅使用 Stellar 网络及相关术语。'],
+                        ['G09', '品牌、成功、失败、上涨、下跌、警告和高风险颜色没有混用。'],
+                        ['G10', '键盘焦点、禁用状态和可点击区域能够被清楚识别。'],
+                    ],
+                },
+                {
+                    title: 'B. 钱包业务页面',
+                    items: [
+                        [
+                            'W01',
+                            '钱包首页：Logo、网络、钱包卡片、操作区、资产列表和底部导航层级清晰；Swap 保持反色设计。',
+                            '/fresnica-home',
+                        ],
+                        [
+                            'W02',
+                            'Swap：From/To、方向切换、路由、手续费和确认状态完整；长页面内部滚动正常。',
+                            '/fresnica-swap',
+                        ],
+                        [
+                            'W03',
+                            'Transfer：Send/Receive、网络、钱包、资产、地址、金额、Copy、Max、费用和底部导航完整显示。',
+                            '/fresnica-transfer',
+                        ],
+                        [
+                            'W04',
+                            'Activity：筛选、交易记录、金额、时间及成功/失败/待处理状态易于浏览。',
+                            '/fresnica-activity',
+                        ],
+                        [
+                            'W05',
+                            'Settings：设置分组、主题切换、Switch、Stellar 网络和危险操作层级正确。',
+                            '/fresnica-settings',
+                        ],
+                        [
+                            'W06',
+                            'Transaction Details：状态、金额、地址、哈希和复制操作清晰，长内容不破坏布局。',
+                            '/fresnica-transaction-details',
+                        ],
+                        [
+                            'W07',
+                            'Asset Details：图标、名称、余额、操作区和记录清晰，涨跌色与成功/失败色不混用。',
+                            '/fresnica-asset-details',
+                        ],
+                        [
+                            'W08',
+                            'Network & Nodes：Stellar 网络、当前节点及在线/异常/离线状态容易识别。',
+                            '/fresnica-network-nodes',
+                        ],
+                        [
+                            'W09',
+                            'Explore dApps：筛选、dApp 信息、标签、操作按钮和 Explore 导航状态正确。',
+                            '/fresnica-explore-dapps',
+                        ],
+                        [
+                            'W10',
+                            'Scan：扫描区域、相机、粘贴、权限/错误/识别状态和 Scan 导航状态正确。',
+                            '/fresnica-scan',
+                        ],
+                    ],
+                },
+                {
+                    title: 'C. 基础规范页面',
+                    items: [
+                        ['F01', '字体：Roboto、中文回退字体、字号、字重、行高和数字排版正确。', '/title'],
+                        ['F02', '配色：颜色数量与 Tag 一致，没有额外装饰色；金融语义分类明确。', '/color'],
+                        ['F03', '图标：Lucide 图标的尺寸、线宽、颜色和使用场景统一。', '/icon'],
+                    ],
+                },
+                {
+                    title: 'D. 表单与操作组件',
+                    items: [
+                        ['C01', 'Button：主按钮、次要、危险、反色、禁用、加载和图标按钮状态正确。', '/button'],
+                        ['C02', 'Input：默认、焦点、错误、禁用和深色状态清楚。', '/input'],
+                        ['C03', 'Switch：Off 状态可见，动画简洁，深色模式不使用不可辨认的黑色。', '/switch'],
+                        ['C04', 'Select：弹层适配主题，已选项为绿底白字，没有圆点或多余描边。', '/select'],
+                        ['C05', 'DatePicker：菜单、选中、今天、禁用和深色状态与 Select 风格一致。', '/date-picker'],
+                        ['C06', 'TimePicker：选中、滚动、确认和深色状态清晰。', '/time-picker'],
+                        ['C07', 'Checkbox：未选中描边清楚，选中状态和动画简洁。', '/checkbox'],
+                        ['C08', 'Radio：未选中圆形描边清楚，选中状态明确。', '/radio'],
+                        ['C09', 'Form：三种布局对齐，Inline 按钮与输入框等高，API 默认值为主题绿。', '/form'],
+                    ],
+                },
+                {
+                    title: 'E. 内容与数据组件',
+                    items: [
+                        ['D01', 'Card：无投影，描边和表面层级明确。', '/card'],
+                        ['D02', 'Collapse：展开状态清楚，示例内容与 Stellar 钱包相关。', '/collapse'],
+                        ['D03', 'Tabs：没有选项圆点，选中状态明确，深色背景正确。', '/tabs'],
+                        ['D04', 'Tag：只保留主要颜色，没有视觉相近的重复色。', '/tag'],
+                        ['D05', 'CodeBlock：浅色、深色代码区域和复制操作清晰。', '/codeblock'],
+                        ['D06', 'Table：两种主题表面正确，交替行颜色不过深。', '/table'],
+                        ['D07', 'Pagination：当前页、悬浮、禁用和弹出菜单状态容易区分。', '/pagination'],
+                    ],
+                },
+                {
+                    title: 'F. 反馈与弹层组件',
+                    items: [
+                        ['E01', 'Modal：背景适配主题，字号合理，取消按钮符合 Button 规范。', '/modal'],
+                        ['E02', 'Drawer：两种主题背景正确，关闭操作和内容层级清晰。', '/drawer'],
+                        ['E03', 'Notification：仅 Success 使用绿底白色图标，其他类型保持各自语义。', '/notification'],
+                        ['E04', 'Progress：渐变方向和原有色值正确，滑块符合主题。', '/progress'],
+                        ['E05', 'Skeleton：浅色和深色占位层级自然。', '/skeleton'],
+                        ['E06', 'BackTop：ArrowUp 可见可点击，资产列表表面适配主题。', '/backtop'],
+                        ['E07', 'Typewriter：默认不自动播放，开启后的动画符合简约科技风格。', '/typewriter'],
+                    ],
+                },
+                {
+                    title: 'G. 图片与文档展示',
+                    items: [
+                        ['M01', 'Image：加载、失败、预览、关闭和深色状态正确。', '/image'],
+                        ['M02', 'Carousel：图片比例、切换按钮、指示器和深色状态正确。', '/carousel'],
+                        ['M03', 'Skill：说明文字、代码区域和文档层级在两种主题下清晰。', '/skill'],
+                    ],
+                },
+                {
+                    title: 'H. 自定义主题视觉验收',
+                    items: [
+                        ['T01', '设计系统首页能打开主题色入口，弹窗完整显示且不超出窗口。', '/title'],
+                        ['T02', '组件文档页能打开主题色入口，弹窗完整显示且不超出窗口。', '/button'],
+                        [
+                            'T03',
+                            '钱包示例页外部的主题色入口和深浅色图标按钮位置清晰，不遮挡钱包内容。',
+                            '/fresnica-home',
+                        ],
+                        ['T04', '输入很浅、很深和高饱和度 HEX 色值后，浅色/深色模式下主要操作文字和图标仍清晰。', null],
+                        [
+                            'T05',
+                            '发生自动调整时，提示说明可视度影响并显示实际生效的 HEX 色值；输入框保留原始输入色。',
+                            null,
+                        ],
+                        ['T06', '输入无效 HEX 值后，当前主题保持不变；输入框失焦时恢复到上一个有效值。', null],
+                        [
+                            'T07',
+                            '恢复默认后，浅色/深色主题恢复 Fresnica 默认色，成功、失败、涨跌、警告和高风险色不改变。',
+                            null,
+                        ],
+                        ['T08', '打开第二个标签页修改主题色，另一个标签页同步更新；刷新后设置仍然保留。', null],
+                    ],
+                },
+            ];
+
+            const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            const checklist = document.getElementById('checklist');
+            let currentFilter = 'all';
+
+            function saveState() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                document.getElementById('saveState').textContent = `已自动保存 · ${new Date().toLocaleTimeString()}`;
+                updateSummary();
+                applyFilter();
+            }
+
+            function setStatus(id, value) {
+                state[id] = { ...(state[id] || {}), status: value };
+                const item = document.querySelector(`[data-id="${id}"]`);
+                item.dataset.status = value;
+                item.querySelectorAll('.status-button').forEach((button) => {
+                    button.classList.toggle('selected', button.dataset.value === value);
+                });
+                saveState();
+            }
+
+            function updateSummary() {
+                const allItems = sections.flatMap((section) => section.items);
+                const passed = allItems.filter(([id]) => state[id]?.status === 'pass').length;
+                const failed = allItems.filter(([id]) => state[id]?.status === 'fail').length;
+                const reviewed = passed + failed;
+                const pending = allItems.length - reviewed;
+                const percent = allItems.length ? (reviewed / allItems.length) * 100 : 0;
+                document.getElementById('progressBar').style.width = `${percent}%`;
+                document.getElementById('progressCopy').textContent = `${reviewed} / ${allItems.length} 已验收`;
+                document.getElementById('passedCount').textContent = `通过 ${passed}`;
+                document.getElementById('failedCount').textContent = `不通过 ${failed}`;
+                document.getElementById('pendingCount').textContent = `待验收 ${pending}`;
+            }
+
+            function applyFilter() {
+                document.querySelectorAll('.item').forEach((item) => {
+                    const status = item.dataset.status || 'pending';
+                    item.classList.toggle('hidden', currentFilter !== 'all' && currentFilter !== status);
+                });
+                document.querySelectorAll('.section').forEach((section) => {
+                    const hasVisibleItem = [...section.querySelectorAll('.item')].some(
+                        (item) => !item.classList.contains('hidden')
+                    );
+                    section.classList.toggle('hidden', !hasVisibleItem);
+                });
+            }
+
+            function render() {
+                checklist.innerHTML = sections
+                    .map(
+                        (section) => `
+                            <section class="section">
+                                <div class="section-header">
+                                    <h2>${section.title}</h2>
+                                    <span class="badge">${section.items.length} 项</span>
+                                </div>
+                                <div class="items">
+                                    ${section.items
+                                        .map(([id, text, route]) => {
+                                            const itemState = state[id] || { status: 'pending', note: '' };
+                                            return `
+                                                <article class="item" data-id="${id}" data-status="${itemState.status}">
+                                                    <div class="item-title">
+                                                        <span class="item-id">${id}</span>
+                                                        <span>${text}</span>
+                                                    </div>
+                                                    <div class="item-actions">
+                                                        ${route ? `<a class="preview-link" href="${previewHref(route)}" target="_blank" rel="noopener">打开预览</a>` : ''}
+                                                        ${['pending', 'pass', 'fail']
+                                                            .map(
+                                                                (value) => `
+                                                                    <button
+                                                                        type="button"
+                                                                        class="status-button ${itemState.status === value ? 'selected' : ''}"
+                                                                        data-value="${value}"
+                                                                        data-item-id="${id}"
+                                                                    >${value === 'pending' ? '待验收' : value === 'pass' ? '通过' : '不通过'}</button>
+                                                                `
+                                                            )
+                                                            .join('')}
+                                                    </div>
+                                                    <textarea class="note" data-note-id="${id}" placeholder="问题描述、页面位置或修改建议">${itemState.note || ''}</textarea>
+                                                </article>
+                                            `;
+                                        })
+                                        .join('')}
+                                </div>
+                            </section>
+                        `
+                    )
+                    .join('');
+
+                document.querySelectorAll('.status-button').forEach((button) => {
+                    button.addEventListener('click', () => setStatus(button.dataset.itemId, button.dataset.value));
+                });
+                document.querySelectorAll('.note').forEach((textarea) => {
+                    textarea.addEventListener('input', () => {
+                        const id = textarea.dataset.noteId;
+                        state[id] = { ...(state[id] || { status: 'pending' }), note: textarea.value };
+                        saveState();
+                    });
+                });
+                updateSummary();
+            }
+
+            document.querySelectorAll('[data-filter]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    currentFilter = button.dataset.filter;
+                    document.querySelectorAll('[data-filter]').forEach((item) => item.classList.remove('active'));
+                    button.classList.add('active');
+                    applyFilter();
+                });
+            });
+
+            document.getElementById('exportButton').addEventListener('click', () => {
+                const lines = ['Fresnica UI 视觉验收结果', `导出时间：${new Date().toLocaleString()}`, ''];
+                sections.forEach((section) => {
+                    lines.push(section.title);
+                    section.items.forEach(([id, text]) => {
+                        const itemState = state[id] || { status: 'pending', note: '' };
+                        const label =
+                            itemState.status === 'pass' ? '通过' : itemState.status === 'fail' ? '不通过' : '待验收';
+                        lines.push(`${id}｜${label}｜${text}`);
+                        if (itemState.note) lines.push(`备注：${itemState.note}`);
+                    });
+                    lines.push('');
+                });
+                const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'fresnica-visual-acceptance-result.txt';
+                link.click();
+                URL.revokeObjectURL(link.href);
+            });
+
+            document.getElementById('resetButton').addEventListener('click', () => {
+                if (!window.confirm('确定清空全部验收状态和备注吗？')) return;
+                Object.keys(state).forEach((key) => delete state[key]);
+                localStorage.removeItem(STORAGE_KEY);
+                document.getElementById('saveState').textContent = '验收结果已清空';
+                render();
+                applyFilter();
+            });
+
+            render();
+        </script>
+    </body>
+</html>

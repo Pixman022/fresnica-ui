@@ -1,0 +1,288 @@
+// ============================================
+// Skill 介绍页专属样式
+// 颜色/圆角/间距一律取 --Fresnica-* 令牌，不写死 hex —— 与技能自身的硬性规则保持一致
+// ============================================
+
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--Fresnica-spacing-lg);
+}
+
+// ---------- 通用文字 ----------
+.lead {
+    margin: 0;
+    font-size: var(--Fresnica-font-size-sm);
+    line-height: 1.8;
+    color: var(--Fresnica-text-color-secondary);
+}
+
+.leadSpaced {
+    margin: 0 0 var(--Fresnica-spacing-md);
+}
+
+.tagRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--Fresnica-spacing-xs);
+    margin-top: var(--Fresnica-spacing-sm);
+}
+
+// 行内路径/命令片段
+.pathChip {
+    padding: var(--Fresnica-spacing-xs) var(--Fresnica-spacing-sm);
+    font-size: var(--Fresnica-font-size-sm);
+    color: var(--Fresnica-text-color);
+    background: var(--Fresnica-bg-color);
+    border: var(--Fresnica-border-width) solid var(--Fresnica-border-color-light);
+    border-radius: var(--Fresnica-border-radius-control);
+}
+
+.pathChipQuiet {
+    padding: var(--Fresnica-spacing-xs) var(--Fresnica-spacing-sm);
+    font-size: var(--Fresnica-font-size-sm);
+    color: var(--Fresnica-text-color-secondary);
+    background: var(--Fresnica-bg-color-secondary);
+    border-radius: var(--Fresnica-border-radius-control);
+}
+
+// ---------- 快速开始 ----------
+.quickList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--Fresnica-spacing-md);
+    margin: var(--Fresnica-spacing-md) 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.quickItem {
+    display: flex;
+    gap: var(--Fresnica-spacing-sm);
+}
+
+.quickBody {
+    flex: 1;
+    min-width: 0;
+}
+
+.quickTitle {
+    margin: 0 0 var(--Fresnica-spacing-xs);
+    font-size: var(--Fresnica-font-size-action);
+    font-weight: var(--Fresnica-font-weight-bold);
+    color: var(--Fresnica-text-color);
+}
+
+// ---------- 序号圆点（快速开始 / 工作原理共用）----------
+.index {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    font-size: var(--Fresnica-font-size-supporting);
+    font-weight: var(--Fresnica-font-weight-bold);
+    color: var(--Fresnica-on-primary-color);
+    background: var(--Fresnica-primary-color);
+    border-radius: 50%;
+}
+
+// ---------- 工作原理步骤卡 ----------
+.stepGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--Fresnica-spacing-xl);
+}
+
+.step {
+    position: relative;
+}
+
+.stepCard {
+    height: 100%;
+    padding: var(--Fresnica-spacing-lg);
+}
+
+.cardHead {
+    display: flex;
+    align-items: center;
+    gap: var(--Fresnica-spacing-sm);
+    margin-bottom: var(--Fresnica-spacing-xs);
+}
+
+.cardTitle {
+    font-size: var(--Fresnica-font-size-action);
+    font-weight: var(--Fresnica-font-weight-bold);
+    color: var(--Fresnica-text-color);
+}
+
+.cardDesc {
+    margin: 0;
+    font-size: var(--Fresnica-font-size-sm);
+    line-height: 1.7;
+    color: var(--Fresnica-text-color-secondary);
+}
+
+// ---------- 使用场景 ----------
+.scenarioGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--Fresnica-spacing-md);
+}
+
+.scenarioCard {
+    padding: var(--Fresnica-spacing-lg);
+}
+
+.scenarioTitle {
+    font-size: var(--Fresnica-font-size-base);
+    font-weight: var(--Fresnica-font-weight-bold);
+    color: var(--Fresnica-text-color);
+}
+
+.scenarioDesc {
+    margin: 0 0 var(--Fresnica-spacing-sm);
+}
+
+.agentRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--Fresnica-spacing-xs);
+    margin-bottom: var(--Fresnica-spacing-sm);
+}
+
+// ---------- 组件目录 ----------
+.catalogList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--Fresnica-spacing-sm);
+}
+
+.catalogRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--Fresnica-spacing-sm);
+    padding: var(--Fresnica-spacing-md);
+    background: var(--Fresnica-bg-color);
+    border: var(--Fresnica-border-width) solid var(--Fresnica-border-color-light);
+    border-radius: var(--Fresnica-border-radius-control);
+}
+
+.catalogCategory {
+    min-width: 128px;
+    justify-content: center;
+}
+
+.catalogComponents {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    gap: var(--Fresnica-spacing-xs);
+}
+
+// ---------- 设计令牌 ----------
+.tokenGroup {
+    margin-bottom: var(--Fresnica-spacing-lg);
+}
+
+.swatchRow {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--Fresnica-spacing-xl);
+    padding-bottom: var(--Fresnica-spacing-xs);
+    overflow-x: auto;
+}
+
+.swatch {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--Fresnica-spacing-xs);
+    width: 124px;
+}
+
+.swatchChip {
+    width: 54px;
+    height: 54px;
+    border: var(--Fresnica-border-width) solid var(--Fresnica-border-color-light);
+    border-radius: var(--Fresnica-border-radius-lg);
+    // 色块底部内阴影 —— 与库内色块一致的轻微立体感
+    box-shadow: var(--Fresnica-shadow-base);
+}
+
+.swatchName,
+.swatchValue {
+    font-size: var(--Fresnica-font-size-caption);
+    white-space: nowrap;
+}
+
+.swatchName {
+    font-weight: var(--Fresnica-font-weight-semibold);
+    color: var(--Fresnica-text-color);
+}
+
+.swatchValue {
+    color: var(--Fresnica-text-color-secondary);
+}
+
+.tokenTagRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--Fresnica-spacing-xs);
+    margin-bottom: var(--Fresnica-spacing-sm);
+}
+
+.tokenTagLabel {
+    min-width: 48px;
+    font-size: var(--Fresnica-font-size-sm);
+    font-weight: var(--Fresnica-font-weight-semibold);
+    color: var(--Fresnica-text-color);
+}
+
+// ---------- 硬性规则 ----------
+.ruleGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--Fresnica-spacing-md);
+}
+
+.ruleCard {
+    padding: var(--Fresnica-spacing-lg);
+}
+
+.ruleList {
+    margin: 0;
+    padding-left: var(--Fresnica-spacing-lg);
+    font-size: var(--Fresnica-font-size-sm);
+    line-height: var(--Fresnica-line-height-base);
+    color: var(--Fresnica-text-color-secondary);
+
+    li + li {
+        margin-top: var(--Fresnica-spacing-xs);
+    }
+}
+
+// ---------- Shell 代码块 ----------
+// 库的 CodeBlock 只做 JSX/TS 词法高亮，不识别 shell 的 `#` 注释与目录树字符，
+// 这里沿用它的深色底与配色，仅替换词法规则
+.shell {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: var(--Fresnica-spacing-lg) var(--Fresnica-spacing-xl);
+    overflow: auto;
+    font-family: var(--Fresnica-font-family-mono);
+    font-size: var(--Fresnica-font-size-base);
+    font-weight: var(--Fresnica-font-weight-semibold);
+    line-height: var(--Fresnica-line-height-base);
+    color: var(--Fresnica-code-text);
+    white-space: pre;
+    background: var(--Fresnica-code-bg);
+    border: var(--Fresnica-border-width) solid var(--Fresnica-code-border);
+    border-radius: var(--Fresnica-border-radius-base);
+    tab-size: 4;
+}

@@ -1,0 +1,264 @@
+.wrapper {
+    position: relative;
+    display: inline-block;
+    font-family: var(--Fresnica-primitive-font-family-base);
+    vertical-align: middle;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* 触发区 —— 视觉对齐 Input：中性表面、标准圆角、轻量边框。 */
+.trigger {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--Fresnica-primitive-space-sm);
+    background: var(--Fresnica-semantic-surface-default);
+    border: 1px solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-base);
+    cursor: pointer;
+    transition:
+        border-color var(--Fresnica-primitive-motion-duration-fast) var(--Fresnica-primitive-motion-ease-standard),
+        background-color var(--Fresnica-primitive-motion-duration-fast) var(--Fresnica-primitive-motion-ease-standard);
+}
+
+.trigger-small {
+    height: var(--Fresnica-primitive-size-control-compact);
+    padding: 0 var(--Fresnica-primitive-space-lg);
+    font-size: var(--Fresnica-primitive-font-size-sm);
+}
+
+.trigger-middle {
+    height: var(--Fresnica-primitive-size-control-base);
+    padding: 0 var(--Fresnica-primitive-space-lg);
+    font-size: var(--Fresnica-primitive-font-size-base);
+}
+
+.trigger-large {
+    height: var(--Fresnica-primitive-size-control-emphasis);
+    padding: 0 var(--Fresnica-primitive-space-xl);
+    font-size: var(--Fresnica-primitive-font-size-lg);
+}
+
+.trigger:hover {
+    border-color: var(--Fresnica-semantic-action-primary);
+    background: var(--Fresnica-semantic-surface-raised);
+}
+
+.trigger-open {
+    border-color: var(--Fresnica-semantic-action-primary);
+    background: var(--Fresnica-semantic-surface-raised);
+}
+
+.trigger:focus-visible {
+    outline: 2px solid var(--Fresnica-semantic-focus-ring);
+    outline-offset: 2px;
+}
+
+.trigger-error {
+    border-color: var(--Fresnica-semantic-feedback-error);
+}
+
+.trigger-warning {
+    border-color: var(--Fresnica-semantic-feedback-warning);
+}
+
+.value {
+    flex: 1;
+    color: var(--Fresnica-semantic-content-primary);
+    font-weight: var(--Fresnica-primitive-font-weight-medium);
+    letter-spacing: 0.01em;
+}
+
+.placeholder {
+    flex: 1;
+    color: var(--Fresnica-semantic-content-muted);
+    font-weight: var(--Fresnica-primitive-font-weight-regular);
+}
+
+.clockIcon {
+    display: flex;
+    align-items: center;
+    color: var(--Fresnica-semantic-content-muted);
+}
+
+.clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-left: var(--Fresnica-primitive-space-xs);
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    color: var(--Fresnica-semantic-content-muted);
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    line-height: 1;
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast);
+}
+
+.clear:hover {
+    color: var(--Fresnica-semantic-content-secondary);
+    background: var(--Fresnica-semantic-surface-raised);
+}
+
+.wrapper-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.wrapper-disabled .trigger,
+.wrapper-disabled .trigger:hover {
+    background: var(--Fresnica-semantic-state-disabled-background);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    cursor: not-allowed;
+}
+
+.wrapper-disabled .value,
+.wrapper-disabled .placeholder {
+    color: var(--Fresnica-semantic-content-muted);
+}
+
+/* 弹出面板 */
+.panel {
+    position: absolute;
+    width: 248px;
+    padding: var(--Fresnica-primitive-space-lg);
+    background: var(--Fresnica-semantic-surface-default);
+    border: 1px solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-base);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+        opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panelVisible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* format 不含 ss 时仅时/分两列，宽度相应收窄 */
+.panelNoSeconds {
+    width: 172px;
+}
+
+/* 退场动效：与入场同款 0.2s 过渡，动画结束后由 closePanel 卸载面板 */
+.panelClosing {
+    opacity: 0;
+    transform: translateY(-6px);
+}
+
+/* 时 / 分 / 秒 三列 */
+.columns {
+    display: flex;
+    gap: var(--Fresnica-primitive-space-sm);
+}
+
+.column {
+    flex: 1;
+    min-width: 0;
+}
+
+.columnTitle {
+    margin-bottom: var(--Fresnica-primitive-space-sm);
+    text-align: center;
+    color: var(--Fresnica-semantic-content-muted);
+    font-size: var(--Fresnica-primitive-font-size-caption);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    letter-spacing: 1px;
+}
+
+.columnList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--Fresnica-primitive-space-xs);
+    max-height: 232px;
+    overflow-y: auto;
+    padding: var(--Fresnica-primitive-space-xs);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 关键：禁止 flex 子项被压缩，否则 max-height 容器会把选项压扁（实测被压到约 20px） */
+    flex-shrink: 0;
+    height: 28px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    border-radius: var(--Fresnica-primitive-radius-base);
+    appearance: none;
+    color: var(--Fresnica-semantic-content-secondary);
+    font-family: inherit;
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-medium);
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast);
+}
+
+.option:hover {
+    background: color-mix(in srgb, var(--Fresnica-semantic-action-primary) 12%, transparent);
+    color: var(--Fresnica-semantic-action-primary);
+}
+
+.optionSelected,
+.optionSelected:hover {
+    background: var(--Fresnica-semantic-action-primary);
+    color: var(--Fresnica-semantic-content-on-primary);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+}
+
+/* 底部：此刻 / 确定 */
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--Fresnica-primitive-space-sm);
+    margin-top: var(--Fresnica-primitive-space-sm);
+    padding-top: var(--Fresnica-primitive-space-sm);
+    border-top: 1px solid var(--Fresnica-semantic-border-light);
+}
+
+.footerBtn {
+    padding: var(--Fresnica-primitive-space-sm) var(--Fresnica-primitive-space-lg);
+    border: none;
+    background: transparent;
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    color: var(--Fresnica-semantic-content-secondary);
+    font-family: inherit;
+    font-size: var(--Fresnica-primitive-font-size-sm);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast);
+}
+
+.footerBtn:hover {
+    background: var(--Fresnica-semantic-surface-raised);
+    color: var(--Fresnica-semantic-content-secondary);
+}
+
+.confirmBtn {
+    padding: var(--Fresnica-primitive-space-sm) var(--Fresnica-primitive-space-lg);
+    border: none;
+    background: var(--Fresnica-semantic-surface-raised);
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    color: var(--Fresnica-semantic-content-secondary);
+    font-family: inherit;
+    font-size: var(--Fresnica-primitive-font-size-sm);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast);
+}
+
+.confirmBtn:hover {
+    background: var(--Fresnica-semantic-action-primary);
+    color: var(--Fresnica-semantic-content-on-primary);
+}

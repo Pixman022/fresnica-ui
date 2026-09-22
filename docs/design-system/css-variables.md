@@ -1,0 +1,194 @@
+# CSS Variables
+
+The runtime names below are the canonical public contract. They are emitted by `src/styles/themes/default.less` and are the names used by component styles. Consumers may override them on `:root` or `[data-theme='dark']`.
+
+Use `--Fresnica-accent-purple-*` for protocol-purple semantics. The former `--Fresnica-secondary-*` compatibility aliases were removed in the 2.0.0 cleanup.
+
+Use `--Fresnica-shadow-base` when a style must explicitly declare the no-shadow contract. The former `--Fresnica-shadow-sm` and `--Fresnica-shadow-lg` aliases were removed in the 2.0.0 cleanup.
+
+```css
+:root {
+    --Fresnica-font-family: Roboto, 'Noto Sans SC', -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    --Fresnica-primary-color: #00a875;
+    --Fresnica-primary-color-hover: #00ca8a;
+    --Fresnica-primary-color-active: #008f65;
+    --Fresnica-primary-color-bg: #d4f7e9;
+    --Fresnica-accent-purple-color: #6956c8;
+    --Fresnica-accent-purple-color-bg: #eeeaff;
+    --Fresnica-accent-blue-color: #356ae6;
+    --Fresnica-accent-blue-color-bg: #e9efff;
+    --Fresnica-accent-orange-color: #c96a16;
+    --Fresnica-accent-orange-color-bg: #fff0df;
+    --Fresnica-accent-yellow-color: #a87500;
+    --Fresnica-accent-yellow-color-bg: #fff5d6;
+    --Fresnica-inverse-color: #111214;
+    --Fresnica-inverse-color-hover: #2a2c30;
+    --Fresnica-inverse-color-active: #000000;
+    --Fresnica-on-inverse-color: #ffffff;
+    --Fresnica-on-primary-color: #ffffff;
+    --Fresnica-on-primary-container-color: #005235;
+    --Fresnica-success-color-bg: #d4f7e9;
+    --Fresnica-on-success-container-color: #005235;
+    --Fresnica-failure-color: #c73945;
+    --Fresnica-failure-color-bg: #fcebed;
+    --Fresnica-on-failure-container-color: #871d29;
+    --Fresnica-on-error-color: #ffffff;
+    --Fresnica-success-color: #00ca8a;
+    --Fresnica-warning-color: #9a6700;
+    --Fresnica-error-color: #c73945;
+    --Fresnica-error-color-hover: #dd5662;
+    --Fresnica-error-color-active: #a52c38;
+    --Fresnica-gain-color: #0a8f68;
+    --Fresnica-gain-color-bg: #e0f7ef;
+    --Fresnica-on-gain-container-color: #075c43;
+    --Fresnica-loss-color: #b42318;
+    --Fresnica-loss-color-bg: #fde8e7;
+    --Fresnica-on-loss-container-color: #8f1d15;
+    --Fresnica-risk-high-color: #7a271a;
+    --Fresnica-risk-high-color-bg: #fbe9e7;
+    --Fresnica-on-risk-high-container-color: #5c1d14;
+    --Fresnica-warning-color-bg: #fff3d6;
+    --Fresnica-on-warning-container-color: #684700;
+    --Fresnica-text-color: #1a1c1d;
+    --Fresnica-text-color-secondary: #3f4942;
+    --Fresnica-text-color-muted: #3f4942;
+    --Fresnica-text-color-disabled: #8a948e;
+    --Fresnica-border-color: #e3e3e5;
+    --Fresnica-border-color-hover: #00a875;
+    --Fresnica-border-color-light: #edeef0;
+    --Fresnica-border-color-subtle: rgba(41, 41, 39, 0.12);
+    --Fresnica-bg-color: #f9f9fb;
+    --Fresnica-bg-color-secondary: #f3f3f5;
+    --Fresnica-bg-color-disabled: #edeef0;
+    --Fresnica-surface-lowest: #ffffff;
+    --Fresnica-surface-low: #f3f3f5;
+    --Fresnica-surface: #ffffff;
+    --Fresnica-surface-high: #edeef0;
+    --Fresnica-surface-highest: #e8e8ea;
+    --Fresnica-focus-color: #00a875;
+    --Fresnica-mask-bg: rgba(0, 0, 0, 0.45);
+    --Fresnica-mask-bg-subtle: rgba(0, 0, 0, 0.08);
+    --Fresnica-mask-bg-strong: rgba(0, 0, 0, 0.75);
+    --Fresnica-font-family-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+    --Fresnica-code-bg: #11141a;
+    --Fresnica-code-border: #2b313c;
+    --Fresnica-code-text: #c0caf5;
+    --Fresnica-code-comment: #89919d;
+    --Fresnica-code-string: #73daca;
+    --Fresnica-code-keyword: #bb9af7;
+    --Fresnica-code-react: #f7768e;
+    --Fresnica-code-component: #7dcfff;
+    --Fresnica-code-function: #7aa2f7;
+    --Fresnica-code-property: #e0af68;
+    --Fresnica-code-jsx: #ff9e64;
+    --Fresnica-code-operator: #a9b1d6;
+    --Fresnica-code-number: #9ece6a;
+    --Fresnica-code-control-bg: #1b2029;
+    --Fresnica-code-control-border: #384150;
+    --Fresnica-code-control-hover-bg: #252c37;
+    --Fresnica-font-size-sm: 12px;
+    --Fresnica-font-size-base: 14px;
+    --Fresnica-font-size-lg: 16px;
+    --Fresnica-font-size-caption: 11px;
+    --Fresnica-font-size-supporting: 13px;
+    --Fresnica-font-size-action: 15px;
+    --Fresnica-font-size-section-title: 18px;
+    --Fresnica-font-size-screen-title: 20px;
+    --Fresnica-font-size-title-lg: 28px;
+    --Fresnica-font-size-amount: 32px;
+    --Fresnica-font-size-display: 48px;
+    --Fresnica-font-weight-regular: 400;
+    --Fresnica-font-weight-medium: 500;
+    --Fresnica-font-weight-semibold: 600;
+    --Fresnica-font-weight-bold: 700;
+    --Fresnica-line-height-base: 1.5715;
+    --Fresnica-spacing-xs: 4px;
+    --Fresnica-spacing-sm: 8px;
+    --Fresnica-spacing-md: 12px;
+    --Fresnica-spacing-lg: 16px;
+    --Fresnica-spacing-xl: 24px;
+    --Fresnica-border-radius-sm: 8px;
+    --Fresnica-border-radius-control: 12px;
+    --Fresnica-border-radius-base: 16px;
+    --Fresnica-border-radius-lg: 24px;
+    --Fresnica-border-radius-pill: 9999px;
+    --Fresnica-border-width: 1px;
+    --Fresnica-shadow-base: none;
+    --Fresnica-motion-duration-fast: 0.15s;
+    --Fresnica-motion-duration-base: 0.25s;
+    --Fresnica-motion-duration-slow: 0.35s;
+    --Fresnica-motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --Fresnica-height-sm: 32px;
+    --Fresnica-height-compact: 36px;
+    --Fresnica-height-base: 48px;
+    --Fresnica-height-emphasis: 52px;
+    --Fresnica-height-lg: 56px;
+}
+
+[data-theme='dark'],
+.dark {
+    --Fresnica-primary-color: #00ca8a;
+    --Fresnica-primary-color-hover: #32dfa4;
+    --Fresnica-primary-color-active: #00a875;
+    --Fresnica-primary-color-bg: #12372b;
+    --Fresnica-success-color-bg: #12372b;
+    --Fresnica-on-success-container-color: #a9f5d0;
+    --Fresnica-failure-color: #c73945;
+    --Fresnica-failure-color-bg: #44262b;
+    --Fresnica-on-failure-container-color: #ffc0c6;
+    --Fresnica-gain-color: #32dfa4;
+    --Fresnica-gain-color-bg: #123d30;
+    --Fresnica-on-gain-container-color: #b2f5dc;
+    --Fresnica-loss-color: #ff7a86;
+    --Fresnica-loss-color-bg: #4a252b;
+    --Fresnica-on-loss-container-color: #ffd0d4;
+    --Fresnica-risk-high-color: #ff9b85;
+    --Fresnica-risk-high-color-bg: #4a2923;
+    --Fresnica-on-risk-high-container-color: #ffd2c7;
+    --Fresnica-warning-color-bg: #463817;
+    --Fresnica-on-warning-container-color: #ffe3a1;
+    --Fresnica-inverse-color: #ffffff;
+    --Fresnica-inverse-color-hover: #e8e8ea;
+    --Fresnica-inverse-color-active: #d6d6da;
+    --Fresnica-on-inverse-color: #111214;
+    --Fresnica-on-primary-color: #ffffff;
+    --Fresnica-on-primary-container-color: #a9f5d0;
+    --Fresnica-on-error-color: #ffffff;
+    --Fresnica-accent-purple-color: #b8a9ff;
+    --Fresnica-accent-purple-color-bg: #302b4d;
+    --Fresnica-accent-blue-color: #8eaeff;
+    --Fresnica-accent-blue-color-bg: #1e2d52;
+    --Fresnica-accent-orange-color: #ffb86b;
+    --Fresnica-accent-orange-color-bg: #4a2f1a;
+    --Fresnica-accent-yellow-color: #f6c65b;
+    --Fresnica-accent-yellow-color-bg: #463817;
+    --Fresnica-success-color: #00ca8a;
+    --Fresnica-warning-color: #f59e0b;
+    --Fresnica-error-color: #c73945;
+    --Fresnica-error-color-hover: #dd5662;
+    --Fresnica-error-color-active: #a52c38;
+    --Fresnica-text-color: #f5f5f7;
+    --Fresnica-text-color-secondary: #a0a0a5;
+    --Fresnica-text-color-muted: #8e8e95;
+    --Fresnica-text-color-disabled: #5a5a62;
+    --Fresnica-border-color: #2e2e34;
+    --Fresnica-border-color-hover: #00ca8a;
+    --Fresnica-border-color-light: rgba(255, 255, 255, 0.08);
+    --Fresnica-border-color-subtle: rgba(255, 255, 255, 0.08);
+    --Fresnica-bg-color: #222226;
+    --Fresnica-bg-color-secondary: #1a1a1e;
+    --Fresnica-bg-color-disabled: #2a2a30;
+    --Fresnica-surface-lowest: #0e0e10;
+    --Fresnica-surface-low: #1a1a1e;
+    --Fresnica-surface: #222226;
+    --Fresnica-surface-high: #2a2a30;
+    --Fresnica-surface-highest: #34343c;
+    --Fresnica-focus-color: #00ca8a;
+    --Fresnica-mask-bg: rgba(0, 0, 0, 0.72);
+    --Fresnica-mask-bg-subtle: rgba(0, 0, 0, 0.32);
+    --Fresnica-mask-bg-strong: rgba(0, 0, 0, 0.84);
+    --Fresnica-shadow-base: none;
+}
+```
+
+Do not maintain a second short-name token set; this runtime naming is the single public contract.

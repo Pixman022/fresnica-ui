@@ -1,0 +1,180 @@
+.tag {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--Fresnica-component-tag-gap);
+    min-height: 28px;
+    padding: 0 var(--Fresnica-primitive-space-md);
+    border: 1px solid transparent;
+    border-radius: var(--Fresnica-component-tag-radius);
+    font-family: var(--Fresnica-primitive-font-family-base);
+    font-size: var(--Fresnica-primitive-font-size-sm);
+    font-weight: var(--Fresnica-primitive-font-weight-semibold);
+    line-height: 1;
+    white-space: nowrap;
+    user-select: none;
+    transition: all var(--Fresnica-primitive-motion-duration-fast) var(--Fresnica-primitive-motion-ease-standard);
+}
+
+.size-small {
+    min-height: var(--Fresnica-component-tag-height-small);
+    padding: 0 var(--Fresnica-component-tag-padding-x-small);
+    font-size: var(--Fresnica-primitive-font-size-caption);
+}
+.size-medium {
+    min-height: var(--Fresnica-component-tag-height-medium);
+    padding: 0 var(--Fresnica-component-tag-padding-x);
+    font-size: var(--Fresnica-primitive-font-size-sm);
+}
+.size-large {
+    min-height: var(--Fresnica-component-tag-height-large);
+    padding: 0 var(--Fresnica-component-tag-padding-x-large);
+    font-size: var(--Fresnica-primitive-font-size-base);
+}
+
+.variant-solid {
+    background: var(--Fresnica-component-tag-color-primary);
+    color: var(--Fresnica-component-tag-color-on-primary);
+}
+.variant-outlined {
+    background: transparent;
+    color: var(--Fresnica-component-tag-content);
+    border-color: var(--Fresnica-component-tag-border);
+}
+.variant-dashed {
+    background: transparent;
+    color: var(--Fresnica-component-tag-content);
+    border-color: var(--Fresnica-component-tag-border);
+    border-style: dashed;
+}
+.variant-soft {
+    background: var(--Fresnica-component-tag-background);
+    color: var(--Fresnica-component-tag-content);
+    border-color: var(--Fresnica-component-tag-border);
+}
+
+.color-purple-solid,
+.color-purple-soft {
+    background: var(--Fresnica-component-tag-color-purple-container);
+    color: var(--Fresnica-component-tag-color-purple);
+    border-color: var(--Fresnica-component-tag-color-purple);
+}
+.color-app-blue-solid,
+.color-app-blue-soft {
+    background: var(--Fresnica-component-tag-color-blue-container);
+    color: var(--Fresnica-component-tag-color-blue);
+    border-color: var(--Fresnica-component-tag-color-blue);
+}
+.color-app-yellow-solid,
+.color-app-yellow-soft {
+    background: var(--Fresnica-component-tag-color-yellow-container);
+    color: var(--Fresnica-component-tag-color-yellow);
+    border-color: var(--Fresnica-component-tag-color-yellow);
+}
+.color-app-orange-solid,
+.color-app-orange-soft {
+    background: var(--Fresnica-component-tag-color-orange-container);
+    color: var(--Fresnica-component-tag-color-orange);
+    border-color: var(--Fresnica-component-tag-color-orange);
+}
+.color-app-teal-solid {
+    background: var(--Fresnica-component-tag-color-primary);
+    color: var(--Fresnica-component-tag-color-on-primary);
+    border-color: var(--Fresnica-component-tag-color-primary);
+}
+.color-app-teal-soft {
+    background: var(--Fresnica-component-tag-color-primary-container);
+    color: var(--Fresnica-component-tag-color-on-primary-container);
+    border-color: var(--Fresnica-component-tag-color-primary);
+}
+.color-app-red-solid {
+    background: var(--Fresnica-component-tag-color-error);
+    color: var(--Fresnica-component-tag-color-on-error);
+    border-color: var(--Fresnica-component-tag-color-error);
+}
+.color-app-red-soft {
+    background: color-mix(in srgb, var(--Fresnica-component-tag-color-error) 14%, transparent);
+    color: var(--Fresnica-component-tag-color-error);
+    border-color: var(--Fresnica-component-tag-color-error);
+}
+.color-purple-outlined,
+.color-purple-dashed {
+    color: var(--Fresnica-component-tag-color-purple);
+    border-color: var(--Fresnica-component-tag-color-purple);
+}
+.color-app-blue-outlined,
+.color-app-blue-dashed {
+    color: var(--Fresnica-component-tag-color-blue);
+    border-color: var(--Fresnica-component-tag-color-blue);
+}
+.color-app-yellow-outlined,
+.color-app-yellow-dashed {
+    color: var(--Fresnica-component-tag-color-yellow);
+    border-color: var(--Fresnica-component-tag-color-yellow);
+}
+.color-app-orange-outlined,
+.color-app-orange-dashed {
+    color: var(--Fresnica-component-tag-color-orange);
+    border-color: var(--Fresnica-component-tag-color-orange);
+}
+.color-app-teal-outlined,
+.color-app-teal-dashed {
+    color: var(--Fresnica-component-tag-color-primary);
+    border-color: var(--Fresnica-component-tag-color-primary);
+}
+.color-app-red-outlined,
+.color-app-red-dashed {
+    color: var(--Fresnica-component-tag-color-error);
+    border-color: var(--Fresnica-component-tag-color-error);
+}
+.text {
+    color: inherit;
+}
+.close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    margin: 0 calc(-1 * var(--Fresnica-primitive-space-xs)) 0 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    font-size: var(--Fresnica-primitive-font-size-base);
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color var(--Fresnica-primitive-motion-duration-fast)
+        var(--Fresnica-primitive-motion-ease-standard);
+}
+.close:hover {
+    background: color-mix(in srgb, currentColor 14%, transparent);
+}
+.close:focus-visible {
+    outline: 2px solid var(--Fresnica-semantic-focus-ring);
+    outline-offset: 1px;
+}
+.close:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+.is-clickable {
+    cursor: pointer;
+}
+.is-clickable:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+}
+.is-clickable:active {
+    transform: scale(0.98);
+}
+.is-clickable:focus-visible {
+    outline: 2px solid var(--Fresnica-semantic-focus-ring);
+    outline-offset: 2px;
+}
+.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+}

@@ -1,0 +1,72 @@
+.switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--Fresnica-primitive-space-md);
+    min-height: var(--Fresnica-primitive-size-control-base);
+    padding: var(--Fresnica-primitive-space-sm) var(--Fresnica-primitive-space-md);
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-base);
+    background: var(--Fresnica-semantic-surface-default);
+    color: var(--Fresnica-semantic-content-primary);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        border-color var(--Fresnica-primitive-motion-duration-fast) var(--Fresnica-primitive-motion-ease-standard),
+        background var(--Fresnica-primitive-motion-duration-fast) var(--Fresnica-primitive-motion-ease-standard);
+}
+.switcher:hover:not(:disabled) {
+    border-color: var(--Fresnica-semantic-action-primary);
+    background: var(--Fresnica-semantic-surface-raised);
+}
+.switcher:focus-visible {
+    outline: 2px solid var(--Fresnica-semantic-focus-ring);
+    outline-offset: 2px;
+}
+.avatar {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--Fresnica-semantic-action-primary-container);
+    color: var(--Fresnica-semantic-action-primary);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+}
+.identity {
+    min-width: 0;
+}
+.switcher strong,
+.switcher small {
+    display: block;
+}
+.switcher small {
+    margin-top: 2px;
+    color: var(--Fresnica-semantic-content-muted);
+    font-size: var(--Fresnica-primitive-font-size-caption);
+}
+.chevron {
+    display: inline-flex;
+    margin-left: auto;
+    color: var(--Fresnica-semantic-content-muted);
+    transition: transform var(--Fresnica-primitive-motion-duration-fast) var(--Fresnica-primitive-motion-ease-standard);
+}
+.open .chevron {
+    transform: rotate(180deg);
+}
+.compact {
+    gap: var(--Fresnica-primitive-space-sm);
+    min-height: var(--Fresnica-primitive-size-control-compact);
+    padding: var(--Fresnica-primitive-space-xs) var(--Fresnica-primitive-space-sm);
+}
+.compact .avatar {
+    width: 28px;
+    height: 28px;
+}
+.compact small {
+    display: none;
+}
+.switcher:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

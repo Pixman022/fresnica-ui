@@ -1,0 +1,23 @@
+# 构建产物
+dist/
+demo-dist/
+coverage/
+node_modules/
+
+# 提示词 / 设计规范文档（嵌入 HTML / 提示词代码块，会触发 Prettier 缩进循环）与翻译镜像
+docs/design-system/
+docs/zh-CN/
+docs/one-click-prompt.md
+docs/design-prompts.md
+skills/
+
+# 其它无需格式化的产物
+*.min.js
+*.min.css
+*.min.d.ts
+package-lock.json
+
+# Legacy reference assets are ignored from the repository and are not part of the Fresnica UI build.
+demo/img/
+src/assets/img/
+docs/img/

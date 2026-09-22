@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Fresnica UI · Component Preview</title>
+        <style>
+            :root {
+                --primary: #00a875;
+                --primary-hover: #00ca8a;
+                --primary-active: #008f65;
+                --primary-container: #d4f7e9;
+                --on-primary: #fff;
+                --on-primary-container: #005235;
+                --secondary: #6956c8;
+                --accent-current: #6956c8;
+                --accent-purple: #6956c8;
+                --accent-blue: #356ae6;
+                --accent-orange: #c96a16;
+                --accent-yellow: #a87500;
+                --inverse: #111214;
+                --on-inverse: #fff;
+                --success: #00ca8a;
+                --danger: #c73945;
+                --warning: #9a6700;
+                --canvas: #f9f9fb;
+                --surface: #fff;
+                --surface-low: #f3f3f5;
+                --surface-high: #edeef0;
+                --surface-highest: #e8e8ea;
+                --text: #1a1c1d;
+                --text-secondary: #3f4942;
+                --muted: #6f7a72;
+                --border: #e3e3e5;
+                --focus: #00a875;
+                --shadow-card: 0 8px 24px rgba(41, 41, 39, 0.06);
+                --shadow-floating: 0 16px 36px rgba(41, 41, 39, 0.14);
+                --ease: cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            [data-theme='dark'] {
+                --primary: #00ca8a;
+                --primary-hover: #32dfa4;
+                --primary-active: #00a875;
+                --primary-container: #12372b;
+                --on-primary: #fff;
+                --on-primary-container: #a9f5d0;
+                --secondary: #b8a9ff;
+                --accent-current: #b8a9ff;
+                --accent-purple: #b8a9ff;
+                --accent-blue: #8eaeff;
+                --accent-orange: #ffb86b;
+                --accent-yellow: #f6c65b;
+                --inverse: #fff;
+                --on-inverse: #111214;
+                --canvas: #0e0e10;
+                --surface: #222226;
+                --surface-low: #1a1a1e;
+                --surface-high: #2a2a30;
+                --surface-highest: #34343c;
+                --text: #f5f5f7;
+                --text-secondary: #a0a0a5;
+                --muted: #8e8e95;
+                --border: #2e2e34;
+                --focus: #00ca8a;
+                --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.24);
+                --shadow-floating: 0 16px 36px rgba(0, 0, 0, 0.6);
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                min-height: 100vh;
+                background: var(--canvas);
+                color: var(--text);
+                font-family: 'Roboto Flex', Roboto, 'Noto Sans SC', system-ui, sans-serif;
+                font-size: 15px;
+                line-height: 1.5;
+                transition:
+                    background 0.25s var(--ease),
+                    color 0.25s var(--ease);
+            }
+            .shell {
+                width: min(100% - 32px, 960px);
+                margin: 0 auto;
+                padding: 28px 0 64px;
+            }
+            .topbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                margin-bottom: 28px;
+            }
+            .eyebrow {
+                margin: 0 0 4px;
+                color: var(--primary);
+                font-size: 12px;
+                font-weight: 700;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+            }
+            h1 {
+                margin: 0;
+                font-size: clamp(26px, 5vw, 38px);
+                letter-spacing: -0.03em;
+            }
+            h2 {
+                margin: 0;
+                font-size: 18px;
+                letter-spacing: -0.01em;
+            }
+            p {
+                margin: 0;
+                color: var(--text-secondary);
+            }
+            .theme-toggle,
+            .icon-button {
+                border: 1px solid var(--border);
+                border-radius: 9999px;
+                background: var(--surface);
+                color: var(--text);
+                cursor: pointer;
+                transition: all 0.15s var(--ease);
+            }
+            .theme-toggle {
+                min-height: 40px;
+                padding: 0 14px;
+                font-weight: 700;
+            }
+            .theme-toggle:hover,
+            .icon-button:hover {
+                border-color: var(--primary);
+                color: var(--primary);
+            }
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 16px;
+            }
+            .section {
+                min-width: 0;
+                padding: 20px;
+                border: 1px solid var(--border);
+                border-radius: 20px;
+                background: var(--surface);
+                box-shadow: var(--shadow-card);
+            }
+            .section.full {
+                grid-column: 1 / -1;
+            }
+            .wallet-business {
+                display: grid;
+                gap: 12px;
+                max-width: 560px;
+            }
+            .balance-card {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 20px;
+                padding: 20px;
+                color: #fff;
+                background: linear-gradient(135deg, var(--primary), var(--primary-active));
+                border-radius: 20px;
+            }
+            .balance-card small {
+                display: block;
+                color: rgba(255, 255, 255, 0.76);
+                font-weight: 600;
+            }
+            .balance-value {
+                margin-top: 4px;
+                font-size: 34px;
+                font-weight: 700;
+                letter-spacing: -0.04em;
+            }
+            .business-row {
+                display: grid;
+                grid-template-columns: auto minmax(0, 1fr) auto;
+                align-items: center;
+                gap: 12px;
+                min-height: 64px;
+                padding: 10px 12px;
+                border-radius: 14px;
+                background: var(--surface-low);
+            }
+            .business-icon {
+                display: grid;
+                width: 38px;
+                height: 38px;
+                place-items: center;
+                border-radius: 12px;
+                background: var(--primary-container);
+                color: var(--primary);
+                font-weight: 700;
+            }
+            .business-row strong,
+            .business-row span {
+                display: block;
+            }
+            .business-row span {
+                color: var(--text-secondary);
+                font-size: 12px;
+            }
+            .business-amount {
+                text-align: right;
+                font-variant-numeric: tabular-nums;
+            }
+            .business-status {
+                margin-top: 3px;
+                color: var(--primary);
+                font-size: 11px;
+                font-weight: 700;
+            }
+            .section-head {
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 16px;
+            }
+            .component-name {
+                color: var(--muted);
+                font-size: 12px;
+                font-weight: 600;
+            }
+            .row {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .stack {
+                display: grid;
+                gap: 12px;
+            }
+            .label {
+                display: block;
+                margin-bottom: 6px;
+                color: var(--muted);
+                font-size: 12px;
+                font-weight: 600;
+            }
+            button,
+            input {
+                font: inherit;
+            }
+            .btn {
+                min-height: 48px;
+                padding: 0 18px;
+                border: 1px solid transparent;
+                border-radius: 16px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.15s var(--ease);
+            }
+            .btn:focus-visible,
+            .input:focus-visible,
+            .select-trigger:focus-visible,
+            .switch:focus-visible,
+            .tab:focus-visible {
+                outline: 2px solid var(--focus);
+                outline-offset: 2px;
+            }
+            .btn-primary {
+                background: var(--primary);
+                color: #fff;
+                border-color: var(--primary);
+                box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 25%, transparent);
+            }
+            .btn-primary:hover {
+                background: var(--primary-hover);
+                border-color: var(--primary-hover);
+                transform: translateY(-1px);
+            }
+            .btn-primary:active {
+                background: var(--primary-active);
+                transform: scale(0.98);
+            }
+            .btn-inverse {
+                background: var(--inverse);
+                color: var(--on-inverse);
+                border-color: var(--inverse);
+                box-shadow: 0 4px 12px color-mix(in srgb, var(--inverse) 20%, transparent);
+            }
+            .btn-inverse:hover {
+                background: color-mix(in srgb, var(--inverse) 86%, var(--surface));
+                border-color: color-mix(in srgb, var(--inverse) 86%, var(--surface));
+                color: var(--on-inverse);
+                transform: translateY(-1px);
+            }
+            .btn-inverse:active {
+                background: color-mix(in srgb, var(--inverse) 74%, var(--surface));
+                border-color: color-mix(in srgb, var(--inverse) 74%, var(--surface));
+                color: var(--on-inverse);
+                transform: scale(0.98);
+            }
+            .btn-default {
+                background: var(--surface);
+                color: var(--text);
+                border-color: var(--border);
+            }
+            .btn-default:hover,
+            .btn-dashed:hover {
+                color: var(--primary);
+                border-color: var(--primary);
+            }
+            .btn-dashed {
+                background: var(--surface);
+                color: var(--text);
+                border-color: var(--border);
+                border-style: dashed;
+            }
+            .btn-text,
+            .btn-link {
+                min-height: 40px;
+                padding: 0 12px;
+                background: transparent;
+                border-color: transparent;
+            }
+            .btn-text {
+                color: var(--text);
+            }
+            .btn-link {
+                color: var(--primary);
+            }
+            .btn-text:hover {
+                background: var(--surface-low);
+            }
+            .btn-link:hover {
+                text-decoration: underline;
+            }
+            .card-demo {
+                padding: 18px;
+                border: 1px solid var(--border);
+                border-radius: 20px;
+                background: var(--surface-low);
+            }
+            .card-demo.pattern {
+                background-color: var(--surface-low);
+                background-image: radial-gradient(var(--border) 1px, transparent 1px);
+                background-size: 16px 16px;
+            }
+            .card-demo strong {
+                display: block;
+                margin-bottom: 4px;
+            }
+            .input {
+                width: 100%;
+                min-height: 48px;
+                padding: 0 15px;
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                background: var(--surface);
+                color: var(--text);
+                transition: all 0.15s var(--ease);
+            }
+            .input:hover,
+            .input:focus {
+                border-color: var(--primary);
+            }
+            .input::placeholder {
+                color: var(--muted);
+            }
+            .input-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .tag {
+                display: inline-flex;
+                align-items: center;
+                min-height: 30px;
+                padding: 0 11px;
+                border: 1px solid transparent;
+                border-radius: 9999px;
+                font-size: 12px;
+                font-weight: 700;
+            }
+            .tag-green {
+                background: var(--primary-container);
+                color: var(--on-primary-container);
+                border-color: color-mix(in srgb, var(--primary) 45%, transparent);
+            }
+            .tag-accent {
+                background: color-mix(in srgb, var(--accent-current) 16%, var(--surface));
+                color: var(--accent-current);
+                border-color: color-mix(in srgb, var(--accent-current) 46%, transparent);
+            }
+            .tag-danger {
+                background: color-mix(in srgb, var(--danger) 14%, transparent);
+                color: var(--danger);
+                border-color: color-mix(in srgb, var(--danger) 45%, transparent);
+            }
+            .tag-outline {
+                background: transparent;
+                color: var(--text-secondary);
+                border-color: var(--border);
+            }
+            .accent-grid {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 10px;
+            }
+            .accent-option {
+                min-width: 0;
+                padding: 14px;
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                background: var(--surface-low);
+                color: var(--text);
+                text-align: left;
+                cursor: pointer;
+                transition: all 0.15s var(--ease);
+            }
+            .accent-option:hover,
+            .accent-option.selected {
+                border-color: var(--primary);
+                transform: translateY(-1px);
+            }
+            .accent-swatch {
+                width: 100%;
+                height: 34px;
+                margin-bottom: 10px;
+                border-radius: 10px;
+            }
+            .accent-option strong {
+                display: block;
+                margin-bottom: 3px;
+                font-size: 13px;
+            }
+            .accent-option small {
+                display: block;
+                color: var(--muted);
+                font-size: 11px;
+                line-height: 1.35;
+            }
+            .accent-recommended .accent-swatch {
+                background: var(--accent-purple);
+            }
+            .accent-blue .accent-swatch {
+                background: var(--accent-blue);
+            }
+            .accent-orange .accent-swatch {
+                background: var(--accent-orange);
+            }
+            .accent-yellow .accent-swatch {
+                background: var(--accent-yellow);
+            }
+            .accent-preview {
+                margin-top: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                flex-wrap: wrap;
+                color: var(--muted);
+                font-size: 12px;
+            }
+            .accent-preview .tag-accent {
+                background: color-mix(in srgb, var(--accent-current) 16%, var(--surface));
+                color: var(--accent-current);
+                border-color: color-mix(in srgb, var(--accent-current) 46%, transparent);
+            }
+            .tabs {
+                overflow: hidden;
+                border: 1px solid var(--border);
+                border-radius: 16px;
+            }
+            .tab-list {
+                display: flex;
+                gap: 4px;
+                overflow-x: auto;
+                padding: 8px;
+                background: var(--surface-low);
+            }
+            .tab {
+                min-height: 40px;
+                padding: 0 14px;
+                border: 0;
+                border-radius: 12px;
+                background: transparent;
+                color: var(--text-secondary);
+                font-weight: 700;
+                cursor: pointer;
+            }
+            .tab.active {
+                background: var(--primary);
+                color: #fff;
+            }
+            .tab-panel {
+                min-height: 62px;
+                padding: 18px;
+                color: var(--text-secondary);
+            }
+            .select {
+                position: relative;
+                max-width: 280px;
+            }
+            .select-trigger {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                min-height: 48px;
+                padding: 0 14px;
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                background: var(--surface);
+                color: var(--text);
+                font-weight: 600;
+                cursor: pointer;
+            }
+            .select.open .select-trigger {
+                border-color: var(--primary);
+                background: var(--surface-high);
+            }
+            .select-menu {
+                display: none;
+                position: absolute;
+                top: calc(100% + 6px);
+                right: 0;
+                left: 0;
+                z-index: 5;
+                padding: 6px;
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                background: var(--surface-high);
+                box-shadow: var(--shadow-floating);
+            }
+            .select.open .select-menu {
+                display: grid;
+                gap: 2px;
+            }
+            .option {
+                display: flex;
+                align-items: center;
+                min-height: 42px;
+                padding: 0 12px;
+                border: 0;
+                border-radius: 12px;
+                background: transparent;
+                color: var(--text);
+                text-align: left;
+                cursor: pointer;
+            }
+            .option:hover,
+            .option.selected {
+                background: var(--primary-container);
+                color: var(--primary);
+                font-weight: 700;
+            }
+            .switch {
+                position: relative;
+                width: 54px;
+                height: 32px;
+                padding: 0;
+                border: 1px solid var(--border);
+                border-radius: 9999px;
+                background: var(--surface-highest);
+                cursor: pointer;
+            }
+            .switch::after {
+                content: '';
+                position: absolute;
+                top: 3px;
+                left: 3px;
+                width: 24px;
+                height: 24px;
+                border: 2px solid var(--border);
+                border-radius: 50%;
+                background: var(--surface);
+                transition: all 0.2s var(--ease);
+            }
+            .switch.on {
+                border-color: var(--primary);
+                background: var(--primary);
+            }
+            .switch.on::after {
+                left: 25px;
+                border-color: var(--primary);
+                background: var(--on-primary);
+            }
+            .overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                z-index: 20;
+                align-items: center;
+                justify-content: center;
+                padding: 16px;
+                background: rgba(0, 0, 0, 0.66);
+            }
+            .overlay.show {
+                display: flex;
+            }
+            .dialog,
+            .drawer {
+                border: 1px solid var(--border);
+                background: var(--surface-high);
+                box-shadow: var(--shadow-floating);
+            }
+            .dialog {
+                width: min(100%, 520px);
+                padding: 24px;
+                border-radius: 28px;
+            }
+            .dialog-head,
+            .drawer-head {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 16px;
+            }
+            .dialog h3,
+            .drawer h3 {
+                margin: 0;
+                font-size: 20px;
+            }
+            .icon-button {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            .drawer-overlay {
+                align-items: flex-end;
+                padding: 0;
+            }
+            .drawer {
+                width: min(100%, 520px);
+                padding: 20px;
+                border-radius: 24px 24px 0 0;
+            }
+            .notice {
+                margin-top: 14px;
+                padding: 12px 14px;
+                border-radius: 12px;
+                background: var(--primary-container);
+                color: var(--on-primary-container);
+                font-size: 13px;
+            }
+            .tooltip-demo {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                min-height: 40px;
+                padding: 0 12px;
+                border: 1px dashed var(--border);
+                border-radius: 12px;
+                color: var(--text-secondary);
+            }
+            .tooltip-demo::after {
+                content: 'Network fees are estimated';
+                position: absolute;
+                left: 50%;
+                bottom: calc(100% + 8px);
+                width: max-content;
+                max-width: 220px;
+                padding: 8px 10px;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                background: var(--surface-high);
+                color: var(--text);
+                box-shadow: var(--shadow-floating);
+                font-size: 12px;
+                opacity: 0;
+                pointer-events: none;
+                transform: translate(-50%, 4px);
+                transition: all 0.15s var(--ease);
+            }
+            .tooltip-demo:hover::after,
+            .tooltip-demo:focus-visible::after {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+            .toast {
+                position: fixed;
+                right: 16px;
+                bottom: 16px;
+                z-index: 30;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                max-width: min(384px, calc(100vw - 32px));
+                padding: 14px 16px;
+                border: 1px solid var(--success);
+                border-radius: 16px;
+                background: var(--surface-high);
+                color: var(--text);
+                box-shadow: var(--shadow-floating);
+                opacity: 0;
+                transform: translateY(12px);
+                pointer-events: none;
+                transition: all 0.2s var(--ease);
+            }
+            .toast.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            @media (max-width: 700px) {
+                .grid {
+                    grid-template-columns: 1fr;
+                }
+                .section.full {
+                    grid-column: auto;
+                }
+                .input-row {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main class="shell">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Fresnica UI</p>
+                    <h1>Wallet components</h1>
+                    <p>第一批迁移组件的独立预览 · Light / Dark</p>
+                </div>
+                <button class="theme-toggle" id="themeToggle" type="button">切换深色</button>
+            </header>
+
+            <div class="grid">
+                <section class="section full">
+                    <div class="section-head">
+                        <h2>Button</h2>
+                        <span class="component-name">primary / default / dashed / text / link / inverse</span>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-primary">Send assets</button
+                        ><button class="btn btn-default">Connect wallet</button
+                        ><button class="btn btn-dashed">Preview</button><button class="btn btn-text">Cancel</button
+                        ><button class="btn btn-link">View details</button><button class="btn btn-inverse">Swap</button>
+                    </div>
+                    <p style="margin-top: 12px">
+                        Inverse（Swap）：浅色主题黑底白字，深色主题白底深字；仅用于少数高对比核心操作。
+                    </p>
+                </section>
+
+                <section class="section full">
+                    <div class="section-head">
+                        <h2>Primary color states</h2>
+                        <span class="component-name">Light #00A875 · Dark #00CA8A</span>
+                    </div>
+                    <div class="row">
+                        <span class="tag tag-light">Base <code>#00A875</code></span>
+                        <span class="tag tag-green">Hover <code>#00CA8A</code></span>
+                        <span class="tag tag-purple">Dark hover <code>#32DFA4</code></span>
+                        <span class="tag tag-dark">Active <code>#008F65</code></span>
+                    </div>
+                    <p style="margin-top: 10px">推荐 hover：浅色主题使用 #00CA8A；深色主题使用更明亮的 #32DFA4。</p>
+                </section>
+
+                <section class="section">
+                    <div class="section-head">
+                        <h2>Card</h2>
+                        <span class="component-name">surface / pattern</span>
+                    </div>
+                    <div class="stack">
+                        <div class="card-demo"><strong>Total balance</strong><span>12,480.32 XLM</span></div>
+                        <div class="card-demo pattern">
+                            <strong>Network status</strong><span>Stellar · Connected</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="section-head">
+                        <h2>Input</h2>
+                        <span class="component-name">address / amount</span>
+                    </div>
+                    <div class="stack">
+                        <label
+                            ><span class="label">Recipient address</span
+                            ><input class="input" placeholder="Paste a wallet address"
+                        /></label>
+                        <div class="input-row">
+                            <label
+                                ><span class="label">Amount</span
+                                ><input class="input" placeholder="0.00" inputmode="decimal" /></label
+                            ><label
+                                ><span class="label">Memo (optional)</span
+                                ><input class="input" placeholder="Payment note"
+                            /></label>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="section-head">
+                        <h2>Tag</h2>
+                        <span class="component-name">state / network / risk</span>
+                    </div>
+                    <div class="row">
+                        <span class="tag tag-green">Connected</span><span class="tag tag-accent">Cross-chain</span
+                        ><span class="tag tag-danger">Failed</span><span class="tag tag-outline">Testnet</span>
+                    </div>
+                    <div class="notice">
+                        辅助色只表达业务语义：紫色用于协议/跨链，蓝色用于网络，橙色用于 Swap/流动性，黄色用于待处理。
+                    </div>
+                </section>
+                <section class="section full">
+                    <div class="section-head">
+                        <h2>Secondary accent comparison</h2>
+                        <span class="component-name">点击方案应用到 Cross-chain 标签</span>
+                    </div>
+                    <div class="accent-grid">
+                        <button class="accent-option accent-recommended selected" type="button" data-accent="purple">
+                            <span class="accent-swatch"></span><strong>紫 · 科技协议</strong
+                            ><small>Light #6956C8 · Dark #B8A9FF</small></button
+                        ><button class="accent-option accent-blue" type="button" data-accent="blue">
+                            <span class="accent-swatch"></span><strong>蓝 · 网络信息</strong
+                            ><small>Light #356AE6 · Dark #8EAEFF</small></button
+                        ><button class="accent-option accent-orange" type="button" data-accent="orange">
+                            <span class="accent-swatch"></span><strong>橙 · Swap 流动性</strong
+                            ><small>Light #C96A16 · Dark #FFB86B</small></button
+                        ><button class="accent-option accent-yellow" type="button" data-accent="yellow">
+                            <span class="accent-swatch"></span><strong>黄 · 待处理警示</strong
+                            ><small>Light #A87500 · Dark #F6C65B</small>
+                        </button>
+                    </div>
+                    <div class="accent-preview">
+                        <span>当前示例：</span><span class="tag tag-accent" id="accentTag">Cross-chain</span
+                        ><span id="accentLabel">科技协议紫</span>
+                    </div>
+                </section>
+
+                <section class="section full">
+                    <div class="section-head">
+                        <h2>Tabs</h2>
+                        <span class="component-name">assets / activity / swap</span>
+                    </div>
+                    <div class="tabs">
+                        <div class="tab-list" role="tablist">
+                            <button class="tab active" role="tab" aria-selected="true" data-tab="assets">Assets</button
+                            ><button class="tab" role="tab" aria-selected="false" data-tab="activity">Activity</button
+                            ><button class="tab" role="tab" aria-selected="false" data-tab="routes">Swap routes</button>
+                        </div>
+                        <div class="tab-panel" id="tabPanel">Your balances and token holdings appear here.</div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="section-head">
+                        <h2>Select</h2>
+                        <span class="component-name">network selector</span>
+                    </div>
+                    <div class="select" id="select">
+                        <button
+                            class="select-trigger"
+                            id="selectTrigger"
+                            type="button"
+                            aria-haspopup="listbox"
+                            aria-expanded="false"
+                        >
+                            <span id="selectValue">Stellar Mainnet</span><span aria-hidden="true">⌄</span>
+                        </button>
+                        <div class="select-menu" role="listbox">
+                            <button class="option selected" role="option" data-value="Stellar Mainnet">
+                                Stellar Mainnet</button
+                            ><button class="option" role="option" data-value="Stellar Testnet">Stellar Testnet</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="section-head">
+                        <h2>Switch</h2>
+                        <span class="component-name">network / settings</span>
+                    </div>
+                    <div class="row">
+                        <button
+                            class="switch on"
+                            id="switchA"
+                            role="switch"
+                            aria-checked="true"
+                            aria-label="Fast route"
+                        ></button
+                        ><span>Fast route</span
+                        ><button
+                            class="switch"
+                            id="switchB"
+                            role="switch"
+                            aria-checked="false"
+                            aria-label="Test mode"
+                        ></button
+                        ><span>Test mode</span>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="section-head">
+                        <h2>Modal</h2>
+                        <span class="component-name">asset details / confirmation</span>
+                    </div>
+                    <p style="margin-bottom: 14px">
+                        Use a centered surface for confirmations and asset detail summaries.
+                    </p>
+                    <button class="btn btn-primary" id="openModal" type="button">Open asset details</button>
+                </section>
+                <section class="section">
+                    <div class="section-head">
+                        <h2>Drawer</h2>
+                        <span class="component-name">mobile transaction panel</span>
+                    </div>
+                    <p style="margin-bottom: 14px">Bottom sheet behavior is optimized for a 412px mobile viewport.</p>
+                    <button class="btn btn-default" id="openDrawer" type="button">Open transaction panel</button>
+                </section>
+                <section class="section">
+                    <div class="section-head">
+                        <h2>Tooltip</h2>
+                        <span class="component-name">field explanation</span>
+                    </div>
+                    <button class="tooltip-demo" type="button">Hover or focus for fee help</button>
+                </section>
+                <section class="section">
+                    <div class="section-head">
+                        <h2>Notification</h2>
+                        <span class="component-name">success / warning / error</span>
+                    </div>
+                    <p style="margin-bottom: 14px">Imperative feedback for transaction and network state.</p>
+                    <button class="btn btn-primary" id="showNotice" type="button">Show success notice</button>
+                </section>
+                <section class="section full">
+                    <div class="section-head">
+                        <h2>Wallet business components</h2>
+                        <span class="component-name">BalanceCard / AssetRow / TransactionRow</span>
+                    </div>
+                    <div class="wallet-business">
+                        <div class="balance-card">
+                            <div>
+                                <small>Total balance</small>
+                                <div class="balance-value">$12,840.52</div>
+                                <small>+2.41% today</small>
+                            </div>
+                            <span class="tag tag-light">USD</span>
+                        </div>
+                        <div class="business-row">
+                            <span class="business-icon">X</span>
+                            <div><strong>Stellar</strong><span>XLM</span></div>
+                            <div class="business-amount">
+                                <strong>4,281.20 XLM</strong
+                                ><span>$520.41 · <b style="color: var(--primary)">+1.80%</b></span>
+                            </div>
+                        </div>
+                        <div class="business-row">
+                            <span class="business-icon">↗</span>
+                            <div><strong>Sent XLM</strong><span>Today · GABC…WXYZ</span></div>
+                            <div class="business-amount">
+                                <strong>− 320 XLM</strong><span class="business-status">Completed</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <div class="overlay" id="modalOverlay" role="presentation">
+            <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+                <div class="dialog-head">
+                    <h3 id="modalTitle">XLM · Asset details</h3>
+                    <button class="icon-button" type="button" data-close="modal" aria-label="Close">×</button>
+                </div>
+                <div class="stack">
+                    <p>Available balance <strong>12,480.32 XLM</strong></p>
+                    <p>Network <span class="tag tag-green">Stellar Mainnet</span></p>
+                    <button class="btn btn-primary" data-close="modal" type="button">Send XLM</button>
+                </div>
+            </section>
+        </div>
+        <div class="overlay drawer-overlay" id="drawerOverlay" role="presentation">
+            <section class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+                <div class="drawer-head">
+                    <h3 id="drawerTitle">Review transaction</h3>
+                    <button class="icon-button" type="button" data-close="drawer" aria-label="Close">×</button>
+                </div>
+                <div class="stack">
+                    <p>Send <strong>250 XLM</strong> to <span style="font-family: monospace">GBXR…7I2E</span></p>
+                    <p>Network fee <strong>0.00001 XLM</strong></p>
+                    <button class="btn btn-primary" data-close="drawer" type="button">Confirm send</button>
+                </div>
+            </section>
+        </div>
+        <div class="toast" id="toast" role="status">
+            <span class="tag tag-green">Success</span><span>Transaction submitted</span>
+        </div>
+
+        <script>
+            const root = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+            let activeAccent = 'purple';
+            const accentMap = {
+                purple: ['#6956C8', '#B8A9FF', '科技协议紫'],
+                blue: ['#356AE6', '#8EAEFF', '网络信息蓝'],
+                orange: ['#C96A16', '#FFB86B', 'Swap 流动性橙'],
+                yellow: ['#A87500', '#F6C65B', '待处理警示黄'],
+            };
+            const applyAccent = () => {
+                const [light, dark, label] = accentMap[activeAccent];
+                const isDark = root.dataset.theme === 'dark';
+                const value = isDark ? dark : light;
+                root.style.setProperty('--secondary', value);
+                root.style.setProperty('--accent-current', value);
+                document.getElementById('accentLabel').textContent = label;
+            };
+            themeToggle.addEventListener('click', () => {
+                const dark = root.dataset.theme === 'dark';
+                root.dataset.theme = dark ? 'light' : 'dark';
+                themeToggle.textContent = dark ? '切换深色' : '切换浅色';
+                applyAccent();
+            });
+            const tabPanel = document.getElementById('tabPanel');
+            const tabCopy = {
+                assets: 'Your balances and token holdings appear here.',
+                activity: 'Recent transfers, swaps, and approvals appear here.',
+                routes: 'Compare liquidity routes before confirming a swap.',
+            };
+            document.querySelectorAll('[data-tab]').forEach((tab) =>
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('[data-tab]').forEach((item) => {
+                        item.classList.toggle('active', item === tab);
+                        item.setAttribute('aria-selected', item === tab);
+                    });
+                    tabPanel.textContent = tabCopy[tab.dataset.tab];
+                })
+            );
+            document.querySelectorAll('[data-accent]').forEach((option) =>
+                option.addEventListener('click', () => {
+                    activeAccent = option.dataset.accent;
+                    applyAccent();
+                    document
+                        .querySelectorAll('[data-accent]')
+                        .forEach((item) => item.classList.toggle('selected', item === option));
+                })
+            );
+            const select = document.getElementById('select');
+            const trigger = document.getElementById('selectTrigger');
+            trigger.addEventListener('click', () => {
+                const open = select.classList.toggle('open');
+                trigger.setAttribute('aria-expanded', open);
+            });
+            document.querySelectorAll('.option').forEach((option) =>
+                option.addEventListener('click', () => {
+                    document.getElementById('selectValue').textContent = option.dataset.value;
+                    document
+                        .querySelectorAll('.option')
+                        .forEach((item) => item.classList.toggle('selected', item === option));
+                    select.classList.remove('open');
+                    trigger.setAttribute('aria-expanded', 'false');
+                })
+            );
+            document.querySelectorAll('.switch').forEach((sw) =>
+                sw.addEventListener('click', () => {
+                    const on = sw.classList.toggle('on');
+                    sw.setAttribute('aria-checked', on);
+                })
+            );
+            const toast = document.getElementById('toast');
+            let toastTimer;
+            document.getElementById('showNotice').addEventListener('click', () => {
+                clearTimeout(toastTimer);
+                toast.classList.add('show');
+                toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+            });
+            const modal = document.getElementById('modalOverlay');
+            const drawer = document.getElementById('drawerOverlay');
+            document.getElementById('openModal').addEventListener('click', () => modal.classList.add('show'));
+            document.getElementById('openDrawer').addEventListener('click', () => drawer.classList.add('show'));
+            document
+                .querySelectorAll('[data-close="modal"]')
+                .forEach((item) => item.addEventListener('click', () => modal.classList.remove('show')));
+            document
+                .querySelectorAll('[data-close="drawer"]')
+                .forEach((item) => item.addEventListener('click', () => drawer.classList.remove('show')));
+            [modal, drawer].forEach((overlay) =>
+                overlay.addEventListener('click', (event) => {
+                    if (event.target === overlay) overlay.classList.remove('show');
+                })
+            );
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    modal.classList.remove('show');
+                    drawer.classList.remove('show');
+                    select.classList.remove('open');
+                    trigger.setAttribute('aria-expanded', 'false');
+                }
+            });
+        </script>
+    </body>
+</html>

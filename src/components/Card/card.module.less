@@ -1,0 +1,58 @@
+.card {
+    padding: var(--Fresnica-component-card-padding);
+    color: var(--Fresnica-component-card-content);
+    font-weight: var(--Fresnica-primitive-font-weight-medium);
+    background: var(--Fresnica-component-card-background);
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-component-card-border);
+    border-radius: var(--Fresnica-component-card-radius);
+    transition: all var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard);
+}
+.card-dashed {
+    background: var(--Fresnica-semantic-surface-low);
+    border: 1px dashed var(--Fresnica-semantic-border-default);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+}
+.card-hoverable {
+    cursor: pointer;
+}
+.card-hoverable:hover {
+    border-color: var(--Fresnica-semantic-action-primary);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    transform: translateY(-2px);
+}
+.card-dashed.card-hoverable:hover {
+    transform: none;
+}
+.card-app-pink,
+.card-app-red {
+    color: var(--Fresnica-semantic-risk-high);
+    background: var(--Fresnica-semantic-risk-high-container);
+}
+.card-purple {
+    color: var(--Fresnica-semantic-accent-purple);
+    background: var(--Fresnica-semantic-accent-purple-container);
+}
+.card-app-blue {
+    color: var(--Fresnica-semantic-accent-blue);
+    background: var(--Fresnica-semantic-accent-blue-container);
+}
+.card-app-yellow,
+.card-yellow-green {
+    color: var(--Fresnica-semantic-accent-yellow);
+    background: var(--Fresnica-semantic-accent-yellow-container);
+}
+.card-app-orange,
+.card-warm-peach-pink {
+    color: var(--Fresnica-semantic-accent-orange);
+    background: var(--Fresnica-semantic-accent-orange-container);
+}
+.card-app-teal,
+.card-app-green,
+.card-lime-green {
+    color: var(--Fresnica-semantic-content-on-primary-container);
+    background: var(--Fresnica-semantic-action-primary-container);
+}
+.card-brown {
+    color: var(--Fresnica-semantic-content-primary);
+    background: var(--Fresnica-semantic-surface-highest);
+}

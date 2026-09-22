@@ -1,0 +1,170 @@
+// ============================================
+// Fresnica-form
+// ============================================
+
+.Fresnica-form {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: var(--Fresnica-semantic-content-primary);
+    font-size: var(--Fresnica-primitive-font-size-base);
+    line-height: var(--Fresnica-primitive-line-height-base);
+    list-style: none;
+
+    &-horizontal {
+        display: flex;
+        flex-direction: column;
+        gap: var(--Fresnica-primitive-space-sm);
+
+        .Fresnica-form-item {
+            display: grid;
+            grid-template-columns: repeat(24, minmax(0, 1fr));
+            align-items: baseline;
+            row-gap: var(--Fresnica-primitive-space-sm);
+            // horizontal 下 label/wrapper 在 24 列栅格里相邻，不该有 column-gap
+            // 否则 23 × 16px = 368px 直接撑爆 form
+        }
+    }
+
+    &-vertical {
+        display: flex;
+        flex-direction: column;
+        gap: var(--Fresnica-primitive-space-sm);
+
+        .Fresnica-form-item {
+            display: block;
+
+            &-label {
+                display: block;
+                margin-bottom: var(--Fresnica-primitive-space-sm);
+            }
+        }
+    }
+
+    &-inline {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--Fresnica-primitive-space-sm);
+
+        .Fresnica-form-item {
+            flex: 0 0 auto;
+        }
+    }
+
+    &-small {
+        .Fresnica-form-item-label {
+            font-size: var(--Fresnica-primitive-font-size-sm);
+        }
+    }
+
+    &-middle {
+        .Fresnica-form-item-label {
+            font-size: var(--Fresnica-primitive-font-size-base);
+        }
+    }
+
+    &-large {
+        .Fresnica-form-item-label {
+            font-size: var(--Fresnica-primitive-font-size-lg);
+        }
+    }
+
+    &-disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+}
+
+// ============================================
+// Fresnica-form-item
+// ============================================
+
+.Fresnica-form-item {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+
+    &-label {
+        display: inline-block;
+        flex: 0 0 auto;
+        line-height: var(--Fresnica-primitive-line-height-base);
+        color: var(--Fresnica-semantic-content-primary);
+        font-weight: var(--Fresnica-primitive-font-weight-regular);
+        white-space: nowrap;
+
+        &-required {
+            &::before {
+                content: '*';
+                color: var(--Fresnica-semantic-feedback-error);
+                margin-right: var(--Fresnica-primitive-space-xs);
+            }
+        }
+
+        &-colon {
+            &::after {
+                content: ':';
+                margin: 0 4px 0 2px;
+            }
+        }
+    }
+
+    &-control {
+        min-width: 0;
+    }
+
+    &-control-input {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: var(--Fresnica-primitive-size-control-sm);
+
+        > * {
+            flex: 1 1 auto;
+            max-width: 100%;
+        }
+    }
+
+    &-explain {
+        min-height: 22px;
+        color: var(--Fresnica-semantic-content-muted);
+        font-size: var(--Fresnica-primitive-font-size-sm);
+        line-height: 1.5;
+        margin-top: var(--Fresnica-primitive-space-xs);
+
+        &-error {
+            color: var(--Fresnica-semantic-feedback-error);
+        }
+    }
+
+    &-feedback-icon {
+        display: inline-block;
+        margin-right: var(--Fresnica-primitive-space-xs);
+        color: var(--Fresnica-semantic-feedback-error);
+        font-size: var(--Fresnica-primitive-font-size-sm);
+    }
+
+    &-has-error {
+        .Fresnica-form-item-explain {
+            color: var(--Fresnica-semantic-feedback-error);
+        }
+    }
+
+    &-has-warning {
+        .Fresnica-form-item-explain {
+            color: var(--Fresnica-semantic-feedback-warning);
+        }
+    }
+
+    &-has-success {
+        .Fresnica-form-item-explain {
+            color: var(--Fresnica-semantic-feedback-success);
+        }
+    }
+
+    &-is-validating {
+        .Fresnica-form-item-explain {
+            color: var(--Fresnica-semantic-accent-purple);
+        }
+    }
+}

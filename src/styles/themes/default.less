@@ -1,0 +1,235 @@
+// ============================================
+// fresnica-ui Default Theme
+// Maps Less variables → CSS Custom Properties
+// ============================================
+
+:root {
+    // Color
+    --Fresnica-primary-color: @primary-color;
+    --Fresnica-primary-color-hover: @primary-color-hover;
+    --Fresnica-primary-color-active: @primary-color-active;
+    --Fresnica-primary-color-bg: @primary-color-bg;
+    --Fresnica-accent-purple-color: @accent-purple-color;
+    --Fresnica-accent-purple-color-bg: @accent-purple-color-bg;
+    --Fresnica-accent-blue-color: @accent-blue-color;
+    --Fresnica-accent-blue-color-bg: @accent-blue-color-bg;
+    --Fresnica-accent-orange-color: @accent-orange-color;
+    --Fresnica-accent-orange-color-bg: @accent-orange-color-bg;
+    --Fresnica-accent-yellow-color: @accent-yellow-color;
+    --Fresnica-accent-yellow-color-bg: @accent-yellow-color-bg;
+    --Fresnica-inverse-color: @inverse-color;
+    --Fresnica-inverse-color-hover: @inverse-color-hover;
+    --Fresnica-inverse-color-active: @inverse-color-active;
+    --Fresnica-on-inverse-color: @on-inverse-color;
+    --Fresnica-on-primary-color: #ffffff;
+    --Fresnica-on-primary-container-color: #005235;
+    --Fresnica-on-error-color: #ffffff;
+
+    --Fresnica-success-color: @success-color;
+    --Fresnica-success-color-bg: @success-color-bg;
+    --Fresnica-on-success-container-color: @on-success-container-color;
+
+    --Fresnica-failure-color: @failure-color;
+    --Fresnica-failure-color-bg: @failure-color-bg;
+    --Fresnica-on-failure-container-color: @on-failure-container-color;
+
+    --Fresnica-gain-color: @gain-color;
+    --Fresnica-gain-color-bg: @gain-color-bg;
+    --Fresnica-on-gain-container-color: @on-gain-container-color;
+    --Fresnica-loss-color: @loss-color;
+    --Fresnica-loss-color-bg: @loss-color-bg;
+    --Fresnica-on-loss-container-color: @on-loss-container-color;
+    --Fresnica-risk-high-color: @risk-high-color;
+    --Fresnica-risk-high-color-bg: @risk-high-color-bg;
+    --Fresnica-on-risk-high-container-color: @on-risk-high-container-color;
+
+    --Fresnica-warning-color: @warning-color;
+    --Fresnica-warning-color-bg: @warning-color-bg;
+    --Fresnica-on-warning-container-color: @on-warning-container-color;
+
+    --Fresnica-error-color: @error-color;
+    --Fresnica-error-color-hover: @error-color-hover;
+    --Fresnica-error-color-active: @error-color-active;
+
+    // Neutral
+    --Fresnica-text-color: @text-color;
+    --Fresnica-text-color-secondary: @text-color-secondary;
+    --Fresnica-text-color-muted: @text-color-secondary;
+    --Fresnica-text-color-disabled: @text-color-disabled;
+
+    --Fresnica-border-color: @border-color;
+    --Fresnica-border-color-hover: @border-color-hover;
+    --Fresnica-border-color-light: @border-color-light;
+    --Fresnica-border-color-subtle: rgba(41, 41, 39, 0.12);
+
+    --Fresnica-bg-color: @bg-color;
+    --Fresnica-bg-color-secondary: @bg-color-secondary;
+    --Fresnica-bg-color-disabled: @bg-color-disabled;
+    // Reserved public canvas token for app-shell/full-screen backgrounds.
+    // Components should use surface/low/high/highest according to their layer.
+    --Fresnica-surface-lowest: #ffffff;
+    --Fresnica-surface-low: #f3f3f5;
+    --Fresnica-surface: #ffffff;
+    --Fresnica-surface-high: #edeef0;
+    --Fresnica-surface-highest: #e8e8ea;
+    --Fresnica-focus-color: @primary-color;
+
+    // Overlay
+    --Fresnica-mask-bg: @mask-bg;
+    --Fresnica-mask-bg-subtle: @mask-bg-subtle;
+    --Fresnica-mask-bg-strong: @mask-bg-strong;
+
+    // Code syntax (non-financial semantic palette)
+    --Fresnica-font-family-mono: @font-family-mono;
+    --Fresnica-code-bg: @code-bg;
+    --Fresnica-code-border: @code-border;
+    --Fresnica-code-text: @code-text;
+    --Fresnica-code-comment: @code-comment;
+    --Fresnica-code-string: @code-string;
+    --Fresnica-code-keyword: @code-keyword;
+    --Fresnica-code-react: @code-react;
+    --Fresnica-code-component: @code-component;
+    --Fresnica-code-function: @code-function;
+    --Fresnica-code-property: @code-property;
+    --Fresnica-code-jsx: @code-jsx;
+    --Fresnica-code-operator: @code-operator;
+    --Fresnica-code-number: @code-number;
+    --Fresnica-code-control-bg: @code-control-bg;
+    --Fresnica-code-control-border: @code-control-border;
+    --Fresnica-code-control-hover-bg: @code-control-hover-bg;
+
+    // Typography
+    --Fresnica-font-family: @font-family;
+    --Fresnica-font-size-sm: @font-size-sm;
+    --Fresnica-font-size-base: @font-size-base;
+    --Fresnica-font-size-lg: @font-size-lg;
+    --Fresnica-font-size-caption: @font-size-caption;
+    --Fresnica-font-size-supporting: @font-size-supporting;
+    --Fresnica-font-size-action: @font-size-action;
+    --Fresnica-font-size-section-title: @font-size-section-title;
+    --Fresnica-font-size-screen-title: @font-size-screen-title;
+    --Fresnica-font-size-title-lg: @font-size-title-lg;
+    --Fresnica-font-size-amount: @font-size-amount;
+    --Fresnica-font-size-display: @font-size-display;
+    --Fresnica-font-weight-regular: @font-weight-regular;
+    --Fresnica-font-weight-medium: @font-weight-medium;
+    --Fresnica-font-weight-semibold: @font-weight-semibold;
+    --Fresnica-font-weight-bold: @font-weight-bold;
+    --Fresnica-line-height-base: @line-height-base;
+
+    // Spacing
+    --Fresnica-spacing-xs: @spacing-xs;
+    --Fresnica-spacing-sm: @spacing-sm;
+    --Fresnica-spacing-md: @spacing-md;
+    --Fresnica-spacing-lg: @spacing-lg;
+    --Fresnica-spacing-xl: @spacing-xl;
+
+    // Border
+    --Fresnica-border-radius-sm: @border-radius-sm;
+    --Fresnica-border-radius-control: @border-radius-control;
+    --Fresnica-border-radius-base: @border-radius-base;
+    --Fresnica-border-radius-lg: @border-radius-lg;
+    --Fresnica-border-radius-pill: @border-radius-pill;
+    --Fresnica-border-width: @border-width;
+
+    --Fresnica-shadow-base: @shadow-base;
+
+    // Motion
+    --Fresnica-motion-duration-fast: @motion-duration-fast;
+    --Fresnica-motion-duration-base: @motion-duration-base;
+    --Fresnica-motion-duration-slow: @motion-duration-slow;
+    --Fresnica-motion-ease: @motion-ease;
+
+    // Size
+    --Fresnica-height-sm: @height-sm;
+    --Fresnica-height-compact: @height-compact;
+    --Fresnica-height-base: @height-base;
+    --Fresnica-height-emphasis: @height-emphasis;
+    --Fresnica-height-lg: @height-lg;
+}
+
+[data-theme='dark'],
+.dark {
+    --Fresnica-primary-color: #00ca8a;
+    --Fresnica-primary-color-hover: #32dfa4;
+    --Fresnica-primary-color-active: #00a875;
+    --Fresnica-primary-color-bg: #12372b;
+    --Fresnica-accent-purple-color: #b8a9ff;
+    --Fresnica-accent-purple-color-bg: #302b4d;
+    --Fresnica-accent-blue-color: #8eaeff;
+    --Fresnica-accent-blue-color-bg: #1e2d52;
+    --Fresnica-accent-orange-color: #ffb86b;
+    --Fresnica-accent-orange-color-bg: #4a2f1a;
+    --Fresnica-accent-yellow-color: #f6c65b;
+    --Fresnica-accent-yellow-color-bg: #463817;
+    --Fresnica-inverse-color: #ffffff;
+    --Fresnica-inverse-color-hover: #e8e8ea;
+    --Fresnica-inverse-color-active: #d6d6da;
+    --Fresnica-on-inverse-color: #111214;
+    // Fresnica 产品规范：深色模式绿色操作按钮统一使用白色文字
+    --Fresnica-on-primary-color: #ffffff;
+    --Fresnica-on-primary-container-color: #a9f5d0;
+    --Fresnica-on-error-color: #ffffff;
+
+    --Fresnica-success-color: #00ca8a;
+    --Fresnica-success-color-bg: #12372b;
+    --Fresnica-on-success-container-color: #a9f5d0;
+    --Fresnica-failure-color: #c73945;
+    --Fresnica-failure-color-bg: #44262b;
+    --Fresnica-on-failure-container-color: #ffc0c6;
+    --Fresnica-gain-color: #32dfa4;
+    --Fresnica-gain-color-bg: #123d30;
+    --Fresnica-on-gain-container-color: #b2f5dc;
+    --Fresnica-loss-color: #ff7a86;
+    --Fresnica-loss-color-bg: #4a252b;
+    --Fresnica-on-loss-container-color: #ffd0d4;
+    --Fresnica-risk-high-color: #ff9b85;
+    --Fresnica-risk-high-color-bg: #4a2923;
+    --Fresnica-on-risk-high-container-color: #ffd2c7;
+    --Fresnica-warning-color: #f59e0b;
+    --Fresnica-warning-color-bg: #463817;
+    --Fresnica-on-warning-container-color: #ffe3a1;
+    --Fresnica-error-color: #c73945;
+    --Fresnica-error-color-hover: #dd5662;
+    --Fresnica-error-color-active: #a52c38;
+
+    --Fresnica-text-color: #f5f5f7;
+    --Fresnica-text-color-secondary: #a0a0a5;
+    --Fresnica-text-color-muted: #8e8e95;
+    --Fresnica-text-color-disabled: #5a5a62;
+    --Fresnica-border-color: #2e2e34;
+    --Fresnica-border-color-hover: #00ca8a;
+    --Fresnica-border-color-light: rgba(255, 255, 255, 0.08);
+    --Fresnica-border-color-subtle: rgba(255, 255, 255, 0.08);
+    --Fresnica-bg-color: #222226;
+    --Fresnica-bg-color-secondary: #1a1a1e;
+    --Fresnica-bg-color-disabled: #2a2a30;
+    // Dark app-shell/full-screen canvas counterpart; intentionally lower than component surfaces.
+    --Fresnica-surface-lowest: #0e0e10;
+    --Fresnica-surface-low: #1a1a1e;
+    --Fresnica-surface: #222226;
+    --Fresnica-surface-high: #2a2a30;
+    --Fresnica-surface-highest: #34343c;
+    --Fresnica-focus-color: #00ca8a;
+    --Fresnica-mask-bg: rgba(0, 0, 0, 0.72);
+    --Fresnica-mask-bg-subtle: rgba(0, 0, 0, 0.32);
+    --Fresnica-mask-bg-strong: rgba(0, 0, 0, 0.84);
+    --Fresnica-code-bg: #11141a;
+    --Fresnica-code-border: #2b313c;
+    --Fresnica-code-text: #c0caf5;
+    --Fresnica-code-comment: #89919d;
+    --Fresnica-code-string: #73daca;
+    --Fresnica-code-keyword: #bb9af7;
+    --Fresnica-code-react: #f7768e;
+    --Fresnica-code-component: #7dcfff;
+    --Fresnica-code-function: #7aa2f7;
+    --Fresnica-code-property: #e0af68;
+    --Fresnica-code-jsx: #ff9e64;
+    --Fresnica-code-operator: #a9b1d6;
+    --Fresnica-code-number: #9ece6a;
+    --Fresnica-code-control-bg: #1b2029;
+    --Fresnica-code-control-border: #384150;
+    --Fresnica-code-control-hover-bg: #252c37;
+    --Fresnica-font-family-mono: @font-family-mono;
+    --Fresnica-shadow-base: none;
+}

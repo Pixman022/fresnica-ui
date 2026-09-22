@@ -1,0 +1,84 @@
+.details {
+    width: 100%;
+    max-width: 520px;
+    display: grid;
+    gap: var(--Fresnica-primitive-space-xl);
+    padding: var(--Fresnica-primitive-space-xl);
+    border: 1px solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-lg);
+    background: var(--Fresnica-semantic-surface-default);
+    color: var(--Fresnica-semantic-content-primary);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--Fresnica-primitive-size-control-sm);
+}
+.headerTitle {
+    font-size: var(--Fresnica-primitive-font-size-section-title);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    letter-spacing: -0.2px;
+}
+.headerSpacer {
+    width: 56px;
+}
+.hero {
+    display: grid;
+    justify-items: center;
+    gap: var(--Fresnica-primitive-space-sm);
+    text-align: center;
+    padding: var(--Fresnica-primitive-space-sm) 0 var(--Fresnica-primitive-space-xs);
+}
+.hero h2 {
+    margin: 0;
+    font-size: var(--Fresnica-primitive-font-size-title-lg);
+    line-height: 1.15;
+    letter-spacing: -0.6px;
+}
+.assetName {
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--Fresnica-semantic-content-secondary);
+}
+.timestamp {
+    color: var(--Fresnica-semantic-content-muted);
+    font-size: var(--Fresnica-primitive-font-size-sm);
+}
+.fields {
+    display: grid;
+    gap: var(--Fresnica-primitive-space-lg);
+    margin: 0;
+}
+.field {
+    display: grid;
+    gap: var(--Fresnica-primitive-space-sm);
+    padding-bottom: var(--Fresnica-primitive-space-md);
+    border-bottom: 1px solid var(--Fresnica-semantic-border-light);
+}
+.field:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+.field dt {
+    color: var(--Fresnica-semantic-content-secondary);
+    font-size: var(--Fresnica-primitive-font-size-sm);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+}
+.field dd {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--Fresnica-primitive-space-md);
+    margin: 0;
+    font-size: var(--Fresnica-primitive-font-size-base);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+}
+.mono {
+    font-family: var(--Fresnica-primitive-font-family-mono);
+    font-size: var(--Fresnica-primitive-font-size-sm);
+    overflow-wrap: anywhere;
+}

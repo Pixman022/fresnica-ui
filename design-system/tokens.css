@@ -1,0 +1,249 @@
+/*
+ * Fresnica UI token layers.
+ * This file is additive. Existing --Fresnica-* variables remain the runtime
+ * source of truth for light, dark, and custom themes.
+ */
+
+:root {
+    /* Primitive: color aliases (legacy runtime values remain the source) */
+    --Fresnica-primitive-color-brand-primary: var(--Fresnica-primary-color);
+    --Fresnica-primitive-color-brand-primary-hover: var(--Fresnica-primary-color-hover);
+    --Fresnica-primitive-color-brand-primary-active: var(--Fresnica-primary-color-active);
+    --Fresnica-primitive-color-brand-primary-container: var(--Fresnica-primary-color-bg);
+    --Fresnica-primitive-color-accent-purple: var(--Fresnica-accent-purple-color);
+    --Fresnica-primitive-color-accent-purple-container: var(--Fresnica-accent-purple-color-bg);
+    --Fresnica-primitive-color-accent-blue: var(--Fresnica-accent-blue-color);
+    --Fresnica-primitive-color-accent-blue-container: var(--Fresnica-accent-blue-color-bg);
+    --Fresnica-primitive-color-accent-orange: var(--Fresnica-accent-orange-color);
+    --Fresnica-primitive-color-accent-orange-container: var(--Fresnica-accent-orange-color-bg);
+    --Fresnica-primitive-color-accent-yellow: var(--Fresnica-accent-yellow-color);
+    --Fresnica-primitive-color-accent-yellow-container: var(--Fresnica-accent-yellow-color-bg);
+    --Fresnica-primitive-color-text-primary: var(--Fresnica-text-color);
+    --Fresnica-primitive-color-text-secondary: var(--Fresnica-text-color-secondary);
+    --Fresnica-primitive-color-text-disabled: var(--Fresnica-text-color-disabled);
+    --Fresnica-primitive-color-border-default: var(--Fresnica-border-color);
+    --Fresnica-primitive-color-border-light: var(--Fresnica-border-color-light);
+    --Fresnica-primitive-color-border-subtle: var(--Fresnica-border-color-subtle);
+    --Fresnica-primitive-color-background: var(--Fresnica-bg-color);
+    --Fresnica-primitive-color-background-secondary: var(--Fresnica-bg-color-secondary);
+    --Fresnica-primitive-color-error: var(--Fresnica-error-color);
+    --Fresnica-primitive-color-error-hover: var(--Fresnica-error-color-hover);
+    --Fresnica-primitive-color-on-primary: var(--Fresnica-on-primary-color);
+    --Fresnica-primitive-color-on-primary-container: var(--Fresnica-on-primary-container-color);
+    --Fresnica-primitive-color-on-error: var(--Fresnica-on-error-color);
+
+    /* Primitive: typography */
+    --Fresnica-primitive-font-family-base: var(--Fresnica-font-family);
+    --Fresnica-primitive-font-family-mono: var(--Fresnica-font-family-mono);
+    --Fresnica-primitive-font-size-caption: var(--Fresnica-font-size-caption);
+    --Fresnica-primitive-font-size-sm: var(--Fresnica-font-size-sm);
+    --Fresnica-primitive-font-size-supporting: var(--Fresnica-font-size-supporting);
+    --Fresnica-primitive-font-size-base: var(--Fresnica-font-size-base);
+    --Fresnica-primitive-font-size-action: var(--Fresnica-font-size-action);
+    --Fresnica-primitive-font-size-lg: var(--Fresnica-font-size-lg);
+    --Fresnica-primitive-font-size-section-title: var(--Fresnica-font-size-section-title);
+    --Fresnica-primitive-font-size-screen-title: var(--Fresnica-font-size-screen-title);
+    --Fresnica-primitive-font-size-title-lg: var(--Fresnica-font-size-title-lg);
+    --Fresnica-primitive-font-size-amount: var(--Fresnica-font-size-amount);
+    --Fresnica-primitive-font-size-display: var(--Fresnica-font-size-display);
+    --Fresnica-primitive-font-weight-regular: var(--Fresnica-font-weight-regular);
+    --Fresnica-primitive-font-weight-medium: var(--Fresnica-font-weight-medium);
+    --Fresnica-primitive-font-weight-semibold: var(--Fresnica-font-weight-semibold);
+    --Fresnica-primitive-font-weight-bold: var(--Fresnica-font-weight-bold);
+    --Fresnica-primitive-line-height-base: var(--Fresnica-line-height-base);
+
+    /* Primitive: dimensions */
+    --Fresnica-primitive-space-xs: var(--Fresnica-spacing-xs);
+    --Fresnica-primitive-space-sm: var(--Fresnica-spacing-sm);
+    --Fresnica-primitive-space-md: var(--Fresnica-spacing-md);
+    --Fresnica-primitive-space-lg: var(--Fresnica-spacing-lg);
+    --Fresnica-primitive-space-xl: var(--Fresnica-spacing-xl);
+    --Fresnica-primitive-radius-sm: var(--Fresnica-border-radius-sm);
+    --Fresnica-primitive-radius-control: var(--Fresnica-border-radius-control);
+    --Fresnica-primitive-radius-base: var(--Fresnica-border-radius-base);
+    --Fresnica-primitive-radius-lg: var(--Fresnica-border-radius-lg);
+    --Fresnica-primitive-radius-pill: var(--Fresnica-border-radius-pill);
+    --Fresnica-primitive-border-width-default: var(--Fresnica-border-width);
+    --Fresnica-primitive-size-control-sm: var(--Fresnica-height-sm);
+    --Fresnica-primitive-size-control-compact: var(--Fresnica-height-compact);
+    --Fresnica-primitive-size-control-base: var(--Fresnica-height-base);
+    --Fresnica-primitive-size-control-emphasis: var(--Fresnica-height-emphasis);
+    --Fresnica-primitive-size-control-lg: var(--Fresnica-height-lg);
+    --Fresnica-primitive-motion-duration-fast: var(--Fresnica-motion-duration-fast);
+    --Fresnica-primitive-motion-duration-base: var(--Fresnica-motion-duration-base);
+    --Fresnica-primitive-motion-duration-slow: var(--Fresnica-motion-duration-slow);
+    --Fresnica-primitive-motion-ease-standard: var(--Fresnica-motion-ease);
+    --Fresnica-primitive-shadow-base: var(--Fresnica-shadow-base);
+
+    /* Semantic: purpose aliases */
+    --Fresnica-semantic-background-canvas: var(--Fresnica-primitive-color-background);
+    --Fresnica-semantic-background-subtle: var(--Fresnica-primitive-color-background-secondary);
+    --Fresnica-semantic-surface-default: var(--Fresnica-surface);
+    --Fresnica-semantic-surface-low: var(--Fresnica-surface-low);
+    --Fresnica-semantic-surface-raised: var(--Fresnica-surface-high);
+    --Fresnica-semantic-surface-highest: var(--Fresnica-surface-highest);
+    --Fresnica-semantic-surface-inverse: var(--Fresnica-inverse-color);
+    --Fresnica-semantic-surface-inverse-hover: var(--Fresnica-inverse-color-hover);
+    --Fresnica-semantic-surface-inverse-pressed: var(--Fresnica-inverse-color-active);
+    --Fresnica-semantic-content-primary: var(--Fresnica-primitive-color-text-primary);
+    --Fresnica-semantic-content-secondary: var(--Fresnica-primitive-color-text-secondary);
+    --Fresnica-semantic-content-muted: var(--Fresnica-text-color-muted);
+    --Fresnica-semantic-content-disabled: var(--Fresnica-primitive-color-text-disabled);
+    --Fresnica-semantic-content-on-primary: var(--Fresnica-primitive-color-on-primary);
+    --Fresnica-semantic-content-on-primary-container: var(--Fresnica-on-primary-container-color);
+    --Fresnica-semantic-content-on-inverse: var(--Fresnica-on-inverse-color);
+    --Fresnica-semantic-content-on-success-container: var(--Fresnica-on-success-container-color);
+    --Fresnica-semantic-content-on-failure-container: var(--Fresnica-on-failure-container-color);
+    --Fresnica-semantic-content-on-warning-container: var(--Fresnica-on-warning-container-color);
+    --Fresnica-semantic-content-on-gain-container: var(--Fresnica-on-gain-container-color);
+    --Fresnica-semantic-content-on-loss-container: var(--Fresnica-on-loss-container-color);
+    --Fresnica-semantic-content-on-risk-high-container: var(--Fresnica-on-risk-high-container-color);
+    --Fresnica-semantic-content-on-error: var(--Fresnica-primitive-color-on-error);
+    --Fresnica-semantic-border-default: var(--Fresnica-primitive-color-border-default);
+    --Fresnica-semantic-border-light: var(--Fresnica-primitive-color-border-light);
+    --Fresnica-semantic-border-subtle: var(--Fresnica-primitive-color-border-subtle);
+    --Fresnica-semantic-border-strong: var(--Fresnica-border-color-hover);
+    --Fresnica-semantic-action-primary: var(--Fresnica-primitive-color-brand-primary);
+    --Fresnica-semantic-action-primary-hover: var(--Fresnica-primitive-color-brand-primary-hover);
+    --Fresnica-semantic-action-primary-pressed: var(--Fresnica-primitive-color-brand-primary-active);
+    --Fresnica-semantic-action-primary-container: var(--Fresnica-primitive-color-brand-primary-container);
+    --Fresnica-semantic-feedback-error-hover: var(--Fresnica-primitive-color-error-hover);
+    --Fresnica-semantic-feedback-error-pressed: var(--Fresnica-error-color-active);
+    --Fresnica-semantic-state-disabled-background: var(--Fresnica-bg-color-disabled);
+    --Fresnica-semantic-accent-purple: var(--Fresnica-primitive-color-accent-purple);
+    --Fresnica-semantic-accent-purple-container: var(--Fresnica-primitive-color-accent-purple-container);
+    --Fresnica-semantic-accent-blue: var(--Fresnica-primitive-color-accent-blue);
+    --Fresnica-semantic-accent-blue-container: var(--Fresnica-primitive-color-accent-blue-container);
+    --Fresnica-semantic-accent-yellow: var(--Fresnica-primitive-color-accent-yellow);
+    --Fresnica-semantic-accent-yellow-container: var(--Fresnica-primitive-color-accent-yellow-container);
+    --Fresnica-semantic-accent-orange: var(--Fresnica-primitive-color-accent-orange);
+    --Fresnica-semantic-accent-orange-container: var(--Fresnica-primitive-color-accent-orange-container);
+    --Fresnica-semantic-feedback-success: var(--Fresnica-success-color);
+    --Fresnica-semantic-feedback-success-container: var(--Fresnica-success-color-bg);
+    --Fresnica-semantic-feedback-error: var(--Fresnica-error-color);
+    --Fresnica-semantic-feedback-failure: var(--Fresnica-failure-color);
+    --Fresnica-semantic-feedback-failure-container: var(--Fresnica-failure-color-bg);
+    --Fresnica-semantic-feedback-warning: var(--Fresnica-warning-color);
+    --Fresnica-semantic-feedback-warning-container: var(--Fresnica-warning-color-bg);
+    --Fresnica-semantic-status-gain: var(--Fresnica-gain-color);
+    --Fresnica-semantic-status-gain-container: var(--Fresnica-gain-color-bg);
+    --Fresnica-semantic-status-loss: var(--Fresnica-loss-color);
+    --Fresnica-semantic-status-loss-container: var(--Fresnica-loss-color-bg);
+    --Fresnica-semantic-risk-high: var(--Fresnica-risk-high-color);
+    --Fresnica-semantic-risk-high-container: var(--Fresnica-risk-high-color-bg);
+    --Fresnica-semantic-focus-ring: var(--Fresnica-focus-color);
+    --Fresnica-semantic-overlay-scrim: var(--Fresnica-mask-bg);
+
+    /* Component: core component aliases */
+    --Fresnica-component-button-primary-background: var(--Fresnica-semantic-action-primary);
+    --Fresnica-component-button-primary-background-hover: var(--Fresnica-semantic-action-primary-hover);
+    --Fresnica-component-button-primary-background-pressed: var(--Fresnica-semantic-action-primary-pressed);
+    --Fresnica-component-button-primary-content: var(--Fresnica-semantic-content-on-primary);
+    --Fresnica-component-button-height: var(--Fresnica-primitive-size-control-base);
+    --Fresnica-component-button-height-sm: var(--Fresnica-primitive-size-control-sm);
+    --Fresnica-component-button-height-lg: var(--Fresnica-primitive-size-control-lg);
+    --Fresnica-component-button-radius: var(--Fresnica-primitive-radius-base);
+    --Fresnica-component-button-padding-x: var(--Fresnica-primitive-space-lg);
+    --Fresnica-component-input-background: var(--Fresnica-semantic-surface-default);
+    --Fresnica-component-input-content: var(--Fresnica-semantic-content-primary);
+    --Fresnica-component-input-placeholder: var(--Fresnica-semantic-content-disabled);
+    --Fresnica-component-input-border: var(--Fresnica-semantic-border-default);
+    --Fresnica-component-input-focus-border: var(--Fresnica-semantic-focus-ring);
+    --Fresnica-component-input-height: var(--Fresnica-primitive-size-control-base);
+    --Fresnica-component-input-radius: var(--Fresnica-primitive-radius-base);
+    --Fresnica-component-input-padding-x: var(--Fresnica-primitive-space-lg);
+    --Fresnica-component-card-background: var(--Fresnica-semantic-surface-default);
+    --Fresnica-component-card-content: var(--Fresnica-semantic-content-primary);
+    --Fresnica-component-card-border: var(--Fresnica-semantic-border-light);
+    --Fresnica-component-card-radius: var(--Fresnica-primitive-radius-lg);
+    --Fresnica-component-card-padding: var(--Fresnica-primitive-space-lg);
+    --Fresnica-component-card-shadow: var(--Fresnica-primitive-shadow-base);
+    --Fresnica-component-dialog-background: var(--Fresnica-semantic-surface-default);
+    --Fresnica-component-dialog-content: var(--Fresnica-semantic-content-primary);
+    --Fresnica-component-dialog-border: var(--Fresnica-semantic-border-default);
+    --Fresnica-component-dialog-overlay: var(--Fresnica-semantic-overlay-scrim);
+    --Fresnica-component-dialog-radius: var(--Fresnica-primitive-radius-lg);
+    --Fresnica-component-dialog-padding: var(--Fresnica-primitive-space-xl);
+
+    /* Component: Select */
+    --Fresnica-component-select-trigger-background: var(--Fresnica-semantic-surface-default);
+    --Fresnica-component-select-trigger-background-hover: var(--Fresnica-semantic-surface-raised);
+    --Fresnica-component-select-trigger-content: var(--Fresnica-semantic-content-primary);
+    --Fresnica-component-select-trigger-placeholder: var(--Fresnica-semantic-content-muted);
+    --Fresnica-component-select-trigger-border: var(--Fresnica-semantic-border-default);
+    --Fresnica-component-select-trigger-border-active: var(--Fresnica-semantic-action-primary);
+    --Fresnica-component-select-height: var(--Fresnica-primitive-size-control-base);
+    --Fresnica-component-select-radius: var(--Fresnica-primitive-radius-base);
+    --Fresnica-component-select-padding-x: var(--Fresnica-primitive-space-lg);
+    --Fresnica-component-select-gap: var(--Fresnica-primitive-space-md);
+    --Fresnica-component-select-dropdown-background: var(--Fresnica-semantic-surface-default);
+    --Fresnica-component-select-dropdown-border: var(--Fresnica-semantic-border-default);
+    --Fresnica-component-select-dropdown-shadow: var(--Fresnica-primitive-shadow-base);
+    --Fresnica-component-select-option-height: 44px;
+    --Fresnica-component-select-option-padding-x: var(--Fresnica-primitive-space-md);
+    --Fresnica-component-select-option-radius: var(--Fresnica-primitive-radius-sm);
+    --Fresnica-component-select-option-hover-background: var(--Fresnica-semantic-action-primary-container);
+    --Fresnica-component-select-option-active-background: var(--Fresnica-semantic-action-primary);
+    --Fresnica-component-select-option-active-content: var(--Fresnica-semantic-content-on-primary);
+
+    /* Component: Drawer */
+    --Fresnica-component-drawer-overlay: var(--Fresnica-semantic-overlay-scrim);
+    --Fresnica-component-drawer-background: var(--Fresnica-semantic-surface-default);
+    --Fresnica-component-drawer-content: var(--Fresnica-semantic-content-primary);
+    --Fresnica-component-drawer-border: var(--Fresnica-semantic-border-default);
+    --Fresnica-component-drawer-shadow: var(--Fresnica-primitive-shadow-base);
+    --Fresnica-component-drawer-radius: var(--Fresnica-primitive-radius-lg);
+    --Fresnica-component-drawer-header-padding: var(--Fresnica-primitive-space-xl);
+    --Fresnica-component-drawer-body-padding: var(--Fresnica-primitive-space-xl);
+    --Fresnica-component-drawer-footer-gap: var(--Fresnica-primitive-space-md);
+    --Fresnica-component-drawer-handle-width: 40px;
+    --Fresnica-component-drawer-handle-height: 4px;
+
+    /* Component: Table */
+    --Fresnica-component-table-background: var(--Fresnica-semantic-surface-default);
+    --Fresnica-component-table-border: var(--Fresnica-semantic-border-subtle);
+    --Fresnica-component-table-radius: var(--Fresnica-primitive-radius-base);
+    --Fresnica-component-table-padding: var(--Fresnica-primitive-space-sm);
+    --Fresnica-component-table-header-background: var(--Fresnica-semantic-surface-raised);
+    --Fresnica-component-table-header-content: var(--Fresnica-semantic-content-secondary);
+    --Fresnica-component-table-row-background: var(--Fresnica-semantic-surface-default);
+    --Fresnica-component-table-row-hover-background: color-mix(
+        in srgb,
+        var(--Fresnica-semantic-action-primary) 10%,
+        transparent
+    );
+    --Fresnica-component-table-row-striped-background: var(--Fresnica-semantic-surface-low);
+    --Fresnica-component-table-cell-content: var(--Fresnica-semantic-content-secondary);
+    --Fresnica-component-table-cell-padding-x: var(--Fresnica-primitive-space-xl);
+    --Fresnica-component-table-cell-padding-y: var(--Fresnica-primitive-space-lg);
+    --Fresnica-component-table-empty-content: var(--Fresnica-semantic-content-muted);
+    --Fresnica-component-table-loading-background: var(--Fresnica-semantic-surface-default);
+    --Fresnica-component-table-loading-content: var(--Fresnica-semantic-action-primary);
+
+    /* Component: Tag */
+    --Fresnica-component-tag-content: var(--Fresnica-semantic-content-secondary);
+    --Fresnica-component-tag-background: var(--Fresnica-semantic-surface-raised);
+    --Fresnica-component-tag-border: var(--Fresnica-semantic-border-default);
+    --Fresnica-component-tag-radius: var(--Fresnica-primitive-radius-pill);
+    --Fresnica-component-tag-gap: var(--Fresnica-primitive-space-sm);
+    --Fresnica-component-tag-padding-x: var(--Fresnica-primitive-space-md);
+    --Fresnica-component-tag-padding-x-small: var(--Fresnica-primitive-space-sm);
+    --Fresnica-component-tag-padding-x-large: var(--Fresnica-primitive-space-lg);
+    --Fresnica-component-tag-height-small: 24px;
+    --Fresnica-component-tag-height-medium: 30px;
+    --Fresnica-component-tag-height-large: var(--Fresnica-primitive-size-control-compact);
+    --Fresnica-component-tag-color-primary: var(--Fresnica-semantic-action-primary);
+    --Fresnica-component-tag-color-primary-container: var(--Fresnica-semantic-action-primary-container);
+    --Fresnica-component-tag-color-on-primary: var(--Fresnica-semantic-content-on-primary);
+    --Fresnica-component-tag-color-on-primary-container: var(--Fresnica-semantic-content-on-primary-container);
+    --Fresnica-component-tag-color-error: var(--Fresnica-semantic-feedback-error);
+    --Fresnica-component-tag-color-on-error: var(--Fresnica-semantic-content-on-error);
+    --Fresnica-component-tag-color-purple: var(--Fresnica-semantic-accent-purple);
+    --Fresnica-component-tag-color-purple-container: var(--Fresnica-semantic-accent-purple-container);
+    --Fresnica-component-tag-color-blue: var(--Fresnica-semantic-accent-blue);
+    --Fresnica-component-tag-color-blue-container: var(--Fresnica-semantic-accent-blue-container);
+    --Fresnica-component-tag-color-yellow: var(--Fresnica-semantic-accent-yellow);
+    --Fresnica-component-tag-color-yellow-container: var(--Fresnica-semantic-accent-yellow-container);
+    --Fresnica-component-tag-color-orange: var(--Fresnica-semantic-accent-orange);
+    --Fresnica-component-tag-color-orange-container: var(--Fresnica-semantic-accent-orange-container);
+}

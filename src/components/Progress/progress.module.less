@@ -1,0 +1,139 @@
+// ============================================
+// Progress — Fresnica Style
+// 进度条采用简洁的主题渐变填充，不使用装饰性纹理。
+// ============================================
+
+// ---------- Root ----------
+.progress {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    line-height: 1;
+    user-select: none;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.body {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--Fresnica-primitive-space-sm);
+}
+
+.body.noGap {
+    gap: 0;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: var(--Fresnica-primitive-space-md);
+    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.info {
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    color: var(--Fresnica-semantic-content-secondary);
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+}
+
+.info.right {
+    min-width: 44px;
+    text-align: right;
+}
+
+.info.top {
+    align-self: flex-end;
+}
+
+// ---------- Track ----------
+.track {
+    position: relative;
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 80px;
+    background: var(--Fresnica-semantic-surface-raised);
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    overflow: hidden;
+    border-radius: var(--Fresnica-primitive-radius-pill);
+}
+
+.track.size-small {
+    height: 12px;
+    border-width: 1px;
+}
+
+.track.size-middle {
+    height: 20px;
+}
+
+.track.size-large {
+    height: 28px;
+}
+
+// ---------- Fill ----------
+.fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    border-radius: var(--Fresnica-primitive-radius-pill);
+    background: linear-gradient(
+        90deg,
+        var(--Fresnica-semantic-action-primary-hover),
+        var(--Fresnica-semantic-action-primary)
+    );
+    transition: width var(--Fresnica-primitive-motion-duration-slow) var(--Fresnica-primitive-motion-ease-standard);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: var(--Fresnica-primitive-space-xs);
+}
+
+.fill.noTransition {
+    transition: none;
+}
+
+// ---------- Info text (inside fill) ----------
+.infoInside {
+    position: absolute;
+    right: var(--Fresnica-primitive-space-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--Fresnica-semantic-content-on-primary);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    font-size: var(--Fresnica-primitive-font-size-caption);
+    letter-spacing: 0.02em;
+    text-shadow: none;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.track.size-large .infoInside {
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+}
+
+.track.size-small .infoInside {
+    font-size: var(--Fresnica-primitive-font-size-caption);
+    right: var(--Fresnica-primitive-space-xs);
+}
+
+// ---------- Reduced motion ----------
+@media (prefers-reduced-motion: reduce) {
+    .fill {
+        transition: none;
+        animation: none;
+    }
+}

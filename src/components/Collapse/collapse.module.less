@@ -1,0 +1,142 @@
+// ============================================
+// Collapse Styles - Fresnica Theme
+// ============================================
+
+.faqCard {
+    position: relative;
+    background: var(--Fresnica-semantic-background-canvas);
+    border-radius: var(--Fresnica-primitive-radius-base);
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    overflow: hidden;
+    transition: border-color var(--Fresnica-primitive-motion-duration-base)
+        var(--Fresnica-primitive-motion-ease-standard);
+    margin-bottom: var(--Fresnica-primitive-space-md);
+
+    &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.questionHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--Fresnica-primitive-space-md);
+    width: 100%;
+    padding: var(--Fresnica-primitive-space-lg) var(--Fresnica-primitive-space-xl);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+.questionIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--Fresnica-semantic-action-primary);
+    color: var(--Fresnica-semantic-content-on-primary);
+    border-radius: 50%;
+    font-size: var(--Fresnica-primitive-font-size-section-title);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    line-height: 1;
+    flex-shrink: 0;
+    transition:
+        background-color var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard),
+        transform var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+
+    .expanded & {
+        background: var(--Fresnica-semantic-action-primary-pressed);
+        transform: rotate(180deg);
+    }
+}
+
+.questionText {
+    flex: 1;
+    font-size: var(--Fresnica-primitive-font-size-lg);
+    font-weight: var(--Fresnica-primitive-font-weight-semibold);
+    color: var(--Fresnica-semantic-content-primary);
+    line-height: 1.4;
+}
+
+.stateDecoration {
+    color: var(--Fresnica-semantic-action-primary);
+    opacity: 0.5;
+    transition:
+        opacity var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard),
+        transform var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard);
+
+    .expanded & {
+        opacity: 1;
+        transform: rotate(45deg);
+    }
+}
+
+.answerWrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: grid-template-rows;
+
+    .expanded & {
+        grid-template-rows: 1fr;
+    }
+}
+
+.answerContent {
+    overflow: hidden;
+    padding: 0 var(--Fresnica-primitive-space-xl);
+    color: var(--Fresnica-semantic-content-secondary);
+    font-size: var(--Fresnica-primitive-font-size-base);
+    line-height: 1.7;
+    transition: padding var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard);
+
+    .expanded & {
+        padding-bottom: var(--Fresnica-primitive-space-xl);
+    }
+
+    a {
+        color: var(--Fresnica-semantic-action-primary);
+        text-decoration: none;
+        font-weight: var(--Fresnica-primitive-font-weight-medium);
+        transition: color var(--Fresnica-primitive-motion-duration-fast) var(--Fresnica-primitive-motion-ease-standard);
+
+        &:hover {
+            color: var(--Fresnica-semantic-action-primary-hover);
+            text-decoration: underline;
+        }
+    }
+
+    p {
+        margin: 0 0 var(--Fresnica-primitive-space-sm) 0;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    ul {
+        margin: var(--Fresnica-primitive-space-sm) 0;
+        padding-left: var(--Fresnica-primitive-space-xl);
+    }
+
+    li {
+        margin-bottom: var(--Fresnica-primitive-space-xs);
+    }
+}
+
+// ============================================
+// Collapse Group Container
+// ============================================
+.faqCardGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--Fresnica-primitive-space-sm);
+}

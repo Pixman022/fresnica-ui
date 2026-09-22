@@ -1,0 +1,109 @@
+.switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-width: 52px;
+    height: var(--Fresnica-primitive-size-control-sm);
+    padding: 0;
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-pill);
+    background: var(--Fresnica-semantic-surface-raised);
+    cursor: pointer;
+    outline: none;
+    transition: all var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard);
+}
+.switch:hover:not(.switch-disabled) {
+    border-color: var(--Fresnica-semantic-action-primary);
+}
+.switch:focus-visible {
+    outline: 2px solid var(--Fresnica-semantic-focus-ring);
+    outline-offset: 2px;
+}
+.switch-checked {
+    border-color: var(--Fresnica-semantic-action-primary);
+    background: var(--Fresnica-semantic-action-primary);
+}
+.switch-checked:hover:not(.switch-disabled) {
+    border-color: var(--Fresnica-semantic-action-primary-hover);
+    background: var(--Fresnica-semantic-action-primary-hover);
+}
+.switch-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+.switch-small {
+    min-width: 40px;
+    height: 24px;
+}
+.handle {
+    position: absolute;
+    top: 50%;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    transform: translateY(-50%);
+    border: 2px solid var(--Fresnica-semantic-border-default);
+    border-radius: 50%;
+    background: var(--Fresnica-semantic-surface-default);
+    transition: all var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.switch-checked .handle {
+    left: calc(100% - 27px);
+    border-color: var(--Fresnica-semantic-action-primary);
+    background: var(--Fresnica-semantic-content-on-primary);
+}
+:global([data-theme='dark']) .switch:not(.switch-checked) .handle,
+:global(.dark) .switch:not(.switch-checked) .handle {
+    border-color: var(--Fresnica-semantic-surface-inverse);
+    background: var(--Fresnica-semantic-surface-inverse);
+}
+.switch-small .handle {
+    left: 2px;
+    width: 18px;
+    height: 18px;
+}
+.switch-small.switch-checked .handle {
+    left: calc(100% - 20px);
+}
+.inner {
+    display: block;
+    padding: 0 7px 0 30px;
+    color: var(--Fresnica-semantic-content-secondary);
+    font-size: var(--Fresnica-primitive-font-size-caption);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    line-height: 1;
+    white-space: nowrap;
+}
+.switch-checked .inner {
+    padding: 0 30px 0 7px;
+    color: var(--Fresnica-semantic-content-on-primary);
+}
+.switch-small .inner {
+    padding-left: 22px;
+    font-size: var(--Fresnica-primitive-font-size-caption);
+}
+.switch-small.switch-checked .inner {
+    padding-right: 22px;
+    padding-left: 7px;
+}
+.switch-loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+.spinner {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

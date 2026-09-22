@@ -1,0 +1,94 @@
+.action {
+    display: inline-grid;
+    justify-items: center;
+    gap: var(--Fresnica-primitive-space-sm);
+    min-width: 64px;
+    padding: var(--Fresnica-primitive-space-xs);
+    border: 0;
+    background: transparent;
+    color: var(--Fresnica-semantic-content-primary);
+    font: inherit;
+    font-size: var(--Fresnica-primitive-font-size-sm);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    cursor: pointer;
+}
+
+.action:focus-visible {
+    outline: 2px solid var(--Fresnica-semantic-focus-ring);
+    outline-offset: 2px;
+    border-radius: var(--Fresnica-primitive-radius-control);
+}
+
+.action:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.icon {
+    display: grid;
+    width: var(--Fresnica-primitive-size-control-emphasis);
+    height: var(--Fresnica-primitive-size-control-emphasis);
+    place-items: center;
+    border-radius: var(--Fresnica-primitive-radius-pill);
+    transition:
+        background var(--Fresnica-primitive-motion-duration-fast) var(--Fresnica-primitive-motion-ease-standard),
+        color var(--Fresnica-primitive-motion-duration-fast) var(--Fresnica-primitive-motion-ease-standard);
+}
+
+.size-compact .icon {
+    width: var(--Fresnica-primitive-size-control-base);
+    height: var(--Fresnica-primitive-size-control-base);
+}
+
+.variant-neutral .icon {
+    background: var(--Fresnica-semantic-surface-raised);
+    color: var(--Fresnica-semantic-content-primary);
+}
+
+.variant-neutral:hover:not(:disabled) .icon {
+    background: var(--Fresnica-semantic-surface-highest);
+}
+
+.variant-primary .icon {
+    background: var(--Fresnica-semantic-action-primary);
+    color: var(--Fresnica-semantic-content-on-primary);
+}
+
+.variant-primary:hover:not(:disabled) .icon {
+    background: var(--Fresnica-semantic-action-primary-hover);
+}
+
+.variant-inverse .icon {
+    background: var(--Fresnica-semantic-surface-inverse);
+    color: var(--Fresnica-semantic-content-on-inverse);
+}
+
+.variant-inverse:hover:not(:disabled) .icon {
+    background: var(--Fresnica-semantic-surface-inverse-hover);
+}
+
+.selected .icon {
+    outline: 2px solid var(--Fresnica-semantic-action-primary);
+    outline-offset: 2px;
+}
+
+.label {
+    color: inherit;
+    line-height: 1.25;
+}
+
+.spinner {
+    animation: fresnica-quick-action-spin 0.8s linear infinite;
+}
+
+@keyframes fresnica-quick-action-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .spinner {
+        animation: none;
+    }
+}

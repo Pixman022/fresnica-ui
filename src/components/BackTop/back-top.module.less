@@ -1,0 +1,65 @@
+// ============================================
+// BackTop — Fresnica Style
+// 返回顶部按钮，使用 Lucide ArrowUp 图标
+// ============================================
+
+.backtop {
+    position: fixed;
+    bottom: 48px;
+    right: 32px;
+    z-index: 1000;
+    cursor: pointer;
+    transition:
+        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    user-select: none;
+    border: var(--Fresnica-primitive-border-width-default) solid
+        color-mix(in srgb, var(--Fresnica-semantic-content-on-primary) 32%, transparent);
+    outline: none;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--Fresnica-semantic-content-on-primary);
+    background: var(--Fresnica-semantic-action-primary);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    border-radius: var(--Fresnica-primitive-radius-base);
+    padding: 0;
+    line-height: 1;
+
+    &:hover {
+        transform: translateY(0) scale(1.08);
+    }
+
+    &:active {
+        transform: translateY(2px) scale(0.96);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--Fresnica-semantic-focus-ring);
+        outline-offset: 4px;
+        border-radius: 50%;
+    }
+}
+
+.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.icon {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .backtop {
+        bottom: var(--Fresnica-primitive-space-xl);
+        right: var(--Fresnica-primitive-space-lg);
+    }
+}

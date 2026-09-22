@@ -1,0 +1,19 @@
+.Fresnica-cursor {
+    cursor: default;
+}
+
+.Fresnica-cursor--force button,
+.Fresnica-cursor--force a,
+.Fresnica-cursor--force [role='button'] {
+    cursor: pointer;
+}
+
+.Fresnica-cursor input,
+.Fresnica-cursor textarea {
+    cursor: text;
+}
+
+.Fresnica-cursor [disabled],
+.Fresnica-cursor [aria-disabled='true'] {
+    cursor: not-allowed;
+}

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="./demo/html/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <title>Fresnica UI</title>
+        <style>
+            #file-fallback {
+                max-width: 720px;
+                margin: calc(var(--Fresnica-spacing-xl) * 2) auto;
+                padding: var(--Fresnica-spacing-xl);
+                font-family: var(--Fresnica-font-family);
+                color: var(--Fresnica-text-color);
+            }
+
+            #file-fallback h1 {
+                margin: 0 0 var(--Fresnica-spacing-sm);
+                font-size: var(--Fresnica-font-size-title-lg);
+            }
+
+            #file-fallback p {
+                margin: 0 0 var(--Fresnica-spacing-lg);
+                line-height: var(--Fresnica-line-height-base);
+            }
+
+            #file-fallback pre {
+                margin: 0 0 var(--Fresnica-spacing-lg);
+                padding: var(--Fresnica-spacing-md) var(--Fresnica-spacing-lg);
+                border: var(--Fresnica-border-width) solid var(--Fresnica-border-color);
+                border-radius: var(--Fresnica-border-radius-control);
+                background: var(--Fresnica-surface-low);
+                color: var(--Fresnica-text-color);
+                overflow: auto;
+            }
+
+            #file-fallback a {
+                color: var(--Fresnica-primary-color);
+                font-weight: var(--Fresnica-font-weight-bold);
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="root"></div>
+        <section id="file-fallback">
+            <h1>Fresnica UI Demo</h1>
+            <p>
+                正在加载组件演示。直接双击 demo-dist/index.html 时，浏览器会阻止 ES
+                Module；请在项目目录启动本地预览服务器：
+            </p>
+            <pre>
+npm run build:demo
+npm run preview:demo</pre
+            >
+            <p>
+                <a href="./index.html">打开 Fresnica 设计系统文档</a>
+                <span aria-hidden="true"> · </span>
+                <a href="./examples.html#/fresnica-home">打开 Fresnica 钱包示例</a>
+                <span aria-hidden="true"> · </span>
+            </p>
+        </section>
+        <script type="module" src="./demo/main.tsx"></script>
+    </body>
+</html>

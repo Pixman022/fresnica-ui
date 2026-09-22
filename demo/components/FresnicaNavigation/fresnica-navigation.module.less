@@ -1,0 +1,22 @@
+.navigation :global(button:nth-child(3)) {
+    min-height: 52px;
+    transform: translateY(-2px);
+}
+
+.navigation :global(button:nth-child(3):hover),
+.navigation :global(button:nth-child(3):focus-visible) {
+    transform: translateY(-2px);
+}
+
+.scanIcon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    object-fit: cover;
+    box-shadow: var(--Fresnica-shadow-base);
+}
+
+:global([data-theme='dark']) .scanIcon,
+:global(.dark) .scanIcon {
+    content: url('../../img/fresnica/icon_tabbar_actions_light.png');
+}

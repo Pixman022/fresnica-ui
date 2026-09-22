@@ -1,0 +1,276 @@
+// 视觉语言：页码使用中性透明表面，当前页和交互反馈统一采用 Fresnica 主色。
+// 每页条数切换器复用 Select 的语义表面、Token 边框与展开状态。
+.pagination {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--Fresnica-primitive-space-xs);
+    box-sizing: border-box;
+    font-family: var(--Fresnica-primitive-font-family-base);
+    font-size: var(--Fresnica-primitive-font-size-base);
+    color: var(--Fresnica-semantic-content-secondary);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.disabled {
+    opacity: 0.85;
+}
+
+.total {
+    margin-right: var(--Fresnica-primitive-space-sm);
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-semibold);
+    color: var(--Fresnica-semantic-content-muted);
+    white-space: nowrap;
+}
+
+// ---------- 页码 / 前后翻页：幽灵正圆格子 ----------
+.item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 32px;
+    height: var(--Fresnica-primitive-size-control-sm);
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--Fresnica-semantic-content-secondary);
+    font-family: inherit;
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-medium);
+    line-height: 1;
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-fast) ease;
+
+    &:focus-visible {
+        outline: 2px solid var(--Fresnica-semantic-focus-ring);
+        outline-offset: 1px;
+    }
+
+    &:disabled {
+        color: var(--Fresnica-semantic-content-disabled);
+        cursor: not-allowed;
+        background: transparent;
+    }
+}
+
+// 当前页公共态：加粗 + 默认光标（底色由配色变体提供）
+.active {
+    color: var(--Fresnica-semantic-content-on-primary);
+    background: var(--Fresnica-semantic-action-primary);
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    cursor: default;
+}
+
+// ---------- 交互状态 ----------
+.item:hover:not(:disabled):not(.active) {
+    background: color-mix(in srgb, var(--Fresnica-semantic-action-primary) 12%, transparent);
+    color: var(--Fresnica-semantic-action-primary);
+}
+.active:hover {
+    background: var(--Fresnica-semantic-action-primary-hover);
+}
+
+.ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: var(--Fresnica-primitive-size-control-sm);
+    color: var(--Fresnica-semantic-content-muted);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    letter-spacing: 1px;
+}
+
+// ---------- 每页条数切换器：参考 Select 组件 ----------
+.sizeChanger {
+    position: relative;
+    display: inline-flex;
+    margin-left: var(--Fresnica-primitive-space-sm);
+}
+
+// 触发器：中性表面 + Token 边框 + 12px 圆角（同 Select trigger）。
+.sizeTrigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--Fresnica-primitive-space-sm);
+    box-sizing: border-box;
+    height: 34px;
+    padding: 0 var(--Fresnica-primitive-space-md);
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    background: var(--Fresnica-semantic-surface-default);
+    color: var(--Fresnica-semantic-content-secondary);
+    font-family: inherit;
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-semibold);
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+        border-color: var(--Fresnica-semantic-border-strong);
+        background: var(--Fresnica-semantic-surface-raised);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--Fresnica-semantic-focus-ring);
+        outline-offset: 1px;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: var(--Fresnica-semantic-state-disabled-background);
+    }
+}
+
+// 箭头：展开时旋转 180°，颜色跟随当前文字色。
+.caret {
+    display: flex;
+    align-items: center;
+    color: var(--Fresnica-semantic-content-muted);
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
+}
+
+.sizeTriggerOpen .caret {
+    transform: rotate(180deg);
+}
+
+.sizeTriggerOpen .caret {
+    color: var(--Fresnica-semantic-action-primary);
+}
+
+// 弹层：与 Select dropdown 一致的语义表面，向上弹出。
+.sizeList {
+    position: absolute;
+    bottom: calc(100% + var(--Fresnica-primitive-space-sm));
+    left: 0;
+    z-index: 10;
+    margin: 0;
+    padding: var(--Fresnica-primitive-space-sm) 0;
+    list-style: none;
+    background: var(--Fresnica-semantic-surface-default);
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-semantic-border-default);
+    border-radius: var(--Fresnica-primitive-radius-base);
+    box-shadow: var(--Fresnica-primitive-shadow-base);
+    animation: size-list-in 0.2s ease forwards;
+}
+
+.sizeOption {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-width: 108px;
+    margin: var(--Fresnica-primitive-space-xs) var(--Fresnica-primitive-space-sm);
+    padding: var(--Fresnica-primitive-space-sm) var(--Fresnica-primitive-space-lg);
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    color: var(--Fresnica-semantic-content-secondary);
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-medium);
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--Fresnica-semantic-surface-raised);
+        font-weight: var(--Fresnica-primitive-font-weight-bold);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--Fresnica-semantic-focus-ring);
+        outline-offset: 1px;
+    }
+}
+
+// 选中项：与 Select 一致的主题绿背景与白色文字。
+.sizeOptionActive {
+    color: var(--Fresnica-semantic-content-on-primary);
+    background: var(--Fresnica-semantic-action-primary);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+
+    &:hover {
+        color: var(--Fresnica-semantic-content-on-primary);
+        background: var(--Fresnica-semantic-action-primary-hover);
+    }
+}
+
+// ---------- 快速跳转 ----------
+.jumper {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--Fresnica-primitive-space-sm);
+    margin-left: var(--Fresnica-primitive-space-sm);
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-medium);
+    color: var(--Fresnica-semantic-content-secondary);
+    white-space: nowrap;
+}
+
+// 输入框：中性表面，focus 保持清晰文本光标。
+.jumperInput {
+    box-sizing: border-box;
+    width: 52px;
+    height: var(--Fresnica-primitive-size-control-sm);
+    padding: 0;
+    border: none;
+    border-radius: var(--Fresnica-primitive-radius-pill);
+    background: var(--Fresnica-semantic-surface-low);
+    color: var(--Fresnica-semantic-content-primary);
+    font-family: inherit;
+    font-size: var(--Fresnica-primitive-font-size-supporting);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    text-align: center;
+    outline: none;
+    caret-color: var(--Fresnica-semantic-content-primary);
+
+    &::placeholder {
+        color: var(--Fresnica-semantic-content-muted);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: var(--Fresnica-semantic-state-disabled-background);
+    }
+}
+
+@keyframes size-list-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.disabled .item {
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--Fresnica-semantic-content-disabled);
+}
+
+.disabled .active {
+    border-color: var(--Fresnica-semantic-border-default);
+    background: var(--Fresnica-semantic-surface-highest);
+    color: var(--Fresnica-semantic-content-secondary);
+}
+
+.disabled .sizeTrigger,
+.disabled .jumperInput {
+    border-color: var(--Fresnica-semantic-border-default);
+    background: var(--Fresnica-semantic-state-disabled-background);
+    color: var(--Fresnica-semantic-content-disabled);
+}
+
+.disabled .active:hover {
+    background: var(--Fresnica-semantic-surface-highest);
+    color: var(--Fresnica-semantic-content-secondary);
+}

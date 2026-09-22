@@ -1,0 +1,38 @@
+.wrapper {
+    position: relative;
+    min-width: 0;
+    margin: var(--Fresnica-primitive-space-lg) 0;
+}
+
+.copy-button {
+    position: absolute;
+    top: var(--Fresnica-primitive-space-md);
+    right: var(--Fresnica-primitive-space-md);
+    min-width: 62px;
+    height: var(--Fresnica-primitive-size-control-sm);
+    padding: 0 var(--Fresnica-primitive-space-md);
+    border: var(--Fresnica-primitive-border-width-default) solid var(--Fresnica-code-control-border);
+    border-radius: var(--Fresnica-primitive-radius-sm);
+    background: var(--Fresnica-code-control-bg);
+    color: var(--Fresnica-code-text);
+    font-family: var(--Fresnica-primitive-font-family-base);
+    font-size: var(--Fresnica-primitive-font-size-sm);
+    font-weight: var(--Fresnica-primitive-font-weight-bold);
+    cursor: pointer;
+    transition: all var(--Fresnica-primitive-motion-duration-base) var(--Fresnica-primitive-motion-ease-standard);
+}
+
+.copy-button:hover {
+    border-color: var(--Fresnica-semantic-action-primary);
+    background: var(--Fresnica-code-control-hover-bg);
+    transform: translateY(-1px);
+}
+
+.copy-button:active {
+    transform: translateY(0);
+}
+
+.copy-button:focus-visible {
+    outline: 2px solid var(--Fresnica-semantic-focus-ring);
+    outline-offset: 2px;
+}

@@ -1,0 +1,160 @@
+// ============================================
+// Fresnica Design Tokens (Less Variables)
+// Light theme defaults; dark overrides live in themes/default.less
+// ============================================
+
+// ---------- Color Palette ----------
+@primary-color: #00a875;
+@primary-color-hover: #00ca8a;
+@primary-color-active: #008f65;
+@primary-color-bg: #d4f7e9;
+
+// 科技协议紫：用于协议、Swap route 等语义场景
+@accent-purple-color: #6956c8;
+@accent-purple-color-bg: #eeeaff;
+
+// 业务辅助色：仅用于网络、流动性、待处理等语义状态，不作为主操作色
+@accent-blue-color: #356ae6;
+@accent-blue-color-bg: #e9efff;
+@accent-orange-color: #c96a16;
+@accent-orange-color-bg: #fff0df;
+@accent-yellow-color: #a87500;
+@accent-yellow-color-bg: #fff5d6;
+
+// 反转高对比操作（Swap 等核心动作）：随主题切换黑/白背景
+@inverse-color: #111214;
+@inverse-color-hover: #2a2c30;
+@inverse-color-active: #000000;
+@on-inverse-color: #ffffff;
+
+@success-color: #00ca8a;
+@success-color-bg: #d4f7e9;
+@on-success-container-color: #005235;
+
+// 交易/请求失败：与表单校验 error 分开，避免金融状态与输入错误混用
+@failure-color: #c73945;
+@failure-color-bg: #fcebed;
+@on-failure-container-color: #871d29;
+
+// 金融方向语义：与成功/失败状态分离，避免颜色被误读为交易状态
+@gain-color: #0a8f68;
+@gain-color-bg: #e0f7ef;
+@on-gain-container-color: #075c43;
+
+@loss-color: #b42318;
+@loss-color-bg: #fde8e7;
+@on-loss-container-color: #8f1d15;
+
+@risk-high-color: #7a271a;
+@risk-high-color-bg: #fbe9e7;
+@on-risk-high-container-color: #5c1d14;
+
+@warning-color: #9a6700;
+@warning-color-bg: #fff3d6;
+@on-warning-container-color: #684700;
+
+@error-color: #c73945;
+@error-color-hover: #dd5662;
+@error-color-active: #a52c38;
+
+// ---------- Neutral ----------
+@text-color: #1a1c1d;
+@text-color-secondary: #3f4942;
+@text-color-disabled: #8a948e;
+
+@border-color: #e3e3e5;
+@border-color-hover: #00a875;
+@border-color-light: #edeef0;
+
+@bg-color: #f9f9fb;
+@bg-color-secondary: #f3f3f5;
+@bg-color-disabled: #edeef0;
+
+// ---------- Overlay ----------
+@mask-bg: rgba(0, 0, 0, 0.45);
+@mask-bg-subtle: rgba(0, 0, 0, 0.08);
+@mask-bg-strong: rgba(0, 0, 0, 0.75);
+
+// ---------- Code syntax ----------
+// 代码高亮不是金融业务语义，单独维护以支持浅色/深色主题。
+@font-family-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+@code-bg: #11141a;
+@code-border: #2b313c;
+@code-text: #c0caf5;
+@code-comment: #89919d;
+@code-string: #73daca;
+@code-keyword: #bb9af7;
+@code-react: #f7768e;
+@code-component: #7dcfff;
+@code-function: #7aa2f7;
+@code-property: #e0af68;
+@code-jsx: #ff9e64;
+@code-operator: #a9b1d6;
+@code-number: #9ece6a;
+@code-control-bg: #1b2029;
+@code-control-border: #384150;
+@code-control-hover-bg: #252c37;
+
+// ---------- Typography ----------
+// 字体栈策略：
+//   1. Roboto                  - 拉丁字符、数字（系统/平台字体）
+//   2. Noto Sans SC            - 中文字体（src/assets/fonts/noto-sans-sc-*.woff2）
+//   3. PingFang SC / YaHei      - 系统兜底中文字体（非圆体）
+// @font-face 声明见 src/styles/fonts.less，由构建工具 emit 到 dist/index.css
+@font-family:
+    Roboto,
+    'Noto Sans SC',
+    -apple-system,
+    'PingFang SC',
+    'Hiragino Sans GB',
+    'Microsoft YaHei',
+    sans-serif !important;
+@font-size-sm: 12px;
+@font-size-base: 14px;
+@font-size-lg: 16px;
+// 角色型字号；组件优先按内容角色选用，避免继续新增无语义数字
+@font-size-caption: 11px;
+@font-size-supporting: 13px;
+@font-size-action: 15px;
+@font-size-section-title: 18px;
+@font-size-screen-title: 20px;
+@font-size-title-lg: 28px;
+@font-size-amount: 32px;
+@font-size-display: 48px;
+@font-weight-regular: 400;
+@font-weight-medium: 500;
+@font-weight-semibold: 600;
+@font-weight-bold: 700;
+@line-height-base: 1.5715;
+
+// ---------- Spacing ----------
+@spacing-xs: 4px;
+@spacing-sm: 8px;
+@spacing-md: 12px;
+@spacing-lg: 16px;
+@spacing-xl: 24px;
+
+// ---------- Border ----------
+@border-radius-sm: 8px;
+@border-radius-control: 12px;
+@border-radius-base: 16px;
+@border-radius-lg: 24px;
+@border-radius-pill: 9999px;
+@border-width: 1px;
+
+// ---------- Shadow ----------
+// Fresnica 使用描边与表面色建立层级；base 明确表达无投影。
+@shadow-base: none;
+
+// ---------- Motion ----------
+@motion-duration-fast: 0.15s;
+@motion-duration-base: 0.25s;
+@motion-duration-slow: 0.35s;
+@motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+// ---------- Size ----------
+@height-sm: 32px;
+@height-compact: 36px;
+@height-base: 48px;
+@height-emphasis: 52px;
+@height-lg: 56px;
