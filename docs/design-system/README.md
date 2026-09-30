@@ -72,4 +72,10 @@ Runtime values: `Notification`, `notificationOpen`, `notificationDestroy`, `NOTI
 - [theme-customization.md](./theme-customization.md) — local custom brand color generation, persistence and cross-tab synchronization.
 - [cross-platform-core.md](./cross-platform-core.md) — shared principles, semantic tokens, states, accessibility and responsive baseline.
 - [platform-adaptation.md](./platform-adaptation.md) — mobile, web and desktop layout and interaction adaptations.
+- [platform-adaptation-roadmap.md](./platform-adaptation-roadmap.md) — evaluation findings, migration order and platform boundaries.
+- [platform-adapter-contract.md](./platform-adapter-contract.md) — platform output and compatibility contract.
+- [mobile-native-baseline.md](./mobile-native-baseline.md) — approved React Native, Android-first, native-shell, theme, localization and acceptance baseline.
+- [platform-token-source.json](../../design-system/platform-token-source.json) — machine-readable baseline metadata.
+- [asset-provenance.md](./asset-provenance.md) — asset source and redistribution checklist.
 - [navigation-hierarchy.md](./navigation-hierarchy.md) — wallet example primary, secondary and detail navigation responsibilities.
+- [component-localization.md](./component-localization.md) — optional locale/label injection contract for public components.

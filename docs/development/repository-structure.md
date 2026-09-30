@@ -3,12 +3,12 @@
 ## Project
 
 fresnica-ui is a React + TypeScript UI component library for Fresnica Stellar wallet products, aimed at
-personal learning and non-commercial use. Its design language is neutral surfaces, green accents, clear hierarchy,
+public and commercial use. Its design language is neutral surfaces, green accents, clear hierarchy,
 soft motion, and responsive mobile spacing — see
 [../design-system/](../design-system/) for the definition.
 
 - Repository: https://github.com/Pixman022/fresnica-ui
-- License: CC BY-NC 4.0 (commercial use prohibited) — see `LICENSE`
+- License: MIT — see `LICENSE`
 - Current version: see `package.json`
 - Component list: `src/index.ts` is the source of truth; every component under `src/components/` with a matching
   `<Name>.tsx` counts as one
@@ -25,7 +25,7 @@ soft motion, and responsive mobile spacing — see
 | Styling         | Less Modules (`*.module.less`)                  |
 | Code quality    | ESLint 9 (flat config) + Prettier               |
 | Package manager | npm (`package-lock.json`)                       |
-| Node            | `engines.node >= 18`                            |
+| Node            | `engines.node >= 20.19.0`                       |
 
 ## npm Scripts
 

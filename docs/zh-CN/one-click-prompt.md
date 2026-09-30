@@ -42,5 +42,6 @@ then list any spec line you intentionally relaxed and why.
 
 - 无法访问 URL 的工具用不了这段提示词 —— 改为安装
   [agent skill](../../skills/fresnica-ui-style/README.md)，或者直接在真实 React 项目里开发。
-- 这种方式靠手写组件复刻 95%+ 的视觉风格。想要 100% 像素级还原，请在 React 项目里
-  `npm install fresnica-ui` —— 见 [README 快速开始](../README.zh-CN.md)。
+- 这种方式靠手写组件复刻 95%+ 的视觉风格。想要 100% 像素级还原，请在 React 项目中
+  把本仓库作为本地依赖 —— 见 [README 快速开始](../README.zh-CN.md)。当前包尚未发布到
+  npm，因此不支持直接执行 `npm install fresnica-ui`。

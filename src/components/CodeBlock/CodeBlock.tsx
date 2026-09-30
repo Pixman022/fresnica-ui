@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './code-block.module.less';
+import type { ComponentLabelOverrides } from '../labels';
 
 const COLORS = {
     comment: 'var(--Fresnica-code-comment)',
@@ -119,6 +120,7 @@ export interface CodeBlockProps {
     copyable?: boolean;
     /** 复制成功后的回调 */
     onCopy?: (code: string) => void;
+    labels?: Pick<ComponentLabelOverrides, 'codeCopy' | 'codeCopied' | 'codeCopyError' | 'codeCopyLabel'>;
 }
 
 type CopyStatus = 'idle' | 'copied' | 'error';
@@ -150,7 +152,7 @@ const copyText = async (text: string) => {
     }
 };
 
-export const CodeBlock: React.FC<CodeBlockProps> = ({ code, style, className, copyable = true, onCopy }) => {
+export const CodeBlock: React.FC<CodeBlockProps> = ({ code, style, className, copyable = true, onCopy, labels }) => {
     const [copyStatus, setCopyStatus] = useState<CopyStatus>('idle');
     const resetTimer = useRef<number>();
 
@@ -168,7 +170,21 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ code, style, className, co
         resetTimer.current = window.setTimeout(() => setCopyStatus('idle'), 2_000);
     };
 
-    const buttonContent = COPY_STATUS_CONTENT[copyStatus];
+    const defaults = COPY_STATUS_CONTENT[copyStatus];
+    const buttonContent = {
+        text:
+            copyStatus === 'copied'
+                ? (labels?.codeCopied ?? defaults.text)
+                : copyStatus === 'error'
+                  ? (labels?.codeCopyError ?? defaults.text)
+                  : (labels?.codeCopy ?? defaults.text),
+        label:
+            copyStatus === 'copied'
+                ? (labels?.codeCopied ?? defaults.label)
+                : copyStatus === 'error'
+                  ? (labels?.codeCopyError ?? defaults.label)
+                  : (labels?.codeCopyLabel ?? defaults.label),
+    };
     const copyButtonSpacing = copyable && style?.padding === undefined && style?.paddingRight === undefined;
     const { width, minWidth, maxWidth, margin, marginTop, marginRight, marginBottom, marginLeft, ...preStyle } =
         style ?? {};

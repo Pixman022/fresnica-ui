@@ -2,7 +2,7 @@
 
 > 本文件是 [SKILL.md](SKILL.md) 的中文对照；Agent 读取英文版。
 
-Fresnica UI 是面向 Stellar 钱包产品的 React + TypeScript 组件库，使用语义 `--Fresnica-*` Token、Lucide 界面图标与 CC BY-NC 4.0 协议。
+Fresnica UI 是面向 Stellar 钱包产品的 React + TypeScript 组件库，使用语义 `--Fresnica-*` Token、Lucide 界面图标与 MIT 许可证。
 
 ## 选择场景
 

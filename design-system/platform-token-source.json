@@ -1,0 +1,178 @@
+{
+    "$schema": "https://design-tokens.github.io/community-group/format/",
+    "name": "Fresnica UI platform token source",
+    "version": "1.0.0",
+    "status": "baseline-approved",
+    "description": "Platform-neutral handoff metadata for the approved Web token baseline and Android-first React Native adapter. Existing Web visual values are unchanged.",
+    "source": {
+        "tokens": "./tokens.json",
+        "css": "./tokens.css",
+        "webThemes": "../src/styles/themes/default.less"
+    },
+    "baseline": {
+        "platform": "web",
+        "nativeScope": "android-first-react-native",
+        "nativeToolchain": {
+            "reactNative": "0.87.0",
+            "react": "19.2.3",
+            "typescript": "6.0.3",
+            "node": ">=22.13.0",
+            "android": { "minSdk": 26, "targetSdk": 36, "compileSdk": 37, "kotlin": "2.2.0", "ndk": "27.1.12297006" },
+            "hermes": true,
+            "newArchitecture": true
+        },
+        "themeModes": ["light", "dark", "custom"],
+        "responsivePresets": [320, 360, 393, 430, 768],
+        "desktop": "fluid",
+        "tokenValuesFrozen": true,
+        "visualChangeRequired": false
+    },
+    "native": {
+        "status": "adapter-values-reviewed",
+        "themePreferenceScope": "host-local",
+        "description": "Native theme values are generated from this reviewed adapter source. Theme preferences remain independent per platform and are not synchronized with Web.",
+        "semanticPolicy": {
+            "genericSecondaryAction": "not-defined",
+            "contentSecondary": "supporting-content-only",
+            "accentBlue": "network-information-only",
+            "note": "Do not alias accent-blue to a generic secondary action. Secondary actions use component roles such as neutral surface, border and content-secondary until a product-wide action role is explicitly approved."
+        },
+        "semanticRoleMap": {
+            "background": "background-canvas",
+            "surface": "surface-default",
+            "surfaceRaised": "surface-raised",
+            "primary": "action-primary",
+            "primaryPressed": "action-primary-pressed",
+            "onPrimary": "content-on-primary",
+            "accentPurple": "accent-purple",
+            "accentPurpleContainer": "accent-purple-container",
+            "accentBlue": "accent-blue",
+            "accentBlueContainer": "accent-blue-container",
+            "accentOrange": "accent-orange",
+            "accentOrangeContainer": "accent-orange-container",
+            "accentYellow": "accent-yellow",
+            "accentYellowContainer": "accent-yellow-container",
+            "contentPrimary": "content-primary",
+            "contentSecondary": "content-secondary",
+            "contentMuted": "content-muted",
+            "border": "border-default",
+            "separator": "border-light",
+            "positive": "feedback-success",
+            "negative": "feedback-error",
+            "warning": "feedback-warning",
+            "overlay": "overlay-scrim",
+            "statusBar": "background-canvas",
+            "navigationBar": "background-canvas"
+        },
+        "themeColors": {
+            "light": {
+                "background": "#f9f9fb",
+                "surface": "#ffffff",
+                "surfaceRaised": "#ffffff",
+                "primary": "#00a875",
+                "primaryPressed": "#008f65",
+                "onPrimary": "#ffffff",
+                "accentPurple": "#6956c8",
+                "accentPurpleContainer": "#eeeaff",
+                "accentBlue": "#356ae6",
+                "accentBlueContainer": "#e9efff",
+                "accentOrange": "#c96a16",
+                "accentOrangeContainer": "#fff0df",
+                "accentYellow": "#a87500",
+                "accentYellowContainer": "#fff5d6",
+                "contentPrimary": "#1a1c1d",
+                "contentSecondary": "#3f4942",
+                "contentMuted": "#8a948e",
+                "border": "#e3e3e5",
+                "separator": "#edeef0",
+                "positive": "#00a875",
+                "negative": "#c73945",
+                "warning": "#a87500",
+                "overlay": "rgba(15, 18, 16, 0.45)",
+                "statusBar": "#f9f9fb",
+                "navigationBar": "#f9f9fb"
+            },
+            "dark": {
+                "background": "#101312",
+                "surface": "#171b19",
+                "surfaceRaised": "#202623",
+                "primary": "#00ca8a",
+                "primaryPressed": "#00a875",
+                "onPrimary": "#ffffff",
+                "accentPurple": "#b8a9ff",
+                "accentPurpleContainer": "#302b4d",
+                "accentBlue": "#8eaeff",
+                "accentBlueContainer": "#1e2d52",
+                "accentOrange": "#ffb86b",
+                "accentOrangeContainer": "#4a2f1a",
+                "accentYellow": "#f6c65b",
+                "accentYellowContainer": "#463817",
+                "contentPrimary": "#f4f7f5",
+                "contentSecondary": "#c5cec8",
+                "contentMuted": "#8e9a93",
+                "border": "#303934",
+                "separator": "#252c28",
+                "positive": "#00ca8a",
+                "negative": "#c73945",
+                "warning": "#f59e0b",
+                "overlay": "rgba(0, 0, 0, 0.62)",
+                "statusBar": "#101312",
+                "navigationBar": "#101312"
+            }
+        },
+        "platformOverrides": [
+            {
+                "roles": [
+                    "background",
+                    "surface",
+                    "surfaceRaised",
+                    "contentPrimary",
+                    "contentSecondary",
+                    "contentMuted",
+                    "border",
+                    "separator",
+                    "overlay"
+                ],
+                "reason": "Retain the existing Android-first adapter values until a native host provides a competing accessibility baseline; no Web visual values are changed."
+            },
+            {
+                "roles": ["warning"],
+                "reason": "Retain the existing Native warning value for the Android-first adapter; verify contrast in the host acceptance pass."
+            }
+        ]
+    },
+    "outputs": {
+        "web": {
+            "status": "active",
+            "format": "CSS custom properties",
+            "source": "./tokens.css"
+        },
+        "mobile": {
+            "status": "android-first-standalone-adapter",
+            "format": "typed numeric and color values",
+            "source": "./tokens.json",
+            "runtime": "React Native AppTheme; no DOM, CSS or browser storage dependency",
+            "priority": "android",
+            "themeModes": ["light", "dark", "system"],
+            "dynamicAccent": false,
+            "imageColorExtraction": "deferred"
+        },
+        "desktop": {
+            "status": "adapter-contract",
+            "format": "typed values or host-platform variables",
+            "source": "./tokens.json",
+            "runtime": "desktop host; no mobile navigation assumptions"
+        }
+    },
+    "conflicts": {
+        "status": "resolved-for-baseline",
+        "policy": "Keep the approved Web 1.0.0 values unchanged; use the reviewed Native adapter values for the Android-first package and revisit only after a product host supplies new evidence.",
+        "dimensions": ["spacing", "radius", "typography", "elevation"]
+    },
+    "compatibility": {
+        "deleteExistingTokens": false,
+        "renameExistingTokens": false,
+        "newAliasesMustBeAdditive": true,
+        "webConsumerMigration": "incremental"
+    }
+}

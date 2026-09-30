@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './network-badge.module.less';
+import type { ComponentLabelOverrides } from '../labels';
 
 export type NetworkStatus = 'online' | 'degraded' | 'offline';
 export type NetworkBadgeSize = 'compact' | 'default';
@@ -10,6 +11,7 @@ export interface NetworkBadgeProps extends React.HTMLAttributes<HTMLSpanElement>
     size?: NetworkBadgeSize;
     statusText?: React.ReactNode;
     showStatusText?: boolean;
+    labels?: Pick<ComponentLabelOverrides, 'online' | 'degraded' | 'offline'>;
 }
 
 const STATUS_TEXT: Record<NetworkStatus, string> = {
@@ -24,6 +26,7 @@ export const NetworkBadge: React.FC<NetworkBadgeProps> = ({
     size = 'default',
     statusText,
     showStatusText = false,
+    labels,
     className,
     ...rest
 }) => (
@@ -35,7 +38,9 @@ export const NetworkBadge: React.FC<NetworkBadgeProps> = ({
     >
         <i className={styles.indicator} aria-hidden="true" />
         <span>{network}</span>
-        {showStatusText && <span className={styles.statusText}>{statusText ?? STATUS_TEXT[status]}</span>}
+        {showStatusText && (
+            <span className={styles.statusText}>{statusText ?? labels?.[status] ?? STATUS_TEXT[status]}</span>
+        )}
     </span>
 );
 NetworkBadge.displayName = 'NetworkBadge';

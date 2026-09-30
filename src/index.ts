@@ -27,6 +27,7 @@ export type {
 // ============================================
 export { Button } from './components/Button';
 export type { ButtonProps, ButtonType, ButtonSize } from './components/Button';
+export type { ComponentLabels, ComponentLabelOverrides } from './components/labels';
 
 export { Input } from './components/Input';
 export type { InputProps, InputSize } from './components/Input';

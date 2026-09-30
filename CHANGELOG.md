@@ -14,6 +14,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added `FresnicaThemeProvider`, local HEX theme-color customization, automatic light/dark token generation, WCAG AA foreground adjustment, local persistence, and cross-tab synchronization. Financial semantic colors remain independent.
+- Added a cross-platform adaptation roadmap that separates the current Web design system from future mobile and desktop adapters.
+- Added `THIRD_PARTY_NOTICES.md` to separate project-owned MIT content from dependency, font and artwork licensing.
+- Confirmed the current Fresnica logos, app icon, tab-bar icons and banner images are original project assets cleared for public distribution.
+- Added additive `labels` contracts for public fields, status, transaction, overlay and date/time components; existing defaults and explicit label props remain compatible.
+
+### Changed
+
+- Changed the repository license from CC BY-NC 4.0 to MIT so the public project can be used, modified and distributed commercially.
+- Aligned the documented Node engine requirement with the current Vite/jsdom toolchain (`>=20.19.0`).
+- Clarified that the package is not yet published to npm and refreshed the component/test badges from the latest coverage report.
 
 ### Removed
 

@@ -4,6 +4,7 @@ import { AssetIcon } from '../AssetIcon';
 import { Button } from '../Button';
 import { TransactionStatus, TransactionStatusValue } from '../TransactionStatus';
 import styles from './transaction-details.module.less';
+import type { ComponentLabelOverrides } from '../labels';
 
 export interface TransactionDetailField {
     label: React.ReactNode;
@@ -22,6 +23,17 @@ export interface TransactionDetailsProps extends Omit<React.HTMLAttributes<HTMLE
     onExplorerClick?: () => void;
     onCopy?: (value: string) => void;
     onBack?: () => void;
+    labels?: Pick<
+        ComponentLabelOverrides,
+        | 'back'
+        | 'copy'
+        | 'transactionDetails'
+        | 'transactionSummary'
+        | 'pending'
+        | 'completed'
+        | 'failed'
+        | 'viewOnExplorer'
+    >;
 }
 
 export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
@@ -31,26 +43,30 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
     status,
     timestamp,
     fields,
-    explorerLabel = 'View on explorer',
+    explorerLabel,
     onExplorerClick,
     onCopy,
     onBack,
+    labels,
     className,
     ...rest
 }) => (
     <article className={[styles.details, className].filter(Boolean).join(' ')} {...rest}>
         <header className={styles.header}>
-            <Button type="text" size="small" aria-label="Go back" onClick={onBack}>
+            <Button type="text" size="small" aria-label={labels?.back ?? 'Go back'} onClick={onBack}>
                 <ArrowLeft size={16} aria-hidden="true" />
             </Button>
-            <span className={styles.headerTitle}>Transaction details</span>
+            <span className={styles.headerTitle}>{labels?.transactionDetails ?? 'Transaction details'}</span>
             <span className={styles.headerSpacer} aria-hidden="true" />
         </header>
-        <section className={styles.hero} aria-label="Transaction summary">
+        <section className={styles.hero} aria-label={labels?.transactionSummary ?? 'Transaction summary'}>
             <AssetIcon symbol={assetSymbol} size="large" />
             {assetName && <span className={styles.assetName}>{assetName}</span>}
             <h2>{title}</h2>
-            <TransactionStatus status={status} />
+            <TransactionStatus
+                status={status}
+                labels={{ pending: labels?.pending, completed: labels?.completed, failed: labels?.failed }}
+            />
             {timestamp && <time className={styles.timestamp}>{timestamp}</time>}
         </section>
         <dl className={styles.fields}>
@@ -63,10 +79,10 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                             <Button
                                 type="text"
                                 size="small"
-                                aria-label={`Copy ${String(field.label)}`}
+                                aria-label={`${labels?.copy ?? 'Copy'} ${String(field.label)}`}
                                 onClick={() => onCopy?.(field.copyValue as string)}
                             >
-                                Copy
+                                {labels?.copy ?? 'Copy'}
                             </Button>
                         )}
                     </dd>
@@ -75,7 +91,8 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
         </dl>
         {onExplorerClick && (
             <Button type="dashed" block onClick={onExplorerClick}>
-                {explorerLabel} <ExternalLink size={16} aria-hidden="true" />
+                {explorerLabel ?? labels?.viewOnExplorer ?? 'View on explorer'}{' '}
+                <ExternalLink size={16} aria-hidden="true" />
             </Button>
         )}
     </article>

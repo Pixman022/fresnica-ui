@@ -1,5 +1,6 @@
 import React, { useId } from 'react';
 import styles from './amount-field.module.less';
+import type { ComponentLabelOverrides } from '../labels';
 
 export type AmountFieldStatus = 'default' | 'error' | 'warning';
 
@@ -11,6 +12,8 @@ export interface AmountFieldProps extends Omit<React.InputHTMLAttributes<HTMLInp
     onCurrencyClick?: () => void;
     maxLabel?: React.ReactNode;
     balanceLabel?: React.ReactNode;
+    /** Optional locale overrides; explicit maxLabel/balanceLabel win. */
+    labels?: Pick<ComponentLabelOverrides, 'max' | 'balance' | 'selectAsset'>;
     status?: AmountFieldStatus;
     helpText?: React.ReactNode;
     containerClassName?: string;
@@ -22,8 +25,9 @@ export const AmountField: React.FC<AmountFieldProps> = ({
     fiatValue,
     onMax,
     onCurrencyClick,
-    maxLabel = 'Max',
-    balanceLabel = 'Balance',
+    maxLabel,
+    balanceLabel,
+    labels,
     status = 'default',
     helpText,
     containerClassName,
@@ -40,7 +44,7 @@ export const AmountField: React.FC<AmountFieldProps> = ({
             className={styles.currencyButton}
             onClick={onCurrencyClick}
             disabled={rest.disabled}
-            aria-label="Select asset"
+            aria-label={labels?.selectAsset ?? 'Select asset'}
         >
             {currency}
         </button>
@@ -63,7 +67,7 @@ export const AmountField: React.FC<AmountFieldProps> = ({
                     {currencyNode}
                     {onMax && (
                         <button type="button" className={styles.maxButton} onClick={onMax} disabled={rest.disabled}>
-                            {maxLabel}
+                            {maxLabel ?? labels?.max ?? 'Max'}
                         </button>
                     )}
                 </div>
@@ -71,7 +75,10 @@ export const AmountField: React.FC<AmountFieldProps> = ({
             {(balance !== undefined || fiatValue !== undefined || helpText !== undefined) && (
                 <div className={styles.meta} id={helpText ? helpId : undefined}>
                     <span className={styles.supporting}>
-                        {helpText ?? (balance !== undefined ? `${String(balanceLabel)} ${String(balance)}` : null)}
+                        {helpText ??
+                            (balance !== undefined
+                                ? `${String(balanceLabel ?? labels?.balance ?? 'Balance')} ${String(balance)}`
+                                : null)}
                     </span>
                     {fiatValue !== undefined && <span className={styles.fiat}>{fiatValue}</span>}
                 </div>

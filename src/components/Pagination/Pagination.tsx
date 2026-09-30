@@ -5,6 +5,7 @@ import {
     ChevronDown as LucideChevronDown,
 } from 'lucide-react';
 import styles from './pagination.module.less';
+import type { ComponentLabelOverrides } from '../labels';
 
 export interface PaginationProps {
     /** 数据总数 */
@@ -33,6 +34,19 @@ export interface PaginationProps {
     disabled?: boolean;
     className?: string;
     style?: React.CSSProperties;
+    labels?: Pick<
+        ComponentLabelOverrides,
+        | 'pagination'
+        | 'previousPage'
+        | 'nextPage'
+        | 'pageSizeLabel'
+        | 'pageSizeOption'
+        | 'pageSizeMenu'
+        | 'pageCount'
+        | 'jumpToPage'
+        | 'jumpToPagePrefix'
+        | 'jumpToPageSuffix'
+    >;
 }
 
 type PageItem = number | 'ellipsis-left' | 'ellipsis-right';
@@ -62,7 +76,8 @@ const SizeChanger: React.FC<{
     options: number[];
     disabled?: boolean;
     onChange: (size: number) => void;
-}> = ({ value, options, disabled, onChange }) => {
+    labels?: Pick<ComponentLabelOverrides, 'pageSizeLabel' | 'pageSizeOption' | 'pageSizeMenu'>;
+}> = ({ value, options, disabled, onChange, labels }) => {
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
 
@@ -92,16 +107,16 @@ const SizeChanger: React.FC<{
                 disabled={disabled}
                 aria-haspopup="listbox"
                 aria-expanded={open}
-                aria-label={`每页 ${value} 条`}
+                aria-label={labels?.pageSizeLabel?.(value) ?? `每页 ${value} 条`}
                 onClick={() => setOpen((v) => !v)}
             >
-                <span>{value} 条/页</span>
+                <span>{labels?.pageSizeOption?.(value) ?? `${value} 条/页`}</span>
                 <span className={styles.caret}>
                     <CaretDown />
                 </span>
             </button>
             {open && (
-                <ul className={styles.sizeList} role="listbox" aria-label="选择每页条数">
+                <ul className={styles.sizeList} role="listbox" aria-label={labels?.pageSizeMenu ?? '选择每页条数'}>
                     {options.map((opt) => (
                         <li
                             key={opt}
@@ -123,7 +138,7 @@ const SizeChanger: React.FC<{
                                 }
                             }}
                         >
-                            {opt} 条/页
+                            {labels?.pageSizeOption?.(opt) ?? `${opt} 条/页`}
                         </li>
                     ))}
                 </ul>
@@ -133,7 +148,11 @@ const SizeChanger: React.FC<{
 };
 
 /** 快速跳转输入框：Enter 或失焦跳页 */
-const QuickJumper: React.FC<{ disabled?: boolean; onJump: (page: number) => void }> = ({ disabled, onJump }) => {
+const QuickJumper: React.FC<{
+    disabled?: boolean;
+    onJump: (page: number) => void;
+    labels?: Pick<ComponentLabelOverrides, 'jumpToPage' | 'jumpToPagePrefix' | 'jumpToPageSuffix'>;
+}> = ({ disabled, onJump, labels }) => {
     const [text, setText] = useState('');
 
     const jump = () => {
@@ -144,20 +163,20 @@ const QuickJumper: React.FC<{ disabled?: boolean; onJump: (page: number) => void
 
     return (
         <span className={styles.jumper}>
-            跳至
+            {labels?.jumpToPagePrefix ?? '跳至'}
             <input
                 className={styles.jumperInput}
                 value={text}
                 disabled={disabled}
                 inputMode="numeric"
-                aria-label="跳转到指定页"
+                aria-label={labels?.jumpToPage ?? '跳转到指定页'}
                 onChange={(e) => setText(e.target.value.replace(/[^\d]/g, ''))}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') jump();
                 }}
                 onBlur={jump}
             />
-            页
+            {labels?.jumpToPageSuffix ?? '页'}
         </span>
     );
 };
@@ -177,6 +196,7 @@ export const Pagination: React.FC<PaginationProps> = ({
     disabled = false,
     className,
     style,
+    labels,
 }) => {
     const [innerPage, setInnerPage] = useState(defaultCurrent);
     const [innerPageSize, setInnerPageSize] = useState(defaultPageSize);
@@ -205,13 +225,13 @@ export const Pagination: React.FC<PaginationProps> = ({
     const rootCls = [styles.pagination, disabled && styles.disabled, className].filter(Boolean).join(' ');
 
     return (
-        <nav className={rootCls} style={style} aria-label="分页">
-            {showTotal && <span className={styles.total}>共 {total} 条</span>}
+        <nav className={rootCls} style={style} aria-label={labels?.pagination ?? '分页'}>
+            {showTotal && <span className={styles.total}>{labels?.pageCount?.(total) ?? `共 ${total} 条`}</span>}
             <button
                 type="button"
                 className={styles.item}
                 disabled={disabled || page <= 1}
-                aria-label="上一页"
+                aria-label={labels?.previousPage ?? '上一页'}
                 onClick={() => changePage(page - 1)}
             >
                 <ChevronLeft />
@@ -238,7 +258,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                 type="button"
                 className={styles.item}
                 disabled={disabled || page >= pageCount}
-                aria-label="下一页"
+                aria-label={labels?.nextPage ?? '下一页'}
                 onClick={() => changePage(page + 1)}
             >
                 <ChevronRight />
@@ -249,9 +269,10 @@ export const Pagination: React.FC<PaginationProps> = ({
                     options={pageSizeOptions ?? [10, 20, 50, 100]}
                     disabled={disabled}
                     onChange={changePageSize}
+                    labels={labels}
                 />
             )}
-            {showQuickJumper && <QuickJumper disabled={disabled} onJump={changePage} />}
+            {showQuickJumper && <QuickJumper disabled={disabled} onJump={changePage} labels={labels} />}
         </nav>
     );
 };

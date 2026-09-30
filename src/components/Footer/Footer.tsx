@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './footer.module.less';
+import type { ComponentLabelOverrides } from '../labels';
 
 export type FooterType = 'default' | 'compact';
 
@@ -8,11 +9,12 @@ export interface FooterProps {
     className?: string;
     style?: React.CSSProperties;
     children?: React.ReactNode;
+    labels?: Pick<ComponentLabelOverrides, 'footer'>;
 }
 
-export const Footer: React.FC<FooterProps> = ({ type = 'default', className, style, children }) => (
+export const Footer: React.FC<FooterProps> = ({ type = 'default', className, style, children, labels }) => (
     <footer className={[styles.footer, styles[type], className].filter(Boolean).join(' ')} style={style}>
-        {children ?? 'Fresnica · Stellar wallet interface'}
+        {children ?? labels?.footer ?? 'Fresnica · Stellar wallet interface'}
     </footer>
 );
 

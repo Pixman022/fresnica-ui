@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './balance-card.module.less';
+import type { ComponentLabelOverrides } from '../labels';
 
 export interface BalanceCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
     /** Card eyebrow, for example "Total balance". */
@@ -16,30 +17,43 @@ export interface BalanceCardProps extends Omit<React.HTMLAttributes<HTMLDivEleme
     hidden?: boolean;
     /** Wallet action controls. */
     actions?: React.ReactNode;
+    /** Optional localized labels for the card landmark and hidden-value state. */
+    labels?: Pick<ComponentLabelOverrides, 'totalBalance' | 'walletBalance' | 'balanceHidden'>;
 }
 
 const formatBalance = (value: React.ReactNode) =>
     typeof value === 'number' ? new Intl.NumberFormat(undefined, { maximumFractionDigits: 6 }).format(value) : value;
 
 export const BalanceCard: React.FC<BalanceCardProps> = ({
-    label = 'Total balance',
+    label,
     balance,
     currency,
     secondaryValue,
     change,
     hidden = false,
     actions,
+    labels,
     className,
     ...rest
 }) => {
+    const resolvedLabel = label ?? labels?.totalBalance ?? 'Total balance';
+    const landmarkLabel =
+        typeof resolvedLabel === 'string'
+            ? resolvedLabel
+            : typeof labels?.walletBalance === 'string'
+              ? labels.walletBalance
+              : 'Wallet balance';
     const changeTone = change === undefined ? '' : change >= 0 ? styles.positive : styles.negative;
     const cls = [styles.card, className].filter(Boolean).join(' ');
 
     return (
-        <section className={cls} aria-label={typeof label === 'string' ? label : 'Wallet balance'} {...rest}>
+        <section className={cls} aria-label={landmarkLabel} {...rest}>
             <div className={styles.content}>
-                <span className={styles.label}>{label}</span>
-                <div className={styles.balance} aria-label={hidden ? 'Balance hidden' : undefined}>
+                <span className={styles.label}>{resolvedLabel}</span>
+                <div
+                    className={styles.balance}
+                    aria-label={hidden ? (labels?.balanceHidden ?? 'Balance hidden') : undefined}
+                >
                     <span className={styles.value}>{hidden ? '••••••' : formatBalance(balance)}</span>
                     {currency && !hidden && <span className={styles.currency}>{currency}</span>}
                 </div>

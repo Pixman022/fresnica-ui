@@ -72,4 +72,10 @@ fresnica-ui 是面向 Fresnica 产品的跨平台 React + TypeScript UI 组件�
 - [theme-customization.md](./theme-customization.md) — 本地主题色生成、持久化与多标签页同步规则。
 - [cross-platform-core.md](./cross-platform-core.md) — 共享设计原则、语义 Token、状态、可访问性和响应式基线。
 - [platform-adaptation.md](./platform-adaptation.md) — 移动端、Web 和桌面客户端的布局与交互适配。
+- [platform-adaptation-roadmap.md](./platform-adaptation-roadmap.md) — 评估问题、迁移顺序与平台边界。
+- [platform-adapter-contract.md](./platform-adapter-contract.md) — 平台产物与兼容契约。
+- [mobile-native-baseline.md](./mobile-native-baseline.md) — 已确认的 React Native、Android 优先、原生外壳、主题、多语言与验收基线。
+- [platform-token-source.json](../../design-system/platform-token-source.json) — 机器可读的基线元数据。
+- [asset-provenance.md](./asset-provenance.md) — 素材来源与再分发核对清单。
 - [navigation-hierarchy.md](./navigation-hierarchy.md) — 钱包示例的一级、二级和详情导航职责。
+- [component-localization.md](./component-localization.md) — 公共组件可选的 locale/label 文案注入契约。

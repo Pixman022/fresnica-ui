@@ -45,6 +45,8 @@ export interface NotificationConfig {
     variant?: NotificationVariant;
     /** 是否显示关闭按钮；compact 默认 false */
     closable?: boolean;
+    /** 可本地化的关闭按钮无障碍名称。 */
+    closeLabel?: string;
 }
 
 export interface NotificationItem extends NotificationConfig {

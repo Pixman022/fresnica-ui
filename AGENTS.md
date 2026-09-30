@@ -2,7 +2,7 @@
 
 fresnica-ui is a React 18 + TypeScript 5.7 component library for Fresnica Stellar
 wallet products (Less Modules, Vite 7 library build, Vitest 4). It uses Lucide for
-interface icons and is licensed CC BY-NC 4.0 (non-commercial).
+interface icons and is licensed under the MIT License.
 
 This file is the entry point for coding agents. It routes; the referenced docs hold the
 detail. Keep it lean — add new rules to the docs below, not here.

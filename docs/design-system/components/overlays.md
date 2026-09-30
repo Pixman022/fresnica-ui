@@ -12,7 +12,11 @@ Modal, Drawer and Tooltip use conventional fintech surfaces, semantic tokens and
 - Motion: token-driven fade and 0.96-to-1 scale. Focus is trapped while open and restored after close.
 - At 480px and below, the dialog becomes a bottom sheet with 20px padding and the 24px large-radius token on its top corners.
 
+`Modal` accepts optional `labels={{ confirm, cancel, close }}` overrides. Existing `okText`, `cancelText` and `closeLabel` props remain higher priority, and defaults are unchanged.
+
 ## Drawer
+
+`Drawer` accepts optional `labels={{ close }}` for the close button accessible name. An explicit `closeLabel` remains higher priority and the default is unchanged.
 
 - Mask: fixed viewport layer using `--Fresnica-mask-bg`; opacity transitions with the slow motion token.
 - Panel: `--Fresnica-surface`, 1px semantic border, no shadow, and 24px radius on the exposed edge. It must never force a white panel in dark mode.

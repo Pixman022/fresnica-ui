@@ -10,8 +10,10 @@ export default tseslint.config(
         ignores: [
             'dist/**',
             'demo-dist/**',
+            'website-dist/**',
             'coverage/**',
             'node_modules/**',
+            'fresnica-ui-native/**',
             'scripts/**',
             '*.config.js',
             '*.config.ts',

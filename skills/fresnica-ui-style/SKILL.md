@@ -8,7 +8,7 @@ description: >
 
 # Fresnica UI style
 
-Fresnica UI is a React + TypeScript component library for Stellar wallet products. It uses semantic `--Fresnica-*` tokens, Lucide interface icons and CC BY-NC 4.0 licensing.
+Fresnica UI is a React + TypeScript component library for Stellar wallet products. It uses semantic `--Fresnica-*` tokens, Lucide interface icons and MIT licensing.
 
 ## Choose the scenario
 

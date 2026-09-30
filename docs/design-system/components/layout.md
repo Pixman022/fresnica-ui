@@ -40,6 +40,8 @@ The Layout demo includes a demo-only viewport switcher for the generic component
 
 Use `TransactionDetails` for a transaction summary, status, Stellar fields and an optional explorer action. Protocol-specific data belongs in `fields`. The component uses semantic surface and text tokens in both themes.
 
+Use its optional `labels` subset for translated back, copy, heading, summary and transaction-status text. Existing field content and `explorerLabel` remain product-owned.
+
 ## Title
 
 `Title` is plain semantic text using the Roboto / Noto Sans SC stack. It has no container, ribbon, gradient or ornament.
@@ -123,13 +125,19 @@ One selectable asset summary with `AssetIcon`, balance, fiat value and optional 
 
 Compact transaction item for activity lists. Direction icons use Lucide; status text uses semantic container pairs and must not rely on color alone. Success uses `success`, failure uses `failure`, and pending uses `warning`.
 
+`labels={{ pending, completed, failed }}` can replace generated status text without changing the row layout; `statusLabel` remains the most specific override.
+
 ## TransactionStatus
 
 Status badge for `pending`, `success` and `failed`. Always render a readable label alongside the status marker. Use the corresponding `*-color-bg` and `on-*-container-color` pair so 11px labels remain legible in both themes.
 
+`labels={{ pending, completed, failed }}` is optional and additive; `children` still takes precedence.
+
 ## NetworkBadge
 
 Displays the Stellar network and connection state (`online`, `degraded`, `offline`). Online uses success tokens, degraded uses warning tokens and offline uses failure tokens; brand primary is not a substitute for connection status. Fresnica currently supports Stellar only; network wording must not imply additional chains.
+
+When `showStatusText` is enabled, `labels={{ online, degraded, offline }}` can provide translated status text; `statusText` remains the most specific override.
 
 ## SwapRoute
 

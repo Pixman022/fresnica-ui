@@ -32,4 +32,27 @@ describe('TransactionDetails', () => {
         fireEvent.click(screen.getByRole('button', { name: 'Copy Transaction ID' }));
         expect(onCopy).toHaveBeenCalledWith('abcdef1234');
     });
+
+    it('accepts localized labels for navigation and explorer actions', () => {
+        render(
+            <TransactionDetails
+                assetSymbol="X"
+                title="发送资产"
+                status="success"
+                fields={[]}
+                onExplorerClick={() => undefined}
+                labels={{
+                    back: '返回',
+                    transactionDetails: '交易详情',
+                    transactionSummary: '交易摘要',
+                    viewOnExplorer: '在浏览器查看',
+                }}
+            />
+        );
+
+        expect(screen.getByRole('button', { name: '返回' })).toBeInTheDocument();
+        expect(screen.getByText('交易详情')).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: '在浏览器查看' })).toBeInTheDocument();
+        expect(screen.getByLabelText('交易摘要')).toBeInTheDocument();
+    });
 });

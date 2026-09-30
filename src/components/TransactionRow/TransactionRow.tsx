@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowDownLeft, ArrowLeftRight, ArrowUpRight } from 'lucide-react';
 import styles from './transaction-row.module.less';
+import type { ComponentLabelOverrides } from '../labels';
 
 export type TransactionStatus = 'pending' | 'success' | 'failed';
 export type TransactionDirection = 'in' | 'out' | 'swap';
@@ -14,6 +15,7 @@ export interface TransactionRowProps {
     fiatValue?: React.ReactNode;
     status?: TransactionStatus | null;
     statusLabel?: React.ReactNode;
+    labels?: Pick<ComponentLabelOverrides, 'pending' | 'completed' | 'failed'>;
     direction?: TransactionDirection;
     amountTone?: TransactionAmountTone;
     trailing?: React.ReactNode;
@@ -37,6 +39,7 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
     fiatValue,
     status = 'success',
     statusLabel,
+    labels,
     direction = 'out',
     amountTone,
     trailing,
@@ -67,7 +70,7 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
             )}
             {status && (
                 <span className={`${styles.status} ${styles[`status-${status}`]}`}>
-                    {statusLabel ?? STATUS_LABEL[status]}
+                    {statusLabel ?? labels?.[status === 'success' ? 'completed' : status] ?? STATUS_LABEL[status]}
                 </span>
             )}
             {trailing && (

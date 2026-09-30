@@ -12,7 +12,11 @@ Modal、Drawer 与 Tooltip 使用常规金融科技表面、语义 Token 和克�
 - 动效：Token 控制淡入与 0.96 到 1 的缩放。打开时捕获焦点，关闭后归还焦点。
 - 480px 及以下改为底部 Sheet，内边距 20px，顶部两角使用 24px 大圆角 Token。
 
+`Modal` 支持可选的 `labels={{ confirm, cancel, close }}` 文案覆盖；已有 `okText`、`cancelText` 和 `closeLabel` 属性优先级更高，默认文案保持不变。
+
 ## Drawer
+
+`Drawer` 支持可选的 `labels={{ close }}` 关闭按钮无障碍名称覆盖；显式 `closeLabel` 优先级更高，默认值保持不变。
 
 - 遮罩：固定视口层，使用 `--Fresnica-mask-bg`，透明度按 slow motion Token 过渡。
 - 面板：`--Fresnica-surface`、1px 语义边框、无投影，内容侧为 24px 圆角；深色模式不能强制使用白色面板。

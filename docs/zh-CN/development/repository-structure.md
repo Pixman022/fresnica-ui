@@ -2,10 +2,10 @@
 
 ## 项目简介
 
-fresnica-ui 是面向 Fresnica Stellar 钱包的 React + TypeScript UI 组件库，面向个人学习与非商业用途。设计语言核心：中性明暗表面、绿色主色、Roboto 字体、大圆角控件与克制动效 —— 定义见 [../design-system/](../design-system/)。
+fresnica-ui 是面向 Fresnica Stellar 钱包的 React + TypeScript UI 组件库。设计语言核心：中性明暗表面、绿色主色、Roboto 字体、大圆角控件与克制动效 —— 定义见 [../design-system/](../design-system/)。
 
 - 仓库：https://github.com/Pixman022/fresnica-ui
-- License：CC BY-NC 4.0（禁止商业使用）—— 见 `LICENSE`
+- License：MIT —— 见 `LICENSE`
 - 当前版本：见 `package.json`
 - 组件清单：以 `src/index.ts` 为准；`src/components/` 下每个含有同名 `<Name>.tsx` 的目录算一个组件
 
@@ -21,7 +21,7 @@ fresnica-ui 是面向 Fresnica Stellar 钱包的 React + TypeScript UI 组件库
 | 样式     | Less Modules（`*.module.less`）                 |
 | 代码规范 | ESLint 9（flat config）+ Prettier               |
 | 包管理   | npm（`package-lock.json`）                      |
-| Node     | `engines.node >= 18`                            |
+| Node     | `engines.node >= 20.19.0`                       |
 
 ## npm 脚本
 

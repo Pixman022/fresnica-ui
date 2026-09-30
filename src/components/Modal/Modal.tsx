@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { Button } from '../Button';
 import { Typewriter } from '../Typewriter';
 import styles from './modal.module.less';
+import type { ComponentLabelOverrides } from '../labels';
 
 const FOCUSABLE_SELECTOR = [
     'a[href]',
@@ -58,6 +59,7 @@ export interface ModalProps {
     okDisabled?: boolean;
     closable?: boolean;
     closeLabel?: string;
+    labels?: Pick<ComponentLabelOverrides, 'confirm' | 'cancel' | 'close'>;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -74,12 +76,13 @@ export const Modal: React.FC<ModalProps> = ({
     typewriter = false,
     maskStyle,
     variant = 'default',
-    okText = '确定',
-    cancelText = '取消',
+    okText,
+    cancelText,
     okLoading = false,
     okDisabled = false,
     closable = false,
-    closeLabel = '关闭',
+    closeLabel,
+    labels,
 }) => {
     // 每次 open 变为 true 时重启打字机
     const [playKey, setPlayKey] = useState(0);
@@ -169,7 +172,7 @@ export const Modal: React.FC<ModalProps> = ({
 
     const defaultFooter = (
         <>
-            <Button onClick={onClose}>{cancelText}</Button>
+            <Button onClick={onClose}>{cancelText ?? labels?.cancel ?? '取消'}</Button>
             <Button
                 type="primary"
                 danger={variant === 'danger'}
@@ -177,7 +180,7 @@ export const Modal: React.FC<ModalProps> = ({
                 disabled={okDisabled}
                 onClick={onOk}
             >
-                {okText}
+                {okText ?? labels?.confirm ?? '确定'}
             </Button>
         </>
     );
@@ -208,7 +211,7 @@ export const Modal: React.FC<ModalProps> = ({
                                     type="button"
                                     className={styles.close}
                                     onClick={onClose}
-                                    aria-label={closeLabel}
+                                    aria-label={closeLabel ?? labels?.close ?? '关闭'}
                                 >
                                     <X size={18} aria-hidden="true" />
                                 </button>

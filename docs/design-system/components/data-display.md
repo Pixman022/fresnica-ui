@@ -46,6 +46,8 @@ Source: `src/components/Tag`.
 
 Tags communicate compact metadata and status. Default to `soft`; use `solid` only for high-emphasis state and keep its foreground readable.
 
+Closable tags accept `labels={{ close }}` or an explicit `closeLabel` for the close button accessible name; `closeLabel` wins and the default remains `close`.
+
 | recommended color | meaning |
 | --- | --- |
 | `default` | neutral metadata |

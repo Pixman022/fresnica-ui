@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useId, useCallback } from 'react';
 import { ChevronDown } from 'lucide-react';
 import styles from './select.module.less';
+import type { ComponentLabelOverrides } from '../labels';
 
 export type SelectOption = {
     key: string;
@@ -21,6 +22,7 @@ export interface SelectProps {
     'aria-label'?: string;
     /** 关联外部可见 label 的 id */
     'aria-labelledby'?: string;
+    labels?: Pick<ComponentLabelOverrides, 'selectMenu'>;
 }
 
 export const Select: React.FC<SelectProps> = ({
@@ -32,6 +34,7 @@ export const Select: React.FC<SelectProps> = ({
     placement = 'auto',
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
+    labels,
 }) => {
     const [open, setOpen] = useState(false);
     const [activeKey, setActiveKey] = useState<string | null>(null);
@@ -227,7 +230,7 @@ export const Select: React.FC<SelectProps> = ({
                     style={dropdownStyle}
                     role="listbox"
                     id={listboxId}
-                    aria-label={ariaLabel}
+                    aria-label={ariaLabel ?? labels?.selectMenu}
                     aria-labelledby={ariaLabelledBy}
                 >
                     {options.map((option) => {

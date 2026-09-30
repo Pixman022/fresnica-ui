@@ -42,5 +42,5 @@ in the repository.
 
 ## License
 
-The library and this skill are CC BY-NC 4.0 — non-commercial use only. See the
+The library and this skill are released under the MIT License. See the
 [repository LICENSE](https://github.com/Pixman022/fresnica-ui/blob/main/LICENSE).

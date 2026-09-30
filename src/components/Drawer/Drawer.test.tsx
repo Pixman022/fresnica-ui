@@ -242,6 +242,22 @@ describe('Drawer', () => {
             expect(onClose).toHaveBeenCalled();
         });
 
+        it('支持 labels.close，并保持显式 closeLabel 优先', () => {
+            const { rerender } = render(
+                <Drawer open title="t" labels={{ close: 'Dismiss panel' }}>
+                    body
+                </Drawer>
+            );
+            expect(screen.getByRole('button', { name: 'Dismiss panel' })).toBeInTheDocument();
+
+            rerender(
+                <Drawer open title="t" closeLabel="Close drawer" labels={{ close: 'Dismiss panel' }}>
+                    body
+                </Drawer>
+            );
+            expect(screen.getByRole('button', { name: 'Close drawer' })).toBeInTheDocument();
+        });
+
         it('打开时焦点送进抽屉（落到第一个可聚焦元素）', async () => {
             const Host = () => {
                 const [open, setOpen] = useState(false);

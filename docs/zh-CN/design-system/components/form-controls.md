@@ -82,9 +82,13 @@ Switch 使用原生 Button 和 `role="switch"`，支持受控/非受控状态、
 
 AddressField 由钱包地址输入框和复制操作组成。它沿用 Input 的表面与字体规范、关闭拼写检查，并使用 Lucide `Check` 图标反馈复制成功。复制与粘贴按钮使用中性表面和次级文字 Token，不持续显示为品牌绿。复制按钮必须具有无障碍名称。
 
+`AddressField` 支持可选的 `labels={{ copyAddress, copiedAddress, pasteAddress }}` 覆盖。已有的 `copyLabel`、`copiedLabel` 和 `pasteLabel` 属性仍然具有更高优先级，保持兼容。
+
 ## AmountField
 
 AmountField 是十进制金额输入框，支持资产符号、余额和 Max 操作。资产、余额和 Max/All 都属于辅助控件，使用中性表面和次级文字 Token；品牌绿留给流程中的提交或复核主操作。金额不能为负数。
+
+`AmountField` 支持可选的 `labels={{ max, balance, selectAsset }}` 覆盖。已有的 `maxLabel` 和 `balanceLabel` 属性优先级更高，默认文案保持不变。
 
 ## FeeSummary
 
@@ -102,6 +106,7 @@ DatePicker 与 Select 使用一致的 16px 圆角、描边触发器和弹层语�
 - 今天：使用主色描边或文字强调，不添加装饰表现。
 - 范围端点和区间背景使用主色 Token；warning/error 保持语义状态。
 - 导航与日历操作统一使用 Lucide 图标。
+- 日期操作可通过 `labels={{ today, confirm, clearDate, selectDate, selectDateRange, previousYear, previousMonth, nextMonth, nextYear }}` 注入文案；默认值保持不变。
 
 ## TimePicker
 
@@ -112,6 +117,7 @@ TimePicker 与 DatePicker、Select 共用带描边且无投影的触发器和弹
 - 选中项使用中性灰背景与主绿色文字，并保证可读性。
 - 确认操作遵循 Primary Button 规范，文字和图标均为白色。
 - 禁用值使用禁用 Token，不能只依靠透明度区分。
+- 时间操作可通过 `labels={{ now, confirm, clearTime, selectTime, hour, minute, second }}` 注入文案；默认值保持不变。
 
 ## 无障碍
 

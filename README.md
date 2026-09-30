@@ -3,10 +3,10 @@
 <div align="center">
     <img src="demo/img/fresnica/fresnica-logo.png" alt="Fresnica" width="320" />
     <p>A React + TypeScript component library for Fresnica Stellar wallet products.</p>
-    <img src="https://img.shields.io/badge/tests-504%20✓-brightgreen?style=flat-square" alt="Tests" />
-    <img src="https://img.shields.io/badge/components-46-blue?style=flat-square" alt="Components" />
+    <img src="https://img.shields.io/badge/tests-533%20✓-brightgreen?style=flat-square" alt="Tests" />
+    <img src="https://img.shields.io/badge/components-48-blue?style=flat-square" alt="Components" />
     <img src="https://img.shields.io/badge/a11y-WAI--ARIA%20APG-brightgreen?style=flat-square" alt="Accessibility" />
-    <a href="LICENSE"><img src="https://img.shields.io/badge/license-CC--BY--NC--4.0-orange.svg?style=flat-square" alt="License: CC BY-NC 4.0" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License: MIT" /></a>
 </div>
 
 <p align="center">English | <a href="./docs/README.zh-CN.md">简体中文</a></p>
@@ -25,8 +25,14 @@ Fresnica UI provides minimal fintech surfaces for Stellar assets, transfers, swa
 ## Installation
 
 ```bash
-npm install fresnica-ui
+git clone https://github.com/Pixman022/fresnica-ui.git
+cd fresnica-ui
+npm install
 ```
+
+The package is currently developed from this repository and is not published to
+npm yet. Package installation instructions will be added when a registry release
+is intentionally created.
 
 ## Quick start
 
@@ -70,8 +76,13 @@ When opening either file directly shows only the fallback page, run `npm run dev
 - [Component-development guide](./docs/development/component-development.md)
 - [Testing guide](./docs/development/testing.md)
 - [Installable Fresnica style skill](./skills/fresnica-ui-style/README.md)
+- [Third-party notices](./THIRD_PARTY_NOTICES.md)
 - [Project instructions](./AGENTS.md)
 
 ## License
 
-Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0). See [LICENSE](./LICENSE). Commercial use is prohibited.
+MIT License. See [LICENSE](./LICENSE). Copyright (c) 2026 Pixman.
+
+The MIT notice applies to project-owned source and documentation. Third-party
+dependencies, fonts and any externally sourced artwork remain subject to their
+respective licenses.

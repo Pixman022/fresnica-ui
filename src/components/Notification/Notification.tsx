@@ -117,7 +117,12 @@ export const NotificationView: React.FC<NotificationViewProps> = ({ item, onRemo
             </div>
             {item.btn && <div className={styles.btnSlot}>{item.btn}</div>}
             {closable && (
-                <button type="button" className={styles.close} aria-label="close" onClick={handleCloseClick}>
+                <button
+                    type="button"
+                    className={styles.close}
+                    aria-label={item.closeLabel ?? 'close'}
+                    onClick={handleCloseClick}
+                >
                     {item.closeIcon ?? <X size={16} strokeWidth={2.25} aria-hidden="true" />}
                 </button>
             )}

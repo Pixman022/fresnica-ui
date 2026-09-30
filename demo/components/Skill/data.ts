@@ -6,7 +6,7 @@ import type { CardColor, IconName, TagColor } from '../../../src';
 // 改技能内容时同步此处
 // ============================================
 
-export const INTRO_TAGS = ['React + TypeScript', '46 个组件', 'Lucide 图标', 'CC BY-NC 4.0'];
+export const INTRO_TAGS = ['React + TypeScript', '46 个组件', 'Lucide 图标', 'MIT License'];
 
 export interface QuickStep {
     title: string;

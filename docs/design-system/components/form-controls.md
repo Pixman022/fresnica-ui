@@ -82,9 +82,13 @@ Switch is a native button with `role="switch"` and supports controlled/uncontrol
 
 AddressField combines a wallet-address input with a copy action. It uses the shared Input surface and typography, disables spellcheck, and provides copied feedback with the Lucide `Check` icon. Copy and paste buttons use neutral surface and secondary-text tokens; they do not use persistent primary green. The copy button must have an accessible name.
 
+`AddressField` accepts optional `labels={{ copyAddress, copiedAddress, pasteAddress }}` overrides. Existing `copyLabel`, `copiedLabel` and `pasteLabel` props remain higher-priority compatibility overrides.
+
 ## AmountField
 
 AmountField is a decimal numeric input with optional currency, balance, and Max action. Currency, balance and Max/All are supporting controls and use neutral surface and secondary-text tokens. Primary green is reserved for the flow's submit/review action. Amounts must never accept negative values.
+
+`AmountField` accepts optional `labels={{ max, balance, selectAsset }}` overrides. Existing `maxLabel` and `balanceLabel` props remain higher priority, and the default labels are unchanged.
 
 ## FeeSummary
 
@@ -102,6 +106,7 @@ DatePicker uses the same 16px-radius, bordered trigger and popup language as Sel
 - Today: primary outline or text emphasis without decorative treatment.
 - Range endpoints and range fill use primary tokens; warning/error feedback remains semantic.
 - Navigation and calendar actions use Lucide icons.
+- Date actions can receive `labels={{ today, confirm, clearDate, selectDate, selectDateRange, previousYear, previousMonth, nextMonth, nextYear }}`; defaults remain unchanged.
 
 ## TimePicker
 
@@ -112,6 +117,7 @@ TimePicker follows the same bordered, shadow-free trigger and popup rules as Dat
 - Selected options use primary emphasis and accessible contrast.
 - Confirm actions use Primary Button rules, including white text and icons.
 - Disabled values use disabled tokens rather than opacity alone.
+- Time actions can receive `labels={{ now, confirm, clearTime, selectTime, hour, minute, second }}`; defaults remain unchanged.
 
 ## Accessibility
 

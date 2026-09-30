@@ -49,5 +49,6 @@ then list any spec line you intentionally relaxed and why.
   [agent skill](../skills/fresnica-ui-style/README.md) instead, or work in a real
   React project.
 - This mode reproduces 95%+ of the visual style by hand-rolling components. For 100%
-  pixel fidelity, use a React project with `npm install fresnica-ui` — see the
-  [README quick start](../README.md).
+  pixel fidelity, use a React project with this repository as a local dependency — see
+  the [README quick start](../README.md). The package is not published to npm yet, so
+  `npm install fresnica-ui` is not a supported installation path.

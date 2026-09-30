@@ -619,7 +619,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                         GitHub
                     </span>
                 </div>
-                <div>CC BY-NC 4.0 · React + TypeScript + Vite</div>
+                <div>MIT License · React + TypeScript + Vite</div>
             </div>
         </div>
     );

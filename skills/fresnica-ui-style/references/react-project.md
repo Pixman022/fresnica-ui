@@ -1,13 +1,18 @@
 # React project usage
 
-Scenario: a real React project where `fresnica-ui` is (or can be) installed from npm.
+Scenario: a real React project where `fresnica-ui` is installed from this repository
+or, after a future release, from npm.
 For a no-build single HTML file, use [standalone-html.md](standalone-html.md) instead.
 
 ## Setup (once per project)
 
 ```bash
-npm install fresnica-ui
+# From a consuming project next to this checkout:
+npm install ../fresnica-ui
 ```
+
+The package is not published to npm yet. After a future registry release, the local
+path can be replaced with `npm install fresnica-ui`.
 
 ```ts
 // app entry (main.tsx / _app.tsx / App.tsx)

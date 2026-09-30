@@ -40,6 +40,8 @@ Layout Demo 增加了仅用于 Demo 的屏幕宽度切换器，可在 `320px`、
 
 用于展示交易摘要、状态、Stellar 字段和可选的区块浏览器入口。协议相关数据通过 `fields` 传入；浅色和深色模式均使用语义表面与文字 Token。
 
+可通过可选的 `labels` 子集注入返回、复制、标题、摘要和交易状态文案。字段内容与 `explorerLabel` 仍由产品示例维护。
+
 ## Title 字体
 
 `Title` 是使用 Roboto / Noto Sans SC 字体栈的纯语义文字，不带容器、飘带、渐变或装饰。
@@ -123,13 +125,19 @@ BalanceCard 是主色实心的余额摘要变体，支持法币值、次级数�
 
 用于活动列表的紧凑交易条目。方向图标使用 Lucide；状态文字使用语义容器组合，且不能只靠颜色传达含义。成功使用 `success`，失败使用 `failure`，待处理使用 `warning`。
 
+`labels={{ pending, completed, failed }}` 可以替换自动生成的状态文案，不改变交易行布局；`statusLabel` 仍然是最具体的覆盖项。
+
 ## TransactionStatus 交易状态
 
 用于 `pending`、`success`、`failed` 的状态标签。状态标记旁必须始终显示可读文字，并使用对应的 `*-color-bg` 与 `on-*-container-color` 组合，确保 11px 标签在两种主题下清晰可读。
 
+`labels={{ pending, completed, failed }}` 是可选的增量配置；`children` 仍然具有更高优先级。
+
 ## NetworkBadge 网络标识
 
 显示 Stellar 网络及连接状态（`online`、`degraded`、`offline`）。在线使用成功 Token，降级使用警告 Token，离线使用失败 Token；品牌主色不能替代连接状态语义。Fresnica 当前仅支持 Stellar，文案不得暗示支持其他链。
+
+启用 `showStatusText` 时，可通过 `labels={{ online, degraded, offline }}` 提供翻译后的状态文案；`statusText` 仍然是最具体的覆盖项。
 
 ## SwapRoute 兑换路径
 

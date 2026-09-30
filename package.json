@@ -18,7 +18,9 @@
     },
     "files": [
         "dist",
-        "README.md"
+        "README.md",
+        "LICENSE",
+        "THIRD_PARTY_NOTICES.md"
     ],
     "sideEffects": false,
     "repository": {
@@ -32,6 +34,9 @@
     "author": "Pixman <pixhonic@gmail.com>",
     "scripts": {
         "dev": "vite",
+        "dev:website": "vite --config vite.config.website.ts --host 0.0.0.0",
+        "build:website": "vite build --config vite.config.website.ts",
+        "preview:website": "vite preview --config vite.config.website.ts --outDir website-dist --host 0.0.0.0",
         "build": "vite build && tsc --project tsconfig.build.json --emitDeclarationOnly",
         "build:demo": "vite build --config vite.config.demo.ts",
         "preview:demo": "vite preview --outDir demo-dist",
@@ -41,6 +46,7 @@
         "test:run": "vitest run",
         "test:cov": "vitest run --coverage --reporter=json --outputFile=coverage/vitest-results.json",
         "test:a11y": "vitest run --config vitest.a11y.config.ts",
+        "test:contrast": "node scripts/check-color-contrast.mjs",
         "badges": "node scripts/generate-coverage-badges.mjs",
         "audit:tokens": "node scripts/audit-design-tokens.mjs",
         "check:docs": "node scripts/check-docs-sync.mjs",
@@ -48,7 +54,7 @@
         "lint:fix": "eslint . --fix",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
-        "ci": "npm run format:check && npm run audit:tokens && npm run check:docs && npm run lint && npm run test:run && npm run test:a11y && npm run build",
+        "ci": "npm run format:check && npm run audit:tokens && npm run check:docs && npm run test:contrast && npm run lint && npm run test:run && npm run test:a11y && npm run build",
         "setup:hooks": "git config core.hooksPath .githooks",
         "prepare": "npm run setup:hooks"
     },
@@ -58,7 +64,7 @@
         "react-dom": ">=17.0.0"
     },
     "engines": {
-        "node": ">=18"
+        "node": ">=20.19.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.0.0",
@@ -102,7 +108,7 @@
         "stellar",
         "wallet"
     ],
-    "license": "CC-BY-NC-4.0",
+    "license": "MIT",
     "dependencies": {
         "lucide-react": "^1.40.0"
     }

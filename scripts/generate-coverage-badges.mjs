@@ -40,7 +40,8 @@ let tests = 0;
 if (existsSync(VITEST)) {
     const vr = JSON.parse(readFileSync(VITEST, 'utf8'));
     const real = vr.testResults.filter((t) => t.name.includes('/src/components/'));
-    tests = real.reduce((s, t) => s + t.assertionResults.filter((a) => a.status === 'passed').length, 0);
+    // Badge count represents the complete project test suite, including theme and contract tests.
+    tests = vr.testResults.reduce((s, t) => s + t.assertionResults.filter((a) => a.status === 'passed').length, 0);
     if (real.length !== components) {
         console.warn(
             `[badges] vitest 报告 ${real.length} 个组件测试文件，但 coverage 统计到 ${components} 个组件 —— 以 components 为准`

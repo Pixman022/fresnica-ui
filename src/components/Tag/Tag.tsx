@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import { X } from 'lucide-react';
+import type { ComponentLabelOverrides } from '../labels';
 import styles from './tag.module.less';
 
 export type TagSize = 'small' | 'medium' | 'large';
@@ -22,6 +23,9 @@ export interface TagProps {
     closable?: boolean;
     /** 关闭回调 */
     onClose?: (e: React.MouseEvent<HTMLElement>) => void;
+    /** 关闭按钮无障碍名称；labels.close 可作为共享文案覆盖。 */
+    closeLabel?: string;
+    labels?: Pick<ComponentLabelOverrides, 'close'>;
     /** 点击回调，开启后标签可点击 */
     onClick?: (e: React.MouseEvent<HTMLElement>) => void;
     /** 禁用状态 */
@@ -58,11 +62,14 @@ export const Tag: React.FC<TagProps> = ({
     color = 'default',
     closable = false,
     onClose,
+    closeLabel,
+    labels,
     onClick,
     disabled = false,
     className,
     style,
 }) => {
+    const resolvedCloseLabel = closeLabel ?? labels?.close ?? 'close';
     const handleClose = useCallback(
         (e: React.MouseEvent<HTMLElement>) => {
             e.stopPropagation();
@@ -99,7 +106,7 @@ export const Tag: React.FC<TagProps> = ({
                 <button
                     type="button"
                     className={styles.close}
-                    aria-label="close"
+                    aria-label={resolvedCloseLabel}
                     onClick={handleClose}
                     disabled={disabled}
                 >

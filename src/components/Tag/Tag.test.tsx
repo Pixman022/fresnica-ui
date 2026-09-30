@@ -123,6 +123,22 @@ describe('Tag', () => {
             expect(btn).toHaveAccessibleName('close');
         });
 
+        it('支持 labels.close，并保持显式 closeLabel 优先', () => {
+            const { rerender } = render(
+                <Tag closable labels={{ close: 'Dismiss tag' }}>
+                    x
+                </Tag>
+            );
+            expect(screen.getByRole('button', { name: 'Dismiss tag' })).toBeInTheDocument();
+
+            rerender(
+                <Tag closable closeLabel="Remove tag" labels={{ close: 'Dismiss tag' }}>
+                    x
+                </Tag>
+            );
+            expect(screen.getByRole('button', { name: 'Remove tag' })).toBeInTheDocument();
+        });
+
         it('点击关闭按钮触发 onClose', () => {
             const onClose = vi.fn();
             render(

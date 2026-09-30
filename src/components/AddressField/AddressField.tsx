@@ -1,6 +1,7 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { Check, ClipboardPaste, Copy } from 'lucide-react';
 import styles from './address-field.module.less';
+import type { ComponentLabelOverrides } from '../labels';
 
 export type AddressFieldMode = 'input' | 'display';
 export type AddressFieldStatus = 'default' | 'error' | 'warning';
@@ -14,6 +15,8 @@ export interface AddressFieldProps extends Omit<React.InputHTMLAttributes<HTMLIn
     copyLabel?: string;
     copiedLabel?: string;
     pasteLabel?: string;
+    /** Optional locale overrides; explicit label props win. */
+    labels?: Pick<ComponentLabelOverrides, 'copyAddress' | 'copiedAddress' | 'pasteAddress'>;
     onCopy?: (value: string) => void;
     onPasteClick?: () => void;
     containerClassName?: string;
@@ -25,9 +28,10 @@ export const AddressField: React.FC<AddressFieldProps> = ({
     helperText,
     truncate = true,
     copyable = true,
-    copyLabel = 'Copy address',
-    copiedLabel = 'Address copied',
-    pasteLabel = 'Paste address',
+    copyLabel,
+    copiedLabel,
+    pasteLabel,
+    labels,
     onCopy,
     onPasteClick,
     containerClassName,
@@ -86,7 +90,7 @@ export const AddressField: React.FC<AddressFieldProps> = ({
                             className={styles.action}
                             onClick={onPasteClick}
                             disabled={rest.disabled}
-                            aria-label={pasteLabel}
+                            aria-label={pasteLabel ?? labels?.pasteAddress ?? 'Paste address'}
                         >
                             <ClipboardPaste size={16} aria-hidden="true" />
                         </button>
@@ -97,7 +101,11 @@ export const AddressField: React.FC<AddressFieldProps> = ({
                             className={styles.action}
                             onClick={copy}
                             disabled={rest.disabled || !value}
-                            aria-label={copied ? copiedLabel : copyLabel}
+                            aria-label={
+                                copied
+                                    ? (copiedLabel ?? labels?.copiedAddress ?? 'Address copied')
+                                    : (copyLabel ?? labels?.copyAddress ?? 'Copy address')
+                            }
                         >
                             {copied ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
                         </button>

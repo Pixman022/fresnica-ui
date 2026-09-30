@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
+import type { ComponentLabelOverrides } from '../labels';
 import styles from './drawer.module.less';
 
 const FOCUSABLE_SELECTOR = [
@@ -57,6 +58,8 @@ export interface DrawerProps {
     safeArea?: boolean;
     /** 关闭按钮无障碍名称 */
     closeLabel?: string;
+    /** 可选的共享文案覆盖；closeLabel 优先级更高。 */
+    labels?: Pick<ComponentLabelOverrides, 'close'>;
 }
 
 /**
@@ -85,8 +88,10 @@ export const Drawer: React.FC<DrawerProps> = ({
     maskStyle,
     showHandle,
     safeArea = true,
-    closeLabel = '关闭',
+    closeLabel,
+    labels,
 }) => {
+    const resolvedCloseLabel = closeLabel ?? labels?.close ?? '关闭';
     const resolvedPlacement = placement ?? (variant === 'sheet' ? 'bottom' : 'right');
     const resolvedShowHandle = showHandle ?? variant === 'sheet';
     const dialogRef = useRef<HTMLDivElement>(null);
@@ -304,7 +309,12 @@ export const Drawer: React.FC<DrawerProps> = ({
                             <div className={styles.title} id={titleId}>
                                 {title}
                             </div>
-                            <button type="button" className={styles.close} onClick={onClose} aria-label={closeLabel}>
+                            <button
+                                type="button"
+                                className={styles.close}
+                                onClick={onClose}
+                                aria-label={resolvedCloseLabel}
+                            >
                                 <X size={20} aria-hidden="true" />
                             </button>
                         </div>

@@ -2,6 +2,7 @@ import React, { HTMLAttributes, useState } from 'react';
 import { Inbox, LoaderCircle } from 'lucide-react';
 import { Pagination, type PaginationProps } from '../Pagination';
 import styles from './table.module.less';
+import type { ComponentLabelOverrides } from '../labels';
 
 export interface TableColumn<T = Record<string, unknown>> {
     title: React.ReactNode;
@@ -31,6 +32,7 @@ export interface TableProps {
     pagination?: false | Omit<PaginationProps, 'total'>;
     className?: string;
     style?: React.CSSProperties;
+    labels?: Pick<ComponentLabelOverrides, 'emptyState' | 'loadingState'>;
 }
 
 export const Table: React.FC<TableProps> = ({
@@ -42,11 +44,12 @@ export const Table: React.FC<TableProps> = ({
     rowClassName,
     onRow,
     loading = false,
-    emptyText = '暂无数据',
+    emptyText,
     scroll,
     pagination,
     className,
     style,
+    labels,
 }) => {
     // 分页状态：pagination.current / pagination.pageSize 受控时优先，否则走内部状态（初值取 default*）
     const paginated = pagination !== false && pagination !== undefined;
@@ -123,7 +126,7 @@ export const Table: React.FC<TableProps> = ({
                                         strokeWidth={1.6}
                                         aria-hidden="true"
                                     />
-                                    <span>{emptyText}</span>
+                                    <span>{emptyText ?? labels?.emptyState ?? '暂无数据'}</span>
                                 </div>
                             </td>
                         </tr>
@@ -169,7 +172,7 @@ export const Table: React.FC<TableProps> = ({
             {loading && (
                 <div className={styles.loadingOverlay}>
                     <div className={styles.loadingSpinner}>
-                        <LoaderCircle size={40} strokeWidth={2.2} aria-label="加载中" />
+                        <LoaderCircle size={40} strokeWidth={2.2} aria-label={labels?.loadingState ?? '加载中'} />
                     </div>
                 </div>
             )}
