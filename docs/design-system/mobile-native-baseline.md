@@ -59,8 +59,7 @@ and bottom tabs, `react-native-safe-area-context`, `react-native-screens` and Ne
   light and dark roles are derived together.
 - Android system dynamic accent color is not consumed. Fresnica brand and semantic
   roles remain deterministic across supported devices.
-- Image-derived theme generation is deferred pending a separate product decision. It
-  is not part of phase one.
+- Image-derived theme generation is **not required for the current Fresnica product direction** and is excluded from the active mobile baseline. Reintroduce it only after a new explicit product decision.
 - Financial feedback roles remain independent from user-selected brand colors.
 
 The system status bar and navigation bar follow the current page surface. Their icon
@@ -84,28 +83,46 @@ If adopted, `lucide-react-native` and `react-native-svg` must be reviewed and re
 in the third-party notice before use. The existing Web `lucide-react` package cannot be
 imported into native code.
 
-Basic motion uses React Native `Animated` and respects reduced-motion preferences.
-Reanimated and Gesture Handler require a separate dependency decision; components must
-not introduce them implicitly.
+Basic component motion should stay minimal. The current shared `Modal` keeps its existing native `fade` behavior by owner decision; no reduced-motion compliance claim is made for that behavior. Full reduced-motion reassessment belongs to the future product accessibility/release gate. Reanimated and Gesture Handler require a separate dependency decision; components must not introduce them implicitly.
 
 ## Accessibility and acceptance gates
 
 Every interactive native component defines role, label, hint, state, disabled,
 selected, checked and busy behavior as applicable. It must preserve a logical focus
-order, support `onAccessibilityTap`, Dynamic Type, long translated copy and at least a
-44×44 touch target. State cannot be communicated by color alone.
+order, support Dynamic Type, long translated copy and at least a 44×44 touch target.
+State cannot be communicated by color alone.
 
-Phase-one gates are:
+### Component-package engineering gate
+
+The reusable package is ready for internal consumption when:
 
 1. TypeScript, ESLint, Prettier and Jest pass.
-2. Light, Dark and System theme tests pass without raw colors or repeated design
-   constants in components.
+2. Light, Dark and System theme tests pass without raw colors or repeated design constants in components.
 3. Disabled, loading, error and pressed states have component tests.
-4. Accessibility role/state/label tests pass; asynchronous failures use one active
-   announcement path only.
-5. Android rendering, TalkBack, keyboard, safe-area, system-bar, reduced-motion and
-   Dynamic Type behavior are manually accepted.
-6. Layout is checked at 320, 360, 390–393 and 430 logical-pixel widths.
+4. Accessibility role/state/label contracts are covered by tests where applicable.
+5. Layout is checked at 320, 360, 390–393 and 430 logical-pixel widths.
+6. The neutral Preview has reviewable Android emulator evidence.
 
-iOS VoiceOver and physical-device acceptance remain a later delivery gate, not a claim
-of phase-one completion.
+Passing this gate does **not** claim physical-device TalkBack, complete reduced-motion,
+or wallet-product accessibility acceptance.
+
+### First wallet integration hard gate
+
+Before the first consuming Fresnica wallet App is marked **UI integration complete**,
+verify on a real supported Android device:
+
+1. TalkBack reading and focus order across primary flows.
+2. Accessible labels/states for buttons, icon actions, fields and modal content,
+   including sensible focus restoration after modal close.
+3. Real soft-keyboard avoidance and Android system Back behavior.
+4. Safe-area behavior and status/navigation-bar legibility in Light and Dark.
+5. At least 1.3× system font scale without critical clipping or hidden primary actions.
+6. 44dp touch targets and status/error communication that does not rely on color alone.
+7. English and Simplified Chinese long-content behavior.
+
+### Release-stage gate
+
+Before production release, add the product-specific multi-device/system-version matrix,
+final contrast review and full reduced-motion reassessment. iOS VoiceOver and physical-
+device acceptance become required when iOS implementation starts.
+
