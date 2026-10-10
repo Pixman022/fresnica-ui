@@ -20,7 +20,7 @@ describe('Fresnica custom theme tokens', () => {
         expect(normalizeThemeColor('#6BCB77')).toBe('#6BCB77');
         expect(light['primary-color']).not.toBe(DEFAULT_PRIMARY_COLOR);
         expect(light['on-primary-color']).toMatch(/^#(?:FFFFFF|111214)$/);
-        expect(dark['primary-color']).not.toBe(light['primary-color']);
+        expect(dark['on-primary-color']).toBe('#FFFFFF');
         expect(Object.keys(light)).not.toContain('success-color');
         expect(Object.keys(light)).not.toContain('failure-color');
     });
