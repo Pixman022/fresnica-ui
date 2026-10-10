@@ -39,8 +39,8 @@ is intentionally created.
 - React and React DOM **18.0.0 or newer** are required. React 17 is not supported because
   overlay components such as Modal and Drawer use React 18's `useId` API.
 - The development baseline remains React 18.3.1. CI also installs the packed library into
-  a clean React 18.0.0 consumer and verifies types plus server rendering of a basic Button
-  and the `useId`-based Modal path.
+  a clean React 18.0.0 consumer and verifies TypeScript plus a production Vite build using
+  Button, the `useId`-based Modal path, and the packaged style entry.
 
 ## Quick start
 
