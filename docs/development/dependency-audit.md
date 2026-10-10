@@ -24,14 +24,14 @@ Observed full-audit package families include:
 
 | Package/family | Observed path or purpose | Audit suggestion | Current classification |
 | --- | --- | --- | --- |
-| `@vitest/mocker` / `vitest` | unit-test / coverage toolchain | `npm audit fix` | dev/test |
-| `baseline-browser-mapping`, `browserslist` | browser/build metadata | `npm audit fix` | dev/build |
-| `brace-expansion` | transitive ESLint/API extractor/Vue language tooling | `npm audit fix` | dev/build |
-| `braces` / `micromatch` / `fast-glob` / `globby` / `gh-pages` | demo deployment tooling | **force suggested for this chain** | dev/deploy |
-| `esbuild`, `nanoid`, `postcss`, `source-map-js` | Vite/build chain | `npm audit fix` | dev/build |
-| `fast-uri`, `js-yaml` | lint/config tooling | `npm audit fix` | dev/build |
-| `sprintf-js` via API extractor / `vite-plugin-dts` | declaration build tooling | **force suggested for this chain** | dev/build |
-| `undici` | transitive development tooling | `npm audit fix` | dev/build |
+| `@vitest/mocker` / `vitest` | unit-test / coverage toolchain | `npm audit fix` | Retain in WP06; update through a verified Vitest maintenance bump, then rerun coverage/a11y gates |
+| `baseline-browser-mapping`, `browserslist` | browser/build metadata | `npm audit fix` | Retain in WP06; refresh with the owning build-tool lock update and rerun both Node matrices |
+| `brace-expansion` | transitive ESLint/API extractor/Vue language tooling | `npm audit fix` | Retain as transitive dev tooling; recheck on ESLint / declaration-tool updates |
+| `braces` / `micromatch` / `fast-glob` / `globby` / `gh-pages` | demo deployment tooling | **force suggested for this chain** | Retain; no force upgrade. Re-evaluate if deployment tooling is upgraded or removed |
+| `esbuild`, `nanoid`, `postcss`, `source-map-js` | Vite/build chain | `npm audit fix` | Retain in WP06; update through a verified Vite/toolchain lock refresh |
+| `fast-uri`, `js-yaml` | lint/config tooling | `npm audit fix` | Retain as dev/config transitive findings; revisit with owning direct dependency updates |
+| `sprintf-js` via API extractor / `vite-plugin-dts` | declaration build tooling | **force suggested for this chain** | Retain; no force upgrade because declaration output is a release contract |
+| `undici` | transitive development tooling | `npm audit fix` | Retain as dev-only transitive finding; recheck on direct toolchain maintenance |
 
 This table groups the paths shown by npm; it is not a claim that every package listed
 is a direct dependency.
@@ -78,7 +78,6 @@ Re-run classification when any of these occurs:
 
 ## Current WP06 status
 
-The audit split and classification are established. Compatible non-force remediation
-is evaluated separately; force-only changes are intentionally not applied without
-compatibility evidence. The full audit count remains a reported maintenance signal,
-while the production audit remains the package-runtime gate.
+The audit split and classification are established. **No dependency version change is applied in WP06**: both package production audits are clean, the reported findings are development/test/build-only, and the affected packages are predominantly transitive to the pinned test/build ecosystems. Ordinary-fix candidates are retained until the owning direct toolchain dependency is intentionally refreshed and the lock diff can be verified through the complete quality/consumer/build gates. Force-only changes are explicitly rejected without a separate compatibility upgrade.
+
+The full audit count remains a reported maintenance signal, while the production audit remains the package-runtime gate. This is a disposition, not a claim that the development findings are harmless or permanently accepted.
