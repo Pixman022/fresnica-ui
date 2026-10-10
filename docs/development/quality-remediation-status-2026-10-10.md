@@ -6,14 +6,12 @@
 
 ## 工作包状态
 
-| 工作包 | 内容 | 状态 | 证据 |
-| --- | --- | --- | --- |
-| WP01 | 修复 Form 异步校验竞态与过期结果 | 完成 | PR #2 / `fe2614971743de5d86af2954f5e35500c4af9673` |
-| WP02 | 将 Web React peer 基线统一到 React 18，并验证最低 React 18 consumer | 完成 | PR #3 / `1fe10dfe40ff477ca11b7a84a372fe9a5d480e7f` |
-| WP03 | 补齐 Web 完整质量门禁、coverage、consumer build 与 Demo build | 完成 | PR #3 / CI 全绿 |
-| WP04 | 自定义绿色主题保持白色前景，不改冻结默认品牌色 | 完成 | PR #5 / `85c8bfc2e87292c565441afc67fe2f42c50cc5ac` |
-| WP05 | 同步中英文 Mobile/Native 基线与当前主题、Modal、真机验收决策 | 完成 | PR #6 / `8e11dfb2d626db480d5918e70ba3d678fd11c1a9` |
-| WP06 | 分离生产/全量依赖审计并完成风险分类 | 完成 | PR #7 / `602d2d48b3e902e943c9888549ed08582edcba6a` |
+- **WP01 — 完成：** 修复 Form 异步校验竞态与过期结果。证据：PR #2，合并提交 `fe2614971743de5d86af2954f5e35500c4af9673`。
+- **WP02 — 完成：** 将 Web React peer 基线统一到 React 18，并验证最低 React 18 consumer。证据：PR #3，合并提交 `1fe10dfe40ff477ca11b7a84a372fe9a5d480e7f`。
+- **WP03 — 完成：** 补齐 Web 完整质量门禁、coverage、consumer build 与 Demo build。证据：PR #3，CI 全绿。
+- **WP04 — 完成：** 自定义绿色主题保持白色前景，不改冻结默认品牌色。证据：PR #5，合并提交 `85c8bfc2e87292c565441afc67fe2f42c50cc5ac`。
+- **WP05 — 完成：** 同步中英文 Mobile/Native 基线与当前主题、Modal、真机验收决策。证据：PR #6，合并提交 `8e11dfb2d626db480d5918e70ba3d678fd11c1a9`。
+- **WP06 — 完成：** 分离生产/全量依赖审计并完成风险分类。证据：PR #7，合并提交 `602d2d48b3e902e943c9888549ed08582edcba6a`。
 
 ## WP01 — Form 异步校验
 
