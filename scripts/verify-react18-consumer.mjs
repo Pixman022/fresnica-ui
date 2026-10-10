@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -50,6 +50,8 @@ try {
                     '@types/react': '18.0.38',
                     '@types/react-dom': '18.0.11',
                     typescript: '5.7.3',
+                    vite: '7.3.2',
+                    '@vitejs/plugin-react': '5.2.0',
                 },
             },
             null,
@@ -70,7 +72,7 @@ try {
                     skipLibCheck: true,
                     noEmit: true,
                 },
-                include: ['consumer.tsx'],
+                include: ['src'],
             },
             null,
             2
@@ -78,40 +80,43 @@ try {
     );
 
     writeFileSync(
-        path.join(consumerRoot, 'consumer.tsx'),
+        path.join(consumerRoot, 'index.html'),
+        '<!doctype html><html><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>\n'
+    );
+
+    const sourceDir = path.join(consumerRoot, 'src');
+    mkdirSync(sourceDir, { recursive: true });
+
+    writeFileSync(
+        path.join(sourceDir, 'main.tsx'),
         `import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { Button, Modal } from 'fresnica-ui';
+import 'fresnica-ui/style';
 
-export const basic = <Button>Save</Button>;
-export const overlay = (
-    <Modal open={false} title="Compatibility check">
-        Body
-    </Modal>
-);
+function App() {
+    return (
+        <>
+            <Button>Save</Button>
+            <Modal open={false} title="Compatibility check">
+                Body
+            </Modal>
+        </>
+    );
+}
 
-void React;
+ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
 `
     );
 
     writeFileSync(
-        path.join(consumerRoot, 'verify.mjs'),
-        `import React from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
-import { Button, Modal } from 'fresnica-ui';
+        path.join(consumerRoot, 'vite.config.ts'),
+        `import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-const buttonHtml = renderToStaticMarkup(React.createElement(Button, null, 'Save'));
-if (!buttonHtml.includes('Save')) {
-    throw new Error('Packed Button did not render in the React 18.0.0 consumer');
-}
-
-const modalHtml = renderToStaticMarkup(
-    React.createElement(Modal, { open: false, title: 'Compatibility check' }, 'Body')
-);
-if (modalHtml !== '') {
-    throw new Error('Closed Modal should render no markup');
-}
-
-console.log('React 18.0.0 consumer render verification passed');
+export default defineConfig({
+    plugins: [react()],
+});
 `
     );
 
@@ -119,13 +124,20 @@ console.log('React 18.0.0 consumer render verification passed');
 
     const tsc = path.join(consumerRoot, 'node_modules', 'typescript', 'bin', 'tsc');
     run(process.execPath, [tsc, '--project', path.join(consumerRoot, 'tsconfig.json')], consumerRoot);
-    run(process.execPath, [path.join(consumerRoot, 'verify.mjs')], consumerRoot);
+
+    const vite = path.join(consumerRoot, 'node_modules', 'vite', 'bin', 'vite.js');
+    run(process.execPath, [vite, 'build'], consumerRoot);
+
+    if (!existsSync(path.join(consumerRoot, 'dist', 'index.html'))) {
+        throw new Error('React 18.0.0 consumer production build did not emit dist/index.html');
+    }
 
     const stylePath = path.join(consumerRoot, 'node_modules', 'fresnica-ui', 'dist', 'index.css');
     if (!existsSync(stylePath)) {
         throw new Error('Packed consumer is missing dist/index.css');
     }
 
+    console.log('React 18.0.0 packed consumer typecheck and Vite build passed');
     console.log('Packed style export artifact exists');
 } finally {
     rmSync(consumerRoot, { recursive: true, force: true });
