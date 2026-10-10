@@ -47,6 +47,7 @@
         "test:cov": "vitest run --coverage --reporter=json --outputFile=coverage/vitest-results.json",
         "test:a11y": "vitest run --config vitest.a11y.config.ts",
         "test:contrast": "node scripts/check-color-contrast.mjs",
+        "test:consumer-react18": "node scripts/verify-react18-consumer.mjs",
         "badges": "node scripts/generate-coverage-badges.mjs",
         "audit:tokens": "node scripts/audit-design-tokens.mjs",
         "check:docs": "node scripts/check-docs-sync.mjs",
@@ -60,8 +61,8 @@
     },
     "peerDependencies": {
         "classnames": "^2.5.1",
-        "react": ">=17.0.0",
-        "react-dom": ">=17.0.0"
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0"
     },
     "engines": {
         "node": ">=20.19.0"
