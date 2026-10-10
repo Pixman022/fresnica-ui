@@ -98,12 +98,12 @@ function FormInner<T extends Record<string, unknown>>(
             (values) => {
                 callbacksRef.current.onFinish?.(values as T);
             },
-            (err: Error & { errorFields?: unknown[]; values?: unknown }) => {
+            (err: Error & { errorFields?: unknown[]; values?: unknown; outOfDate?: boolean }) => {
                 if (err && Array.isArray(err.errorFields)) {
                     callbacksRef.current.onFinishFailed?.({
                         values: (err.values ?? {}) as T,
                         errorFields: err.errorFields as never,
-                        outOfDate: false,
+                        outOfDate: Boolean(err.outOfDate),
                     });
                 }
             }

@@ -436,6 +436,156 @@ describe('Form', () => {
             expect(screen.getByText('禁用此值')).toBeInTheDocument();
         });
 
+        it('回归: 异步校验期间改值时，不用旧结果提交未校验的新值', async () => {
+            const onFinish = vi.fn();
+            const onFinishFailed = vi.fn();
+            let releaseValidator: (() => void) | undefined;
+            const validator = vi.fn(
+                () =>
+                    new Promise<void>((resolve) => {
+                        releaseValidator = resolve;
+                    })
+            );
+            const { container } = render(
+                <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
+                    <Form.Item name="name" rules={[{ validator }]}>
+                        <Input />
+                    </Form.Item>
+                </Form>
+            );
+            const form = container.querySelector('form') as HTMLFormElement;
+            const input = screen.getByRole('textbox') as HTMLInputElement;
+
+            await act(async () => {
+                fireEvent.change(input, { target: { value: 'valid' } });
+                fireEvent.submit(form);
+                await Promise.resolve();
+            });
+            expect(validator).toHaveBeenCalledTimes(1);
+
+            act(() => {
+                fireEvent.change(input, { target: { value: 'invalid' } });
+            });
+
+            await act(async () => {
+                releaseValidator?.();
+                await new Promise((resolve) => setTimeout(resolve, 0));
+            });
+
+            expect(onFinish).not.toHaveBeenCalled();
+            expect(onFinishFailed).toHaveBeenCalledTimes(1);
+            expect(onFinishFailed.mock.calls[0][0]).toMatchObject({
+                values: { name: 'invalid' },
+                errorFields: [],
+                outOfDate: true,
+            });
+        });
+
+        it('回归: 两轮异步校验逆序结束时，旧结果不覆盖最新结果', async () => {
+            let formRef: FormInstance | null = null;
+            const releases: Array<() => void> = [];
+            let callIndex = 0;
+            const validator = vi.fn(async () => {
+                const index = callIndex++;
+                await new Promise<void>((resolve) => {
+                    releases[index] = resolve;
+                });
+                if (index === 0) throw new Error('旧校验错误');
+            });
+
+            function Host() {
+                const [form] = Form.useForm();
+                formRef = form;
+                return (
+                    <Form form={form}>
+                        <Form.Item name="name" rules={[{ validator }]}>
+                            <Input />
+                        </Form.Item>
+                    </Form>
+                );
+            }
+
+            render(<Host />);
+            act(() => {
+                formRef!.setFieldValue('name', 'same');
+            });
+
+            let firstValidation!: Promise<Record<string, unknown>>;
+            let secondValidation!: Promise<Record<string, unknown>>;
+            await act(async () => {
+                firstValidation = formRef!.validateFields();
+                secondValidation = formRef!.validateFields();
+                await Promise.resolve();
+            });
+            expect(releases).toHaveLength(2);
+
+            await act(async () => {
+                releases[1]!();
+                await expect(secondValidation).resolves.toEqual({ name: 'same' });
+            });
+            expect(formRef!.getFieldError('name')).toBeUndefined();
+
+            await act(async () => {
+                releases[0]!();
+                await expect(firstValidation).rejects.toMatchObject({
+                    errorFields: [],
+                    outOfDate: true,
+                });
+            });
+            expect(formRef!.getFieldError('name')).toBeUndefined();
+        });
+
+        it('回归: 异步校验期间 resetFields 不恢复过期错误', async () => {
+            let formRef: FormInstance | null = null;
+            let releaseValidator: (() => void) | undefined;
+            const validator = vi.fn(async () => {
+                await new Promise<void>((resolve) => {
+                    releaseValidator = resolve;
+                });
+                throw new Error('过期错误');
+            });
+
+            function Host() {
+                const [form] = Form.useForm();
+                formRef = form;
+                return (
+                    <Form form={form}>
+                        <Form.Item name="name" rules={[{ validator }]}>
+                            <Input />
+                        </Form.Item>
+                    </Form>
+                );
+            }
+
+            render(<Host />);
+            act(() => {
+                formRef!.setFieldsValue({ name: 'init' });
+                formRef!.setFieldValue('name', 'dirty');
+            });
+
+            let validation!: Promise<Record<string, unknown>>;
+            await act(async () => {
+                validation = formRef!.validateFields();
+                await Promise.resolve();
+            });
+
+            act(() => {
+                formRef!.resetFields(['name']);
+            });
+            expect(formRef!.getFieldValue('name')).toBe('init');
+
+            await act(async () => {
+                releaseValidator?.();
+                await expect(validation).rejects.toMatchObject({
+                    errorFields: [],
+                    outOfDate: true,
+                });
+            });
+
+            expect(formRef!.getFieldError('name')).toBeUndefined();
+            expect(formRef!.isFieldValidating('name')).toBe(false);
+        });
+
         it('onValuesChange 触发：单字段变化', () => {
             const onValuesChange = vi.fn();
             function Host() {

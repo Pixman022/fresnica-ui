@@ -145,6 +145,9 @@ function createFormInstance(options: FormOptions): FormInstance {
     const touchedSet = new Set<string>();
     const validatingSet = new Set<string>();
     const fieldStore = createFormStore();
+    let mutationVersion = 0;
+    let validationSequence = 0;
+    const latestValidationByField = new Map<string, number>();
 
     // 初始值写入
     if (options.initialValues) {
@@ -176,8 +179,12 @@ function createFormInstance(options: FormOptions): FormInstance {
 
     function setFieldValue(name: NamePath, value: unknown): void {
         const key = stringifyNamePath(name);
+        const hadValue = store.has(key);
         const prev = store.get(key);
         store.set(key, value);
+        if (!hadValue || prev !== value) {
+            mutationVersion += 1;
+        }
         touchedSet.add(key);
         // 通知对应 FormItem
         fieldStore.forEachField((meta) => {
@@ -190,19 +197,31 @@ function createFormInstance(options: FormOptions): FormInstance {
 
     function setFieldsValue(values: Record<string, unknown>): void {
         const flat = flattenInitialValues(values);
+        let changed = false;
         Object.keys(flat).forEach((k) => {
+            const hadValue = store.has(k);
+            const prev = store.get(k);
             store.set(k, flat[k]);
+            if (!hadValue || prev !== flat[k]) {
+                changed = true;
+            }
             // 首次写入时同步到 initialStore（resetFields 用）
             if (!initialStore.has(k)) {
                 initialStore.set(k, flat[k]);
             }
         });
+        if (changed) {
+            mutationVersion += 1;
+        }
         // 通知所有字段
         fieldStore.notifyAll();
     }
 
     function resetFields(nameList?: NamePath[]): void {
         const keys = nameList ? nameList.map(stringifyNamePath) : Array.from(store.keys());
+        if (keys.length > 0) {
+            mutationVersion += 1;
+        }
         keys.forEach((k) => {
             // 还原到 initialStore 记录的值；没有记录则清空
             store.set(k, initialStore.get(k));
@@ -225,10 +244,19 @@ function createFormInstance(options: FormOptions): FormInstance {
     }
 
     function setFields(fields: FieldData[]): void {
+        let invalidatesValidation = false;
         fields.forEach((f) => {
             const key = stringifyNamePath(f.name);
-            if (f.value !== undefined) store.set(key, f.value);
+            if (f.value !== undefined) {
+                const hadValue = store.has(key);
+                const prev = store.get(key);
+                store.set(key, f.value);
+                if (!hadValue || prev !== f.value) {
+                    invalidatesValidation = true;
+                }
+            }
             if (f.errors !== undefined) {
+                invalidatesValidation = true;
                 if (f.errors.length === 0) errorsStore.delete(key);
                 else errorsStore.set(key, f.errors);
             }
@@ -236,6 +264,9 @@ function createFormInstance(options: FormOptions): FormInstance {
             if (f.validating) validatingSet.add(key);
             else validatingSet.delete(key);
         });
+        if (invalidatesValidation) {
+            mutationVersion += 1;
+        }
         fieldStore.notifyAll();
     }
 
@@ -247,17 +278,21 @@ function createFormInstance(options: FormOptions): FormInstance {
             }
         });
 
-        // 标记 validating
-        targetMetas.forEach((m) => validatingSet.add(m.key));
+        const validationId = ++validationSequence;
+        const validationVersion = mutationVersion;
+        const valuesSnapshot = getFieldsValue(true);
+
+        targetMetas.forEach((meta) => {
+            latestValidationByField.set(meta.key, validationId);
+            validatingSet.add(meta.key);
+        });
         fieldStore.notifyAll();
 
-        const errorFields: ValidateError[] = [];
-        await Promise.all(
+        const results = await Promise.all(
             targetMetas.map(async (meta) => {
-                const value = store.get(meta.key);
-                const ruleList = meta.rules;
+                const value = valuesSnapshot[meta.key];
                 const errs: string[] = [];
-                for (const r of ruleList) {
+                for (const r of meta.rules) {
                     const rule: RuleObject = typeof r === 'function' ? r(formInstance) : r;
                     try {
                         await runRule(rule, value);
@@ -265,29 +300,60 @@ function createFormInstance(options: FormOptions): FormInstance {
                         errs.push(e instanceof Error ? e.message : String(e));
                     }
                 }
-                if (errs.length > 0) {
-                    errorsStore.set(meta.key, errs);
-                    touchedSet.add(meta.key);
-                    errorFields.push({ name: meta.key, errors: errs });
-                } else {
-                    errorsStore.delete(meta.key);
-                }
+                return { meta, errs };
             })
         );
 
-        targetMetas.forEach((m) => validatingSet.delete(m.key));
+        const superseded = targetMetas.some((meta) => latestValidationByField.get(meta.key) !== validationId);
+        const outOfDate = mutationVersion !== validationVersion || superseded;
+        const errorFields: ValidateError[] = [];
+
+        results.forEach(({ meta, errs }) => {
+            if (latestValidationByField.get(meta.key) !== validationId) {
+                return;
+            }
+
+            latestValidationByField.delete(meta.key);
+            validatingSet.delete(meta.key);
+
+            if (outOfDate) {
+                return;
+            }
+
+            if (errs.length > 0) {
+                errorsStore.set(meta.key, errs);
+                touchedSet.add(meta.key);
+                errorFields.push({ name: meta.key, errors: errs });
+            } else {
+                errorsStore.delete(meta.key);
+            }
+        });
         fieldStore.notifyAll();
+
+        if (outOfDate) {
+            const err = new Error('Validation out of date') as Error & {
+                errorFields: ValidateError[];
+                values: Record<string, unknown>;
+                outOfDate: boolean;
+            };
+            err.errorFields = [];
+            err.values = getFieldsValue(true);
+            err.outOfDate = true;
+            throw err;
+        }
 
         if (errorFields.length > 0) {
             const err = new Error('Validation failed') as Error & {
                 errorFields: ValidateError[];
                 values: Record<string, unknown>;
+                outOfDate: boolean;
             };
             err.errorFields = errorFields;
-            err.values = getFieldsValue(true);
+            err.values = valuesSnapshot;
+            err.outOfDate = false;
             throw err;
         }
-        return getFieldsValue(true);
+        return valuesSnapshot;
     }
 
     function submit(): void {
@@ -295,15 +361,23 @@ function createFormInstance(options: FormOptions): FormInstance {
             .then((values) => {
                 options.onFinish?.(values);
             })
-            .catch((err: Error & { errorFields?: ValidateError[]; values?: Record<string, unknown> }) => {
-                if (err && err.errorFields && err.values !== undefined) {
-                    options.onFinishFailed?.({
-                        values: err.values,
-                        errorFields: err.errorFields,
-                        outOfDate: false,
-                    });
+            .catch(
+                (
+                    err: Error & {
+                        errorFields?: ValidateError[];
+                        values?: Record<string, unknown>;
+                        outOfDate?: boolean;
+                    }
+                ) => {
+                    if (err && err.errorFields && err.values !== undefined) {
+                        options.onFinishFailed?.({
+                            values: err.values,
+                            errorFields: err.errorFields,
+                            outOfDate: Boolean(err.outOfDate),
+                        });
+                    }
                 }
-            });
+            );
     }
 
     /**
