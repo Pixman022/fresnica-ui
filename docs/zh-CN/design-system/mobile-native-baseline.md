@@ -50,7 +50,7 @@ tabs、`react-native-safe-area-context`、`react-native-screens` 和 NetInfo。
 - Web 1.0.0 数值继续冻结。原生端单独生成类型化颜色、尺寸和字体指标，组成 `AppTheme`。
 - 原生主题支持 Light、Dark 和 System。用户只选择一个品牌主题色，浅色与深色角色一起生成。
 - 不使用 Android 系统动态强调色，保证 Fresnica 品牌与语义角色在支持设备上保持一致。
-- 图片取色主题等待单独产品决策，第一阶段不实现。
+- 图片取色主题**不属于当前 Fresnica 产品方向**，已从现行移动端基线中排除；只有新的明确产品决策才重新引入。
 - 金融反馈色与用户选择的品牌主题色保持隔离。
 
 系统状态栏和导航栏跟随当前页面表面色，并自动推导清晰可见的图标明暗。默认不直接使用品牌
@@ -71,22 +71,41 @@ Provider，也不内置钱包业务术语。
 `react-native-svg`，必须先完成依赖评审并登记到第三方许可说明。Web 端现有的
 `lucide-react` 不得导入原生代码。
 
-基础动效使用 React Native `Animated` 并尊重减弱动效设置。Reanimated 和 Gesture Handler
-需要单独决策，组件不得隐式引入。
+基础组件动效应保持克制。当前共享 `Modal` 按项目所有者决定继续使用现有原生 `fade` 行为；这**不代表已经通过减弱动效合规验收**。完整的 reduced-motion 复核属于未来产品无障碍/发布门槛。Reanimated 和 Gesture Handler 需要单独依赖决策，组件不得隐式引入。
 
 ## 无障碍与验收门槛
 
 每个原生交互组件都要按需定义 role、label、hint、state、disabled、selected、checked 和
-busy 行为；保持合理焦点顺序，支持 `onAccessibilityTap`、Dynamic Type、长翻译文案和至少
-44×44 的触控区域。状态不能只靠颜色表达。
+busy 行为；保持合理焦点顺序，支持 Dynamic Type、长翻译文案和至少 44×44 的触控区域。
+状态不能只靠颜色表达。
 
-第一阶段验收门槛：
+### 组件包工程门槛
+
+可复用组件包满足以下条件后可供内部消费：
 
 1. TypeScript、ESLint、Prettier 和 Jest 通过。
 2. Light、Dark、System 主题测试通过，组件内没有裸颜色或重复设计常量。
 3. disabled、loading、error、pressed 状态具备组件测试。
-4. accessibility role/state/label 测试通过；异步失败只能使用一条主动播报路径。
-5. Android 渲染、TalkBack、键盘、安全区、系统栏、减弱动效和 Dynamic Type 完成人工验收。
-6. 在 320、360、390–393、430 逻辑像素宽度下完成布局检查。
+4. 适用的 accessibility role/state/label 契约有自动化测试覆盖。
+5. 在 320、360、390–393、430 逻辑像素宽度下完成布局检查。
+6. 中性 Preview 有可审查的 Android 模拟器证据。
 
-iOS VoiceOver 与真机验收属于后续交付门槛，第一阶段不宣称已经完成。
+通过这一层**不代表**已经完成真机 TalkBack、完整减弱动效或钱包产品无障碍验收。
+
+### 首个钱包集成硬门槛
+
+第一个实际消费该组件包的 Fresnica 钱包 App 在标记 **UI 集成完成** 前，
+必须在一台受支持的真实 Android 设备上验证：
+
+1. 主要流程的 TalkBack 朗读和焦点顺序。
+2. Button、图标操作、Field 和 Modal 内容的可访问标签/状态，包括关闭 Modal 后合理恢复焦点。
+3. 真实软键盘避让和 Android 系统 Back 行为。
+4. Light/Dark 下的安全区以及状态栏/导航栏可读性。
+5. 至少 1.3× 系统字体缩放，不出现关键内容裁切或主要操作不可见。
+6. 44dp 触控目标，状态/错误不能只依赖颜色表达。
+7. 英文和简体中文长文案行为。
+
+### 正式发布门槛
+
+生产发布前，再增加产品级多设备/系统版本矩阵、最终颜色对比复核和完整
+reduced-motion 重新验收。iOS 实现启动后，VoiceOver 与 iPhone 真机验收成为对应发布门槛。
