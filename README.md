@@ -34,6 +34,14 @@ The package is currently developed from this repository and is not published to
 npm yet. Package installation instructions will be added when a registry release
 is intentionally created.
 
+## Runtime compatibility
+
+- React and React DOM **18.0.0 or newer** are required. React 17 is not supported because
+  overlay components such as Modal and Drawer use React 18's `useId` API.
+- The development baseline remains React 18.3.1. CI also installs the packed library into
+  a clean React 18.0.0 consumer and verifies types plus server rendering of a basic Button
+  and the `useId`-based Modal path.
+
 ## Quick start
 
 ```tsx
