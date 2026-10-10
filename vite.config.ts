@@ -16,6 +16,19 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
  */
 const assetFileNames = (_assetInfo: PreRenderedAsset): string => `es/[name][extname]`;
 
+const peerDependencies = ['react', 'react-dom', 'classnames'] as const;
+
+const isPeerDependency = (id: string): boolean => {
+    const normalized = id.replace(/\\/g, '/');
+    return peerDependencies.some(
+        (dependency) =>
+            normalized === dependency ||
+            normalized.startsWith(`${dependency}/`) ||
+            normalized.includes(`/node_modules/${dependency}/`) ||
+            normalized.endsWith(`/node_modules/${dependency}`)
+    );
+};
+
 /**
  * libAssetsPlugin 会按源资源的相对路径在 dist 下创建目录树（如 dist/img/），
  * 然后实际文件被重定向到 dist/files/，留下空目录。构建结束后递归清理之。
@@ -314,7 +327,7 @@ export default defineConfig({
             entry: resolve(__dirname, 'src/index.ts'),
         },
         rollupOptions: {
-            external: ['react', 'react-dom', 'react/jsx-runtime', 'classnames'],
+            external: isPeerDependency,
             // 多输出：
             //  - ES：preserveModules 保持源码目录结构 → 消费者可按组件 network-shake，
             //        CSS 随 cssCodeSplit 按组件拆分，配合 injectImportedCssPlugin 自动回填 import
