@@ -144,14 +144,17 @@ const adjustForForeground = (base: OKLCH, foreground: string, minimumContrast: n
 
 export const getFresnicaThemeAdjustment = (primaryColor: string, mode: FresnicaThemeMode): FresnicaThemeAdjustment => {
     const inputColor = normalizeThemeColor(primaryColor) ?? DEFAULT_PRIMARY_COLOR;
-    const base = rgbToOklch(parseHex(inputColor)!);
+    const inputRgb = parseHex(inputColor)!;
+    const base = rgbToOklch(inputRgb);
+    const greenFilledControl = inputRgb.g > inputRgb.r && inputRgb.g > inputRgb.b;
+    const preferredForeground = greenFilledControl ? '#FFFFFF' : mode === 'light' ? '#FFFFFF' : '#111214';
     const effectivePrimaryColor = adjustForForeground(
         base,
-        mode === 'light' ? '#FFFFFF' : '#111214',
+        preferredForeground,
         4.5,
-        mode === 'light' ? -1 : 1
+        preferredForeground === '#FFFFFF' ? -1 : 1
     );
-    const onPrimaryColor = accessibleForeground(effectivePrimaryColor);
+    const onPrimaryColor = greenFilledControl ? '#FFFFFF' : accessibleForeground(effectivePrimaryColor);
 
     return {
         inputColor,
