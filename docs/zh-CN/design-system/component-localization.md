@@ -47,6 +47,35 @@
 
 已有的显式属性（例如 `maxLabel`、`copyLabel`、`statusLabel`、`okText`、`cancelText`、`closeLabel` 和 `aria-label`）仍然具有更高优先级。`children` 也继续覆盖 `TransactionStatus` 自动生成的文案。
 
+## 全局 Locale Provider
+
+WS03 新增 Web 通用 Locale Context，但不会替换既有主题 Provider：
+
+```tsx
+import { FresnicaThemeProvider, FresnicaUiProvider, zhCN } from 'fresnica-ui';
+
+<FresnicaThemeProvider>
+  <FresnicaUiProvider locale={zhCN}>
+    <App />
+  </FresnicaUiProvider>
+</FresnicaThemeProvider>;
+```
+
+内置语言包同时从包根入口和稳定的 `fresnica-ui/locales` 子路径导出。
+`FresnicaUiProvider` 接收局部 locale 对象，并按字段与最近的父级 Provider 合并。
+未提供字段继续保持缺失，使组件可以回退到原有默认文案。Provider 不持久化语言、
+不读取产品状态、不提供全局可变 setLocale，也不复制 `FresnicaThemeProvider` 的主题状态。
+
+WS04 接入组件后，文案优先级为：
+
+1. 组件已有显式文案属性，例如 `closeLabel`、`label`、`clearAriaLabel`；
+2. 组件已有的 `labels` 对应字段；
+3. 最近的 `FresnicaUiProvider` Locale 字段；
+4. 组件原有默认文案。
+
+WS03 只交付 Provider 与语言包契约；具体通用组件接入由 WS04 跟踪。在 WS04 合并前，
+现有组件仍按原来的显式属性 / `labels` / 默认值解析。
+
 ## 兼容性与范围
 
 - 默认中英文文案保持不变，因此现有截图和消费者不会发生变化。
@@ -60,6 +89,5 @@
 ## 跨平台同步状态 — 2026-10-12
 
 Native NU01–NU08 已在 `ea40207351d9a2a62c58226c2c361f06444ee309` 完成。
-Web 当前优先级仍是：组件显式文案 → 组件 `labels` → 组件原有默认值。WS03 将在 `labels`
-和默认值之间加入 Provider Locale，WS04 再把符合范围的通用文案接入。在这些任务合并前，
-不能把 Native Provider 行为当作 Web 已有能力。
+Web WS03 现已提供全局 Locale Context 与公开语言包；WS04 继续负责把符合范围的通用组件
+文案接入该 Context，同时保留显式属性、组件 `labels` 和原有默认值的优先级。
