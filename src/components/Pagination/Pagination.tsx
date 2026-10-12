@@ -109,16 +109,24 @@ const SizeChanger: React.FC<{
                 disabled={disabled}
                 aria-haspopup="listbox"
                 aria-expanded={open}
-                aria-label={labels?.pageSizeLabel?.(value) ?? locale.pageSizeLabel?.(value) ?? `每页 ${value} 条`}
+                aria-label={
+                    labels?.pageSizeLabel?.(value) ?? locale.pageSizeLabel?.(value) ?? `每页 ${value} 条`
+                }
                 onClick={() => setOpen((v) => !v)}
             >
-                <span>{labels?.pageSizeOption?.(value) ?? locale.pageSizeOption?.(value) ?? `${value} 条/页`}</span>
+                <span>
+                    {labels?.pageSizeOption?.(value) ?? locale.pageSizeOption?.(value) ?? `${value} 条/页`}
+                </span>
                 <span className={styles.caret}>
                     <CaretDown />
                 </span>
             </button>
             {open && (
-                <ul className={styles.sizeList} role="listbox" aria-label={labels?.pageSizeMenu ?? locale.pageSizeMenu ?? '选择每页条数'}>
+                <ul
+                    className={styles.sizeList}
+                    role="listbox"
+                    aria-label={labels?.pageSizeMenu ?? locale.pageSizeMenu ?? '选择每页条数'}
+                >
                     {options.map((opt) => (
                         <li
                             key={opt}
@@ -230,7 +238,11 @@ export const Pagination: React.FC<PaginationProps> = ({
 
     return (
         <nav className={rootCls} style={style} aria-label={labels?.pagination ?? locale.pagination ?? '分页'}>
-            {showTotal && <span className={styles.total}>{labels?.pageCount?.(total) ?? locale.pageCount?.(total) ?? `共 ${total} 条`}</span>}
+            {showTotal && (
+                <span className={styles.total}>
+                    {labels?.pageCount?.(total) ?? locale.pageCount?.(total) ?? `共 ${total} 条`}
+                </span>
+            )}
             <button
                 type="button"
                 className={styles.item}
