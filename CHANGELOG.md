@@ -30,6 +30,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 删除未使用且为空的旧示例组件目录：`Countdown`、`Phone`、`Time` 和 `Wallet`；现有 Fresnica 组件、Demo 路由及公开导出不受影响。
 - 删除已被 WebP 替代的 Demo Banner PNG 源文件：`banner01.png` 至 `banner04.png`；Image 和 Carousel 的运行时与代码示例引用均已迁移至 WebP。
 
+## [1.1.0] - 2026-10-12
+
+### Added
+
+- Added the optional `FresnicaUiProvider` / `useUiLocale` Web Locale layer with public
+  `enUS` / `zhCN` packs and the stable `fresnica-ui/locales` package subpath.
+- Added typed DOM refs for `Button` and `Input`, including React 18 packed-consumer coverage.
+- Added Provider Locale adoption for generic component copy while preserving explicit props and
+  per-component `labels` precedence.
+- Added reproducible delivery-record generation with a packed tarball SHA-256 and fixed source SHA.
+
+### Changed
+
+- Protected component-owned busy/error semantics from contrary HTML attribute overrides.
+- Updated cross-platform Web/Native contracts to the delivered Native surface and explicit Token
+  source-lock workflow.
+- Extended CI with packed Locale/ref consumption regression and a non-publishing delivery artifact job.
+
+### Migration
+
+- No migration is required for existing theme, component, or `labels` calls.
+- Add `FresnicaUiProvider` only when global generic UI copy is desired.
+- Prefer `fresnica-ui/locales` for public language-pack imports; do not depend on internal
+  `src/` or `dist/` paths.
+- `Button` and `Input` refs are optional additive APIs.
+
 ## [2.0.0] - 2026-09-11
 
 ### Added

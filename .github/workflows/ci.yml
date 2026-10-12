@@ -113,3 +113,24 @@ jobs:
                   name: demo-dist
                   path: demo-dist
                   retention-days: 7
+
+    delivery:
+        name: Delivery artifact
+        runs-on: ubuntu-latest
+        needs: [build]
+        steps:
+            - uses: actions/checkout@v7
+
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: 22
+                  cache: npm
+
+            - run: npm ci
+            - run: npm run delivery:record
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: fresnica-ui-delivery
+                  path: delivery
+                  if-no-files-found: error
+                  retention-days: 30

@@ -32,7 +32,7 @@ build logic without preserving the following breaks consumer tree-shaking:
 
 - `exports` maps `.` to the ES/CJS/types triple, `./style` to `dist/index.css`, and `./es/*` to the preserved ES modules.
 - `sideEffects: false` lets bundlers drop unused modules.
-- `files` limits the published tarball to the build output and README.
+- `files` limits the published tarball to `dist/`, README, LICENSE, and `THIRD_PARTY_NOTICES.md`.
 - `lucide-react` is the only direct runtime dependency and provides the shared interface icon system.
 
 `prepublishOnly` runs `npm run build`, so a publish always ships a fresh artifact.
@@ -49,3 +49,45 @@ with an error if the coverage summary is missing.
 
 `npm run build:demo` builds the demo into `demo-dist/` using `vite.config.demo.ts`; `npm run deploy` chains that with
 `gh-pages -d demo-dist` to publish it. The demo is never part of the npm artifact.
+
+## Delivery record
+
+Web `1.1.0` uses its own SemVer progression from `1.0.0`. This minor version is based on
+backward-compatible Web API additions and is not coupled to the Native package version.
+
+Run:
+
+```bash
+npm ci
+npm run delivery:record
+```
+
+`delivery:record` reuses the normal library build, runs `npm pack --json --ignore-scripts`,
+verifies the required package surface, moves the tarball under `delivery/`, computes SHA-256,
+and writes a matching JSON record. The record includes the exact Git source SHA, package version,
+tarball filename, Node/React baselines, required packed files, and known limits.
+
+CI runs the same command in the `Delivery artifact` job after the full quality, React 18
+consumer, and Demo build gates. CI uploads the `delivery/` directory as an artifact; it does
+not publish to npm.
+
+A reviewed delivery must refer to the fixed source SHA and generated checksum from one concrete CI
+run. Do not describe floating `main` as the reviewed source.
+
+## Web 1.1 migration
+
+The `1.1.0` changes in this synchronization round are additive:
+
+- Existing `FresnicaThemeProvider` calls remain valid. Add `FresnicaUiProvider` only when
+  global generic component copy is useful.
+- Existing explicit copy props and per-component `labels` remain valid and keep higher priority
+  than Provider Locale.
+- Existing calls that do not use a Locale Provider keep their historical component defaults.
+- `Button` and `Input` now forward typed DOM refs; callers are not required to provide refs.
+- `fresnica-ui/locales` is the stable public language-pack subpath. Do not import locale files from
+  `src/` or `dist/` internals.
+- No Token value, default visual, wallet business API, Native TalkBack status, iOS status, or Native
+  reduced-motion decision changes as part of this Web release.
+
+A future breaking API change requires its own major-version migration plan. It must not be inferred
+from the Native package version.

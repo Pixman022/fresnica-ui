@@ -52,6 +52,28 @@ export function WalletSummary() {
 }
 ```
 
+## 全局 UI 配置
+
+Web `1.1.0` 新增可选的全局 Locale 层，并继续与既有
+`FresnicaThemeProvider` 组合使用；它不会替换或复制主题持久化逻辑。
+
+```tsx
+import { FresnicaThemeProvider, FresnicaUiProvider, zhCN } from 'fresnica-ui';
+
+<FresnicaThemeProvider>
+    <FresnicaUiProvider locale={zhCN}>
+        <App />
+    </FresnicaUiProvider>
+</FresnicaThemeProvider>;
+```
+
+旧调用无需使用 `FresnicaUiProvider` 也继续兼容。通用文案优先级为：
+组件显式文案 → 组件 `labels` → Provider Locale → 组件历史默认文案。
+`Button` 与 `Input` 同时提供类型明确的 DOM ref，可用于焦点和集成。
+
+完整契约见 [组件多语言文案](./design-system/component-localization.md) 与
+[构建与发布](./development/build-and-release.md)。
+
 ## 本地开发
 
 ```bash

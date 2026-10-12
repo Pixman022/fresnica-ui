@@ -112,7 +112,7 @@ prop names remain independent.
 
 - Default English/Chinese labels are unchanged, so existing screenshots and consumers remain stable.
 - `labels` changes text and accessible names only; it does not change spacing, typography, color, or component state semantics.
-- Product-specific copy belongs in the consuming app. The Web package currently exposes reusable UI labels without a global Locale provider; adding that provider is WS03 work and must preserve existing explicit props/`labels` behavior. Wallet terminology stays outside the generic locale surface.
+- Product-specific copy belongs in the consuming app. The Web package now provides an optional global Locale provider for generic UI copy while preserving existing explicit props/`labels` behavior. Wallet terminology stays outside the generic locale surface.
 - Labels are additive and optional. Existing explicit props (`emptyText`, `label`, `placeholder`, `closeLabel`, and `aria-label`) remain the most specific override for the component that owns them.
 - This file specifies the current Web package contract. The Android-first Native adapter now ships
   `FresnicaUiProvider`, `useUiLocale`, `useUiTheme`, and built-in `enUS`/`zhCN` packs for generic
@@ -122,6 +122,6 @@ prop names remain independent.
 ## Cross-platform synchronization status — 2026-10-12
 
 Native NU01–NU08 are complete at `ea40207351d9a2a62c58226c2c361f06444ee309`.
-Web WS03 now provides the global Locale context and public language packs. WS04 remains responsible
-for connecting eligible generic component copy to that context while preserving explicit props,
-component `labels` and historical defaults.
+Web WS03 provides the global Locale context and public language packs. WS04 is complete: eligible
+generic component copy now consumes that context while preserving explicit props, component
+`labels` and historical defaults. WS05 regression and packed-consumer validation are also complete.
