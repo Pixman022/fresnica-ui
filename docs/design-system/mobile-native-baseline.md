@@ -14,12 +14,19 @@ if that document changes, update this file and the machine-readable metadata tog
 | Area | First phase | Later phase |
 | --- | --- | --- |
 | Platform | Android implementation and acceptance | iOS implementation and device acceptance |
-| Shared UI | Theme, Typography, Button, Field, Screen, Header, ListRow, Modal and StateView | Additional components after reuse is proven |
+| Shared UI | 15 delivered primitives: Typography, Button, Field, Screen, Header, ListRow, Modal, StateView, IconButton, Divider, StatusBadge, InlineMessage, Skeleton, Progress and SegmentedControl | Additional components only after stable reuse is proven |
 | Native code | App shell, system bars, lifecycle and unavoidable platform bridges | Capability-specific integration approved case by case |
 | Product UI | Feature-local composition using shared primitives | Promote only after stable reuse across at least two features |
 
 The Web package remains independent. React Native code must not import DOM
 components, CSS, Less, Web Portal or browser storage APIs.
+
+### Cross-platform synchronization status — 2026-10-12
+
+Native NU01–NU08 are complete; see the [Native optimization completion record](https://github.com/Pixman022/fresnica-ui-native/blob/ea40207351d9a2a62c58226c2c361f06444ee309/docs/native-library-optimization-status-2026-10-10.md).
+The Web WS01–WS06 synchronization round starts from `main@15d49e0be28a232ae6de2a7285a3a77add8c87d4`.
+This section records current facts only: later WS tasks must not be described as delivered until
+their implementation and validation are merged.
 
 ## Toolchain baseline
 
@@ -47,6 +54,10 @@ bar, persistence and platform overlays. Components communicate through props and
 callbacks. The approved navigation baseline is React Navigation 7 with native stack
 and bottom tabs, `react-native-safe-area-context`, `react-native-screens` and NetInfo.
 
+For shared behavior, platform responsibility can differ without changing the target outcome.
+The Web `Modal` owns its DOM focus entry/trap/restoration behavior. Native exposes refs and
+lifecycle cooperation so the host can move and restore accessibility focus around the modal.
+
 ## Theme and token policy
 
 - The three layers remain Primitive → Semantic → Component.
@@ -62,16 +73,25 @@ and bottom tabs, `react-native-safe-area-context`, `react-native-screens` and Ne
 - Image-derived theme generation is **not required for the current Fresnica product direction** and is excluded from the active mobile baseline. Reintroduce it only after a new explicit product decision.
 - Financial feedback roles remain independent from user-selected brand colors.
 
+Native pins an reviewed Web Token source revision instead of following floating `main`.
+When either shared Token source changes, review and merge the Web source first; then update
+the Native source lock explicitly, regenerate Native outputs, inspect the mapping diff and
+run Native validation. Ordinary Web code or documentation changes do not require advancing
+the Native Token lock.
+
 The system status bar and navigation bar follow the current page surface. Their icon
 appearance is derived automatically for legibility. Brand primary is not used as a
 default system-bar background.
 
 ## Localization and regional behavior
 
-Phase one supports English and Simplified Chinese. Components expose stable enums,
-labels, hints, errors and accessibility copy as injectable props; the app's existing
-localization provider supplies the actual strings. Components do not own a global
-locale provider and do not embed wallet business terminology.
+Phase one supports English and Simplified Chinese. The Native package now provides
+`FresnicaUiProvider`, `useUiTheme`, `useUiLocale`, and built-in `enUS`/`zhCN` packs for
+component-generic copy. The consuming app still owns locale/theme selection and persistence,
+and explicit component copy remains the most specific override. The package does not embed
+wallet business terminology. The Web package currently keeps its existing per-component
+`labels` and explicit copy contract; the Web global Locale provider is a WS03 deliverable,
+not an already-shipped Web capability.
 
 Dates, times, number grouping and hour-cycle presentation follow the system locale and
 region. Stored timestamps and domain values remain locale-neutral.
