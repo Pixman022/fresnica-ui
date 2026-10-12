@@ -12,12 +12,18 @@ Android。React Native 用于共享 UI 实现；无法安全地用 TypeScript �
 | 范围 | 第一阶段 | 后续阶段 |
 | --- | --- | --- |
 | 平台 | Android 实现与验收 | iOS 实现与真机验收 |
-| 共享 UI | Theme、Typography、Button、Field、Screen、Header、ListRow、Modal、StateView | 在复用得到验证后补充其他组件 |
+| 共享 UI | 已交付 15 个基础组件：Typography、Button、Field、Screen、Header、ListRow、Modal、StateView、IconButton、Divider、StatusBadge、InlineMessage、Skeleton、Progress、SegmentedControl | 仅在稳定复用得到验证后补充其他组件 |
 | 原生代码 | App 外壳、系统栏、生命周期和无法避免的平台桥接 | 按具体能力单独审批 |
 | 产品 UI | 使用共享基础组件在 Feature 内组合 | 至少两个 Feature 稳定复用后再提升为共享组件 |
 
 Web 包继续独立维护。React Native 代码不得导入 DOM 组件、CSS、Less、Web Portal 或浏览器
 存储 API。
+
+### 跨平台同步状态 — 2026-10-12
+
+Native NU01–NU08 已完成，见 [Native 优化完成记录](https://github.com/Pixman022/fresnica-ui-native/blob/ea40207351d9a2a62c58226c2c361f06444ee309/docs/native-library-optimization-status-2026-10-10.md)。
+Web WS01–WS06 同步工作从 `main@15d49e0be28a232ae6de2a7285a3a77add8c87d4` 开始。
+这里只记录当前事实；后续 WS 任务必须在实现和验证合并后才能写成已交付。
 
 ## 工具链基线
 
@@ -42,6 +48,9 @@ App 外壳负责导航、安全区组合、StatusBar、系统导航栏、持久�
 props 和 callback 工作。已批准的导航基线是 React Navigation 7 的 native stack 与 bottom
 tabs、`react-native-safe-area-context`、`react-native-screens` 和 NetInfo。
 
+共享行为目标可以一致，但平台职责允许不同。Web `Modal` 自己负责 DOM 焦点进入、限制和关闭后
+恢复；Native 通过 ref 与生命周期接口和宿主配合，完成 Modal 打开/关闭时的无障碍焦点移动与恢复。
+
 ## 主题与 Token 策略
 
 - 保持 Primitive → Semantic → Component 三层结构。
@@ -53,14 +62,20 @@ tabs、`react-native-safe-area-context`、`react-native-screens` 和 NetInfo。
 - 图片取色主题**不属于当前 Fresnica 产品方向**，已从现行移动端基线中排除；只有新的明确产品决策才重新引入。
 - 金融反馈色与用户选择的品牌主题色保持隔离。
 
+Native 会锁定经过审核的 Web Token 来源提交，而不是浮动跟随 `main`。共享 Token 源发生实际
+变化时，先在 Web 审核并合并，再由 Native 显式更新来源锁、重新生成产物、审查映射差异并运行
+Native 验证。普通 Web 代码或文档变更不要求同步推进 Native Token 锁。
+
 系统状态栏和导航栏跟随当前页面表面色，并自动推导清晰可见的图标明暗。默认不直接使用品牌
 主色填充系统栏。
 
 ## 多语言与区域行为
 
-第一阶段支持 English 和简体中文。组件通过可注入的 props 暴露稳定 enum、label、hint、
-error 与无障碍文案，由 App 现有 LocalizationProvider 提供实际翻译。组件不建立全局语言
-Provider，也不内置钱包业务术语。
+第一阶段支持 English 和简体中文。Native 包现已提供 `FresnicaUiProvider`、`useUiTheme`、
+`useUiLocale` 以及内置 `enUS`/`zhCN` 语言包，用于组件内部通用文案。消费 App 仍负责主题/
+语言选择及持久化，组件显式文案仍拥有最高覆盖优先级；组件包不内置钱包业务术语。Web 包目前
+继续使用既有逐组件 `labels` 与显式文案契约；Web 全局 Locale Provider 属于 WS03 待交付能力，
+不能提前写成已经完成。
 
 日期、时间、数字分组与 12/24 小时制跟随系统语言和区域。保存的时间戳和领域值保持与区域
 无关。
