@@ -101,7 +101,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     aria-invalid={status === 'error' ? true : ariaInvalid}
                 />
                 {allowClear && currentValue && !disabled && (
-                    <button type="button" className={styles.clear} onClick={handleClear} aria-label={resolvedClearAriaLabel}>
+                    <button
+                        type="button"
+                        className={styles.clear}
+                        onClick={handleClear}
+                        aria-label={resolvedClearAriaLabel}
+                    >
                         <X size={16} strokeWidth={2.25} aria-hidden="true" />
                     </button>
                 )}
