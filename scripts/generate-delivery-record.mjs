@@ -15,7 +15,7 @@ const run = (command, args) =>
     });
 
 const packageJson = JSON.parse(readFileSync(path.join(root, 'package.json'), 'utf8'));
-const sourceSha = run('git', ['rev-parse', 'HEAD']).trim();
+const sourceSha = process.env.FRESNICA_SOURCE_SHA?.trim() || run('git', ['rev-parse', 'HEAD']).trim();
 
 execFileSync(npm, ['run', 'build'], {
     cwd: root,
