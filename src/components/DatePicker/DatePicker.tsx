@@ -144,13 +144,14 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     const months = labels?.months?.length === 12 ? labels.months : providerMonths;
     const selectDateLabel = labels?.selectDate ?? locale.selectDate ?? '选择日期';
     const selectDateRangeLabel = labels?.selectDateRange ?? locale.selectDateRange ?? '选择日期范围';
-    const previousYearLabel = previousYearLabel;
-    const previousMonthLabel = previousMonthLabel;
-    const nextMonthLabel = nextMonthLabel;
-    const nextYearLabel = nextYearLabel;
+    const previousYearLabel = labels?.previousYear ?? locale.previousYear ?? '上一年';
+    const previousMonthLabel = labels?.previousMonth ?? locale.previousMonth ?? '上个月';
+    const nextMonthLabel = labels?.nextMonth ?? locale.nextMonth ?? '下个月';
+    const nextYearLabel = labels?.nextYear ?? locale.nextYear ?? '下一年';
     const resolvedMonthLabel = (month: number) =>
         labels?.monthLabel?.(month) ?? locale.monthLabel?.(month) ?? `${month}月`;
-    const resolvedYearLabel = (value: number) => labels?.yearLabel?.(value) ?? locale.yearLabel?.(value) ?? `${value}年`;
+    const resolvedYearLabel = (value: number) =>
+        labels?.yearLabel?.(value) ?? locale.yearLabel?.(value) ?? `${value}年`;
     const [innerValue, setInnerValue] = useState<DatePickerValue>(defaultValue ?? null);
     const [innerOpen, setInnerOpen] = useState(false);
     const [viewDate, setViewDate] = useState(
