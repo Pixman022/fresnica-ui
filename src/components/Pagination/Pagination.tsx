@@ -240,9 +240,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
     return (
         <nav className={rootCls} style={style} aria-label={paginationLabel}>
-            {showTotal && (
-                <span className={styles.total}>{pageCountLabel?.(total) ?? `共 ${total} 条`}</span>
-            )}
+            {showTotal && <span className={styles.total}>{pageCountLabel?.(total) ?? `共 ${total} 条`}</span>}
             <button
                 type="button"
                 className={styles.item}
