@@ -115,19 +115,13 @@ const SizeChanger: React.FC<{
                 aria-label={pageSizeLabel?.(value) ?? `每页 ${value} 条`}
                 onClick={() => setOpen((v) => !v)}
             >
-                <span>
-                    {pageSizeOption?.(value) ?? `${value} 条/页`}
-                </span>
+                <span>{pageSizeOption?.(value) ?? `${value} 条/页`}</span>
                 <span className={styles.caret}>
                     <CaretDown />
                 </span>
             </button>
             {open && (
-                <ul
-                    className={styles.sizeList}
-                    role="listbox"
-                    aria-label={pageSizeMenu}
-                >
+                <ul className={styles.sizeList} role="listbox" aria-label={pageSizeMenu}>
                     {options.map((opt) => (
                         <li
                             key={opt}
@@ -247,9 +241,7 @@ export const Pagination: React.FC<PaginationProps> = ({
     return (
         <nav className={rootCls} style={style} aria-label={paginationLabel}>
             {showTotal && (
-                <span className={styles.total}>
-                    {pageCountLabel?.(total) ?? `共 ${total} 条`}
-                </span>
+                <span className={styles.total}>{pageCountLabel?.(total) ?? `共 ${total} 条`}</span>
             )}
             <button
                 type="button"
