@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useImperativeHandle, useRef } from 'react';
 import { X } from 'lucide-react';
 import styles from './input.module.less';
 
@@ -48,17 +48,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         const inputRef = useRef<HTMLInputElement>(null);
         const { ['aria-invalid']: ariaInvalid, ...inputProps } = rest;
 
-        const setInputRef = useCallback(
-            (node: HTMLInputElement | null) => {
-                inputRef.current = node;
-                if (typeof forwardedRef === 'function') {
-                    forwardedRef(node);
-                } else if (forwardedRef) {
-                    forwardedRef.current = node;
-                }
-            },
-            [forwardedRef]
-        );
+        useImperativeHandle(forwardedRef, () => inputRef.current as HTMLInputElement);
 
         const handleChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
             (e) => {
@@ -100,7 +90,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 {prefix && <span className={styles.prefix}>{prefix}</span>}
                 <input
                     {...inputProps}
-                    ref={setInputRef}
+                    ref={inputRef}
                     className={styles.input}
                     disabled={disabled}
                     value={currentValue}
