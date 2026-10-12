@@ -93,7 +93,12 @@ const ProviderLocaleDemo: React.FC = () => {
                             Open modal
                         </Button>
                     </div>
-                    <Modal open={modalOpen} title="Provider Locale" onOk={() => setModalOpen(false)} onClose={() => setModalOpen(false)}>
+                    <Modal
+                        open={modalOpen}
+                        title="Provider Locale"
+                        onOk={() => setModalOpen(false)}
+                        onClose={() => setModalOpen(false)}
+                    >
                         The Modal keeps its existing focus entry, Tab trap and focus restoration behavior.
                     </Modal>
                 </Card>
