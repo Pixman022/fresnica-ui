@@ -5,6 +5,7 @@ import { Button } from '../Button';
 import { Typewriter } from '../Typewriter';
 import styles from './modal.module.less';
 import type { ComponentLabelOverrides } from '../labels';
+import { useUiLocale } from '../../ui-context';
 
 const FOCUSABLE_SELECTOR = [
     'a[href]',
@@ -84,6 +85,7 @@ export const Modal: React.FC<ModalProps> = ({
     closeLabel,
     labels,
 }) => {
+    const locale = useUiLocale();
     // 每次 open 变为 true 时重启打字机
     const [playKey, setPlayKey] = useState(0);
     useEffect(() => {
@@ -172,7 +174,7 @@ export const Modal: React.FC<ModalProps> = ({
 
     const defaultFooter = (
         <>
-            <Button onClick={onClose}>{cancelText ?? labels?.cancel ?? '取消'}</Button>
+            <Button onClick={onClose}>{cancelText ?? labels?.cancel ?? locale.cancel ?? '取消'}</Button>
             <Button
                 type="primary"
                 danger={variant === 'danger'}
@@ -180,7 +182,7 @@ export const Modal: React.FC<ModalProps> = ({
                 disabled={okDisabled}
                 onClick={onOk}
             >
-                {okText ?? labels?.confirm ?? '确定'}
+                {okText ?? labels?.confirm ?? locale.confirm ?? '确定'}
             </Button>
         </>
     );
@@ -211,7 +213,7 @@ export const Modal: React.FC<ModalProps> = ({
                                     type="button"
                                     className={styles.close}
                                     onClick={onClose}
-                                    aria-label={closeLabel ?? labels?.close ?? '关闭'}
+                                    aria-label={closeLabel ?? labels?.close ?? locale.close ?? '关闭'}
                                 >
                                     <X size={18} aria-hidden="true" />
                                 </button>

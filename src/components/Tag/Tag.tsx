@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import { X } from 'lucide-react';
 import type { ComponentLabelOverrides } from '../labels';
+import { useUiLocale } from '../../ui-context';
 import styles from './tag.module.less';
 
 export type TagSize = 'small' | 'medium' | 'large';
@@ -69,7 +70,8 @@ export const Tag: React.FC<TagProps> = ({
     className,
     style,
 }) => {
-    const resolvedCloseLabel = closeLabel ?? labels?.close ?? 'close';
+    const locale = useUiLocale();
+    const resolvedCloseLabel = closeLabel ?? labels?.close ?? locale.close ?? 'close';
     const handleClose = useCallback(
         (e: React.MouseEvent<HTMLElement>) => {
             e.stopPropagation();

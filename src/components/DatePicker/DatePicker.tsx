@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { CalendarDays, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import styles from './date-picker.module.less';
 import type { ComponentLabelOverrides } from '../labels';
+import { useUiLocale } from '../../ui-context';
 
 export type DatePickerSize = 'small' | 'middle' | 'large';
 
@@ -136,8 +137,21 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     className,
     style,
 }) => {
-    const weekdays = labels?.weekdays?.length === 7 ? labels.weekdays : WEEKDAYS;
-    const months = labels?.months?.length === 12 ? labels.months : MONTHS;
+    const locale = useUiLocale();
+    const providerWeekdays = locale.weekdays?.length === 7 ? locale.weekdays : WEEKDAYS;
+    const providerMonths = locale.months?.length === 12 ? locale.months : MONTHS;
+    const weekdays = labels?.weekdays?.length === 7 ? labels.weekdays : providerWeekdays;
+    const months = labels?.months?.length === 12 ? labels.months : providerMonths;
+    const selectDateLabel = labels?.selectDate ?? locale.selectDate ?? '选择日期';
+    const selectDateRangeLabel = labels?.selectDateRange ?? locale.selectDateRange ?? '选择日期范围';
+    const previousYearLabel = labels?.previousYear ?? locale.previousYear ?? '上一年';
+    const previousMonthLabel = labels?.previousMonth ?? locale.previousMonth ?? '上个月';
+    const nextMonthLabel = labels?.nextMonth ?? locale.nextMonth ?? '下个月';
+    const nextYearLabel = labels?.nextYear ?? locale.nextYear ?? '下一年';
+    const resolvedMonthLabel = (month: number) =>
+        labels?.monthLabel?.(month) ?? locale.monthLabel?.(month) ?? `${month}月`;
+    const resolvedYearLabel = (value: number) =>
+        labels?.yearLabel?.(value) ?? locale.yearLabel?.(value) ?? `${value}年`;
     const [innerValue, setInnerValue] = useState<DatePickerValue>(defaultValue ?? null);
     const [innerOpen, setInnerOpen] = useState(false);
     const [viewDate, setViewDate] = useState(
@@ -513,6 +527,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                 className={cls}
                                 aria-label={
                                     labels?.dateLabel?.(cell.getFullYear(), cell.getMonth() + 1, cell.getDate()) ??
+                                    locale.dateLabel?.(cell.getFullYear(), cell.getMonth() + 1, cell.getDate()) ??
                                     `${cell.getFullYear()}年${cell.getMonth() + 1}月${cell.getDate()}日`
                                 }
                                 aria-disabled={disabledCell || undefined}
@@ -604,7 +619,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                     <button
                         type="button"
                         className={styles.clear}
-                        aria-label={labels?.clearDate ?? '清除日期'}
+                        aria-label={labels?.clearDate ?? locale.clearDate ?? '清除日期'}
                         onClick={handleClear}
                         onMouseDown={(e) => e.preventDefault()}
                     >
@@ -619,9 +634,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                 <div
                     id={panelId}
                     role="dialog"
-                    aria-label={
-                        range ? (labels?.selectDateRange ?? '选择日期范围') : (labels?.selectDate ?? '选择日期')
-                    }
+                    aria-label={range ? selectDateRangeLabel : selectDateLabel}
                     className={`${styles.panel} ${range ? styles.panelRange : ''} ${
                         closing ? styles.panelClosing : mounted ? styles.panelVisible : ''
                     }`}
@@ -639,7 +652,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                                         <button
                                                             type="button"
                                                             className={styles.navBtn}
-                                                            aria-label={labels?.previousYear ?? '上一年'}
+                                                            aria-label={previousYearLabel}
                                                             onClick={() => shiftView(-1, 0)}
                                                             onMouseDown={(e) => e.preventDefault()}
                                                         >
@@ -654,7 +667,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                                         <button
                                                             type="button"
                                                             className={styles.navBtn}
-                                                            aria-label={labels?.previousMonth ?? '上个月'}
+                                                            aria-label={previousMonthLabel}
                                                             onClick={() => shiftView(0, -1)}
                                                             onMouseDown={(e) => e.preventDefault()}
                                                         >
@@ -674,7 +687,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                                         <button
                                                             type="button"
                                                             className={styles.navBtn}
-                                                            aria-label={labels?.nextMonth ?? '下个月'}
+                                                            aria-label={nextMonthLabel}
                                                             onClick={() => shiftView(0, 1)}
                                                             onMouseDown={(e) => e.preventDefault()}
                                                         >
@@ -689,7 +702,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                                         <button
                                                             type="button"
                                                             className={styles.navBtn}
-                                                            aria-label={labels?.nextYear ?? '下一年'}
+                                                            aria-label={nextYearLabel}
                                                             onClick={() => shiftView(1, 0)}
                                                             onMouseDown={(e) => e.preventDefault()}
                                                         >
@@ -714,7 +727,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                     onClick={confirmTime}
                                     onMouseDown={(e) => e.preventDefault()}
                                 >
-                                    {labels?.confirm ?? '确定'}
+                                    {labels?.confirm ?? locale.confirm ?? '确定'}
                                 </button>
                             </div>
                         </>
@@ -725,7 +738,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                     <button
                                         type="button"
                                         className={styles.navBtn}
-                                        aria-label={labels?.previousYear ?? '上一年'}
+                                        aria-label={previousYearLabel}
                                         onClick={() => (mode === 'year' ? shiftView(-10, 0) : shiftView(-1, 0))}
                                         onMouseDown={(e) => e.preventDefault()}
                                     >
@@ -735,7 +748,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                         <button
                                             type="button"
                                             className={styles.navBtn}
-                                            aria-label={labels?.previousMonth ?? '上个月'}
+                                            aria-label={previousMonthLabel}
                                             onClick={() => shiftView(0, -1)}
                                             onMouseDown={(e) => e.preventDefault()}
                                         >
@@ -763,7 +776,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                         <button
                                             type="button"
                                             className={styles.navBtn}
-                                            aria-label={labels?.nextMonth ?? '下个月'}
+                                            aria-label={nextMonthLabel}
                                             onClick={() => shiftView(0, 1)}
                                             onMouseDown={(e) => e.preventDefault()}
                                         >
@@ -773,7 +786,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                     <button
                                         type="button"
                                         className={styles.navBtn}
-                                        aria-label={labels?.nextYear ?? '下一年'}
+                                        aria-label={nextYearLabel}
                                         onClick={() => (mode === 'year' ? shiftView(10, 0) : shiftView(1, 0))}
                                         onMouseDown={(e) => e.preventDefault()}
                                     >
@@ -795,7 +808,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                                 key={label}
                                                 type="button"
                                                 className={`${styles.monthCell} ${selected ? styles.monthCellSelected : ''}`}
-                                                aria-label={labels?.monthLabel?.(i + 1) ?? `${i + 1}月`}
+                                                aria-label={resolvedMonthLabel(i + 1)}
                                                 onClick={() => {
                                                     if (picker === 'month' && !range) {
                                                         // 月份选择模式：点击即设为待选月份
@@ -823,7 +836,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                                 key={y}
                                                 type="button"
                                                 className={`${styles.yearCell} ${selected ? styles.yearCellSelected : ''}`}
-                                                aria-label={labels?.yearLabel?.(y) ?? `${y}年`}
+                                                aria-label={resolvedYearLabel(y)}
                                                 onClick={() => {
                                                     setViewDate(new Date(y, month, 1));
                                                     setFocusedDate(new Date(y, month, 1));
@@ -846,7 +859,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                             onClick={handleToday}
                                             onMouseDown={(e) => e.preventDefault()}
                                         >
-                                            {labels?.today ?? '今天'}
+                                            {labels?.today ?? locale.today ?? '今天'}
                                         </button>
                                     )}
                                     <button
@@ -855,7 +868,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                                         onClick={confirmTime}
                                         onMouseDown={(e) => e.preventDefault()}
                                     >
-                                        {labels?.confirm ?? '确定'}
+                                        {labels?.confirm ?? locale.confirm ?? '确定'}
                                     </button>
                                 </div>
                             )}

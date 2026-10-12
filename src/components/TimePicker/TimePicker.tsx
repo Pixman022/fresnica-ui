@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Clock3, X } from 'lucide-react';
 import styles from './time-picker.module.less';
 import type { ComponentLabelOverrides } from '../labels';
+import { useUiLocale } from '../../ui-context';
 
 export type TimePickerSize = 'small' | 'middle' | 'large';
 
@@ -99,6 +100,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
     className,
     style,
 }) => {
+    const locale = useUiLocale();
     const [innerValue, setInnerValue] = useState<string | null>(defaultValue ?? null);
     const [innerOpen, setInnerOpen] = useState(false);
     const [pending, setPending] = useState<TimePart | null>(() => parseTime(defaultValue));
@@ -316,7 +318,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                     <button
                         type="button"
                         className={styles.clear}
-                        aria-label={labels?.clearTime ?? '清除时间'}
+                        aria-label={labels?.clearTime ?? locale.clearTime ?? '清除时间'}
                         onClick={handleClear}
                         onMouseDown={(e) => e.preventDefault()}
                     >
@@ -331,7 +333,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                 <div
                     id={panelId}
                     role="dialog"
-                    aria-label={labels?.selectTime ?? '选择时间'}
+                    aria-label={labels?.selectTime ?? locale.selectTime ?? '选择时间'}
                     className={`${styles.panel} ${!hasSeconds(format) ? styles.panelNoSeconds : ''} ${
                         closing ? styles.panelClosing : mounted ? styles.panelVisible : ''
                     }`}
@@ -339,14 +341,14 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                 >
                     <div className={styles.columns}>
                         <div className={styles.column}>
-                            <div className={styles.columnTitle}>{labels?.hour ?? '时'}</div>
+                            <div className={styles.columnTitle}>{labels?.hour ?? locale.hour ?? '时'}</div>
                             <div ref={hourListRef} className={styles.columnList}>
                                 {hours.map((h) => (
                                     <button
                                         key={h}
                                         type="button"
                                         className={`${styles.option} ${base.h === h ? styles.optionSelected : ''}`}
-                                        aria-label={`${h} ${labels?.hour ?? '时'}`}
+                                        aria-label={`${h} ${labels?.hour ?? locale.hour ?? '时'}`}
                                         onClick={() => pickUnit({ ...base, h })}
                                         onMouseDown={(e) => e.preventDefault()}
                                     >
@@ -356,14 +358,14 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                             </div>
                         </div>
                         <div className={styles.column}>
-                            <div className={styles.columnTitle}>{labels?.minute ?? '分'}</div>
+                            <div className={styles.columnTitle}>{labels?.minute ?? locale.minute ?? '分'}</div>
                             <div ref={minuteListRef} className={styles.columnList}>
                                 {minutes.map((m) => (
                                     <button
                                         key={m}
                                         type="button"
                                         className={`${styles.option} ${base.m === m ? styles.optionSelected : ''}`}
-                                        aria-label={`${m} ${labels?.minute ?? '分'}`}
+                                        aria-label={`${m} ${labels?.minute ?? locale.minute ?? '分'}`}
                                         onClick={() => pickUnit({ ...base, m })}
                                         onMouseDown={(e) => e.preventDefault()}
                                     >
@@ -374,14 +376,14 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                         </div>
                         {seconds.length > 0 && (
                             <div className={styles.column}>
-                                <div className={styles.columnTitle}>{labels?.second ?? '秒'}</div>
+                                <div className={styles.columnTitle}>{labels?.second ?? locale.second ?? '秒'}</div>
                                 <div ref={secondListRef} className={styles.columnList}>
                                     {seconds.map((s) => (
                                         <button
                                             key={s}
                                             type="button"
                                             className={`${styles.option} ${base.s === s ? styles.optionSelected : ''}`}
-                                            aria-label={`${s} ${labels?.second ?? '秒'}`}
+                                            aria-label={`${s} ${labels?.second ?? locale.second ?? '秒'}`}
                                             onClick={() => pickUnit({ ...base, s })}
                                             onMouseDown={(e) => e.preventDefault()}
                                         >
@@ -399,7 +401,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                             onClick={setNow}
                             onMouseDown={(e) => e.preventDefault()}
                         >
-                            {labels?.now ?? '此刻'}
+                            {labels?.now ?? locale.now ?? '此刻'}
                         </button>
                         <button
                             type="button"
@@ -407,7 +409,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                             onClick={confirmTime}
                             onMouseDown={(e) => e.preventDefault()}
                         >
-                            {labels?.confirm ?? '确定'}
+                            {labels?.confirm ?? locale.confirm ?? '确定'}
                         </button>
                     </div>
                 </div>

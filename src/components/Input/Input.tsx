@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useImperativeHandle, useRef } from 'react';
 import { X } from 'lucide-react';
 import styles from './input.module.less';
+import { useUiLocale } from '../../ui-context';
 
 export type InputSize = 'small' | 'middle' | 'large';
 
@@ -37,16 +38,18 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             defaultValue,
             onChange,
             onClear,
-            clearAriaLabel = '清除',
+            clearAriaLabel,
             ...rest
         },
         forwardedRef
     ) => {
+        const locale = useUiLocale();
         const [innerValue, setInnerValue] = useState(defaultValue ?? '');
         const isControlled = value !== undefined;
         const currentValue = isControlled ? value : innerValue;
         const inputRef = useRef<HTMLInputElement>(null);
         const { ['aria-invalid']: ariaInvalid, ...inputProps } = rest;
+        const resolvedClearAriaLabel = clearAriaLabel ?? locale.clear ?? '清除';
 
         useImperativeHandle(forwardedRef, () => inputRef.current as HTMLInputElement);
 
@@ -98,7 +101,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     aria-invalid={status === 'error' ? true : ariaInvalid}
                 />
                 {allowClear && currentValue && !disabled && (
-                    <button type="button" className={styles.clear} onClick={handleClear} aria-label={clearAriaLabel}>
+                    <button
+                        type="button"
+                        className={styles.clear}
+                        onClick={handleClear}
+                        aria-label={resolvedClearAriaLabel}
+                    >
                         <X size={16} strokeWidth={2.25} aria-hidden="true" />
                     </button>
                 )}

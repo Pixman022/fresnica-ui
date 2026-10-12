@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './code-block.module.less';
 import type { ComponentLabelOverrides } from '../labels';
+import { useUiLocale } from '../../ui-context';
 
 const COLORS = {
     comment: 'var(--Fresnica-code-comment)',
@@ -153,6 +154,7 @@ const copyText = async (text: string) => {
 };
 
 export const CodeBlock: React.FC<CodeBlockProps> = ({ code, style, className, copyable = true, onCopy, labels }) => {
+    const locale = useUiLocale();
     const [copyStatus, setCopyStatus] = useState<CopyStatus>('idle');
     const resetTimer = useRef<number>();
 
@@ -174,16 +176,16 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ code, style, className, co
     const buttonContent = {
         text:
             copyStatus === 'copied'
-                ? (labels?.codeCopied ?? defaults.text)
+                ? (labels?.codeCopied ?? locale.codeCopied ?? defaults.text)
                 : copyStatus === 'error'
-                  ? (labels?.codeCopyError ?? defaults.text)
-                  : (labels?.codeCopy ?? defaults.text),
+                  ? (labels?.codeCopyError ?? locale.codeCopyError ?? defaults.text)
+                  : (labels?.codeCopy ?? locale.codeCopy ?? defaults.text),
         label:
             copyStatus === 'copied'
-                ? (labels?.codeCopied ?? defaults.label)
+                ? (labels?.codeCopied ?? locale.codeCopied ?? defaults.label)
                 : copyStatus === 'error'
-                  ? (labels?.codeCopyError ?? defaults.label)
-                  : (labels?.codeCopyLabel ?? defaults.label),
+                  ? (labels?.codeCopyError ?? locale.codeCopyError ?? defaults.label)
+                  : (labels?.codeCopyLabel ?? locale.codeCopyLabel ?? defaults.label),
     };
     const copyButtonSpacing = copyable && style?.padding === undefined && style?.paddingRight === undefined;
     const { width, minWidth, maxWidth, margin, marginTop, marginRight, marginBottom, marginLeft, ...preStyle } =

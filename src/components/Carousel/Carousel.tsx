@@ -2,6 +2,7 @@ import React, { Children, useCallback, useEffect, useMemo, useState } from 'reac
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import styles from './carousel.module.less';
 import type { ComponentLabelOverrides } from '../labels';
+import { useUiLocale } from '../../ui-context';
 
 export interface CarouselProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onChange'> {
     /** 轮播内容，每个直接子元素为一张 */
@@ -53,6 +54,7 @@ export const Carousel: React.FC<CarouselProps> = ({
     'aria-label': ariaLabel,
     ...rest
 }) => {
+    const locale = useUiLocale();
     const slides = useMemo(() => Children.toArray(children), [children]);
     const lastIndex = slides.length - 1;
     const [internalIndex, setInternalIndex] = useState(() => clamp(defaultActiveIndex, lastIndex));
@@ -100,7 +102,7 @@ export const Carousel: React.FC<CarouselProps> = ({
             className={classNames}
             role="region"
             aria-roledescription="carousel"
-            aria-label={ariaLabel ?? labels?.carousel ?? '轮播图'}
+            aria-label={ariaLabel ?? labels?.carousel ?? locale.carousel ?? '轮播图'}
             tabIndex={0}
             onKeyDown={handleKeyDown}
             onMouseEnter={(event) => {
@@ -127,8 +129,8 @@ export const Carousel: React.FC<CarouselProps> = ({
                     className={styles.rotationControl}
                     aria-label={
                         effectivePaused
-                            ? (labels?.resumeAutoplay ?? '继续自动播放')
-                            : (labels?.pauseAutoplay ?? '暂停自动播放')
+                            ? (labels?.resumeAutoplay ?? locale.resumeAutoplay ?? '继续自动播放')
+                            : (labels?.pauseAutoplay ?? locale.pauseAutoplay ?? '暂停自动播放')
                     }
                     onClick={() => {
                         if (effectivePaused) {
@@ -158,6 +160,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                             aria-roledescription="slide"
                             aria-label={
                                 labels?.goToSlide?.(index + 1, slides.length) ??
+                                locale.goToSlide?.(index + 1, slides.length) ??
                                 `第 ${index + 1} 张，共 ${slides.length} 张`
                             }
                             aria-hidden={!active}
@@ -173,7 +176,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                     <button
                         type="button"
                         className={[styles.arrow, styles.previous].join(' ')}
-                        aria-label={labels?.previousSlide ?? '上一张'}
+                        aria-label={labels?.previousSlide ?? locale.previousSlide ?? '上一张'}
                         disabled={!loop && currentIndex === 0}
                         onClick={() => goTo(currentIndex - 1)}
                     >
@@ -182,7 +185,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                     <button
                         type="button"
                         className={[styles.arrow, styles.next].join(' ')}
-                        aria-label={labels?.nextSlide ?? '下一张'}
+                        aria-label={labels?.nextSlide ?? locale.nextSlide ?? '下一张'}
                         disabled={!loop && currentIndex === lastIndex}
                         onClick={() => goTo(currentIndex + 1)}
                     >
@@ -192,7 +195,11 @@ export const Carousel: React.FC<CarouselProps> = ({
             )}
 
             {hasControls && showDots && (
-                <div className={styles.dots} role="group" aria-label={labels?.selectSlide ?? '选择轮播页'}>
+                <div
+                    className={styles.dots}
+                    role="group"
+                    aria-label={labels?.selectSlide ?? locale.selectSlide ?? '选择轮播页'}
+                >
                     {slides.map((_, index) => (
                         <button
                             key={index}
@@ -200,7 +207,11 @@ export const Carousel: React.FC<CarouselProps> = ({
                             className={[styles.dot, index === currentIndex && styles.dotActive]
                                 .filter(Boolean)
                                 .join(' ')}
-                            aria-label={labels?.goToSlide?.(index + 1, slides.length) ?? `转到第 ${index + 1} 张`}
+                            aria-label={
+                                labels?.goToSlide?.(index + 1, slides.length) ??
+                                locale.goToSlide?.(index + 1, slides.length) ??
+                                `转到第 ${index + 1} 张`
+                            }
                             aria-current={index === currentIndex ? 'true' : undefined}
                             onClick={() => goTo(index)}
                         />

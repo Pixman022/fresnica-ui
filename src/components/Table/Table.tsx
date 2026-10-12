@@ -3,6 +3,7 @@ import { Inbox, LoaderCircle } from 'lucide-react';
 import { Pagination, type PaginationProps } from '../Pagination';
 import styles from './table.module.less';
 import type { ComponentLabelOverrides } from '../labels';
+import { useUiLocale } from '../../ui-context';
 
 export interface TableColumn<T = Record<string, unknown>> {
     title: React.ReactNode;
@@ -51,6 +52,7 @@ export const Table: React.FC<TableProps> = ({
     style,
     labels,
 }) => {
+    const locale = useUiLocale();
     // 分页状态：pagination.current / pagination.pageSize 受控时优先，否则走内部状态（初值取 default*）
     const paginated = pagination !== false && pagination !== undefined;
     const [innerPage, setInnerPage] = useState(() => (paginated ? (pagination.defaultCurrent ?? 1) : 1));
@@ -126,7 +128,7 @@ export const Table: React.FC<TableProps> = ({
                                         strokeWidth={1.6}
                                         aria-hidden="true"
                                     />
-                                    <span>{emptyText ?? labels?.emptyState ?? '暂无数据'}</span>
+                                    <span>{emptyText ?? labels?.emptyState ?? locale.emptyState ?? '暂无数据'}</span>
                                 </div>
                             </td>
                         </tr>
@@ -172,7 +174,11 @@ export const Table: React.FC<TableProps> = ({
             {loading && (
                 <div className={styles.loadingOverlay}>
                     <div className={styles.loadingSpinner}>
-                        <LoaderCircle size={40} strokeWidth={2.2} aria-label={labels?.loadingState ?? '加载中'} />
+                        <LoaderCircle
+                            size={40}
+                            strokeWidth={2.2}
+                            aria-label={labels?.loadingState ?? locale.loadingState ?? '加载中'}
+                        />
                     </div>
                 </div>
             )}

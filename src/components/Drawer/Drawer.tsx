@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import type { ComponentLabelOverrides } from '../labels';
+import { useUiLocale } from '../../ui-context';
 import styles from './drawer.module.less';
 
 const FOCUSABLE_SELECTOR = [
@@ -91,7 +92,8 @@ export const Drawer: React.FC<DrawerProps> = ({
     closeLabel,
     labels,
 }) => {
-    const resolvedCloseLabel = closeLabel ?? labels?.close ?? '关闭';
+    const locale = useUiLocale();
+    const resolvedCloseLabel = closeLabel ?? labels?.close ?? locale.close ?? '关闭';
     const resolvedPlacement = placement ?? (variant === 'sheet' ? 'bottom' : 'right');
     const resolvedShowHandle = showHandle ?? variant === 'sheet';
     const dialogRef = useRef<HTMLDivElement>(null);

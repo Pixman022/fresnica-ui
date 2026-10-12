@@ -76,6 +76,33 @@ WS04 接入组件后，文案优先级为：
 WS03 只交付 Provider 与语言包契约；具体通用组件接入由 WS04 跟踪。在 WS04 合并前，
 现有组件仍按原来的显式属性 / `labels` / 默认值解析。
 
+## WS04 组件覆盖与行为所有权
+
+WS04 将 Web 通用组件文案接入 `FresnicaUiProvider`，并保持既有优先级：
+组件显式属性 → 组件 `labels` → Provider Locale → 历史默认值。
+
+| 组件范围 | Provider 状态 | 更高优先级 / 局部例外 |
+| --- | --- | --- |
+| Modal | 已接入 | `okText`、`cancelText`、`closeLabel`，再到 `labels` |
+| Drawer / Tag | 已接入 | `closeLabel`，再到 `labels.close` |
+| Loading | 已接入 | `label`，再到 `labels.loading` |
+| Input | 已接入 | `clearAriaLabel`；不为此新增组件 `labels` API |
+| Select | 已接入 | 显式 `aria-label`，再到 `labels.selectMenu` |
+| Table | 已接入 | `emptyText`，再到 `labels.emptyState/loadingState` |
+| Carousel / Pagination | 已接入 | 既有组件 `labels` 继续优先 |
+| DatePicker / TimePicker | 通用操作、数组与 formatter 文案已接入 | 显式 placeholder/ARIA 属性不进入 Provider |
+| CodeBlock / Image / Footer | 已接入 | 既有 `labels`、`alt`、`children` 等显式属性继续优先 |
+| Notification 静态 API | 由显式属性管理 | 命令式 API 使用独立 React root，因此使用 `closeLabel`；WS04 不新增全局可变 Locale |
+| Button | 不适用 | Button 不拥有通用动作文案；loading 继续保持既有禁用 + spinner 行为 |
+
+Web Modal 继续保留已有的焦点进入、Tab 限制和关闭后焦点恢复。loading/disabled 仍由拥有该状态的
+组件阻止重复操作。状态或错误播报继续由渲染语义 `status`/`alert` 的组件负责，消费 App
+不应对同一状态再做一次重复 live announcement。
+
+Button 动作层级只对齐用途，不强制使用相同 props：Native `secondary` 对应 Web 普通次级 /
+`default` 动作角色，Native `quiet` 对应 Web 低强调的 `text` 角色。两端视觉实现和公开
+属性命名继续独立。
+
 ## 兼容性与范围
 
 - 默认中英文文案保持不变，因此现有截图和消费者不会发生变化。
