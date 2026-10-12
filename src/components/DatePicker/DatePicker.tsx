@@ -145,7 +145,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               ? locale.weekdays
               : WEEKDAYS;
     const months =
-        labels?.months?.length === 12 ? labels.months : locale.months?.length === 12 ? locale.months : MONTHS;
+        labels?.months?.length === 12
+            ? labels.months
+            : locale.months?.length === 12
+              ? locale.months
+              : MONTHS;
     const [innerValue, setInnerValue] = useState<DatePickerValue>(defaultValue ?? null);
     const [innerOpen, setInnerOpen] = useState(false);
     const [viewDate, setViewDate] = useState(
@@ -629,7 +633,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                     id={panelId}
                     role="dialog"
                     aria-label={
-                        range ? (labels?.selectDateRange ?? locale.selectDateRange ?? '选择日期范围') : (labels?.selectDate ?? locale.selectDate ?? '选择日期')
+                        range
+                            ? (labels?.selectDateRange ?? locale.selectDateRange ?? '选择日期范围')
+                            : (labels?.selectDate ?? locale.selectDate ?? '选择日期')
                     }
                     className={`${styles.panel} ${range ? styles.panelRange : ''} ${
                         closing ? styles.panelClosing : mounted ? styles.panelVisible : ''
