@@ -235,5 +235,4 @@ describe('Button', () => {
         await user.keyboard('{Enter}');
         expect(onClick).not.toHaveBeenCalled();
     });
-
 });
