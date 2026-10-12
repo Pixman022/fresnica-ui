@@ -1,3 +1,4 @@
+import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import { Input, type InputProps } from './Input';
@@ -113,6 +114,33 @@ describe('Input', () => {
             expect(btn).toBeInTheDocument();
             // a11y 契约：清除按钮可被 toHaveAccessibleName 识别为 "Clear"
             expect(btn).toHaveAccessibleName('Clear');
+        });
+    });
+
+    describe('DOM ref / owned state', () => {
+        it('对象 ref 可获得 input DOM 节点并执行 focus', () => {
+            const ref = React.createRef<HTMLInputElement>();
+            render(<Input ref={ref} />);
+            const input = screen.getByRole('textbox');
+            expect(ref.current).toBe(input);
+            ref.current?.focus();
+            expect(input).toHaveFocus();
+        });
+
+        it('callback ref 可获得 input DOM 节点', () => {
+            const ref = vi.fn();
+            render(<Input ref={ref} />);
+            expect(ref).toHaveBeenCalledWith(screen.getByRole('textbox'));
+        });
+
+        it('error 状态拥有 aria-invalid，调用方不能反向覆盖', () => {
+            render(<Input status="error" aria-invalid="false" />);
+            expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'true');
+        });
+
+        it('非 error 状态保留调用方 aria-invalid', () => {
+            render(<Input aria-invalid="grammar" />);
+            expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'grammar');
         });
     });
 });
