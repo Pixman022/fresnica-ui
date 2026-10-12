@@ -32,6 +32,7 @@ import DatePickerDemo from './components/DatePicker';
 import TimePickerDemo from './components/TimePicker';
 import CarouselDemo from './components/Carousel';
 import SkillDemo from './components/Skill';
+import ProviderLocaleDemo from './components/ProviderLocale';
 import { PAGE_INFO } from './pageInfo';
 const pageDescStyle: React.CSSProperties = {
     fontSize: 'var(--Fresnica-font-size-base)',
@@ -76,6 +77,7 @@ const PAGES: Record<string, React.FC> = {
     image: ImageDemo,
     carousel: CarouselDemo,
     skill: SkillDemo,
+    'provider-locale': ProviderLocaleDemo,
 };
 
 // ============================================
