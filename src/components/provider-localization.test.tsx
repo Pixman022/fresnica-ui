@@ -81,17 +81,12 @@ describe('Web Provider locale integration', () => {
         const user = userEvent.setup();
         render(
             <FresnicaUiProvider locale={enUS}>
-                <Select
-                    options={[{ key: 'one', label: 'One' }]}
-                    value=""
-                    onChange={() => undefined}
-                    aria-label="Asset"
-                />
+                <Select options={[{ key: 'one', label: 'One' }]} value="" onChange={() => undefined} />
             </FresnicaUiProvider>
         );
 
-        await user.click(screen.getByRole('combobox', { name: 'Asset' }));
-        expect(await screen.findByRole('listbox', { name: 'Asset' })).toBeInTheDocument();
+        await user.click(screen.getByRole('combobox'));
+        expect(await screen.findByRole('listbox', { name: 'Select options' })).toBeInTheDocument();
     });
 
     it('localizes navigation and content primitives from Provider', () => {
