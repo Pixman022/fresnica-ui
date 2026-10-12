@@ -107,7 +107,7 @@ Button 动作层级只对齐用途，不强制使用相同 props：Native `secon
 
 - 默认中英文文案保持不变，因此现有截图和消费者不会发生变化。
 - `labels` 只改变文案和无障碍名称，不改变间距、字号、颜色或组件状态语义。
-- 产品专属文案应由使用方维护。Web 包当前只提供可复用的界面文案，尚未提供全局 Locale Provider；该能力属于 WS03，且必须保持既有显式属性/`labels` 行为兼容。钱包术语不进入通用语言包。
+- 产品专属文案应由使用方维护。Web 包现已提供可选的全局 Locale Provider 管理通用 UI 文案，同时保持既有显式属性/`labels` 行为兼容。钱包术语不进入通用语言包。
 - `labels` 是增量且可选的。组件自身已有的显式属性（`emptyText`、`label`、`placeholder`、`closeLabel`、`aria-label` 等）仍拥有最高优先级。
 - 本文档规定当前 Web 包的文案契约。Android 优先的 Native 适配层现已提供
   `FresnicaUiProvider`、`useUiLocale`、`useUiTheme` 和内置 `enUS`/`zhCN`，用于通用组件文案；
@@ -116,5 +116,5 @@ Button 动作层级只对齐用途，不强制使用相同 props：Native `secon
 ## 跨平台同步状态 — 2026-10-12
 
 Native NU01–NU08 已在 `ea40207351d9a2a62c58226c2c361f06444ee309` 完成。
-Web WS03 现已提供全局 Locale Context 与公开语言包；WS04 继续负责把符合范围的通用组件
-文案接入该 Context，同时保留显式属性、组件 `labels` 和原有默认值的优先级。
+Web WS03 已提供全局 Locale Context 与公开语言包；WS04 已完成符合范围的通用组件文案接入，
+并保持显式属性、组件 `labels` 和原有默认值的优先级。WS05 的回归与打包消费验证也已完成。
