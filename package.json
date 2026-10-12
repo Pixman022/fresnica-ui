@@ -1,6 +1,6 @@
 {
     "name": "fresnica-ui",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "A minimal React component library for Fresnica Stellar wallet interfaces",
     "type": "module",
     "main": "dist/cjs/index.cjs",
@@ -54,6 +54,7 @@
         "test:contrast": "node scripts/check-color-contrast.mjs",
         "test:consumer-react18": "node scripts/verify-react18-consumer.mjs",
         "badges": "node scripts/generate-coverage-badges.mjs",
+        "delivery:record": "node scripts/generate-delivery-record.mjs",
         "audit:tokens": "node scripts/audit-design-tokens.mjs",
         "check:docs": "node scripts/check-docs-sync.mjs",
         "lint": "eslint .",
