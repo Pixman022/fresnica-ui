@@ -62,6 +62,28 @@ export function WalletSummary() {
 }
 ```
 
+## Global UI configuration
+
+Web `1.1.0` adds an optional global Locale layer. It composes with the existing
+`FresnicaThemeProvider`; it does not replace or duplicate theme persistence.
+
+```tsx
+import { FresnicaThemeProvider, FresnicaUiProvider, zhCN } from 'fresnica-ui';
+
+<FresnicaThemeProvider>
+    <FresnicaUiProvider locale={zhCN}>
+        <App />
+    </FresnicaUiProvider>
+</FresnicaThemeProvider>;
+```
+
+Existing calls remain valid without `FresnicaUiProvider`. Generic copy resolves in this order:
+explicit component copy → component `labels` → Provider Locale → historical component default.
+`Button` and `Input` also expose typed DOM refs for focus and integration work.
+
+See [component localization](./docs/design-system/component-localization.md) and
+[build and release](./docs/development/build-and-release.md) for the full contract and delivery process.
+
 ## Development
 
 ```bash
