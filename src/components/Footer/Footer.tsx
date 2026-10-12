@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './footer.module.less';
 import type { ComponentLabelOverrides } from '../labels';
+import { useUiLocale } from '../../ui-context';
 
 export type FooterType = 'default' | 'compact';
 
@@ -12,10 +13,14 @@ export interface FooterProps {
     labels?: Pick<ComponentLabelOverrides, 'footer'>;
 }
 
-export const Footer: React.FC<FooterProps> = ({ type = 'default', className, style, children, labels }) => (
-    <footer className={[styles.footer, styles[type], className].filter(Boolean).join(' ')} style={style}>
-        {children ?? labels?.footer ?? 'Fresnica · Stellar wallet interface'}
-    </footer>
-);
+export const Footer: React.FC<FooterProps> = ({ type = 'default', className, style, children, labels }) => {
+    const locale = useUiLocale();
+
+    return (
+        <footer className={[styles.footer, styles[type], className].filter(Boolean).join(' ')} style={style}>
+            {children ?? labels?.footer ?? locale.footer ?? 'Fresnica · Stellar wallet interface'}
+        </footer>
+    );
+};
 
 Footer.displayName = 'Footer';
