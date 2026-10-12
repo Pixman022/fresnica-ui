@@ -143,7 +143,6 @@ describe('Input', () => {
             expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'grammar');
         });
     });
-
 });
 
 it('Bug 复现: clear 触发的事件缺少 preventDefault 等 SyntheticEvent 方法', async () => {
