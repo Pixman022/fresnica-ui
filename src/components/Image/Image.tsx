@@ -5,6 +5,7 @@ import { X } from 'lucide-react';
 import { Icon } from '../Icon';
 import styles from './image.module.less';
 import type { ComponentLabelOverrides } from '../labels';
+import { useUiLocale } from '../../ui-context';
 
 export type ImageColor =
     | 'white'
@@ -62,6 +63,7 @@ export const Image: React.FC<ImageProps> = ({
     labels,
     ...rest
 }) => {
+    const locale = useUiLocale();
     // failed：主图加载失败时显示错误占位
     const [failed, setFailed] = useState(false);
     const [loaded, setLoaded] = useState(false);
@@ -134,10 +136,10 @@ export const Image: React.FC<ImageProps> = ({
                 )}
                 style={{ width, height, ...style }}
                 role="img"
-                aria-label={alt || labels?.imageLoadFailed || '图片加载失败'}
+                aria-label={alt || labels?.imageLoadFailed || locale.imageLoadFailed || '图片加载失败'}
             >
                 <Icon name="camera" size={32} />
-                <span>{labels?.imageLoadFailed ?? '图片加载失败'}</span>
+                <span>{labels?.imageLoadFailed ?? locale.imageLoadFailed ?? '图片加载失败'}</span>
             </span>
         );
     }
@@ -179,8 +181,8 @@ export const Image: React.FC<ImageProps> = ({
                                 aria-modal="true"
                                 aria-label={
                                     alt
-                                        ? `${labels?.imagePreview ?? '查看图片'}：${alt}`
-                                        : (labels?.imagePreview ?? '图片预览')
+                                        ? `${labels?.imagePreview ?? locale.imagePreview ?? '查看图片'}：${alt}`
+                                        : (labels?.imagePreview ?? locale.imagePreview ?? '图片预览')
                                 }
                                 onClick={(e) => e.stopPropagation()}
                             >
@@ -188,7 +190,7 @@ export const Image: React.FC<ImageProps> = ({
                                     type="button"
                                     ref={closeBtnRef}
                                     className={styles.closeBtn}
-                                    aria-label={labels?.closePreview ?? '关闭预览'}
+                                    aria-label={labels?.closePreview ?? locale.closePreview ?? '关闭预览'}
                                     onClick={() => setPreviewOpen(false)}
                                 >
                                     <X size={18} strokeWidth={2} aria-hidden="true" />
