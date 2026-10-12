@@ -114,7 +114,6 @@ jobs:
                   path: demo-dist
                   retention-days: 7
 
-
     delivery:
         name: Delivery artifact
         runs-on: ubuntu-latest
