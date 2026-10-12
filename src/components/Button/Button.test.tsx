@@ -1,3 +1,4 @@
+import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -204,4 +205,35 @@ describe('Button', () => {
         // 不传参数表示只断言"有可访问名"，不查具体值
         expect(btn).toHaveAccessibleName();
     });
+
+    it('对象 ref 可获得 DOM 节点并执行 focus', () => {
+        const ref = React.createRef<HTMLButtonElement>();
+        render(<Button ref={ref}>focus me</Button>);
+        expect(ref.current).toBe(screen.getByRole('button', { name: 'focus me' }));
+        ref.current?.focus();
+        expect(screen.getByRole('button', { name: 'focus me' })).toHaveFocus();
+    });
+
+    it('callback ref 可获得 DOM 节点', () => {
+        const ref = vi.fn();
+        render(<Button ref={ref}>callback ref</Button>);
+        expect(ref).toHaveBeenCalledWith(screen.getByRole('button', { name: 'callback ref' }));
+    });
+
+    it('loading 状态拥有 disabled 与 aria-busy，调用方不能反向覆盖', async () => {
+        const user = userEvent.setup();
+        const onClick = vi.fn();
+        render(
+            <Button loading aria-busy="false" onClick={onClick}>
+                loading
+            </Button>
+        );
+        const btn = screen.getByRole('button', { name: 'loading' });
+        expect(btn).toBeDisabled();
+        expect(btn).toHaveAttribute('aria-busy', 'true');
+        btn.focus();
+        await user.keyboard('{Enter}');
+        expect(onClick).not.toHaveBeenCalled();
+    });
+
 });
