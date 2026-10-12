@@ -22,6 +22,11 @@ export type {
     FresnicaThemeContextValue,
 } from './theme';
 
+export { FresnicaUiProvider, useUiLocale } from './ui-context';
+export type { FresnicaUiProviderProps } from './ui-context';
+export { enUS, zhCN } from './locales';
+export type { UiLocale, UiLocaleOverrides } from './locales';
+
 // ============================================
 // 基础 UI 组件
 // ============================================
