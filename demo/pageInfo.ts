@@ -92,6 +92,10 @@ export const PAGE_INFO: Record<string, { title: string; desc: string }> = {
         title: 'Layout 布局规范',
         desc: 'Fresnica 间距、圆角与控件高度规范 — 使用现有 Token 统一页面和组件的几何节奏',
     },
+    'provider-locale': {
+        title: 'Provider & Locale 配置',
+        desc: '中性回归示例 — 全局语言切换、局部文案覆盖、DOM ref 聚焦、loading/disabled 状态与 320px 长文案验证',
+    },
     select: {
         title: 'Select 选择器',
         desc: '下拉选择器组件 — 支持自定义选项列表，高亮当前选中项',

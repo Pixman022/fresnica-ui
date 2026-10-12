@@ -75,6 +75,7 @@ const MENU_ITEMS: MenuItem[] = [
             { key: 'icon', label: 'Icon 图标' },
             { key: 'color', label: 'Color 配色' },
             { key: 'layout', label: 'Layout 布局规范' },
+            { key: 'provider-locale', label: 'Provider & Locale 配置' },
             { key: 'button', label: 'Button 按钮' },
             { key: 'tag', label: 'Tag 标签' },
             { key: 'codeblock', label: 'CodeBlock 代码高亮' },
