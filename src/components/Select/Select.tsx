@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useId, useCallback } from 'react';
 import { ChevronDown } from 'lucide-react';
 import styles from './select.module.less';
 import type { ComponentLabelOverrides } from '../labels';
+import { useUiLocale } from '../../ui-context';
 
 export type SelectOption = {
     key: string;
@@ -36,6 +37,7 @@ export const Select: React.FC<SelectProps> = ({
     'aria-labelledby': ariaLabelledBy,
     labels,
 }) => {
+    const locale = useUiLocale();
     const [open, setOpen] = useState(false);
     const [activeKey, setActiveKey] = useState<string | null>(null);
     const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
@@ -230,7 +232,7 @@ export const Select: React.FC<SelectProps> = ({
                     style={dropdownStyle}
                     role="listbox"
                     id={listboxId}
-                    aria-label={ariaLabel ?? labels?.selectMenu}
+                    aria-label={ariaLabel ?? labels?.selectMenu ?? locale.selectMenu}
                     aria-labelledby={ariaLabelledBy}
                 >
                     {options.map((option) => {
