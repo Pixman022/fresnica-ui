@@ -51,8 +51,17 @@ Existing explicit props such as `maxLabel`, `copyLabel`, `statusLabel`, `okText`
 
 - Default English/Chinese labels are unchanged, so existing screenshots and consumers remain stable.
 - `labels` changes text and accessible names only; it does not change spacing, typography, color, or component state semantics.
-- Product-specific copy belongs in the consuming app. The component library exposes reusable UI labels, not a global locale provider or wallet terminology registry.
+- Product-specific copy belongs in the consuming app. The Web package currently exposes reusable UI labels without a global Locale provider; adding that provider is WS03 work and must preserve existing explicit props/`labels` behavior. Wallet terminology stays outside the generic locale surface.
 - Labels are additive and optional. Existing explicit props (`emptyText`, `label`, `placeholder`, `closeLabel`, and `aria-label`) remain the most specific override for the component that owns them.
-- This file specifies the current Web package contract. The Android-first native adapter
-  follows the same injection principle through its App localization provider and adds
-  platform accessibility semantics; see `mobile-native-baseline.md` for that boundary.
+- This file specifies the current Web package contract. The Android-first Native adapter now ships
+  `FresnicaUiProvider`, `useUiLocale`, `useUiTheme`, and built-in `enUS`/`zhCN` packs for generic
+  component copy. App-owned selection/persistence and explicit component overrides remain outside
+  that provider. See `mobile-native-baseline.md` for the platform boundary.
+
+## Cross-platform synchronization status — 2026-10-12
+
+Native NU01–NU08 are complete at `ea40207351d9a2a62c58226c2c361f06444ee309`.
+For Web, the current precedence remains explicit component copy → component `labels` → existing
+component defaults. WS03 will add Provider Locale between `labels` and defaults; WS04 will connect
+eligible generic copy. Until those tasks merge, the Provider behavior is Native-only and must not
+be inferred as a Web feature.
