@@ -9,6 +9,7 @@
 - [coding-standards.md](./coding-standards.md) —— TypeScript、CSS Modules、设计 token 用法、lint 与格式化规则、禁止事项。
 - [testing.md](./testing.md) —— Vitest 配置、覆盖率阈值、单测与无障碍测试约定。
 - [build-and-release.md](./build-and-release.md) —— 组件库的构建契约，以及它支撑的包入口。
+- [web-native-contract-sync-status-2026-10-12.md](./web-native-contract-sync-status-2026-10-12.md) —— WS01–WS06 完成证据、Web 1.1 已验证工件校验值与剩余范围边界。
 - [contributing.md](./contributing.md) —— Issue、Pull Request、提交格式、pre-commit 钩子。
 
 ## 阅读顺序

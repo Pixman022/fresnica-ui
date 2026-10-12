@@ -13,6 +13,7 @@ How to build, test, and ship changes to fresnica-ui. Visual specifications live 
   prohibitions.
 - [testing.md](./testing.md) — Vitest configuration, coverage thresholds, unit and accessibility test conventions.
 - [build-and-release.md](./build-and-release.md) — the library build contract and the package entry points it feeds.
+- [web-native-contract-sync-status-2026-10-12.md](./web-native-contract-sync-status-2026-10-12.md) — completed WS01–WS06 evidence, verified Web 1.1 artifact checksum, and remaining scope boundaries.
 - [contributing.md](./contributing.md) — issues, pull requests, commit format, pre-commit hook.
 
 ## Reading order
