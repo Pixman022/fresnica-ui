@@ -40,6 +40,11 @@ const ProviderLocaleDemo: React.FC = () => {
         language === 'zh-CN'
             ? '这是组件级局部覆盖：切换语言不会覆盖这条显式 labels 文案。'
             : 'This is a component-level override: Provider changes do not replace explicit labels copy.';
+    const longCopy =
+        language === 'zh-CN'
+            ? '此区域固定验证 320px 宽度与较长文案。浏览器文字放大后应继续换行，不改变主题、输入值、禁用或加载状态。'
+            : 'This constrained surface checks long copy at 320px. Browser text zoom should wrap copy without changing theme, input value, disabled state, or loading state.';
+    const disabledValue = language === 'zh-CN' ? '禁用值保持不变' : 'Disabled value stays stable';
 
     return (
         <FresnicaUiProvider locale={locale}>
@@ -112,11 +117,9 @@ const ProviderLocaleDemo: React.FC = () => {
                             overflowWrap: 'anywhere',
                         }}
                     >
-                        {language === 'zh-CN'
-                            ? '此区域固定验证 320px 宽度与较长文案。浏览器文字放大后应继续换行，不改变主题、输入值、禁用或加载状态。'
-                            : 'This constrained surface checks long copy at 320px. Browser text zoom should wrap copy without changing theme, input value, disabled state, or loading state.'}
+                        {longCopy}
                     </p>
-                    <Input disabled value={language === 'zh-CN' ? '禁用值保持不变' : 'Disabled value stays stable'} readOnly />
+                    <Input disabled value={disabledValue} readOnly />
                 </Card>
             </div>
         </FresnicaUiProvider>
