@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -91,17 +91,44 @@ try {
         path.join(sourceDir, 'main.tsx'),
         `import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Button, Modal } from 'fresnica-ui';
+import {
+    Button,
+    FresnicaThemeProvider,
+    FresnicaUiProvider,
+    Input,
+    Modal,
+    useUiLocale,
+} from 'fresnica-ui';
+import { enUS, zhCN, type UiLocale } from 'fresnica-ui/locales';
 import 'fresnica-ui/style';
 
+const locale: UiLocale = { ...enUS, close: zhCN.close };
+
+function LocaleProbe() {
+    const copy = useUiLocale();
+    return <span>{copy.close}</span>;
+}
+
 function App() {
+    const inputRef = React.useRef<HTMLInputElement>(null);
+    const buttonRef = React.useRef<HTMLButtonElement>(null);
+
+    React.useEffect(() => {
+        inputRef.current?.focus();
+        buttonRef.current?.focus();
+    }, []);
+
     return (
-        <>
-            <Button>Save</Button>
-            <Modal open={false} title="Compatibility check">
-                Body
-            </Modal>
-        </>
+        <FresnicaThemeProvider persist={false} syncTabs={false}>
+            <FresnicaUiProvider locale={locale}>
+                <Input ref={inputRef} allowClear defaultValue="React 18 consumer" />
+                <Button ref={buttonRef}>Save</Button>
+                <LocaleProbe />
+                <Modal open={false} title="Compatibility check">
+                    Body
+                </Modal>
+            </FresnicaUiProvider>
+        </FresnicaThemeProvider>
     );
 }
 
@@ -132,13 +159,25 @@ export default defineConfig({
         throw new Error('React 18.0.0 consumer production build did not emit dist/index.html');
     }
 
-    const stylePath = path.join(consumerRoot, 'node_modules', 'fresnica-ui', 'dist', 'index.css');
+    const packageRoot = path.join(consumerRoot, 'node_modules', 'fresnica-ui');
+    const stylePath = path.join(packageRoot, 'dist', 'index.css');
     if (!existsSync(stylePath)) {
         throw new Error('Packed consumer is missing dist/index.css');
     }
 
+    const localeTypesPath = path.join(packageRoot, 'dist', 'types', 'locales.d.ts');
+    const contextTypesPath = path.join(packageRoot, 'dist', 'types', 'ui-context.d.ts');
+    if (!existsSync(localeTypesPath) || !existsSync(contextTypesPath)) {
+        throw new Error('Packed consumer is missing public Locale/Provider declarations');
+    }
+
+    const packedPackage = JSON.parse(readFileSync(path.join(packageRoot, 'package.json'), 'utf8'));
+    if (!packedPackage.exports?.['./locales']) {
+        throw new Error('Packed consumer is missing the fresnica-ui/locales export');
+    }
+
     console.log('React 18.0.0 packed consumer typecheck and Vite build passed');
-    console.log('Packed style export artifact exists');
+    console.log('Provider, Locale subpath, DOM refs, public declarations and style export are consumable');
 } finally {
     rmSync(consumerRoot, { recursive: true, force: true });
     rmSync(tarball, { force: true });
