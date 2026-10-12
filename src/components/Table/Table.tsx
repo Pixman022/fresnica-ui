@@ -174,7 +174,11 @@ export const Table: React.FC<TableProps> = ({
             {loading && (
                 <div className={styles.loadingOverlay}>
                     <div className={styles.loadingSpinner}>
-                        <LoaderCircle size={40} strokeWidth={2.2} aria-label={labels?.loadingState ?? locale.loadingState ?? '加载中'} />
+                        <LoaderCircle
+                            size={40}
+                            strokeWidth={2.2}
+                            aria-label={labels?.loadingState ?? locale.loadingState ?? '加载中'}
+                        />
                     </div>
                 </div>
             )}
