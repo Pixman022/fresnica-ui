@@ -78,6 +78,36 @@ WS03 delivers the provider and language-pack contract. Component adoption is tra
 until that task merges, existing components continue using their current explicit/labels/default
 resolution.
 
+## WS04 component coverage and behavior ownership
+
+WS04 connects the generic Web component copy to `FresnicaUiProvider` while preserving the
+existing precedence: explicit component prop → component `labels` → Provider Locale → historical
+default.
+
+| Component area | Provider status | Higher-priority/local exception |
+| --- | --- | --- |
+| Modal | Connected | `okText`, `cancelText`, `closeLabel`, then `labels` |
+| Drawer / Tag | Connected | `closeLabel`, then `labels.close` |
+| Loading | Connected | `label`, then `labels.loading` |
+| Input | Connected | `clearAriaLabel`; no component `labels` API is added |
+| Select | Connected | explicit `aria-label`, then `labels.selectMenu` |
+| Table | Connected | `emptyText`, then `labels.emptyState/loadingState` |
+| Carousel / Pagination | Connected | existing component `labels` remain higher priority |
+| DatePicker / TimePicker | Connected for generic controls, arrays and formatter labels | explicit placeholder/ARIA props stay outside Provider |
+| CodeBlock / Image / Footer | Connected | existing `labels`, `alt`, `children` or other explicit props stay higher priority |
+| Notification static API | Explicit-prop managed | its imperative API mounts a separate React root, so use `closeLabel`; WS04 does not add global mutable Locale state |
+| Button | Not applicable | no generic action copy is owned by Button; loading remains the existing disabled spinner behavior |
+
+Web Modal retains its existing focus entry, Tab trap and focus restoration. Loading/disabled state
+continues to prevent repeated actions through the component that owns that state. Status or error
+announcements remain owned by the component that renders the semantic `status`/`alert`; consuming
+apps should not add a duplicate live announcement for the same state.
+
+Button action tiers remain platform-specific names with equivalent intent rather than identical
+props: Native `secondary` corresponds to the normal secondary/default Web action role, and Native
+`quiet` corresponds to the low-emphasis Web `text` role. Their visual implementations and public
+prop names remain independent.
+
 ## Compatibility and scope
 
 - Default English/Chinese labels are unchanged, so existing screenshots and consumers remain stable.
