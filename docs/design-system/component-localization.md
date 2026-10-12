@@ -47,6 +47,37 @@ The non-wallet fields are intentionally small, component-scoped contracts:
 
 Existing explicit props such as `maxLabel`, `copyLabel`, `statusLabel`, `okText`, `cancelText`, `closeLabel`, and `aria-label` remain the most specific override. `children` also continues to override the generated `TransactionStatus` text.
 
+## Global Locale provider
+
+WS03 adds a Web-wide generic Locale context without replacing the existing theme provider:
+
+```tsx
+import { FresnicaThemeProvider, FresnicaUiProvider, zhCN } from 'fresnica-ui';
+
+<FresnicaThemeProvider>
+  <FresnicaUiProvider locale={zhCN}>
+    <App />
+  </FresnicaUiProvider>
+</FresnicaThemeProvider>;
+```
+
+Built-in packs are exported from both the package root and the stable
+`fresnica-ui/locales` subpath. `FresnicaUiProvider` accepts a partial locale object and
+merges it with the nearest parent provider field-by-field. Missing fields remain absent so
+components can fall back to their historical defaults. The provider does not persist language,
+read product state, create a global mutable setter, or duplicate `FresnicaThemeProvider`.
+
+For components connected in WS04, copy precedence is:
+
+1. existing explicit component copy such as `closeLabel`, `label` or `clearAriaLabel`;
+2. the component `labels` field when that component already exposes one;
+3. the nearest `FresnicaUiProvider` Locale value;
+4. the component's historical default copy.
+
+WS03 delivers the provider and language-pack contract. Component adoption is tracked by WS04;
+until that task merges, existing components continue using their current explicit/labels/default
+resolution.
+
 ## Compatibility and scope
 
 - Default English/Chinese labels are unchanged, so existing screenshots and consumers remain stable.
@@ -61,7 +92,6 @@ Existing explicit props such as `maxLabel`, `copyLabel`, `statusLabel`, `okText`
 ## Cross-platform synchronization status — 2026-10-12
 
 Native NU01–NU08 are complete at `ea40207351d9a2a62c58226c2c361f06444ee309`.
-For Web, the current precedence remains explicit component copy → component `labels` → existing
-component defaults. WS03 will add Provider Locale between `labels` and defaults; WS04 will connect
-eligible generic copy. Until those tasks merge, the Provider behavior is Native-only and must not
-be inferred as a Web feature.
+Web WS03 now provides the global Locale context and public language packs. WS04 remains responsible
+for connecting eligible generic component copy to that context while preserving explicit props,
+component `labels` and historical defaults.
