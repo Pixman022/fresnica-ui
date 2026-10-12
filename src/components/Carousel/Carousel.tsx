@@ -195,7 +195,11 @@ export const Carousel: React.FC<CarouselProps> = ({
             )}
 
             {hasControls && showDots && (
-                <div className={styles.dots} role="group" aria-label={labels?.selectSlide ?? locale.selectSlide ?? '选择轮播页'}>
+                <div
+                    className={styles.dots}
+                    role="group"
+                    aria-label={labels?.selectSlide ?? locale.selectSlide ?? '选择轮播页'}
+                >
                     {slides.map((_, index) => (
                         <button
                             key={index}
@@ -203,7 +207,11 @@ export const Carousel: React.FC<CarouselProps> = ({
                             className={[styles.dot, index === currentIndex && styles.dotActive]
                                 .filter(Boolean)
                                 .join(' ')}
-                            aria-label={labels?.goToSlide?.(index + 1, slides.length) ?? locale.goToSlide?.(index + 1, slides.length) ?? `转到第 ${index + 1} 张`}
+                            aria-label={
+                                labels?.goToSlide?.(index + 1, slides.length) ??
+                                locale.goToSlide?.(index + 1, slides.length) ??
+                                `转到第 ${index + 1} 张`
+                            }
                             aria-current={index === currentIndex ? 'true' : undefined}
                             onClick={() => goTo(index)}
                         />
