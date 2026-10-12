@@ -50,7 +50,6 @@ with an error if the coverage summary is missing.
 `npm run build:demo` builds the demo into `demo-dist/` using `vite.config.demo.ts`; `npm run deploy` chains that with
 `gh-pages -d demo-dist` to publish it. The demo is never part of the npm artifact.
 
-
 ## Delivery record
 
 Web `1.1.0` uses its own SemVer progression from `1.0.0`. This minor version is based on
