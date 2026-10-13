@@ -48,18 +48,14 @@ actual CI artifact.
 This verifies the current package and Demo resource paths without claiming that the sourcemap
 warning itself has disappeared.
 
-## Ongoing guard
+## Existing verification gates
 
-`npm run build` now ends with `npm run verify:assets`. The verifier scans every emitted CSS file,
-resolves local `url(...)` and `@import` references relative to that CSS file, rejects references
-that escape `dist/`, and fails if a referenced local file is missing.
-
-The existing React 18 packed-consumer, Demo build and delivery checks remain unchanged and continue
-to run after the normal quality gates.
+The existing Web quality pipeline continues to build the library, verify the packed React 18 consumer,
+build the Demo, and generate the delivery artifact. M03 adds no new build mechanism because the current
+artifact and real-browser checks found no broken resource path to fix. The real-browser evidence above
+is the investigation evidence for this retained upstream warning.
 
 ## Decision
 
-M03 keeps the upstream sourcemap warning as an accurately documented limitation. The current build
-has no discovered missing font/image/CSS resource, and the new asset-reference verifier makes an
-actual missing local asset a build failure. Revisit the plugin only when an upstream release
+M03 keeps the upstream sourcemap warning as an accurately documented limitation. The current build has no discovered missing font/image/CSS resource. Revisit the plugin only when an upstream release
 explicitly addresses this warning or when the Vite/toolchain baseline is intentionally upgraded.
