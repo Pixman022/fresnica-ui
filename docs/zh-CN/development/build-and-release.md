@@ -41,6 +41,10 @@
 `npm run preview:demo` 继续用于本地生产构建预览。现有 `npm run deploy` 脚本不是 GitHub Actions Pages 流程的必需步骤。
 
 
+### 资源校验
+
+`npm run build` 最后会执行 `npm run verify:assets`，对构建 CSS 中的本地 `url(...)` / `@import` 引用进行校验；引用目标缺失或逃逸出 `dist/` 时直接失败。当前 `vite-plugin-lib-assets` sourcemap 告警已按上游限制完成调查，产物与真实浏览器证据见 [build-asset-warning-2026-10-13.md](./build-asset-warning-2026-10-13.md)。
+
 ## 交付记录
 
 Web `1.1.0` 按自己的 SemVer 从 `1.0.0` 演进。本次 minor 版本来自 Web 的向后
