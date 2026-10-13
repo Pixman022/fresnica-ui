@@ -43,16 +43,13 @@ Chromium 中加载，资源响应直接来自实际 CI artifact。
 
 这些结果证明当前包与 Demo 的资源路径有效，但不把 sourcemap 告警描述为“已经消失”。
 
-## 持续门禁
+## 既有验证门禁
 
-`npm run build` 现在最后执行 `npm run verify:assets`。校验器扫描所有构建 CSS，按 CSS
-文件位置解析本地 `url(...)` 与 `@import`，拒绝逃逸出 `dist/` 的引用，并在本地引用目标
-不存在时直接失败。
-
-既有 React 18 打包消费、Demo build 与 delivery 检查保持不变，并继续在正常质量门禁后执行。
+既有 Web 质量管线继续执行 library build、React 18 打包消费验证、Demo build 和 delivery artifact。
+M03 不新增构建机制，因为当前产物与真实浏览器验证没有发现需要修复的资源路径问题。上述真实浏览器
+结果作为本次保留上游告警的调查证据。
 
 ## 结论
 
-M03 将该上游 sourcemap 告警作为准确记录的限制保留。当前构建没有发现字体、图片或 CSS
-资源缺失；新增资源引用校验会把真正的本地资源缺失转为 build failure。只有上游版本明确修复
+M03 将该上游 sourcemap 告警作为准确记录的限制保留。当前构建没有发现字体、图片或 CSS 资源缺失。只有上游版本明确修复
 该告警，或项目有计划升级 Vite/工具链基线时，再重新评估插件升级。
