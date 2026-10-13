@@ -83,4 +83,4 @@
 
 ## 七、维护更新 — 2026-10-13
 
-工程维护计划 M01–M04 已完成实现与验证，详见 [工程维护状态 — 2026-10-13](./engineering-maintenance-status-2026-10-13.md)。当前唯一保留的工程子项是 Web 仓库级 required CI check 的管理员确认/配置；C01 真机无障碍与 C02 配色评审继续作为条件任务。
+工程维护计划 M01–M04 已完成实现与验证，详见 [工程维护状态 — 2026-10-13](./engineering-maintenance-status-2026-10-13.md)。Web `Protect main` 已要求 `Full quality gate`，且临时 PR #27 已验证 required check 失败时 `mergeable_state: blocked`。因此 M01–M04 已无剩余必须完成的工程子项；C01 真机无障碍与 C02 配色评审继续作为条件任务。
