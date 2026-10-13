@@ -7,8 +7,8 @@
 ### Web — `Pixman022/fresnica-ui`
 
 证据：GitHub Actions CI 运行
-[`38017055794`](https://github.com/Pixman022/fresnica-ui/actions/runs/38017055794)
-的 Full quality gate。
+[`38332163314`](https://github.com/Pixman022/fresnica-ui/actions/runs/38332163314)
+在 `e6718b63c0d4e955059d76e3b1c289b5212aa1c5` 上的 Full quality gate。
 
 - 全量依赖审计：**23 个漏洞**——1 low、9 moderate、13 high。
 - 生产依赖审计（`npm audit --omit=dev --audit-level=moderate`）：**0 个漏洞**。
@@ -47,6 +47,16 @@
 
 **生产依赖 0 告警**仅适用于当前组件包安装图，不能推广为未来 Fresnica 钱包 App
 也没有依赖风险；钱包 App 会拥有自己的运行时依赖图。
+
+## 生产依赖审计门禁 — M01
+
+生产审计命令继续使用 `npm audit --omit=dev --audit-level=moderate`，但现在是 Web `Full quality gate` 中的阻断步骤；只有完整开发依赖审计继续作为 report-only。生产审计返回非零退出码时，该 job 会失败，不再被转换为成功结果。
+
+交付工件继续依赖完整 CI 链。GitHub Pages 自动部署仍只在 `main` CI 成功后启动；Pages 的手动入口也会在构建/部署前执行同一生产审计，因此 `workflow_dispatch` 不能绕过生产依赖门禁。
+
+当前可用 GitHub API 返回的 Web repository rulesets 为空；连接器又无权读取 classic branch protection（HTTP 403），因此本文**不宣称** GitHub 合并设置已把 `Full quality gate` 配成 required check。CI 路径中的阻断已实现；仓库级 required-check 仍需管理员单独确认/配置。
+
+最新生产安装图的审计结果仍为 **0 个漏洞**。该结果只覆盖本组件仓库当前的生产安装图；消费应用新增的运行依赖仍需由消费应用自行审计。
 
 ## 处置策略
 
