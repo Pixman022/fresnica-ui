@@ -47,8 +47,14 @@ with an error if the coverage summary is missing.
 
 ## Demo Site
 
-`npm run build:demo` builds the demo into `demo-dist/` using `vite.config.demo.ts`; `npm run deploy` chains that with
-`gh-pages -d demo-dist` to publish it. The demo is never part of the npm artifact.
+`npm run build:demo` builds the demo into `demo-dist/` using `vite.config.demo.ts`. The demo is never part of the npm artifact.
+
+The public preview is deployed by `.github/workflows/pages.yml` after the `CI` workflow succeeds on `main`. The workflow rebuilds `demo-dist/`, uploads it with the official GitHub Pages artifact action, and deploys it to:
+
+- `https://pixman022.github.io/fresnica-ui/`
+- `https://pixman022.github.io/fresnica-ui/examples.html`
+
+`npm run preview:demo` remains the local production-preview path. The existing `npm run deploy` script is not required by the GitHub Actions Pages flow.
 
 ## Delivery record
 
