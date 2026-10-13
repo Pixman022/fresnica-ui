@@ -19,7 +19,8 @@ const walk = (dir) => {
 };
 walk(dist);
 
-const isExternal = (value) => /^(?:data:|https?:|\/\/|#)/i.test(value) || value.startsWith('var(');
+const isExternal = (value) =>
+    /^(?:data:|https?:|\/\/|#)/i.test(value) || value.startsWith('var(');
 
 const references = [];
 const missing = [];
