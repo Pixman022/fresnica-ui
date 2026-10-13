@@ -73,7 +73,7 @@ The production audit remains `npm audit --omit=dev --audit-level=moderate`, but 
 
 The delivery artifact continues to depend on the complete CI chain. Automatic GitHub Pages deployment still starts only after a successful `main` CI run. The manual Pages entry also runs the same production audit before building or deploying, so `workflow_dispatch` cannot bypass the production dependency gate.
 
-Repository rulesets currently return no Web ruleset through the available GitHub API. Classic branch-protection details are not readable by the connected integration (HTTP 403), so this record does **not** claim that GitHub merge settings require `Full quality gate`. CI-path enforcement is implemented; repository-level required-check enforcement remains an administrator verification/configuration item.
+Web repository ruleset `Protect main` (ID `24981097`) is active for the default branch and requires the GitHub Actions `Full quality gate` check. Temporary PR #27 intentionally forced the production audit command to fail; GitHub returned `mergeable_state: blocked` while the required check was red. The PR was closed without merge and its branch was reset to `main`. Repository-level required-check enforcement is therefore verified.
 
 The latest audited production install graph still reports **0 vulnerabilities**. This only covers this component repository's current production install graph; consumer applications must audit their own additional runtime dependencies.
 
