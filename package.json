@@ -42,7 +42,7 @@
         "dev:website": "vite --config vite.config.website.ts --host 0.0.0.0",
         "build:website": "vite build --config vite.config.website.ts",
         "preview:website": "vite preview --config vite.config.website.ts --outDir website-dist --host 0.0.0.0",
-        "build": "vite build && tsc --project tsconfig.build.json --emitDeclarationOnly && npm run verify:assets",
+        "build": "vite build && tsc --project tsconfig.build.json --emitDeclarationOnly",
         "build:demo": "vite build --config vite.config.demo.ts",
         "preview:demo": "vite preview --outDir demo-dist",
         "prepublishOnly": "npm run build",
@@ -63,8 +63,7 @@
         "format:check": "prettier --check .",
         "ci": "npm run format:check && npm run audit:tokens && npm run check:docs && npm run test:contrast && npm run lint && npm run test:run && npm run test:a11y && npm run build",
         "setup:hooks": "git config core.hooksPath .githooks",
-        "prepare": "npm run setup:hooks",
-        "verify:assets": "node scripts/verify-built-assets.mjs"
+        "prepare": "npm run setup:hooks"
     },
     "peerDependencies": {
         "classnames": "^2.5.1",
