@@ -5,12 +5,15 @@
 
 ## Engineering task status
 
-| Task | Status | Evidence |
-| --- | --- | --- |
-| M01 · Production dependency audit gate | Complete, with one repository-setting follow-up | Web PR #22 / `cfb87a9c4394b2549c68782bed58105d8982da9b`; Native PR #71 / `48fd6e165ac2b8ec2a652d094b9288e258440faa` |
-| M02 · Drawer attribute naming | Complete | Web PR #23 / `16639ca349e0b6ee9dfa6a46e0f366604fc6b386` |
-| M03 · Build asset warning | Investigated / retained with verified resources | Web PR #24 / `2719c1e356b1522b7f5aa7da32d46bf1971e4683` |
-| M04 · Regression and maintenance record | Complete in code/CI; Web required-check setting remains to be confirmed by an administrator | This record plus the CI evidence below |
+- **M01 · Production dependency audit gate — Complete, with one repository-setting follow-up.**
+  Evidence: Web PR #22 / `cfb87a9c4394b2549c68782bed58105d8982da9b`; Native PR #71 /
+  `48fd6e165ac2b8ec2a652d094b9288e258440faa`.
+- **M02 · Drawer attribute naming — Complete.** Evidence: Web PR #23 /
+  `16639ca349e0b6ee9dfa6a46e0f366604fc6b386`.
+- **M03 · Build asset warning — Investigated / retained with verified resources.** Evidence:
+  Web PR #24 / `2719c1e356b1522b7f5aa7da32d46bf1971e4683`.
+- **M04 · Regression and maintenance record — Complete in code/CI.** Web required-check setting
+  remains to be confirmed by an administrator; this record contains the CI evidence.
 
 ## M01 audit gate evidence
 
