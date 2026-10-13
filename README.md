@@ -84,6 +84,13 @@ explicit component copy → component `labels` → Provider Locale → historica
 See [component localization](./docs/design-system/component-localization.md) and
 [build and release](./docs/development/build-and-release.md) for the full contract and delivery process.
 
+## Online demo
+
+- [Design-system preview](https://pixman022.github.io/fresnica-ui/)
+- [Component examples](https://pixman022.github.io/fresnica-ui/examples.html)
+
+The GitHub Pages preview is rebuilt and deployed automatically after successful `main` CI.
+
 ## Development
 
 ```bash
