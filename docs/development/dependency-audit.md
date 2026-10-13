@@ -9,8 +9,8 @@ current disposition without treating a green CI run as proof that no dependency 
 ### Web — `Pixman022/fresnica-ui`
 
 Evidence: GitHub Actions CI run
-[`38017055794`](https://github.com/Pixman022/fresnica-ui/actions/runs/38017055794),
-Full quality gate.
+[`38332163314`](https://github.com/Pixman022/fresnica-ui/actions/runs/38332163314),
+Full quality gate on `e6718b63c0d4e955059d76e3b1c289b5212aa1c5`.
 
 - Full dependency audit: **23 vulnerabilities** — 1 low, 9 moderate, 13 high.
 - Production audit (`npm audit --omit=dev --audit-level=moderate`): **0 vulnerabilities**.
@@ -66,6 +66,16 @@ Evidence: recent Native CI audit output on the current React Native 0.87/Jest to
 The **0 production findings** apply only to this component-package install graph. They
 must not be generalized to a future Fresnica wallet App, which will own additional
 runtime dependencies.
+
+## Production audit gate — M01
+
+The production audit remains `npm audit --omit=dev --audit-level=moderate`, but it is now a blocking step in the Web `Full quality gate`; only the full development audit remains report-only. A non-zero production-audit exit therefore fails that job instead of being converted into a successful CI result.
+
+The delivery artifact continues to depend on the complete CI chain. Automatic GitHub Pages deployment still starts only after a successful `main` CI run. The manual Pages entry also runs the same production audit before building or deploying, so `workflow_dispatch` cannot bypass the production dependency gate.
+
+Repository rulesets currently return no Web ruleset through the available GitHub API. Classic branch-protection details are not readable by the connected integration (HTTP 403), so this record does **not** claim that GitHub merge settings require `Full quality gate`. CI-path enforcement is implemented; repository-level required-check enforcement remains an administrator verification/configuration item.
+
+The latest audited production install graph still reports **0 vulnerabilities**. This only covers this component repository's current production install graph; consumer applications must audit their own additional runtime dependencies.
 
 ## Disposition policy
 
