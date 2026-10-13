@@ -51,6 +51,7 @@ try {
                     '@types/react-dom': '18.0.11',
                     typescript: '5.7.3',
                     vite: '7.3.2',
+                    rollup: '4.64.5',
                     '@vitejs/plugin-react': '5.2.0',
                 },
             },

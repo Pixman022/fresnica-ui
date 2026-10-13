@@ -10,8 +10,9 @@ or desktop runtime package.
 `design-system/tokens.css` remains the Web output. The machine-readable baseline
 metadata and reviewed platform adapter values are in
 `design-system/platform-token-source.json`. Native Light/Dark `AppTheme` values
-are generated into the standalone adapter; platform theme preferences remain
-local to each host and are not synchronized between Web, Mobile or Desktop. Native pins an
+are generated into the standalone adapter as built-in defaults; the Native package can also consume a complete
+caller-provided `AppTheme`. Platform theme preferences remain local to each host and are not synchronized
+between Web, Mobile or Desktop. Native pins an
 explicit reviewed Web source revision. Shared Token changes are reviewed in Web first, then
 Native deliberately updates its source lock, regenerates outputs and validates the mapping;
 ordinary Web commits do not advance the Native lock.
@@ -48,8 +49,11 @@ promoted only after real, stable reuse is demonstrated; `Toast/Announcement`, `S
 and other previously suggested components are not current required deliverables.
 
 Native also ships `FresnicaUiProvider`, theme/locale hooks and `enUS`/`zhCN` for generic component
-copy. Host apps still own selection/persistence. The Web keeps its existing `FresnicaThemeProvider`;
-its global Locale configuration is a separate WS03 implementation rather than a second theme system.
+copy. Host apps still own theme/locale selection and persistence. A host may inject a complete custom
+`AppTheme`; if that theme originates from an image, image selection, cropping, color extraction, theme
+generation and persistence remain host responsibilities. The Web keeps its existing
+`FresnicaThemeProvider`; its global Locale configuration is a separate WS03 implementation rather than
+a second theme system.
 
 ## Explicit non-goals
 

@@ -70,7 +70,11 @@ lifecycle cooperation so the host can move and restore accessibility focus aroun
   light and dark roles are derived together.
 - Android system dynamic accent color is not consumed. Fresnica brand and semantic
   roles remain deterministic across supported devices.
-- Image-derived theme generation is **not required for the current Fresnica product direction** and is excluded from the active mobile baseline. Reintroduce it only after a new explicit product decision.
+- The Native package accepts a complete custom `AppTheme`; generated Light/Dark themes remain the built-in defaults.
+  Image selection, cropping, color extraction, theme generation and persistence belong to the consuming
+  application and are not implemented by the component package. The historical Fresnica product decision not
+  to build image-derived theming remains scoped to that product and does not restrict other consumers from
+  supplying a complete custom theme.
 - Financial feedback roles remain independent from user-selected brand colors.
 
 Native pins an reviewed Web Token source revision instead of following floating `main`.

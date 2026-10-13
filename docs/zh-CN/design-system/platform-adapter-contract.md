@@ -7,8 +7,9 @@
 
 `design-system/tokens.json` 继续作为结构化源，`design-system/tokens.css` 继续作为 Web 产物。
 机器可读的基线元数据位于 `design-system/platform-token-source.json`。Native 会锁定明确审核过的
-Web 来源提交；共享 Token 发生变化时先在 Web 审核，再由 Native 主动更新来源锁、重新生成并验证
-映射。普通 Web 提交不会自动推进 Native 的 Token 锁。
+Web 来源提交；生成的 Light/Dark `AppTheme` 作为内置默认值，同时 Native 包允许消费方注入完整
+自定义 `AppTheme`。共享 Token 发生变化时先在 Web 审核，再由 Native 主动更新来源锁、重新生成并
+验证映射。普通 Web 提交不会自动推进 Native 的 Token 锁。
 
 | 层级 | Web | 移动端 | 桌面端 |
 | --- | --- | --- | --- |
@@ -34,8 +35,9 @@ Web 来源提交；共享 Token 发生变化时先在 Web 审核，再由 Native
 此前建议的 `Toast/Announcement`、`Sheet/ActionSheet` 等不再属于当前必交付范围。
 
 Native 也已经提供 `FresnicaUiProvider`、主题/语言 hooks 和 `enUS`/`zhCN` 通用组件文案；宿主 App
-仍负责选择和持久化。Web 继续复用既有 `FresnicaThemeProvider`；Web 全局 Locale 是独立的 WS03
-实现，不建立第二套主题系统。
+仍负责主题/语言选择与持久化，并可注入完整自定义 `AppTheme`。如果主题来自图片，图片选择、裁剪、
+颜色提取、主题生成和持久化仍由宿主负责。Web 继续复用既有 `FresnicaThemeProvider`；Web 全局
+Locale 是独立的 WS03 实现，不建立第二套主题系统。
 
 ## 明确不做
 

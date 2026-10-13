@@ -59,7 +59,10 @@ tabs、`react-native-safe-area-context`、`react-native-screens` 和 NetInfo。
 - Web 1.0.0 数值继续冻结。原生端单独生成类型化颜色、尺寸和字体指标，组成 `AppTheme`。
 - 原生主题支持 Light、Dark 和 System。用户只选择一个品牌主题色，浅色与深色角色一起生成。
 - 不使用 Android 系统动态强调色，保证 Fresnica 品牌与语义角色在支持设备上保持一致。
-- 图片取色主题**不属于当前 Fresnica 产品方向**，已从现行移动端基线中排除；只有新的明确产品决策才重新引入。
+- Native 包支持消费应用注入完整自定义 `AppTheme`；生成的 Light/Dark 主题仍是内置默认值。
+  图片选择、裁剪、颜色提取、主题生成和持久化由消费应用负责，组件包不实现这些能力。此前
+  Fresnica 产品“不开发图片取色主题”的决定继续只适用于该产品范围，不限制其他消费方注入
+  完整自定义主题。
 - 金融反馈色与用户选择的品牌主题色保持隔离。
 
 Native 会锁定经过审核的 Web Token 来源提交，而不是浮动跟随 `main`。共享 Token 源发生实际
