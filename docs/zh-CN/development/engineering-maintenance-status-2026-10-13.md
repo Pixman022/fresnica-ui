@@ -7,10 +7,10 @@
 
 | 任务 | 状态 | 证据 |
 | --- | --- | --- |
-| M01 · 生产依赖审计门禁 | 完成，另保留 1 项仓库设置确认 | Web PR #22 / `cfb87a9c4394b2549c68782bed58105d8982da9b`；Native PR #71 / `48fd6e165ac2b8ec2a652d094b9288e258440faa` |
+| M01 · 生产依赖审计门禁 | 完成 | Web PR #22 / `cfb87a9c4394b2549c68782bed58105d8982da9b`；Native PR #71 / `48fd6e165ac2b8ec2a652d094b9288e258440faa` |
 | M02 · Drawer 属性命名 | 完成 | Web PR #23 / `16639ca349e0b6ee9dfa6a46e0f366604fc6b386` |
 | M03 · 构建资产告警 | 已调查 / 资源验证通过后保留告警 | Web PR #24 / `2719c1e356b1522b7f5aa7da32d46bf1971e4683` |
-| M04 · 回归与维护记录 | 代码/CI 已完成；Web required-check 设置仍需管理员确认 | 本记录及下列 CI 证据 |
+| M04 · 回归与维护记录 | 完成；CI 与仓库级 required-check 均已验证 | 本记录及下列 CI 证据 |
 
 ## M01 审计门禁证据
 
@@ -19,8 +19,8 @@
 
 最新成功生产审计：
 
-- Web `main` CI `38360214555`：**生产依赖 0 漏洞**。
-- Native `main` CI `38359310945`：**生产依赖 0 漏洞**。
+- Web `main` CI `38362703973`：**生产依赖 0 漏洞**。
+- Native `main` CI `38362721044`：**生产依赖 0 漏洞**。
 
 临时非零验证没有引入真实漏洞：
 
@@ -38,10 +38,10 @@ Web 自动 Pages 部署仍要求 `main` CI 成功；手动 `workflow_dispatch` �
 Native 的 `Protect main` ruleset（ID `24701211`）处于 active 状态，并要求 `test` status
 check，因此 Native 生产审计失败时 required check 不会通过。
 
-Web 的 repository rulesets API 当前返回空；连接器又无权读取 classic branch protection
-（HTTP 403）。因此本次会话无法验证 Web 仓库层是否已经把某个 CI check 配成 required。
-CI 路径中的阻断已实现并经过验证，但 Web 合并规则仍保留为**管理员确认/配置项**，本文不宣称
-它已经在仓库层阻止合并。
+Web 的 `Protect main` ruleset（ID `24981097`）已经 active，并对默认分支要求 GitHub
+Actions 的 `Full quality gate`。临时 PR #27 故意让生产审计命令失败，GitHub 在 required
+check 为红色时返回 `mergeable_state: blocked`。PR #27 已关闭且未合并，其验证分支也已
+重置到 `main`。因此仓库级合并阻断已经经过实际验证，而不仅是完成配置。
 
 ## M02 Drawer 结果
 
@@ -71,15 +71,17 @@ Drawer 内部标记已统一为小写 `data-fresnica-drawer-portal` 与
 
 ## M04 最终回归证据
 
-Web `main`：`2719c1e356b1522b7f5aa7da32d46bf1971e4683`
+Web `main`：`cf786e45510c9e6da0bbcd8323c0453144b2f29f`
 
-- CI `38360214555`：Node 20/22 lint/test、Full quality gate、coverage、React 18.0
+- CI `38362703973`：Node 20/22 lint/test、Full quality gate、coverage、React 18.0
   打包消费、Demo build、Delivery artifact — **全部成功**。
-- Pages `38360736540` — **成功**。
+- Pages `38363250670` — **成功**。
+- `Protect main` 要求 `Full quality gate`；PR #27 已验证 required check 失败时
+  `mergeable_state: blocked`。
 
-Native `main`：`48fd6e165ac2b8ec2a652d094b9288e258440faa`
+Native `main`：`e02f471b0ea4d4146b7c43eeb08549ae4692d320`
 
-- CI `38359310945`：生产审计门禁、独立测试、固定 Token 来源验证、build、packed-package
+- CI `38362721044`：生产审计门禁、独立测试、固定 Token 来源验证、build、packed-package
   contract、internal delivery candidate — **全部成功**。
 
 本轮没有修改共享 Token 源：
@@ -97,7 +99,6 @@ Native `main`：`48fd6e165ac2b8ec2a652d094b9288e258440faa`
 
 ## 当前结论
 
-M01–M04 的工程实现和验证已经完成，唯一例外是上述 Web 仓库级 required-check 管理员确认/配置项。
-计划明确禁止在没有证据时宣称合并已被阻断，因此该子项继续保持待办。
+M01–M04 的工程实现、CI 验证与仓库级合并门禁已经全部完成。本轮维护没有剩余必须完成的工程子项。
 
-C01 与 C02 仍是条件任务，不阻塞本轮工程维护。
+C01 与 C02 仍是条件任务，不阻塞已经完成的本轮工程维护。
