@@ -56,6 +56,10 @@ The public preview is deployed by `.github/workflows/pages.yml` after the `CI` w
 
 `npm run preview:demo` remains the local production-preview path. The existing `npm run deploy` script is not required by the GitHub Actions Pages flow.
 
+### Asset warning verification
+
+The current `vite-plugin-lib-assets` sourcemap warning is an investigated upstream limitation. Current packed-library and GitHub Pages assets were verified with real Chromium; see [build-asset-warning-2026-10-13.md](./build-asset-warning-2026-10-13.md) for the evidence and retained-warning decision.
+
 ## Delivery record
 
 Web `1.1.0` uses its own SemVer progression from `1.0.0`. This minor version is based on
