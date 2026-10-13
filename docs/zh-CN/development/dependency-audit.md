@@ -54,7 +54,7 @@
 
 交付工件继续依赖完整 CI 链。GitHub Pages 自动部署仍只在 `main` CI 成功后启动；Pages 的手动入口也会在构建/部署前执行同一生产审计，因此 `workflow_dispatch` 不能绕过生产依赖门禁。
 
-当前可用 GitHub API 返回的 Web repository rulesets 为空；连接器又无权读取 classic branch protection（HTTP 403），因此本文**不宣称** GitHub 合并设置已把 `Full quality gate` 配成 required check。CI 路径中的阻断已实现；仓库级 required-check 仍需管理员单独确认/配置。
+Web 的 `Protect main` ruleset（ID `24981097`）已经对默认分支 active，并要求 GitHub Actions 的 `Full quality gate`。临时 PR #27 故意让生产审计命令失败，required check 为红色时 GitHub 返回 `mergeable_state: blocked`。该 PR 已关闭且未合并，验证分支也已重置到 `main`。因此仓库级 required-check 阻断已经完成实际验证。
 
 最新生产安装图的审计结果仍为 **0 个漏洞**。该结果只覆盖本组件仓库当前的生产安装图；消费应用新增的运行依赖仍需由消费应用自行审计。
 

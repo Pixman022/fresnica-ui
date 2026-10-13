@@ -84,6 +84,7 @@ The project should remain in **Complete / Maintenance** state until a maintenanc
 
 The engineering maintenance plan M01–M04 has been implemented and verified. See
 [Engineering Maintenance Status — 2026-10-13](./engineering-maintenance-status-2026-10-13.md).
-The only remaining engineering sub-item is administrator verification/configuration of the Web
-repository-level required CI check; C01 physical-device accessibility and C02 color review remain
-conditional.
+Web repository ruleset `Protect main` now requires `Full quality gate`, and temporary PR #27
+verified that a failing required check produces `mergeable_state: blocked`. M01–M04 therefore
+have no remaining mandatory engineering sub-item; C01 physical-device accessibility and C02 color
+review remain conditional.

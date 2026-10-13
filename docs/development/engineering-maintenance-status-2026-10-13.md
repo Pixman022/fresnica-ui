@@ -5,15 +5,15 @@
 
 ## Engineering task status
 
-- **M01 · Production dependency audit gate — Complete, with one repository-setting follow-up.**
+- **M01 · Production dependency audit gate — Complete.**
   Evidence: Web PR #22 / `cfb87a9c4394b2549c68782bed58105d8982da9b`; Native PR #71 /
   `48fd6e165ac2b8ec2a652d094b9288e258440faa`.
 - **M02 · Drawer attribute naming — Complete.** Evidence: Web PR #23 /
   `16639ca349e0b6ee9dfa6a46e0f366604fc6b386`.
 - **M03 · Build asset warning — Investigated / retained with verified resources.** Evidence:
   Web PR #24 / `2719c1e356b1522b7f5aa7da32d46bf1971e4683`.
-- **M04 · Regression and maintenance record — Complete in code/CI.** Web required-check setting
-  remains to be confirmed by an administrator; this record contains the CI evidence.
+- **M04 · Regression and maintenance record — Complete.** CI and repository-level required-check
+  enforcement are both verified.
 
 ## M01 audit gate evidence
 
@@ -22,8 +22,8 @@ Both repositories keep the full development audit as report-only and now make
 
 Latest successful production audits:
 
-- Web `main` CI `38360214555`: **0 production vulnerabilities**.
-- Native `main` CI `38359310945`: **0 production vulnerabilities**.
+- Web `main` CI `38362703973`: **0 production vulnerabilities**.
+- Native `main` CI `38362721044`: **0 production vulnerabilities**.
 
 Temporary non-zero verification did not introduce a vulnerable package:
 
@@ -43,12 +43,11 @@ Native repository ruleset `Protect main` (ID `24701211`) is active and requires 
 `test` status check, so a failed Native production audit prevents the required check from
 passing.
 
-For Web, the repository rulesets API currently returns no ruleset. The connected GitHub
-integration cannot read classic branch protection (HTTP 403), so the repository-level
-required-check setting cannot be verified from this session. CI-path enforcement is
-implemented and tested, but the Web merge-setting requirement remains an **administrator
-verification/configuration follow-up**. This record does not claim that Web merges are
-already blocked by a required status check.
+Web repository ruleset `Protect main` (ID `24981097`) is active for the default branch and
+requires the GitHub Actions `Full quality gate` status check. Temporary PR #27 intentionally
+failed the production audit command; GitHub reported `mergeable_state: blocked` while the
+required check was red. PR #27 was closed without merge and its verification branch was reset
+to `main`. Repository-level merge enforcement is therefore verified, not merely configured.
 
 ## M02 Drawer result
 
@@ -82,15 +81,17 @@ No plugin, Vite baseline or dependency version was changed solely to hide the wa
 
 ## M04 final regression evidence
 
-Web `main` at `2719c1e356b1522b7f5aa7da32d46bf1971e4683`:
+Web `main` at `cf786e45510c9e6da0bbcd8323c0453144b2f29f`:
 
-- CI run `38360214555`: Node 20/22 lint and tests, Full quality gate, coverage,
+- CI run `38362703973`: Node 20/22 lint and tests, Full quality gate, coverage,
   React 18.0 packed consumer, Demo build and Delivery artifact — **all successful**.
-- Pages run `38360736540` — **successful**.
+- Pages run `38363250670` — **successful**.
+- Ruleset `Protect main` requires `Full quality gate`; PR #27 verified a failing required
+  check produces `mergeable_state: blocked`.
 
-Native `main` at `48fd6e165ac2b8ec2a652d094b9288e258440faa`:
+Native `main` at `e02f471b0ea4d4146b7c43eeb08549ae4692d320`:
 
-- CI run `38359310945`: production audit gate, standalone tests, fixed Token-source
+- CI run `38362721044`: production audit gate, standalone tests, fixed Token-source
   verification, build, packed-package contract and internal delivery candidate — **all successful**.
 
 Shared Token source was not changed by this maintenance work:
@@ -111,9 +112,7 @@ advance is required.
 
 ## Current conclusion
 
-M01–M04 engineering implementation and verification are complete except for the Web
-repository-level required-check administrator verification/configuration described above.
-That sub-item remains open exactly because the plan forbids claiming merge enforcement
-without evidence.
+M01–M04 engineering implementation, CI verification and repository-level merge enforcement
+are complete. There is no remaining mandatory engineering sub-item in this maintenance round.
 
-C01 and C02 remain conditional tasks and do not block the engineering maintenance work.
+C01 and C02 remain conditional tasks and do not block the completed engineering maintenance work.
