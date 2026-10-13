@@ -136,7 +136,7 @@ describe('Drawer', () => {
         expect(content.style.borderRadius).toBe('var(--Fresnica-border-radius-base)');
         expect(content.style.overflow).toBe('hidden');
         // 回归：portal 包裹器自身不能被下沉（否则 transform 会破坏内部 fixed 面板定位）
-        const portalWrapper = document.querySelector('[data-Fresnica-drawer-portal]') as HTMLElement;
+        const portalWrapper = document.querySelector('[data-fresnica-drawer-portal]') as HTMLElement;
         expect(portalWrapper).toBeTruthy();
         expect(portalWrapper.style.transform).toBe('');
         document.body.removeChild(content);
@@ -153,6 +153,24 @@ describe('Drawer', () => {
         );
         expect(content.style.transform).toBe('');
         document.body.removeChild(content);
+    });
+
+    it('data-fresnica-drawer-ignore 元素不会被背景推移处理', async () => {
+        const ignored = document.createElement('div');
+        ignored.setAttribute('data-fresnica-drawer-ignore', '');
+        ignored.textContent = 'ignored content';
+        document.body.appendChild(ignored);
+        render(
+            <Drawer open>
+                <p>drawer</p>
+            </Drawer>
+        );
+        await waitFor(() => {
+            expect(document.querySelector('[data-fresnica-drawer-portal]')).toBeTruthy();
+        });
+        expect(ignored.style.transform).toBe('');
+        expect(ignored.style.filter).toBe('');
+        document.body.removeChild(ignored);
     });
 
     it('关闭后恢复背景元素原始样式', async () => {
