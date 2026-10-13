@@ -31,7 +31,14 @@
 
 ## Demo 站点
 
-`npm run build:demo` 用 `vite.config.demo.ts` 把 demo 构建到 `demo-dist/`；`npm run deploy` 在此之后接上 `gh-pages -d demo-dist` 发布。demo 永远不进 npm 产物。
+`npm run build:demo` 用 `vite.config.demo.ts` 把 demo 构建到 `demo-dist/`。demo 永远不进 npm 产物。
+
+公开预览由 `.github/workflows/pages.yml` 负责：`main` 上的 `CI` 成功后，工作流重新构建 `demo-dist/`，使用 GitHub 官方 Pages artifact action 上传，并部署到：
+
+- `https://pixman022.github.io/fresnica-ui/`
+- `https://pixman022.github.io/fresnica-ui/examples.html`
+
+`npm run preview:demo` 继续用于本地生产构建预览。现有 `npm run deploy` 脚本不是 GitHub Actions Pages 流程的必需步骤。
 
 
 ## 交付记录
