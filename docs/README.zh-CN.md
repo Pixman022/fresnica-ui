@@ -74,6 +74,13 @@ import { FresnicaThemeProvider, FresnicaUiProvider, zhCN } from 'fresnica-ui';
 完整契约见 [组件多语言文案](./design-system/component-localization.md) 与
 [构建与发布](./development/build-and-release.md)。
 
+## 在线预览
+
+- [设计系统预览](https://pixman022.github.io/fresnica-ui/)
+- [组件示例](https://pixman022.github.io/fresnica-ui/examples.html)
+
+`main` 分支 CI 成功后，GitHub Pages 会自动重新构建并部署预览站点。
+
 ## 本地开发
 
 ```bash
