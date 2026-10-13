@@ -80,7 +80,10 @@ There are **no mandatory implementation tasks remaining** in the current Fresnic
 
 The project should remain in **Complete / Maintenance** state until a maintenance trigger or a new in-scope design-system requirement appears.
 
-
 ## Maintenance update — 2026-10-13
 
-The engineering maintenance plan M01–M04 has been implemented and verified. See [Engineering Maintenance Status — 2026-10-13](./engineering-maintenance-status-2026-10-13.md). The only remaining engineering sub-item is administrator verification/configuration of the Web repository-level required CI check; C01 physical-device accessibility and C02 color review remain conditional.
+The engineering maintenance plan M01–M04 has been implemented and verified. See
+[Engineering Maintenance Status — 2026-10-13](./engineering-maintenance-status-2026-10-13.md).
+The only remaining engineering sub-item is administrator verification/configuration of the Web
+repository-level required CI check; C01 physical-device accessibility and C02 color review remain
+conditional.
