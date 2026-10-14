@@ -71,3 +71,7 @@ native element refs; Web `Modal` already manages focus entry, trapping and resto
 uses platform refs/lifecycle cooperation for focus and Android-specific behavior. TextInputProps,
 Pressable refs, TalkBack, system Back and system bars remain Native-specific. Native NU01–NU08 are
 complete; Web WS01–WS06 synchronize the reusable contract without reopening Native delivery.
+
+## iOS adaptation entry point
+
+The iPhone React Native adaptation uses [iOS Guidelines](ios-guidelines.md) for typography, layout, touch, navigation/presentation and system-preference rules. Those rules may adapt Web implementation details without changing shared semantic role meaning. Build compatibility, Simulator runtime evidence, visual approval and physical-device acceptance remain separate conclusions.
