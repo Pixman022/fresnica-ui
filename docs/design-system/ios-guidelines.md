@@ -116,3 +116,7 @@ The current Web `design-rules.md` remains valid for Web. Shared principles such 
 meaning, restrained motion, localization responsibility and product-independent component behavior
 continue to apply. Web-specific font stacks, CSS focus rings, hover behavior and pixel values do not
 become iOS requirements unless repeated here as an explicit iOS rule.
+
+## Component specifications
+
+The versioned [iOS Component Specifications](ios-component-specs.md) map the existing 15 Native components to iPhone usage, state, accessibility and host-responsibility rules. The document remains a draft until IOS03 typography and IOS05 Simulator evidence are finalized.
