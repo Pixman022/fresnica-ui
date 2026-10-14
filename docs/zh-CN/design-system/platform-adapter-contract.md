@@ -52,3 +52,7 @@ Locale 是独立的 WS03 实现，不建立第二套主题系统。
 `Modal` 已负责焦点进入、Tab 限制与关闭恢复。Native 通过平台 ref/生命周期配合处理焦点和
 Android 专属行为。TextInputProps、Pressable ref、TalkBack、系统 Back 与系统栏接口继续只属于
 Native。Native NU01–NU08 已完成；Web WS01–WS06 只同步可复用契约，不重开 Native 交付。
+
+## iOS 适配入口
+
+React Native iPhone 适配使用 [iOS 设计规范](ios-guidelines.md) 定义字体、布局、触控、导航/呈现及系统偏好规则。平台适配可以改变 Web 实现细节，但不得改变共享语义角色含义。构建兼容、Simulator 运行证据、视觉批准和真机验收必须分别记录。
