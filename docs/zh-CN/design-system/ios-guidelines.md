@@ -104,3 +104,7 @@ role、label、state 属于组件契约。
 当前 Web `design-rules.md` 对 Web 继续有效。语义状态含义、克制动效、本地化职责及与产品无关的
 组件行为等共享原则继续适用。Web 专用字体栈、CSS 焦点环、hover 行为和像素数值，不会自动成为
 iOS 规则，除非本文明确再次定义。
+
+## 组件规格
+
+版本化的 [iOS 组件设计规格](ios-component-specs.md) 将现有 15 个 Native 组件对应到 iPhone 用途、状态、无障碍和宿主职责。IOS03 字体与 IOS05 Simulator 证据定稿前，该文档保持草案状态。
