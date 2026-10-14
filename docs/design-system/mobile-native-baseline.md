@@ -36,8 +36,7 @@ their implementation and validation are merged.
 - Hermes and React Native New Architecture enabled.
 - Android: minSdk 26, targetSdk 36, compileSdk 37, Kotlin 2.2.0 and NDK
   27.1.12297006.
-- iOS later phase: iOS 15.1 minimum, CocoaPods, Simulator and physical-device
-  support.
+- iOS support round: planned package floor iOS 15.1 from the RN 0.87 template; Xcode 16.4 / iOS 18.5 SDK is the current CI build baseline. Simulator runtime coverage is recorded separately, and physical-device acceptance remains deferred. See [iOS Guidelines](ios-guidelines.md).
 
 The native package uses React Native `StyleSheet`, colocated `styles.ts`, function
 components and Hooks. React and React Native are peer dependencies. UI components
@@ -150,3 +149,7 @@ Before production release, add the product-specific multi-device/system-version 
 final contrast review and full reduced-motion reassessment. iOS VoiceOver and physical-
 device acceptance become required when iOS implementation starts.
 
+
+## iOS rule priority
+
+Shared semantic meaning remains platform-independent. For iPhone implementation, read [iOS Guidelines](ios-guidelines.md) before applying Web-specific font, CSS focus, hover or pixel rules. Native component contracts and Preview evidence define implementation details; the consuming App owns navigation, outer safe-area composition, keyboard avoidance and product-level system services.

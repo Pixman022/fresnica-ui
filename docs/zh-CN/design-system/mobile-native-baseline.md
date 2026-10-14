@@ -33,7 +33,7 @@ Web WS01–WS06 同步工作从 `main@15d49e0be28a232ae6de2a7285a3a77add8c87d4` 
 - 启用 Hermes 和 React Native New Architecture。
 - Android：minSdk 26、targetSdk 36、compileSdk 37、Kotlin 2.2.0、NDK
   27.1.12297006。
-- iOS 后续阶段：最低 iOS 15.1，使用 CocoaPods，同时支持 Simulator 和真实 iPhone。
+- iOS 支持阶段：RN 0.87 模板给出的计划最低包目标为 iOS 15.1；当前 CI 构建基线为 Xcode 16.4 / iOS 18.5 SDK。Simulator 实际运行覆盖单独记录，真机验收继续暂缓。参见 [iOS 设计规范](ios-guidelines.md)。
 
 原生包统一使用 React Native `StyleSheet`、组件同目录 `styles.ts`、函数组件和 Hooks。
 React 与 React Native 作为 peerDependencies。UI 组件优先使用 TypeScript/React Native 实现，
@@ -127,3 +127,7 @@ busy 行为；保持合理焦点顺序，支持 Dynamic Type、长翻译文案�
 
 生产发布前，再增加产品级多设备/系统版本矩阵、最终颜色对比复核和完整
 reduced-motion 重新验收。iOS 实现启动后，VoiceOver 与 iPhone 真机验收成为对应发布门槛。
+
+## iOS 规则优先级
+
+共享语义含义继续跨平台一致。iPhone 实现应先读取 [iOS 设计规范](ios-guidelines.md)，再决定 Web 专用字体、CSS 焦点、hover 或像素规则是否适用。Native 组件契约与 Preview 证据定义实现细节；消费 App 负责导航、外层安全区、键盘避让和产品级系统服务。
