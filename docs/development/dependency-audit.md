@@ -4,7 +4,30 @@ This record supports WP06 of the Fresnica quality-remediation plan. It separates
 package-production exposure from development/test/build-tool findings and records the
 current disposition without treating a green CI run as proof that no dependency risk exists.
 
-## Evidence baseline
+## Compatible maintenance result — 2026-10-15
+
+Starting source: Web main `f1b3436f6f19043a4ac0d50e4f954c0f479913f2`.
+Compatible lock updates and a Vitest/coverage minimum of 4.1.11 reduce the full audit from
+23 findings (1 low, 9 moderate, 13 high) to 11 (1 low, 5 moderate, 5 high). The production
+install graph remains at 0. Vitest and coverage stay on major 4; Vite resolves to 7.3.7.
+React, TypeScript, runtime dependencies, component APIs and design tokens remain unchanged.
+
+The Native maintenance round reduces 40 findings (5 moderate, 34 high, 1 critical) to
+29 (20 moderate, 9 high, 0 critical), with production still at 0. Its current classification
+is maintained in the Native repository's `docs/dependency-audit.md`.
+
+Remaining Web findings are the legacy `gh-pages` / glob chain, the declaration-generation
+`vite-plugin-dts` / API-extractor chain and `esbuild` 0.27.7. npm proposes an out-of-range
+`gh-pages` downgrade or a declaration-tool major upgrade for the first two chains. The
+esbuild patched release 0.28.1 is outside Vite 7's declared 0.27 dependency range. These
+changes require a separate toolchain compatibility change; no force fix or transitive
+range override is applied here. Recheck with compatible upstream fixes or the next verified
+build/declaration/deployment-tool update.
+
+The original WP06 classification below is retained as history. Validation of this maintenance
+uses the full quality, coverage, React 18 packed-consumer, Demo and delivery checks.
+
+## Historical evidence baseline
 
 ### Web — `Pixman022/fresnica-ui`
 
@@ -100,7 +123,7 @@ Re-run classification when any of these occurs:
 - the first real wallet host adds its own runtime dependency graph;
 - an ordinary non-force fix becomes available for a previously force-only chain.
 
-## Current WP06 status
+## Historical WP06 status
 
 The audit split and classification are established. **No dependency version change is applied in WP06**: both package production audits are clean, the reported findings are development/test/build-only, and the affected packages are predominantly transitive to the pinned test/build ecosystems. Ordinary-fix candidates are retained until the owning direct toolchain dependency is intentionally refreshed and the lock diff can be verified through the complete quality/consumer/build gates. Force-only changes are explicitly rejected without a separate compatibility upgrade.
 
