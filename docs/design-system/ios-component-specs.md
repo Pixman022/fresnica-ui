@@ -87,11 +87,12 @@ keyboard-avoidance composition.
 **Not for:** owning a UINavigationController/navigation stack, route transitions or the iOS back
 gesture.
 
-**Structure:** leading area, centered title and trailing area. The current title allows two lines
-before truncation.
+**Structure:** leading area, centered title and trailing area. Standard text sizes keep the existing
+two-line truncation behavior.
 
-**Large text:** IOS03/IOS05 determine whether two-line truncation remains acceptable at larger
-categories.
+**Large text:** S04 reproduced destructive title truncation at the maximum accessibility text
+category. On iOS at `fontScale >= 1.5`, the title is allowed to grow without the two-line cap.
+S03 maximum-standard text keeps the standard layout.
 
 **Accessibility:** the visible title exposes heading semantics. Back/close/done action labels are
 caller-owned and must match the consuming task.
@@ -104,7 +105,10 @@ caller-owned and must match the consuming task.
 
 **Interaction:** never combine a pressable whole row with a separately actionable trailing control.
 
-**Large text:** rows may grow vertically. Long title/description behavior is validated in IOS05.
+**Large text:** rows may grow vertically. S04 reproduced trailing content squeezing the text column
+into near single-character wrapping. On iOS at `fontScale >= 1.5`, trailing content moves to a
+full-width second line so the copy keeps useful width. S03 maximum-standard text keeps the standard
+horizontal layout.
 
 **Accessibility:** a whole-row action exposes one button; a separate trailing action remains its own
 control.
