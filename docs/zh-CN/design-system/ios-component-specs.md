@@ -77,9 +77,10 @@ autocomplete、return key 和 secure entry。
 
 **不负责：** UINavigationController/导航栈、路由转场或 iOS 返回手势。
 
-**结构：** leading 区、居中标题、trailing 区；当前标题最多两行后截断。
+**结构：** leading 区、居中标题、trailing 区；标准字号继续使用最多两行后截断的现有行为。
 
-**大字号：** 两行截断在更大字号下是否继续合适，由 IOS03/IOS05 结果决定。
+**大字号：** S04 在最大辅助功能字号下复现了严重标题截断。iOS 在 `fontScale >= 1.5` 时取消
+两行限制，让标题自然增长；S03 最大标准字号继续保持标准布局。
 
 **无障碍：** 可见标题暴露 heading 语义；返回/关闭/完成操作标签由调用方提供并匹配页面任务。
 
@@ -91,7 +92,9 @@ autocomplete、return key 和 secure entry。
 
 **交互：** 不允许同时存在可点击整行和另一个独立可操作 trailing 控件。
 
-**大字号：** 列表行允许纵向增长；长标题/描述在 IOS05 中验证。
+**大字号：** 列表行允许纵向增长。S04 复现了 trailing 内容把正文列挤压到接近逐字换行的问题。
+iOS 在 `fontScale >= 1.5` 时将 trailing 内容移到占满整行的第二行，使正文保持可用宽度；
+S03 最大标准字号继续保持标准横向布局。
 
 **无障碍：** 整行操作只暴露一个 button；独立 trailing 操作保持独立控件。
 
