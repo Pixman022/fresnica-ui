@@ -2,7 +2,29 @@
 
 本文记录 Fresnica 质量修复计划 WP06 的依赖审计结果。重点区分组件包生产运行时暴露与开发、测试、构建工具链告警；CI 全绿不等于不存在依赖风险。
 
-## 证据基线
+## 兼容维护结果 — 2026-10-15
+
+本轮起点为 Web main `f1b3436f6f19043a4ac0d50e4f954c0f479913f2`。
+兼容 lock 更新及 Vitest/coverage 最低版本 4.1.11，将全量审计从 23 项
+（1 low、9 moderate、13 high）降至 11 项（1 low、5 moderate、5 high），
+生产安装图仍为 0。Vitest 与 coverage 保持主版本 4，Vite 解析为 7.3.7。
+React、TypeScript、运行时依赖、组件 API 和设计 Token 保持不变。
+
+Native 同轮维护将 40 项（5 moderate、34 high、1 critical）降至 29 项
+（20 moderate、9 high、0 critical），生产审计仍为 0。其当前分类由 Native
+仓库的 `docs/dependency-audit.md` 维护。
+
+Web 保留项来自旧版 `gh-pages` / glob 链、声明生成 `vite-plugin-dts` /
+API-extractor 链和 `esbuild` 0.27.7。前两条链 npm 建议超出声明范围的
+`gh-pages` 降级或声明工具主版本升级；esbuild 的修复版 0.28.1 超出了
+Vite 7 声明的 0.27 依赖范围。这些变化需要单独验证工具链兼容性，本轮不执行
+force fix 或覆盖间接依赖范围。上游出现兼容修复，或下一次构建、声明、部署工具
+更新验证时重新检查。
+
+下面保留最初 WP06 分类作为历史。本轮维护通过完整质量、覆盖率、React 18
+打包消费、Demo 和交付检查验证。
+
+## 历史证据基线
 
 ### Web — `Pixman022/fresnica-ui`
 
@@ -77,7 +99,7 @@ Web 的 `Protect main` ruleset（ID `24981097`）已经对默认分支 active，
 - 第一个真实钱包宿主增加自己的运行时依赖图；
 - 之前 force-only 的链路出现普通非 force 修复方案。
 
-## 当前 WP06 状态
+## 历史 WP06 状态
 
 审计拆分和分类已经建立。**WP06 不修改依赖版本**：两个组件包的生产依赖审计均为
 0，当前报告的告警都位于开发、测试或构建工具链，而且受影响包大多是固定测试/构建生态的间接依赖。普通修复候选保留到所属直接工具链被明确维护升级时处理，届时需要检查 lock 差异并重新通过完整 quality、consumer 和 build 门禁。force-only 变更在没有独立兼容性升级验证前明确拒绝。
