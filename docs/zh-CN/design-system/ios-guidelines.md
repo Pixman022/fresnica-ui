@@ -27,7 +27,7 @@ iOS 设计要求。
 
 iOS 默认评审起点使用系统字体，不把 Web 的 Roboto / Noto Sans 字体栈作为 iOS 强制要求。
 
-IOS03 将为下列包内角色确定最终映射：
+IOS03 本轮保留下列包内角色的现有映射：
 
 - `body`
 - `supporting`
@@ -35,6 +35,10 @@ IOS03 将为下列包内角色确定最终映射：
 - `sectionTitle`
 - `screenTitle`
 - `display`
+
+已评审 Native 数值保持 body 14、supporting 13、action 15、sectionTitle 18、screenTitle 20、
+display 48。由于 Simulator 证据支持针对布局调整，而不是整体放大基础字号，因此没有采用更大的
+iOS 专用候选映射。
 
 文字必须兼容 Dynamic Type。长标签和较大文字需要更多空间时，可以调整布局，不应为了保持
 Web 固定行高而强行裁切。Bold Text 和辅助功能大字号应按平台真实行为验证，不能只依赖固定倍数
@@ -107,4 +111,6 @@ iOS 规则，除非本文明确再次定义。
 
 ## 组件规格
 
-版本化的 [iOS 组件设计规格](ios-component-specs.md) 将现有 15 个 Native 组件对应到 iPhone 用途、状态、无障碍和宿主职责。IOS03 字体与 IOS05 Simulator 证据定稿前，该文档保持草案状态。
+版本化的 [iOS 组件设计规格](ios-component-specs.md) 将现有 15 个 Native 组件对应到 iPhone
+用途、状态、无障碍和宿主职责。IOS03 字体与 IOS05 Simulator 证据已经完成当前设计系统范围的
+定稿；真机、VoiceOver、真实键盘/autofill 和颜色/对比度验收继续保持独立。

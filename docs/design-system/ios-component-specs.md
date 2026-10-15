@@ -1,7 +1,8 @@
 # iOS Component Specifications
 
-Status: draft for IOS06. The component set and platform responsibilities are defined; final iOS
-typography values and visual acceptance remain dependent on IOS03 and IOS05 evidence.
+Status: IOS06 complete for the current Simulator-backed design-system scope. The component set,
+platform responsibilities, typography mapping and reviewed iPhone evidence are synchronized with
+the verified Native implementation.
 
 These specifications describe the existing React Native package. They do not create a SwiftUI/UIKit
 component SDK, product navigation model or wallet-specific UI layer.
@@ -12,8 +13,8 @@ component SDK, product navigation model or wallet-specific UI layer.
 - iPhone is the first-round target. The host owns outer safe areas, navigation, keyboard avoidance
   and product-level system presentation.
 - Interactive controls use the existing 44×44 pt minimum target baseline.
-- Text remains compatible with system scaling. Final Fresnica iOS typography role values are
-  recorded by IOS03 after Simulator review.
+- Text remains compatible with system scaling. IOS03 keeps the current package roles unchanged for
+  this release: body 14, supporting 13, action 15, sectionTitle 18, screenTitle 20 and display 48.
 - Colors reference the existing semantic theme roles. Color/contrast changes remain deferred.
 - Physical-device VoiceOver, real keyboard/autofill and product acceptance remain separate.
 - The existing Native Modal keeps its `fade` behavior.
@@ -28,8 +29,9 @@ emphasis.
 **iOS behavior:** use the system font; allow Dynamic Type growth. Do not import the Web font stack or
 fixed CSS line-height assumptions.
 
-**Large text:** wrapping and vertical growth are preferred to clipping. Final role values remain
-pending IOS03.
+**Large text:** wrapping and vertical growth are preferred to clipping. The proposed
+17/15/17/20/22/34 iOS-only mapping was not adopted because reviewed evidence supports targeted
+layout adaptation rather than larger package-wide base values.
 
 **Accessibility:** translated visible text remains readable by the platform screen reader. Heading
 semantics belong to components that own a heading role, such as Header.
@@ -61,8 +63,9 @@ native props.
 **iOS input configuration:** the consuming screen selects keyboard type, input mode, content type,
 autocomplete, return key and secure-entry settings for the actual content purpose.
 
-**Large text:** label, value and supporting copy must remain readable; IOS03/IOS05 validate the
-current fixed supporting line-height behavior.
+**Large text:** label, value and supporting copy remain readable in the reviewed S03/S04/S06
+evidence. The current supporting line-height stays unchanged because no clipping or unreachable
+action was reproduced.
 
 **Accessibility:** visible label is the default input label; caller copy may override label/hint.
 Secrets must never be copied into visible supporting or accessibility strings.
@@ -125,8 +128,8 @@ belong to the host until a stable shared need is proven.
 **States and close paths:** `visible` and `onRequestClose` remain caller-controlled. Host/platform
 dismissal paths should converge on the same close callback.
 
-**Large text:** title/content/action reachability is validated in IOS05; scrolling is preferred to
-clipping.
+**Large text:** S05 validates title/content/close-control reachability at the maximum accessibility
+text category. Scrolling remains preferred to clipping.
 
 **Accessibility:** modal semantics are exposed; the host may coordinate initial/restored focus.
 Actual VoiceOver focus behavior remains a physical-device check.
@@ -137,7 +140,8 @@ Actual VoiceOver focus behavior remains a physical-device check.
 
 **Structure:** title, optional description and optional action.
 
-**Large text:** centered copy may grow; the existing description line-height is reviewed by IOS03.
+**Large text:** centered copy may grow. Reviewed S03/S04 detail evidence does not reproduce a
+description-clipping failure, so the existing description line-height remains unchanged.
 
 **Accessibility:** meaning must be present in text/equivalent labels and not depend on color.
 
@@ -215,8 +219,8 @@ motion provider.
 
 **States:** one selected segment; selection state is exposed per option.
 
-**Large text:** long labels and accessibility text sizes are reviewed in IOS05. If horizontal density
-becomes unusable, change the layout rather than adding nested actions.
+**Large text:** reviewed IOS05 evidence does not reproduce an unusable horizontal-density failure.
+If a future consumer does reproduce one, change the layout rather than adding nested actions.
 
 **Accessibility:** caller provides the group label; each option exposes label and selected state.
 
@@ -226,12 +230,13 @@ The neutral Native Preview is the implementation reference for the component sta
 uses S01–S06 Simulator scenarios for small/large iPhone layouts, Light/Dark, English/Simplified
 Chinese, long content, larger text, keyboard-constrained height and Modal behavior.
 
-Final IOS06 status requires:
+IOS06 is complete for the current Simulator-backed design-system scope:
 
-- IOS03 final typography mapping and large-text decisions;
-- IOS04 confirmed component fixes and usage rules;
-- IOS05 runtime matrix results and retained screenshots;
-- code examples and package API links to match the final Native implementation.
+- IOS03 keeps the existing typography role values and rejects the unneeded iOS-only base-size mapping;
+- IOS04 records the verified Header/ListRow accessibility-size layout adaptations;
+- IOS05 records the S01-S06 Simulator matrix, including validated S05 Modal and S06 software-keyboard
+  reachability;
+- the component rules above remain aligned with the current Native package API.
 
-Until those dependencies close, this document is a versioned design draft rather than a visual
-approval record.
+This is a design-system specification, not a claim of physical-device VoiceOver, real keyboard/autofill,
+color/contrast or wallet-product acceptance.

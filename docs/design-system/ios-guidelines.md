@@ -31,7 +31,7 @@ purpose of a token or component state must not change silently.
 Use the iOS system font as the default review starting point. Do not copy the Web Roboto/Noto Sans
 stack as an iOS requirement.
 
-IOS03 defines the final mappings for the package roles:
+IOS03 keeps the current package mappings for this release:
 
 - `body`
 - `supporting`
@@ -39,6 +39,10 @@ IOS03 defines the final mappings for the package roles:
 - `sectionTitle`
 - `screenTitle`
 - `display`
+
+The reviewed Native values remain body 14, supporting 13, action 15, sectionTitle 18,
+screenTitle 20 and display 48. The proposed larger iOS-only base mapping was not adopted because
+Simulator evidence supported targeted layout changes instead.
 
 Text must remain compatible with Dynamic Type. Long labels and larger text are allowed to change
 layout where necessary instead of being forced into a fixed Web line-height model. Bold Text and
@@ -119,4 +123,7 @@ become iOS requirements unless repeated here as an explicit iOS rule.
 
 ## Component specifications
 
-The versioned [iOS Component Specifications](ios-component-specs.md) map the existing 15 Native components to iPhone usage, state, accessibility and host-responsibility rules. The document remains a draft until IOS03 typography and IOS05 Simulator evidence are finalized.
+The versioned [iOS Component Specifications](ios-component-specs.md) map the existing 15 Native
+components to iPhone usage, state, accessibility and host-responsibility rules. IOS03 typography
+and IOS05 Simulator evidence are finalized for the current design-system scope; physical-device,
+VoiceOver, real keyboard/autofill and color/contrast acceptance remain separate.
