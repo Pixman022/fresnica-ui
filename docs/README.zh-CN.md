@@ -3,7 +3,8 @@
 <div align="center">
     <img src="../demo/img/fresnica/fresnica-logo.png" alt="Fresnica" width="320" />
     <p>面向 Fresnica Stellar 钱包产品的 React + TypeScript 组件库。</p>
-    <img src="https://img.shields.io/badge/tests-533%20✓-brightgreen?style=flat-square" alt="测试" />
+    <img src="https://img.shields.io/badge/tests-561%20✓-brightgreen?style=flat-square" alt="单元测试" />
+    <img src="https://img.shields.io/badge/a11y_tests-49%20✓-brightgreen?style=flat-square" alt="无障碍测试" />
     <img src="https://img.shields.io/badge/components-48-blue?style=flat-square" alt="组件" />
     <img src="https://img.shields.io/badge/a11y-WAI--ARIA%20APG-brightgreen?style=flat-square" alt="无障碍" />
     <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License: MIT" /></a>
