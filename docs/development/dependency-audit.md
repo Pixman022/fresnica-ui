@@ -18,7 +18,7 @@ is maintained in the Native repository's `docs/dependency-audit.md`.
 
 A 2026-10-19 compatibility maintenance pass updates only the esbuild lock chain from 0.27.7
 to 0.28.2. Vite 7.3.7 declares `^0.27.0 || ^0.28.0`, so this update stays inside Vite's
-supported range. CI run `39214420440` verifies Node 20/22 lint/tests, the full quality gate,
+supported range. CI run `39214917273` verifies Node 20/22 lint/tests, the full quality gate,
 coverage, production audit and the downstream consumer/build chain.
 
 The full Web audit is now **10 findings (5 moderate, 5 high)** and the production install graph
