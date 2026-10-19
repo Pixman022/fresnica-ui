@@ -16,13 +16,16 @@ The Native maintenance round reduces 40 findings (5 moderate, 34 high, 1 critica
 29 (20 moderate, 9 high, 0 critical), with production still at 0. Its current classification
 is maintained in the Native repository's `docs/dependency-audit.md`.
 
-Remaining Web findings are the legacy `gh-pages` / glob chain, the declaration-generation
-`vite-plugin-dts` / API-extractor chain and `esbuild` 0.27.7. npm proposes an out-of-range
-`gh-pages` downgrade or a declaration-tool major upgrade for the first two chains. The
-esbuild patched release 0.28.1 is outside Vite 7's declared 0.27 dependency range. These
-changes require a separate toolchain compatibility change; no force fix or transitive
-range override is applied here. Recheck with compatible upstream fixes or the next verified
-build/declaration/deployment-tool update.
+A 2026-10-19 compatibility maintenance pass updates only the esbuild lock chain from 0.27.7
+to 0.28.2. Vite 7.3.7 declares `^0.27.0 || ^0.28.0`, so this update stays inside Vite's
+supported range. CI run `39214917273` verifies Node 20/22 lint/tests, the full quality gate,
+coverage, production audit and the downstream consumer/build chain.
+
+The full Web audit is now **10 findings (5 moderate, 5 high)** and the production install graph
+remains **0**. The esbuild advisory no longer appears. Remaining findings are the legacy
+`gh-pages` / glob chain and the declaration-generation `vite-plugin-dts` / API-extractor
+chain. npm proposes breaking/force changes for both, so they remain documented rather than
+force-fixed.
 
 The original WP06 classification below is retained as history. Validation of this maintenance
 uses the full quality, coverage, React 18 packed-consumer, Demo and delivery checks.
