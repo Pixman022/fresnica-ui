@@ -16,7 +16,7 @@ Native 同轮维护将 40 项（5 moderate、34 high、1 critical）降至 29 �
 
 2026-10-19 的兼容维护只将 esbuild 锁文件链从 0.27.7 更新到 0.28.2。
 Vite 7.3.7 声明的范围为 `^0.27.0 || ^0.28.0`，因此该更新仍位于 Vite
-支持范围内。CI run `39214420440` 验证 Node 20/22 lint/test、完整质量门禁、
+支持范围内。CI run `39214917273` 验证 Node 20/22 lint/test、完整质量门禁、
 覆盖率、生产依赖审计以及后续 consumer/build 链。
 
 Web 全量审计现为 **10 项（5 moderate、5 high）**，生产安装图仍为 **0**。
