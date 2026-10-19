@@ -3,7 +3,8 @@
 <div align="center">
     <img src="demo/img/fresnica/fresnica-logo.png" alt="Fresnica" width="320" />
     <p>A React + TypeScript component library for Fresnica Stellar wallet products.</p>
-    <img src="https://img.shields.io/badge/tests-533%20✓-brightgreen?style=flat-square" alt="Tests" />
+    <img src="https://img.shields.io/badge/tests-561%20✓-brightgreen?style=flat-square" alt="Unit tests" />
+    <img src="https://img.shields.io/badge/a11y_tests-49%20✓-brightgreen?style=flat-square" alt="Accessibility tests" />
     <img src="https://img.shields.io/badge/components-48-blue?style=flat-square" alt="Components" />
     <img src="https://img.shields.io/badge/a11y-WAI--ARIA%20APG-brightgreen?style=flat-square" alt="Accessibility" />
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License: MIT" /></a>
