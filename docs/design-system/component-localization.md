@@ -74,9 +74,9 @@ For components connected in WS04, copy precedence is:
 3. the nearest `FresnicaUiProvider` Locale value;
 4. the component's historical default copy.
 
-WS03 delivers the provider and language-pack contract. Component adoption is tracked by WS04;
-until that task merges, existing components continue using their current explicit/labels/default
-resolution.
+WS03 delivers the provider and language-pack contract. WS04 is also complete: eligible generic
+component copy now consumes the provider while preserving explicit props, component `labels`
+and historical defaults in the precedence above.
 
 ## WS04 component coverage and behavior ownership
 
@@ -114,12 +114,12 @@ prop names remain independent.
 - `labels` changes text and accessible names only; it does not change spacing, typography, color, or component state semantics.
 - Product-specific copy belongs in the consuming app. The Web package now provides an optional global Locale provider for generic UI copy while preserving existing explicit props/`labels` behavior. Wallet terminology stays outside the generic locale surface.
 - Labels are additive and optional. Existing explicit props (`emptyText`, `label`, `placeholder`, `closeLabel`, and `aria-label`) remain the most specific override for the component that owns them.
-- This file specifies the current Web package contract. The Android-first Native adapter now ships
+- This file specifies the current Web package contract. The cross-platform Native adapter now ships
   `FresnicaUiProvider`, `useUiLocale`, `useUiTheme`, and built-in `enUS`/`zhCN` packs for generic
   component copy. App-owned selection/persistence and explicit component overrides remain outside
   that provider. See `mobile-native-baseline.md` for the platform boundary.
 
-## Cross-platform synchronization status — 2026-10-12
+## Cross-platform synchronization status — updated 2026-10-20
 
 Native NU01–NU08 are complete at `ea40207351d9a2a62c58226c2c361f06444ee309`.
 Web WS03 provides the global Locale context and public language packs. WS04 is complete: eligible
