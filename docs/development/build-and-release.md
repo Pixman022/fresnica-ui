@@ -54,7 +54,7 @@ The public preview is deployed by `.github/workflows/pages.yml` after the `CI` w
 - `https://pixman022.github.io/fresnica-ui/`
 - `https://pixman022.github.io/fresnica-ui/examples.html`
 
-`npm run preview:demo` remains the local production-preview path. The existing `npm run deploy` script is not required by the GitHub Actions Pages flow.
+`npm run preview:demo` remains the local production-preview path. Remote deployment is owned by `.github/workflows/pages.yml`; use its `workflow_dispatch` entry for a manual redeploy rather than a repository-local deployment CLI.
 
 ### Asset warning verification
 

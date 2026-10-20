@@ -4,6 +4,28 @@ This record supports WP06 of the Fresnica quality-remediation plan. It separates
 package-production exposure from development/test/build-tool findings and records the
 current disposition without treating a green CI run as proof that no dependency risk exists.
 
+## Deployment-tool cleanup — 2026-10-20
+
+Starting source: Web main `d94409bde9a229e72dab06e115edb373ecadf2a8`.
+GitHub Pages deployment is already owned by `.github/workflows/pages.yml`, which
+supports both automatic deployment after successful `main` CI and manual
+`workflow_dispatch`. The repository-local `npm run deploy` / `gh-pages` path was
+therefore redundant and is removed rather than force-downgraded.
+
+Removing that direct devDependency prunes 44 now-unreachable development/deployment
+packages, including the retained
+`gh-pages -> globby -> fast-glob -> micromatch -> braces` advisory chain.
+
+| Audit            | Before deploy cleanup | After deploy cleanup |
+| ---------------- | --------------------- | -------------------- |
+| Full graph       | 5 high                | 0                    |
+| Production graph | 0                     | 0                    |
+
+PR #37 must pass the same Node 20/22, full quality, coverage, React 18 consumer,
+Demo-build and delivery-artifact gates. A successful post-merge Pages workflow is the
+deployment acceptance check. This cleanup does not change package runtime dependencies,
+component APIs, tokens, styles, React compatibility or the built Demo contract.
+
 ## Compatible maintenance result — 2026-10-20
 
 Starting source: Web main `e026a6390fd16cf23122d5967b5fd23d6f3fbc57`.
