@@ -68,8 +68,8 @@ input, accessibility and system integration.
 | Theme contract lacks native outputs        | Generate typed `AppTheme` colors and dimensions; keep image-derived theme generation outside the shared adapter | Done for the standalone adapter |
 | Generic secondary role is ambiguous        | Keep `content-secondary` and `accent-blue` purpose-specific; do not alias either to a generic secondary action | Resolved for baseline |
 | Public components contain default labels   | Added injectable locale/label contracts while preserving current defaults                                 | Done                            |
-| Native accessibility rules are absent      | Component roles, labels, hints and states are documented and covered by hostless RN render tests; device behavior remains App-shell work | Component baseline done; device P1 |
-| Public README statistics can drift         | Regenerate badges from the latest coverage report before release                                          | P1                              |
+| Native accessibility rules are absent      | Component roles, labels, hints and states are documented and covered by hostless RN render tests; device behavior remains App-shell work | Component baseline done; deferred |
+| Public README statistics can drift         | Regenerate badges from the latest coverage report before release                                          | Done; keep synchronized         |
 | Third-party assets may have separate terms | Inventory is recorded; project-owned artwork has been confirmed for public distribution                   | Done; revisit on asset changes  |
 
 ## Migration order
