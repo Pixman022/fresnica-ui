@@ -32,19 +32,20 @@ input, accessibility and system integration.
 - Keep wallet product flows in the examples/feature layer rather than promoting
   them to generic components.
 
-### In scope now: Android-first native mobile adapter
+### Current native mobile adapter
 
-- The first native client is React Native CLI `0.87.0`, with Android as the
-  delivery and validation priority. Its exact toolchain is recorded in
+- The native client is React Native CLI `0.87.0`. Android was the initial delivery
+  and validation priority; the current package also has Simulator-backed iPhone
+  component support. Its exact toolchain is recorded in
   [mobile-native-baseline.md](./mobile-native-baseline.md).
-- Build the first shared slice as Theme/AppTheme, Typography, Button, Field,
-  Screen, Header, ListRow, Modal and StateView. Keep the Web package and its
-  visual values unchanged.
+- The current shared surface contains 15 delivered primitives. Additional shared
+  primitives are added only after stable cross-feature reuse is demonstrated. Keep
+  the Web package and its visual values unchanged.
 - Keep navigation, system bars, safe areas, persistence and platform overlays in
   the App shell. Kotlin/Swift are integration escape hatches, not a second UI
   implementation of every component.
 
-### Later: additional mobile and desktop adapters
+### Later: physical-device mobile acceptance and additional adapters
 
 - Create platform-native primitive components from shared semantic tokens; do not
   import DOM components, CSS Modules or browser portals into React Native.
@@ -53,18 +54,18 @@ input, accessibility and system integration.
   secondary action role is intentionally not part of this baseline.
 - Add platform accessibility contracts: roles, states, labels, hints, focus order,
   announcements, Dynamic Type, keyboard/safe-area handling and reduced motion.
-- Add Android TalkBack, Dynamic Type, keyboard, safe-area, system-bar and reduced-
-  motion validation in the first native slice. Add iOS VoiceOver and physical-device
-  validation when the iOS slice starts.
+- Keep physical-device TalkBack/VoiceOver, broader device matrices and full reduced-
+  motion validation at the consuming-app/release gates. Current iPhone Simulator
+  support does not close those device-level acceptance requirements.
 
 ## Evaluation findings and response
 
 | Finding                                    | Response                                                                                                  | Priority                        |
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------- | ------------------------------- |
 | Existing license blocked commercial use    | Replaced CC BY-NC with MIT and synchronized all repository copy                                           | Done                            |
-| Web implementation is not React Native     | Treat RN as an Android-first adapter, not a direct code reuse target                                      | Resolved for baseline           |
+| Web implementation is not React Native     | Treat RN as a cross-platform adapter with Android as the initial priority, not a direct code reuse target | Resolved for baseline           |
 | Web/Mobile token values conflict           | Current Web values are frozen as the 1.0.0 baseline; native overrides require a recorded product decision | Resolved for baseline           |
-| Theme contract lacks native outputs        | Generate typed `AppTheme` colors and dimensions in the native adapter; keep image-derived themes deferred | Done for the standalone adapter |
+| Theme contract lacks native outputs        | Generate typed `AppTheme` colors and dimensions; keep image-derived theme generation outside the shared adapter | Done for the standalone adapter |
 | Generic secondary role is ambiguous        | Keep `content-secondary` and `accent-blue` purpose-specific; do not alias either to a generic secondary action | Resolved for baseline |
 | Public components contain default labels   | Added injectable locale/label contracts while preserving current defaults                                 | Done                            |
 | Native accessibility rules are absent      | Component roles, labels, hints and states are documented and covered by hostless RN render tests; device behavior remains App-shell work | Component baseline done; device P1 |
@@ -73,17 +74,18 @@ input, accessibility and system integration.
 
 ## Migration order
 
-1. Create the Android-first React Native adapter package from the approved
-   technical baseline; consume the reviewed Native spacing, radius, typography
-   and elevation adapter values without changing the Web baseline.
+1. Maintain the React Native adapter package from the approved technical baseline;
+   Android remains the original delivery priority while the shared semantic contract
+   also supports the current iPhone component slice.
 2. Generate platform outputs from that source; keep CSS variables as the Web
    output and typed numeric values as the native output.
-3. Implement shared native primitives (Text, Icon, Field, StatusBadge,
-   InlineMessage, Toast, Skeleton, Progress, Sheet and SegmentedControl).
+3. Maintain the 15 delivered shared primitives; add another shared primitive only
+   after stable reuse is demonstrated instead of expanding by component count.
 4. Migrate product slices one at a time while keeping wallet-specific components
    feature-local until reuse is proven.
-5. Add Android accessibility, Dynamic Type, safe-area, keyboard and system-theme
-   acceptance gates in the final App host; add iOS gates when that adapter begins.
+5. Keep package-level Android/iOS Simulator gates reproducible; execute physical-
+   device TalkBack/VoiceOver, keyboard and release acceptance in the consuming App
+   when that product integration reaches its hard gate.
 
 ## Compatibility rules
 
