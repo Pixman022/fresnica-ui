@@ -70,7 +70,7 @@ jobs:
               run: npm audit --omit=dev --audit-level=moderate
             - run: npm run ci
             - run: npm run test:cov
-            - uses: actions/upload-artifact@v4
+            - uses: actions/upload-artifact@v7
               if: always()
               with:
                   name: coverage
@@ -107,7 +107,7 @@ jobs:
 
             - run: npm ci
             - run: npm run build:demo
-            - uses: actions/upload-artifact@v4
+            - uses: actions/upload-artifact@v7
               with:
                   name: demo-dist
                   path: demo-dist
@@ -129,7 +129,7 @@ jobs:
             - run: npm run delivery:record
               env:
                   FRESNICA_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-            - uses: actions/upload-artifact@v4
+            - uses: actions/upload-artifact@v7
               with:
                   name: fresnica-ui-delivery
                   path: delivery
