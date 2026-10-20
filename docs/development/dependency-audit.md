@@ -15,10 +15,10 @@ its now-unreachable API Extractor/Rushstack declaration-tooling subtree.
 PR #36 CI run `39357655147` verifies Node 20/22 lint and unit tests, the full quality
 gate and coverage, the React 18 packed consumer, Demo build and delivery artifact.
 
-| Audit            | Before this cleanup          | After this cleanup |
-| ---------------- | ---------------------------- | ------------------ |
-| Full graph       | 10: 5 moderate, 5 high       | 5 high             |
-| Production graph | 0                            | 0                  |
+| Audit            | Before this cleanup    | After this cleanup |
+| ---------------- | ---------------------- | ------------------ |
+| Full graph       | 10: 5 moderate, 5 high | 5 high             |
+| Production graph | 0                      | 0                  |
 
 The removed five moderate findings were the `sprintf-js -> argparse ->
 @rushstack/ts-command-line -> @microsoft/api-extractor -> vite-plugin-dts` path.
