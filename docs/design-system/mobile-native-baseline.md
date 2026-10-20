@@ -1,9 +1,10 @@
 # Mobile native baseline
 
 This document is the implementation baseline for bringing native mobile clients into
-the Fresnica design-system scope. Android is the first delivery target. React Native
-is the shared UI implementation, while Kotlin and Swift remain available for app-shell
-and platform integration that cannot be expressed safely in TypeScript.
+the Fresnica design-system scope. Android was the first delivery and validation target;
+the current React Native package also has a Simulator-backed iPhone component baseline.
+React Native is the shared UI implementation, while Kotlin and Swift remain available
+for app-shell and platform integration that cannot be expressed safely in TypeScript.
 
 The version and platform values are transcribed from the approved project document
 `技术栈基线.md`. This repository copy is the reviewable source for implementation;
@@ -11,9 +12,9 @@ if that document changes, update this file and the machine-readable metadata tog
 
 ## Delivery scope
 
-| Area | First phase | Later phase |
+| Area | Current delivered scope | Deferred / later scope |
 | --- | --- | --- |
-| Platform | Android implementation and acceptance | iOS implementation and device acceptance |
+| Platform | Android implementation/acceptance plus Simulator-backed iPhone component support | Physical-device iOS/VoiceOver acceptance and broader product device matrices |
 | Shared UI | 15 delivered primitives: Typography, Button, Field, Screen, Header, ListRow, Modal, StateView, IconButton, Divider, StatusBadge, InlineMessage, Skeleton, Progress and SegmentedControl | Additional components only after stable reuse is proven |
 | Native code | App shell, system bars, lifecycle and unavoidable platform bridges | Capability-specific integration approved case by case |
 | Product UI | Feature-local composition using shared primitives | Promote only after stable reuse across at least two features |
@@ -21,12 +22,13 @@ if that document changes, update this file and the machine-readable metadata tog
 The Web package remains independent. React Native code must not import DOM
 components, CSS, Less, Web Portal or browser storage APIs.
 
-### Cross-platform synchronization status — 2026-10-12
+### Cross-platform synchronization status — updated 2026-10-20
 
 Native NU01–NU08 are complete; see the [Native optimization completion record](https://github.com/Pixman022/fresnica-ui-native/blob/ea40207351d9a2a62c58226c2c361f06444ee309/docs/native-library-optimization-status-2026-10-10.md).
-The Web WS01–WS06 synchronization round starts from `main@15d49e0be28a232ae6de2a7285a3a77add8c87d4`.
-This section records current facts only: later WS tasks must not be described as delivered until
-their implementation and validation are merged.
+The Web Locale provider and connected generic component copy are now delivered; see
+[component localization](component-localization.md). The iPhone React Native slice has also completed
+its current Simulator-backed design-system round; physical-device, VoiceOver and product-release
+acceptance remain separate deferred gates.
 
 ## Toolchain baseline
 
@@ -92,9 +94,9 @@ Phase one supports English and Simplified Chinese. The Native package now provid
 `FresnicaUiProvider`, `useUiTheme`, `useUiLocale`, and built-in `enUS`/`zhCN` packs for
 component-generic copy. The consuming app still owns locale/theme selection and persistence,
 and explicit component copy remains the most specific override. The package does not embed
-wallet business terminology. The Web package currently keeps its existing per-component
-`labels` and explicit copy contract; the Web global Locale provider is a WS03 deliverable,
-not an already-shipped Web capability.
+wallet business terminology. The Web package now ships its optional global Locale provider
+alongside the existing per-component `labels` and explicit-copy contract; eligible generic
+component copy is connected through the documented precedence rules.
 
 Dates, times, number grouping and hour-cycle presentation follow the system locale and
 region. Stored timestamps and domain values remain locale-neutral.
@@ -146,8 +148,9 @@ verify on a real supported Android device:
 ### Release-stage gate
 
 Before production release, add the product-specific multi-device/system-version matrix,
-final contrast review and full reduced-motion reassessment. iOS VoiceOver and physical-
-device acceptance become required when iOS implementation starts.
+final contrast review and full reduced-motion reassessment. The iPhone implementation now
+has Simulator-backed package evidence; physical-device VoiceOver and device acceptance remain
+required only when the consuming product reaches its corresponding integration/release gate.
 
 
 ## iOS rule priority
