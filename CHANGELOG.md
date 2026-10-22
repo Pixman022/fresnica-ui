@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added `FresnicaThemeProvider`, local HEX theme-color customization, automatic light/dark token generation, WCAG AA foreground adjustment, local persistence, and cross-tab synchronization. Financial semantic colors remain independent.
-- Added a cross-platform adaptation roadmap that separates the current Web design system from future mobile and desktop adapters.
+- Added a cross-platform adaptation roadmap that separates the Web design system from the delivered React Native adapter and any future additional platform adapters.
 - Added `THIRD_PARTY_NOTICES.md` to separate project-owned MIT content from dependency, font and artwork licensing.
 - Confirmed the current Fresnica logos, app icon, tab-bar icons and banner images are original project assets cleared for public distribution.
 - Added additive `labels` contracts for public fields, status, transaction, overlay and date/time components; existing defaults and explicit label props remain compatible.
