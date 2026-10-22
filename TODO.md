@@ -105,5 +105,5 @@
 - [x] 增加原生组件契约检查：`npm test` 覆盖核心无障碍属性、状态契约和 Token 使用；`npm run test:render` 覆盖组件级渲染和交互语义。
 - [x] 已准备 Jest/React Native Testing Library 测试配置和首批组件级渲染用例；`npm run test:render` 已通过并覆盖 Button、Field、Modal、SegmentedControl、Progress、Header、ListRow、IconButton、InlineMessage、StatusBadge、Skeleton 和 Typography。真实 Android 宿主与设备行为仍需最终 App 验收。
 - [x] 独立 `Pixman022/fresnica-ui-native` 远程仓库已建立并同步，原生脚手架作为独立维护单元持续演进。
-- [x] 实现 Android 优先的共享基础组件与组件级测试；TalkBack、Dynamic Type、键盘、安全区、系统栏和减弱动效验收属于最终 App 壳与设备阶段，尚未在组件库中宣称完成。
+- [x] 实现 Android 优先的共享基础组件与组件级测试；组件包已有 Emulator/Simulator 的大字号与系统集成工程证据，但真机读屏、真实键盘、真机安全区/系统栏、减弱动效与真机大字号验收仍属于最终消费 App 的设备阶段。
 - [x] 确定 Web/Mobile 间距、圆角、字号和 elevation 的基线策略：Web 1.0.0 数值保持不变，Native 覆盖值记录在 `design-system/platform-token-source.json` 并生成到原生包；后续仅在产品宿主提供新证据时复审。
