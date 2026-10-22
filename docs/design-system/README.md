@@ -15,7 +15,7 @@ The Fresnica product language is a **minimal technology system**: deliberately s
 
 ## Package export inventory
 
-The package currently exports 48 components from `src/index.ts`. The table below covers the 33 general-purpose design-system components. The remaining 15 wallet-domain exports are retained as product-example/compatibility API and are listed separately below; they are not part of the cross-platform design-system core.
+The package currently exports 48 components from `src/index.ts`. The table below covers the 34 general-purpose design-system components. The remaining 14 wallet-domain exports are retained as product-example/compatibility API and are listed separately below; they are not part of the cross-platform design-system core.
 
 | Component      | Responsibility                                                                                                                                                                                    | Interactive | Decorative / display-only |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------- |
@@ -44,6 +44,7 @@ The package currently exports 48 components from `src/index.ts`. The table below
 | `EmptyState`   | Neutral completed-request empty state with optional description and action                                                                                                                            |             | ✓                         |
 | `ErrorState`   | Recoverable error state with alert semantics, explanation and retry/back action                                                                                                                       | ✓           |                           |
 | `Table`        | Data table, fixed columns, empty state, loading                                                                                                                                                     | ✓           |                           |
+| `Pagination`   | Page navigation with previous/next controls, page items and controlled current-page state                                                                                                             | ✓           |                           |
 | `Form`         | Form container + validation (ships the `FormItem` / `useForm` companion exports, API modeled on mainstream form libraries)                                                                           | ✓           |                           |
 | `Tag`          | Capsule tag, 3 sizes × 4 variants × 7 semantic colors, supporting closable / onClick / disabled                                                                                                      | ✓           |                           |
 | `Notification` | Imperative global notifications (antd-style): 4 types × 6 positions, supports description / btn / onClick / key reuse for in-place updates / destroy all                                             | ✓           |                           |
