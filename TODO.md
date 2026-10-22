@@ -47,7 +47,7 @@
 
 ### 当前版本基线
 
-当前 `package.json` 与 `package-lock.json` 均为 `1.0.0`。由于 `1.8.0` 与 `2.0.0` 属于历史遗留版本线，现有设计 Token、组件库、主题能力、设计系统预览和钱包示例统一按 `1.0.0` 作为全新项目的当前版本基线；后续版本按 SemVer 管理，暂不执行发布或网络同步。
+当前 `package.json` 与 `package-lock.json` 均为 `1.1.0`。`1.0.0` 保留为全新项目的版本基线；`1.8.0` 与 `2.0.0` 属于历史遗留版本线。后续版本继续按 SemVer 管理；当前 Web 包仍未发布到 npm。
 
 ### P1
 
@@ -68,7 +68,7 @@
 ### 暂缓（不计入当前待办）
 
 - 暂不接入相机、系统权限、真实扫码或其他原生硬件能力。
-- 暂不开展 iPhone 真机、VoiceOver、Dynamic Type 原生专项验收。
+- 暂不开展 iPhone 真机、VoiceOver、真实键盘/autofill 验收；基于 Simulator 的 Dynamic Type 已完成当前组件范围，真机复核仍延期。
 - 暂不引入 SwiftUI/UIKit、SF Symbols、原生手势或触感反馈实现。
 
 ## 评估后的公开仓库与跨平台路线
@@ -80,7 +80,7 @@
 - [x] 建立平台无关 Token 源元数据和 Web/移动端/桌面端适配契约；Native 数值与 Light/Dark 颜色产物已由独立适配源生成。
 - [x] 收口跨平台 secondary 语义：`content-secondary` 仅用于辅助内容，`accent-blue` 仅用于网络信息；不新增泛化 secondary 操作 Token。
 - [x] 为公共 Web 组件补充可注入的 locale/label 契约，保持默认文案和 API 兼容；原生端沿用同一注入原则，具体实现见移动端基线。
-- [ ] 在原生客户端进入范围后，补充 TalkBack/VoiceOver、Dynamic Type、安全区、键盘与系统主题验收。
+- [ ] 在首个真实消费 App 进入集成/发布 gate 时，完成剩余真机 TalkBack/VoiceOver、真实键盘/安全区/系统主题与真机大字号验收；当前组件包的 Emulator/Simulator 工程证据不等同于真机验收。
 - [x] 发布前重新生成测试/组件徽章，并确认 npm 发布状态与 README 安装说明一致（当前暂未发布 npm）。
 - [x] 核对品牌图片来源；Logo、App 图标、Tabbar 图标和 Banner 均为原创项目素材，可公开分发。
 - [x] 完成当前素材与第三方依赖许可清单；后续新增外部素材或依赖时，按 `docs/design-system/asset-provenance.md` 与 `THIRD_PARTY_NOTICES.md` 追加登记。
@@ -90,7 +90,7 @@
 - [x] 确认 React Native CLI 0.87.0、React 19.2.3、TypeScript 6.0.3、Node >=22.13.0、Hermes 与 New Architecture 基线；Android minSdk 26 / targetSdk 36 / compileSdk 37。
 - [x] 确认第一阶段只实现 Theme/AppTheme、Typography、Button、Field、Screen、Header、ListRow、Modal、StateView 等共享基础组件，不迁移全部 Web 组件。
 - [x] 确认 React Native 不直接复用 DOM/CSS/Less/Web Portal；导航、安全区、系统栏和平台 Overlay 由 App 外壳负责。
-- [x] 确认 Light/Dark/System 主题、状态栏/导航栏随表面色自动推导图标明暗，不使用 Android 动态强调色；图片取色主题暂缓待确认。
+- [x] 确认 Light/Dark/System 主题、状态栏/导航栏随表面色自动推导图标明暗，不使用 Android 动态强调色；图片取色/主题生成不属于组件包，消费 App 如需该能力由宿主负责。
 - [x] 确认第一阶段只支持 English 与简体中文；翻译由 App 的 LocalizationProvider 注入，日期/时间/数字遵循系统区域。
 - [x] 确认原生图标先使用 ReactNode API；`lucide-react-native` / `react-native-svg` 需单独评审后再引入。
 - [x] 在当前仓库建立可迁出的 `fresnica-ui-native` 原生包脚手架、`AppTheme` 类型和 Token 源校验入口；正式独立仓库建立后迁出并生成 lockfile。
@@ -104,6 +104,6 @@
 - [x] 建立原生 Token 生成入口：`npm run generate:tokens` 从 Web `design-system/tokens.json` 与平台适配源生成可提交的 `src/generated-token-contract.ts`；Native Light/Dark 颜色值已纳入生成链路，主题偏好仍由各平台独立管理。
 - [x] 增加原生组件契约检查：`npm test` 覆盖核心无障碍属性、状态契约和 Token 使用；`npm run test:render` 覆盖组件级渲染和交互语义。
 - [x] 已准备 Jest/React Native Testing Library 测试配置和首批组件级渲染用例；`npm run test:render` 已通过并覆盖 Button、Field、Modal、SegmentedControl、Progress、Header、ListRow、IconButton、InlineMessage、StatusBadge、Skeleton 和 Typography。真实 Android 宿主与设备行为仍需最终 App 验收。
-- [x] 在项目根目录创建独立本地 `fresnica-ui-native` Git 仓库并迁出原生脚手架；远程 Git 地址和网络同步仍待用户单独决定。
-- [x] 实现 Android 优先的共享基础组件与组件级测试；TalkBack、Dynamic Type、键盘、安全区、系统栏和减弱动效验收属于最终 App 壳与设备阶段，尚未在组件库中宣称完成。
+- [x] 独立 `Pixman022/fresnica-ui-native` 远程仓库已建立并同步，原生脚手架作为独立维护单元持续演进。
+- [x] 实现 Android 优先的共享基础组件与组件级测试；组件包已有 Emulator/Simulator 的大字号与系统集成工程证据，但真机读屏、真实键盘、真机安全区/系统栏、减弱动效与真机大字号验收仍属于最终消费 App 的设备阶段。
 - [x] 确定 Web/Mobile 间距、圆角、字号和 elevation 的基线策略：Web 1.0.0 数值保持不变，Native 覆盖值记录在 `design-system/platform-token-source.json` 并生成到原生包；后续仅在产品宿主提供新证据时复审。
