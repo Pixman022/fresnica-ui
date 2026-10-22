@@ -22,13 +22,15 @@ if that document changes, update this file and the machine-readable metadata tog
 The Web package remains independent. React Native code must not import DOM
 components, CSS, Less, Web Portal or browser storage APIs.
 
-### Cross-platform synchronization status — updated 2026-10-20
+### Cross-platform synchronization status — updated 2026-10-22
 
 Native NU01–NU08 are complete; see the [Native optimization completion record](https://github.com/Pixman022/fresnica-ui-native/blob/ea40207351d9a2a62c58226c2c361f06444ee309/docs/native-library-optimization-status-2026-10-10.md).
 The Web Locale provider and connected generic component copy are now delivered; see
 [component localization](component-localization.md). The iPhone React Native slice has also completed
 its current Simulator-backed design-system round; physical-device, VoiceOver and product-release
-acceptance remain separate deferred gates.
+acceptance remain separate deferred gates. The 2026-10-22 Header React-empty side-slot boundary is
+synchronized between the Native contract and the English/Simplified-Chinese iOS specifications;
+it remains post-freeze Maintenance behavior rather than part of the frozen `1.1.0-rc.1` candidate.
 
 ## Toolchain baseline
 
