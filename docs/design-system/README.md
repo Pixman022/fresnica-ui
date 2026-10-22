@@ -65,7 +65,7 @@ Runtime values: `Notification`, `notificationOpen`, `notificationDestroy`, `NOTI
 - [css-variables.md](./css-variables.md) — the complete `:root` variable template for re-implementing the style without the library.
 - [token-audit-baseline.md](./token-audit-baseline.md) — the reviewed audit baseline and approved raw-value exceptions.
 - [token-architecture.md](./token-architecture.md) — the Primitive → Semantic → Component token model, compatibility bridge and migration map.
-- [pending-deletions.md](./pending-deletions.md) — deferred cleanup candidates awaiting a final product/API decision.
+- [pending-deletions.md](./pending-deletions.md) — cleanup decision register and audit trail; currently recorded candidates have completed decisions.
 - [components/](./components/) — per-component pixel-level specs.
 - [demo-site.md](./demo-site.md) — layout specs for the demo and documentation site (not part of the shipped library).
 - [composition-evaluation.md](./composition-evaluation.md) — evaluation record for composition-level components such as `WalletScreen` and `PageHeader`.
