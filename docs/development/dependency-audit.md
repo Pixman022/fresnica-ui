@@ -18,12 +18,14 @@ change is used.
 | Full graph       | 3 moderate           | 0                   |
 | Production graph | 0                    | 0                   |
 
-PR #50 CI run `39732732388` verifies Node 20/22 lint and unit tests, the full
-development and production audits, `npm run ci`, coverage, the React 18 packed
-consumer, Demo build and delivery artifact. The audit log reports `found 0
-vulnerabilities` for both the full and production graphs. This is a development/test
-tooling refresh only; package runtime dependencies, component APIs, tokens, styles
-and release version are unchanged.
+PR #50 dependency-update CI run `39732732388` verifies Node 20/22 lint and
+unit tests, both dependency audits, `npm run ci`, coverage and the React 18 packed
+consumer. The audit log reports `found 0 vulnerabilities` for both the full and
+production graphs. Demo build and delivery artifact on that run were cancelled by
+the later documentation commit; the final PR head must pass the complete downstream
+chain before merge. This is a development/test tooling refresh only; package runtime
+dependencies, component APIs, tokens, styles and release version are unchanged.
+
 ## Deployment-tool cleanup — 2026-10-20
 
 Starting source: Web main `d94409bde9a229e72dab06e115edb373ecadf2a8`.
