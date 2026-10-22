@@ -22,7 +22,7 @@ The cross-platform core defines the parts of Fresnica UI that must remain consis
 The following are shared by every platform:
 
 - Semantic tokens for surfaces, text, borders, actions and status colors.
-- Light/dark themes and local custom primary-color generation.
+- Light/dark theme semantics and host-local theme preferences; platform-specific custom-theme generation remains adapter or host responsibility.
 - Typography hierarchy, spacing, radius, motion and elevation tokens.
 - Component states: default, hover/pressed, focus, selected, disabled, loading, empty and error.
 - WCAG AA contrast as a design and acceptance target, visible keyboard focus where applicable, reduced motion and non-color status cues.
