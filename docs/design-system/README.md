@@ -13,9 +13,9 @@ The Fresnica product language is a **minimal technology system**: deliberately s
 - Build: Vite (library mode), `vite.config.ts` for the library and `vite.config.demo.ts` for the demo
 - Style system: Less Modules + design tokens in `src/styles/variables.less`
 
-## Full export inventory
+## Package export inventory
 
-48 components plus 3 companion exports (`FormItem` / `useForm` / `ICON_LIST`), all exported from `src/index.ts`:
+The package currently exports 48 components from `src/index.ts`. The table below covers the 34 general-purpose design-system components. The remaining 14 wallet-domain exports are retained as product-example/compatibility API and are listed separately below; they are not part of the cross-platform design-system core.
 
 | Component      | Responsibility                                                                                                                                                                                    | Interactive | Decorative / display-only |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------- |
@@ -44,6 +44,7 @@ The Fresnica product language is a **minimal technology system**: deliberately s
 | `EmptyState`   | Neutral completed-request empty state with optional description and action                                                                                                                            |             | ✓                         |
 | `ErrorState`   | Recoverable error state with alert semantics, explanation and retry/back action                                                                                                                       | ✓           |                           |
 | `Table`        | Data table, fixed columns, empty state, loading                                                                                                                                                     | ✓           |                           |
+| `Pagination`   | Page navigation with previous/next controls, page items and controlled current-page state                                                                                                             | ✓           |                           |
 | `Form`         | Form container + validation (ships the `FormItem` / `useForm` companion exports, API modeled on mainstream form libraries)                                                                           | ✓           |                           |
 | `Tag`          | Capsule tag, 3 sizes × 4 variants × 7 semantic colors, supporting closable / onClick / disabled                                                                                                      | ✓           |                           |
 | `Notification` | Imperative global notifications (antd-style): 4 types × 6 positions, supports description / btn / onClick / key reuse for in-place updates / destroy all                                             | ✓           |                           |
@@ -52,6 +53,8 @@ The Fresnica product language is a **minimal technology system**: deliberately s
 | `BackTop`      | Fixed bottom-right back-to-top button (ArrowUp artwork, easeInOutQuad smooth scroll)                                                                                                                | ✓           |                           |
 | `Image`        | Token-based image frame with lazy loading, error fallback and click-to-preview lightbox                                                                                                               | ✓           |                           |
 | `Carousel`     | Controlled/uncontrolled carousel with autoplay, looping, arrows, dots and keyboard navigation                                                                                                        | ✓           |                           |
+
+Wallet-domain compatibility exports: `BalanceCard`, `AssetRow`, `TransactionRow`, `AssetIcon`, `NetworkBadge`, `WalletSwitcher`, `QuickAction`, `TransactionStatus`, `AddressField`, `AmountField`, `FeeSummary`, `SwapRoute`, `BottomNavigation`, and `TransactionDetails` are retained for the Web package's wallet examples and compatibility surface. They do not define the shared Native primitive set and should not be used to infer new cross-platform core components.
 
 Type exports cover the active Fresnica components and their companion types; legacy Fresnica decorative exports were removed from the public package.
 
