@@ -95,7 +95,9 @@ two-line truncation behavior.
 
 **Large text:** S04 reproduced destructive title truncation at the maximum accessibility text
 category. On iOS at `fontScale >= 1.5`, the title is allowed to grow without the two-line cap.
-S03 maximum-standard text keeps the standard layout.
+React-empty optional side content (`undefined`, `null`, booleans and the empty string) does not
+reserve an otherwise empty side slot; renderable `0`, non-empty text, elements and real actions
+continue to reserve their slot. S03 maximum-standard text keeps the standard layout.
 
 **Accessibility:** the visible title exposes heading semantics. Back/close/done action labels are
 caller-owned and must match the consuming task.
