@@ -4,6 +4,28 @@ This record supports WP06 of the Fresnica quality-remediation plan. It separates
 package-production exposure from development/test/build-tool findings and records the
 current disposition without treating a green CI run as proof that no dependency risk exists.
 
+## Current compatible security refresh — 2026-10-22
+
+Web `main` later re-audited with three development-only moderate findings in
+`@vitest/mocker` while the production install graph remained at 0. Vitest 4.1.12
+is the maintained 4.x backport that hardens manual and redirect mocks, so PR #50
+updates only `vitest` and `@vitest/coverage-v8` from `^4.1.11` to `^4.1.12` and
+locks the internal Vitest family to 4.1.12. No force remediation or major-version
+change is used.
+
+| Audit            | Before Vitest 4.1.12 | After Vitest 4.1.12 |
+| ---------------- | -------------------- | ------------------- |
+| Full graph       | 3 moderate           | 0                   |
+| Production graph | 0                    | 0                   |
+
+PR #50 dependency-update CI run `39732732388` verifies Node 20/22 lint and
+unit tests, both dependency audits, `npm run ci`, coverage and the React 18 packed
+consumer. The audit log reports `found 0 vulnerabilities` for both the full and
+production graphs. Demo build and delivery artifact on that run were cancelled by
+the later documentation commit; the final PR head must pass the complete downstream
+chain before merge. This is a development/test tooling refresh only; package runtime
+dependencies, component APIs, tokens, styles and release version are unchanged.
+
 ## Deployment-tool cleanup — 2026-10-20
 
 Starting source: Web main `d94409bde9a229e72dab06e115edb373ecadf2a8`.

@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed the repository license from CC BY-NC 4.0 to MIT so the public project can be used, modified and distributed commercially.
 - Aligned the documented Node engine requirement with the current Vite/jsdom toolchain (`>=20.19.0`).
 - Clarified that the package is not yet published to npm and refreshed the component/test badges from the latest coverage report.
+- Updated Vitest and `@vitest/coverage-v8` to 4.1.12 within the existing major line, clearing the current development-only `@vitest/mocker` advisories while the production dependency audit remains at 0.
 
 ### Removed
 
