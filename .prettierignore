@@ -21,3 +21,6 @@ package-lock.json
 demo/img/
 src/assets/img/
 docs/img/
+
+# Temporary standalone Fresnica website preview
+public/fresnica-website-preview/
