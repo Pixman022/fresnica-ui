@@ -87,10 +87,11 @@ See [component localization](./docs/design-system/component-localization.md) and
 
 ## Online demo
 
+- [Fresnica website preview — Geometric Light V2.1](https://pixman022.github.io/fresnica-ui/fresnica-website-preview/)
 - [Design-system preview](https://pixman022.github.io/fresnica-ui/)
 - [Component examples](https://pixman022.github.io/fresnica-ui/examples.html)
 
-The GitHub Pages preview is rebuilt and deployed automatically after successful `main` CI.
+The GitHub Pages previews are rebuilt and deployed automatically after successful `main` CI. The website preview remains a pre-release product concept; verified distribution links will only be added after official channels are confirmed.
 
 ## Development
 
