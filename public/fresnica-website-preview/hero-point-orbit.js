@@ -1,3 +1,4 @@
+/* global window, document, requestAnimationFrame, cancelAnimationFrame, MutationObserver, IntersectionObserver, ResizeObserver */
 /* Fresnica hero point-cloud orbit: 1500 points, 60% size, 10s/revolution. */
 (() => {
     'use strict';
