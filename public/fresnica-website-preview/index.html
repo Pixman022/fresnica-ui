@@ -688,8 +688,9 @@ function initMotion(){
   el.style.setProperty('--motion-delay',delay+'ms');
  }
  if(!('IntersectionObserver' in window)){targets.forEach(el=>el.classList.add('is-revealed'));return;}
- motionObserver=new IntersectionObserver(entries=>{for(const entry of entries){if(!entry.isIntersecting)continue;entry.target.classList.add('is-revealed');motionObserver?.unobserve(entry.target);}}, {threshold:.18,rootMargin:'0px 0px -8% 0px'});
- targets.forEach(el=>motionObserver.observe(el));
+ const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(!entry.isIntersecting)continue;entry.target.classList.add('is-revealed');observer.unobserve(entry.target);}}, {threshold:.18,rootMargin:'0px 0px -8% 0px'});
+ motionObserver=observer;
+ targets.forEach(el=>observer.observe(el));
 }
 function render(){document.documentElement.lang=state.lang==='zh'?'zh-CN':'en';document.title='Fresnica | '+(state.lang==='zh'?'Stellar 钱包':'Stellar Wallet');document.querySelector('#app').innerHTML=header()+onepage()+footer();initMotion();}
 function sectionFocus(section, initial=false){const sectionId=['home','features','download','about','help'].includes(section)?section:'home';const block=document.getElementById(sectionId);if(!block)return;const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;block.scrollIntoView({block:'start',behavior:'instant'});if(!initial&&sectionId!=='home'){const target=block.querySelector('h2')??block.querySelector('h1');target?.setAttribute('tabindex','-1');target?.focus({preventScroll:true});}}
