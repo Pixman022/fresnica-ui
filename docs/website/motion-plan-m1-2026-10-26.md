@@ -18,32 +18,32 @@ The motion should make the page feel alive while keeping the product UI secondar
 ## M1 — implement now
 
 1. **Hero entrance**
-   - Fade / rise the hero copy and illustration once on initial view.
-   - Keep the distance small and the easing soft.
+    - Fade / rise the hero copy and illustration once on initial view.
+    - Keep the distance small and the easing soft.
 
 2. **Hero ambient geometry**
-   - Slowly rotate the two abstract orbital rings.
-   - Add a very small vertical float to the phone mockup.
-   - Keep the phone stable enough to remain readable.
+    - Slowly rotate the two abstract orbital rings.
+    - Add a very small vertical float to the phone mockup.
+    - Keep the phone stable enough to remain readable.
 
 3. **Features**
-   - Reveal the section heading and four feature cards once as they enter the viewport.
-   - Stagger the cards lightly.
-   - Add a 3–4px hover lift and small feature-specific micro-movements.
+    - Reveal the section heading and four feature cards once as they enter the viewport.
+    - Stagger the cards lightly.
+    - Add a 3–4px hover lift and small feature-specific micro-movements.
 
 4. **Security**
-   - Rotate the two orbital rings slowly in opposite directions.
-   - Reveal the copy and geometry once on entry.
-   - Keep the lock itself stable.
+    - Rotate the two orbital rings slowly in opposite directions.
+    - Reveal the copy and geometry once on entry.
+    - Keep the lock itself stable.
 
 5. **FAQ**
-   - Animate expand/collapse with a short grid-row transition.
-   - Keep ARIA state synchronized with the visual state.
+    - Animate expand/collapse with a short grid-row transition.
+    - Keep ARIA state synchronized with the visual state.
 
 6. **Accessibility / performance**
-   - Disable continuous motion and transitions under reduced-motion preferences.
-   - Use one shared IntersectionObserver for reveal effects.
-   - Avoid scroll-driven JavaScript animation in M1.
+    - Disable continuous motion and transitions under reduced-motion preferences.
+    - Use one shared IntersectionObserver for reveal effects.
+    - Avoid scroll-driven JavaScript animation in M1.
 
 ## Deferred to M2
 
