@@ -64,3 +64,4 @@ These are deferred until M1 is visually reviewed in a real browser.
 - Reduced-motion mode has no continuous animation.
 - Existing CI, docs sync, Demo build, and Delivery artifact remain green.
 - GitHub Pages deploy succeeds.
+- CI publishes a non-blocking 1440px website visual QA screenshot artifact for manual review.
