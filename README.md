@@ -87,7 +87,7 @@ See [component localization](./docs/design-system/component-localization.md) and
 
 ## Online demo
 
-- [Fresnica website preview — Geometric Light V2.1](https://pixman022.github.io/fresnica-ui/fresnica-website-preview/)
+- [Fresnica website preview — Geometric Light V2.3](https://pixman022.github.io/fresnica-ui/fresnica-website-preview/)
 - [Design-system preview](https://pixman022.github.io/fresnica-ui/)
 - [Component examples](https://pixman022.github.io/fresnica-ui/examples.html)
 
