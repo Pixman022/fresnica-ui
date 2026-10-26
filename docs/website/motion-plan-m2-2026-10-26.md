@@ -38,7 +38,6 @@ M2 remains deliberately small. It adds one pointer-driven effect and one runtime
 
 These remain deferred until M2 is visually reviewed.
 
-
 ## M2 visual QA and runtime closeout
 
 - Main-branch CI generated and reviewed 1440px Hero, full-page, and Reduced Motion screenshots.
