@@ -78,6 +78,69 @@ jobs:
                   if-no-files-found: error
                   retention-days: 14
 
+    website_visual_qa:
+        name: Website visual QA
+        runs-on: ubuntu-latest
+        needs: [quality]
+        continue-on-error: true
+        steps:
+            - uses: actions/checkout@v7
+
+            - name: Capture 1440px website QA screenshots
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  mkdir -p website-visual-qa
+                  python3 -m http.server 4173 --directory public >/tmp/fresnica-visual-qa.log 2>&1 &
+                  server_pid=$!
+                  trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+
+                  for attempt in {1..30}; do
+                      if curl --fail --silent --show-error http://127.0.0.1:4173/fresnica-website-preview/ >/dev/null; then
+                          break
+                      fi
+                      sleep 0.2
+                  done
+
+                  chrome="$(command -v google-chrome-stable || command -v google-chrome || command -v chromium-browser || command -v chromium || true)"
+                  if [ -z "$chrome" ]; then
+                      echo "No supported Chrome/Chromium executable found." >&2
+                      exit 1
+                  fi
+
+                  base="http://127.0.0.1:4173/fresnica-website-preview/"
+                  common_args=(
+                      --headless=new
+                      --no-sandbox
+                      --disable-gpu
+                      --hide-scrollbars
+                      --force-device-scale-factor=1
+                      --window-size=1440,1000
+                      --virtual-time-budget=1200
+                  )
+
+                  "$chrome" "${common_args[@]}" --screenshot=website-visual-qa/home.png "$base"
+                  "$chrome" "${common_args[@]}" --screenshot=website-visual-qa/features.png "$base#features"
+                  "$chrome" "${common_args[@]}" --screenshot=website-visual-qa/download.png "$base#download"
+                  "$chrome" "${common_args[@]}" --screenshot=website-visual-qa/help.png "$base#help"
+                  "$chrome" "${common_args[@]}" --force-prefers-reduced-motion --screenshot=website-visual-qa/home-reduced-motion.png "$base"
+
+                  cat > website-visual-qa/README.txt <<EOF
+                  Fresnica website visual QA
+                  source_sha=${GITHUB_SHA}
+                  viewport=1440x1000
+                  routes=home,features,download,help
+                  reduced_motion=home-reduced-motion.png
+                  EOF
+
+            - uses: actions/upload-artifact@v7
+              if: always()
+              with:
+                  name: website-visual-qa
+                  path: website-visual-qa
+                  if-no-files-found: warn
+                  retention-days: 7
+
     consumer:
         name: React 18.0 consumer
         runs-on: ubuntu-latest
