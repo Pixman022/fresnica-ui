@@ -589,8 +589,8 @@ body{background:#fbfcfd;color:var(--text)}
 .onepage-help .faq-answer-shell.open>.faq-answer{opacity:1;transform:none}
 }
 @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
-.button span[aria-hidden="true"]{display:inline-block;transition:transform .18s cubic-bezier(.22,1,.36,1)}
-.button:hover span[aria-hidden="true"],.button:focus-visible span[aria-hidden="true"]{transform:translateX(3px)}
+.geo-v2-hero .button span[aria-hidden="true"]{display:inline-block;transition:transform .18s cubic-bezier(.22,1,.36,1)}
+.geo-v2-hero .button:hover span[aria-hidden="true"],.geo-v2-hero .button:focus-visible span[aria-hidden="true"]{transform:translateX(3px)}
 }
 
 footer{background:#fbfcfd!important;color:var(--text)!important}
@@ -783,17 +783,16 @@ let restoreLanguageFocus=false;
 function focusLanguageControl(){
  if(!restoreLanguageFocus)return;
  restoreLanguageFocus=false;
- requestAnimationFrame(()=>document.querySelector('[data-act="language"]')?.focus({preventScroll:true}));
+ document.querySelector('[data-act="language"]')?.focus({preventScroll:true});
 }
 function renderLanguageChange(){
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  const renderStable=()=>{render();document.querySelectorAll('.motion-reveal').forEach(el=>el.classList.add('is-revealed'));};
- if(reduced||typeof document.startViewTransition!=='function'){renderStable();focusLanguageControl();return;}
- const transition=document.startViewTransition(renderStable);
- transition.updateCallbackDone.then(focusLanguageControl,focusLanguageControl);
+ if(reduced||typeof document.startViewTransition!=='function'){renderStable();return;}
+ document.startViewTransition(renderStable);
 }
 function sectionFocus(section, initial=false){const sectionId=['home','features','download','about','help'].includes(section)?section:'home';const block=document.getElementById(sectionId);if(!block)return;const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;block.scrollIntoView({block:'start',behavior:'instant'});if(!initial&&sectionId!=='home'){const target=block.querySelector('h2')??block.querySelector('h1');target?.setAttribute('tabindex','-1');target?.focus({preventScroll:true});}}
-function syncHash(initial=false){const p=parseHash();const hasLocaleChange=p.lang!==state.lang;if(hasLocaleChange)state.lang=p.lang;state.section=p.section;if(p.safety)state.faqCat='security';if(hasLocaleChange||state.menuOpen||p.safety){state.menuOpen=false;if(hasLocaleChange)renderLanguageChange();else render();}else{document.querySelectorAll('.desktop-nav a[data-route]').forEach(a=>{a.classList.toggle('active',a.dataset.route===state.section);if(a.dataset.route===state.section)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});}requestAnimationFrame(()=>{if(initial&&location.hash==='')return;sectionFocus(p.section,initial);if(p.safety)document.querySelector('[data-cat="security"]')?.focus({preventScroll:true});});}
+function syncHash(initial=false){const p=parseHash();const hasLocaleChange=p.lang!==state.lang;if(hasLocaleChange)state.lang=p.lang;state.section=p.section;if(p.safety)state.faqCat='security';if(hasLocaleChange||state.menuOpen||p.safety){state.menuOpen=false;if(hasLocaleChange)renderLanguageChange();else render();}else{document.querySelectorAll('.desktop-nav a[data-route]').forEach(a=>{a.classList.toggle('active',a.dataset.route===state.section);if(a.dataset.route===state.section)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});}requestAnimationFrame(()=>{if(initial&&location.hash==='')return;sectionFocus(p.section,initial);if(p.safety)document.querySelector('[data-cat="security"]')?.focus({preventScroll:true});if(hasLocaleChange)focusLanguageControl();});}
 function go(section,lang=state.lang){const hash=routeHash(section,lang);if(location.hash!==hash)location.hash=hash;else syncHash(false);}
 function rerenderPreserveFocus(selector){const y=window.scrollY;render();window.scrollTo({top:y,behavior:'instant'});document.querySelector(selector)?.focus({preventScroll:true});}
 document.addEventListener('click',e=>{
