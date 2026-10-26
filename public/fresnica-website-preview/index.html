@@ -548,11 +548,14 @@ body{background:#fbfcfd;color:var(--text)}
 @media(min-width:1101px){
 .motion-enabled .motion-reveal{opacity:0;transform:translateY(14px);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1);transition-delay:var(--motion-delay,0ms);will-change:opacity,transform}
 .motion-enabled .motion-reveal.is-revealed{opacity:1;transform:none;will-change:auto}
-.motion-enabled .geo-v2-hero-art.is-revealed .orbit{animation:fresnica-hero-orbit-a 28s linear infinite}
-.motion-enabled .geo-v2-hero-art.is-revealed .orbit.orbit2{animation:fresnica-hero-orbit-b 34s linear infinite}
-.motion-enabled .geo-v2-hero-art.is-revealed .phone{animation:fresnica-hero-float 6.5s ease-in-out infinite}
-.motion-enabled .security-geometry.is-revealed .ring{animation:fresnica-security-orbit-a 30s linear infinite}
-.motion-enabled .security-geometry.is-revealed .ring.r2{animation:fresnica-security-orbit-b 36s linear infinite}
+.motion-enabled .geo-v2-hero-art.is-revealed .orbit{animation:fresnica-hero-orbit-a 28s linear infinite;animation-play-state:paused}
+.motion-enabled .geo-v2-hero-art.is-revealed .orbit.orbit2{animation:fresnica-hero-orbit-b 34s linear infinite;animation-play-state:paused}
+.motion-enabled .geo-v2-hero-art.is-revealed .phone{animation:fresnica-hero-float 6.5s ease-in-out infinite;animation-play-state:paused}
+.motion-enabled .security-geometry.is-revealed .ring{animation:fresnica-security-orbit-a 30s linear infinite;animation-play-state:paused}
+.motion-enabled .security-geometry.is-revealed .ring.r2{animation:fresnica-security-orbit-b 36s linear infinite;animation-play-state:paused}
+.motion-enabled .geo-v2-hero-art.is-revealed.is-motion-active .orbit,
+.motion-enabled .geo-v2-hero-art.is-revealed.is-motion-active .phone,
+.motion-enabled .security-geometry.is-revealed.is-motion-active .ring{animation-play-state:running}
 .geo-v2-card{transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease,border-color .22s ease}
 .geo-v2-card .feature-mini-row,.geo-v2-card .feature-mini-pill,.geo-v2-card .feature-mini-arrow,.geo-v2-card .feature-mini-apps i{transition:transform .22s cubic-bezier(.22,1,.36,1)}
 }
@@ -565,6 +568,15 @@ body{background:#fbfcfd;color:var(--text)}
 .motion-enabled .geo-v2-card:nth-child(3):hover .feature-mini-arrow{transform:rotate(180deg)}
 .motion-enabled .geo-v2-card:nth-child(4):hover .feature-mini-apps i:nth-child(2){transform:translate(-2px,-2px)}
 .motion-enabled .geo-v2-card:nth-child(4):hover .feature-mini-apps i:nth-child(3){transform:translate(2px,2px)}
+}
+
+/* Motion M2 — pointer depth and visibility-aware ambient motion. */
+@media(min-width:1101px) and (hover:hover) and (pointer:fine){
+.motion-enabled .geo-v2-hero-art.motion-reveal.is-revealed{transform:translate3d(var(--hero-parallax-x,0px),var(--hero-parallax-y,0px),0);transition:transform .18s cubic-bezier(.22,1,.36,1)}
+.motion-enabled .geo-v2-hero-art.motion-reveal.is-revealed:before{transform:translate3d(var(--hero-parallax-bg-x,0px),var(--hero-parallax-bg-y,0px),0);transition:transform .22s cubic-bezier(.22,1,.36,1)}
+.motion-enabled .geo-v2-hero-art.motion-reveal.is-revealed:after{transform:translate3d(var(--hero-parallax-far-x,0px),var(--hero-parallax-far-y,0px),0);transition:transform .26s cubic-bezier(.22,1,.36,1)}
+.motion-enabled .geo-v2-hero-art.motion-reveal.is-revealed .geo-dot,
+.motion-enabled .geo-v2-hero-art.motion-reveal.is-revealed .geo-grid{transform:translate3d(var(--hero-parallax-detail-x,0px),var(--hero-parallax-detail-y,0px),0);transition:transform .15s cubic-bezier(.22,1,.36,1)}
 }
 
 footer{background:#fbfcfd!important;color:var(--text)!important}
@@ -672,25 +684,85 @@ function helpArea(){const ids=state.faqCat==='all'?new Set(DB.faq.map(x=>x.id)):
 function footer(){const arr=['features','download','about','help'];return '<footer><div class="shell geo-v2-footer"><div>'+logo()+'<div class="legal-pending" style="text-align:left">'+esc(t('Fresnica — A wallet designed for Stellar.'))+' · '+esc(t('In development'))+'</div></div><div><nav class="footer-nav">'+arr.map(k=>'<a href="'+routeHash(k)+'" data-route="'+k+'">'+esc(t({features:'Features',download:'Download',about:'About',help:'Help'}[k]))+'</a>').join('')+'</nav><div class="legal-pending">'+esc(t('Verified official channels and policies will appear when available.'))+'</div></div></div></footer>';}
 function onepage(){return '<main class="onepage" id="main" tabindex="-1"><section id="home" class="shell geo-v2-hero" aria-labelledby="hero-title"><div><div class="eyebrow">'+esc(t('BUILT FOR STELLAR'))+'</div><h1 id="hero-title">'+(state.lang==='zh'?'<span>专为 Stellar 打造，</span><span class="hero-title-accent">让钱包体验更简单。</span>':'<span>Your Stellar wallet.</span><span class="hero-title-accent">Made simple.</span>')+'</h1><p class="hero-copy">'+esc(t('Meet Fresnica, a mobile wallet designed for XLM and Stellar-issued assets, payments, swaps, and compatible apps.'))+'</p><div class="action-row"><a class="button primary" href="'+routeHash('download')+'" data-route="download">'+esc(t('View download availability'))+' <span aria-hidden="true">→</span></a><a class="button secondary" href="'+routeHash('features')+'" data-route="features">'+esc(t('Explore Features'))+' <span aria-hidden="true">↗</span></a></div><div class="hero-note">'+esc(t('In development'))+' · '+esc(t('iOS and Android planned'))+'</div></div><div class="geo-v2-hero-art" role="img" aria-label="'+esc(t('Product illustration, demo data only'))+'"><div class="orbit" aria-hidden="true"></div><div class="orbit orbit2" aria-hidden="true"></div><span class="geo-dot green d1"></span><span class="geo-dot d2"></span><span class="geo-dot green d3"></span><span class="geo-dot d4"></span><span class="geo-grid g1"></span><span class="geo-grid g2"></span>'+phone(0,0)+'</div></section>'+featureArea()+aboutArea()+helpArea()+'</main>';}
 let motionObserver=null;
+let heroParallaxCleanup=null;
+function clearHeroParallax(){
+ heroParallaxCleanup?.();
+ heroParallaxCleanup=null;
+}
+function initHeroParallax(){
+ clearHeroParallax();
+ const art=document.querySelector('.geo-v2-hero-art');
+ if(!art||!window.matchMedia('(pointer:fine) and (hover:hover)').matches)return;
+ let frame=0;
+ let nx=0;
+ let ny=0;
+ const props=['--hero-parallax-x','--hero-parallax-y','--hero-parallax-bg-x','--hero-parallax-bg-y','--hero-parallax-far-x','--hero-parallax-far-y','--hero-parallax-detail-x','--hero-parallax-detail-y'];
+ const apply=()=>{
+  frame=0;
+  art.style.setProperty('--hero-parallax-x',(nx*4).toFixed(2)+'px');
+  art.style.setProperty('--hero-parallax-y',(ny*3).toFixed(2)+'px');
+  art.style.setProperty('--hero-parallax-bg-x',(nx*-2).toFixed(2)+'px');
+  art.style.setProperty('--hero-parallax-bg-y',(ny*-1.5).toFixed(2)+'px');
+  art.style.setProperty('--hero-parallax-far-x',(nx*-5).toFixed(2)+'px');
+  art.style.setProperty('--hero-parallax-far-y',(ny*-3).toFixed(2)+'px');
+  art.style.setProperty('--hero-parallax-detail-x',(nx*3).toFixed(2)+'px');
+  art.style.setProperty('--hero-parallax-detail-y',(ny*2).toFixed(2)+'px');
+ };
+ const queue=()=>{if(!frame)frame=requestAnimationFrame(apply);};
+ const onMove=e=>{
+  const rect=art.getBoundingClientRect();
+  const halfW=Math.max(rect.width/2,1);
+  const halfH=Math.max(rect.height/2,1);
+  nx=Math.max(-1,Math.min(1,(e.clientX-(rect.left+halfW))/halfW));
+  ny=Math.max(-1,Math.min(1,(e.clientY-(rect.top+halfH))/halfH));
+  queue();
+ };
+ const reset=()=>{nx=0;ny=0;queue();};
+ art.addEventListener('pointermove',onMove,{passive:true});
+ art.addEventListener('pointerleave',reset);
+ heroParallaxCleanup=()=>{
+  art.removeEventListener('pointermove',onMove);
+  art.removeEventListener('pointerleave',reset);
+  if(frame)cancelAnimationFrame(frame);
+  props.forEach(prop=>art.style.removeProperty(prop));
+ };
+}
 function initMotion(){
  motionObserver?.disconnect();motionObserver=null;
+ clearHeroParallax();
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  const enabled=window.innerWidth>1100&&!reduced;
  document.documentElement.classList.toggle('motion-enabled',enabled);
  if(!enabled)return;
  const targets=[...document.querySelectorAll('.geo-v2-hero > :first-child,.geo-v2-hero-art,.geo-v2-feature-head,.geo-v2-card,.geo-v2-security > :first-child,.security-geometry')];
+ const ambientTargets=new Set([...document.querySelectorAll('.geo-v2-hero-art,.security-geometry')]);
  let cardIndex=0;
  for(const el of targets){
   let delay=0;
   if(el.classList.contains('geo-v2-card'))delay=cardIndex++*70;
-  else if(el.classList.contains('geo-v2-hero-art')||el.classList.contains('security-geometry'))delay=100;
+  else if(ambientTargets.has(el))delay=100;
   el.classList.add('motion-reveal');
   el.style.setProperty('--motion-delay',delay+'ms');
  }
- if(!('IntersectionObserver' in window)){targets.forEach(el=>el.classList.add('is-revealed'));return;}
- const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(!entry.isIntersecting)continue;entry.target.classList.add('is-revealed');observer.unobserve(entry.target);}}, {threshold:.18,rootMargin:'0px 0px -8% 0px'});
+ if(!('IntersectionObserver' in window)){
+  targets.forEach(el=>el.classList.add('is-revealed'));
+  ambientTargets.forEach(el=>el.classList.add('is-motion-active'));
+  initHeroParallax();
+  return;
+ }
+ const observer=new IntersectionObserver(entries=>{for(const entry of entries){
+  const ambient=ambientTargets.has(entry.target);
+  if(entry.isIntersecting){
+   entry.target.classList.add('is-revealed');
+   if(ambient)entry.target.classList.add('is-motion-active');
+   else observer.unobserve(entry.target);
+  }else if(ambient){
+   entry.target.classList.remove('is-motion-active');
+  }
+ }}, {threshold:.18,rootMargin:'0px 0px -8% 0px'});
  motionObserver=observer;
  targets.forEach(el=>observer.observe(el));
+ initHeroParallax();
 }
 function render(){document.documentElement.lang=state.lang==='zh'?'zh-CN':'en';document.title='Fresnica | '+(state.lang==='zh'?'Stellar 钱包':'Stellar Wallet');document.querySelector('#app').innerHTML=header()+onepage()+footer();initMotion();}
 function sectionFocus(section, initial=false){const sectionId=['home','features','download','about','help'].includes(section)?section:'home';const block=document.getElementById(sectionId);if(!block)return;const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;block.scrollIntoView({block:'start',behavior:'instant'});if(!initial&&sectionId!=='home'){const target=block.querySelector('h2')??block.querySelector('h1');target?.setAttribute('tabindex','-1');target?.focus({preventScroll:true});}}
@@ -734,6 +806,7 @@ function queueDesktopNav() {
 window.addEventListener('scroll', queueDesktopNav, { passive: true });
 window.addEventListener('resize',()=>{queueDesktopNav();initMotion();});
 window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener?.('change',initMotion);
+window.matchMedia('(pointer:fine) and (hover:hover)').addEventListener?.('change',initMotion);
 
 window.preview={state,go,setLanguage:l=>go(state.section,l),render,selectFaqCategory:cat=>{state.faqCat=cat;render()}};
 const initial=parseHash();state.lang=initial.lang;state.section=initial.section;if(initial.safety)state.faqCat='security';render();syncHash(true);
