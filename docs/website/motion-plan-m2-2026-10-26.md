@@ -38,6 +38,14 @@ M2 remains deliberately small. It adds one pointer-driven effect and one runtime
 
 These remain deferred until M2 is visually reviewed.
 
+## M2 visual QA and runtime closeout
+
+- Main-branch CI generated and reviewed 1440px Hero, full-page, and Reduced Motion screenshots.
+- Hero, Features, Security, Download, About, and FAQ show no M2-introduced overflow or layout displacement.
+- Pointer parallax does not alter layout; static QA captures retain the Geometric Light V2.4 composition.
+- M2.1 additionally removes the ambient-motion running state while the browser tab is hidden and restores viewport-based motion state when the page becomes visible again.
+- This closeout adds no new motion category and does not change mobile behavior.
+
 ## Success criteria
 
 - Maximum pointer displacement stays subtle and does not alter layout.

@@ -806,6 +806,13 @@ function queueDesktopNav() {
 window.addEventListener('scroll', queueDesktopNav, { passive: true });
 window.addEventListener('resize',()=>{queueDesktopNav();initMotion();});
 window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener?.('change',initMotion);
+document.addEventListener('visibilitychange',()=>{
+ if(document.hidden){
+  document.querySelectorAll('.geo-v2-hero-art,.security-geometry').forEach(el=>el.classList.remove('is-motion-active'));
+  return;
+ }
+ initMotion();
+});
 window.matchMedia('(pointer:fine) and (hover:hover)').addEventListener?.('change',initMotion);
 
 window.preview={state,go,setLanguage:l=>go(state.section,l),render,selectFaqCategory:cat=>{state.faqCat=cat;render()}};
