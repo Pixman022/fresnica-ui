@@ -64,3 +64,4 @@
 - Reduced Motion 模式不存在持续动画。
 - 现有 CI、文档同步、Demo build、Delivery artifact 全部通过。
 - GitHub Pages 部署成功。
+- CI 额外生成一份非阻断的 1440px 官网视觉 QA 截图产物，用于人工验收。
