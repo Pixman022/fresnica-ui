@@ -3,7 +3,7 @@
 (() => {
     'use strict';
     const settings = { count: 1500, size: 0.6, seconds: 10, guides: true, secondOrbit: true };
-    const W = 760, H = 540, cx = 505, cy = 266, R = 166;
+    const W = 760, H = 540, cx = 470, cy = 266, R = 145;
     const mainOrbit = { rx: 265, ry: 100, tilt: -24 * Math.PI / 180 };
     const secondOrbit = { rx: 223, ry: 67, tilt: 22 * Math.PI / 180 };
     const golden = Math.PI * (3 - Math.sqrt(5));
