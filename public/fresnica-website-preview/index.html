@@ -787,8 +787,9 @@ function focusLanguageControl(){
 }
 function renderLanguageChange(){
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- if(reduced||typeof document.startViewTransition!=='function'){render();focusLanguageControl();return;}
- const transition=document.startViewTransition(()=>render());
+ const renderStable=()=>{render();document.querySelectorAll('.motion-reveal').forEach(el=>el.classList.add('is-revealed'));};
+ if(reduced||typeof document.startViewTransition!=='function'){renderStable();focusLanguageControl();return;}
+ const transition=document.startViewTransition(renderStable);
  transition.updateCallbackDone.then(focusLanguageControl,focusLanguageControl);
 }
 function sectionFocus(section, initial=false){const sectionId=['home','features','download','about','help'].includes(section)?section:'home';const block=document.getElementById(sectionId);if(!block)return;const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;block.scrollIntoView({block:'start',behavior:'instant'});if(!initial&&sectionId!=='home'){const target=block.querySelector('h2')??block.querySelector('h1');target?.setAttribute('tabindex','-1');target?.focus({preventScroll:true});}}
