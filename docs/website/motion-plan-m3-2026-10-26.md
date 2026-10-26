@@ -9,24 +9,24 @@ M3 adds only state-change micro-interactions. It does not add new ambient animat
 ## M3 — implement now
 
 1. **Language switch crossfade**
-   - Use the browser View Transitions API when available.
-   - Keep the transition short and low-contrast.
-   - Fall back to the existing immediate render on unsupported browsers.
-   - Preserve keyboard focus on the language control when the switch was triggered from that control.
+    - Use the browser View Transitions API when available.
+    - Keep the transition short and low-contrast.
+    - Fall back to the existing immediate render on unsupported browsers.
+    - Preserve keyboard focus on the language control when the switch was triggered from that control.
 
 2. **FAQ answer refinement**
-   - Keep the existing grid-row open/close behavior.
-   - Add a small content fade and vertical offset so the answer feels less abrupt.
-   - Keep ARIA state and interaction behavior unchanged.
+    - Keep the existing grid-row open/close behavior.
+    - Add a small content fade and vertical offset so the answer feels less abrupt.
+    - Keep ARIA state and interaction behavior unchanged.
 
 3. **CTA directional feedback**
-   - Move the existing Hero button arrow by only a few pixels on hover/focus.
-   - Do not change button geometry, wording, routing, or availability state.
+    - Move the existing Hero button arrow by only a few pixels on hover/focus.
+    - Do not change button geometry, wording, routing, or availability state.
 
 4. **Accessibility / performance**
-   - Disable all M3 transition effects under `prefers-reduced-motion: reduce`.
-   - Use only opacity and transform.
-   - No scroll listeners or continuous animation are added by M3.
+    - Disable all M3 transition effects under `prefers-reduced-motion: reduce`.
+    - Use only opacity and transform.
+    - No scroll listeners or continuous animation are added by M3.
 
 ## Still deferred
 
