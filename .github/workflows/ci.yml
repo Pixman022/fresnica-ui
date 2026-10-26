@@ -115,22 +115,19 @@ jobs:
                       --disable-gpu
                       --hide-scrollbars
                       --force-device-scale-factor=1
-                      --window-size=1440,1000
-                      --virtual-time-budget=1200
+                      --virtual-time-budget=1500
                   )
 
-                  "$chrome" "${common_args[@]}" --screenshot=website-visual-qa/home.png "$base"
-                  "$chrome" "${common_args[@]}" --screenshot=website-visual-qa/features.png "$base#features"
-                  "$chrome" "${common_args[@]}" --screenshot=website-visual-qa/download.png "$base#download"
-                  "$chrome" "${common_args[@]}" --screenshot=website-visual-qa/help.png "$base#help"
-                  "$chrome" "${common_args[@]}" --force-prefers-reduced-motion --screenshot=website-visual-qa/home-reduced-motion.png "$base"
+                  "$chrome" "${common_args[@]}" --window-size=1440,1000 --screenshot=website-visual-qa/home.png "$base"
+                  "$chrome" "${common_args[@]}" --window-size=1440,5200 --screenshot=website-visual-qa/full-page.png "$base"
+                  "$chrome" "${common_args[@]}" --window-size=1440,5200 --force-prefers-reduced-motion --screenshot=website-visual-qa/full-page-reduced-motion.png "$base"
 
                   cat > website-visual-qa/README.txt <<EOF
                   Fresnica website visual QA
                   source_sha=${GITHUB_SHA}
-                  viewport=1440x1000
-                  routes=home,features,download,help
-                  reduced_motion=home-reduced-motion.png
+                  hero_viewport=1440x1000
+                  full_page_viewport=1440x5200
+                  reduced_motion=full-page-reduced-motion.png
                   EOF
 
             - uses: actions/upload-artifact@v7
