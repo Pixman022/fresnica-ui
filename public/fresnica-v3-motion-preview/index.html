@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light" />
   <meta name="description" content="Fresnica V3 video-aligned interactive one-page concept. The Stellar wallet is in development and the displayed data is illustrative." />
-  <title>Fresnica V3 — Video-aligned Full-page Motion Preview</title>
+  <title>Fresnica V3 — M2 Motion Study</title>
   <style>
     :root { color-scheme: light; font-family: Inter, 'Helvetica Neue', Arial, sans-serif; --ink: #111514; --green: #0ba67c; --muted: #606867; }
     * { box-sizing: border-box; }
@@ -239,6 +239,21 @@ body{background:#192330}
 @media(prefers-reduced-motion:reduce){.reveal,.dot-word,.network polyline{transition:none!important;animation:none!important;opacity:1!important;transform:none!important}.feature-scroll{height:auto!important}.feature-chapter{position:relative!important;top:0!important}.feature-window{overflow-x:auto!important}.feature-track{transform:none!important}.particle-cloud i{animation:none!important}}
 /* Keep controls clear of the persistent preview badge and maintain a no-JS content fallback. */
 .feature-controls{bottom:88px}
+/* M2: the reference sequence favors scroll-scrubbed transitions over one-shot entrances. */
+.particle-cloud i{animation-name:node-opacity!important;transform:translate3d(calc(var(--scatter,0) * var(--scatter-x,0px)),calc(var(--scatter,0) * var(--scatter-y,0px)),0);will-change:transform}
+@keyframes node-opacity{to{opacity:.26}}
+.contrast-line{display:block;will-change:opacity,transform}
+.motion-enabled .feature-card{opacity:.83;scale:.982;transition:opacity .28s ease,scale .28s ease}
+.motion-enabled .feature-card.is-active{opacity:1;scale:1}
+.workspace-mini{transform-origin:90% 50%}
+.network polyline{stroke-dasharray:1;stroke-dashoffset:0;transition:none}
+.motion-enabled .network polyline{stroke-dashoffset:var(--network-offset,1)}
+.word-wrap{min-height:clamp(95px,15vw,228px)}
+.footer-particles{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;display:block}
+.word-wrap.particles-ready .footer-particles{opacity:1}
+.word-wrap.particles-ready .dot-word{opacity:0!important}
+@media(max-width:680px){.word-wrap{min-height:72px}}
+@media(prefers-reduced-motion:reduce){.motion-enabled .feature-card{opacity:1;scale:1;transition:none}.motion-enabled .network polyline{stroke-dashoffset:0}.word-wrap.particles-ready .footer-particles{opacity:0}.word-wrap.particles-ready .dot-word{opacity:1!important}}
 html:not(.motion-enabled) .reveal{opacity:1;transform:none}
 
   </style>
@@ -281,7 +296,7 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
 </section>
 <section class="chapter compare-scene dark" id="v3-contrast" data-chapter="The contrast" data-theme="dark" aria-labelledby="contrast-title">
   <div class="mode-switch reveal" aria-hidden="true"><span>FRAGMENTED VIEW</span><span class="selected">WITH FRESNICA</span></div>
-  <h2 class="chapter-title reveal delay-1" id="contrast-title">See what you hold.<br>Know where you're going.<br><span class="accent">Make the next move</span> with clarity.</h2>
+  <h2 class="chapter-title reveal delay-1" id="contrast-title"><span class="contrast-line">See what you hold.</span><span class="contrast-line">Know where you're going.</span><span class="contrast-line"><span class="accent">Make the next move</span> with clarity.</span></h2>
   <div class="compare-cards">
     <article class="compare-card reveal"><p class="chapter-kicker">THE USUAL WAY</p><h3>One asset. Too many places.</h3><p>Switch between disconnected views and scattered information.</p></article>
     <article class="compare-card reveal delay-1"><p class="chapter-kicker accent">WITH FRESNICA</p><h3>One wallet. A connected flow.</h3><p>Discover assets, payments, swaps and compatible apps in one experience.</p></article>
@@ -328,7 +343,7 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
   <div class="workspace-copy reveal"><p class="chapter-kicker green-label">THE VIEW / BEHIND EVERY DECISION</p><h2 class="chapter-title" id="workspace-title">The view<br>behind every<br>decision.</h2><p class="chapter-sub">A thoughtful interface for understanding Stellar assets and the connections around them.</p></div>
   <div class="workspace workspace-mini reveal delay-1" aria-label="Illustrative product information dashboard">
     <div class="ws-sidebar"><strong>Fresnica</strong><span>Overview</span><span>Assets</span><span>Send &amp; receive</span><span>Swap</span><span>Connect</span><span>Activity</span></div>
-    <div class="ws-content"><p class="chapter-kicker">STELLAR ECOSYSTEM / INTERACTION MAP</p><h3>Your Stellar, connected.</h3><div class="ws-stats"><div class="ws-stat">01 / NETWORK<b>Stellar</b></div><div class="ws-stat">02 / CORE<b>XLM</b></div><div class="ws-stat">03 / DISCOVER<b>Apps</b></div></div><div class="network"><svg viewBox="0 0 480 210" role="img" aria-label="Illustrative network points connected by a green line"><circle cx="80" cy="145" r="5"/><circle cx="167" cy="102" r="5"/><circle cx="255" cy="120" r="5"/><circle cx="337" cy="82" r="5"/><circle cx="419" cy="50" r="5"/><polyline points="80,145 167,102 255,120 337,82 419,50"/><g fill="#8caba0" opacity=".37"><circle cx="112" cy="66" r="1.5"/><circle cx="230" cy="49" r="2"/><circle cx="363" cy="159" r="2"/><circle cx="291" cy="162" r="1.5"/><circle cx="161" cy="173" r="1.5"/></g></svg></div></div>
+    <div class="ws-content"><p class="chapter-kicker">STELLAR ECOSYSTEM / INTERACTION MAP</p><h3>Your Stellar, connected.</h3><div class="ws-stats"><div class="ws-stat">01 / NETWORK<b>Stellar</b></div><div class="ws-stat">02 / CORE<b>XLM</b></div><div class="ws-stat">03 / DISCOVER<b>Apps</b></div></div><div class="network"><svg viewBox="0 0 480 210" role="img" aria-label="Illustrative network points connected by a green line"><circle cx="80" cy="145" r="5"/><circle cx="167" cy="102" r="5"/><circle cx="255" cy="120" r="5"/><circle cx="337" cy="82" r="5"/><circle cx="419" cy="50" r="5"/><polyline pathLength="1" points="80,145 167,102 255,120 337,82 419,50"/><g fill="#8caba0" opacity=".37"><circle cx="112" cy="66" r="1.5"/><circle cx="230" cy="49" r="2"/><circle cx="363" cy="159" r="2"/><circle cx="291" cy="162" r="1.5"/><circle cx="161" cy="173" r="1.5"/></g></svg></div></div>
   </div>
   <span class="page-count">07 / 11</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
 </section>
@@ -350,7 +365,7 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
 <footer class="chapter footer-scene dark" id="v3-about" data-chapter="About Fresnica" data-theme="dark" aria-labelledby="footer-title">
   <button type="button" id="footer-theme" class="footer-switch" aria-pressed="false">LIGHT / DARK</button>
   <div class="footer-top reveal"><div><p class="chapter-kicker">FRESNICA / STELLAR WALLET</p><h2 id="footer-title">Your Stellar.<br>Your way.</h2><p>An independent wallet project focused on a clearer experience for the Stellar ecosystem. In development.</p></div><div><h3>PRODUCT</h3><a href="#overview">Overview</a><a href="#v3-features">Features</a><a href="#v3-assets">Assets</a><a href="#v3-availability">Availability</a></div><div><h3>EXPLORE</h3><a href="#v3-ecosystem">Stellar ecosystem</a><a href="#v3-workspace">Experience</a><a href="#v3-paths">Several paths</a><a href="#v3-clarity">Clarity</a></div></div>
-  <div class="word-wrap reveal" aria-label="FRESNICA"><p class="dot-word" aria-hidden="true">FRESNICA</p></div>
+  <div class="word-wrap reveal" aria-label="FRESNICA"><p class="dot-word" aria-hidden="true">FRESNICA</p><canvas class="footer-particles" id="footer-particles" aria-hidden="true"></canvas></div>
   <span class="page-count">11 / 11</span><span class="scene-mini-note">ILLUSTRATIVE DESIGN / NOT A LIVE WALLET</span>
 </footer>
 
@@ -555,6 +570,8 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
     dot.style.height=dot.style.width;
     dot.style.opacity=(.17+rand()*.60).toFixed(2);
     dot.style.animationDelay=(rand()*4).toFixed(2)+'s';
+    dot.style.setProperty('--scatter-x',((rand()-.5)*150).toFixed(2)+'px');
+    dot.style.setProperty('--scatter-y',((rand()-.5)*90).toFixed(2)+'px');
     if(i%5===0) dot.style.background='#a6b3af';
     fragment.append(dot);
   }
@@ -582,28 +599,85 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
   const featureCards = [...featureTrack.querySelectorAll('.feature-card')];
   const allChapters = [hero, ...document.querySelectorAll('[data-chapter]')].filter((el, i, arr) => arr.indexOf(el)===i);
   const audienceTrack = document.getElementById('audience-track');
-  const activeScene = document.querySelector('.chapter');
   let rafPending = false;
   function isCompact() { return window.matchMedia('(max-width:680px)').matches; }
+  const particleScene = document.getElementById('v3-ecosystem');
+  const compareScene = document.getElementById('v3-contrast');
+  const compareLines = [...compareScene.querySelectorAll('.contrast-line')];
+  const workspace = document.querySelector('.workspace-mini');
+  const networkLine = document.querySelector('.network polyline');
+  const workspaceScene = document.getElementById('v3-workspace');
+  const footerScene = document.getElementById('v3-about');
+  let featureOverflow = 0;
+  let paintFooter = () => {};
+  const clamp01 = value => Math.max(0, Math.min(1, value));
+  const smooth = t => { t=clamp01(t); return t*t*(3-2*t); };
+  const hold = .13; // an intentional pause at each end of the horizontally pinned chapter
+
+  function measureFeatureRail() {
+    featureOverflow = Math.max(0, featureTrack.scrollWidth - featureWindow.clientWidth);
+    if (isCompact() || reduced.matches) {
+      rail.style.removeProperty('height');
+    } else {
+      const travel = Math.max(window.innerHeight*1.06, featureOverflow*1.45);
+      rail.style.height = Math.round(window.innerHeight + travel) + 'px';
+    }
+  }
   function featurePosition() {
-    const available = Math.max(0, rail.getBoundingClientRect().height - window.innerHeight);
-    const passed = -rail.getBoundingClientRect().top;
-    return available > 0 ? Math.max(0,Math.min(1,passed/available)) : 0;
+    const available = Math.max(0, rail.offsetHeight - window.innerHeight);
+    return available ? clamp01(-rail.getBoundingClientRect().top / available) : 0;
+  }
+  function featureEase(progress) { return smooth((progress-hold)/(1-2*hold)); }
+  function inverseFeatureEase(progress) {
+    let low = 0, high = 1;
+    for (let i = 0; i < 16; i++) {
+      const mid = (low+high)/2;
+      if (smooth(mid)<progress) low=mid; else high=mid;
+    }
+    return hold + ((low+high)/2)*(1-2*hold);
+  }
+  function entranceProgress(scene) {
+    return clamp01((window.innerHeight*.88-scene.getBoundingClientRect().top)/(window.innerHeight*.82));
+  }
+  function updateStoryMotion() {
+    if (reduced.matches || isCompact()) {
+      cloud.style.removeProperty('--scatter');
+      cloud.style.removeProperty('opacity');
+      compareLines.forEach(el => { el.style.removeProperty('opacity'); el.style.removeProperty('transform'); });
+      workspace.style.removeProperty('scale');
+      workspace.style.removeProperty('translate');
+      networkLine.style.removeProperty('--network-offset');
+      return;
+    }
+    const story = entranceProgress(particleScene);
+    const drifting = story < .58 ? (.58-story)*.7 : (story-.58)*1.7;
+    cloud.style.setProperty('--scatter',clamp01(drifting).toFixed(3));
+    cloud.style.opacity=(.9-.46*smooth((story-.63)/.37)).toFixed(3);
+    const contrast = entranceProgress(compareScene);
+    compareLines.forEach((line, i) => {
+      const t=smooth((contrast-(.14+i*.17))/.33);
+      line.style.opacity=t.toFixed(3);
+      line.style.transform='translate3d(0,'+((1-t)*22).toFixed(2)+'px,0)';
+    });
+    const view = entranceProgress(workspaceScene);
+    const ready=smooth(view);
+    workspace.style.scale=(.965+ready*.035).toFixed(3);
+    workspace.style.translate='0 '+((1-ready)*13).toFixed(2)+'px';
+    networkLine.style.setProperty('--network-offset',(1-ready).toFixed(3));
   }
   function updateScroll() {
     rafPending = false;
     const progress = featurePosition();
-    if (isCompact() || reduced.matches) {
-      featureTrack.style.transform = 'none';
-    } else {
-      const range = Math.max(0, featureTrack.scrollWidth - featureWindow.clientWidth + 70);
-      featureTrack.style.transform = 'translate3d('+(-range*progress).toFixed(1)+'px,0,0)';
-    }
-    const effective = isCompact() || reduced.matches ? Math.min(1,featureWindow.scrollLeft/Math.max(1,featureTrack.scrollWidth-featureWindow.clientWidth)) : progress;
+    const isStatic = isCompact() || reduced.matches;
+    const eased = featureEase(progress);
+    if (isStatic) featureTrack.style.transform = 'none';
+    else featureTrack.style.transform = 'translate3d('+(-featureOverflow*eased).toFixed(2)+'px,0,0)';
+    const effective = isStatic ? clamp01(featureWindow.scrollLeft/Math.max(1, featureOverflow)) : eased;
     const index = Math.max(0,Math.min(featureCards.length-1,Math.round(effective*(featureCards.length-1))));
+    featureCards.forEach((card, i) => card.classList.toggle('is-active', i === index));
     featureIndex.textContent=String(index+1).padStart(2,'0')+' / '+String(featureCards.length).padStart(2,'0');
     featureBar.style.width=(effective*100).toFixed(2)+'%';
-    // Resolve active scene at viewport center; this remains stable during pinned horizontal scrolling.
+    // Preserve the M1 viewport-center rule for the fixed capsule navigation.
     const anchor=window.innerHeight*.48;
     let current = hero;
     for(const chapter of allChapters) {
@@ -614,18 +688,28 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
     navTitle.textContent=current.dataset.chapter || 'Overview';
     const dark=current.dataset.theme==='dark' && !(current.classList.contains('footer-scene')&&current.classList.contains('day'));
     header.classList.toggle('on-dark',dark);
+    updateStoryMotion();
+    paintFooter();
   }
   function requestScrollUpdate() { if (!rafPending) {rafPending=true;requestAnimationFrame(updateScroll);} }
+  function resizeMotion() { measureFeatureRail();requestScrollUpdate(); }
   window.addEventListener('scroll',requestScrollUpdate,{passive:true});
-  window.addEventListener('resize',requestScrollUpdate,{passive:true});
+  window.addEventListener('resize',resizeMotion,{passive:true});
   featureWindow.addEventListener('scroll',requestScrollUpdate,{passive:true});
+  reduced.addEventListener('change',resizeMotion);
   document.getElementById('feature-prev').addEventListener('click',()=>stepFeature(-1));
   document.getElementById('feature-next').addEventListener('click',()=>stepFeature(1));
   function stepFeature(direction) {
-    if (isCompact() || reduced.matches) {featureWindow.scrollBy({left:direction*360,behavior:reduced.matches?'instant':'smooth'});return;}
-    const range=Math.max(1,rail.offsetHeight-window.innerHeight);
-    const next=Math.max(0,Math.min(1,featurePosition()+direction/(featureCards.length-1)));
-    window.scrollTo({top:rail.offsetTop+next*range,behavior:'smooth'});
+    if (isCompact() || reduced.matches) {
+      featureWindow.scrollBy({left:direction*360,behavior:reduced.matches?'instant':'smooth'});
+      return;
+    }
+    const current = Math.round(featureEase(featurePosition())*(featureCards.length-1));
+    const next=Math.max(0,Math.min(featureCards.length-1,current+direction));
+    const target=inverseFeatureEase(next/(featureCards.length-1));
+    const destination=window.scrollY+rail.getBoundingClientRect().top+
+      target*Math.max(0,rail.offsetHeight-window.innerHeight);
+    window.scrollTo({top:destination,behavior:'smooth'});
   }
   document.getElementById('audience-prev').addEventListener('click',()=>audienceTrack.scrollBy({left:-265,behavior:'smooth'}));
   document.getElementById('audience-next').addEventListener('click',()=>audienceTrack.scrollBy({left:265,behavior:'smooth'}));
@@ -647,6 +731,100 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
   // Keep the original Hero's replay/pause buttons focused on the Hero orb, as documented in its own prototype.
   const pauseButton=document.getElementById('toggle-motion');
   if(pauseButton) pauseButton.title='Pause or resume Hero orb';
+
+  // M2: sampled dots from the actual Fresnica wordmark assemble as the final chapter enters.
+  // Rendering is local canvas only; no remote 3D dependencies or WebGL required for the footer.
+  function setupFooterParticles() {
+    const wrap = footerScene.querySelector('.word-wrap');
+    const canvas = document.getElementById('footer-particles');
+    const context = canvas.getContext('2d', {alpha:true});
+    if (!context) return () => {};
+    const samples = [];
+    let width=0, height=0, visible=false, running=false, lastFrame=0;
+    let progress=0;
+    const hash = n => { const v=Math.sin(n*78.233+16.37)*43758.5453; return v-Math.floor(v); };
+    function measure() {
+      const r=wrap.getBoundingClientRect();
+      width=Math.max(1,Math.round(r.width));height=Math.max(1,Math.round(r.height));
+      const dpr=Math.min(window.devicePixelRatio||1,1.7);
+      canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);
+      context.setTransform(dpr,0,0,dpr,0,0);
+      const stencil=document.createElement('canvas');
+      stencil.width=width;stencil.height=height;
+      const sc=stencil.getContext('2d',{willReadFrequently:true});
+      if(!sc)return;
+      const fontSize=Math.min(215,Math.max(48,width*.148));
+      let size=fontSize;
+      sc.font='600 '+size+'px Arial, sans-serif';
+      if(sc.measureText('FRESNICA').width>width*.98)
+        size*=width*.98/sc.measureText('FRESNICA').width;
+      sc.font='600 '+size+'px Arial, sans-serif';
+      sc.textBaseline='middle';sc.textAlign='center';sc.fillStyle='#fff';
+      sc.fillText('FRESNICA',width/2,height*.52);
+      const data=sc.getImageData(0,0,width,height).data;
+      samples.length=0;
+      let pointIndex=0;
+      const step=width<650?4:6;
+      for(let y=2;y<height-2;y+=step)for(let x=2;x<width-2;x+=step){
+        if(data[(y*width+x)*4+3]<145)continue;
+        const n=pointIndex++;
+        if(hash(n+91)<.07)continue;
+        samples.push({x:x+(hash(n+1)-.5)*1.8,y:y+(hash(n+2)-.5)*1.8,
+          dx:(hash(n+3)-.5)*Math.min(275,width*.29),
+          dy:(hash(n+4)-.5)*Math.min(160,height*1.8),
+          phase:hash(n+5)*6.283,size:1.1+hash(n+6)*1.35});
+      }
+      // Preserve existing CSS wordmark for low-motion or canvas-unavailable modes.
+      if(samples.length>50)wrap.classList.add('particles-ready');
+      render(0);
+    }
+    function render(now) {
+      if(!width || !height)return;
+      context.clearRect(0,0,width,height);
+      const assembled=smooth((progress-.07)/.65);
+      const energy=smooth((progress-.4)/.52);
+      const wave=width*(.53+.07*Math.sin(now*.00055));
+      for(let i=0;i<samples.length;i++){
+        const dot=samples[i];
+        const float=(1-assembled*.86)*Math.sin(now*.0007+dot.phase)*2.1;
+        const x=dot.x+(1-assembled)*dot.dx+float;
+        const y=dot.y+(1-assembled)*dot.dy+float*.55;
+        const luminous=energy>0.01 && Math.abs(dot.x-wave)<width*.13 && hash(i+12)>.32;
+        const alpha=(.16+assembled*.62)*(luminous?1:.78);
+        const light=footerScene.classList.contains('day');
+        context.fillStyle=luminous ? (light?'rgba(5,128,94,'+alpha+')':'rgba(49,205,147,'+alpha+')')
+          : (light?'rgba(89,112,104,'+alpha+')':'rgba(169,184,176,'+alpha+')');
+        const size=dot.size*(.76+.24*assembled);
+        context.fillRect(x,y,size,size);
+      }
+    }
+    function update() {
+      const rect=footerScene.getBoundingClientRect();
+      progress=clamp01((window.innerHeight*.83-rect.top)/(window.innerHeight*.8));
+      if(visible&&!reduced.matches)render(performance.now());
+    }
+    function frame(now) {
+      if(!visible||reduced.matches||document.hidden){running=false;return;}
+      if(now-lastFrame>=33){render(now);lastFrame=now;}
+      requestAnimationFrame(frame);
+    }
+    function start() {
+      if(visible&&!reduced.matches&&!document.hidden&&!running){running=true;requestAnimationFrame(frame);}
+    }
+    if ('IntersectionObserver' in window){
+      const observer=new IntersectionObserver(entries=>{
+        visible=entries[0].isIntersecting;
+        if(visible){update();start();}
+      },{threshold:.01});observer.observe(footerScene);
+    } else visible=true;
+    window.addEventListener('resize',()=>{measure();update();start();},{passive:true});
+    reduced.addEventListener('change',()=>{update();start();});
+    document.addEventListener('visibilitychange',start);
+    measure();update();start();
+    return update;
+  }
+  paintFooter=setupFooterParticles();
+  measureFeatureRail();
   updateScroll();
 })();
 </script>
