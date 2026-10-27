@@ -32,3 +32,11 @@
 - Existing Pages workflow builds frozen V2 and copies isolated V3 HTML and M5/M6/M7/M10 JS files; no new runtime asset was introduced.
 - Confirm GitHub Actions run for the V3 HTML change and verify the old V2 HTML checksum before marking this as deployed.
 - Real Windows Chrome GPU appearance and the reference video's full 94-second microtiming remain separate acceptance tasks.
+
+## Deployment verification
+- V3 layout code commit: `5b42826b381ddf288237b798dfbfbe5c78accc5a`, HTML Git blob: `a7c10266f05f4238e6a561dde4a353a6fabe7c36`.
+- [GitHub Actions Pages run 40480449709](https://github.com/Pixman022/fresnica-ui/actions/runs/40480449709) completed **success**. `Verify V3 release branch and preview files`, `Overlay V3 without touching any legacy route`, `Upload Pages artifact`, and `Deploy to GitHub Pages` succeeded.
+- Deployment logs: frozen V2 source `f3e68515d90fe05a12a640db153f1b14004cad32`; M11 V3 overlay source `5b42826b381ddf288237b798dfbfbe5c78accc5a`.
+- Old V2 HTML SHA-256 remained `c522893e32d794ade98e7338624e9756d634a744bc93f199f7ea3289824679fe`; `main` and archive stayed on the frozen V2 commit.
+- Verified online deployment route: https://pixman022.github.io/fresnica-ui/fresnica-v3-motion-preview/ (Actions publication confirmed; independent Windows GPU browser visual approval remains open).
+- Additional offline single-file snapshot inlined all M5/M6/M7/M10 scripts and passed smoke checks at **2560×1440**, **1024×768** and **390×844** without JavaScript errors or horizontal document overflow.
