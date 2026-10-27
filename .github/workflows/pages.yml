@@ -61,6 +61,8 @@ jobs:
                   test "${GITHUB_REF_NAME}" = 'design/website-vision-motion-concept-2026-10-27'
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m5-story.js
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/m6-states.js
+                  grep -Fq 'src="./m6-states.js"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'src="./m5-story.js"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   test -s .v3-preview-source/public/fresnica-v3-orb-demo/index.html
                   test -s public/fresnica-website-preview/index.html
@@ -95,9 +97,11 @@ jobs:
                   mkdir -p demo-dist/fresnica-v3-motion-preview demo-dist/fresnica-v3-orb-demo
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/index.html demo-dist/fresnica-v3-motion-preview/index.html
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m5-story.js demo-dist/fresnica-v3-motion-preview/m5-story.js
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/m6-states.js demo-dist/fresnica-v3-motion-preview/m6-states.js
                   cp .v3-preview-source/public/fresnica-v3-orb-demo/index.html demo-dist/fresnica-v3-orb-demo/index.html
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/index.html demo-dist/fresnica-v3-motion-preview/index.html
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m5-story.js demo-dist/fresnica-v3-motion-preview/m5-story.js
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/m6-states.js demo-dist/fresnica-v3-motion-preview/m6-states.js
                   cmp .v3-preview-source/public/fresnica-v3-orb-demo/index.html demo-dist/fresnica-v3-orb-demo/index.html
                   # Recheck the legacy route immediately before uploading Pages.
                   cmp public/fresnica-website-preview/index.html demo-dist/fresnica-website-preview/index.html
