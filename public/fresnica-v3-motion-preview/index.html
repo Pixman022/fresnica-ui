@@ -270,6 +270,104 @@ body{background:#192330}
 @media(prefers-reduced-motion:reduce){.motion-enabled .feature-card{opacity:1;scale:1;transition:none}.motion-enabled .network polyline{stroke-dashoffset:0}.word-wrap.particles-ready .footer-particles{opacity:0}.word-wrap.particles-ready .dot-word{opacity:1!important}}
 html:not(.motion-enabled) .reveal{opacity:1;transform:none}
 
+
+/* M10 — the navy video surround is NOT part of the website. */
+html:not(.m10-framed) body{background:#f7f8f7}
+html:not(.m10-framed) .stage,html:not(.m10-framed) .chapter{box-shadow:none}
+html.m10-framed,html.m10-framed body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
+html.m10-framed body{background:#f7f8f7}
+html.m10-framed .v3-page-frame{position:fixed;inset:0;overflow:hidden;isolation:isolate;border-radius:clamp(10px,1.55vw,24px);background:#f7f8f7}
+html.m10-framed .v3-page-scroll{position:absolute;inset:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;scrollbar-width:none;scroll-behavior:smooth}
+html.m10-framed .v3-page-scroll::-webkit-scrollbar{display:none}
+html.m10-framed .site-header{position:absolute;left:clamp(18px,2.75vw,40px);right:clamp(18px,2.75vw,40px);top:clamp(12px,2.1vh,21px);width:auto;transform:none;padding:0;z-index:100}
+html.m10-framed .stage,html.m10-framed .chapter{width:100%;height:100dvh;min-height:0;max-height:none;margin:0;border:0;border-radius:0;box-shadow:none;scroll-margin-top:0;padding:clamp(82px,10vh,110px) clamp(40px,6.1vw,100px) clamp(34px,6.3vh,70px)}
+html.m10-framed .stage{padding:clamp(67px,8.5vh,92px) 0 56px;min-height:0}
+html.m10-framed .v3-screen-runway{position:relative;height:var(--v3-runway,148dvh);isolation:isolate}
+html.m10-framed .v3-screen-runway>.stage,html.m10-framed .v3-screen-runway>.chapter{position:sticky;top:0}
+html.m10-framed .m5-runway{margin:0}
+html.m10-framed .m5-runway>.chapter{top:0!important;margin:0!important;height:100dvh;min-height:0}
+html.m10-framed .feature-scroll{margin:0}
+html.m10-framed .feature-chapter{position:sticky;top:0!important;margin:0!important;height:100dvh;min-height:0}
+html.m10-framed .chapter .page-count{bottom:clamp(18px,3vh,31px)}
+html.m10-framed .chapter .scene-badge{bottom:clamp(14px,2.4vh,24px)}
+/* Rebalanced internal anchors: the visible screen, not a 745px desktop minimum. */
+html.m10-framed .stage .hero{height:calc(100% - 48px);min-height:0;max-width:1280px;margin:0 auto;align-items:center;padding:0 clamp(30px,3.8vw,56px);gap:clamp(10px,2vw,30px)}
+html.m10-framed .stage .hero-copy{padding:0}
+html.m10-framed .hero-art{height:min(57vh,530px)}
+html.m10-framed .orb-field{width:min(100%,57vh,540px)}
+html.m10-framed .stage .ticker{bottom:0;min-height:clamp(40px,6vh,56px)}
+html.m10-framed .particle-scene .orbital-intro{top:clamp(100px,16%,155px)}
+html.m10-framed .particle-scene .bottom-intro{bottom:clamp(66px,11%,115px)}
+html.m10-framed .compare-scene{display:flex;flex-direction:column;justify-content:center;align-items:center;padding-top:clamp(100px,12vh,140px);padding-bottom:clamp(58px,8vh,90px);gap:clamp(10px,2vh,24px)}
+html.m10-framed .compare-scene .mode-switch{margin:0 0 clamp(6px,1vh,14px)}
+html.m10-framed .compare-scene .chapter-title{margin:0;font-size:clamp(40px,4.25vw,62px)}
+html.m10-framed .compare-cards{margin:clamp(18px,4vh,40px) auto 0;min-height:0}
+html.m10-framed .compare-card{min-height:clamp(112px,18vh,166px);padding:clamp(16px,2.3vh,25px)}
+html.m10-framed .feature-chapter .chapter-title{margin-top:clamp(10px,1.5vh,17px)}
+html.m10-framed .feature-window{top:clamp(9px,2vh,20px)}
+html.m10-framed .feature-art{height:clamp(185px,32vh,310px)}
+html.m10-framed .feature-ui{min-height:clamp(174px,24vh,225px);padding:clamp(14px,2vh,22px)}
+html.m10-framed .feature-card .label-row{margin-top:clamp(9px,1.5vh,17px)}
+html.m10-framed .feature-controls{bottom:clamp(40px,6vh,66px)}
+html.m10-framed .feature-progress{bottom:clamp(40px,6vh,68px)}
+html.m10-framed .asset-scene{gap:clamp(18px,2vw,30px)}
+html.m10-framed .asset-board{padding:clamp(17px,2.7vh,27px)}
+html.m10-framed .asset-cell{min-height:clamp(135px,21vh,195px)}
+html.m10-framed .bottom-stepper{bottom:clamp(39px,6vh,55px)}
+html.m10-framed .audience-scene .chapter-title{margin-top:10px}
+html.m10-framed .audience-track{margin-top:clamp(22px,5vh,48px)}
+html.m10-framed .audience-card{height:clamp(225px,39vh,330px)}
+html.m10-framed .audience-nav{bottom:clamp(48px,7vh,72px)}
+html.m10-framed .workspace-scene .workspace-copy{top:27%}
+html.m10-framed .workspace-mini{top:20%;height:62%}
+html.m10-framed .ws-content{padding:clamp(13px,2.8vh,24px)}
+html.m10-framed .network{height:clamp(135px,25vh,240px)}
+html.m10-framed .paths-grid{margin-top:clamp(16px,4vh,42px)}
+html.m10-framed .path-card{min-height:clamp(170px,25vh,250px);padding:clamp(18px,3vh,29px)}
+html.m10-framed .trust-panel{inset:clamp(95px,13%,125px) 8% clamp(55px,9%,85px);padding:clamp(25px,4vw,50px) clamp(28px,5vw,75px)}
+html.m10-framed .planned-platforms{margin-top:clamp(14px,3vh,35px)}
+html.m10-framed .platform-box{min-height:clamp(102px,17vh,160px);padding:clamp(18px,2.6vh,27px)}
+html.m10-framed .download-scene .chapter-title{margin:clamp(9px,1.5vh,16px) auto}
+html.m10-framed .faq-line{margin-top:clamp(18px,2.6vh,30px)}
+html.m10-framed .faq-line button{padding:clamp(9px,1.3vh,13px) 0}
+html.m10-framed .footer-scene{padding-top:clamp(96px,13vh,143px)}
+html.m10-framed .word-wrap{bottom:clamp(35px,5vh,66px)}
+html.m10-framed .footer-switch{top:clamp(72px,10vh,100px)}
+html.m10-framed .footer-top{gap:clamp(20px,4vw,50px)}
+html.m10-framed .footer-top h2{margin:clamp(8px,1.5vh,16px) 0}
+/* The screen itself naturally wipes upwards as its sticky runway ends. */
+@media(min-width:681px) and (prefers-reduced-motion:no-preference){
+ html.m10-scenes .v3-plain-screen .hero-copy,html.m10-scenes .v3-plain-screen .hero-art,html.m10-scenes .v3-plain-screen .audience-title,html.m10-scenes .v3-plain-screen .audience-track,html.m10-scenes .v3-plain-screen .trust-panel,html.m10-scenes .v3-plain-screen .planned-platforms,html.m10-scenes .v3-plain-screen .faq-line,html.m10-scenes .v3-plain-screen .footer-top,html.m10-scenes .v3-plain-screen .word-wrap{opacity:var(--v3-screen-alpha,1);translate:0 var(--v3-screen-shift,0px)}
+}
+/* Mobile / reduced-motion flow: linear, readable, keyboard-scrollable, never pinned. */
+@media(max-width:680px){
+ html.m10-framed .site-header{top:12px;left:12px;right:12px}
+ html.m10-framed .stage,html.m10-framed .chapter{height:auto!important;min-height:max(620px,100dvh)!important;padding:92px 24px 70px}
+ html.m10-framed .stage .hero{height:auto;display:flex;flex-direction:column;align-items:stretch;padding:0 10px;gap:15px}
+ html.m10-framed .hero-art{width:100%;height:auto;aspect-ratio:1}
+ html.m10-framed .orb-field{width:100%}
+ html.m10-framed .v3-screen-runway{height:auto!important}
+ html.m10-framed .v3-screen-runway>.stage,html.m10-framed .v3-screen-runway>.chapter{position:relative;top:auto}
+ html.m10-framed .m5-runway>.chapter{height:auto!important;position:relative!important;top:auto!important}
+ html.m10-framed .feature-chapter{height:auto!important;min-height:740px!important;position:relative;top:auto!important}
+ html.m10-framed .asset-scene,html.m10-framed .workspace-scene,html.m10-framed .paths-scene,html.m10-framed .download-scene{min-height:0!important}
+ html.m10-framed .workspace-scene{min-height:940px!important}
+ html.m10-framed .workspace-mini{top:44%;height:43%}
+ html.m10-framed .compare-scene{min-height:720px!important}
+ html.m10-framed .footer-scene{min-height:690px!important}
+ html.m10-framed .trust-panel{inset:8% 4%;padding:35px 23px}
+ html.m10-framed .audience-track{margin-top:40px}
+ html.m10-framed .planned-platforms{margin-top:24px}
+ html.m10-framed .footer-switch{top:70px}
+}
+@media(prefers-reduced-motion:reduce){
+ html.m10-framed .v3-screen-runway{height:auto!important}
+ html.m10-framed .v3-screen-runway>.chapter,html.m10-framed .v3-screen-runway>.stage{position:relative!important;top:auto!important}
+ html.m10-framed .m5-runway>.chapter,html.m10-framed .feature-chapter{position:relative!important;top:auto!important}
+ html.m10-framed .stage,html.m10-framed .chapter{height:auto!important;min-height:100dvh!important}
+ html.m10-framed .v3-page-scroll{scroll-behavior:auto}
+}
+
   </style>
 </head>
 <body>
@@ -723,9 +821,12 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
     const current = Math.round(featureEase(featurePosition())*(featureCards.length-1));
     const next=Math.max(0,Math.min(featureCards.length-1,current+direction));
     const target=inverseFeatureEase(next/(featureCards.length-1));
-    const destination=window.scrollY+rail.getBoundingClientRect().top+
-      target*Math.max(0,rail.offsetHeight-window.innerHeight);
-    window.scrollTo({top:destination,behavior:'smooth'});
+    const pageScroll=document.getElementById('v3-page-scroll');
+    const origin=pageScroll ? pageScroll.scrollTop +
+      rail.getBoundingClientRect().top - pageScroll.getBoundingClientRect().top :
+      window.scrollY + rail.getBoundingClientRect().top;
+    const destination=origin + target*Math.max(0,rail.offsetHeight-window.innerHeight);
+    (pageScroll || window).scrollTo({top:destination,behavior:'smooth'});
   }
   document.getElementById('audience-prev').addEventListener('click',()=>audienceTrack.scrollBy({left:-265,behavior:'smooth'}));
   document.getElementById('audience-next').addEventListener('click',()=>audienceTrack.scrollBy({left:265,behavior:'smooth'}));
@@ -868,5 +969,6 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
   <script defer src="./m5-story.js"></script>
   <script defer src="./m6-states.js"></script>
   <script defer src="./m7-polish.js"></script>
+  <script defer src="./m10-frame.js"></script>
 </body>
 </html>
