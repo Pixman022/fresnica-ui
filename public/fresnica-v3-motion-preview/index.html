@@ -466,13 +466,67 @@ html.m10-framed {
   html.m10-framed .workspace-scene .workspace-copy .chapter-title {font-size:clamp(37px,4.3vw,50px);}
 }
 </style>
+<style id="m12-layout">
+/* M12: centered feature reel & ticker, plus discreet top-right controls. */
+html.m10-framed .header-tools {display:flex;align-items:center;justify-content:flex-end;gap:8px;justify-self:end;min-width:0}
+html.m10-framed .header-tools .status-pill {height:40px;display:flex;align-items:center;padding:0 15px;font-size:10px}
+html.m10-framed .header-action {border-radius:100px;border:1px solid #dfe5e1;background:rgba(255,255,255,.93);color:#1e2823;height:40px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 13px;white-space:nowrap;font:11px 'SFMono-Regular',Consolas,monospace;cursor:pointer;box-shadow:0 3px 12px #13241b0b}
+html.m10-framed .header-action .is-current {font-weight:700;color:#078a62}
+html.m10-framed .header-action .locale-separator {color:#a1aea8}
+html.m10-framed .header-action:focus-visible {outline:2px solid var(--v3-green);outline-offset:3px}
+html.m10-framed .header-action[disabled] {cursor:not-allowed;opacity:.60}
+html.m10-framed .site-header.on-dark .header-action:not([disabled]) {background:#232828;color:#f7f9f7;border-color:#4b5a51}
+html.m10-framed .site-header.on-dark .header-action[disabled] {background:#272d2b;color:#c9d0cc;border-color:#45504a}
+html.m10-framed .site-header.on-footer-dark .header-action {background:#fff;color:#1f2823;border-color:#dfe5e1}
+html.m10-framed .stage .ticker {left:50%;right:auto;width:min(var(--v3-content-max,1180px),calc(100% - var(--v3-content-edge,50px) - var(--v3-content-edge,50px)));transform:translateX(-50%);padding:0;justify-content:center;text-align:center;gap:0;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+html.m10-framed .ticker-track {flex:none;width:max-content}
+html.m10-framed .feature-window {margin-left:calc(-1 * clamp(40px,6.1vw,100px));margin-right:calc(-1 * clamp(40px,6.1vw,100px));width:calc(100% + 2 * clamp(40px,6.1vw,100px));}
+html.m10-framed .feature-track {box-sizing:content-box}
+html.m10-framed .feature-heading {text-align:center;margin-inline:auto}
+html[lang="zh-CN"] .hero h1 {font-size:clamp(39px,3.8vw,61px);line-height:1.17}
+html[lang="zh-CN"] .chapter-title {line-height:1.17;overflow-wrap:anywhere}
+html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
+@media(max-width:1120px){
+ html.m10-framed .site-header {grid-template-columns:minmax(0,1fr) auto auto;column-gap:10px}
+ html.m10-framed .site-header .top-nav {grid-column:2;grid-row:1}
+ html.m10-framed .header-tools {grid-column:3;grid-row:1}
+
+ html.m10-framed .header-tools .status-pill {display:none!important}
+ html.m10-framed .header-tools {gap:6px}
+ html.m10-framed .header-action {height:36px;padding-inline:10px;font-size:10px}
+}
+@media(max-width:680px){
+ html.m10-framed #replay-motion {display:none}
+ html.m10-framed .nav-caption,html.m10-framed .nav-sep {display:none!important}
+ html.m10-framed .top-nav {gap:4px;padding:4px 5px}
+ html.m10-framed .brand {font-size:12px;padding:6px 8px;gap:5px}
+ html.m10-framed .brand-glyph {width:16px;height:16px}
+ html.m10-framed .nav-title {padding-right:2px;font-size:11px}
+ html.m10-framed .site-header {display:grid;grid-template-columns:minmax(0,1fr) auto auto;column-gap:4px}
+ html.m10-framed .header-tools {gap:4px}
+ html.m10-framed .header-action {height:33px;padding:0 7px;font-size:10px}
+ html.m10-framed .header-action .theme-text {display:none}
+ html.m10-framed .top-nav {grid-column:2;grid-row:1}
+ html.m10-framed #replay-motion {display:none}
+ html.m10-framed .nav-caption, html.m10-framed .nav-sep {display:none!important}
+ html.m10-framed .ticker {width:calc(100% - 36px);font-size:11px}
+ html.m10-framed .feature-track {margin-left:0!important;padding-right:0!important}
+}
+@media(max-width:480px){html.m10-framed .nav-title{display:none}}
+@media(max-width:360px){html.m10-framed .brand-glyph{display:none}html.m10-framed .brand{padding:7px;font-size:12px}html.m10-framed .header-action{padding:0 5px}}
+@media(prefers-reduced-motion:reduce){html.m10-framed .ticker-track{animation:none!important}}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
     <header class="site-header">
       <a class="brand" href="#overview" aria-label="Back to Fresnica preview top"><span class="brand-glyph" aria-hidden="true"></span><span><b>Fresnica</b> <small>· Stellar wallet</small></span></a>
       <nav class="top-nav" aria-label="Preview controls"><span class="nav-dot" aria-hidden="true"></span><span class="nav-caption">NOW</span><span class="nav-title">Overview</span><span class="nav-sep"></span><button id="toggle-motion" class="nav-button" type="button" title="Pause the animation" aria-label="Pause the animation" aria-pressed="false"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 4h3v12H5zm7 0h3v12h-3z"/></svg></button><button id="replay-motion" class="nav-button" type="button" title="Replay intro animation" aria-label="Replay intro animation"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M16 5v5h-5"/><path d="M15.4 10a6 6 0 1 0-1.7 4.2"/></svg></button></nav>
-      <span class="status-pill">IN DEVELOPMENT</span>
+      <div class="header-tools" role="group" aria-label="Website display options">
+        <button id="locale-toggle" class="header-action" type="button" aria-pressed="false" aria-label="Switch website to Chinese"><span id="locale-current" class="is-current">EN</span><span class="locale-separator" aria-hidden="true">/</span><span id="locale-target">中文</span></button>
+        <button id="theme-placeholder" class="header-action" type="button" disabled aria-label="Theme switch, coming soon" title="Theme switch coming soon"><span aria-hidden="true">◐</span><span class="theme-text">THEME</span></button>
+        <span class="status-pill">IN DEVELOPMENT</span>
+      </div>
     </header>
     <section class="hero">
       <div class="hero-copy">
@@ -1067,5 +1121,6 @@ html.m10-framed {
   <script defer src="./m6-states.js"></script>
   <script defer src="./m7-polish.js"></script>
   <script defer src="./m10-frame.js"></script>
+  <script defer src="./m12-experience.js"></script>
 </body>
 </html>

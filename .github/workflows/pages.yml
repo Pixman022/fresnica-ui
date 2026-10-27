@@ -64,6 +64,8 @@ jobs:
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m6-states.js
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m7-polish.js
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m10-frame.js
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/m12-experience.js
+                  grep -Fq 'src="./m12-experience.js"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'src="./m10-frame.js"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'src="./m7-polish.js"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'src="./m6-states.js"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
@@ -104,12 +106,14 @@ jobs:
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m6-states.js demo-dist/fresnica-v3-motion-preview/m6-states.js
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m7-polish.js demo-dist/fresnica-v3-motion-preview/m7-polish.js
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m10-frame.js demo-dist/fresnica-v3-motion-preview/m10-frame.js
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/m12-experience.js demo-dist/fresnica-v3-motion-preview/m12-experience.js
                   cp .v3-preview-source/public/fresnica-v3-orb-demo/index.html demo-dist/fresnica-v3-orb-demo/index.html
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/index.html demo-dist/fresnica-v3-motion-preview/index.html
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m5-story.js demo-dist/fresnica-v3-motion-preview/m5-story.js
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m6-states.js demo-dist/fresnica-v3-motion-preview/m6-states.js
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m7-polish.js demo-dist/fresnica-v3-motion-preview/m7-polish.js
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m10-frame.js demo-dist/fresnica-v3-motion-preview/m10-frame.js
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/m12-experience.js demo-dist/fresnica-v3-motion-preview/m12-experience.js
                   cmp .v3-preview-source/public/fresnica-v3-orb-demo/index.html demo-dist/fresnica-v3-orb-demo/index.html
                   # Recheck the legacy route immediately before uploading Pages.
                   cmp public/fresnica-website-preview/index.html demo-dist/fresnica-website-preview/index.html
