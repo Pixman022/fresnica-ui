@@ -80,6 +80,7 @@
   assetBoard.append(walkthrough);
   const assetStages = [...walkthrough.querySelectorAll('.m6-stage')];
   const assetLabels = [...walkthrough.querySelectorAll('.m6-stage-track span')];
+  const assetNavigation = [...assets.querySelectorAll('.bottom-stepper span')];
 
   const ns = 'http://www.w3.org/2000/svg';
   const networkLayer = document.createElementNS(ns, 'g');
@@ -166,6 +167,8 @@
       stage.setAttribute('aria-hidden',String(i!==index));
     });
     assetLabels.forEach((label,i)=>label.classList.toggle('m6-active',i===index));
+    // Keep the pre-existing bottom navigation synchronized with the displayed preview.
+    assetNavigation.forEach((label,i)=>label.classList.toggle('m5-focus',i===index));
     assetBoard.dataset.m6Step=String(index+1);
 
     const wp=progressFor('v3-workspace');
