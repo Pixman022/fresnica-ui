@@ -22,3 +22,11 @@ Status: M10 local Chromium acceptance complete; release status verified after Gi
 - Review the real published page in Windows Chrome with GPU acceleration; manually compare scroll rhythm and sphere appearance.
 - Safari, Firefox and lower-end device performance remain unverified.
 - V2 `main` and the frozen archive must remain unchanged; protected Pages deploy builds immutable V2 and overlays only the V3 path.
+
+## Verified M10 deployment
+- Source commit `05d73b556a781254b35b116d915a517d5aa6b0c1` deployed successfully in [GitHub Actions run 40478182085](https://github.com/Pixman022/fresnica-ui/actions/runs/40478182085).
+- The `Verify V3 release branch and preview files`, `Overlay V3 without touching any legacy route`, `Upload Pages artifact`, and `Deploy to GitHub Pages` steps all succeeded.
+- Released artifact includes `./fresnica-v3-motion-preview/m10-frame.js` beside the M5/M6/M7 resources.
+- The publishing workflow confirmed frozen V2 source `f3e68515d90fe05a12a640db153f1b14004cad32` and unchanged old preview HTML SHA-256 `c522893e32d794ade98e7338624e9756d634a744bc93f199f7ea3289824679fe`.
+- V3 preview URL: https://pixman022.github.io/fresnica-ui/fresnica-v3-motion-preview/
+- This verifies Pages artifact delivery, not a live Windows Chrome GPU quality approval or a complete frame-for-frame replication of the original video.
