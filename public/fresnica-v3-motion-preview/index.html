@@ -801,24 +801,29 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
       const assembled=smooth((progress-.07)/.65);
       const energy=smooth((progress-.4)/.52);
       const wave=width*(.53+.07*Math.sin(now*.00055));
-      const pulseAge=(now-themePulseStart)/1250;
-      const pulse=pulseAge>=0&&pulseAge<1&&!reduced.matches?Math.sin(pulseAge*Math.PI):0;
+      // The reference disassembles a narrow vertical slice of the wordmark
+      // before reassembling it; preserve Fresnica's emerald palette.
+      const pulseAge=(now-themePulseStart)/1650;
+      const themePulse=pulseAge>=0&&pulseAge<1&&!reduced.matches?Math.sin(pulseAge*Math.PI):0;
+      const scrollPlume=!reduced.matches?Math.exp(-Math.pow((progress-.59)/.16,2))*.8:0;
+      const swell=Math.max(themePulse,scrollPlume);
+      const plumeX=width*(.55+.045*Math.sin(now*.00065));
+      const light=footerScene.classList.contains('day');
       for(let i=0;i<samples.length;i++){
         const dot=samples[i];
         const float=(1-assembled*.86)*Math.sin(now*.0007+dot.phase)*2.1;
-        // A small radial bloom at theme switch echoes the reference's ink-like particle swell.
-        const cx=dot.x-width*.5,cy=dot.y-height*.52;
-        const radius=Math.hypot(cx,cy)||1;
-        const bloom=pulse*(5+5*hash(i+67));
-        const x=dot.x+(1-assembled)*dot.dx+float+cx/radius*bloom;
-        const y=dot.y+(1-assembled)*dot.dy+float*.55+cy/radius*bloom;
-        const highlight=pulse>0.01 && Math.abs(dot.x-width*(.5+pulseAge*.27))<width*.18;
-        const luminous=(energy>0.01 && Math.abs(dot.x-wave)<width*.13 && hash(i+12)>.32)||highlight;
-        const alpha=Math.min(1,(.16+assembled*.62)*(luminous?1:.78)+pulse*.13);
-        const light=footerScene.classList.contains('day');
-        context.fillStyle=luminous ? (light?'rgba(5,128,94,'+alpha+')':'rgba(49,205,147,'+alpha+')')
+        const near=Math.exp(-Math.pow((dot.x-plumeX)/(width*.105),2));
+        const localBurst=near*swell;
+        const driftX=(hash(i+71)-.5)*Math.min(100,width*.10)*localBurst;
+        const driftY=(hash(i+81)-.5)*Math.min(115,height*.64)*localBurst;
+        const curl=Math.sin(dot.phase+now*.0026)*8*localBurst;
+        const x=dot.x+(1-assembled)*dot.dx+float+driftX+curl;
+        const y=dot.y+(1-assembled)*dot.dy+float*.55+driftY;
+        const highlight=localBurst>.07 || (energy>.01&&Math.abs(dot.x-wave)<width*.13&&hash(i+12)>.32);
+        const alpha=Math.min(1,(.16+assembled*.62)*(highlight?1:.78)+localBurst*.15);
+        context.fillStyle=highlight ? (light?'rgba(9,144,103,'+alpha+')':'rgba(49,218,157,'+alpha+')')
           : (light?'rgba(74,91,83,'+alpha+')':'rgba(169,184,176,'+alpha+')');
-        const size=dot.size*(.76+.24*assembled+(.18*pulse));
+        const size=dot.size*(.76+.24*assembled+.34*localBurst);
         context.fillRect(x,y,size,size);
       }
     }
@@ -860,5 +865,6 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
 
   <script defer src="./m5-story.js"></script>
   <script defer src="./m6-states.js"></script>
+  <script defer src="./m7-polish.js"></script>
 </body>
 </html>
