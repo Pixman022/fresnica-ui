@@ -1,7 +1,7 @@
 # Fresnica V3 - M4 isolated preview release
 
 Date: 2026-10-27
-Status: workflow prepared; deployment result must be checked separately.
+Status: GitHub Actions deployment successful; independent end-user browser review is still pending.
 
 ## Goal
 
@@ -27,6 +27,20 @@ Expose the M3-reviewed V3 website at its own GitHub Pages path without modifying
 ## Operational caveat
 
 GitHub Pages is one site per repo. This is **path isolation within the same Pages site**, not a separate hosting account or separately deployed domain. The root artifact is republished on success, but the V2 preview file is preserved from the frozen commit. A later ordinary main-branch Pages deployment may remove these preview-only paths. For durable independent hosting, provision a separate repository or another hosting site with explicit authorization.
+
+## Actual GitHub Actions result
+
+- First V3 push run `40461363281` failed before steps under the protected `github-pages` environment. It did not deploy.
+- Switching this branch-only workflow to the separate `v3-preview` environment allowed the guarded overlay deployment to run.
+- **Successful run:** `40461454033` — https://github.com/Pixman022/fresnica-ui/actions/runs/40461454033
+- **Source commit:** `9b64674c9b7ceda38f021e885d0a93aec38c6a79`.
+- Verified frozen V2 source: `f3e68515d90fe05a12a640db153f1b14004cad32`.
+- Verified new source: `9b64674c9b7ceda38f021e885d0a93aec38c6a79`.
+- Workflow check `Overlay V3 without touching any legacy route` succeeded, and output:
+  `V2 unchanged (SHA-256): c522893e32d794ade98e7338624e9756d634a744bc93f199f7ea3289824679fe`.
+- `Configure Pages`, `Upload Pages artifact`, and `Deploy to GitHub Pages` all succeeded. GitHub reported the site URL as `https://pixman022.github.io/fresnica-ui/`.
+- Static V3 routes: `https://pixman022.github.io/fresnica-ui/fresnica-v3-motion-preview/` and `https://pixman022.github.io/fresnica-ui/fresnica-v3-orb-demo/`.
+- Direct HTTP page retrieval from the assistant's browsing environment was unavailable, so **GPU/WebGL visual acceptance remains pending**.
 
 ## Verification after publishing
 
