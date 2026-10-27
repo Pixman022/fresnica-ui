@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="description" content="Fresnica V3 first-screen motion concept. An independently developed preview; the wallet app is in development." />
+  <title>Fresnica V3 — Hero Orb Motion Study</title>
+  <style>
+    :root { color-scheme: light; font-family: Inter, 'Helvetica Neue', Arial, sans-serif; --ink: #111514; --green: #0ba67c; --muted: #606867; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #192330; color: var(--ink); }
+    button, a { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, a:focus-visible { outline: 3px solid var(--green); outline-offset: 4px; }
+    .stage { width: min(1500px, calc(100% - 64px)); min-height: min(920px, calc(100dvh - 90px)); margin: 44px auto; border: 5px solid #969fa7; border-radius: 24px; overflow: hidden; position: relative; background: #f8f9f8; box-shadow: 0 22px 65px rgba(0,0,0,.24); isolation: isolate; }
+    .stage::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse 42% 44% at 74% 46%,rgba(172,207,194,.14),transparent 75%),radial-gradient(ellipse 55% 50% at 22% 57%,#fff,transparent 78%); pointer-events:none; }
+    .site-header { display: grid; grid-template-columns:1fr 1fr 1fr; align-items: center; gap: 16px; padding: 18px 22px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; background: #fff; color: #222; border: 1px solid #e5e9e8; border-radius: 100px; box-shadow: 0 3px 9px rgba(24,37,34,.07); padding: 8px 15px 8px 10px; width: fit-content; text-decoration: none; white-space: nowrap; font-size: 15px; }
+    .brand-glyph, .nav-dot { width: 20px; height: 20px; flex: none; border-radius: 50%; background: radial-gradient(circle at 31% 25%,#a8e7c7 3%,#2a947a 32%,#135e64 73%,#0d343c 100%); box-shadow: 0 0 0 3px #e6edeb, inset -2px -2px 2px rgba(0,0,0,.12); }
+    .brand small { font-size: 11px; color: #88908f; }
+    .top-nav { justify-self: center; display:flex; gap: 13px; align-items:center; min-height:44px; border-radius:100px; padding: 5px 8px; background:#101213; color:#fff; box-shadow: 0 8px 22px rgba(15,20,20,.16); white-space:nowrap; font-size: 12px; }
+    .nav-dot { width:23px; height:23px; box-shadow:0 0 0 2px #2c3432; }
+    .nav-caption { text-transform:uppercase; color:#8e9291; letter-spacing:.08em; font: 9px 'SFMono-Regular',Consolas,monospace; }
+    .nav-title { padding: 0 9px 0 0; font-weight:550; }
+    .nav-sep { height:20px; width:1px; background:#363a3b; }
+    .nav-button { border:0; color:#fff; background:#202325; display:grid; place-items:center; width:28px; height:28px; border-radius:50%; }
+    .nav-button svg { width:15px; height:15px; }
+    .status-pill { justify-self:end; background: #111313; color:#fff; font: 11px 'SFMono-Regular',Consolas,monospace; border-radius:100px; padding:15px 22px; letter-spacing:.055em; }
+    .hero { display:grid; grid-template-columns: 1.07fr .93fr; max-width: 1270px; margin: 24px auto 0; padding: 0 20px; min-height: 620px; align-items: center; gap: 10px; }
+    .hero-copy { padding: 42px 0 38px; }
+    .eyebrow { font: 11px 'SFMono-Regular',Consolas,monospace; color:#7f8684; letter-spacing: .085em; margin: 0 0 31px; }
+    h1 { font-size: clamp(46px,4.2vw,64px); font-weight: 490; line-height: 1.08; letter-spacing:-.049em; margin:0 0 30px; max-width: 640px; }
+    .intro { margin:0; color:#5c6260; font-size:16px; line-height:1.75; max-width:530px; }
+    .actions { display:flex; gap:11px; align-items:center; flex-wrap:wrap; margin-top:36px; }
+    .cta { display:inline-flex; align-items:center; gap:18px; padding: 14px 21px; min-height:47px; border-radius:999px; font-size:12px; text-decoration:none; white-space:nowrap; transition:transform .2s ease, box-shadow .2s ease; }
+    .cta:hover { transform:translateY(-2px); box-shadow:0 5px 12px rgba(10,25,20,.12); }
+    .cta.primary { background: #111313; color:#fff; font: 11px 'SFMono-Regular',Consolas,monospace; letter-spacing:.025em; border:1px solid #111313; }
+    .cta.secondary { background:#fff; color:#252a28; border:1px solid #e4e7e5; box-shadow:0 2px 5px rgba(0,0,0,.05); }
+    .hero-art { position:relative; height:530px; width:100%; min-width:0; display:grid; place-items:center; }
+    .orb-field { width:min(100%,550px); aspect-ratio:1; position:relative; margin:0 auto; transform: translate3d(var(--field-x,0px),var(--field-y,0px),0); transition:transform .22s ease-out; }
+    .orb-field::before { content:''; position:absolute; width:82%; height:82%; left:9%; top:9%; border-radius:50%; opacity:.55; background:radial-gradient(circle, rgba(31,172,116,.13),rgba(31,172,116,.045) 32%,transparent 71%); filter:blur(12px); }
+    .orb-field::after { content:''; position:absolute; width:40%; height:4%; left:30%; bottom:21%; z-index:0; background:rgba(21,50,49,.23); filter:blur(19px); border-radius:50%; }
+    .orbit-svg { display:block; width:100%; height:100%; position:absolute; inset:0; overflow:visible; pointer-events:none; }
+    .orbit-dots { position:absolute; inset:0; border-radius:50%; background-image:radial-gradient(#a2b9b3 0.8px,transparent .8px); background-size:15px 15px; opacity:.20; mask-image:radial-gradient(circle,transparent 34%,#000 59%,transparent 77%); }
+    #orb-canvas { width:100%; height:100%; position:absolute; inset:0; z-index:2; display:block; filter:drop-shadow(0 9px 14px rgba(14,58,52,.14)); }
+    .fallback-orb { position:absolute; width:47%; height:47%; top:26.5%; left:26.5%; border-radius:48% 52% 49% 51%; background:radial-gradient(ellipse at 72% 80%,rgba(10,137,100,.58),transparent 45%), radial-gradient(ellipse at 28% 27%,rgba(154,226,209,.85),transparent 36%),radial-gradient(circle at 40% 60%,#266c6b 10%,#133e46 65%,#0d313d 100%); box-shadow: inset 10px 9px 24px rgba(209,255,246,.28), inset -14px -16px 37px rgba(0,27,35,.45), 0 15px 25px rgba(0,0,0,.1); z-index:1; }
+    .orb-card { position:absolute; z-index:4; background:#fff; border:1px solid #e9ebea; box-shadow:0 9px 26px rgba(14,32,29,.08); border-radius:12px; padding:11px 13px; font-size:11px; line-height:1.5; animation:appear .7s backwards; }
+    .orb-card label { font:9px 'SFMono-Regular',Consolas,monospace; color:#7a8581; display:block; margin-bottom:2px; }
+    .orb-card strong { font-weight:560; color:#262c29; }
+    .orb-card.first { left:4%; top:12%; animation-delay:.15s; }
+    .orb-card.second { right:-2%; top:22%; animation-delay:.55s; }
+    .orb-card.third { right:1%; bottom:13%; animation-delay:.8s; }
+    .orb-status { position:absolute; z-index:4; bottom:9%; left:50%; transform:translateX(-50%); display:inline-flex; align-items:center; gap:10px; color:#fff; background:#111313; border-radius:100px; padding:10px 16px; font:11px 'SFMono-Regular',Consolas,monospace; white-space:nowrap; }
+    .orb-status svg { width:15px; height:15px; color:#95f1c8; }
+    .ticker { margin-top:15px; padding:0 0 0 8px; border-top:1px solid #e9ecea; display:flex; align-items:center; gap:44px; min-height:54px; color:#676e6b; font-size:13px; white-space:nowrap; overflow:hidden; }
+    .ticker-track { display:flex; align-items:center; gap:44px; min-width:max-content; animation:marquee 34s linear infinite; }
+    .ticker em { width:5px; height:5px; border-radius:50%; background:var(--green); display:inline-block; margin-right:13px; vertical-align:middle; }
+    .notes { background:#111a23; color:#c9d8d3; border:1px solid #2c3b40; border-radius:16px; max-width:870px; margin:0 auto 54px; padding:22px 28px; font-size:13px; line-height:1.7; }
+    .notes h2 { font-weight:550; font-size:17px; color:white; margin:0 0 6px; }
+    .notes p { margin:0; }
+    .notes small { display:block; margin-top:8px; color:#9bb6ad; }
+    @keyframes appear { from { opacity:0; translate:0 11px; } to { opacity:1; translate:0 0; } }
+    @keyframes marquee { to { transform:translateX(-50%); } }
+    @media (max-width:990px) { .stage { margin:20px auto; width:calc(100% - 26px); min-height:auto; } .hero { grid-template-columns: 1fr; gap:8px; margin-top:0; text-align:left; padding: 24px 40px; } .hero-copy { padding:0; } .hero-art { height:500px; } .orb-field { max-width:500px; } .site-header { padding:17px 21px; grid-template-columns:1fr auto; } .top-nav { grid-column:2; grid-row:1; } .status-pill { display:none; } h1 { font-size:clamp(42px,7vw,60px); } .notes { margin: 20px 18px 40px; } }
+    @media (max-width:580px) { .brand small, .nav-caption, .nav-sep { display:none; } .nav-title { padding:0; } .hero { padding:22px 23px; } .hero-art { height:auto; aspect-ratio:1; } .orb-card { font-size:9px; } .orb-card.first {left:0;top:5%;} .orb-card.second {right:0;top:13%;} .orb-card.third {right:0;bottom:10%;} .orb-status{font-size:9px;bottom:4%;} .intro{font-size:14px;} h1 {font-size:43px;} .ticker{min-height:50px;} }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .ticker-track,.orb-card { animation:none!important; } .orb-field {transition:none;} .cta { transition:none;} }
+  </style>
+</head>
+<body>
+  <main class="stage" id="overview" aria-label="Fresnica V3 hero motion concept">
+    <header class="site-header">
+      <a class="brand" href="#overview" aria-label="Back to Fresnica preview top"><span class="brand-glyph" aria-hidden="true"></span><span><b>Fresnica</b> <small>· Stellar wallet</small></span></a>
+      <nav class="top-nav" aria-label="Preview controls"><span class="nav-dot" aria-hidden="true"></span><span class="nav-caption">NOW</span><span class="nav-title">Overview</span><span class="nav-sep"></span><button id="toggle-motion" class="nav-button" type="button" title="Pause the animation" aria-label="Pause the animation" aria-pressed="false"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 4h3v12H5zm7 0h3v12h-3z"/></svg></button><button id="replay-motion" class="nav-button" type="button" title="Replay intro animation" aria-label="Replay intro animation"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M16 5v5h-5"/><path d="M15.4 10a6 6 0 1 0-1.7 4.2"/></svg></button></nav>
+      <span class="status-pill">IN DEVELOPMENT</span>
+    </header>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">FRESNICA · BUILT FOR STELLAR</p>
+        <h1>One wallet.<br>Your whole<br>Stellar world.</h1>
+        <p class="intro">Explore XLM and Stellar-issued assets, send and receive, discover swaps, and connect with compatible apps — all through one thoughtfully designed wallet.</p>
+        <div class="actions"><a class="cta primary" href="#motion-notes">EXPLORE FRESNICA <span aria-hidden="true">↗</span></a><button class="cta secondary" id="replay-demo" type="button"><span aria-hidden="true">▶</span> Replay the motion</button></div>
+      </div>
+      <div class="hero-art" aria-label="Animated translucent emerald liquid sphere, inspired by the uploaded website video">
+        <div class="orb-field" id="orb-field">
+          <span class="orbit-dots" aria-hidden="true"></span>
+          <svg class="orbit-svg" id="orbit-svg" viewBox="0 0 550 550" role="img" aria-label="Fine radial tick-ring and circulating green orbit markers"><circle cx="275" cy="275" r="204" stroke="#bfc9c6" stroke-opacity=".43" stroke-width="1.1" fill="none"/><circle cx="275" cy="275" r="235" stroke="#d5ddda" stroke-opacity=".45" stroke-width="1" fill="none"/><g id="tick-lines"></g><g id="orbit-nodes"></g></svg>
+          <div class="fallback-orb" id="fallback-orb" aria-hidden="true"></div>
+          <canvas id="orb-canvas" width="640" height="640" aria-hidden="true"></canvas>
+          <div class="orb-card first"><label>STELLAR</label><strong>One connected ecosystem.</strong></div>
+          <div class="orb-card second"><label>WALLET</label><strong>Assets, in one place.</strong></div>
+          <div class="orb-card third"><label>YOUR NEXT MOVE</label><strong>Explore with clarity.</strong></div>
+          <span class="orb-status" aria-label="Product status: In development"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 8h1M5 5v6M8 3v10M11 5v6M14 7v2"/></svg> IN DEVELOPMENT</span>
+        </div>
+      </div>
+    </section>
+    <div class="ticker" aria-label="Wallet focus: XLM and Stellar assets, send and receive, swaps, compatible apps"><div class="ticker-track"><span><em></em>XLM &amp; STELLAR ASSETS</span><span><em></em>SEND &amp; RECEIVE</span><span><em></em>SWAPS</span><span><em></em>COMPATIBLE APPS</span><span><em></em>IN DEVELOPMENT</span><span><em></em>XLM &amp; STELLAR ASSETS</span><span><em></em>SEND &amp; RECEIVE</span><span><em></em>SWAPS</span><span><em></em>COMPATIBLE APPS</span><span><em></em>IN DEVELOPMENT</span></div></div>
+  </main>
+  <aside class="notes" id="motion-notes"><h2>Fresnica V3 / Hero motion prototype</h2><p>Video-inspired first-screen composition: floating liquid sphere, animated fluid highlights, subtle green core, radial ticks, orbit markers and restrained pointer response. Only the Hero is implemented here; the rest of V3 remains unchanged. Pause and replay using the black navigation capsule.</p><small>Illustrative interface · Stellar-focused product in development · No live wallet functions · Reduced Motion is respected</small></aside>
+  <script>
+  (() => {
+    'use strict';
+    const field = document.getElementById('orb-field');
+    const canvas = document.getElementById('orb-canvas');
+    const fallback = document.getElementById('fallback-orb');
+    const ring = document.getElementById('tick-lines');
+    const nodes = document.getElementById('orbit-nodes');
+    const btn = document.getElementById('toggle-motion');
+    const replayBtns = [document.getElementById('replay-motion'), document.getElementById('replay-demo')];
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const ns='http://www.w3.org/2000/svg';
+    const ticks=[];
+    for (let i=0;i<96;i++) {
+      const a=i*Math.PI*2/96-Math.PI/2;
+      const major=i%8===0; const inner=major?208:214; const outer=major?227:224;
+      const line=document.createElementNS(ns,'line');
+      line.setAttribute('x1',String(275+Math.cos(a)*inner)); line.setAttribute('y1',String(275+Math.sin(a)*inner));
+      line.setAttribute('x2',String(275+Math.cos(a)*outer)); line.setAttribute('y2',String(275+Math.sin(a)*outer));
+      line.setAttribute('stroke','#8c9f9a');line.setAttribute('stroke-opacity',major?'.67':'.43');line.setAttribute('stroke-width',major?'1.65':'1.1');
+      ring.appendChild(line); ticks.push(line);
+    }
+    const markers=[{radius:236,angle:.1,size:5},{radius:236,angle:2.1,size:4},{radius:236,angle:4.2,size:3.7}].map(n=>{
+      const c=document.createElementNS(ns,'circle');c.setAttribute('r',String(n.size));c.setAttribute('fill','#059d76');
+      c.setAttribute('stroke','#f8f9f8');c.setAttribute('stroke-width','2');nodes.appendChild(c);return {...n,node:c};
+    });
+    let playing=!reduced.matches;
+    let visible=true;
+    let t=0,last=0;
+    let pointX=0,pointY=0;
+    let smoothX=0,smoothY=0;
+    let gl=null,program=null,mesh=null;
+    let uniforms={};
+    const vs=`#version 300 es
+    precision highp float;
+    in vec3 aPosition;
+    uniform float uTime;
+    uniform vec2 uPointer;
+    out vec3 vP;
+    out vec3 vN;
+    out vec3 vWorld;
+    void main(){
+      vec3 p=normalize(aPosition);
+      float ripple = .024*sin(p.y*6.2+p.z*5.0+uTime*.53)+.020*cos(p.x*4.8-p.y*4.2+uTime*.35)+.012*sin((p.z+p.x)*12.0-uTime*.28);
+      p *= (1.0+ripple);
+      float spin=uTime*.10+uPointer.x*.17;
+      float tilt=-.12+uPointer.y*.13+sin(uTime*.19)*.055;
+      mat3 ry=mat3(cos(spin),0.,-sin(spin),0.,1.,0.,sin(spin),0.,cos(spin));
+      mat3 rx=mat3(1.,0.,0.,0.,cos(tilt),sin(tilt),0.,-sin(tilt),cos(tilt));
+      vP=p;vWorld=rx*ry*p;vN=normalize(rx*ry*normalize(aPosition));
+      float perspective = 1.0+.060*vWorld.z;
+      gl_Position=vec4(vWorld.xy*.54*perspective,vWorld.z*.15,1.);
+    }`;
+    const fs=`#version 300 es
+    precision highp float;
+    uniform float uTime;
+    in vec3 vP;
+    in vec3 vN;
+    in vec3 vWorld;
+    out vec4 outColor;
+    float waves(vec3 p){
+      float a=sin(p.x*7.1+p.y*3.2+1.2*sin(p.z*5.4+uTime*.27));
+      float b=sin(p.y*8.8-p.z*6.8+1.1*cos(p.x*4.9-uTime*.20));
+      float c=cos(p.z*9.2+p.x*3.7+1.4*sin(p.y*4.4+uTime*.17));
+      float d=sin((p.x+p.z)*15.2-p.y*3.3+uTime*.34);
+      return a*.37+b*.31+c*.22+d*.10;
+    }
+    void main(){
+      vec3 p=vP;
+      float f=waves(p);
+      float e=.026;
+      vec3 grad=vec3(waves(p+vec3(e,0,0))-waves(p-vec3(e,0,0)),waves(p+vec3(0,e,0))-waves(p-vec3(0,e,0)),waves(p+vec3(0,0,e))-waves(p-vec3(0,0,e)))/(2.*e);
+      vec3 n=normalize(vN-grad*.14);
+      vec3 viewDir=normalize(vec3(.0,.04,1.));
+      vec3 lightDir=normalize(vec3(-.65,.86,1.4));
+      float diffuse=max(0.,dot(n,lightDir));
+      float wrap=dot(n,lightDir)*.5+.5;
+      float rim=pow(1.-max(0.,dot(vN,viewDir)),3.0);
+      float pattern=smoothstep(-.8,.8,f+sin(p.y*3.1-p.x*4.2+uTime*.14)*.24);
+      vec3 deep=vec3(.022,.105,.121);
+      vec3 emerald=vec3(.052,.257,.255);
+      vec3 tint=vec3(.12,.39,.38);
+      vec3 color=mix(deep,emerald,.18+.54*pattern);
+      color=mix(color,tint,.20*wrap);
+      color*=.64+1.05*diffuse;
+      float veins=pow(max(0.,sin(p.x*7.5-p.z*6.2+f*5.4+uTime*.12)),8.0);
+      color+=veins*.045*vec3(.40,.82,.77);
+      float spec=pow(max(0.,dot(reflect(-lightDir,n),viewDir)),36.0);
+      float wide=pow(max(0.,dot(reflect(-lightDir,n),viewDir)),8.0);
+      color+=spec*.31*vec3(.76,1.,.97)+wide*.115*vec3(.52,.91,.84);
+      color+=rim*vec3(.14,.32,.30);
+      float innerGlow=pow(max(0.,1.-length(vWorld.xy-vec2(.20,-.20))),2.5);
+      color+=innerGlow*(.09+.025*sin(uTime*.24))*vec3(.10,.75,.37);
+      float shade=smoothstep(-1.,1.,vWorld.y);
+      color+=.032*shade*vec3(.66,1.,.96);
+      color=pow(color,vec3(.86));
+      outColor=vec4(clamp(color,0.,1.),1.);
+    }`;
+    function shader(type,source){const sh=gl.createShader(type);gl.shaderSource(sh,source);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){throw Error(gl.getShaderInfoLog(sh));}return sh;}
+    function startGL(){
+      gl=canvas.getContext('webgl2',{alpha:true,antialias:true,powerPreference:'low-power'});
+      if(!gl) return false;
+      const v=shader(gl.VERTEX_SHADER,vs), f=shader(gl.FRAGMENT_SHADER,fs);
+      program=gl.createProgram();gl.attachShader(program,v);gl.attachShader(program,f);gl.linkProgram(program);
+      if(!gl.getProgramParameter(program,gl.LINK_STATUS)){throw Error(gl.getProgramInfoLog(program));}
+      gl.deleteShader(v);gl.deleteShader(f);
+      gl.useProgram(program);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);
+      uniforms.time=gl.getUniformLocation(program,'uTime');uniforms.pointer=gl.getUniformLocation(program,'uPointer');
+      const vertices=[],indices=[];const rows=105,cols=140;
+      for(let row=0;row<=rows;row++){
+        const theta=Math.PI*row/rows;
+        for(let col=0;col<=cols;col++){const phi=Math.PI*2*col/cols;vertices.push(Math.sin(theta)*Math.cos(phi),Math.cos(theta),Math.sin(theta)*Math.sin(phi));}
+      }
+      for(let row=0;row<rows;row++)for(let col=0;col<cols;col++){
+        const a=row*(cols+1)+col,b=a+cols+1;indices.push(a,a+1,b,a+1,b+1,b);
+      }
+      const vao=gl.createVertexArray();gl.bindVertexArray(vao);
+      const vbo=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,vbo);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertices),gl.STATIC_DRAW);
+      const loc=gl.getAttribLocation(program,'aPosition');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,3,gl.FLOAT,false,0,0);
+      const ebo=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ebo);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(indices),gl.STATIC_DRAW);
+      mesh={vao,count:indices.length};
+      const scale=Math.min(window.devicePixelRatio||1,1.6);
+      const resize=()=>{const r=canvas.getBoundingClientRect();const width=Math.max(2,Math.round(r.width*scale));const height=Math.max(2,Math.round(r.height*scale));if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}gl.viewport(0,0,width,height);};
+      window.addEventListener('resize',resize,{passive:true});resize();fallback.style.display='none';return true;
+    }
+    try { if(!startGL()) canvas.style.display='none'; } catch(err){console.warn('Orb shader unavailable, showing static fallback.',err);canvas.style.display='none';fallback.style.display='block';gl=null;}
+    canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();gl=null;canvas.style.display='none';fallback.style.display='block';});
+    const eye=svg=>btn.innerHTML=svg;
+    const pauseIcon='<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 4h3v12H5zm7 0h3v12h-3z"/></svg>';
+    const playIcon='<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="m6 4 10 6-10 6z"/></svg>';
+    function reflect(){btn.setAttribute('aria-pressed',String(!playing));btn.setAttribute('aria-label',playing?'Pause the animation':'Play the animation');btn.title=playing?'Pause the animation':'Play the animation';eye(playing?pauseIcon:playIcon);field.style.transition=playing?'transform .22s ease-out':'none';}
+    btn.addEventListener('click',()=>{playing=!playing;last=0;reflect();});
+    replayBtns.forEach(b=>b.addEventListener('click',()=>{t=0;last=0;playing=true;reflect();document.querySelectorAll('.orb-card').forEach(c=>{c.style.animation='none';c.offsetHeight;c.style.animation='';});}));
+    reduced.addEventListener('change',()=>{playing=!reduced.matches;last=0;reflect();});
+    document.addEventListener('visibilitychange',()=>{last=0;});
+    const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;last=0;},{threshold:.04});observer.observe(field);
+    field.addEventListener('pointermove',event=>{if(reduced.matches)return;const r=field.getBoundingClientRect();pointX=((event.clientX-r.left)/r.width-.5)*2;pointY=((event.clientY-r.top)/r.height-.5)*2;});
+    field.addEventListener('pointerleave',()=>{pointX=0;pointY=0;});
+    function renderRing(){
+      const phase=t*.34;
+      markers.forEach((m,i)=>{const a=m.angle+phase*(i%2===0?1:-.65);m.node.setAttribute('cx',String(275+Math.cos(a)*m.radius));m.node.setAttribute('cy',String(275+Math.sin(a)*m.radius));});
+      ticks.forEach((line,i)=>{let distance=((i/96*2*Math.PI-phase)%(Math.PI*2)+Math.PI*2)%(Math.PI*2);distance=Math.min(distance,Math.PI*2-distance);const active=Math.exp(-distance*distance/.17);line.setAttribute('stroke',active>.12?'#0a9e79':'#8c9f9a');line.setAttribute('stroke-opacity',String(.35+.57*active));});
+    }
+    function frame(stamp){
+      if(!last)last=stamp;
+      const delta=Math.min(.05,(stamp-last)/1000);last=stamp;
+      if(visible&&!document.hidden){if(playing&&!reduced.matches)t+=delta;else if(playing&&reduced.matches)t=0;
+        smoothX+=(pointX-smoothX)*Math.min(1,delta*5);smoothY+=(pointY-smoothY)*Math.min(1,delta*5);
+        field.style.setProperty('--field-x',(playing&&!reduced.matches?smoothX*6:0).toFixed(2)+'px');
+        field.style.setProperty('--field-y',(playing&&!reduced.matches?smoothY*6:0).toFixed(2)+'px');
+        renderRing();
+        if(gl&&program&&mesh){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(uniforms.time,t);gl.uniform2f(uniforms.pointer,smoothX,smoothY);gl.bindVertexArray(mesh.vao);gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);}
+      }
+      requestAnimationFrame(frame);
+    }
+    reflect();requestAnimationFrame(frame);
+  })();
+  </script>
+</body>
+</html>
