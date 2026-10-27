@@ -369,6 +369,103 @@ html.m10-framed .footer-top h2{margin:clamp(8px,1.5vh,16px) 0}
 }
 
   </style>
+<style>
+/* M11: unified safe content area. The page frame and full-bleed motion stay intact. */
+html.m10-framed {
+  --v3-content-max: 1180px;
+  --v3-content-edge: clamp(28px, 4.5vw, 64px);
+}
+@media (min-width: 681px) {
+  /* Balance the actual artwork and copy, not the entire clipped motion canvas. */
+  html.m10-framed .stage .hero {
+    width: min(var(--v3-content-max), calc(100% - var(--v3-content-edge) - var(--v3-content-edge)));
+    max-width: var(--v3-content-max);
+    margin-inline: auto;
+    padding-inline: 0;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(28px, 3.5vw, 60px);
+  }
+  html.m10-framed .particle-scene .orbital-intro {
+    width: min(980px, calc(100% - var(--v3-content-edge) - var(--v3-content-edge)));
+    left: 50%;
+  }
+  html.m10-framed .particle-scene .bottom-intro {
+    width: min(900px, calc(100% - var(--v3-content-edge) - var(--v3-content-edge)));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  html.m10-framed .feature-heading,
+  html.m10-framed .audience-title {
+    width: min(var(--v3-content-max), calc(100% - var(--v3-content-edge) - var(--v3-content-edge)));
+    margin-inline: auto;
+  }
+  /* Full-width feature cards deliberately remain full-bleed while the controls use the safe grid. */
+  html.m10-framed .feature-progress {
+    left: max(var(--v3-content-edge), calc((100% - var(--v3-content-max)) / 2));
+  }
+  html.m10-framed .feature-controls {
+    right: max(var(--v3-content-edge), calc((100% - var(--v3-content-max)) / 2));
+  }
+  /* Equal outer insets and fluid tracks fix the wide-screen off-centre assets section. */
+  html.m10-framed .asset-scene {
+    padding-inline: max(var(--v3-content-edge), calc((100% - var(--v3-content-max)) / 2));
+    grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+    column-gap: clamp(26px, 4vw, 70px);
+    justify-content: center;
+    align-content: center;
+  }
+  html.m10-framed .asset-scene .asset-left {padding-right: 0;min-width:0;}
+  html.m10-framed .asset-board {width: 100%;max-width: none;min-width:0;}
+  html.m10-framed .bottom-stepper {
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(720px, calc(100% - var(--v3-content-edge) - var(--v3-content-edge)));
+  }
+  /* The audience reel still scrolls sideways, but it lives in the same centred safe width. */
+  html.m10-framed .audience-track {
+    width: min(var(--v3-content-max), calc(100% - var(--v3-content-edge) - var(--v3-content-edge)));
+    margin-inline: auto;
+    padding-inline: 0;
+    scroll-padding-inline: 0;
+  }
+  /* Workspace copy and demo are anchored to equal safe-area insets, not viewport percentages. */
+  html.m10-framed .workspace-scene .workspace-copy {
+    left: max(var(--v3-content-edge), calc((100% - var(--v3-content-max)) / 2));
+    width: min(33vw, 390px);
+  }
+  html.m10-framed .workspace-mini {
+    right: max(var(--v3-content-edge), calc((100% - var(--v3-content-max)) / 2));
+    width: min(54vw, 710px);
+  }
+  html.m10-framed .paths-scene .paths-copy {
+    width: min(850px, calc(100% - var(--v3-content-edge) - var(--v3-content-edge)));
+  }
+  html.m10-framed .paths-grid {
+    width: min(1050px, calc(100% - var(--v3-content-edge) - var(--v3-content-edge)));
+    margin-inline: auto;
+  }
+  html.m10-framed .trust-panel {
+    left: max(var(--v3-content-edge), calc((100% - var(--v3-content-max)) / 2));
+    right: max(var(--v3-content-edge), calc((100% - var(--v3-content-max)) / 2));
+  }
+  html.m10-framed .footer-top {
+    width: min(var(--v3-content-max), calc(100% - var(--v3-content-edge) - var(--v3-content-edge)));
+    margin-inline: auto;
+    gap: clamp(24px, 3vw, 42px);
+  }
+  html.m10-framed .word-wrap {
+    width: min(1260px, calc(100% - var(--v3-content-edge) - var(--v3-content-edge)));
+    left:50%;
+    transform:translateX(-50%);
+  }
+  html.m10-framed .dot-word {font-size:clamp(72px,10.5vw,165px);}
+}
+@media (min-width: 681px) and (max-width: 1100px) {
+  html.m10-framed .asset-scene {column-gap:clamp(22px,3vw,35px);}
+  html.m10-framed .workspace-mini {grid-template-columns: minmax(90px, 25%) minmax(0, 1fr);}
+  html.m10-framed .workspace-scene .workspace-copy .chapter-title {font-size:clamp(37px,4.3vw,50px);}
+}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
