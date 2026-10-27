@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light" />
   <meta name="description" content="Fresnica V3 video-aligned interactive one-page concept. The Stellar wallet is in development and the displayed data is illustrative." />
-  <title>Fresnica V3 — M2 Motion Study</title>
+  <title>Fresnica V3 — M3 Reference Motion Study</title>
   <style>
     :root { color-scheme: light; font-family: Inter, 'Helvetica Neue', Arial, sans-serif; --ink: #111514; --green: #0ba67c; --muted: #606867; }
     * { box-sizing: border-box; }
@@ -233,6 +233,16 @@ body{background:#192330}
 .footer-scene.day .footer-top p{color:#6e7672}
 .footer-scene.day .dot-word{background-image:radial-gradient(circle,#8d9993 1px,transparent 1.25px)}
 .footer-scene.day .footer-switch{background:white;color:#192d23;border-color:#d6ded8}
+/* M3: the source video presents the dot wordmark on a light footer first, then switches to dark. */
+.site-header.on-footer-dark .top-nav{background:#f8faf9;color:#181d1a;border:1px solid #e3e8e4}
+.site-header.on-footer-dark .nav-caption{color:#6a756f}
+.site-header.on-footer-dark .nav-sep{background:#d9e3dc}
+.site-header.on-footer-dark .nav-button{background:#e9eeeb;color:#17221b}
+.site-header.on-footer-dark .status-pill{background:#fff;color:#1b221d;border:1px solid #f4f4f4}
+.footer-scene.day .scene-badge{border-color:#d7e1db}
+/* The local footer theme control must clear the persistent status pill. */
+.footer-scene .footer-switch{top:86px;z-index:7}
+
 .scene-mini-note{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font:10px Consolas,monospace;color:#959c98}
 @media(max-width:1080px){.chapter{padding-left:45px;padding-right:45px}.site-header{width:calc(100% - 75px)}.asset-scene{grid-template-columns:40% 60%}.asset-scene .asset-left{padding-right:20px}.workspace-scene .workspace-copy{left:5%;width:36%}.workspace-mini{right:4%;width:56%}.feature-window{margin-left:-30px;width:calc(100% + 60px)}.footer-top{gap:23px}}
 @media(max-width:680px){.site-header{top:22px;width:calc(100% - 34px)}.site-header .brand small,.nav-caption,.status-pill{display:none!important}.site-header .top-nav{min-width:unset;gap:5px}.nav-title{font-size:12px}.stage{padding-top:65px;width:calc(100% - 18px);min-height:840px;margin:10px auto}.chapter{width:calc(100% - 18px);height:auto;min-height:700px;padding:105px 25px 90px;margin:9px auto}.chapter-title{font-size:43px}.chapter-sub{font-size:14px}.particle-cloud{left:12%;width:76%}.particle-scene{height:760px}.particle-scene .orbital-intro{top:19%}.compare-scene{height:770px;padding-top:130px}.compare-scene .chapter-title{font-size:39px}.compare-cards{grid-template-columns:1fr;margin-top:55px;margin-bottom:65px}.compare-card{min-height:123px}.compare-card h3{font-size:21px;margin:7px 0}.feature-scroll{height:auto}.feature-chapter{position:relative;top:0;height:790px}.feature-window{top:10%;margin:0 -25px;width:calc(100% + 50px);overflow-x:auto;scroll-snap-type:x mandatory}.feature-track{transform:none!important}.feature-card{scroll-snap-align:center;width:300px}.feature-art{height:260px}.feature-controls{right:25px}.feature-progress{left:25px}.asset-scene{display:flex;flex-direction:column;justify-content:center;gap:35px;min-height:960px}.asset-board{width:100%}.asset-columns{grid-template-columns:1fr}.asset-cell{min-height:155px}.bottom-stepper{width:94%;left:3%;bottom:20px}.bottom-stepper span{font-size:9px;padding:14px 4px}.audience-track{margin-top:90px}.workspace-scene{height:1010px}.workspace-scene .workspace-copy{position:static;width:auto}.workspace-mini{top:42%;left:20px;right:20px;width:auto;height:47%;grid-template-columns:105px 1fr}.ws-sidebar{padding:9px 5px}.ws-content{padding:15px 9px}.ws-stats{grid-template-columns:repeat(3,1fr)}.ws-stat{padding:8px 4px}.ws-stat b{font-size:14px}.ws-stat{font-size:8px}.paths-grid{grid-template-columns:1fr;margin-top:70px}.path-card{min-height:185px}.paths-scene{min-height:1000px}.trust-panel{inset:8% 4%;padding:35px 23px}.trust-grid{grid-template-columns:1fr}.trust-grid>div{padding:14px}.trust-scene{height:860px}.planned-platforms{grid-template-columns:1fr;margin-top:35px}.download-scene{min-height:980px}.platform-box{min-height:130px;padding:22px}.faq-line{margin-top:22px}.footer-scene{min-height:780px}.footer-top{grid-template-columns:1fr 1fr;gap:24px}.footer-top>div:first-child{grid-column:1/-1}.dot-word{font-size:15vw}.word-wrap{bottom:95px}.scene-badge{right:16px;bottom:16px;font-size:8px}.page-count{left:25px}}
@@ -362,8 +372,8 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
   <div class="faq-line" aria-label="Frequently asked questions"><div><button type="button" aria-expanded="false" aria-controls="faq-answer-1">Which blockchain does Fresnica support?<span aria-hidden="true">+</span></button><p id="faq-answer-1" hidden>Fresnica is designed specifically for the Stellar ecosystem.</p></div><div><button type="button" aria-expanded="false" aria-controls="faq-answer-2">Can I download Fresnica today?<span aria-hidden="true">+</span></button><p id="faq-answer-2" hidden>Not yet. Fresnica remains in development. Only verified release links will be provided here.</p></div><div><button type="button" aria-expanded="false" aria-controls="faq-answer-3">Can I use this website as a wallet?<span aria-hidden="true">+</span></button><p id="faq-answer-3" hidden>No. The website is an informational product preview. Wallet operations will take place in the mobile app.</p></div></div>
   <span class="page-count">10 / 11</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
 </section>
-<footer class="chapter footer-scene dark" id="v3-about" data-chapter="About Fresnica" data-theme="dark" aria-labelledby="footer-title">
-  <button type="button" id="footer-theme" class="footer-switch" aria-pressed="false">LIGHT / DARK</button>
+<footer class="chapter footer-scene dark day" id="v3-about" data-chapter="About Fresnica" data-theme="dark" aria-labelledby="footer-title">
+  <button type="button" id="footer-theme" class="footer-switch" aria-pressed="false" aria-label="Switch to dark theme">DARK MODE</button>
   <div class="footer-top reveal"><div><p class="chapter-kicker">FRESNICA / STELLAR WALLET</p><h2 id="footer-title">Your Stellar.<br>Your way.</h2><p>An independent wallet project focused on a clearer experience for the Stellar ecosystem. In development.</p></div><div><h3>PRODUCT</h3><a href="#overview">Overview</a><a href="#v3-features">Features</a><a href="#v3-assets">Assets</a><a href="#v3-availability">Availability</a></div><div><h3>EXPLORE</h3><a href="#v3-ecosystem">Stellar ecosystem</a><a href="#v3-workspace">Experience</a><a href="#v3-paths">Several paths</a><a href="#v3-clarity">Clarity</a></div></div>
   <div class="word-wrap reveal" aria-label="FRESNICA"><p class="dot-word" aria-hidden="true">FRESNICA</p><canvas class="footer-particles" id="footer-particles" aria-hidden="true"></canvas></div>
   <span class="page-count">11 / 11</span><span class="scene-mini-note">ILLUSTRATIVE DESIGN / NOT A LIVE WALLET</span>
@@ -610,6 +620,7 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
   const footerScene = document.getElementById('v3-about');
   let featureOverflow = 0;
   let paintFooter = () => {};
+  let pulseFooter = () => {};
   const clamp01 = value => Math.max(0, Math.min(1, value));
   const smooth = t => { t=clamp01(t); return t*t*(3-2*t); };
   const hold = .13; // an intentional pause at each end of the horizontally pinned chapter
@@ -688,6 +699,7 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
     navTitle.textContent=current.dataset.chapter || 'Overview';
     const dark=current.dataset.theme==='dark' && !(current.classList.contains('footer-scene')&&current.classList.contains('day'));
     header.classList.toggle('on-dark',dark);
+    header.classList.toggle('on-footer-dark',current===footerScene && !footerScene.classList.contains('day'));
     updateStoryMotion();
     paintFooter();
   }
@@ -723,9 +735,12 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
   const footer = document.getElementById('v3-about');
   const themeBtn = document.getElementById('footer-theme');
   themeBtn.addEventListener('click',()=>{
-    const active=footer.classList.toggle('day');
-    themeBtn.setAttribute('aria-pressed',String(active));
-    themeBtn.textContent=active?'DARK MODE':'LIGHT MODE';
+    const isLight=footer.classList.toggle('day');
+    const darkActive=!isLight;
+    themeBtn.setAttribute('aria-pressed',String(darkActive));
+    themeBtn.setAttribute('aria-label',darkActive?'Switch to light theme':'Switch to dark theme');
+    themeBtn.textContent=darkActive?'LIGHT MODE':'DARK MODE';
+    pulseFooter();
     requestScrollUpdate();
   });
   // Keep the original Hero's replay/pause buttons focused on the Hero orb, as documented in its own prototype.
@@ -741,7 +756,7 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
     if (!context) return () => {};
     const samples = [];
     let width=0, height=0, visible=false, running=false, lastFrame=0;
-    let progress=0;
+    let progress=0, themePulseStart=-Infinity;
     const hash = n => { const v=Math.sin(n*78.233+16.37)*43758.5453; return v-Math.floor(v); };
     function measure() {
       const r=wrap.getBoundingClientRect();
@@ -784,17 +799,24 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
       const assembled=smooth((progress-.07)/.65);
       const energy=smooth((progress-.4)/.52);
       const wave=width*(.53+.07*Math.sin(now*.00055));
+      const pulseAge=(now-themePulseStart)/1250;
+      const pulse=pulseAge>=0&&pulseAge<1&&!reduced.matches?Math.sin(pulseAge*Math.PI):0;
       for(let i=0;i<samples.length;i++){
         const dot=samples[i];
         const float=(1-assembled*.86)*Math.sin(now*.0007+dot.phase)*2.1;
-        const x=dot.x+(1-assembled)*dot.dx+float;
-        const y=dot.y+(1-assembled)*dot.dy+float*.55;
-        const luminous=energy>0.01 && Math.abs(dot.x-wave)<width*.13 && hash(i+12)>.32;
-        const alpha=(.16+assembled*.62)*(luminous?1:.78);
+        // A small radial bloom at theme switch echoes the reference's ink-like particle swell.
+        const cx=dot.x-width*.5,cy=dot.y-height*.52;
+        const radius=Math.hypot(cx,cy)||1;
+        const bloom=pulse*(5+5*hash(i+67));
+        const x=dot.x+(1-assembled)*dot.dx+float+cx/radius*bloom;
+        const y=dot.y+(1-assembled)*dot.dy+float*.55+cy/radius*bloom;
+        const highlight=pulse>0.01 && Math.abs(dot.x-width*(.5+pulseAge*.27))<width*.18;
+        const luminous=(energy>0.01 && Math.abs(dot.x-wave)<width*.13 && hash(i+12)>.32)||highlight;
+        const alpha=Math.min(1,(.16+assembled*.62)*(luminous?1:.78)+pulse*.13);
         const light=footerScene.classList.contains('day');
         context.fillStyle=luminous ? (light?'rgba(5,128,94,'+alpha+')':'rgba(49,205,147,'+alpha+')')
-          : (light?'rgba(89,112,104,'+alpha+')':'rgba(169,184,176,'+alpha+')');
-        const size=dot.size*(.76+.24*assembled);
+          : (light?'rgba(74,91,83,'+alpha+')':'rgba(169,184,176,'+alpha+')');
+        const size=dot.size*(.76+.24*assembled+(.18*pulse));
         context.fillRect(x,y,size,size);
       }
     }
@@ -821,9 +843,14 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
     reduced.addEventListener('change',()=>{update();start();});
     document.addEventListener('visibilitychange',start);
     measure();update();start();
-    return update;
+    return { update, pulse() {
+      themePulseStart=reduced.matches?-Infinity:performance.now();
+      update();start();
+    } };
   }
-  paintFooter=setupFooterParticles();
+  const particleEngine=setupFooterParticles();
+  paintFooter=particleEngine.update;
+  pulseFooter=particleEngine.pulse;
   measureFeatureRail();
   updateScroll();
 })();
