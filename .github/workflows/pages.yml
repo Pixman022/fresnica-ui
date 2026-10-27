@@ -32,8 +32,9 @@ jobs:
             (github.event.workflow_run.conclusion == 'success' &&
              github.event.workflow_run.head_branch == 'main')
         runs-on: ubuntu-latest
+        # Separate environment avoids the default github-pages branch restriction.
         environment:
-            name: github-pages
+            name: v3-preview
             url: ${{ steps.deployment.outputs.page_url }}
         steps:
             # An explicit frozen commit is used whenever V3 is published, so
