@@ -230,7 +230,7 @@ body{background:#192330}
 .dot-word{font-weight:600;letter-spacing:-.085em;line-height:1;font-size:clamp(72px,13vw,215px);margin:0;white-space:nowrap;color:transparent;background-image:radial-gradient(circle,#7c8b84 1.1px,transparent 1.3px);background-size:5px 5px;-webkit-background-clip:text;background-clip:text;opacity:.68;transition:letter-spacing 1.2s ease,opacity 1.2s ease}
 .word-wrap.is-visible .dot-word{letter-spacing:-.065em;opacity:.9}
 .footer-switch{position:absolute;right:30px;top:26px;padding:9px 16px;border:1px solid #4b5551;color:#c8ded1;border-radius:100px;background:#1d2220;cursor:pointer;font:11px Consolas,monospace}
-.footer-scene.day{background:#f7f8f7;color:#111}
+.footer-scene.day{background:#edf0ee;color:#111}
 .footer-scene.day .footer-top a,.footer-scene.day .footer-top span{color:#3a4f43}
 .footer-scene.day .footer-top p{color:#6e7672}
 .footer-scene.day .dot-word{background-image:radial-gradient(circle,#8d9993 1px,transparent 1.25px)}
@@ -781,7 +781,7 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
       const data=sc.getImageData(0,0,width,height).data;
       samples.length=0;
       let pointIndex=0;
-      const step=width<650?4:6;
+      const step=width<650?4:5;
       for(let y=2;y<height-2;y+=step)for(let x=2;x<width-2;x+=step){
         if(data[(y*width+x)*4+3]<145)continue;
         const n=pointIndex++;
@@ -789,7 +789,7 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
         samples.push({x:x+(hash(n+1)-.5)*1.8,y:y+(hash(n+2)-.5)*1.8,
           dx:(hash(n+3)-.5)*Math.min(275,width*.29),
           dy:(hash(n+4)-.5)*Math.min(160,height*1.8),
-          phase:hash(n+5)*6.283,size:1.1+hash(n+6)*1.35});
+          phase:hash(n+5)*6.283,size:1.55+hash(n+6)*1.4});
       }
       // Preserve existing CSS wordmark for low-motion or canvas-unavailable modes.
       if(samples.length>50)wrap.classList.add('particles-ready');
@@ -820,9 +820,9 @@ html:not(.motion-enabled) .reveal{opacity:1;transform:none}
         const x=dot.x+(1-assembled)*dot.dx+float+driftX+curl;
         const y=dot.y+(1-assembled)*dot.dy+float*.55+driftY;
         const highlight=localBurst>.07 || (energy>.01&&Math.abs(dot.x-wave)<width*.13&&hash(i+12)>.32);
-        const alpha=Math.min(1,(.16+assembled*.62)*(highlight?1:.78)+localBurst*.15);
+        const alpha=Math.min(1,(.25+assembled*.69)*(highlight?1:.91)+localBurst*.07);
         context.fillStyle=highlight ? (light?'rgba(9,144,103,'+alpha+')':'rgba(49,218,157,'+alpha+')')
-          : (light?'rgba(74,91,83,'+alpha+')':'rgba(169,184,176,'+alpha+')');
+          : (light?'rgba(55,65,60,'+alpha+')':'rgba(169,184,176,'+alpha+')');
         const size=dot.size*(.76+.24*assembled+.34*localBurst);
         context.fillRect(x,y,size,size);
       }
