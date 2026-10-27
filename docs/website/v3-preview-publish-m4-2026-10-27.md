@@ -42,6 +42,12 @@ GitHub Pages is one site per repo. This is **path isolation within the same Page
 - Static V3 routes: `https://pixman022.github.io/fresnica-ui/fresnica-v3-motion-preview/` and `https://pixman022.github.io/fresnica-ui/fresnica-v3-orb-demo/`.
 - Direct HTTP page retrieval from the assistant's browsing environment was unavailable, so **GPU/WebGL visual acceptance remains pending**.
 
+## Additional local route checks
+
+- Both paths returned HTTP `200` with `Content-Type: text/html` from a local Python HTTP server simulating the Pages subdirectories.
+- M3 Chromium behavior suite was rerun independently: **34/34 passed** and no uncaught JavaScript errors.
+- Chromium direct navigation to local HTTP was blocked by the assistant's environment policy (`ERR_BLOCKED_BY_ADMINISTRATOR`), so HTTP in-browser route testing and direct live URL rendering could not be verified here. This is not an application bug and is not counted as a passing test.
+
 ## Verification after publishing
 
 - Inspect the triggered workflow's conclusion and the `Overlay V3 without touching any legacy route` logs.
