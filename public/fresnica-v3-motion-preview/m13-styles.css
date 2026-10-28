@@ -122,3 +122,19 @@ html.m10-framed .audience-track.m13-auto{scroll-snap-type:none;scroll-behavior:a
     animation-delay:var(--m22-delay,0ms);
   }
 }
+
+/* M24: a precise green-core -> black full-screen portal between scenes 02/03.
+   Fixed within the rounded website canvas; no persistent visual overlay. */
+html.m10-framed .m24-portal{
+  position:absolute;display:none;left:50%;top:50%;
+  width:9px;height:9px;border-radius:50%;background:#0bbd81;
+  transform:translate(-50%,-50%);transform-origin:50% 50%;
+  pointer-events:none;z-index:130;will-change:transform,opacity;
+}
+/* Do not start screen 03's staggered arrival underneath the black cover. */
+@media(prefers-reduced-motion:no-preference){
+  html.m24-transitioning #v3-availability .m22-entrance{
+    animation:none!important;filter:opacity(0) blur(7px)!important;
+    translate:0 24px!important;
+  }
+}

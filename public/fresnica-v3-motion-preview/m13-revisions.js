@@ -5,6 +5,11 @@
   const frame=document.getElementById('v3-page-frame');
   const audience=document.getElementById('audience-track');
   if(!scroller || !frame)return;
+  const core=document.querySelector('#v3-ecosystem .ecosystem-core');
+  const portal=document.createElement('div');
+  portal.className='m24-portal';
+  portal.setAttribute('aria-hidden','true');
+  frame.append(portal);
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const compact=matchMedia('(max-width: 680px)');
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -31,6 +36,9 @@
     if(anim)cancelAnimationFrame(anim);
     anim=0;locked=false;wheelSum=0;wheelDirection=0;lastWheel=0;
     scroller.style.scrollBehavior='';
+    portal.style.display='none';
+    portal.style.opacity='';
+    document.documentElement.classList.remove('m24-transitioning');
   }
   function animateTo(destination){
     if(locked)return;
@@ -56,6 +64,69 @@
     }
     anim=requestAnimationFrame(paint);
   }
+
+  // Screen 02 -> 03: the actual green core grows, turns instantly dark, then
+  // expands into the dark download scene. Swap scroll positions while covered.
+  function morphToDownload(destination){
+    if(locked||!core){animateTo(destination);return;}
+    const bounds=frame.getBoundingClientRect();
+    const point=core.getBoundingClientRect();
+    const x=point.left+point.width/2-bounds.left;
+    const y=point.top+point.height/2-bounds.top;
+    const far=Math.hypot(Math.max(x,bounds.width-x),Math.max(y,bounds.height-y));
+    const cover=2*far/9*1.1;
+    const duration=1320;
+    const begun=performance.now(),gen=++wheelGeneration;
+    const initial=scroller.style.scrollBehavior;
+    let jumped=false,revealed=false;
+    locked=true;
+    scroller.style.scrollBehavior='auto';
+    document.documentElement.classList.add('m24-transitioning');
+    portal.style.left=x.toFixed(2)+'px';
+    portal.style.top=y.toFixed(2)+'px';
+    portal.style.display='block';
+    portal.style.backgroundColor='#0bbd81';
+    portal.style.opacity='1';
+    portal.style.transform='translate(-50%,-50%) scale(1)';
+    function paint(now){
+      if(gen!==wheelGeneration)return;
+      const t=clamp((now-begun)/duration,0,1);
+      let size;
+      if(t<.24){
+        const a=t/.24;
+        const ease=a*a*(3-2*a);
+        size=1+5.2*ease;
+      }else{
+        portal.style.backgroundColor='#101312';
+        const a=clamp((t-.24)/.50,0,1);
+        size=6.2+(cover-6.2)*Math.pow(a,2.25);
+      }
+      portal.style.transform='translate(-50%,-50%) scale('+size.toFixed(3)+')';
+      if(t>=.75&&!jumped){
+        jumped=true;
+        scroller.scrollTop=destination;
+      }
+      if(t>=.80&&!revealed){
+        revealed=true;
+        document.documentElement.classList.remove('m24-transitioning');
+      }
+      if(t>.82){
+        const a=clamp((t-.82)/.18,0,1);
+        portal.style.opacity=String(1-a*a*(3-2*a));
+      }
+      if(t<1)anim=requestAnimationFrame(paint);
+      else{
+        anim=0;
+        portal.style.display='none';
+        portal.style.opacity='';
+        scroller.style.scrollBehavior=initial;
+        lockUntil=performance.now()+110;
+        locked=false;wheelSum=0;wheelDirection=0;lastWheel=0;
+        document.documentElement.classList.remove('m24-transitioning');
+      }
+    }
+    anim=requestAnimationFrame(paint);
+  }
   function advance(sign){
     const all=stops();if(all.length<2)return;
     const y=scroller.scrollTop;
@@ -63,7 +134,9 @@
     all.forEach((stop,i)=>{const d=Math.abs(stop.top-y);if(d<best){best=d;at=i;}});
     const next=clamp(at+sign,0,all.length-1);
     if(at===next)return;
-    animateTo(all[next].top);
+    if(sign>0&&all[at].id==='v3-ecosystem'&&all[next].id==='v3-availability'){
+      morphToDownload(all[next].top);
+    }else animateTo(all[next].top);
   }
   // Capturing wheel events supersedes the earlier M12 bubble listener on desktop;
   // mobile, touch and reduced-motion continue to use their original native paths.
@@ -95,6 +168,12 @@
   },true);
   reduced.addEventListener('change',cancel);
   compact.addEventListener('change',cancel);
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden&&portal.style.display==='block')cancel();
+  });
+  window.addEventListener('resize',()=>{
+    if(portal.style.display==='block')cancel();
+  },{passive:true});
 
   if(!audience)return;
   const originals=[...audience.querySelectorAll('.audience-card')];
