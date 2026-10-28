@@ -616,8 +616,8 @@ html.m10-framed .site-header.on-footer-dark ~ .back-to-top{
 /* Neutral outer dots gather into a small cluster; the only green particle
    is the stationary center, with two overlapping breathing glow layers. */
 #v3-ecosystem .particle-cloud {pointer-events:none;overflow:visible;z-index:2}
-/* M20: neutral dots continually spawn at different outer positions, drift toward
-   the central light and disappear there; no breathing/blinking on surrounding dots. */
+/* M20: neutral dots spawn at different outer positions, travel straight to
+   the central light and disappear there; no peripheral blinking or wandering. */
 #v3-ecosystem .particle-cloud .stream-dot {
   position:absolute;left:50%;top:50%;display:block;border-radius:50%;
   background:#a3aaa8;pointer-events:none;
@@ -627,7 +627,6 @@ html.m10-framed .site-header.on-footer-dark ~ .back-to-top{
 @keyframes ecosystem-stream-in {
   0% {opacity:0;transform:translate3d(var(--from-x),var(--from-y),0) scale(.9)}
   9% {opacity:var(--dot-alpha,.67)}
-  58% {opacity:var(--dot-alpha,.67);transform:translate3d(var(--mid-x),var(--mid-y),0) scale(.73)}
   85% {opacity:var(--dot-alpha,.67)}
   100% {opacity:0;transform:translate3d(0,0,0) scale(.16)}
 }
@@ -674,7 +673,7 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
 #v3-ecosystem .particle-spine::before,
 #v3-ecosystem .particle-spine::after {
   content:'';position:absolute;left:50%;top:0;
-  height:clamp(14px,2.5dvh,26px);border-radius:999px;
+  height:6px;border-radius:999px;
   transform:translateX(-50%);opacity:0;pointer-events:none;
 }
 #v3-ecosystem .particle-spine::before {
@@ -1007,8 +1006,8 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
   document.addEventListener('pointerdown', e => { if (!header.contains(e.target)) openMenu(false); });
 
   // M20: each neutral dot loops from a seeded outer position into the
-  // central green point. Different durations and negative delays make the
-  // inflow continuous even when the user stops scrolling on this scene.
+  // central green point along straight linear paths. Different durations and
+  // negative delays keep the inflow running while the user stops scrolling.
   const cloud = document.getElementById('ecosystem-particles');
   let seed = 217;
   const rand = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
@@ -1020,11 +1019,8 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
     const radius=.52+Math.sqrt(rand())*.48;
     const startX=Math.cos(angle)*(10+radius*19);
     const startY=Math.sin(angle)*(6+radius*13);
-    const curve=(rand()-.5)*5;
     dot.style.setProperty('--from-x',startX.toFixed(2)+'vw');
     dot.style.setProperty('--from-y',startY.toFixed(2)+'vh');
-    dot.style.setProperty('--mid-x',(startX*.43-Math.sin(angle)*curve).toFixed(2)+'vw');
-    dot.style.setProperty('--mid-y',(startY*.43+Math.cos(angle)*curve*.6).toFixed(2)+'vh');
     dot.style.setProperty('--fallback-x',(startX*.25).toFixed(2)+'vw');
     dot.style.setProperty('--fallback-y',(startY*.25).toFixed(2)+'vh');
     dot.style.setProperty('--dot-alpha',(.4+rand()*.42).toFixed(2));

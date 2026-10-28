@@ -90,7 +90,7 @@
         ecosystemSpine.classList.remove('m21-flowing');
         scheduleCurrent();
       },680);
-    },2300+Math.random()*5000);
+    },1600+Math.random()*4000);
   }
   function refresh(){
     pending=false;
