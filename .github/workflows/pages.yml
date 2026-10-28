@@ -69,6 +69,8 @@ jobs:
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m13-styles.css
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.css
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.js
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/m15-typography.css
+                  grep -Fq 'href="./m15-typography.css"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'href="./m14-idle.css"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'src="./m14-idle.js"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'src="./m13-revisions.js"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
@@ -119,6 +121,24 @@ jobs:
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m13-styles.css demo-dist/fresnica-v3-motion-preview/m13-styles.css
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.css demo-dist/fresnica-v3-motion-preview/m14-idle.css
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.js demo-dist/fresnica-v3-motion-preview/m14-idle.js
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/m15-typography.css demo-dist/fresnica-v3-motion-preview/m15-typography.css
+                  # Reuse the exact Roboto and Noto Sans SC families already sourced by frozen V2.
+                  # Keep the font files inside the isolated V3 route only.
+                  mkdir -p demo-dist/fresnica-v3-motion-preview/fonts
+                  for weight in 400 500 600 700; do
+                      font="roboto-latin-${weight}-normal.woff2"
+                      source="node_modules/@fontsource/roboto/files/${font}"
+                      test -s "${source}"
+                      cp "${source}" "demo-dist/fresnica-v3-motion-preview/fonts/${font}"
+                      cmp "${source}" "demo-dist/fresnica-v3-motion-preview/fonts/${font}"
+                  done
+                  for weight in 400 500 700; do
+                      font="noto-sans-sc-chinese-simplified-${weight}-normal.woff2"
+                      source="src/assets/fonts/${font}"
+                      test -s "${source}"
+                      cp "${source}" "demo-dist/fresnica-v3-motion-preview/fonts/${font}"
+                      cmp "${source}" "demo-dist/fresnica-v3-motion-preview/fonts/${font}"
+                  done
                   cp .v3-preview-source/public/fresnica-v3-orb-demo/index.html demo-dist/fresnica-v3-orb-demo/index.html
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/index.html demo-dist/fresnica-v3-motion-preview/index.html
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m5-story.js demo-dist/fresnica-v3-motion-preview/m5-story.js
@@ -130,6 +150,8 @@ jobs:
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m13-styles.css demo-dist/fresnica-v3-motion-preview/m13-styles.css
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.css demo-dist/fresnica-v3-motion-preview/m14-idle.css
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.js demo-dist/fresnica-v3-motion-preview/m14-idle.js
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/m15-typography.css demo-dist/fresnica-v3-motion-preview/m15-typography.css
+                  echo 'M15 typography CSS and 7 existing project font files copied and checked'
                   cmp .v3-preview-source/public/fresnica-v3-orb-demo/index.html demo-dist/fresnica-v3-orb-demo/index.html
                   # Recheck the legacy route immediately before uploading Pages.
                   cmp public/fresnica-website-preview/index.html demo-dist/fresnica-website-preview/index.html

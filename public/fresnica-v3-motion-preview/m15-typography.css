@@ -1,0 +1,129 @@
+/* M15: Fresnica typography tokens from the canonical design system.
+   Editorial display headings keep their approved website scale. */
+@font-face{font-family:Roboto;font-style:normal;font-weight:400;font-display:swap;src:url('./fonts/roboto-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:Roboto;font-style:normal;font-weight:500;font-display:swap;src:url('./fonts/roboto-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:Roboto;font-style:normal;font-weight:600;font-display:swap;src:url('./fonts/roboto-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:Roboto;font-style:normal;font-weight:700;font-display:swap;src:url('./fonts/roboto-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:400;font-display:swap;src:url('./fonts/noto-sans-sc-chinese-simplified-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:500;font-display:swap;src:url('./fonts/noto-sans-sc-chinese-simplified-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:700;font-display:swap;src:url('./fonts/noto-sans-sc-chinese-simplified-700-normal.woff2') format('woff2')}
+:root{
+  --Fresnica-font-family:Roboto,'Noto Sans SC',-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --Fresnica-font-family-mono:'SF Mono','Fira Code','Cascadia Code',Consolas,monospace;
+  --Fresnica-font-size-caption:11px;--Fresnica-font-size-sm:12px;
+  --Fresnica-font-size-supporting:13px;--Fresnica-font-size-base:14px;
+  --Fresnica-font-size-action:15px;--Fresnica-font-size-lg:16px;
+  --Fresnica-font-size-section-title:18px;--Fresnica-font-size-screen-title:20px;
+  --Fresnica-font-size-title-lg:28px;--Fresnica-font-size-amount:32px;
+  --Fresnica-font-size-display:48px;
+  --Fresnica-font-weight-regular:400;--Fresnica-font-weight-medium:500;
+  --Fresnica-font-weight-semibold:600;--Fresnica-font-weight-bold:700;
+  --Fresnica-line-height-base:1.5715;
+  font-family:var(--Fresnica-font-family);
+}
+html.m10-framed body,
+html.m10-framed .stage,
+html.m10-framed button,
+html.m10-framed input,
+html.m10-framed select,
+html.m10-framed textarea{font-family:var(--Fresnica-font-family)}
+html.m10-framed .chapter p{font-weight:var(--Fresnica-font-weight-regular);line-height:var(--Fresnica-line-height-base)}
+/* Display roles: the existing cinematic scale remains, weights use canonical tokens. */
+html.m10-framed .hero h1,
+html.m10-framed .chapter-title,
+html.m10-framed .particle-scene .bottom-intro h2{
+  font-family:var(--Fresnica-font-family);font-weight:var(--Fresnica-font-weight-medium);
+  line-height:1.1;letter-spacing:-.032em;
+}
+html.m10-framed .hero h1{line-height:1.08}
+html.m10-framed .intro,
+html.m10-framed .chapter-sub{
+  font-family:var(--Fresnica-font-family);font-size:var(--Fresnica-font-size-lg);
+  font-weight:var(--Fresnica-font-weight-regular);line-height:var(--Fresnica-line-height-base);
+}
+/* Product-like controls follow the real component library hierarchy. */
+html.m10-framed .brand{font-size:var(--Fresnica-font-size-action);font-weight:var(--Fresnica-font-weight-bold)}
+html.m10-framed .brand small{font-size:var(--Fresnica-font-size-caption);font-weight:400}
+html.m10-framed .nav-title{font-weight:var(--Fresnica-font-weight-semibold);font-size:var(--Fresnica-font-size-sm)}
+html.m10-framed .top-nav{font-family:var(--Fresnica-font-family)}
+html.m10-framed .header-action{font-family:var(--Fresnica-font-family);font-size:var(--Fresnica-font-size-sm);font-weight:600}
+html.m10-framed .nav-dropdown a{font-size:var(--Fresnica-font-size-supporting);font-weight:500}
+html.m10-framed .cta,
+html.m10-framed .cta.primary,
+html.m10-framed .cta.secondary{
+  font-family:var(--Fresnica-font-family);
+  font-size:var(--Fresnica-font-size-action);font-weight:var(--Fresnica-font-weight-semibold);
+  line-height:20px;
+}
+html.m10-framed .circle-action{font-family:var(--Fresnica-font-family);font-weight:600}
+/* Labels are UI metadata, not code: use the base sans, never decorative monospace. */
+html.m10-framed .eyebrow,
+html.m10-framed .chapter-kicker,
+html.m10-framed .nav-caption,
+html.m10-framed .status-pill,
+html.m10-framed .orb-card label,
+html.m10-framed .orb-status,
+html.m10-framed .scene-badge,
+html.m10-framed .page-count,
+html.m10-framed .scene-mini-note,
+html.m10-framed .feature-ui .mini-label,
+html.m10-framed .feature-progress,
+html.m10-framed .asset-topline,
+html.m10-framed .bottom-stepper span,
+html.m10-framed .audience-card .num,
+html.m10-framed .ws-stat,
+html.m10-framed .path-steps span,
+html.m10-framed .platform-box .badge,
+html.m10-framed .footer-top h3,
+html.m10-framed .footer-switch{
+  font-family:var(--Fresnica-font-family);
+  font-size:var(--Fresnica-font-size-caption);
+  font-weight:var(--Fresnica-font-weight-semibold);line-height:1.45;
+}
+/* Card text and interface previews use the documented body/supporting roles. */
+html.m10-framed .feature-card h3,
+html.m10-framed .ws-content h3{font-size:var(--Fresnica-font-size-screen-title);font-weight:700;line-height:1.3;letter-spacing:-.02em}
+html.m10-framed .compare-card h3,
+html.m10-framed .audience-card h3,
+html.m10-framed .path-card h3,
+html.m10-framed .platform-box h3{
+  font-size:var(--Fresnica-font-size-title-lg);font-weight:600;
+  line-height:1.25;letter-spacing:-.025em;
+}
+html.m10-framed .footer-top h2{font-size:var(--Fresnica-font-size-amount);font-weight:500;line-height:1.2}
+html.m10-framed .feature-card .body,
+html.m10-framed .qa-list p,
+html.m10-framed .faq-line p,
+html.m10-framed .path-card p,
+html.m10-framed .audience-card p{
+  font-size:var(--Fresnica-font-size-base);line-height:var(--Fresnica-line-height-base);
+}
+html.m10-framed .feature-ui small,
+html.m10-framed .mini-row,
+html.m10-framed .mini-row em,
+html.m10-framed .ws-sidebar span{font-size:var(--Fresnica-font-size-supporting);font-weight:400}
+html.m10-framed .ws-sidebar strong{font-size:var(--Fresnica-font-size-section-title);font-weight:700}
+html.m10-framed .feature-ui strong,
+html.m10-framed .asset-value{font-weight:var(--Fresnica-font-weight-bold)}
+html.m10-framed .ws-stat b{font-family:var(--Fresnica-font-family);font-size:var(--Fresnica-font-size-screen-title);font-weight:700}
+html.m10-framed .qa-list button,
+html.m10-framed .faq-line button{font-family:var(--Fresnica-font-family);font-size:var(--Fresnica-font-size-action);font-weight:600;line-height:20px}
+html.m10-framed .footer-top a,
+html.m10-framed .footer-top span{font-size:var(--Fresnica-font-size-supporting);line-height:1.5}
+html.m10-framed .asset-value,
+html.m10-framed .feature-ui strong,
+html.m10-framed .mini-row em,
+html.m10-framed .ws-stat,
+html.m10-framed .ws-stat b,
+html.m10-framed .page-count{font-variant-numeric:tabular-nums}
+html[lang='zh-CN'] .hero h1,
+html[lang='zh-CN'] .chapter-title,
+html[lang='zh-CN'] .particle-scene .bottom-intro h2,
+html[lang='zh-CN'] .feature-card h3{letter-spacing:0;overflow-wrap:break-word}
+@media(max-width:680px){
+  html.m10-framed .hero h1{line-height:1.16}
+  html.m10-framed .intro,html.m10-framed .chapter-sub{font-size:var(--Fresnica-font-size-base)}
+  html.m10-framed .header-action{font-size:var(--Fresnica-font-size-caption)}
+  html.m10-framed .nav-title{font-size:var(--Fresnica-font-size-caption)}
+  html.m10-framed .feature-card .body{font-size:var(--Fresnica-font-size-base)}
+}
