@@ -519,6 +519,54 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
 <link rel="stylesheet" href="./m13-styles.css">
   <link rel="stylesheet" href="./m14-idle.css">
   <link rel="stylesheet" href="./m15-typography.css">
+<style id="m16-brand-footer">
+/* M16: brand-first composition with the existing full-screen snap geometry. */
+@media (min-width:1101px) {
+  html.m10-framed {--v3-content-max:1260px;--v3-content-edge:clamp(26px,3.8vw,55px);}
+  html.m10-framed .download-scene .planned-platforms {width:min(100%,860px);max-width:860px;}
+  html.m10-framed .audience-card {height:clamp(255px,41vh,350px);}
+}
+@media (min-width:681px) {
+  html.m10-framed .footer-scene {
+    display:flex;flex-direction:column;justify-content:center;align-items:stretch;
+    gap:clamp(24px,4vh,45px);
+    padding:clamp(76px,10vh,106px) 0 clamp(57px,7.5vh,83px);
+  }
+  html.m10-framed .footer-top {
+    width:min(1260px,calc(100% - var(--v3-content-edge,55px) - var(--v3-content-edge,55px)));
+    grid-template-columns:minmax(0,2.1fr) minmax(0,.75fr) minmax(0,.9fr);
+    margin-inline:auto;gap:clamp(20px,3.2vw,48px);
+  }
+  html.m10-framed .footer-top h2 {font-size:clamp(38px,3.3vw,51px);line-height:1.11;margin:10px 0 13px;}
+  html.m10-framed .footer-top p:not(.chapter-kicker) {max-width:410px;font-size:clamp(14px,1.08vw,16px);line-height:1.58;}
+  html.m10-framed .word-wrap {
+    position:relative;top:auto;right:auto;bottom:auto;left:auto;
+    width:min(1400px,calc(100% - 36px));height:clamp(245px,33dvh,345px);
+    min-height:0;flex:none;margin:0 auto;transform:none;
+  }
+  html.m10-framed .dot-word {font-size:clamp(112px,16vw,262px);font-weight:700;letter-spacing:-.075em;}
+}
+@media (min-width:681px) and (max-height:700px) {
+  html.m10-framed .footer-scene {gap:16px;padding-block:68px 45px;}
+  html.m10-framed .word-wrap {height:clamp(185px,29dvh,240px);}
+  html.m10-framed .footer-top h2 {font-size:38px;}
+}
+@media (max-width:680px) {
+  html.m10-framed .footer-scene {
+    display:flex;flex-direction:column;justify-content:center;gap:22px;
+    padding:104px 24px 70px;
+  }
+  html.m10-framed .footer-top {width:100%;margin-inline:auto;}
+  html.m10-framed .footer-top h2 {font-size:clamp(31px,8vw,39px);}
+  html.m10-framed .footer-top p:not(.chapter-kicker) {font-size:14px;line-height:1.55;}
+  html.m10-framed .word-wrap {
+    position:relative;top:auto;right:auto;bottom:auto;left:auto;
+    width:calc(100% + 32px);height:clamp(104px,28vw,146px);
+    min-height:0;flex:none;margin:0 -16px;transform:none;
+  }
+  html.m10-framed .dot-word {font-size:clamp(57px,18vw,94px);font-weight:700;letter-spacing:-.075em;}
+}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
@@ -532,9 +580,9 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
     </header>
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow">FRESNICA · BUILT FOR STELLAR</p>
-        <h1>One wallet.<br>Your whole<br>Stellar world.</h1>
-        <p class="intro">Explore XLM and Stellar-issued assets, send and receive, discover swaps, and connect with compatible apps — all through one thoughtfully designed wallet.</p>
+        <p class="eyebrow">FRESNICA · MADE FOR WHAT'S NEXT</p>
+        <h1>One wallet.<br>A clearer<br>way forward.</h1>
+        <p class="intro">Fresnica is designed to bring your Stellar assets, payments, swaps and compatible apps into one clear, considered experience.</p>
         <div class="actions"><a class="cta primary" href="#v3-features">EXPLORE FRESNICA <span aria-hidden="true">↗</span></a><button class="cta secondary" id="replay-demo" type="button"><span aria-hidden="true">▶</span> Replay the motion</button></div>
       </div>
       <div class="hero-art" aria-label="Animated translucent emerald liquid sphere, inspired by the uploaded website video">
@@ -543,75 +591,75 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
           <svg class="orbit-svg" id="orbit-svg" viewBox="0 0 550 550" role="img" aria-label="Fine radial tick-ring and circulating green orbit markers"><circle cx="275" cy="275" r="204" stroke="#bfc9c6" stroke-opacity=".43" stroke-width="1.1" fill="none"/><circle cx="275" cy="275" r="235" stroke="#d5ddda" stroke-opacity=".45" stroke-width="1" fill="none"/><g id="tick-lines"></g><g id="orbit-nodes"></g></svg>
           <div class="fallback-orb" id="fallback-orb" aria-hidden="true"></div>
           <canvas id="orb-canvas" width="640" height="640" aria-hidden="true"></canvas>
-          <div class="orb-card first"><label>STELLAR</label><strong>One connected ecosystem.</strong></div>
+          <div class="orb-card first"><label>FRESNICA</label><strong>A more connected view.</strong></div>
           <div class="orb-card second"><label>WALLET</label><strong>Assets, in one place.</strong></div>
           <div class="orb-card third"><label>YOUR NEXT MOVE</label><strong>Explore with clarity.</strong></div>
           <span class="orb-status" aria-label="Product status: In development"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 8h1M5 5v6M8 3v10M11 5v6M14 7v2"/></svg> IN DEVELOPMENT</span>
         </div>
       </div>
     </section>
-    <div class="ticker" aria-label="Wallet focus: XLM and Stellar assets, send and receive, swaps, compatible apps"><div class="ticker-track"><span><em></em>XLM &amp; STELLAR ASSETS</span><span><em></em>SEND &amp; RECEIVE</span><span><em></em>SWAPS</span><span><em></em>COMPATIBLE APPS</span><span><em></em>IN DEVELOPMENT</span><span><em></em>XLM &amp; STELLAR ASSETS</span><span><em></em>SEND &amp; RECEIVE</span><span><em></em>SWAPS</span><span><em></em>COMPATIBLE APPS</span><span><em></em>IN DEVELOPMENT</span></div></div>
+    <div class="ticker" aria-label="Fresnica wallet focus: assets, transfers, swaps and connected apps"><div class="ticker-track"><span><em></em>YOUR ASSETS</span><span><em></em>SEND &amp; RECEIVE</span><span><em></em>SWAPS</span><span><em></em>COMPATIBLE APPS</span><span><em></em>IN DEVELOPMENT</span><span><em></em>YOUR ASSETS</span><span><em></em>SEND &amp; RECEIVE</span><span><em></em>SWAPS</span><span><em></em>COMPATIBLE APPS</span><span><em></em>IN DEVELOPMENT</span></div></div>
   </main>
   <!-- The page follows the reference video's chapter order, proportions and motion rhythm. -->
-<section class="chapter particle-scene" id="v3-ecosystem" data-chapter="Your Stellar world" data-theme="light" aria-labelledby="ecosystem-title">
-  <div class="orbital-intro"><p class="chapter-kicker reveal">FRESNICA / THE STELLAR ECOSYSTEM</p><h2 class="chapter-title reveal delay-1" id="ecosystem-title">Your Stellar world.</h2><p class="chapter-kicker reveal delay-2">ASSETS &nbsp; / &nbsp; APPS &nbsp; / &nbsp; EXCHANGE &nbsp; / &nbsp; PEOPLE</p></div>
+<section class="chapter particle-scene" id="v3-ecosystem" data-chapter="Connected experience" data-theme="light" aria-labelledby="ecosystem-title">
+  <div class="orbital-intro"><p class="chapter-kicker reveal">FRESNICA / CONNECTED BY DESIGN</p><h2 class="chapter-title reveal delay-1" id="ecosystem-title">Everything, connected.</h2><p class="chapter-kicker reveal delay-2">ASSETS &nbsp; / &nbsp; APPS &nbsp; / &nbsp; EXCHANGE &nbsp; / &nbsp; PEOPLE</p></div>
   <div class="particle-cloud" id="ecosystem-particles" aria-hidden="true"></div><i class="particle-spine" aria-hidden="true"></i>
   <div class="bottom-intro"><p class="chapter-kicker green-label reveal">ONE CONNECTED EXPERIENCE</p><h2 class="reveal delay-1">Your next move.</h2><p class="chapter-kicker reveal delay-2">EXPLORE. UNDERSTAND. MOVE.</p></div>
-  <span class="page-count">02 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+  <span class="page-count">02 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
 </section>
 <section class="chapter download-scene" id="v3-availability" data-chapter="Mobile app" data-theme="light" aria-labelledby="availability-title">
   <p class="chapter-kicker centered green-label reveal">DOWNLOAD / MOBILE APP</p><h2 class="chapter-title centered reveal delay-1" id="availability-title">Get Fresnica on mobile.</h2><p class="chapter-sub reveal delay-2" style="max-width:640px">Android and iOS versions are planned. Official verified download links will appear here when available.</p>
   <div class="planned-platforms"><article class="platform-box reveal"><div><p class="chapter-kicker">PLATFORM 01</p><h3>Android</h3></div><span class="badge">PLANNED · NOT AVAILABLE YET</span></article><article class="platform-box reveal delay-1"><div><p class="chapter-kicker">PLATFORM 02</p><h3>iOS</h3></div><span class="badge">PLANNED · NOT AVAILABLE YET</span></article></div>
-  <span class="page-count">03 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+  <span class="page-count">03 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
 </section>
 <div class="feature-scroll" id="v3-features" data-chapter="What it does" data-theme="light" aria-label="Four wallet essentials, scroll to explore">
   <section class="chapter feature-chapter" aria-labelledby="feature-title">
     <div class="feature-heading reveal"><p class="chapter-kicker">CORE CAPABILITIES</p><h2 class="chapter-title" id="feature-title">Four essentials, one flow.</h2></div>
     <div class="feature-window" id="feature-window" aria-label="Four illustrated wallet capabilities">
       <div class="feature-track" id="feature-track">
-        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET OVERVIEW · ILLUSTRATIVE</span><strong>1,248.50 <small>XLM</small></strong><p class="mini-label">TOTAL BALANCE</p><div class="mini-bar"><span></span></div><div class="mini-row">XLM <em>Stellar native</em></div><div class="mini-row">Stellar asset <em>Issued asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">See XLM and supported Stellar-issued assets in one place.</p></article>
+        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET OVERVIEW · ILLUSTRATIVE</span><strong>1,248.50 <small>XLM</small></strong><p class="mini-label">TOTAL BALANCE</p><div class="mini-bar"><span></span></div><div class="mini-row">XLM <em>Native asset</em></div><div class="mini-row">Stellar asset <em>Issued asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">Keep the assets you follow together, clearly and simply.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">PAYMENT PREVIEW · ILLUSTRATIVE</span><div class="mini-row">Destination <em>GABX…7BD</em></div><div class="mini-row">Asset <em>XLM</em></div><div class="mini-row">Amount <em>25.00</em></div><div class="mini-row">Memo <em>Optional</em></div></div></div><div class="label-row"><h3>Send &amp; receive</h3><span class="chapter-kicker">02</span></div><p class="body">Keep important payment details visible from start to finish.</p></article>
-        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">SWAP FLOW · ILLUSTRATIVE</span><div class="mini-row">From <em>XLM</em></div><strong style="text-align:center;color:#0c9b71;font-size:30px;margin:0">⇅</strong><div class="mini-row">To <em>Stellar asset</em></div><div class="mini-row">Review <em>Before confirming</em></div></div></div><div class="label-row"><h3>Discover swaps</h3><span class="chapter-kicker">03</span></div><p class="body">Explore supported exchanges within the Stellar ecosystem.</p></article>
-        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">ECOSYSTEM · ILLUSTRATIVE</span><div class="mini-row">Discover apps <em>↗</em></div><div class="mini-row">Connections <em>↗</em></div><div class="mini-row">Permissions <em>↗</em></div></div></div><div class="label-row"><h3>Connect apps</h3><span class="chapter-kicker">04</span></div><p class="body">Explore apps compatible with Stellar and supported by Fresnica.</p></article>
+        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">SWAP FLOW · ILLUSTRATIVE</span><div class="mini-row">From <em>XLM</em></div><strong style="text-align:center;color:#0c9b71;font-size:30px;margin:0">⇅</strong><div class="mini-row">To <em>Stellar asset</em></div><div class="mini-row">Review <em>Before confirming</em></div></div></div><div class="label-row"><h3>Discover swaps</h3><span class="chapter-kicker">03</span></div><p class="body">Preview potential exchanges and review each step with clarity.</p></article>
+        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">ECOSYSTEM · ILLUSTRATIVE</span><div class="mini-row">Discover apps <em>↗</em></div><div class="mini-row">Connections <em>↗</em></div><div class="mini-row">Permissions <em>↗</em></div></div></div><div class="label-row"><h3>Connect apps</h3><span class="chapter-kicker">04</span></div><p class="body">Explore compatible apps and keep connections easy to understand.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">ACTIVITY · ILLUSTRATIVE</span><strong style="font-size:25px">Your activity.</strong><div class="mini-row">Received XLM <em>+20.00</em></div><div class="mini-row">Sent XLM <em>−5.00</em></div><div class="mini-row">Trustline <em>Updated</em></div></div></div><div class="label-row"><h3>Keep the details</h3><span class="chapter-kicker">05</span></div><p class="body">Review your activity and return to the information that matters.</p></article>
       </div>
     </div>
     <div class="feature-progress"><span id="feature-index">01 / 05</span><div class="progress-line" aria-hidden="true"><i id="feature-progress-bar"></i></div></div>
     <div class="feature-controls"><button class="circle-action" id="feature-prev" type="button" aria-label="Previous feature">←</button><button class="circle-action" id="feature-next" type="button" aria-label="Next feature">→</button></div>
-    <span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+    <span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
   </section>
 </div>
 <section class="chapter asset-scene" id="v3-assets" data-chapter="Your assets" data-theme="light" aria-labelledby="assets-title">
   <div class="asset-left reveal"><p class="chapter-kicker green-label">SEE / UNDERSTAND / MOVE</p><h2 class="chapter-title" id="assets-title">See what's yours.<br>Before your<br>next move.</h2><p class="chapter-sub">A clear overview with the details you need before deciding what comes next.</p></div>
-  <div class="asset-board reveal delay-1" aria-label="Illustrative wallet balance and asset list"><div class="asset-topline"><span>YOUR WALLET / ASSETS</span><span>ILLUSTRATIVE INTERFACE · NOT LIVE DATA</span></div><div class="asset-columns"><div class="asset-cell"><p class="chapter-kicker">TOTAL BALANCE</p><p class="asset-value">1,248.50 <span style="font-size:14px">XLM</span></p><p style="color:#0e9f70;font-size:12px">● XLM / STELLAR</p><div class="mini-bar"><span></span></div></div><div class="asset-cell"><p class="chapter-kicker">YOUR ASSETS</p><div class="mini-row">XLM <em>Stellar</em></div><div class="mini-row">USDC <em>Issued asset</em></div><div class="mini-row">AQUA <em>Issued asset</em></div></div></div></div>
+  <div class="asset-board reveal delay-1" aria-label="Illustrative wallet balance and asset list"><div class="asset-topline"><span>YOUR WALLET / ASSETS</span><span>ILLUSTRATIVE INTERFACE · NOT LIVE DATA</span></div><div class="asset-columns"><div class="asset-cell"><p class="chapter-kicker">TOTAL BALANCE</p><p class="asset-value">1,248.50 <span style="font-size:14px">XLM</span></p><p style="color:#0e9f70;font-size:12px">● XLM / NATIVE ASSET</p><div class="mini-bar"><span></span></div></div><div class="asset-cell"><p class="chapter-kicker">YOUR ASSETS</p><div class="mini-row">XLM <em>Stellar</em></div><div class="mini-row">USDC <em>Issued asset</em></div><div class="mini-row">AQUA <em>Issued asset</em></div></div></div></div>
   <div class="bottom-stepper" aria-label="Wallet experience steps"><span>01 / ASSETS</span><span>02 / PAYMENTS</span><span>03 / SWAP</span><span>04 / CONNECT</span></div>
-  <span class="page-count">05 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+  <span class="page-count">05 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
 </section>
 <section class="chapter audience-scene" id="v3-for-you" data-chapter="Built for the way" data-theme="light" aria-labelledby="audience-title">
-  <div class="audience-title reveal"><p class="chapter-kicker">BUILT FOR DIFFERENT PATHS</p><h2 class="chapter-title" id="audience-title">Built for the way<br>Stellar moves.</h2></div>
+  <div class="audience-title reveal"><p class="chapter-kicker">BUILT FOR DIFFERENT PATHS</p><h2 class="chapter-title" id="audience-title">Built for the way<br>you move.</h2></div>
   <div class="audience-track" id="audience-track" aria-label="Wallet experience cards">
-    <article class="audience-card"><span class="num">01 / FIRST STEPS</span><div><h3>New to XLM.</h3><p>A clearer start, without unnecessary complexity.</p></div><span class="num">DISCOVER / STELLAR</span></article>
+    <article class="audience-card"><span class="num">01 / FIRST STEPS</span><div><h3>New to XLM.</h3><p>A clearer start, without unnecessary complexity.</p></div><span class="num">DISCOVER / FRESNICA</span></article>
     <article class="audience-card"><span class="num">02 / EVERYDAY</span><div><h3>Simple to use.<br>Useful to keep.</h3><p>Your assets, together in one view.</p></div><span class="num">WALLET / ASSETS</span></article>
-    <article class="audience-card"><span class="num">03 / SEND &amp; RECEIVE</span><div><h3>Everyday<br>transfers.</h3><p>Keep payment details in focus.</p></div><span class="num">MOVE / STELLAR</span></article>
+    <article class="audience-card"><span class="num">03 / SEND &amp; RECEIVE</span><div><h3>Everyday<br>transfers.</h3><p>Keep payment details in focus.</p></div><span class="num">MOVE / WITH EASE</span></article>
     <article class="audience-card featured"><span class="num">04 / ASSET EXPLORERS</span><div><h3>Asset explorers.</h3><p>Discover issued assets and more.</p></div><span class="num">EXPLORE / EXCHANGE</span></article>
     <article class="audience-card"><span class="num">05 / APPS</span><div><h3>App explorers.</h3><p>Connect with compatible apps.</p></div><span class="num">APPS / ECOSYSTEM</span></article>
-    <article class="audience-card"><span class="num">06 / YOUR NEXT MOVE</span><div><h3>Made to grow.</h3><p>One place for the experiences ahead.</p></div><span class="num">STELLAR / WALLET</span></article>
+    <article class="audience-card"><span class="num">06 / YOUR NEXT MOVE</span><div><h3>Made to grow.</h3><p>One place for the experiences ahead.</p></div><span class="num">FRESNICA / WALLET</span></article>
   </div>
   <div class="audience-nav"><button type="button" class="circle-action" id="audience-prev" aria-label="Previous card">←</button><button type="button" class="circle-action" id="audience-next" aria-label="Next card">→</button></div>
-  <span class="page-count">06 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+  <span class="page-count">06 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
 </section>
 <section class="chapter workspace-scene" id="v3-workspace" data-chapter="Desktop" data-theme="light" aria-labelledby="workspace-title">
-  <div class="workspace-copy reveal"><p class="chapter-kicker green-label">DESKTOP EXPERIENCE / CONCEPT</p><h2 class="chapter-title" id="workspace-title">Your Stellar world,<br>on desktop.</h2><p class="chapter-sub">Explore a focused desktop companion for Stellar assets and connected workflows. The desktop experience is a concept; availability has not been announced.</p></div>
+  <div class="workspace-copy reveal"><p class="chapter-kicker green-label">DESKTOP EXPERIENCE / CONCEPT</p><h2 class="chapter-title" id="workspace-title">Your world,<br>in a wider view.</h2><p class="chapter-sub">Explore how a focused desktop companion could bring assets and connected workflows into view. This remains a concept; availability has not been announced.</p></div>
   <div class="workspace workspace-mini reveal delay-1" aria-label="DESKTOP INTERFACE · ILLUSTRATIVE">
     <div class="ws-sidebar"><strong>Fresnica</strong><span>Overview</span><span>Assets</span><span>Send &amp; receive</span><span>Swap</span><span>Connect</span><span>Activity</span></div>
-    <div class="ws-content"><p class="chapter-kicker">DESKTOP INTERFACE · ILLUSTRATIVE</p><h3>Your Stellar, connected.</h3><div class="ws-stats"><div class="ws-stat">01 / NETWORK<b>Stellar</b></div><div class="ws-stat">02 / CORE<b>XLM</b></div><div class="ws-stat">03 / DISCOVER<b>Apps</b></div></div><div class="network"><svg viewBox="0 0 480 210" role="img" aria-label="Illustrative network points connected by a green line"><circle cx="80" cy="145" r="5"/><circle cx="167" cy="102" r="5"/><circle cx="255" cy="120" r="5"/><circle cx="337" cy="82" r="5"/><circle cx="419" cy="50" r="5"/><polyline pathLength="1" points="80,145 167,102 255,120 337,82 419,50"/><g fill="#8caba0" opacity=".37"><circle cx="112" cy="66" r="1.5"/><circle cx="230" cy="49" r="2"/><circle cx="363" cy="159" r="2"/><circle cx="291" cy="162" r="1.5"/><circle cx="161" cy="173" r="1.5"/></g></svg></div></div>
+    <div class="ws-content"><p class="chapter-kicker">DESKTOP INTERFACE · ILLUSTRATIVE</p><h3>A clearer, connected view.</h3><div class="ws-stats"><div class="ws-stat">01 / NETWORK<b>Stellar</b></div><div class="ws-stat">02 / CORE<b>XLM</b></div><div class="ws-stat">03 / DISCOVER<b>Apps</b></div></div><div class="network"><svg viewBox="0 0 480 210" role="img" aria-label="Illustrative network points connected by a green line"><circle cx="80" cy="145" r="5"/><circle cx="167" cy="102" r="5"/><circle cx="255" cy="120" r="5"/><circle cx="337" cy="82" r="5"/><circle cx="419" cy="50" r="5"/><polyline pathLength="1" points="80,145 167,102 255,120 337,82 419,50"/><g fill="#8caba0" opacity=".37"><circle cx="112" cy="66" r="1.5"/><circle cx="230" cy="49" r="2"/><circle cx="363" cy="159" r="2"/><circle cx="291" cy="162" r="1.5"/><circle cx="161" cy="173" r="1.5"/></g></svg></div></div>
   </div>
-  <span class="page-count">07 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+  <span class="page-count">07 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
 </section>
 <section class="chapter paths-scene" id="v3-paths" data-chapter="Several paths" data-theme="light" aria-labelledby="paths-title">
   <div class="paths-copy reveal"><p class="chapter-kicker green-label">ONE WALLET / SEVERAL PATHS</p><h2 class="chapter-title" id="paths-title">One wallet, several paths.</h2><p class="chapter-sub" style="margin:auto;max-width:700px">Whether you're sending XLM, exploring issued assets or connecting to apps, keep each step clear.</p></div><div class="path-lines" aria-hidden="true"></div>
-  <div class="paths-grid"><article class="path-card reveal"><p class="chapter-kicker green-label">PATH 01 / SEND</p><h3>Send on Stellar.</h3><p>See the destination, asset, amount and memo before confirmation.</p><div class="path-steps"><span>DESTINATION</span><span>ASSET</span><span>AMOUNT</span><span>REVIEW</span></div></article><article class="path-card reveal delay-1"><p class="chapter-kicker green-label">PATH 02 / EXCHANGE</p><h3>Explore an exchange.</h3><p>View supported asset pairs and understand the proposed route.</p><div class="path-steps"><span>ASSET</span><span>PAIR</span><span>PREVIEW</span><span>REVIEW</span></div></article></div>
-  <span class="page-count">08 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+  <div class="paths-grid"><article class="path-card reveal"><p class="chapter-kicker green-label">PATH 01 / SEND</p><h3>Send with clarity.</h3><p>See the destination, asset, amount and memo before confirmation.</p><div class="path-steps"><span>DESTINATION</span><span>ASSET</span><span>AMOUNT</span><span>REVIEW</span></div></article><article class="path-card reveal delay-1"><p class="chapter-kicker green-label">PATH 02 / EXCHANGE</p><h3>Explore an exchange.</h3><p>View supported asset pairs and understand the proposed route.</p><div class="path-steps"><span>ASSET</span><span>PAIR</span><span>PREVIEW</span><span>REVIEW</span></div></article></div>
+  <span class="page-count">08 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
 </section>
 <section class="chapter trust-scene dark qa-scene" id="v3-clarity" data-chapter="Questions" data-theme="dark" aria-labelledby="clarity-title">
   <div class="qa-layout">
@@ -623,11 +671,11 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
       <div><button type="button" aria-expanded="false" aria-controls="faq-answer-4">Can I manage funds on this website?<span aria-hidden="true">+</span></button><p id="faq-answer-4" hidden>No. This site is a product preview; wallet operations will be available in the app when released.</p></div>
     </div>
   </div>
-  <span class="page-count">09 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+  <span class="page-count">09 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
 </section>
 <footer class="chapter footer-scene dark day" id="v3-about" data-chapter="About Fresnica" data-theme="dark" aria-labelledby="footer-title">
   <button type="button" id="footer-theme" class="footer-switch" aria-pressed="false" aria-label="Switch to dark theme">DARK MODE</button>
-  <div class="footer-top reveal"><div><p class="chapter-kicker">FRESNICA / STELLAR WALLET</p><h2 id="footer-title">Your Stellar.<br>Your way.</h2><p>An independent wallet project focused on a clearer experience for the Stellar ecosystem. In development.</p></div><div><h3>PRODUCT</h3><a href="#overview">Overview</a><a href="#v3-features">Features</a><a href="#v3-assets">Assets</a><a href="#v3-availability">Download</a></div><div><h3>EXPLORE</h3><a href="#v3-ecosystem">Stellar ecosystem</a><a href="#v3-workspace">Desktop</a><a href="#v3-paths">Several paths</a><a href="#v3-clarity">Questions</a></div></div>
+  <div class="footer-top reveal"><div><p class="chapter-kicker">FRESNICA / YOUR WAY FORWARD</p><h2 id="footer-title">Your wallet.<br>Your way.</h2><p>Fresnica is an independent wallet designed for the Stellar ecosystem, with clarity and everyday control in mind. In development.</p></div><div><h3>PRODUCT</h3><a href="#overview">Overview</a><a href="#v3-features">Features</a><a href="#v3-assets">Assets</a><a href="#v3-availability">Download</a></div><div><h3>EXPLORE</h3><a href="#v3-ecosystem">Experience</a><a href="#v3-workspace">Desktop</a><a href="#v3-paths">Several paths</a><a href="#v3-clarity">Questions</a></div></div>
   <div class="word-wrap reveal" aria-label="FRESNICA"><p class="dot-word" aria-hidden="true">FRESNICA</p><canvas class="footer-particles" id="footer-particles" aria-hidden="true"></canvas></div>
   <span class="page-count">10 / 10</span><span class="scene-mini-note">ILLUSTRATIVE DESIGN / NOT A LIVE WALLET</span>
 </footer>
@@ -804,7 +852,7 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
   const menu = document.createElement('div');
   menu.className = 'nav-dropdown';
   menu.id = 'scene-menu';
-  menu.innerHTML = '<a href="#overview"><small>01</small> Overview</a><a href="#v3-ecosystem"><small>02</small> Your Stellar world</a><a href="#v3-availability"><small>03</small> Mobile app</a><a href="#v3-features"><small>04</small> Four essentials</a><a href="#v3-assets"><small>05</small> Your assets</a><a href="#v3-for-you"><small>06</small> Built for the way</a><a href="#v3-workspace"><small>07</small> Desktop</a><a href="#v3-paths"><small>08</small> Several paths</a><a href="#v3-clarity"><small>09</small> Questions</a><a href="#v3-about"><small>10</small> About Fresnica</a>';
+  menu.innerHTML = '<a href="#overview"><small>01</small> Overview</a><a href="#v3-ecosystem"><small>02</small> Connected experience</a><a href="#v3-availability"><small>03</small> Mobile app</a><a href="#v3-features"><small>04</small> Four essentials</a><a href="#v3-assets"><small>05</small> Your assets</a><a href="#v3-for-you"><small>06</small> Built for the way</a><a href="#v3-workspace"><small>07</small> Desktop</a><a href="#v3-paths"><small>08</small> Several paths</a><a href="#v3-clarity"><small>09</small> Questions</a><a href="#v3-about"><small>10</small> About Fresnica</a>';
   const menuButton = document.createElement('button');
   menuButton.type = 'button';
   menuButton.className = 'nav-button';
@@ -1013,6 +1061,7 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
     const samples = [];
     let width=0, height=0, visible=false, running=false, lastFrame=0;
     let progress=0, themePulseStart=-Infinity;
+    const pointer={x:0,y:0,targetX:0,targetY:0,power:0,targetPower:0};
     const hash = n => { const v=Math.sin(n*78.233+16.37)*43758.5453; return v-Math.floor(v); };
     function measure() {
       const r=wrap.getBoundingClientRect();
@@ -1024,18 +1073,17 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
       stencil.width=width;stencil.height=height;
       const sc=stencil.getContext('2d',{willReadFrequently:true});
       if(!sc)return;
-      const fontSize=Math.min(215,Math.max(48,width*.148));
-      let size=fontSize;
-      sc.font='600 '+size+'px Arial, sans-serif';
-      if(sc.measureText('FRESNICA').width>width*.98)
-        size*=width*.98/sc.measureText('FRESNICA').width;
-      sc.font='600 '+size+'px Arial, sans-serif';
+      let size=Math.min(295,height*.9,width*.205);
+      sc.font='700 '+size+'px Roboto, "Noto Sans SC", Arial, sans-serif';
+      if(sc.measureText('FRESNICA').width>width*.975)
+        size*=width*.975/sc.measureText('FRESNICA').width;
+      sc.font='700 '+size+'px Roboto, "Noto Sans SC", Arial, sans-serif';
       sc.textBaseline='middle';sc.textAlign='center';sc.fillStyle='#fff';
       sc.fillText('FRESNICA',width/2,height*.52);
       const data=sc.getImageData(0,0,width,height).data;
       samples.length=0;
       let pointIndex=0;
-      const step=width<650?4:5;
+      const step=width<650?4:6;
       for(let y=2;y<height-2;y+=step)for(let x=2;x<width-2;x+=step){
         if(data[(y*width+x)*4+3]<145)continue;
         const n=pointIndex++;
@@ -1043,7 +1091,7 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
         samples.push({x:x+(hash(n+1)-.5)*1.8,y:y+(hash(n+2)-.5)*1.8,
           dx:(hash(n+3)-.5)*Math.min(275,width*.29),
           dy:(hash(n+4)-.5)*Math.min(160,height*1.8),
-          phase:hash(n+5)*6.283,size:1.55+hash(n+6)*1.4});
+          phase:hash(n+5)*6.283,size:(width<650?1.9:2.25)+hash(n+6)*(width<650?1.3:1.65)});
       }
       // Preserve existing CSS wordmark for low-motion or canvas-unavailable modes.
       if(samples.length>50)wrap.classList.add('particles-ready');
@@ -1063,21 +1111,39 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
       const swell=Math.max(themePulse,scrollPlume);
       const plumeX=width*(.55+.045*Math.sin(now*.00065));
       const light=footerScene.classList.contains('day');
+      pointer.x+=(pointer.targetX-pointer.x)*.22;
+      pointer.y+=(pointer.targetY-pointer.y)*.22;
+      pointer.power+=(pointer.targetPower-pointer.power)*.17;
+      const hoverRadius=Math.min(175,Math.max(92,width*.125));
+      const hoverRadiusSq=hoverRadius*hoverRadius;
       for(let i=0;i<samples.length;i++){
         const dot=samples[i];
-        const float=(1-assembled*.86)*Math.sin(now*.0007+dot.phase)*2.1;
+        const float=(1-assembled*.58)*Math.sin(now*.00078+dot.phase)*3.1;
         const near=Math.exp(-Math.pow((dot.x-plumeX)/(width*.105),2));
         const localBurst=near*swell;
         const driftX=(hash(i+71)-.5)*Math.min(100,width*.10)*localBurst;
         const driftY=(hash(i+81)-.5)*Math.min(115,height*.64)*localBurst;
         const curl=Math.sin(dot.phase+now*.0026)*8*localBurst;
-        const x=dot.x+(1-assembled)*dot.dx+float+driftX+curl;
-        const y=dot.y+(1-assembled)*dot.dy+float*.55+driftY;
-        const highlight=localBurst>.07 || (energy>.01&&Math.abs(dot.x-wave)<width*.13&&hash(i+12)>.32);
-        const alpha=Math.min(1,(.25+assembled*.69)*(highlight?1:.91)+localBurst*.07);
+        let x=dot.x+(1-assembled)*dot.dx+float+driftX+curl;
+        let y=dot.y+(1-assembled)*dot.dy+float*.55+driftY;
+        let contact=0;
+        if(pointer.power>.008){
+          const dx=dot.x-pointer.x,dy=dot.y-pointer.y;
+          const distanceSq=dx*dx+dy*dy;
+          if(distanceSq<hoverRadiusSq){
+            const distance=Math.sqrt(distanceSq);
+            contact=Math.pow(1-distance/hoverRadius,2)*pointer.power;
+            const normal=1/Math.max(distance,6);
+            const curlForce=Math.sin(now*.0025+dot.phase)*7*contact;
+            x+=dx*normal*36*contact-dy*normal*curlForce;
+            y+=dy*normal*36*contact+dx*normal*curlForce;
+          }
+        }
+        const highlight=contact>.045 || localBurst>.07 || (energy>.01&&Math.abs(dot.x-wave)<width*.13&&hash(i+12)>.32);
+        const alpha=Math.min(1,(.25+assembled*.69)*(highlight?1:.91)+localBurst*.07+contact*.22);
         context.fillStyle=highlight ? (light?'rgba(9,144,103,'+alpha+')':'rgba(49,218,157,'+alpha+')')
           : (light?'rgba(55,65,60,'+alpha+')':'rgba(169,184,176,'+alpha+')');
-        const size=dot.size*(.76+.24*assembled+.34*localBurst);
+        const size=dot.size*(.76+.24*assembled+.34*localBurst+.2*contact);
         context.fillRect(x,y,size,size);
       }
     }
@@ -1102,7 +1168,20 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
     } else visible=true;
     window.addEventListener('resize',()=>{measure();update();start();},{passive:true});
     reduced.addEventListener('change',()=>{update();start();});
-    document.addEventListener('visibilitychange',start);
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)pointer.targetPower=0;start();});
+    const finePointer=matchMedia('(hover:hover) and (pointer:fine)');
+    wrap.addEventListener('pointermove',event=>{
+      if(reduced.matches||!finePointer.matches)return;
+      const bounds=wrap.getBoundingClientRect();
+      pointer.targetX=event.clientX-bounds.left;
+      pointer.targetY=event.clientY-bounds.top;
+      if(pointer.power<.01){pointer.x=pointer.targetX;pointer.y=pointer.targetY;}
+      pointer.targetPower=1;
+    },{passive:true});
+    wrap.addEventListener('pointerleave',()=>{pointer.targetPower=0;});
+    window.addEventListener('blur',()=>{pointer.targetPower=0;});
+    reduced.addEventListener('change',()=>{pointer.targetPower=0;pointer.power=0;});
+    if(document.fonts)document.fonts.ready.then(()=>{measure();update();});
     measure();update();start();
     return { update, pulse() {
       themePulseStart=reduced.matches?-Infinity:performance.now();
