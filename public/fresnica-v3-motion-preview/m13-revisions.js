@@ -36,7 +36,7 @@
     if(locked)return;
     const from=scroller.scrollTop,dist=destination-from;
     if(Math.abs(dist)<2)return;
-    const duration=clamp(390+Math.abs(dist)*.085,440,680);
+    const duration=clamp(450+Math.abs(dist)*.098,500,780);
     const begun=performance.now(),gen=++wheelGeneration;
     locked=true;
     const initial=scroller.style.scrollBehavior;
