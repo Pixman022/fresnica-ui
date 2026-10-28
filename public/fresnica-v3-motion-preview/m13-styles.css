@@ -1,0 +1,80 @@
+/* M13: layout and pacing refinements only; WebGL Hero shader unchanged. */
+html.m10-framed .header-tools .header-action,
+html.m10-framed .site-header.on-dark .header-action,
+html.m10-framed .site-header.on-footer-dark .header-action {
+  color:#f4f9f6;background:#111514;border-color:#111514;
+  box-shadow:0 6px 15px rgba(0,0,0,.13);opacity:1;
+}
+html.m10-framed .header-action .is-current {color:#9fe5c5;}
+html.m10-framed .header-action .locale-separator {color:#7d9387;}
+html.m10-framed .header-action[disabled],html.m10-framed .site-header.on-dark .header-action[disabled]{
+  background:#111514;color:#d0d9d4;border-color:#111514;opacity:1;cursor:default;
+}
+@media(min-width:1101px){
+  html.m10-framed .stage .hero{grid-template-columns:minmax(0,46%) minmax(0,54%);max-width:1270px;gap:0;padding:0 clamp(16px,2.2vw,34px);}
+  html.m10-framed .hero-copy{padding:0 0 0 clamp(4px,1vw,18px);}
+  html.m10-framed .hero h1{font-size:clamp(57px,4.45vw,79px);line-height:1.05;}
+  html.m10-framed .hero .intro{font-size:clamp(16px,1.06vw,18px);max-width:540px;}
+  html.m10-framed .hero-art{height:min(70dvh,640px);}
+  html.m10-framed .orb-field{width:min(100%,68dvh,630px);max-width:630px;}
+  html.m10-framed .stage .hero{height:calc(100% - 45px);}
+}
+/* Keep all five cards visually centred and readable when a 5-column desktop viewport fits. */
+@media(min-width:1280px){
+  html.m10-framed #v3-features .feature-window{width:min(100%,1220px);margin-inline:auto;overflow:hidden;}
+  html.m10-framed #v3-features .feature-track{gap:14px;}
+  html.m10-framed #v3-features .feature-card{width:clamp(194px,15.1vw,220px);}
+  html.m10-framed #v3-features .feature-art{height:clamp(215px,29vh,266px);padding:13px;}
+  html.m10-framed #v3-features .feature-ui{width:100%;min-height:195px;padding:15px;}
+  html.m10-framed #v3-features .feature-ui strong{font-size:21px;margin:9px 0;}
+  html.m10-framed #v3-features .mini-row{font-size:11px;padding:8px 6px;gap:6px;}
+  html.m10-framed #v3-features .mini-row em{font-size:10px;}
+  html.m10-framed #v3-features .feature-card h3{font-size:19px;}
+  html.m10-framed #v3-features .feature-card .body{font-size:12px;line-height:1.5;}
+  html.m10-framed #v3-features .label-row{align-items:flex-start;}
+}
+/* Mobile download is a full, balanced scene; no duplicated FAQs. */
+html.m10-framed .download-scene{display:flex;flex-direction:column;justify-content:center;align-items:center;}
+html.m10-framed .download-scene .planned-platforms{width:min(100%,780px);margin-top:clamp(28px,5vh,52px);}
+html.m10-framed .download-scene .chapter-title{font-size:clamp(44px,4.4vw,68px);max-width:780px;}
+/* Desktop scene is an illustrated concept, not an announced release. */
+html.m10-framed .workspace-scene .workspace-copy .chapter-title{font-size:clamp(40px,3.8vw,59px);}
+html.m10-framed .workspace-scene .workspace-copy .chapter-sub{max-width:360px;font-size:14px;line-height:1.6;}
+/* Q&A replaces the former light safety panel. */
+html.m10-framed .qa-scene{display:flex;align-items:center;justify-content:center;background:#111413;color:#f5f7f5;}
+html.m10-framed .qa-layout{width:min(100%,1160px);display:grid;grid-template-columns:minmax(280px,.85fr) minmax(400px,1.15fr);align-items:center;gap:clamp(38px,5vw,86px);}
+html.m10-framed .qa-heading .chapter-title{font-size:clamp(42px,4.4vw,66px);}
+html.m10-framed .qa-heading .chapter-sub{max-width:340px;color:#aab4af;}
+html.m10-framed .qa-list{width:100%;max-width:none;border-top:1px solid #3d4943;margin:0;}
+html.m10-framed .qa-list button{color:#f1f5f2;border-bottom:1px solid #3d4943;font-size:16px;line-height:1.45;padding:20px 0;}
+html.m10-framed .qa-list button span{color:#7cd7ac;}
+html.m10-framed .qa-list p{color:#aab8ae;font-size:14px;line-height:1.65;padding:12px 0 18px;}
+/* Bring footer navigation and dot wordmark visibly closer. */
+@media(min-width:681px){
+  html.m10-framed .footer-scene{padding-top:clamp(82px,10vh,110px);}
+  html.m10-framed .footer-top{gap:clamp(24px,3vw,46px);}
+  html.m10-framed .word-wrap{top:clamp(310px,42vh,410px);bottom:auto;}
+}
+html.m10-framed .audience-track.m13-auto{scroll-snap-type:none;scroll-behavior:auto;}
+@media(min-width:681px) and (prefers-reduced-motion:no-preference){
+ html.m10-framed .reveal{transition-duration:.34s!important;}
+ html.m10-framed .reveal.delay-1{transition-delay:.05s!important;}
+ html.m10-framed .reveal.delay-2{transition-delay:.1s!important;}
+}
+@media(max-width:1100px){
+  html.m10-framed .qa-layout{grid-template-columns:1fr;gap:20px;max-width:750px;}
+  html.m10-framed .qa-heading .chapter-title{font-size:42px;}
+  html.m10-framed .qa-list button{padding:14px 0;}
+}
+@media(max-width:680px){
+  html.m10-framed .download-scene{min-height:740px!important;justify-content:flex-start;}
+  html.m10-framed .planned-platforms{grid-template-columns:1fr;gap:12px;margin-top:20px;}
+  html.m10-framed .platform-box{min-height:110px;}
+  html.m10-framed .qa-scene{min-height:770px!important;padding-top:95px;}
+  html.m10-framed .qa-layout{display:block;}
+  html.m10-framed .qa-heading .chapter-title{font-size:36px;}
+  html.m10-framed .qa-list{margin-top:26px;}
+  html.m10-framed .qa-list button{font-size:14px;padding:14px 0;}
+  html.m10-framed .word-wrap{bottom:100px;}
+  html.m10-framed .reveal{opacity:1!important;transform:none!important;transition:none!important;}
+}

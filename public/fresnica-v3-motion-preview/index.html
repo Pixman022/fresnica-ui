@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light" />
   <meta name="description" content="Fresnica V3 video-aligned interactive one-page concept. The Stellar wallet is in development and the displayed data is illustrative." />
-  <title>Fresnica V3 — M6 Product Motion Study</title>
+  <title>Fresnica V3 — M13 Video-Style Scroll Preview</title>
   <style>
     :root { color-scheme: light; font-family: Inter, 'Helvetica Neue', Arial, sans-serif; --ink: #111514; --green: #0ba67c; --muted: #606867; }
     * { box-sizing: border-box; }
@@ -516,6 +516,7 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
 @media(max-width:360px){html.m10-framed .brand-glyph{display:none}html.m10-framed .brand{padding:7px;font-size:12px}html.m10-framed .header-action{padding:0 5px}}
 @media(prefers-reduced-motion:reduce){html.m10-framed .ticker-track{animation:none!important}}
 </style>
+<link rel="stylesheet" href="./m13-styles.css">
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
@@ -525,7 +526,6 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
       <div class="header-tools" role="group" aria-label="Website display options">
         <button id="locale-toggle" class="header-action" type="button" aria-pressed="false" aria-label="Switch website to Chinese"><span id="locale-current" class="is-current">EN</span><span class="locale-separator" aria-hidden="true">/</span><span id="locale-target">中文</span></button>
         <button id="theme-placeholder" class="header-action" type="button" disabled aria-label="Theme switch, coming soon" title="Theme switch coming soon"><span aria-hidden="true">◐</span><span class="theme-text">THEME</span></button>
-        <span class="status-pill">IN DEVELOPMENT</span>
       </div>
     </header>
     <section class="hero">
@@ -555,16 +555,12 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
   <div class="orbital-intro"><p class="chapter-kicker reveal">FRESNICA / THE STELLAR ECOSYSTEM</p><h2 class="chapter-title reveal delay-1" id="ecosystem-title">Your Stellar world.</h2><p class="chapter-kicker reveal delay-2">ASSETS &nbsp; / &nbsp; APPS &nbsp; / &nbsp; EXCHANGE &nbsp; / &nbsp; PEOPLE</p></div>
   <div class="particle-cloud" id="ecosystem-particles" aria-hidden="true"></div><i class="particle-spine" aria-hidden="true"></i>
   <div class="bottom-intro"><p class="chapter-kicker green-label reveal">ONE CONNECTED EXPERIENCE</p><h2 class="reveal delay-1">Your next move.</h2><p class="chapter-kicker reveal delay-2">EXPLORE. UNDERSTAND. MOVE.</p></div>
-  <span class="page-count">02 / 11</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+  <span class="page-count">02 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
 </section>
-<section class="chapter compare-scene dark" id="v3-contrast" data-chapter="The contrast" data-theme="dark" aria-labelledby="contrast-title">
-  <div class="mode-switch reveal" aria-hidden="true"><span>FRAGMENTED VIEW</span><span class="selected">WITH FRESNICA</span></div>
-  <h2 class="chapter-title reveal delay-1" id="contrast-title"><span class="contrast-line">See what you hold.</span><span class="contrast-line">Know where you're going.</span><span class="contrast-line"><span class="accent">Make the next move</span> with clarity.</span></h2>
-  <div class="compare-cards">
-    <article class="compare-card reveal"><p class="chapter-kicker">THE USUAL WAY</p><h3>One asset. Too many places.</h3><p>Switch between disconnected views and scattered information.</p></article>
-    <article class="compare-card reveal delay-1"><p class="chapter-kicker accent">WITH FRESNICA</p><h3>One wallet. A connected flow.</h3><p>Discover assets, payments, swaps and compatible apps in one experience.</p></article>
-  </div>
-  <span class="page-count">03 / 11</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+<section class="chapter download-scene" id="v3-availability" data-chapter="Mobile app" data-theme="light" aria-labelledby="availability-title">
+  <p class="chapter-kicker centered green-label reveal">DOWNLOAD / MOBILE APP</p><h2 class="chapter-title centered reveal delay-1" id="availability-title">Get Fresnica on mobile.</h2><p class="chapter-sub reveal delay-2" style="max-width:640px">Android and iOS versions are planned. Official verified download links will appear here when available.</p>
+  <div class="planned-platforms"><article class="platform-box reveal"><div><p class="chapter-kicker">PLATFORM 01</p><h3>Android</h3></div><span class="badge">PLANNED · NOT AVAILABLE YET</span></article><article class="platform-box reveal delay-1"><div><p class="chapter-kicker">PLATFORM 02</p><h3>iOS</h3></div><span class="badge">PLANNED · NOT AVAILABLE YET</span></article></div>
+  <span class="page-count">03 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
 </section>
 <div class="feature-scroll" id="v3-features" data-chapter="What it does" data-theme="light" aria-label="Four wallet essentials, scroll to explore">
   <section class="chapter feature-chapter" aria-labelledby="feature-title">
@@ -587,7 +583,7 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
   <div class="asset-left reveal"><p class="chapter-kicker green-label">SEE / UNDERSTAND / MOVE</p><h2 class="chapter-title" id="assets-title">See what's yours.<br>Before your<br>next move.</h2><p class="chapter-sub">A clear overview with the details you need before deciding what comes next.</p></div>
   <div class="asset-board reveal delay-1" aria-label="Illustrative wallet balance and asset list"><div class="asset-topline"><span>YOUR WALLET / ASSETS</span><span>ILLUSTRATIVE INTERFACE · NOT LIVE DATA</span></div><div class="asset-columns"><div class="asset-cell"><p class="chapter-kicker">TOTAL BALANCE</p><p class="asset-value">1,248.50 <span style="font-size:14px">XLM</span></p><p style="color:#0e9f70;font-size:12px">● XLM / STELLAR</p><div class="mini-bar"><span></span></div></div><div class="asset-cell"><p class="chapter-kicker">YOUR ASSETS</p><div class="mini-row">XLM <em>Stellar</em></div><div class="mini-row">USDC <em>Issued asset</em></div><div class="mini-row">AQUA <em>Issued asset</em></div></div></div></div>
   <div class="bottom-stepper" aria-label="Wallet experience steps"><span>01 / ASSETS</span><span>02 / PAYMENTS</span><span>03 / SWAP</span><span>04 / CONNECT</span></div>
-  <span class="page-count">05 / 11</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+  <span class="page-count">05 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
 </section>
 <section class="chapter audience-scene" id="v3-for-you" data-chapter="Built for the way" data-theme="light" aria-labelledby="audience-title">
   <div class="audience-title reveal"><p class="chapter-kicker">BUILT FOR DIFFERENT PATHS</p><h2 class="chapter-title" id="audience-title">Built for the way<br>Stellar moves.</h2></div>
@@ -600,36 +596,38 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
     <article class="audience-card"><span class="num">06 / YOUR NEXT MOVE</span><div><h3>Made to grow.</h3><p>One place for the experiences ahead.</p></div><span class="num">STELLAR / WALLET</span></article>
   </div>
   <div class="audience-nav"><button type="button" class="circle-action" id="audience-prev" aria-label="Previous card">←</button><button type="button" class="circle-action" id="audience-next" aria-label="Next card">→</button></div>
-  <span class="page-count">06 / 11</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+  <span class="page-count">06 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
 </section>
-<section class="chapter workspace-scene" id="v3-workspace" data-chapter="Behind the experience" data-theme="light" aria-labelledby="workspace-title">
-  <div class="workspace-copy reveal"><p class="chapter-kicker green-label">THE VIEW / BEHIND EVERY DECISION</p><h2 class="chapter-title" id="workspace-title">The view<br>behind every<br>decision.</h2><p class="chapter-sub">A thoughtful interface for understanding Stellar assets and the connections around them.</p></div>
-  <div class="workspace workspace-mini reveal delay-1" aria-label="Illustrative product information dashboard">
+<section class="chapter workspace-scene" id="v3-workspace" data-chapter="Desktop" data-theme="light" aria-labelledby="workspace-title">
+  <div class="workspace-copy reveal"><p class="chapter-kicker green-label">DESKTOP EXPERIENCE / CONCEPT</p><h2 class="chapter-title" id="workspace-title">Your Stellar world,<br>on desktop.</h2><p class="chapter-sub">Explore a focused desktop companion for Stellar assets and connected workflows. The desktop experience is a concept; availability has not been announced.</p></div>
+  <div class="workspace workspace-mini reveal delay-1" aria-label="DESKTOP INTERFACE · ILLUSTRATIVE">
     <div class="ws-sidebar"><strong>Fresnica</strong><span>Overview</span><span>Assets</span><span>Send &amp; receive</span><span>Swap</span><span>Connect</span><span>Activity</span></div>
-    <div class="ws-content"><p class="chapter-kicker">STELLAR ECOSYSTEM / INTERACTION MAP</p><h3>Your Stellar, connected.</h3><div class="ws-stats"><div class="ws-stat">01 / NETWORK<b>Stellar</b></div><div class="ws-stat">02 / CORE<b>XLM</b></div><div class="ws-stat">03 / DISCOVER<b>Apps</b></div></div><div class="network"><svg viewBox="0 0 480 210" role="img" aria-label="Illustrative network points connected by a green line"><circle cx="80" cy="145" r="5"/><circle cx="167" cy="102" r="5"/><circle cx="255" cy="120" r="5"/><circle cx="337" cy="82" r="5"/><circle cx="419" cy="50" r="5"/><polyline pathLength="1" points="80,145 167,102 255,120 337,82 419,50"/><g fill="#8caba0" opacity=".37"><circle cx="112" cy="66" r="1.5"/><circle cx="230" cy="49" r="2"/><circle cx="363" cy="159" r="2"/><circle cx="291" cy="162" r="1.5"/><circle cx="161" cy="173" r="1.5"/></g></svg></div></div>
+    <div class="ws-content"><p class="chapter-kicker">DESKTOP INTERFACE · ILLUSTRATIVE</p><h3>Your Stellar, connected.</h3><div class="ws-stats"><div class="ws-stat">01 / NETWORK<b>Stellar</b></div><div class="ws-stat">02 / CORE<b>XLM</b></div><div class="ws-stat">03 / DISCOVER<b>Apps</b></div></div><div class="network"><svg viewBox="0 0 480 210" role="img" aria-label="Illustrative network points connected by a green line"><circle cx="80" cy="145" r="5"/><circle cx="167" cy="102" r="5"/><circle cx="255" cy="120" r="5"/><circle cx="337" cy="82" r="5"/><circle cx="419" cy="50" r="5"/><polyline pathLength="1" points="80,145 167,102 255,120 337,82 419,50"/><g fill="#8caba0" opacity=".37"><circle cx="112" cy="66" r="1.5"/><circle cx="230" cy="49" r="2"/><circle cx="363" cy="159" r="2"/><circle cx="291" cy="162" r="1.5"/><circle cx="161" cy="173" r="1.5"/></g></svg></div></div>
   </div>
-  <span class="page-count">07 / 11</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+  <span class="page-count">07 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
 </section>
 <section class="chapter paths-scene" id="v3-paths" data-chapter="Several paths" data-theme="light" aria-labelledby="paths-title">
   <div class="paths-copy reveal"><p class="chapter-kicker green-label">ONE WALLET / SEVERAL PATHS</p><h2 class="chapter-title" id="paths-title">One wallet, several paths.</h2><p class="chapter-sub" style="margin:auto;max-width:700px">Whether you're sending XLM, exploring issued assets or connecting to apps, keep each step clear.</p></div><div class="path-lines" aria-hidden="true"></div>
   <div class="paths-grid"><article class="path-card reveal"><p class="chapter-kicker green-label">PATH 01 / SEND</p><h3>Send on Stellar.</h3><p>See the destination, asset, amount and memo before confirmation.</p><div class="path-steps"><span>DESTINATION</span><span>ASSET</span><span>AMOUNT</span><span>REVIEW</span></div></article><article class="path-card reveal delay-1"><p class="chapter-kicker green-label">PATH 02 / EXCHANGE</p><h3>Explore an exchange.</h3><p>View supported asset pairs and understand the proposed route.</p><div class="path-steps"><span>ASSET</span><span>PAIR</span><span>PREVIEW</span><span>REVIEW</span></div></article></div>
-  <span class="page-count">08 / 11</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+  <span class="page-count">08 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
 </section>
-<section class="chapter trust-scene" id="v3-clarity" data-chapter="Clarity" data-theme="light" aria-labelledby="clarity-title">
-  <div class="trust-panel"><div class="reveal"><p class="chapter-kicker">DESIGNED WITH CARE</p><h2 class="chapter-title" id="clarity-title">Clarity is part of<br>every interaction.</h2><p class="chapter-sub">Review what matters and understand what you're approving.</p></div><div class="trust-grid"><div class="reveal"><h3>Check payment details.</h3><p>Make the destination, asset and amount easy to review.</p></div><div class="reveal delay-1"><h3>Understand requests.</h3><p>Keep compatible app connections understandable.</p></div><div class="reveal delay-2"><h3>Use verified links.</h3><p>Official download channels will be published once confirmed.</p></div></div></div>
-  <span class="page-count">09 / 11</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
-</section>
-<section class="chapter download-scene" id="v3-availability" data-chapter="Availability" data-theme="light" aria-labelledby="availability-title">
-  <p class="chapter-kicker centered green-label reveal">FRESNICA / IN DEVELOPMENT</p><h2 class="chapter-title centered reveal delay-1" id="availability-title">Your Stellar journey<br>starts here.</h2><p class="chapter-sub reveal delay-2" style="max-width:640px">Fresnica is in development. Android and iOS are planned; verified official download links will appear here when available.</p>
-  <div class="planned-platforms"><article class="platform-box reveal"><div><p class="chapter-kicker">PLATFORM 01</p><h3>Android</h3></div><span class="badge">PLANNED · NOT AVAILABLE YET</span></article><article class="platform-box reveal delay-1"><div><p class="chapter-kicker">PLATFORM 02</p><h3>iOS</h3></div><span class="badge">PLANNED · NOT AVAILABLE YET</span></article></div>
-  <div class="faq-line" aria-label="Frequently asked questions"><div><button type="button" aria-expanded="false" aria-controls="faq-answer-1">Which blockchain does Fresnica support?<span aria-hidden="true">+</span></button><p id="faq-answer-1" hidden>Fresnica is designed specifically for the Stellar ecosystem.</p></div><div><button type="button" aria-expanded="false" aria-controls="faq-answer-2">Can I download Fresnica today?<span aria-hidden="true">+</span></button><p id="faq-answer-2" hidden>Not yet. Fresnica remains in development. Only verified release links will be provided here.</p></div><div><button type="button" aria-expanded="false" aria-controls="faq-answer-3">Can I use this website as a wallet?<span aria-hidden="true">+</span></button><p id="faq-answer-3" hidden>No. The website is an informational product preview. Wallet operations will take place in the mobile app.</p></div></div>
-  <span class="page-count">10 / 11</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
+<section class="chapter trust-scene dark qa-scene" id="v3-clarity" data-chapter="Questions" data-theme="dark" aria-labelledby="clarity-title">
+  <div class="qa-layout">
+    <div class="qa-heading reveal"><p class="chapter-kicker green-label">Q&A</p><h2 class="chapter-title" id="clarity-title">A few things<br>worth knowing.</h2><p class="chapter-sub">Clear answers before you explore.</p></div>
+    <div class="faq-line qa-list reveal delay-1" aria-label="Frequently asked questions">
+      <div><button type="button" aria-expanded="false" aria-controls="faq-answer-1">Is Fresnica available to download?<span aria-hidden="true">+</span></button><p id="faq-answer-1" hidden>Not yet. Android and iOS are planned. Only verified official links will be shown here.</p></div>
+      <div><button type="button" aria-expanded="false" aria-controls="faq-answer-2">Is the desktop client available?<span aria-hidden="true">+</span></button><p id="faq-answer-2" hidden>No release date has been announced for a desktop client. The interface shown here is an illustrative concept.</p></div>
+      <div><button type="button" aria-expanded="false" aria-controls="faq-answer-3">Is Fresnica a multi-chain wallet?<span aria-hidden="true">+</span></button><p id="faq-answer-3" hidden>No. Fresnica is designed specifically for the Stellar ecosystem.</p></div>
+      <div><button type="button" aria-expanded="false" aria-controls="faq-answer-4">Can I manage funds on this website?<span aria-hidden="true">+</span></button><p id="faq-answer-4" hidden>No. This site is a product preview; wallet operations will be available in the app when released.</p></div>
+    </div>
+  </div>
+  <span class="page-count">09 / 10</span><span class="scene-badge">STELLAR · WALLET PREVIEW</span>
 </section>
 <footer class="chapter footer-scene dark day" id="v3-about" data-chapter="About Fresnica" data-theme="dark" aria-labelledby="footer-title">
   <button type="button" id="footer-theme" class="footer-switch" aria-pressed="false" aria-label="Switch to dark theme">DARK MODE</button>
-  <div class="footer-top reveal"><div><p class="chapter-kicker">FRESNICA / STELLAR WALLET</p><h2 id="footer-title">Your Stellar.<br>Your way.</h2><p>An independent wallet project focused on a clearer experience for the Stellar ecosystem. In development.</p></div><div><h3>PRODUCT</h3><a href="#overview">Overview</a><a href="#v3-features">Features</a><a href="#v3-assets">Assets</a><a href="#v3-availability">Availability</a></div><div><h3>EXPLORE</h3><a href="#v3-ecosystem">Stellar ecosystem</a><a href="#v3-workspace">Experience</a><a href="#v3-paths">Several paths</a><a href="#v3-clarity">Clarity</a></div></div>
+  <div class="footer-top reveal"><div><p class="chapter-kicker">FRESNICA / STELLAR WALLET</p><h2 id="footer-title">Your Stellar.<br>Your way.</h2><p>An independent wallet project focused on a clearer experience for the Stellar ecosystem. In development.</p></div><div><h3>PRODUCT</h3><a href="#overview">Overview</a><a href="#v3-features">Features</a><a href="#v3-assets">Assets</a><a href="#v3-availability">Download</a></div><div><h3>EXPLORE</h3><a href="#v3-ecosystem">Stellar ecosystem</a><a href="#v3-workspace">Desktop</a><a href="#v3-paths">Several paths</a><a href="#v3-clarity">Questions</a></div></div>
   <div class="word-wrap reveal" aria-label="FRESNICA"><p class="dot-word" aria-hidden="true">FRESNICA</p><canvas class="footer-particles" id="footer-particles" aria-hidden="true"></canvas></div>
-  <span class="page-count">11 / 11</span><span class="scene-mini-note">ILLUSTRATIVE DESIGN / NOT A LIVE WALLET</span>
+  <span class="page-count">10 / 10</span><span class="scene-mini-note">ILLUSTRATIVE DESIGN / NOT A LIVE WALLET</span>
 </footer>
 
   <script>
@@ -804,7 +802,7 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
   const menu = document.createElement('div');
   menu.className = 'nav-dropdown';
   menu.id = 'scene-menu';
-  menu.innerHTML = '<a href="#overview"><small>01</small> Overview</a><a href="#v3-ecosystem"><small>02</small> Your Stellar world</a><a href="#v3-contrast"><small>03</small> The contrast</a><a href="#v3-features"><small>04</small> Four essentials</a><a href="#v3-assets"><small>05</small> Your assets</a><a href="#v3-for-you"><small>06</small> Built for the way</a><a href="#v3-workspace"><small>07</small> Behind the experience</a><a href="#v3-paths"><small>08</small> Several paths</a><a href="#v3-clarity"><small>09</small> Clarity</a><a href="#v3-availability"><small>10</small> Availability</a><a href="#v3-about"><small>11</small> About Fresnica</a>';
+  menu.innerHTML = '<a href="#overview"><small>01</small> Overview</a><a href="#v3-ecosystem"><small>02</small> Your Stellar world</a><a href="#v3-availability"><small>03</small> Mobile app</a><a href="#v3-features"><small>04</small> Four essentials</a><a href="#v3-assets"><small>05</small> Your assets</a><a href="#v3-for-you"><small>06</small> Built for the way</a><a href="#v3-workspace"><small>07</small> Desktop</a><a href="#v3-paths"><small>08</small> Several paths</a><a href="#v3-clarity"><small>09</small> Questions</a><a href="#v3-about"><small>10</small> About Fresnica</a>';
   const menuButton = document.createElement('button');
   menuButton.type = 'button';
   menuButton.className = 'nav-button';
@@ -866,7 +864,7 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
   function isCompact() { return window.matchMedia('(max-width:680px)').matches; }
   const particleScene = document.getElementById('v3-ecosystem');
   const compareScene = document.getElementById('v3-contrast');
-  const compareLines = [...compareScene.querySelectorAll('.contrast-line')];
+  const compareLines = [...(compareScene?.querySelectorAll('.contrast-line') || [])];
   const workspace = document.querySelector('.workspace-mini');
   const networkLine = document.querySelector('.network polyline');
   const workspaceScene = document.getElementById('v3-workspace');
@@ -917,7 +915,7 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
     const drifting = story < .58 ? (.58-story)*.7 : (story-.58)*1.7;
     cloud.style.setProperty('--scatter',clamp01(drifting).toFixed(3));
     cloud.style.opacity=(.9-.46*smooth((story-.63)/.37)).toFixed(3);
-    const contrast = entranceProgress(compareScene);
+    const contrast = compareScene ? entranceProgress(compareScene) : 1;
     compareLines.forEach((line, i) => {
       const t=smooth((contrast-(.14+i*.17))/.33);
       line.style.opacity=t.toFixed(3);
@@ -1122,5 +1120,6 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
   <script defer src="./m7-polish.js"></script>
   <script defer src="./m10-frame.js"></script>
   <script defer src="./m12-experience.js"></script>
+  <script defer src="./m13-revisions.js"></script>
 </body>
 </html>

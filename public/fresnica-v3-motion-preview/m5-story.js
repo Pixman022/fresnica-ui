@@ -71,7 +71,7 @@
 
   function paintParticles(p) {
     const section = sceneBy.particles;
-    const upper = smooth(.02, .19, p) * fadeOut(p, .43, .68);
+    const upper = smooth(.02, .19, p) * fadeOut(p, .94, 1);
     const lower = smooth(.38, .62, p) * fadeOut(p, .88, 1);
     set(section, '--m5-top-alpha', upper.toFixed(3));
     set(section, '--m5-top-shift', `${(-24*smooth(.44,.70,p)).toFixed(2)}px`);

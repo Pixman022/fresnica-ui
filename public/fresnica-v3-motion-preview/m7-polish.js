@@ -6,8 +6,8 @@
   const compact = matchMedia('(max-width: 680px)');
   const scene = document.getElementById('v3-contrast');
   const nav = document.querySelector('.top-nav');
-  if (!scene || !nav) return;
-  const lines = [...scene.querySelectorAll('.contrast-line')];
+  if (!nav) return;
+  const lines = [...(scene?.querySelectorAll('.contrast-line') || [])];
   const css = document.createElement('style');
   css.id = 'v3-m7-polish-styles';
   css.textContent = `
@@ -43,7 +43,7 @@
   function update() {
     pending = false;
     if (!active) return;
-    const runway=scene.closest('.m5-runway');
+    const runway=scene?.closest('.m5-runway');
     if (!runway) return;
     const r=runway.getBoundingClientRect();
     const p=clamp(-r.top/Math.max(1,runway.offsetHeight-innerHeight));
