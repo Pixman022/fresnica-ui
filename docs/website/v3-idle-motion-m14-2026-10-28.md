@@ -31,3 +31,12 @@ Only V3 preview HTML and two newly linked M14 resources, plus the Pages asset co
 
 ## Limitations
 This change makes each screen's ambient animation continue after stopping. It does not automatically cycle the larger scroll-driven product stage or reconstruct the original video's every frame; M5/M6 sequencing remains under scroll control. The site's reduced-motion setting takes priority over these loops.
+
+## Verified Pages release
+- Source commit `9133e3dc62e7ea91bccfa44b71c8116d4db517c7` deployed successfully: [GitHub Actions run 40619379219](https://github.com/Pixman022/fresnica-ui/actions/runs/40619379219).
+- Branch-only Pages overlay, production dependency audit, file content checks, upload and deployment all passed.
+- Artifact log contains both `./fresnica-v3-motion-preview/m14-idle.css` and `./fresnica-v3-motion-preview/m14-idle.js`.
+- Immutable V2 checkout: `f3e68515d90fe05a12a640db153f1b14004cad32`. The old preview HTML SHA-256 remained `c522893e32d794ade98e7338624e9756d634a744bc93f199f7ea3289824679fe`.
+- `main` and frozen V2 archive refs were rechecked unchanged following deployment.
+- Preview: https://pixman022.github.io/fresnica-ui/fresnica-v3-motion-preview/
+- Deployment and local browser tests are verified, but final GPU/WebGL and real mouse-wheel visual acceptance require physical-device review.
