@@ -33,3 +33,13 @@ Branch: `design/website-vision-motion-concept-2026-10-27`
 - Approval of the exact timing on the user's real mouse/trackpad, Windows hardware WebGL and visual resemblance to the original 94-second reference remain open.
 - This is a website concept; Android/iOS downloads and desktop software were not asserted available.
 - Pages deployment must verify the two added M13 assets, preserve frozen V2 HTML checksum, and release only the isolated V3 preview path.
+
+## Published release verification
+- V3 source commit: `6ab93e89752b482cc56eda66aed972112e0972c5`.
+- [GitHub Pages workflow run 40616935537](https://github.com/Pixman022/fresnica-ui/actions/runs/40616935537) completed **success**.
+- Verification, production dependency audit, V3 overlay checks, Pages artifact upload and deployment all passed.
+- Published artifact listing contains both `./fresnica-v3-motion-preview/m13-revisions.js` and `./fresnica-v3-motion-preview/m13-styles.css`; workflow also uses file-content comparisons before upload.
+- The original V2 checkout is still `f3e68515d90fe05a12a640db153f1b14004cad32`; old preview HTML SHA-256 remains `c522893e32d794ade98e7338624e9756d634a744bc93f199f7ea3289824679fe`.
+- The unchanged `main` and archived V2 refs were rechecked after the deploy.
+- URL: https://pixman022.github.io/fresnica-ui/fresnica-v3-motion-preview/
+- This confirms Pages deployment and artifacts; the assistant's browser could not independently fetch the live GitHub Pages URL, so real Windows Chrome GPU/scroll-wheel visual approval remains open.
