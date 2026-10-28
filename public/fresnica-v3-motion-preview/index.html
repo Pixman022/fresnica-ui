@@ -112,7 +112,7 @@ body{background:#192330}
 .particle-cloud{position:absolute;top:34%;left:31%;width:38%;height:31%;border-radius:50%;opacity:.9;filter:blur(.15px)}
 .particle-scene .bottom-intro{position:absolute;bottom:15%;left:15%;width:70%;text-align:center}
 .particle-scene .bottom-intro h2{font-size:clamp(38px,4vw,56px);letter-spacing:-.05em;font-weight:480;margin:9px 0}
-.particle-spine{position:absolute;left:50%;top:49.5%;height:23.5%;width:2px;transform:translateX(-50%);background:linear-gradient(#889f94,rgba(136,159,148,.45) 68%,transparent)}
+.particle-spine{position:absolute;left:50%;top:49.5%;height:23.5%;width:1px;transform:translateX(-50%);background:linear-gradient(#c6d6cd,transparent)}
 .compare-scene{display:flex;align-items:center;flex-direction:column;justify-content:flex-start;padding-top:140px}
 .compare-scene .mode-switch{border-radius:100px;background:#222727;display:flex;gap:4px;align-items:center;padding:5px;margin-bottom:43px;font:10px Consolas,monospace;color:#9da3a0}
 .compare-scene .mode-switch span{padding:10px 15px}
@@ -691,6 +691,176 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
 @media(prefers-reduced-motion:reduce) {
   #v3-ecosystem .particle-spine::before{animation:none!important;opacity:0!important}
 }
+
+/* M23: focused global navigation and a top-aligned Hero composition. */
+html.m10-framed .back-to-top{
+  box-sizing:border-box;width:46px;height:46px;min-height:46px;max-width:none;
+  padding:0 14px;gap:10px;justify-content:flex-start;white-space:nowrap;overflow:hidden;
+  transition:width .36s cubic-bezier(.18,.7,.25,1),background .2s,transform .2s,box-shadow .2s;
+}
+html.m10-framed .back-to-top span{
+  display:block;opacity:0;max-width:0;overflow:hidden;white-space:nowrap;
+  transition:max-width .36s cubic-bezier(.18,.7,.25,1),opacity .2s ease;
+}
+html.m10-framed .back-to-top:hover,
+html.m10-framed .back-to-top:focus-visible{width:156px;}
+html.m10-framed .back-to-top:hover span,
+html.m10-framed .back-to-top:focus-visible span{max-width:110px;opacity:1;}
+html.m10-framed .back-to-top:focus-visible{outline:2px solid #13ad7b;outline-offset:3px;}
+@media(min-width:991px){
+  html.m10-framed .stage .hero{
+    align-items:start;padding-top:clamp(100px,14dvh,150px);
+    transform:translateY(-clamp(72px,9dvh,103px));
+  }
+  html.m10-framed .stage .hero-art{
+    margin-top:-clamp(75px,10dvh,110px);
+  }
+}
+@media(max-width:680px){
+  html.m10-framed .back-to-top{width:43px;height:43px;min-height:43px;padding:0 13px;}
+  html.m10-framed .back-to-top:hover,
+  html.m10-framed .back-to-top:focus-visible{width:43px;}
+}
+/* Screen 3: intentionally dark, editorial split with an illustrative mobile UI. */
+html.m10-framed #v3-availability.download-scene{
+  display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);
+  align-items:center;justify-items:stretch;
+  gap:clamp(38px,6vw,100px);
+  background:#101312;color:#f4f7f5;
+  padding-inline:max(clamp(35px,5vw,85px),calc((100% - 1230px)/2));
+}
+#v3-availability .download-copy{min-width:0;max-width:545px;text-align:left;}
+html.m10-framed #v3-availability .chapter-title{
+  margin:20px 0 25px;text-align:left;
+  font-size:clamp(42px,4.55vw,72px);line-height:1.07;
+  max-width:600px;
+}
+#v3-availability .download-copy .chapter-kicker{color:#6bce9b;}
+#v3-availability .download-copy .chapter-sub{
+  color:#acb8b0;font-size:clamp(15px,1.15vw,17px);
+  max-width:510px;margin:0;line-height:1.7;
+}
+#v3-availability .download-actions{
+  display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(25px,4vh,43px);
+}
+#v3-availability .download-action{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  min-width:clamp(174px,14vw,207px);
+  padding:13px 17px;border:1px solid #52645b;border-radius:13px;
+  background:#f4f8f5;color:#17251d;text-align:left;
+  font-family:var(--Fresnica-font-family,Arial,sans-serif);
+  cursor:not-allowed;
+}
+#v3-availability .download-action.secondary{
+  background:transparent;color:#eef5f0;border-color:#3e5547;
+}
+#v3-availability .download-action b{font-size:13px;font-weight:650;display:block;}
+#v3-availability .download-action small{
+  display:block;font-size:9px;font-weight:550;letter-spacing:.095em;opacity:.63;margin-top:4px;
+}
+#v3-availability .download-action svg{width:19px;height:19px;flex:none;}
+#v3-availability .download-status{margin-top:18px;color:#80978a;font-size:11px;line-height:1.5;}
+#v3-availability .download-art{position:relative;min-width:0;display:grid;place-items:center;align-self:stretch;}
+#v3-availability .download-art::before{
+  content:'';position:absolute;inset:15% 6%;border-radius:50%;
+  background:radial-gradient(ellipse at 50% 50%,rgba(21,151,99,.14),rgba(11,37,28,.025) 50%,transparent 75%);
+  pointer-events:none;
+}
+#v3-availability .download-phone{
+  position:relative;z-index:1;box-sizing:border-box;
+  width:clamp(245px,24.5vw,325px);aspect-ratio:9/17;
+  border:7px solid #29302e;border-radius:42px;
+  background:#f5f8f6;color:#18241e;overflow:hidden;
+  padding:clamp(18px,2.3vw,27px) clamp(16px,2vw,24px);
+  box-shadow:0 30px 80px #0008,0 0 0 1px #64746988;
+  display:flex;flex-direction:column;gap:0;
+}
+#v3-availability .phone-island{
+  position:absolute;top:8px;left:50%;transform:translateX(-50%);
+  background:#29302e;width:64px;height:13px;border-radius:12px;
+}
+#v3-availability .phone-header{display:flex;justify-content:space-between;align-items:center;padding-top:14px;}
+#v3-availability .phone-brand{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.01em;}
+#v3-availability .phone-brand i{width:14px;height:14px;background:#109b71;border-radius:50%;display:block;box-shadow:inset -4px -3px 6px #065e4788;}
+#v3-availability .phone-network{color:#66776c;font-size:9px;font-weight:600;}
+#v3-availability .phone-overview{margin-top:clamp(25px,3.4vh,34px);}
+#v3-availability .phone-label{font-size:9px;color:#839188;letter-spacing:.105em;font-weight:650;}
+#v3-availability .phone-overview strong{display:block;font-size:clamp(31px,3vw,39px);font-weight:560;letter-spacing:-.065em;margin:9px 0 10px;}
+#v3-availability .phone-overview strong small{font-size:13px;color:#6b8173;font-weight:550;letter-spacing:0;}
+#v3-availability .phone-overview p{font-size:10px;color:#66816e;margin:0;}
+#v3-availability .phone-quick{display:flex;gap:8px;margin-top:clamp(23px,3.4vh,34px);}
+#v3-availability .phone-quick span{flex:1;text-align:center;border:1px solid #dce8df;border-radius:10px;background:#edf5ef;padding:13px 4px 11px;font-size:10px;font-weight:650;}
+#v3-availability .phone-quick b{display:block;font-size:19px;line-height:1;color:#118c60;margin-bottom:6px;}
+#v3-availability .phone-list{margin-top:clamp(25px,3.6vh,33px);}
+#v3-availability .phone-list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+#v3-availability .phone-list-header b{font-size:12px;}
+#v3-availability .phone-list-header span{font-size:10px;color:#728478;}
+#v3-availability .phone-asset{
+  display:flex;align-items:center;gap:9px;padding:11px 0;
+  border-bottom:1px solid #e4ebe6;
+}
+#v3-availability .phone-asset i{
+  display:grid;place-items:center;width:31px;height:31px;flex:none;
+  border-radius:50%;background:#e0efe6;color:#237450;font-size:11px;font-style:normal;font-weight:750;
+}
+#v3-availability .phone-asset div{flex:1;min-width:0;}
+#v3-availability .phone-asset b{display:block;font-size:11px;font-weight:650;}
+#v3-availability .phone-asset small{display:block;font-size:9px;color:#90a196;margin-top:3px;}
+#v3-availability .phone-asset strong{font-size:12px;font-weight:600;}
+#v3-availability .phone-tabs{
+  display:flex;justify-content:space-around;gap:8px;margin-top:auto;
+  padding-top:17px;font-size:9px;color:#839087;
+}
+#v3-availability .phone-tabs span:first-child{color:#0b8e60;font-weight:750;}
+#v3-availability .download-art-caption{
+  position:absolute;z-index:2;bottom:clamp(14px,3vh,30px);right:0;
+  font-size:10px;letter-spacing:.1em;color:#748c7e;
+}
+/* Screen 4: five actual capabilities, no carousel chrome or tinted card gradients. */
+html.m10-framed #v3-features .feature-art{
+  background:#e8ecea;
+}
+html.m10-framed #v3-features .feature-art::before,
+html.m14-motion #v3-features.m14-current .feature-art::after{display:none!important;}
+html.m10-framed #v3-features .feature-card{background:transparent;}
+/* Screen 7: true 16:9 desktop presentation, no viewport-relative height. */
+html.m10-framed #v3-workspace .workspace-mini{
+  height:auto!important;aspect-ratio:16/9;
+  top:50%;transform:translateY(-50%);
+}
+html.m10-framed #v3-workspace .ws-content{padding:clamp(12px,1.7vh,21px);}
+html.m10-framed #v3-workspace .network{height:clamp(105px,17vh,175px);margin-top:10px;}
+@media(min-width:681px) and (max-width:980px){
+  html.m10-framed #v3-availability.download-scene{gap:24px;padding-inline:clamp(32px,4vw,55px);}
+  #v3-availability .download-phone{width:clamp(230px,29vw,275px);}
+  html.m10-framed #v3-availability .chapter-title{font-size:clamp(38px,5vw,55px);}
+}
+@media(max-width:680px){
+  html.m10-framed #v3-availability.download-scene{
+    display:flex;flex-direction:column;align-items:stretch;
+    gap:28px;padding:105px 24px 82px!important;
+    min-height:1020px!important;
+  }
+  html.m10-framed #v3-availability .chapter-title{font-size:clamp(37px,10vw,48px);margin:10px 0 17px;}
+  #v3-availability .download-actions{flex-direction:column;gap:9px;margin-top:22px;}
+  #v3-availability .download-action{width:100%;min-width:0;flex:none;padding:12px 14px;}
+  #v3-availability .download-art{align-self:center;min-height:clamp(525px,160vw,620px);width:100%;}
+  #v3-availability .download-phone{width:min(285px,78vw);}
+  #v3-availability .download-art-caption{bottom:0;right:50%;transform:translateX(50%);white-space:nowrap;}
+  html.m10-framed #v3-workspace .workspace-mini{
+    top:43%;left:20px;right:20px;width:calc(100% - 40px);
+    transform:none;height:auto!important;aspect-ratio:16/9;
+  }
+}
+@media(min-width:681px) and (max-height:700px){
+  #v3-availability .download-phone{width:clamp(205px,20vw,250px);}
+  html.m10-framed #v3-availability .chapter-title{font-size:clamp(33px,3.6vw,50px);margin:12px 0 17px;}
+  #v3-availability .download-copy .chapter-sub{font-size:14px;line-height:1.55;}
+  #v3-availability .download-actions{margin-top:19px;}
+}
+@media(prefers-reduced-motion:reduce){
+  html.m10-framed .back-to-top,html.m10-framed .back-to-top span{transition:none!important;}
+}
 </style>
 </head>
 <body>
@@ -708,7 +878,7 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
         <p class="eyebrow">FRESNICA · MADE FOR WHAT'S NEXT</p>
         <h1>One wallet.<br>A clearer<br>way forward.</h1>
         <p class="intro">Fresnica is designed to bring your Stellar assets, payments, swaps and compatible apps into one clear, considered experience.</p>
-        <div class="actions"><a class="cta primary" href="#v3-features">EXPLORE FRESNICA <span aria-hidden="true">↗</span></a><button class="cta secondary" id="replay-demo" type="button"><span aria-hidden="true">▶</span> Replay the motion</button></div>
+        <div class="actions"><a class="cta primary" href="#v3-availability">DOWNLOAD APP <span aria-hidden="true">↗</span></a><a class="cta secondary" href="#v3-ecosystem">LEARN MORE <span aria-hidden="true">→</span></a></div>
       </div>
       <div class="hero-art" aria-label="Animated translucent emerald liquid sphere, inspired by the uploaded website video">
         <div class="orb-field" id="orb-field">
@@ -732,15 +902,39 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
   <div class="bottom-intro"><p class="chapter-kicker green-label reveal">ONE CONNECTED EXPERIENCE</p><h2 class="reveal delay-1">Your next move.</h2><p class="chapter-kicker reveal delay-2">EXPLORE. UNDERSTAND. MOVE.</p></div>
   <span class="page-count">02 / 10</span>
 </section>
-<section class="chapter download-scene" id="v3-availability" data-chapter="Mobile app" data-theme="light" aria-labelledby="availability-title">
-  <p class="chapter-kicker centered green-label reveal">DOWNLOAD / MOBILE APP</p><h2 class="chapter-title centered reveal delay-1" id="availability-title">Get Fresnica on mobile.</h2><p class="chapter-sub reveal delay-2" style="max-width:640px">Android and iOS versions are planned. Official verified download links will appear here when available.</p>
-  <div class="planned-platforms"><article class="platform-box reveal"><div><p class="chapter-kicker">PLATFORM 01</p><h3>Android</h3></div><span class="badge">PLANNED · NOT AVAILABLE YET</span></article><article class="platform-box reveal delay-1"><div><p class="chapter-kicker">PLATFORM 02</p><h3>iOS</h3></div><span class="badge">PLANNED · NOT AVAILABLE YET</span></article></div>
+<section class="chapter download-scene dark" id="v3-availability" data-chapter="Mobile app" data-theme="dark" aria-labelledby="availability-title">
+  <div class="download-copy">
+    <p class="chapter-kicker reveal">FRESNICA / MOBILE WALLET</p>
+    <h2 class="chapter-title reveal delay-1" id="availability-title">Your Stellar world.<br>In your pocket.</h2>
+    <p class="chapter-sub reveal delay-2">A focused mobile wallet experience for XLM, Stellar-issued assets, payments, swaps and compatible apps. Designed for clarity, from your first look to your next move.</p>
+    <div class="download-actions reveal delay-2" aria-label="Planned mobile downloads">
+      <button class="download-action" type="button" disabled aria-label="Download for iOS, coming soon"><span><b>Download for iOS</b><small>COMING SOON</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 18v3h14v-3"/></svg></button>
+      <button class="download-action secondary" type="button" disabled aria-label="Download for Android, coming soon"><span><b>Download for Android</b><small>COMING SOON</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 18v3h14v-3"/></svg></button>
+    </div>
+    <p class="download-status reveal delay-2">Both versions are in development. Official download links will appear here after release.</p>
+  </div>
+  <div class="download-art" aria-label="Illustrative Fresnica mobile app interface, not a real wallet">
+    <div class="download-phone">
+      <span class="phone-island" aria-hidden="true"></span>
+      <div class="phone-header"><span class="phone-brand"><i aria-hidden="true"></i>Fresnica</span><span class="phone-network">STELLAR / DEMO</span></div>
+      <div class="phone-overview"><span class="phone-label">WALLET OVERVIEW · ILLUSTRATIVE</span><strong>1,248.50 <small>XLM</small></strong><p>Stellar assets, all in view.</p></div>
+      <div class="phone-quick"><span><b aria-hidden="true">↗</b>Send</span><span><b aria-hidden="true">↙</b>Receive</span><span><b aria-hidden="true">⇄</b>Swap</span></div>
+      <div class="phone-list">
+        <div class="phone-list-header"><b>Your assets</b><span>Sample values</span></div>
+        <div class="phone-asset"><i aria-hidden="true">X</i><div><b>XLM</b><small>Stellar native asset</small></div><strong>1,248.50</strong></div>
+        <div class="phone-asset"><i aria-hidden="true">$</i><div><b>USDC</b><small>Stellar-issued asset</small></div><strong>250.00</strong></div>
+        <div class="phone-asset"><i aria-hidden="true">A</i><div><b>AQUA</b><small>Stellar-issued asset</small></div><strong>860.00</strong></div>
+      </div>
+      <div class="phone-tabs"><span>Home</span><span>Assets</span><span>Activity</span><span>Explore</span></div>
+    </div>
+    <span class="download-art-caption">APP UI CONCEPT / NOT LIVE DATA</span>
+  </div>
   <span class="page-count">03 / 10</span>
 </section>
-<div class="feature-scroll" id="v3-features" data-chapter="What it does" data-theme="light" aria-label="Four wallet essentials, scroll to explore">
+<div class="feature-scroll" id="v3-features" data-chapter="What it does" data-theme="light" aria-label="Five wallet essentials, scroll to explore">
   <section class="chapter feature-chapter" aria-labelledby="feature-title">
-    <div class="feature-heading reveal"><p class="chapter-kicker">CORE CAPABILITIES</p><h2 class="chapter-title" id="feature-title">Four essentials, one flow.</h2></div>
-    <div class="feature-window" id="feature-window" aria-label="Four illustrated wallet capabilities">
+    <div class="feature-heading reveal"><p class="chapter-kicker">CORE CAPABILITIES</p><h2 class="chapter-title" id="feature-title">Five essentials, one flow.</h2></div>
+    <div class="feature-window" id="feature-window" aria-label="Five illustrated wallet capabilities">
       <div class="feature-track" id="feature-track">
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET OVERVIEW · ILLUSTRATIVE</span><strong>1,248.50 <small>XLM</small></strong><p class="mini-label">TOTAL BALANCE</p><div class="mini-bar"><span></span></div><div class="mini-row">XLM <em>Native asset</em></div><div class="mini-row">Stellar asset <em>Issued asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">Keep the assets you follow together, clearly and simply.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">PAYMENT PREVIEW · ILLUSTRATIVE</span><div class="mini-row">Destination <em>GABX…7BD</em></div><div class="mini-row">Asset <em>XLM</em></div><div class="mini-row">Amount <em>25.00</em></div><div class="mini-row">Memo <em>Optional</em></div></div></div><div class="label-row"><h3>Send &amp; receive</h3><span class="chapter-kicker">02</span></div><p class="body">Keep important payment details visible from start to finish.</p></article>
@@ -749,8 +943,7 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">ACTIVITY · ILLUSTRATIVE</span><strong style="font-size:25px">Your activity.</strong><div class="mini-row">Received XLM <em>+20.00</em></div><div class="mini-row">Sent XLM <em>−5.00</em></div><div class="mini-row">Trustline <em>Updated</em></div></div></div><div class="label-row"><h3>Keep the details</h3><span class="chapter-kicker">05</span></div><p class="body">Review your activity and return to the information that matters.</p></article>
       </div>
     </div>
-    <div class="feature-progress"><span id="feature-index">01 / 05</span><div class="progress-line" aria-hidden="true"><i id="feature-progress-bar"></i></div></div>
-    <div class="feature-controls"><button class="circle-action" id="feature-prev" type="button" aria-label="Previous feature">←</button><button class="circle-action" id="feature-next" type="button" aria-label="Next feature">→</button></div>
+    <span class="page-count">04 / 10</span>
     
   </section>
 </div>
@@ -814,7 +1007,7 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
     const ring = document.getElementById('tick-lines');
     const nodes = document.getElementById('orbit-nodes');
     const btn = document.getElementById('toggle-motion');
-    const replayBtns = [document.getElementById('replay-motion'), document.getElementById('replay-demo')];
+    const replayBtns = [document.getElementById('replay-motion')].filter(Boolean);
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     const ns='http://www.w3.org/2000/svg';
     const ticks=[];
@@ -977,7 +1170,7 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
   const menu = document.createElement('div');
   menu.className = 'nav-dropdown';
   menu.id = 'scene-menu';
-  menu.innerHTML = '<a href="#overview"><small>01</small> Overview</a><a href="#v3-ecosystem"><small>02</small> Connected experience</a><a href="#v3-availability"><small>03</small> Mobile app</a><a href="#v3-features"><small>04</small> Four essentials</a><a href="#v3-assets"><small>05</small> Your assets</a><a href="#v3-for-you"><small>06</small> Built for the way</a><a href="#v3-workspace"><small>07</small> Desktop</a><a href="#v3-paths"><small>08</small> Several paths</a><a href="#v3-clarity"><small>09</small> Questions</a><a href="#v3-about"><small>10</small> About Fresnica</a>';
+  menu.innerHTML = '<a href="#overview"><small>01</small> Overview</a><a href="#v3-ecosystem"><small>02</small> Connected experience</a><a href="#v3-availability"><small>03</small> Mobile app</a><a href="#v3-features"><small>04</small> Five essentials</a><a href="#v3-assets"><small>05</small> Your assets</a><a href="#v3-for-you"><small>06</small> Built for the way</a><a href="#v3-workspace"><small>07</small> Desktop</a><a href="#v3-paths"><small>08</small> Several paths</a><a href="#v3-clarity"><small>09</small> Questions</a><a href="#v3-about"><small>10</small> About Fresnica</a>';
   const menuButton = document.createElement('button');
   menuButton.type = 'button';
   menuButton.className = 'nav-button';
@@ -1000,7 +1193,7 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
   let seed = 217;
   const rand = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
   const fragment = document.createDocumentFragment();
-  for (let i=0; i<152; i++) {
+  for (let i=0; i<128; i++) {
     const dot=document.createElement('span');
     dot.className='stream-dot';
     const angle=rand()*Math.PI*2;
@@ -1016,7 +1209,7 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
     dot.style.width=size;dot.style.height=size;
     const gray=Math.round(58+rand()*90);
     dot.style.background='rgb('+gray+','+gray+','+gray+')';
-    dot.style.animationDuration=(2.6+rand()*2.4).toFixed(2)+'s';
+    dot.style.animationDuration=(3.1+rand()*2.6).toFixed(2)+'s';
     dot.style.animationDelay=(-rand()*9).toFixed(2)+'s';
     fragment.append(dot);
   }
@@ -1039,8 +1232,6 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
   const rail = document.getElementById('v3-features');
   const featureWindow = document.getElementById('feature-window');
   const featureTrack = document.getElementById('feature-track');
-  const featureIndex = document.getElementById('feature-index');
-  const featureBar = document.getElementById('feature-progress-bar');
   const featureCards = [...featureTrack.querySelectorAll('.feature-card')];
   const allChapters = [hero, ...document.querySelectorAll('[data-chapter]')].filter((el, i, arr) => arr.indexOf(el)===i);
   const audienceTrack = document.getElementById('audience-track');
@@ -1074,14 +1265,6 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
     return available ? clamp01(-rail.getBoundingClientRect().top / available) : 0;
   }
   function featureEase(progress) { return smooth((progress-hold)/(1-2*hold)); }
-  function inverseFeatureEase(progress) {
-    let low = 0, high = 1;
-    for (let i = 0; i < 16; i++) {
-      const mid = (low+high)/2;
-      if (smooth(mid)<progress) low=mid; else high=mid;
-    }
-    return hold + ((low+high)/2)*(1-2*hold);
-  }
   function entranceProgress(scene) {
     return clamp01((window.innerHeight*.88-scene.getBoundingClientRect().top)/(window.innerHeight*.82));
   }
@@ -1121,8 +1304,6 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
     const effective = isStatic ? clamp01(featureWindow.scrollLeft/Math.max(1, featureOverflow)) : eased;
     const index = Math.max(0,Math.min(featureCards.length-1,Math.round(effective*(featureCards.length-1))));
     featureCards.forEach((card, i) => card.classList.toggle('is-active', i === index));
-    featureIndex.textContent=String(index+1).padStart(2,'0')+' / '+String(featureCards.length).padStart(2,'0');
-    featureBar.style.width=(effective*100).toFixed(2)+'%';
     // Preserve the M1 viewport-center rule for the fixed capsule navigation.
     const anchor=window.innerHeight*.48;
     let current = hero;
@@ -1144,23 +1325,6 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
   window.addEventListener('resize',resizeMotion,{passive:true});
   featureWindow.addEventListener('scroll',requestScrollUpdate,{passive:true});
   reduced.addEventListener('change',resizeMotion);
-  document.getElementById('feature-prev').addEventListener('click',()=>stepFeature(-1));
-  document.getElementById('feature-next').addEventListener('click',()=>stepFeature(1));
-  function stepFeature(direction) {
-    if (isCompact() || reduced.matches) {
-      featureWindow.scrollBy({left:direction*360,behavior:reduced.matches?'instant':'smooth'});
-      return;
-    }
-    const current = Math.round(featureEase(featurePosition())*(featureCards.length-1));
-    const next=Math.max(0,Math.min(featureCards.length-1,current+direction));
-    const target=inverseFeatureEase(next/(featureCards.length-1));
-    const pageScroll=document.getElementById('v3-page-scroll');
-    const origin=pageScroll ? pageScroll.scrollTop +
-      rail.getBoundingClientRect().top - pageScroll.getBoundingClientRect().top :
-      window.scrollY + rail.getBoundingClientRect().top;
-    const destination=origin + target*Math.max(0,rail.offsetHeight-window.innerHeight);
-    (pageScroll || window).scrollTo({top:destination,behavior:'smooth'});
-  }
   document.getElementById('audience-prev').addEventListener('click',()=>audienceTrack.scrollBy({left:-265,behavior:'smooth'}));
   document.getElementById('audience-next').addEventListener('click',()=>audienceTrack.scrollBy({left:265,behavior:'smooth'}));
   document.querySelectorAll('.faq-line button').forEach(btn => btn.addEventListener('click',()=>{

@@ -14,8 +14,8 @@
   const entrances={
     overview:'.hero-copy .eyebrow,.hero-copy h1,.hero-copy .intro,.hero-copy .actions,.hero-art',
     'v3-ecosystem':'.orbital-intro .reveal,.bottom-intro .reveal',
-    'v3-availability':':scope > .reveal,.planned-platforms',
-    'v3-features':'.feature-heading,.feature-card,.feature-progress,.feature-controls',
+    'v3-availability':'.download-copy .reveal,.download-art',
+    'v3-features':'.feature-heading,.feature-card',
     'v3-assets':'.asset-left,.asset-board,.bottom-stepper',
     'v3-for-you':'.audience-title,.audience-track,.audience-nav',
     'v3-workspace':'.workspace-copy,.workspace-mini',

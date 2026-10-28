@@ -14,6 +14,31 @@
   Object.assign(map,{"DOWNLOAD / MOBILE APP":"下载 / 移动应用","Get Fresnica on mobile.":"在移动设备上使用 Fresnica。","Android and iOS versions are planned. Official verified download links will appear here when available.":"Android 与 iOS 版本正在规划中。官方渠道确认后将在此提供下载链接。","DESKTOP EXPERIENCE / CONCEPT":"桌面客户端 / 概念预览","Your Stellar world, on desktop.":"你的 Stellar 世界，也在桌面。","Your Stellar world,":"你的 Stellar 世界，","on desktop.":"也在桌面。","Explore a focused desktop companion for Stellar assets and connected workflows. The desktop experience is a concept; availability has not been announced.":"探索专为 Stellar 资产与连接体验构想的桌面客户端。当前仍为概念预览，尚未公布上线计划。","DESKTOP INTERFACE · ILLUSTRATIVE":"桌面界面 · 示意","Q&A":"常见问题","A few things worth knowing.":"你可能想了解的事。","A few things":"你可能想了解的","worth knowing.":"事。","Clear answers before you explore.":"探索之前，先了解关键信息。","Is Fresnica available to download?":"Fresnica 现在可以下载吗？","Not yet. Android and iOS are planned. Only verified official links will be shown here.":"暂时还不能下载。Android 和 iOS 在规划中，官方渠道确认后才会展示下载链接。","Is the desktop client available?":"桌面客户端可以使用了吗？","No release date has been announced for a desktop client. The interface shown here is an illustrative concept.":"桌面客户端尚未公布上线日期。当前展示的界面仅为概念示意。","Is Fresnica a multi-chain wallet?":"Fresnica 是多链钱包吗？","No. Fresnica is designed specifically for the Stellar ecosystem.":"不是。Fresnica 专注 Stellar 生态。","Can I manage funds on this website?":"我能在这个网站管理资产吗？","No. This site is a product preview; wallet operations will be available in the app when released.":"不能。本网站仅展示产品概念；钱包操作需等待应用正式推出。","Download":"下载","Desktop":"桌面客户端","Questions":"常见问题","Mobile app":"移动应用"});
   Object.assign(map,{"FRESNICA · MADE FOR WHAT'S NEXT":"FRESNICA · 为下一步而生","A clearer":"更清晰的","way forward.":"前行之路。","Fresnica is designed to bring your Stellar assets, payments, swaps and compatible apps into one clear, considered experience.":"Fresnica 专为 Stellar 资产、收发、兑换及兼容应用打造清晰连贯的体验。","A more connected view.":"一种更连贯的视角。","Fresnica wallet focus: assets, transfers, swaps and connected apps":"Fresnica 钱包聚焦资产、转账、兑换与互联应用","Connected experience":"连贯体验","FRESNICA / CONNECTED BY DESIGN":"FRESNICA / 连接始于设计","Everything, connected.":"一切，自然连接。","FRESNICA · DESIGN PREVIEW":"FRESNICA · 设计预览","Keep the assets you follow together, clearly and simply.":"让你关注的资产清晰汇聚于一处。","Preview potential exchanges and review each step with clarity.":"预览可能的兑换方案，清楚核对每一步。","Explore compatible apps and keep connections easy to understand.":"探索兼容应用，让连接更易理解。","XLM / NATIVE ASSET":"XLM / 原生资产","you move.":"每一步。","DISCOVER / FRESNICA":"探索 / FRESNICA","MOVE / WITH EASE":"从容前行","FRESNICA / WALLET":"FRESNICA / 钱包","Your world,":"你的世界，","in a wider view.":"视野更开阔。","Explore how a focused desktop companion could bring assets and connected workflows into view. This remains a concept; availability has not been announced.":"探索聚焦资产与连接流程的桌面端体验构想。目前仅为概念预览，尚未公布可用时间。","A clearer, connected view.":"更清晰、更连贯的视图。","Send with clarity.":"清晰核对后再发送。","FRESNICA / YOUR WAY FORWARD":"FRESNICA / 你的前行方式","Your wallet.":"你的钱包。","Fresnica is an independent wallet designed for the Stellar ecosystem, with clarity and everyday control in mind. In development.":"Fresnica 是面向 Stellar 生态的独立钱包项目，以清晰体验和日常掌控为设计方向，目前仍在开发中。"});
   Object.assign(map,{"Back to top":"返回顶部"});
+  Object.assign(map,{
+    "DOWNLOAD APP":"下载应用","LEARN MORE":"了解更多",
+    "Five essentials, one flow.":"五项核心能力，一体化体验。",
+    "Five essentials":"五项核心能力",
+    "Five wallet essentials, scroll to explore":"五项核心钱包能力，滚动探索",
+    "Five illustrated wallet capabilities":"五项钱包功能示意",
+    "FRESNICA / MOBILE WALLET":"FRESNICA / 移动钱包",
+    "Your Stellar world.":"你的 Stellar 世界。",
+    "In your pocket.":"尽在掌中。",
+    "A focused mobile wallet experience for XLM, Stellar-issued assets, payments, swaps and compatible apps. Designed for clarity, from your first look to your next move.":"专为 XLM、Stellar 发行资产、收发、兑换和兼容应用打造的移动钱包体验。从第一眼到每一步操作，都清晰直观。",
+    "Download for iOS":"下载 iOS 版本","Download for Android":"下载 Android 版本",
+    "Download for iOS, coming soon":"下载 iOS 版本，即将开放",
+    "Download for Android, coming soon":"下载 Android 版本，即将开放",
+    "COMING SOON":"即将开放","Planned mobile downloads":"移动端下载计划",
+    "Both versions are in development. Official download links will appear here after release.":"两个版本均在开发中，正式发布后才会提供官方下载链接。",
+    "Illustrative Fresnica mobile app interface, not a real wallet":"Fresnica 移动应用界面示意，非真实钱包",
+    "STELLAR / DEMO":"STELLAR / 演示",
+    "WALLET OVERVIEW · ILLUSTRATIVE":"钱包概览 · 示意",
+    "Stellar assets, all in view.":"Stellar 资产，一目了然。",
+    "Send":"发送","Receive":"收款","Swap":"兑换",
+    "Your assets":"你的资产","Sample values":"示例数据",
+    "Stellar native asset":"Stellar 原生资产","Stellar-issued asset":"Stellar 发行资产",
+    "Home":"首页","Activity":"动态","Explore":"探索",
+    "APP UI CONCEPT / NOT LIVE DATA":"应用界面示意 / 非实时数据"
+  });
   let locale = 'en';
   const nodeOriginal = new WeakMap();
   const attrOriginal = new WeakMap();
