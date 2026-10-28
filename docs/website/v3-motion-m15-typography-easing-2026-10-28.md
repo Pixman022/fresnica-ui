@@ -34,3 +34,12 @@ Scope: typography + full-screen wheel-snap duration and velocity profile only.
 ## Release protection and acceptance
 - Only V3 isolated HTML/CSS/JS and V3 Pages-overlay rules are changed. Pages builds frozen V2 source `f3e68515d90fe05a12a640db153f1b14004cad32` and must compare old `fresnica-website-preview/index.html` before deployment.
 - GitHub Actions deployment status and inclusion of all font files should be verified separately and recorded after the commit.
+
+## Confirmed GitHub Pages release
+- V3 code commit: `203703a739adda78509d8b76f3079528fa20a2f4`.
+- [GitHub Actions run 40624117944](https://github.com/Pixman022/fresnica-ui/actions/runs/40624117944) completed **success**.
+- Source-verification, production dependency audit, V3-only overlay, artifact upload and Pages deployment steps all succeeded.
+- Workflow explicitly reported: **M15 typography CSS and 7 existing project font files copied and checked**. The artifact listed `m15-typography.css` and both Roboto and Noto Sans SC WOFF2 files.
+- Frozen V2 source: `f3e68515d90fe05a12a640db153f1b14004cad32`, with original preview HTML SHA-256 `c522893e32d794ade98e7338624e9756d634a744bc93f199f7ea3289824679fe` unchanged. `main` and archive branch were rechecked after deployment.
+- Preview URL: https://pixman022.github.io/fresnica-ui/fresnica-v3-motion-preview/
+- GPU-specific appearance and actual user-device scroll feel remain separate manual acceptance tasks; this report verifies the release artifact and local automated behavior.
