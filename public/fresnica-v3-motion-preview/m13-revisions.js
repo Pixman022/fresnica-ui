@@ -6,9 +6,14 @@
   const audience=document.getElementById('audience-track');
   if(!scroller || !frame)return;
   const core=document.querySelector('#v3-ecosystem .ecosystem-core');
-  const portal=document.createElement('div');
-  portal.className='m24-portal';
+  const vectorNS='http://www.w3.org/2000/svg';
+  const portal=document.createElementNS(vectorNS,'svg');
+  portal.classList.add('m24-portal');
   portal.setAttribute('aria-hidden','true');
+  const portalCircle=document.createElementNS(vectorNS,'circle');
+  portalCircle.setAttribute('r','4.5');
+  portalCircle.setAttribute('fill','#0bbd81');
+  portal.append(portalCircle);
   frame.append(portal);
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const compact=matchMedia('(max-width: 680px)');
@@ -25,8 +30,7 @@
         const top=scroller.scrollTop+el.getBoundingClientRect().top-root.top;
         const room=Math.max(0,el.offsetHeight-scroller.clientHeight);
         // Stable internal frames: text/cards visible, before any fade-out.
-        const fraction=id==='v3-ecosystem'?.76:id==='v3-assets'?.78:
-          id==='v3-workspace'?.77:id==='v3-paths'?.78:
+        const fraction=id==='v3-ecosystem'?.76:id==='v3-workspace'?.77:
           id==='v3-features'?.47:el.classList.contains('m5-runway')?.73:.46;
         return {id,top:clamp(top+room*fraction,0,max)};
       }).sort((a,b)=>a.top-b.top);
@@ -74,7 +78,7 @@
     const x=point.left+point.width/2-bounds.left;
     const y=point.top+point.height/2-bounds.top;
     const far=Math.hypot(Math.max(x,bounds.width-x),Math.max(y,bounds.height-y));
-    const cover=2*far/9*1.1;
+    const cover=far*1.1;
     const duration=1320;
     const begun=performance.now(),gen=++wheelGeneration;
     const initial=scroller.style.scrollBehavior;
@@ -82,26 +86,27 @@
     locked=true;
     scroller.style.scrollBehavior='auto';
     document.documentElement.classList.add('m24-transitioning');
-    portal.style.left=x.toFixed(2)+'px';
-    portal.style.top=y.toFixed(2)+'px';
+    portal.setAttribute('viewBox','0 0 '+bounds.width+' '+bounds.height);
+    portalCircle.setAttribute('cx',x.toFixed(2));
+    portalCircle.setAttribute('cy',y.toFixed(2));
+    portalCircle.setAttribute('r','4.5');
+    portalCircle.setAttribute('fill','#0bbd81');
     portal.style.display='block';
-    portal.style.backgroundColor='#0bbd81';
     portal.style.opacity='1';
-    portal.style.transform='translate(-50%,-50%) scale(1)';
     function paint(now){
       if(gen!==wheelGeneration)return;
       const t=clamp((now-begun)/duration,0,1);
-      let size;
+      let radius;
       if(t<.24){
         const a=t/.24;
         const ease=a*a*(3-2*a);
-        size=1+5.2*ease;
+        radius=4.5*(1+5.2*ease);
       }else{
-        portal.style.backgroundColor='#101312';
+        portalCircle.setAttribute('fill','#101312');
         const a=clamp((t-.24)/.50,0,1);
-        size=6.2+(cover-6.2)*Math.pow(a,2.25);
+        radius=27.9+(cover-27.9)*Math.pow(a,2.25);
       }
-      portal.style.transform='translate(-50%,-50%) scale('+size.toFixed(3)+')';
+      portalCircle.setAttribute('r',radius.toFixed(2));
       if(t>=.75&&!jumped){
         jumped=true;
         scroller.scrollTop=destination;

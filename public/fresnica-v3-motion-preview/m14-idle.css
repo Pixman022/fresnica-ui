@@ -91,3 +91,14 @@
   html.m14-motion .m14-network-signal {display:none!important;}
   html.m14-motion .m14-current * {animation:none!important;}
 }
+
+/* Safety principles maintain a gentle, restrained orbit while parked. */
+@media(prefers-reduced-motion:no-preference){
+ html.m14-motion #v3-security.m14-current .security-ring{
+   animation:m25-security-orbit 14s linear infinite;
+ }
+ @keyframes m25-security-orbit{
+   from{transform:translate(-50%,-50%) rotate(0deg);border-style:dashed;}
+   to{transform:translate(-50%,-50%) rotate(360deg);border-style:dashed;}
+ }
+}

@@ -7,7 +7,7 @@
   const frame=document.getElementById('v3-page-frame');
   if (!scroller || !frame) return;
   const ids=['overview','v3-ecosystem','v3-availability','v3-features',
-    'v3-assets','v3-for-you','v3-workspace','v3-paths','v3-clarity','v3-about'];
+    'v3-workspace','v3-for-you','v3-security','v3-clarity','v3-about'];
   const sections=ids.map(id=>document.getElementById(id)).filter(Boolean);
   // Scene-entry layers are independent of M5 scroll scrubbing and M14 idle
   // loops. Every visit replays the entrance; no target owns a resident animation.
@@ -16,10 +16,9 @@
     'v3-ecosystem':'.orbital-intro .reveal,.bottom-intro .reveal',
     'v3-availability':'.download-copy .reveal,.download-art',
     'v3-features':'.feature-heading,.feature-card',
-    'v3-assets':'.asset-left,.asset-board,.bottom-stepper',
+    'v3-workspace':'.workspace-copy,.workspace-mini,.desktop-tabs',
     'v3-for-you':'.audience-title,.audience-track,.audience-nav',
-    'v3-workspace':'.workspace-copy,.workspace-mini',
-    'v3-paths':'.paths-copy,.path-card',
+    'v3-security':'.security-head,.security-visual,.security-principles',
     'v3-clarity':'.qa-heading,.qa-list',
     'v3-about':'.footer-top,.word-wrap'
   };

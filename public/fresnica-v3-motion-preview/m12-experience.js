@@ -39,6 +39,48 @@
     "Home":"首页","Activity":"动态","Explore":"探索",
     "APP UI CONCEPT / NOT LIVE DATA":"应用界面示意 / 非实时数据"
   });
+
+  Object.assign(map,{
+    "Desktop client":"桌面客户端",
+    "FRESNICA / DESKTOP CONCEPT":"FRESNICA / 桌面端概念",
+    "On a wider canvas.":"在更广阔的视野中。",
+    "A desktop application concept for Stellar assets, payments, swaps and compatible apps. Explore clearer decisions through an illustrative desktop experience.":"桌面端应用概念，用于探索 Stellar 资产、收发、兑换和兼容应用，以清晰的设计辅助理解每一步选择。",
+    "DOWNLOAD DESKTOP CLIENT":"下载桌面客户端",
+    "COMING SOON / CONCEPT":"即将开放 / 概念展示",
+    "Desktop client download is not available yet":"桌面客户端暂未开放下载",
+    "Illustrative desktop client interface with four switchable sample screens":"桌面客户端示意界面，可切换四个示例页面",
+    "Assets in view.":"资产一目了然。",
+    "NETWORK":"网络","NATIVE ASSET":"原生资产","DISCOVER":"探索",
+    "Review a payment.":"核对收发详情。",
+    "SEND / RECEIVE · SAMPLE TRANSACTION":"收发 / 示例交易",
+    "MEMO OPTIONAL · REVIEW BEFORE CONFIRMING":"备注可选 / 确认前核对",
+    "Explore a swap.":"探索资产兑换。",
+    "STELLAR ASSET EXCHANGE · PREVIEW ONLY":"Stellar 资产兑换 / 仅供预览",
+    "NO LIVE RATES · PREVIEW AND REVIEW":"非实时汇率 / 预览并核对",
+    "Understand connections.":"理解应用连接。",
+    "COMPATIBLE APPS · CONCEPT FLOW":"兼容应用 / 概念流程",
+    "01 / DISCOVER":"01 / 探索","02 / REVIEW":"02 / 核对","03 / CHOOSE":"03 / 选择",
+    "Explore apps":"探索应用","Understand requests":"理解请求",
+    "Confirm with context":"掌握信息后确认",
+    "ILLUSTRATIVE / NO LIVE CONNECTIONS":"仅供示意 / 无实时连接",
+    "Desktop interface examples":"桌面端界面示例",
+    "Security":"安全性",
+    "FRESNICA / SECURITY PRINCIPLES":"FRESNICA / 安全设计原则",
+    "Clarity is part":"清晰也是",
+    "of security.":"安全的一部分。",
+    "A thoughtful wallet should make important details clear before you act. These are experience design principles, not claims of certified or released security features.":"精心设计的钱包应在操作前清晰呈现重要信息。这里描述的是体验设计原则，而非已取得认证或已发布安全功能的声明。",
+    "REVIEW / UNDERSTAND / DECIDE":"核对 / 理解 / 决定",
+    "01 / TRANSACTIONS":"01 / 交易",
+    "Review before confirming.":"确认前核对。",
+    "See destination, asset, amount and memo together before making a decision.":"做决定前集中查看地址、资产、金额和备注。",
+    "02 / CONNECTIONS":"02 / 连接",
+    "Understand requests.":"理解连接请求。",
+    "Know what a compatible app connection is asking you to approve.":"清楚了解兼容应用的连接请求及其需要批准的内容。",
+    "03 / CONTROL":"03 / 控制",
+    "Make informed choices.":"做出明智的选择。",
+    "Keep understandable options and visible confirmation steps in focus.":"明确呈现选项及确认步骤，让决策过程更容易理解。",
+    "DESIGN CONCEPT / SECURITY IMPLEMENTATION SUBJECT TO VERIFICATION":"设计概念 / 安全实现有待验证"
+  });
   let locale = 'en';
   const nodeOriginal = new WeakMap();
   const attrOriginal = new WeakMap();

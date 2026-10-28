@@ -123,14 +123,12 @@ html.m10-framed .audience-track.m13-auto{scroll-snap-type:none;scroll-behavior:a
   }
 }
 
-/* M24: a precise green-core -> black full-screen portal between scenes 02/03.
-   Fixed within the rounded website canvas; no persistent visual overlay. */
-html.m10-framed .m24-portal{
-  position:absolute;display:none;left:50%;top:50%;
-  width:9px;height:9px;border-radius:50%;background:#0bbd81;
-  transform:translate(-50%,-50%);transform-origin:50% 50%;
-  pointer-events:none;z-index:130;will-change:transform,opacity;
+/* M24: full-frame vector circle, anti-aliased at its real radius every frame. */
+html.m10-framed svg.m24-portal{
+  position:absolute;inset:0;display:none;width:100%;height:100%;
+  overflow:visible;pointer-events:none;z-index:130;will-change:opacity;
 }
+html.m10-framed svg.m24-portal circle{shape-rendering:geometricPrecision;}
 /* Do not start screen 03's staggered arrival underneath the black cover. */
 @media(prefers-reduced-motion:no-preference){
   html.m24-transitioning #v3-availability .m22-entrance{

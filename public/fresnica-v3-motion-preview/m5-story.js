@@ -17,16 +17,11 @@
   html.m5-motion #v3-ecosystem .bottom-intro {opacity:var(--m5-bottom-alpha,1);translate:0 var(--m5-bottom-shift,0px);}
   html.m5-motion #v3-ecosystem .particle-cloud {opacity:var(--m5-cloud-alpha,.9)!important;transform:scale(var(--m5-cloud-scale,1));}
   html.m5-motion #v3-contrast .contrast-line {opacity:var(--m5-line-alpha,1)!important;transform:translate3d(0,var(--m5-line-shift,0px),0)!important;}
-  html.m5-motion #v3-assets .asset-cell .mini-row,html.m5-motion #v3-workspace .ws-stat {transition:background-color .18s ease,box-shadow .18s ease,transform .18s ease;}
-  html.m5-motion #v3-assets .asset-cell .mini-row.m5-focus,html.m5-motion #v3-workspace .ws-stat.m5-focus {background:#e6f4ee;box-shadow:inset 3px 0 #10a578;transform:translateX(2px);}
-  html.m5-motion #v3-assets .bottom-stepper span.m5-focus {box-shadow:inset 0 3px #0ca477;color:#111;background:#eef8f2;}
-  html.m5-motion #v3-assets .bottom-stepper span:not(.m5-focus) {box-shadow:none;color:#87908b;}
-  html.m5-motion #v3-assets .asset-cell .mini-bar span {width:var(--m5-balance-fill,60%);transition:none;}
+  html.m5-motion #v3-workspace .ws-stat {transition:background-color .18s ease,box-shadow .18s ease,transform .18s ease;}
+  html.m5-motion #v3-workspace .ws-stat.m5-focus {background:#e6f4ee;box-shadow:inset 3px 0 #10a578;transform:translateX(2px);}
   html.m5-motion #v3-workspace .workspace-mini {scale:var(--m5-ws-scale,1)!important;translate:0 var(--m5-ws-shift,0px)!important;}
   html.m5-motion #v3-workspace .network polyline {stroke-dashoffset:var(--m5-network-offset,1)!important;transition:none!important;}
   html.m5-motion #v3-workspace .network svg>circle {transition:opacity .12s linear;}
-  html.m5-motion #v3-paths .path-card {opacity:var(--m5-path-alpha,1)!important;transform:translate3d(0,var(--m5-path-shift,0px),0)!important;}
-  html.m5-motion #v3-paths .path-card.m5-focus {border-color:#badfcc;box-shadow:0 20px 43px #163f2519;}
   html.m5-motion .feature-card.is-active .feature-ui {translate:0 -6px;box-shadow:0 24px 45px #13231d1b;}
 }
 `;
@@ -35,9 +30,7 @@
   const specs = [
     ['v3-ecosystem', 'particles', '172vh'],
     ['v3-contrast', 'contrast', '185vh'],
-    ['v3-assets', 'assets', '190vh'],
-    ['v3-workspace', 'workspace', '210vh'],
-    ['v3-paths', 'paths', '180vh']
+    ['v3-workspace', 'workspace', '190vh']
   ];
   const scenes = specs.map(([id, key, height]) => {
     const scene = document.getElementById(id);
@@ -53,11 +46,8 @@
   const sceneBy = Object.fromEntries(scenes.map(s => [s.key, s.scene]));
   const contrastLines = [...(sceneBy.contrast?.querySelectorAll('.contrast-line') || [])];
   const compareCards = [...(sceneBy.contrast?.querySelectorAll('.compare-card') || [])];
-  const assetRows = [...(sceneBy.assets?.querySelectorAll('.asset-cell:last-child .mini-row') || [])];
-  const assetSteps = [...(sceneBy.assets?.querySelectorAll('.bottom-stepper span') || [])];
   const statBoxes = [...(sceneBy.workspace?.querySelectorAll('.ws-stat') || [])];
   const networkNodes = [...(sceneBy.workspace?.querySelectorAll('.network svg>circle') || [])];
-  const pathCards = [...(sceneBy.paths?.querySelectorAll('.path-card') || [])];
   const reveal = (el, alpha) => {
     if (!el) return;
     const v = clamp(alpha);
@@ -92,16 +82,6 @@
     compareCards.forEach((el,i)=>reveal(el,smooth(.32+i*.18,.57+i*.15,p)*stay));
     reveal(section.querySelector('.mode-switch'), smooth(.08,.27,p)*stay);
   }
-  function paintAssets(p) {
-    const section=sceneBy.assets;
-    const leave=fadeOut(p,.87,1);
-    reveal(section.querySelector('.asset-left'),smooth(.05,.27,p)*leave);
-    reveal(section.querySelector('.asset-board'),smooth(.16,.42,p)*leave);
-    const index=p<.35?0:p<.62?1:2;
-    focus(assetRows,index);
-    focus(assetSteps,Math.min(3,Math.floor(p*4)));
-    set(section,'--m5-balance-fill',`${(19+41*smooth(.24,.72,p)).toFixed(1)}%`);
-  }
   function paintWorkspace(p) {
     const section=sceneBy.workspace;
     const show=smooth(.12,.40,p);
@@ -118,18 +98,7 @@
     });
     focus(statBoxes, p<.43?0:p<.7?1:2);
   }
-  function paintPaths(p) {
-    const section=sceneBy.paths;
-    reveal(section.querySelector('.paths-copy'),smooth(.05,.25,p)*fadeOut(p,.87,1));
-    pathCards.forEach((el,i)=>{
-      const appear=smooth(.18+i*.20,.42+i*.20,p);
-      const v=clamp(appear*fadeOut(p,.90,1));
-      set(el,'--m5-path-alpha',v.toFixed(3));
-      set(el,'--m5-path-shift',`${((1-v)*17).toFixed(2)}px`);
-    });
-    focus(pathCards,p<.57?0:1);
-  }
-  const painters={particles:paintParticles,contrast:paintContrast,assets:paintAssets,workspace:paintWorkspace,paths:paintPaths};
+  const painters={particles:paintParticles,contrast:paintContrast,workspace:paintWorkspace};
   let enabled=false, pending=false;
   function paint() {
     pending=false;
@@ -152,7 +121,7 @@
     if(enabled) requestPaint();
     else {
       scenes.forEach(({scene})=>{delete scene.dataset.m5Phase;});
-      focus(assetRows,-1);focus(assetSteps,-1);focus(statBoxes,-1);focus(pathCards,-1);
+      focus(statBoxes,-1);
     }
   };
   mode();
