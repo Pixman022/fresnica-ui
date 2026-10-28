@@ -622,7 +622,7 @@ html.m10-framed .site-header.on-footer-dark ~ .back-to-top{
   position:absolute;left:50%;top:50%;display:block;border-radius:50%;
   background:#a3aaa8;pointer-events:none;
   opacity:0;transform:translate3d(var(--from-x),var(--from-y),0);
-  animation:ecosystem-stream-in 6s linear infinite paused;
+  animation:ecosystem-stream-in 6s cubic-bezier(.35,.65,.5,1) infinite paused;
 }
 @keyframes ecosystem-stream-in {
   0% {opacity:0;transform:translate3d(var(--from-x),var(--from-y),0) scale(.9)}
@@ -670,24 +670,13 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
 /* M21: the line begins at the green core (34% + half of 31% = 49.5%).
    Its grey guide remains quiet; an occasional green packet travels downward. */
 #v3-ecosystem .particle-spine {z-index:1;pointer-events:none}
-#v3-ecosystem .particle-spine::before,
-#v3-ecosystem .particle-spine::after {
-  content:'';position:absolute;left:50%;top:0;
-  height:6px;border-radius:999px;
-  transform:translateX(-50%);opacity:0;pointer-events:none;
-}
 #v3-ecosystem .particle-spine::before {
-  width:2px;
-  background:linear-gradient(to bottom,transparent 0%,#23d391 25%,#d3ffed 48%,#18bb7c 74%,transparent 100%);
-  box-shadow:0 0 6px rgba(15,197,124,.7),0 0 13px rgba(19,190,124,.28);
+  content:'';position:absolute;left:50%;top:0;
+  width:2px;height:10px;border-radius:999px;
+  transform:translateX(-50%);opacity:0;pointer-events:none;
+  background:linear-gradient(to bottom,#bdf9df 0%,#54d39c 24%,#087b54 50%,#54d39c 76%,#bdf9df 100%);
 }
-#v3-ecosystem .particle-spine::after {
-  width:11px;
-  background:radial-gradient(ellipse at center,rgba(24,213,140,.36),transparent 70%);
-  filter:blur(4px);
-}
-#v3-ecosystem .particle-spine.m21-flowing::before,
-#v3-ecosystem .particle-spine.m21-flowing::after {
+#v3-ecosystem .particle-spine.m21-flowing::before {
   animation:m21-current-down 680ms linear both;
 }
 @keyframes m21-current-down {
@@ -700,8 +689,7 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
   100%{top:100%;opacity:0}
 }
 @media(prefers-reduced-motion:reduce) {
-  #v3-ecosystem .particle-spine::before,
-  #v3-ecosystem .particle-spine::after{animation:none!important;opacity:0!important}
+  #v3-ecosystem .particle-spine::before{animation:none!important;opacity:0!important}
 }
 </style>
 </head>
@@ -1006,8 +994,8 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
   document.addEventListener('pointerdown', e => { if (!header.contains(e.target)) openMenu(false); });
 
   // M20: each neutral dot loops from a seeded outer position into the
-  // central green point along straight linear paths. Different durations and
-  // negative delays keep the inflow running while the user stops scrolling.
+  // central green point along straight paths, decelerating near the core.
+  // Different durations and negative delays maintain a continuous inflow.
   const cloud = document.getElementById('ecosystem-particles');
   let seed = 217;
   const rand = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
@@ -1028,7 +1016,7 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
     dot.style.width=size;dot.style.height=size;
     const gray=Math.round(102+rand()*116);
     dot.style.background='rgb('+gray+','+gray+','+gray+')';
-    dot.style.animationDuration=(3.8+rand()*4.8).toFixed(2)+'s';
+    dot.style.animationDuration=(2.6+rand()*2.4).toFixed(2)+'s';
     dot.style.animationDelay=(-rand()*9).toFixed(2)+'s';
     fragment.append(dot);
   }
