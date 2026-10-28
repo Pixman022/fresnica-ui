@@ -112,7 +112,7 @@ body{background:#192330}
 .particle-cloud{position:absolute;top:34%;left:31%;width:38%;height:31%;border-radius:50%;opacity:.9;filter:blur(.15px)}
 .particle-scene .bottom-intro{position:absolute;bottom:15%;left:15%;width:70%;text-align:center}
 .particle-scene .bottom-intro h2{font-size:clamp(38px,4vw,56px);letter-spacing:-.05em;font-weight:480;margin:9px 0}
-.particle-spine{position:absolute;left:50%;top:49.5%;height:23.5%;width:1px;background:linear-gradient(#c6d6cd,transparent)}
+.particle-spine{position:absolute;left:50%;top:49.5%;height:23.5%;width:2px;transform:translateX(-50%);background:linear-gradient(#889f94,rgba(136,159,148,.45) 68%,transparent)}
 .compare-scene{display:flex;align-items:center;flex-direction:column;justify-content:flex-start;padding-top:140px}
 .compare-scene .mode-switch{border-radius:100px;background:#222727;display:flex;gap:4px;align-items:center;padding:5px;margin-bottom:43px;font:10px Consolas,monospace;color:#9da3a0}
 .compare-scene .mode-switch span{padding:10px 15px}
@@ -620,14 +620,14 @@ html.m10-framed .site-header.on-footer-dark ~ .back-to-top{
    the central light and disappear there; no peripheral blinking or wandering. */
 #v3-ecosystem .particle-cloud .stream-dot {
   position:absolute;left:50%;top:50%;display:block;border-radius:50%;
-  background:#a3aaa8;pointer-events:none;
+  background:#76817b;pointer-events:none;
   opacity:0;transform:translate3d(var(--from-x),var(--from-y),0);
   animation:ecosystem-stream-in 6s cubic-bezier(.35,.65,.5,1) infinite paused;
 }
 @keyframes ecosystem-stream-in {
   0% {opacity:0;transform:translate3d(var(--from-x),var(--from-y),0) scale(.9)}
-  9% {opacity:var(--dot-alpha,.67)}
-  85% {opacity:var(--dot-alpha,.67)}
+  9% {opacity:var(--dot-alpha,.82)}
+  85% {opacity:var(--dot-alpha,.82)}
   100% {opacity:0;transform:translate3d(0,0,0) scale(.16)}
 }
 html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
@@ -635,7 +635,7 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
 }
 @media(prefers-reduced-motion:reduce) {
   #v3-ecosystem .particle-cloud .stream-dot {
-    animation:none!important;opacity:var(--dot-alpha,.6);
+    animation:none!important;opacity:var(--dot-alpha,.82);
     transform:translate3d(var(--fallback-x),var(--fallback-y),0);
   }
 }
@@ -672,9 +672,9 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
 #v3-ecosystem .particle-spine {z-index:1;pointer-events:none}
 #v3-ecosystem .particle-spine::before {
   content:'';position:absolute;left:50%;top:0;
-  width:2px;height:10px;border-radius:999px;
+  width:4px;height:10px;border-radius:999px;
   transform:translateX(-50%);opacity:0;pointer-events:none;
-  background:linear-gradient(to bottom,#bdf9df 0%,#54d39c 24%,#087b54 50%,#54d39c 76%,#bdf9df 100%);
+  background:linear-gradient(to bottom,#46dca0 0%,#21bc7e 24%,#046542 50%,#21bc7e 76%,#46dca0 100%);
 }
 #v3-ecosystem .particle-spine.m21-flowing::before {
   animation:m21-current-down 680ms linear both;
@@ -683,9 +683,9 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
   0%{top:0;opacity:0}
   7%{top:0;opacity:.96}
   28%{opacity:1}
-  40%{opacity:.65}
+  40%{opacity:.87}
   52%{opacity:.98}
-  75%{opacity:.79}
+  75%{opacity:.91}
   100%{top:100%;opacity:0}
 }
 @media(prefers-reduced-motion:reduce) {
@@ -1000,7 +1000,7 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
   let seed = 217;
   const rand = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
   const fragment = document.createDocumentFragment();
-  for (let i=0; i<104; i++) {
+  for (let i=0; i<152; i++) {
     const dot=document.createElement('span');
     dot.className='stream-dot';
     const angle=rand()*Math.PI*2;
@@ -1011,10 +1011,10 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
     dot.style.setProperty('--from-y',startY.toFixed(2)+'vh');
     dot.style.setProperty('--fallback-x',(startX*.25).toFixed(2)+'vw');
     dot.style.setProperty('--fallback-y',(startY*.25).toFixed(2)+'vh');
-    dot.style.setProperty('--dot-alpha',(.4+rand()*.42).toFixed(2));
-    const size=(1.8+rand()*2.1).toFixed(1)+'px';
+    dot.style.setProperty('--dot-alpha',(.68+rand()*.3).toFixed(2));
+    const size=(2.5+rand()*2.7).toFixed(1)+'px';
     dot.style.width=size;dot.style.height=size;
-    const gray=Math.round(102+rand()*116);
+    const gray=Math.round(58+rand()*90);
     dot.style.background='rgb('+gray+','+gray+','+gray+')';
     dot.style.animationDuration=(2.6+rand()*2.4).toFixed(2)+'s';
     dot.style.animationDelay=(-rand()*9).toFixed(2)+'s';
