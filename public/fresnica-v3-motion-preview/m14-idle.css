@@ -1,0 +1,103 @@
+/* M14: animate content while a scene is parked. Never animate the entire scene
+   or overwrite the existing wheel-scrubbed states. */
+@keyframes m14-gleam { 0%,12% {transform:translateX(-145%);opacity:0} 25%{opacity:.27} 62%{transform:translateX(160%);opacity:.22} 75%,100%{transform:translateX(160%);opacity:0} }
+@keyframes m14-pulse { 0%,100%{opacity:.38;transform:scale(.84)} 50%{opacity:.9;transform:scale(1.23)} }
+@keyframes m14-balance {0%,100%{transform:scaleX(.65)} 46%{transform:scaleX(.94)} 72%{transform:scaleX(.78)}}
+@keyframes m14-floating {0%,100%{transform:translate3d(0,0,0);opacity:.48}50%{transform:translate3d(4px,-7px,0);opacity:.92}}
+@keyframes m14-route {0%,100%{opacity:.20;transform:translateX(-13px)} 48%{opacity:.80;transform:translateX(14px)}}
+@keyframes m14-panelBreath {0%,100%{box-shadow:0 0 0 1px rgba(12,155,111,.035),0 7px 23px rgba(18,85,59,.015)}50%{box-shadow:0 0 0 2px rgba(12,155,111,.15),0 8px 30px rgba(18,85,59,.07)}}
+@keyframes m14-assetCell {0%,100%{background-color:rgba(23,172,115,.025)}50%{background-color:rgba(23,172,115,.11)}}
+@keyframes m14-cardFloat {0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes m14-signal {0%,100%{opacity:.38;filter:drop-shadow(0 0 2px #12a16b)} 48%{opacity:1;filter:drop-shadow(0 0 7px #32d498)}}
+@media (prefers-reduced-motion:no-preference) {
+  /* Screen 1: live Hero shader/ticker are pre-existing; keep its fallback gently alive too. */
+  html.m14-motion #overview.m14-current .fallback-orb {animation:m14-floating 6.4s ease-in-out infinite;}
+
+  /* Screen 2: the existing scroll-positioned dots retain their coordinates; their
+     little glows drift independently without fighting M5's !important transforms. */
+  html.m14-motion #v3-ecosystem.m14-current .particle-cloud i::after {
+    content:'';position:absolute;inset:-2px;border-radius:50%;pointer-events:none;
+    background:#14a87b;box-shadow:0 0 9px rgba(22,163,113,.24);
+    animation:m14-pulse 2.8s ease-in-out infinite;
+    animation-delay:calc((var(--m14-seed,1) * -0.13s));
+  }
+
+  /* Screen 3: independent visual heartbeat on the planned platform illustrations.
+     Nothing suggests that a download is available. */
+  html.m14-motion #v3-availability.m14-current .platform-box {position:relative;isolation:isolate;overflow:hidden;}
+  html.m14-motion #v3-availability.m14-current .platform-box::after {
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(105deg,transparent 25%,rgba(16,166,113,.13) 49%,transparent 70%);
+    animation:m14-gleam 5.6s linear infinite;
+  }
+  html.m14-motion #v3-availability.m14-current .platform-box:nth-child(2)::after {animation-delay:-2.8s;}
+  html.m14-motion #v3-availability.m14-current .platform-box{animation:m14-panelBreath 3.6s ease-in-out infinite;}
+  html.m14-motion #v3-availability.m14-current .platform-box:nth-child(2){animation-delay:-1.8s;}
+
+  /* Screen 4: five independently animated *inside-UI* previews, not a moving
+     full-page carousel (all five remain centred and readable). */
+  html.m14-motion #v3-features.m14-current .feature-art {position:relative;overflow:hidden;}
+  html.m14-motion #v3-features.m14-current .feature-art::after {
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(106deg,transparent 29%,rgba(22,160,114,.11) 50%,transparent 71%);
+    animation:m14-gleam 6.7s linear infinite;
+  }
+  html.m14-motion #v3-features.m14-current .feature-card:nth-child(2) .feature-art::after{animation-delay:-1.3s;}
+  html.m14-motion #v3-features.m14-current .feature-card:nth-child(3) .feature-art::after{animation-delay:-2.6s;}
+  html.m14-motion #v3-features.m14-current .feature-card:nth-child(4) .feature-art::after{animation-delay:-3.9s;}
+  html.m14-motion #v3-features.m14-current .feature-card:nth-child(5) .feature-art::after{animation-delay:-5.2s;}
+  html.m14-motion #v3-features.m14-current .mini-bar span{transform-origin:left center;animation:m14-balance 5.4s ease-in-out infinite;}
+  html.m14-motion #v3-features.m14-current .feature-ui .mini-row{animation:m14-assetCell 3.8s ease-in-out infinite;}
+  html.m14-motion #v3-features.m14-current .feature-ui .mini-row:nth-child(even){animation-delay:-1.9s;}
+
+  /* Screen 5: the scroll-selected asset/payment/swap panel stays present,
+     while its own figures and progress details keep moving in place. */
+  html.m14-motion #v3-assets.m14-current .m6-stage-viewport{position:relative;overflow:hidden;}
+  html.m14-motion #v3-assets.m14-current .m6-stage-viewport::after{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(100deg,transparent 32%,rgba(37,184,126,.10) 50%,transparent 68%);
+    animation:m14-gleam 6.2s linear infinite;
+  }
+  html.m14-motion #v3-assets.m14-current .asset-cell .mini-bar span{transform-origin:left center;animation:m14-balance 5.8s ease-in-out infinite;}
+  html.m14-motion #v3-assets.m14-current .m6-stage[aria-hidden="false"] .m6-trade-row{animation:m14-assetCell 3.2s ease-in-out infinite;}
+  html.m14-motion #v3-assets.m14-current .m6-stage[aria-hidden="false"] .m6-trade-row:nth-child(2){animation-delay:-1.3s;}
+  html.m14-motion #v3-assets.m14-current .m6-stage .m6-status em {animation:m14-floating 4s ease-in-out infinite;}
+
+  /* Screen 6: the existing continuously moving audience track is retained.
+     Keep one subtle breathing effect inside the featured card while it travels. */
+  html.m14-motion #v3-for-you.m14-current .audience-card.featured .num:last-child{animation:m14-floating 4.6s ease-in-out infinite;}
+  html.m14-motion #v3-for-you.m14-current .audience-card{animation:m14-cardFloat 4.8s ease-in-out infinite;}
+  html.m14-motion #v3-for-you.m14-current .audience-card:nth-child(even){animation-delay:-2.4s;}
+
+  /* Screen 7: the packet itself is positioned by M14 JS along the visible SVG
+     network path. CSS merely adds its soft pulse. */
+  html.m14-motion #v3-workspace.m14-current .m14-network-signal{animation:m14-signal 1.6s ease-in-out infinite;}
+  html.m14-motion #v3-workspace.m14-current .ws-stat b{animation:m14-floating 5.2s ease-in-out infinite;}
+  html.m14-motion #v3-workspace.m14-current .ws-stat:nth-child(2) b{animation-delay:-1.4s;}
+  html.m14-motion #v3-workspace.m14-current .ws-stat:nth-child(3) b{animation-delay:-2.8s;}
+
+  /* Screen 8: animated route accents; M6 still controls which step is current. */
+  html.m14-motion #v3-paths.m14-current .path-card{position:relative;overflow:hidden;}
+  html.m14-motion #v3-paths.m14-current .path-card::after{
+    content:'';position:absolute;left:15%;right:15%;bottom:7px;height:2px;
+    border-radius:9px;background:linear-gradient(90deg,transparent,#18af78,transparent);
+    pointer-events:none;animation:m14-route 4.1s ease-in-out infinite;
+  }
+  html.m14-motion #v3-paths.m14-current .path-card:nth-child(2)::after{animation-delay:-2s;}
+  html.m14-motion #v3-paths.m14-current .path-steps .m6-step-current{animation:m14-signal 2.9s ease-in-out infinite;}
+
+  /* Screen 9: make the Q&A feel alive without auto-opening answers or moving text. */
+  html.m14-motion #v3-clarity.m14-current .qa-heading{position:relative;}
+  html.m14-motion #v3-clarity.m14-current .qa-heading::after{
+    content:'';position:absolute;left:0;bottom:-20px;width:39px;height:2px;
+    background:linear-gradient(90deg,#16c18b,transparent);
+    animation:m14-route 4.5s ease-in-out infinite;
+  }
+  html.m14-motion #v3-clarity.m14-current .qa-list button span{animation:m14-signal 4.5s ease-in-out infinite;}
+
+  /* Screen 10: the existing canvas wordmark particle loop remains authoritative. */
+}
+@media (prefers-reduced-motion:reduce) {
+  html.m14-motion .m14-network-signal {display:none!important;}
+  html.m14-motion .m14-current * {animation:none!important;}
+}
