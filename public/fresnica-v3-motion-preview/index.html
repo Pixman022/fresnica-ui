@@ -862,6 +862,81 @@ html.m10-framed #v3-workspace .network{height:clamp(105px,17vh,175px);margin-top
   html.m10-framed .back-to-top,html.m10-framed .back-to-top span{transition:none!important;}
 }
 </style>
+<style id="m25-layout">
+/* Scene backgrounds meet edge to edge. Component/card radii remain untouched. */
+html.m10-framed .v3-page-frame,
+html.m10-framed .stage,html.m10-framed .chapter,
+html:not(.m10-framed) .stage,html:not(.m10-framed) .chapter{border-radius:0!important;}
+/* The original four-step strip now operates as desktop preview tabs. */
+html.m10-framed #v3-workspace .workspace-copy{top:clamp(145px,24%,238px);}
+html.m10-framed #v3-workspace .workspace-copy .chapter-title{font-size:clamp(41px,4vw,58px);}
+#v3-workspace .desktop-download{display:flex;align-items:center;justify-content:space-between;gap:13px;margin-top:clamp(25px,3.5vh,40px);width:min(308px,100%);padding:14px 18px;background:#171b19;color:#f6f8f6;border:1px solid #171b19;border-radius:999px;text-align:left;cursor:not-allowed;font-family:var(--Fresnica-font-family,Arial,sans-serif);}
+#v3-workspace .desktop-download span{font-size:11px;font-weight:650;}
+#v3-workspace .desktop-download small{display:block;margin-top:5px;font-size:9px;color:#abc6b8;}
+#v3-workspace .desktop-download svg{width:21px;height:21px;flex:none;color:#81dab1;}
+html.m10-framed #v3-workspace .workspace-mini{top:47%;height:auto!important;aspect-ratio:16/9;transform:translateY(-50%);}
+html.m10-framed #v3-workspace .desktop-tabs{left:50%;transform:translateX(-50%);bottom:clamp(50px,7.6vh,78px);width:min(710px,calc(100% - 130px));z-index:3;}
+#v3-workspace .desktop-tabs button{appearance:none;border:0;min-width:0;padding:16px 8px;background:#fff;color:#718177;text-align:center;cursor:pointer;font:11px Consolas,monospace;transition:background .18s,color .18s;}
+#v3-workspace .desktop-tabs button[aria-selected="true"]{background:#e9f5ec;color:#135838;box-shadow:inset 0 3px #0ca477;font-weight:700;}
+#v3-workspace .desktop-tabs button:focus-visible{outline:2px solid #0ca477;outline-offset:-2px;z-index:1;}
+#v3-workspace .desktop-panel[hidden]{display:none!important;}
+#v3-workspace .desktop-panel{min-height:0;animation:m25-show .29s ease both;}
+@keyframes m25-show{from{opacity:0;translate:0 7px}to{opacity:1;translate:0 0}}
+#v3-workspace .desktop-panel h3{font-size:clamp(18px,2vw,25px);margin:7px 0 13px;}
+#v3-workspace .desktop-hint{font:10px Consolas,monospace;color:#7a8f80;margin:0 0 18px;}
+#v3-workspace .desktop-demo-row{display:flex;justify-content:space-between;align-items:center;gap:13px;background:#f5f8f5;border:1px solid #dde8df;border-radius:11px;padding:14px 17px;margin-bottom:10px;}
+#v3-workspace .desktop-demo-row span{font:10px Consolas,monospace;color:#7e9887;}
+#v3-workspace .desktop-demo-row strong{font-size:clamp(11px,1.2vw,16px);font-weight:600;}
+#v3-workspace .desktop-demo-status{margin-top:18px;border-top:1px solid #d9e6de;padding-top:14px;color:#128863;font:10px Consolas,monospace;}
+#v3-workspace .desktop-swap-mark{font-size:25px;color:#0d9d71;line-height:1;text-align:center;margin:6px 0 10px;}
+/* Existing eighth scene replaced with a security design overview. */
+html.m10-framed #v3-security{background:#f5f7f5;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;align-items:center;gap:clamp(21px,3.2vw,55px);padding-block:clamp(110px,15vh,155px) clamp(100px,12vh,140px);}
+#v3-security .security-head{max-width:580px;}
+#v3-security .security-head h2{font-size:clamp(46px,5vw,76px);}
+#v3-security .security-head p.chapter-sub{max-width:530px;line-height:1.7;}
+#v3-security .security-visual{position:relative;height:clamp(175px,29vh,285px);display:grid;place-items:center;color:#0c936b;}
+#v3-security .security-ring{width:clamp(170px,23vw,305px);aspect-ratio:1;border:1px solid #a9d5b9;border-radius:50%;position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);box-shadow:0 0 0 42px rgba(129,190,156,.08);}
+#v3-security .security-visual svg{width:clamp(95px,11vw,140px);position:relative;z-index:1;}
+#v3-security .security-visual>span:last-child{position:absolute;bottom:0;font:10px Consolas,monospace;color:#639880;letter-spacing:.09em;}
+#v3-security .security-principles{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,23px);}
+#v3-security .security-principle{padding:clamp(17px,2vw,27px);background:#fff;border:1px solid #dfe9e2;border-radius:14px;}
+#v3-security .security-principle>span{font:10px Consolas,monospace;color:#0ca477;}
+#v3-security .security-principle h3{font-weight:510;font-size:clamp(18px,1.65vw,24px);margin:14px 0 10px;}
+#v3-security .security-principle p{margin:0;font-size:13px;color:#66756b;line-height:1.6;}
+#v3-security .security-disclaimer{position:absolute;right:clamp(40px,6.1vw,100px);bottom:clamp(22px,3vh,33px);font:9px Consolas,monospace;color:#8a9a8e;}
+@media(max-width:680px){
+  html.m10-framed #v3-workspace{min-height:970px!important;}
+  html.m10-framed #v3-workspace .workspace-copy{position:static;width:100%;}
+  html.m10-framed #v3-workspace .workspace-copy .chapter-title{font-size:clamp(37px,10vw,49px);}
+  html.m10-framed #v3-workspace .workspace-mini{top:46%;left:16px;right:16px;width:calc(100% - 32px);aspect-ratio:16/9;transform:none;grid-template-columns:minmax(67px,24%) minmax(0,1fr);}
+  #v3-workspace .ws-sidebar{padding:6px 3px;}
+  #v3-workspace .ws-sidebar strong{font-size:10px;margin:5px 5px 12px;}
+  #v3-workspace .ws-sidebar span{font-size:8px;padding:6px 4px;}
+  #v3-workspace .ws-content{padding:9px 8px;}
+  #v3-workspace .desktop-panel h3{font-size:14px;margin:3px 0 7px;}
+  #v3-workspace .desktop-hint{font-size:7px;margin-bottom:7px;}
+  #v3-workspace .desktop-demo-row{padding:7px 8px;margin-bottom:5px;}
+  #v3-workspace .desktop-demo-row span{font-size:7px;}
+  #v3-workspace .desktop-demo-row strong{font-size:9px;}
+  #v3-workspace .desktop-demo-status{font-size:7px;margin-top:8px;padding-top:8px;}
+  #v3-workspace .desktop-swap-mark{font-size:18px;margin:3px 0 6px;}
+  #v3-workspace .network{height:clamp(65px,17vw,105px);margin-top:6px;}
+  #v3-workspace .ws-stats{gap:3px;}
+  #v3-workspace .ws-stat{font-size:7px;padding:5px 3px;}
+  #v3-workspace .ws-stat b{font-size:11px;margin-top:4px;}
+  html.m10-framed #v3-workspace .desktop-tabs{bottom:clamp(56px,8vh,80px);width:calc(100% - 40px);}
+  #v3-workspace .desktop-tabs button{padding:13px 3px;font-size:9px;}
+  html.m10-framed #v3-security{display:flex;flex-direction:column;align-items:stretch;gap:24px;min-height:1070px!important;padding:105px 24px 90px!important;}
+  #v3-security .security-head h2{font-size:clamp(43px,11vw,55px);}
+  #v3-security .security-visual{height:210px;}
+  #v3-security .security-principles{display:grid;grid-template-columns:1fr;gap:10px;}
+  #v3-security .security-principle{padding:16px 18px;}
+  #v3-security .security-principle h3{font-size:19px;margin:8px 0 5px;}
+  #v3-security .security-principle p{font-size:12px;}
+  #v3-security .security-disclaimer{left:24px;right:24px;bottom:52px;font-size:8px;}
+}
+@media(prefers-reduced-motion:reduce){#v3-workspace .desktop-panel{animation:none!important;}}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
@@ -900,7 +975,7 @@ html.m10-framed #v3-workspace .network{height:clamp(105px,17vh,175px);margin-top
   <div class="orbital-intro"><p class="chapter-kicker reveal">FRESNICA / CONNECTED BY DESIGN</p><h2 class="chapter-title reveal delay-1" id="ecosystem-title">Everything, connected.</h2><p class="chapter-kicker reveal delay-2">ASSETS &nbsp; / &nbsp; APPS &nbsp; / &nbsp; EXCHANGE &nbsp; / &nbsp; PEOPLE</p></div>
   <div class="particle-cloud" id="ecosystem-particles" aria-hidden="true"><span class="ecosystem-core"></span></div><i class="particle-spine" aria-hidden="true"></i>
   <div class="bottom-intro"><p class="chapter-kicker green-label reveal">ONE CONNECTED EXPERIENCE</p><h2 class="reveal delay-1">Your next move.</h2><p class="chapter-kicker reveal delay-2">EXPLORE. UNDERSTAND. MOVE.</p></div>
-  <span class="page-count">02 / 10</span>
+  <span class="page-count">02 / 09</span>
 </section>
 <section class="chapter download-scene dark" id="v3-availability" data-chapter="Mobile app" data-theme="dark" aria-labelledby="availability-title">
   <div class="download-copy">
@@ -929,7 +1004,7 @@ html.m10-framed #v3-workspace .network{height:clamp(105px,17vh,175px);margin-top
     </div>
     <span class="download-art-caption">APP UI CONCEPT / NOT LIVE DATA</span>
   </div>
-  <span class="page-count">03 / 10</span>
+  <span class="page-count">03 / 09</span>
 </section>
 <div class="feature-scroll" id="v3-features" data-chapter="What it does" data-theme="light" aria-label="Five wallet essentials, scroll to explore">
   <section class="chapter feature-chapter" aria-labelledby="feature-title">
@@ -943,15 +1018,52 @@ html.m10-framed #v3-workspace .network{height:clamp(105px,17vh,175px);margin-top
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">ACTIVITY · ILLUSTRATIVE</span><strong style="font-size:25px">Your activity.</strong><div class="mini-row">Received XLM <em>+20.00</em></div><div class="mini-row">Sent XLM <em>−5.00</em></div><div class="mini-row">Trustline <em>Updated</em></div></div></div><div class="label-row"><h3>Keep the details</h3><span class="chapter-kicker">05</span></div><p class="body">Review your activity and return to the information that matters.</p></article>
       </div>
     </div>
-    <span class="page-count">04 / 10</span>
+    <span class="page-count">04 / 09</span>
     
   </section>
 </div>
-<section class="chapter asset-scene" id="v3-assets" data-chapter="Your assets" data-theme="light" aria-labelledby="assets-title">
-  <div class="asset-left reveal"><p class="chapter-kicker green-label">SEE / UNDERSTAND / MOVE</p><h2 class="chapter-title" id="assets-title">See what's yours.<br>Before your<br>next move.</h2><p class="chapter-sub">A clear overview with the details you need before deciding what comes next.</p></div>
-  <div class="asset-board reveal delay-1" aria-label="Illustrative wallet balance and asset list"><div class="asset-topline"><span>YOUR WALLET / ASSETS</span><span>ILLUSTRATIVE INTERFACE · NOT LIVE DATA</span></div><div class="asset-columns"><div class="asset-cell"><p class="chapter-kicker">TOTAL BALANCE</p><p class="asset-value">1,248.50 <span style="font-size:14px">XLM</span></p><p style="color:#0e9f70;font-size:12px">● XLM / NATIVE ASSET</p><div class="mini-bar"><span></span></div></div><div class="asset-cell"><p class="chapter-kicker">YOUR ASSETS</p><div class="mini-row">XLM <em>Stellar</em></div><div class="mini-row">USDC <em>Issued asset</em></div><div class="mini-row">AQUA <em>Issued asset</em></div></div></div></div>
-  <div class="bottom-stepper" aria-label="Wallet experience steps"><span>01 / ASSETS</span><span>02 / PAYMENTS</span><span>03 / SWAP</span><span>04 / CONNECT</span></div>
-  <span class="page-count">05 / 10</span>
+
+<section class="chapter workspace-scene" id="v3-workspace" data-chapter="Desktop client" data-theme="light" aria-labelledby="workspace-title">
+  <div class="workspace-copy reveal"><p class="chapter-kicker green-label">FRESNICA / DESKTOP CONCEPT</p><h2 class="chapter-title" id="workspace-title">Your Stellar world.<br>On a wider canvas.</h2><p class="chapter-sub">A desktop application concept for Stellar assets, payments, swaps and compatible apps. Explore clearer decisions through an illustrative desktop experience.</p><button type="button" class="desktop-download" disabled aria-label="Desktop client download is not available yet"><span>DOWNLOAD DESKTOP CLIENT<small>COMING SOON / CONCEPT</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 18v3h16v-3"/></svg></button></div>
+  <div class="workspace workspace-mini reveal delay-1" aria-label="Illustrative desktop client interface with four switchable sample screens">
+    <div class="ws-sidebar"><strong>Fresnica</strong><span>Overview</span><span>Assets</span><span>Send &amp; receive</span><span>Swap</span><span>Connect</span><span>Activity</span></div>
+    <div class="ws-content">
+      <p class="chapter-kicker">DESKTOP INTERFACE · ILLUSTRATIVE</p>
+      <div class="desktop-panel" id="desktop-panel-assets" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-assets">
+        <h3>Assets in view.</h3>
+        <div class="ws-stats"><div class="ws-stat">NETWORK<b>Stellar</b></div><div class="ws-stat">NATIVE ASSET<b>XLM</b></div><div class="ws-stat">DISCOVER<b>Apps</b></div></div>
+        <div class="network"><svg viewBox="0 0 480 210" role="img" aria-label="Illustrative Stellar network"><circle cx="80" cy="145" r="5"/><circle cx="167" cy="102" r="5"/><circle cx="255" cy="120" r="5"/><circle cx="337" cy="82" r="5"/><circle cx="419" cy="50" r="5"/><polyline pathLength="1" points="80,145 167,102 255,120 337,82 419,50"/><g fill="#8caba0" opacity=".37"><circle cx="112" cy="66" r="1.5"/><circle cx="230" cy="49" r="2"/><circle cx="363" cy="159" r="2"/><circle cx="291" cy="162" r="1.5"/><circle cx="161" cy="173" r="1.5"/></g></svg></div>
+      </div>
+      <div class="desktop-panel" id="desktop-panel-payments" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-payments" hidden>
+        <h3>Review a payment.</h3><p class="desktop-hint">SEND / RECEIVE · SAMPLE TRANSACTION</p>
+        <div class="desktop-demo-row"><span>DESTINATION</span><strong>GABX…7BD</strong></div>
+        <div class="desktop-demo-row"><span>ASSET</span><strong>XLM</strong></div>
+        <div class="desktop-demo-row"><span>AMOUNT</span><strong>25.00</strong></div>
+        <p class="desktop-demo-status">MEMO OPTIONAL · REVIEW BEFORE CONFIRMING</p>
+      </div>
+      <div class="desktop-panel" id="desktop-panel-swap" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-swap" hidden>
+        <h3>Explore a swap.</h3><p class="desktop-hint">STELLAR ASSET EXCHANGE · PREVIEW ONLY</p>
+        <div class="desktop-demo-row"><span>FROM</span><strong>25.00 XLM</strong></div>
+        <p class="desktop-swap-mark" aria-hidden="true">⇅</p>
+        <div class="desktop-demo-row"><span>TO</span><strong>Stellar-issued asset</strong></div>
+        <p class="desktop-demo-status">NO LIVE RATES · PREVIEW AND REVIEW</p>
+      </div>
+      <div class="desktop-panel" id="desktop-panel-connect" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-connect" hidden>
+        <h3>Understand connections.</h3><p class="desktop-hint">COMPATIBLE APPS · CONCEPT FLOW</p>
+        <div class="desktop-demo-row"><span>01 / DISCOVER</span><strong>Explore apps</strong></div>
+        <div class="desktop-demo-row"><span>02 / REVIEW</span><strong>Understand requests</strong></div>
+        <div class="desktop-demo-row"><span>03 / CHOOSE</span><strong>Confirm with context</strong></div>
+        <p class="desktop-demo-status">ILLUSTRATIVE / NO LIVE CONNECTIONS</p>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-stepper desktop-tabs" role="tablist" aria-label="Desktop interface examples">
+    <button id="desktop-tab-assets" role="tab" type="button" aria-controls="desktop-panel-assets" aria-selected="true" tabindex="0">01 / ASSETS</button>
+    <button id="desktop-tab-payments" role="tab" type="button" aria-controls="desktop-panel-payments" aria-selected="false" tabindex="-1">02 / PAYMENTS</button>
+    <button id="desktop-tab-swap" role="tab" type="button" aria-controls="desktop-panel-swap" aria-selected="false" tabindex="-1">03 / SWAP</button>
+    <button id="desktop-tab-connect" role="tab" type="button" aria-controls="desktop-panel-connect" aria-selected="false" tabindex="-1">04 / CONNECT</button>
+  </div>
+  <span class="page-count">05 / 09</span>
 </section>
 <section class="chapter audience-scene" id="v3-for-you" data-chapter="Built for the way" data-theme="light" aria-labelledby="audience-title">
   <div class="audience-title reveal"><p class="chapter-kicker">BUILT FOR DIFFERENT PATHS</p><h2 class="chapter-title" id="audience-title">Built for the way<br>you move.</h2></div>
@@ -964,20 +1076,15 @@ html.m10-framed #v3-workspace .network{height:clamp(105px,17vh,175px);margin-top
     <article class="audience-card"><span class="num">06 / YOUR NEXT MOVE</span><div><h3>Made to grow.</h3><p>One place for the experiences ahead.</p></div><span class="num">FRESNICA / WALLET</span></article>
   </div>
   <div class="audience-nav"><button type="button" class="circle-action" id="audience-prev" aria-label="Previous card">←</button><button type="button" class="circle-action" id="audience-next" aria-label="Next card">→</button></div>
-  <span class="page-count">06 / 10</span>
+  <span class="page-count">06 / 09</span>
 </section>
-<section class="chapter workspace-scene" id="v3-workspace" data-chapter="Desktop" data-theme="light" aria-labelledby="workspace-title">
-  <div class="workspace-copy reveal"><p class="chapter-kicker green-label">DESKTOP EXPERIENCE / CONCEPT</p><h2 class="chapter-title" id="workspace-title">Your world,<br>in a wider view.</h2><p class="chapter-sub">Explore how a focused desktop companion could bring assets and connected workflows into view. This remains a concept; availability has not been announced.</p></div>
-  <div class="workspace workspace-mini reveal delay-1" aria-label="DESKTOP INTERFACE · ILLUSTRATIVE">
-    <div class="ws-sidebar"><strong>Fresnica</strong><span>Overview</span><span>Assets</span><span>Send &amp; receive</span><span>Swap</span><span>Connect</span><span>Activity</span></div>
-    <div class="ws-content"><p class="chapter-kicker">DESKTOP INTERFACE · ILLUSTRATIVE</p><h3>A clearer, connected view.</h3><div class="ws-stats"><div class="ws-stat">01 / NETWORK<b>Stellar</b></div><div class="ws-stat">02 / CORE<b>XLM</b></div><div class="ws-stat">03 / DISCOVER<b>Apps</b></div></div><div class="network"><svg viewBox="0 0 480 210" role="img" aria-label="Illustrative network points connected by a green line"><circle cx="80" cy="145" r="5"/><circle cx="167" cy="102" r="5"/><circle cx="255" cy="120" r="5"/><circle cx="337" cy="82" r="5"/><circle cx="419" cy="50" r="5"/><polyline pathLength="1" points="80,145 167,102 255,120 337,82 419,50"/><g fill="#8caba0" opacity=".37"><circle cx="112" cy="66" r="1.5"/><circle cx="230" cy="49" r="2"/><circle cx="363" cy="159" r="2"/><circle cx="291" cy="162" r="1.5"/><circle cx="161" cy="173" r="1.5"/></g></svg></div></div>
-  </div>
-  <span class="page-count">07 / 10</span>
-</section>
-<section class="chapter paths-scene" id="v3-paths" data-chapter="Several paths" data-theme="light" aria-labelledby="paths-title">
-  <div class="paths-copy reveal"><p class="chapter-kicker green-label">ONE WALLET / SEVERAL PATHS</p><h2 class="chapter-title" id="paths-title">One wallet, several paths.</h2><p class="chapter-sub" style="margin:auto;max-width:700px">Whether you're sending XLM, exploring issued assets or connecting to apps, keep each step clear.</p></div><div class="path-lines" aria-hidden="true"></div>
-  <div class="paths-grid"><article class="path-card reveal"><p class="chapter-kicker green-label">PATH 01 / SEND</p><h3>Send with clarity.</h3><p>See the destination, asset, amount and memo before confirmation.</p><div class="path-steps"><span>DESTINATION</span><span>ASSET</span><span>AMOUNT</span><span>REVIEW</span></div></article><article class="path-card reveal delay-1"><p class="chapter-kicker green-label">PATH 02 / EXCHANGE</p><h3>Explore an exchange.</h3><p>View supported asset pairs and understand the proposed route.</p><div class="path-steps"><span>ASSET</span><span>PAIR</span><span>PREVIEW</span><span>REVIEW</span></div></article></div>
-  <span class="page-count">08 / 10</span>
+
+
+<section class="chapter security-scene" id="v3-security" data-chapter="Security" data-theme="light" aria-labelledby="security-title">
+  <div class="security-head reveal"><p class="chapter-kicker green-label">FRESNICA / SECURITY PRINCIPLES</p><h2 class="chapter-title" id="security-title">Clarity is part<br>of security.</h2><p class="chapter-sub">A thoughtful wallet should make important details clear before you act. These are experience design principles, not claims of certified or released security features.</p></div>
+  <div class="security-visual reveal delay-1" aria-hidden="true"><span class="security-ring"></span><svg viewBox="0 0 144 144" fill="none"><path d="M72 17 115 32v34c0 28-18 49-43 63-25-14-43-35-43-63V32L72 17Z" stroke="currentColor" stroke-width="2.4"/><path d="m51 73 14 14 29-29" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>REVIEW / UNDERSTAND / DECIDE</span></div>
+  <div class="security-principles"><article class="security-principle reveal"><span>01 / TRANSACTIONS</span><h3>Review before confirming.</h3><p>See destination, asset, amount and memo together before making a decision.</p></article><article class="security-principle reveal delay-1"><span>02 / CONNECTIONS</span><h3>Understand requests.</h3><p>Know what a compatible app connection is asking you to approve.</p></article><article class="security-principle reveal delay-2"><span>03 / CONTROL</span><h3>Make informed choices.</h3><p>Keep understandable options and visible confirmation steps in focus.</p></article></div>
+  <span class="security-disclaimer">DESIGN CONCEPT / SECURITY IMPLEMENTATION SUBJECT TO VERIFICATION</span><span class="page-count">07 / 09</span>
 </section>
 <section class="chapter trust-scene dark qa-scene" id="v3-clarity" data-chapter="Questions" data-theme="dark" aria-labelledby="clarity-title">
   <div class="qa-layout">
@@ -989,13 +1096,13 @@ html.m10-framed #v3-workspace .network{height:clamp(105px,17vh,175px);margin-top
       <div><button type="button" aria-expanded="false" aria-controls="faq-answer-4">Can I manage funds on this website?<span aria-hidden="true">+</span></button><p id="faq-answer-4" hidden>No. This site is a product preview; wallet operations will be available in the app when released.</p></div>
     </div>
   </div>
-  <span class="page-count">09 / 10</span>
+  <span class="page-count">08 / 09</span>
 </section>
 <footer class="chapter footer-scene dark day" id="v3-about" data-chapter="About Fresnica" data-theme="dark" aria-labelledby="footer-title">
   <button type="button" id="footer-theme" class="footer-switch" aria-pressed="false" aria-label="Switch to dark theme">DARK MODE</button>
-  <div class="footer-top reveal"><div><p class="chapter-kicker">FRESNICA / YOUR WAY FORWARD</p><h2 id="footer-title">Your wallet.<br>Your way.</h2><p>Fresnica is an independent wallet designed for the Stellar ecosystem, with clarity and everyday control in mind. In development.</p></div><div><h3>PRODUCT</h3><a href="#overview">Overview</a><a href="#v3-features">Features</a><a href="#v3-assets">Assets</a><a href="#v3-availability">Download</a></div><div><h3>EXPLORE</h3><a href="#v3-ecosystem">Experience</a><a href="#v3-workspace">Desktop</a><a href="#v3-paths">Several paths</a><a href="#v3-clarity">Questions</a></div></div>
+  <div class="footer-top reveal"><div><p class="chapter-kicker">FRESNICA / YOUR WAY FORWARD</p><h2 id="footer-title">Your wallet.<br>Your way.</h2><p>Fresnica is an independent wallet designed for the Stellar ecosystem, with clarity and everyday control in mind. In development.</p></div><div><h3>PRODUCT</h3><a href="#overview">Overview</a><a href="#v3-features">Features</a><a href="#v3-workspace">Desktop</a><a href="#v3-availability">Download</a></div><div><h3>EXPLORE</h3><a href="#v3-ecosystem">Experience</a><a href="#v3-workspace">Desktop</a><a href="#v3-security">Security</a><a href="#v3-clarity">Questions</a></div></div>
   <div class="word-wrap reveal" aria-label="FRESNICA"><p class="dot-word" aria-hidden="true">FRESNICA</p><canvas class="footer-particles" id="footer-particles" aria-hidden="true"></canvas></div>
-  <span class="page-count">10 / 10</span><span class="scene-mini-note">ILLUSTRATIVE DESIGN / NOT A LIVE WALLET</span>
+  <span class="page-count">09 / 09</span><span class="scene-mini-note">ILLUSTRATIVE DESIGN / NOT A LIVE WALLET</span>
 </footer>
 
   <script>
@@ -1170,7 +1277,7 @@ html.m10-framed #v3-workspace .network{height:clamp(105px,17vh,175px);margin-top
   const menu = document.createElement('div');
   menu.className = 'nav-dropdown';
   menu.id = 'scene-menu';
-  menu.innerHTML = '<a href="#overview"><small>01</small> Overview</a><a href="#v3-ecosystem"><small>02</small> Connected experience</a><a href="#v3-availability"><small>03</small> Mobile app</a><a href="#v3-features"><small>04</small> Five essentials</a><a href="#v3-assets"><small>05</small> Your assets</a><a href="#v3-for-you"><small>06</small> Built for the way</a><a href="#v3-workspace"><small>07</small> Desktop</a><a href="#v3-paths"><small>08</small> Several paths</a><a href="#v3-clarity"><small>09</small> Questions</a><a href="#v3-about"><small>10</small> About Fresnica</a>';
+  menu.innerHTML = '<a href="#overview"><small>01</small> Overview</a><a href="#v3-ecosystem"><small>02</small> Connected experience</a><a href="#v3-availability"><small>03</small> Mobile app</a><a href="#v3-features"><small>04</small> Five essentials</a><a href="#v3-workspace"><small>05</small> Desktop client</a><a href="#v3-for-you"><small>06</small> Built for the way</a><a href="#v3-security"><small>07</small> Security</a><a href="#v3-clarity"><small>08</small> Questions</a><a href="#v3-about"><small>09</small> About Fresnica</a>';
   const menuButton = document.createElement('button');
   menuButton.type = 'button';
   menuButton.className = 'nav-button';
@@ -1500,11 +1607,11 @@ html.m10-framed #v3-workspace .network{height:clamp(105px,17vh,175px);margin-top
 </script>
 
   <script defer src="./m5-story.js"></script>
-  <script defer src="./m6-states.js"></script>
   <script defer src="./m7-polish.js"></script>
   <script defer src="./m10-frame.js"></script>
   <script defer src="./m12-experience.js"></script>
   <script defer src="./m13-revisions.js"></script>
   <script defer src="./m14-idle.js"></script>
+  <script defer src="./m25-desktop-tabs.js"></script>
 </body>
 </html>
