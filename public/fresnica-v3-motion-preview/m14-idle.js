@@ -9,6 +9,26 @@
   const ids=['overview','v3-ecosystem','v3-availability','v3-features',
     'v3-assets','v3-for-you','v3-workspace','v3-paths','v3-clarity','v3-about'];
   const sections=ids.map(id=>document.getElementById(id)).filter(Boolean);
+  // Scene-entry layers are independent of M5 scroll scrubbing and M14 idle
+  // loops. Every visit replays the entrance; no target owns a resident animation.
+  const entrances={
+    overview:'.hero-copy .eyebrow,.hero-copy h1,.hero-copy .intro,.hero-copy .actions,.hero-art',
+    'v3-ecosystem':'.orbital-intro .reveal,.bottom-intro .reveal',
+    'v3-availability':':scope > .reveal,.planned-platforms',
+    'v3-features':'.feature-heading,.feature-card,.feature-progress,.feature-controls',
+    'v3-assets':'.asset-left,.asset-board,.bottom-stepper',
+    'v3-for-you':'.audience-title,.audience-track,.audience-nav',
+    'v3-workspace':'.workspace-copy,.workspace-mini',
+    'v3-paths':'.paths-copy,.path-card',
+    'v3-clarity':'.qa-heading,.qa-list',
+    'v3-about':'.footer-top,.word-wrap'
+  };
+  for(const section of sections){
+    section.querySelectorAll(entrances[section.id]||'.reveal').forEach((el,i)=>{
+      el.classList.add('m22-entrance');
+      el.style.setProperty('--m22-delay',Math.min(i,6)*105+'ms');
+    });
+  }
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const eligible=()=>!reduced.matches&&!document.hidden;
   const root=document.documentElement;
@@ -98,7 +118,10 @@
     if(current!==next){
       if(current)current.classList.remove('m14-current');
       current=next;
-      if(current)current.classList.add('m14-current');
+      if(current){
+        current.classList.add('m22-seen');
+        current.classList.add('m14-current');
+      }
     }
     root.classList.toggle('m14-motion',eligible());
     root.dataset.m14Active=current?.id||'';
