@@ -34,7 +34,7 @@
     // Make long scenes long enough to breathe while keeping the screen itself fixed.
     runway.style.setProperty('--v3-runway',
       section.id === 'overview' ? '145dvh' :
-      section.id === 'v3-about' ? '155dvh' : '148dvh');
+      section.id === 'v3-about' ? '88dvh' : '148dvh');
     runway.append(section);
     scroller.append(runway);
     plain.push({section, runway});
@@ -59,7 +59,7 @@
       if (r.bottom < frame.top-30 || r.top > frame.bottom+30) continue;
       const travel = Math.max(1, runway.offsetHeight-scroller.clientHeight);
       const progress = clamp((frame.top-r.top)/travel);
-      const enter = section === hero ? 1 : (.84+.16*smooth(0,.15,progress));
+      const enter = section === hero || section.id === 'v3-about' ? 1 : (.84+.16*smooth(0,.15,progress));
       const exit = section.id === 'v3-about' ? 1 : 1-.48*smooth(.78,1,progress);
       section.style.setProperty('--v3-screen-alpha', (enter*exit).toFixed(3));
       section.style.setProperty('--v3-screen-shift',

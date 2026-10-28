@@ -566,6 +566,41 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
   }
   html.m10-framed .dot-word {font-size:clamp(57px,18vw,94px);font-weight:700;letter-spacing:-.075em;}
 }
+
+/* M17: lift the Hero focal copy near the upper golden-ratio guide without
+   pulling the larger orb into the fixed header. */
+@media (min-width:1101px) {
+  html.m10-framed .stage .hero-copy {transform:translateY(-clamp(54px,10dvh,104px));}
+  html.m10-framed .stage .hero-art {transform:translateY(-clamp(24px,4dvh,48px));}
+}
+@media (min-width:991px) and (max-width:1100px) {
+  html.m10-framed .stage .hero-copy {transform:translateY(-clamp(22px,6dvh,55px));}
+  html.m10-framed .stage .hero-art {transform:translateY(-clamp(12px,3dvh,30px));}
+}
+/* The final scene is deliberately shorter than a desktop viewport. The scroll
+   endpoint then reveals a small portion of the previous Q&A scene above it. */
+@media (min-width:681px) and (prefers-reduced-motion:no-preference) {
+  html.m10-framed #v3-about {
+    height:88dvh;min-height:0;
+    padding-top:clamp(56px,7.4dvh,82px);
+    padding-bottom:clamp(35px,5dvh,54px);
+    gap:clamp(18px,2.8dvh,30px);
+  }
+  html.m10-framed #v3-about .word-wrap {height:clamp(220px,31dvh,340px);}
+}
+@media (max-width:680px) {
+  html.m10-framed #v3-about {
+    min-height:max(600px,80dvh)!important;
+    padding-top:88px;padding-bottom:50px;gap:18px;
+  }
+}
+/* CSS-only low-motion fallback uses neutrals too; green is pointer-only in Canvas. */
+html.m10-framed .dot-word {
+  background-image:radial-gradient(circle,#b6b6b6 1.2px,transparent 1.5px);
+}
+html.m10-framed .footer-scene.day .dot-word {
+  background-image:radial-gradient(circle,#727272 1.2px,transparent 1.5px);
+}
 </style>
 </head>
 <body>
@@ -1091,7 +1126,8 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
         samples.push({x:x+(hash(n+1)-.5)*1.8,y:y+(hash(n+2)-.5)*1.8,
           dx:(hash(n+3)-.5)*Math.min(275,width*.29),
           dy:(hash(n+4)-.5)*Math.min(160,height*1.8),
-          phase:hash(n+5)*6.283,size:(width<650?1.9:2.25)+hash(n+6)*(width<650?1.3:1.65)});
+          phase:hash(n+5)*6.283,size:(width<650?1.9:2.25)+hash(n+6)*(width<650?1.3:1.65),
+          tone:hash(n+9),opacity:hash(n+14)});
       }
       // Preserve existing CSS wordmark for low-motion or canvas-unavailable modes.
       if(samples.length>50)wrap.classList.add('particles-ready');
@@ -1101,10 +1137,8 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
       if(!width || !height)return;
       context.clearRect(0,0,width,height);
       const assembled=smooth((progress-.07)/.65);
-      const energy=smooth((progress-.4)/.52);
-      const wave=width*(.53+.07*Math.sin(now*.00055));
-      // The reference disassembles a narrow vertical slice of the wordmark
-      // before reassembling it; preserve Fresnica's emerald palette.
+      // Retain the scrolling plume, but use only neutral shades until cursor hover.
+      // The brand green is reserved for particles near the pointer.
       const pulseAge=(now-themePulseStart)/1650;
       const themePulse=pulseAge>=0&&pulseAge<1&&!reduced.matches?Math.sin(pulseAge*Math.PI):0;
       const scrollPlume=!reduced.matches?Math.exp(-Math.pow((progress-.59)/.16,2))*.8:0;
@@ -1139,12 +1173,18 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
             y+=dy*normal*36*contact+dx*normal*curlForce;
           }
         }
-        const highlight=contact>.045 || localBurst>.07 || (energy>.01&&Math.abs(dot.x-wave)<width*.13&&hash(i+12)>.32);
-        const alpha=Math.min(1,(.25+assembled*.69)*(highlight?1:.91)+localBurst*.07+contact*.22);
-        context.fillStyle=highlight ? (light?'rgba(9,144,103,'+alpha+')':'rgba(49,218,157,'+alpha+')')
-          : (light?'rgba(55,65,60,'+alpha+')':'rgba(169,184,176,'+alpha+')');
-        const size=dot.size*(.76+.24*assembled+.34*localBurst+.2*contact);
-        context.fillRect(x,y,size,size);
+        // Neutral dots have intentionally varied luminance and opacity.
+        const gray=Math.round((light?47:132)+dot.tone*(light?108:102));
+        const green=clamp01(contact*2.1);
+        const r=Math.round(gray+((light?0:50)-gray)*green);
+        const g=Math.round(gray+((light?168:223)-gray)*green);
+        const b=Math.round(gray+((light?117:164)-gray)*green);
+        const alpha=Math.min(1,(.34+assembled*.62)*(.7+dot.opacity*.3)+localBurst*.07+contact*.14);
+        context.fillStyle='rgba('+r+','+g+','+b+','+alpha+')';
+        const radius=dot.size*(.76+.24*assembled+.34*localBurst+.2*contact)*.5;
+        context.beginPath();
+        context.arc(x,y,radius,0,Math.PI*2);
+        context.fill();
       }
     }
     function update() {
