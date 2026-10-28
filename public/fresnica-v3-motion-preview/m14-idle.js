@@ -70,6 +70,28 @@
     }
     signalFrame=requestAnimationFrame(packet);
   }
+
+  // M21: irregular, downward-travelling electrical signals. Only schedule
+  // while screen 2 is visible; stop immediately on scene change/hidden/reduce.
+  const ecosystemSpine=document.querySelector('#v3-ecosystem .particle-spine');
+  let currentTimer=0;
+  function stopCurrent(){
+    clearTimeout(currentTimer);currentTimer=0;
+    ecosystemSpine?.classList.remove('m21-flowing');
+  }
+  function scheduleCurrent(){
+    if(!ecosystemSpine||currentTimer||current?.id!=='v3-ecosystem'||!eligible())return;
+    currentTimer=setTimeout(()=>{
+      currentTimer=0;
+      if(current?.id!=='v3-ecosystem'||!eligible())return;
+      ecosystemSpine.classList.add('m21-flowing');
+      currentTimer=setTimeout(()=>{
+        currentTimer=0;
+        ecosystemSpine.classList.remove('m21-flowing');
+        scheduleCurrent();
+      },1080);
+    },2300+Math.random()*5000);
+  }
   function refresh(){
     pending=false;
     const next=eligible()?visibleScene():null;
@@ -80,6 +102,8 @@
     }
     root.classList.toggle('m14-motion',eligible());
     root.dataset.m14Active=current?.id||'';
+    if(current?.id==='v3-ecosystem'&&eligible())scheduleCurrent();
+    else if(currentTimer||ecosystemSpine?.classList.contains('m21-flowing'))stopCurrent();
     if(current?.id==='v3-workspace'&&eligible()){
       if(!signalFrame)signalFrame=requestAnimationFrame(packet);
     }else if(signalFrame){

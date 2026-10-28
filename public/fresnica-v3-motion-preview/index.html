@@ -112,7 +112,7 @@ body{background:#192330}
 .particle-cloud{position:absolute;top:34%;left:31%;width:38%;height:31%;border-radius:50%;opacity:.9;filter:blur(.15px)}
 .particle-scene .bottom-intro{position:absolute;bottom:15%;left:15%;width:70%;text-align:center}
 .particle-scene .bottom-intro h2{font-size:clamp(38px,4vw,56px);letter-spacing:-.05em;font-weight:480;margin:9px 0}
-.particle-spine{position:absolute;left:50%;top:59%;height:14%;width:1px;background:linear-gradient(#dce6e2,transparent)}
+.particle-spine{position:absolute;left:50%;top:49.5%;height:23.5%;width:1px;background:linear-gradient(#c6d6cd,transparent)}
 .compare-scene{display:flex;align-items:center;flex-direction:column;justify-content:flex-start;padding-top:140px}
 .compare-scene .mode-switch{border-radius:100px;background:#222727;display:flex;gap:4px;align-items:center;padding:5px;margin-bottom:43px;font:10px Consolas,monospace;color:#9da3a0}
 .compare-scene .mode-switch span{padding:10px 15px}
@@ -615,7 +615,7 @@ html.m10-framed .site-header.on-footer-dark ~ .back-to-top{
 
 /* Neutral outer dots gather into a small cluster; the only green particle
    is the stationary center, with two overlapping breathing glow layers. */
-#v3-ecosystem .particle-cloud {pointer-events:none;overflow:visible}
+#v3-ecosystem .particle-cloud {pointer-events:none;overflow:visible;z-index:2}
 /* M20: neutral dots continually spawn at different outer positions, drift toward
    the central light and disappear there; no breathing/blinking on surrounding dots. */
 #v3-ecosystem .particle-cloud .stream-dot {
@@ -666,6 +666,43 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
 @media(prefers-reduced-motion:reduce){
   #v3-ecosystem .ecosystem-core::before,
   #v3-ecosystem .ecosystem-core::after{animation:none!important;opacity:.6;transform:none}
+}
+
+/* M21: the line begins at the green core (34% + half of 31% = 49.5%).
+   Its grey guide remains quiet; an occasional green packet travels downward. */
+#v3-ecosystem .particle-spine {z-index:1;pointer-events:none}
+#v3-ecosystem .particle-spine::before,
+#v3-ecosystem .particle-spine::after {
+  content:'';position:absolute;left:50%;top:0;
+  height:clamp(23px,4dvh,42px);border-radius:999px;
+  transform:translateX(-50%);opacity:0;pointer-events:none;
+}
+#v3-ecosystem .particle-spine::before {
+  width:2px;
+  background:linear-gradient(to bottom,transparent 0%,#23d391 25%,#d3ffed 48%,#18bb7c 74%,transparent 100%);
+  box-shadow:0 0 6px rgba(15,197,124,.7),0 0 13px rgba(19,190,124,.28);
+}
+#v3-ecosystem .particle-spine::after {
+  width:11px;
+  background:radial-gradient(ellipse at center,rgba(24,213,140,.36),transparent 70%);
+  filter:blur(4px);
+}
+#v3-ecosystem .particle-spine.m21-flowing::before,
+#v3-ecosystem .particle-spine.m21-flowing::after {
+  animation:m21-current-down 1080ms linear both;
+}
+@keyframes m21-current-down {
+  0%{top:0;opacity:0}
+  7%{top:0;opacity:.96}
+  28%{opacity:1}
+  40%{opacity:.65}
+  52%{opacity:.98}
+  75%{opacity:.79}
+  100%{top:100%;opacity:0}
+}
+@media(prefers-reduced-motion:reduce) {
+  #v3-ecosystem .particle-spine::before,
+  #v3-ecosystem .particle-spine::after{animation:none!important;opacity:0!important}
 }
 </style>
 </head>
