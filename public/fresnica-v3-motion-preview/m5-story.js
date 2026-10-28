@@ -16,7 +16,6 @@
   html.m5-motion #v3-ecosystem .orbital-intro {opacity:var(--m5-top-alpha,1);translate:0 var(--m5-top-shift,0px);}
   html.m5-motion #v3-ecosystem .bottom-intro {opacity:var(--m5-bottom-alpha,1);translate:0 var(--m5-bottom-shift,0px);}
   html.m5-motion #v3-ecosystem .particle-cloud {opacity:var(--m5-cloud-alpha,.9)!important;transform:scale(var(--m5-cloud-scale,1));}
-  html.m5-motion #v3-ecosystem .particle-cloud i {transform:translate3d(calc(var(--m5-scatter,0) * var(--scatter-x,0px)),calc(var(--m5-scatter,0) * var(--scatter-y,0px)),0)!important;}
   html.m5-motion #v3-contrast .contrast-line {opacity:var(--m5-line-alpha,1)!important;transform:translate3d(0,var(--m5-line-shift,0px),0)!important;}
   html.m5-motion #v3-assets .asset-cell .mini-row,html.m5-motion #v3-workspace .ws-stat {transition:background-color .18s ease,box-shadow .18s ease,transform .18s ease;}
   html.m5-motion #v3-assets .asset-cell .mini-row.m5-focus,html.m5-motion #v3-workspace .ws-stat.m5-focus {background:#e6f4ee;box-shadow:inset 3px 0 #10a578;transform:translateX(2px);}
@@ -52,7 +51,6 @@
     return {scene, runway, key, progress:0};
   }).filter(Boolean);
   const sceneBy = Object.fromEntries(scenes.map(s => [s.key, s.scene]));
-  const dots = [...(sceneBy.particles?.querySelectorAll('.particle-cloud i') || [])];
   const contrastLines = [...(sceneBy.contrast?.querySelectorAll('.contrast-line') || [])];
   const compareCards = [...(sceneBy.contrast?.querySelectorAll('.compare-card') || [])];
   const assetRows = [...(sceneBy.assets?.querySelectorAll('.asset-cell:last-child .mini-row') || [])];
@@ -79,12 +77,9 @@
     set(section, '--m5-bottom-shift', `${((1-lower)*19).toFixed(2)}px`);
     set(section, '--m5-cloud-alpha', (.22+.7*smooth(.12,.36,p)*fadeOut(p,.75,.99)).toFixed(3));
     set(section, '--m5-cloud-scale', (.93+.10*smooth(.08,.73,p)).toFixed(3));
-    set(section, '--m5-scatter', (1-smooth(.08,.58,p)+.9*smooth(.80,.99,p)).toFixed(3));
     set(section, '--m5-core-alpha', (smooth(.18,.46,p)*fadeOut(p,.88,1)).toFixed(3));
     sceneBy.particles.querySelectorAll('.orbital-intro .reveal').forEach((el,i) => reveal(el, upper*smooth(.02+i*.04,.17+i*.05,p)));
     sceneBy.particles.querySelectorAll('.bottom-intro .reveal').forEach((el,i) => reveal(el, lower*smooth(.36+i*.06,.56+i*.06,p)));
-    // Preserve the seeded point positions produced by the existing M3 script.
-    if (dots.length) section.dataset.m5Particles = String(dots.length);
   }
   function paintContrast(p) {
     const section = sceneBy.contrast;

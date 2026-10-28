@@ -110,8 +110,6 @@ body{background:#192330}
 .particle-scene .orbital-intro{position:absolute;left:50%;top:15%;transform:translateX(-50%);width:90%;text-align:center}
 .particle-scene .chapter-title{margin-bottom:8px}
 .particle-cloud{position:absolute;top:34%;left:31%;width:38%;height:31%;border-radius:50%;opacity:.9;filter:blur(.15px)}
-.particle-cloud i{position:absolute;display:block;width:3px;height:3px;border-radius:50%;background:var(--v3-green);opacity:.72;animation:node-breathe 4s ease-in-out infinite alternate}
-@keyframes node-breathe{to{opacity:.17;transform:translateY(-4px)}}
 .particle-scene .bottom-intro{position:absolute;bottom:15%;left:15%;width:70%;text-align:center}
 .particle-scene .bottom-intro h2{font-size:clamp(38px,4vw,56px);letter-spacing:-.05em;font-weight:480;margin:9px 0}
 .particle-spine{position:absolute;left:50%;top:59%;height:14%;width:1px;background:linear-gradient(#dce6e2,transparent)}
@@ -246,12 +244,10 @@ body{background:#192330}
 .scene-mini-note{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font:10px Consolas,monospace;color:#959c98}
 @media(max-width:1080px){.chapter{padding-left:45px;padding-right:45px}.site-header{width:calc(100% - 75px)}.asset-scene{grid-template-columns:40% 60%}.asset-scene .asset-left{padding-right:20px}.workspace-scene .workspace-copy{left:5%;width:36%}.workspace-mini{right:4%;width:56%}.feature-window{margin-left:-30px;width:calc(100% + 60px)}.footer-top{gap:23px}}
 @media(max-width:680px){.site-header{top:22px;width:calc(100% - 34px)}.site-header .brand small,.nav-caption,.status-pill{display:none!important}.site-header .top-nav{min-width:unset;gap:5px}.nav-title{font-size:12px}.stage{padding-top:65px;width:calc(100% - 18px);min-height:840px;margin:10px auto}.chapter{width:calc(100% - 18px);height:auto;min-height:700px;padding:105px 25px 90px;margin:9px auto}.chapter-title{font-size:43px}.chapter-sub{font-size:14px}.particle-cloud{left:12%;width:76%}.particle-scene{height:760px}.particle-scene .orbital-intro{top:19%}.compare-scene{height:770px;padding-top:130px}.compare-scene .chapter-title{font-size:39px}.compare-cards{grid-template-columns:1fr;margin-top:55px;margin-bottom:65px}.compare-card{min-height:123px}.compare-card h3{font-size:21px;margin:7px 0}.feature-scroll{height:auto}.feature-chapter{position:relative;top:0;height:790px}.feature-window{top:10%;margin:0 -25px;width:calc(100% + 50px);overflow-x:auto;scroll-snap-type:x mandatory}.feature-track{transform:none!important}.feature-card{scroll-snap-align:center;width:300px}.feature-art{height:260px}.feature-controls{right:25px}.feature-progress{left:25px}.asset-scene{display:flex;flex-direction:column;justify-content:center;gap:35px;min-height:960px}.asset-board{width:100%}.asset-columns{grid-template-columns:1fr}.asset-cell{min-height:155px}.bottom-stepper{width:94%;left:3%;bottom:20px}.bottom-stepper span{font-size:9px;padding:14px 4px}.audience-track{margin-top:90px}.workspace-scene{height:1010px}.workspace-scene .workspace-copy{position:static;width:auto}.workspace-mini{top:42%;left:20px;right:20px;width:auto;height:47%;grid-template-columns:105px 1fr}.ws-sidebar{padding:9px 5px}.ws-content{padding:15px 9px}.ws-stats{grid-template-columns:repeat(3,1fr)}.ws-stat{padding:8px 4px}.ws-stat b{font-size:14px}.ws-stat{font-size:8px}.paths-grid{grid-template-columns:1fr;margin-top:70px}.path-card{min-height:185px}.paths-scene{min-height:1000px}.trust-panel{inset:8% 4%;padding:35px 23px}.trust-grid{grid-template-columns:1fr}.trust-grid>div{padding:14px}.trust-scene{height:860px}.planned-platforms{grid-template-columns:1fr;margin-top:35px}.download-scene{min-height:980px}.platform-box{min-height:130px;padding:22px}.faq-line{margin-top:22px}.footer-scene{min-height:780px}.footer-top{grid-template-columns:1fr 1fr;gap:24px}.footer-top>div:first-child{grid-column:1/-1}.dot-word{font-size:15vw}.word-wrap{bottom:95px}.page-count{left:25px}}
-@media(prefers-reduced-motion:reduce){.reveal,.dot-word,.network polyline{transition:none!important;animation:none!important;opacity:1!important;transform:none!important}.feature-scroll{height:auto!important}.feature-chapter{position:relative!important;top:0!important}.feature-window{overflow-x:auto!important}.feature-track{transform:none!important}.particle-cloud i{animation:none!important}}
+@media(prefers-reduced-motion:reduce){.reveal,.dot-word,.network polyline{transition:none!important;animation:none!important;opacity:1!important;transform:none!important}.feature-scroll{height:auto!important}.feature-chapter{position:relative!important;top:0!important}.feature-window{overflow-x:auto!important}.feature-track{transform:none!important}.particle-cloud .stream-dot{animation:none!important}}
 /* Keep controls clear of the persistent preview badge and maintain a no-JS content fallback. */
 .feature-controls{bottom:88px}
 /* M2: the reference sequence favors scroll-scrubbed transitions over one-shot entrances. */
-.particle-cloud i{animation-name:node-opacity!important;transform:translate3d(calc(var(--scatter,0) * var(--scatter-x,0px)),calc(var(--scatter,0) * var(--scatter-y,0px)),0);will-change:transform}
-@keyframes node-opacity{to{opacity:.26}}
 .contrast-line{display:block;will-change:opacity,transform}
 .motion-enabled .feature-card{opacity:.83;scale:.982;transition:opacity .28s ease,scale .28s ease}
 .motion-enabled .feature-card.is-active{opacity:1;scale:1}
@@ -620,7 +616,30 @@ html.m10-framed .site-header.on-footer-dark ~ .back-to-top{
 /* Neutral outer dots gather into a small cluster; the only green particle
    is the stationary center, with two overlapping breathing glow layers. */
 #v3-ecosystem .particle-cloud {pointer-events:none;overflow:visible}
-#v3-ecosystem .particle-cloud i {background:#a3aaa8}
+/* M20: neutral dots continually spawn at different outer positions, drift toward
+   the central light and disappear there; no breathing/blinking on surrounding dots. */
+#v3-ecosystem .particle-cloud .stream-dot {
+  position:absolute;left:50%;top:50%;display:block;border-radius:50%;
+  background:#a3aaa8;pointer-events:none;
+  opacity:0;transform:translate3d(var(--from-x),var(--from-y),0);
+  animation:ecosystem-stream-in 6s linear infinite paused;
+}
+@keyframes ecosystem-stream-in {
+  0% {opacity:0;transform:translate3d(var(--from-x),var(--from-y),0) scale(.9)}
+  9% {opacity:var(--dot-alpha,.67)}
+  58% {opacity:var(--dot-alpha,.67);transform:translate3d(var(--mid-x),var(--mid-y),0) scale(.73)}
+  85% {opacity:var(--dot-alpha,.67)}
+  100% {opacity:0;transform:translate3d(0,0,0) scale(.16)}
+}
+html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
+  animation-play-state:running;will-change:transform,opacity;
+}
+@media(prefers-reduced-motion:reduce) {
+  #v3-ecosystem .particle-cloud .stream-dot {
+    animation:none!important;opacity:var(--dot-alpha,.6);
+    transform:translate3d(var(--fallback-x),var(--fallback-y),0);
+  }
+}
 #v3-ecosystem .ecosystem-core {
   position:absolute;left:50%;top:50%;width:9px;height:9px;
   transform:translate(-50%,-50%);border-radius:50%;z-index:2;
@@ -950,27 +969,34 @@ html.m10-framed .site-header.on-footer-dark ~ .back-to-top{
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('is-open')) { openMenu(false); menuButton.focus(); } });
   document.addEventListener('pointerdown', e => { if (!header.contains(e.target)) openMenu(false); });
 
-  // M19: seed neutral particles in a compact cluster; M5's existing scroll
-  // choreography moves them reversibly from an outer field to the green core.
+  // M20: each neutral dot loops from a seeded outer position into the
+  // central green point. Different durations and negative delays make the
+  // inflow continuous even when the user stops scrolling on this scene.
   const cloud = document.getElementById('ecosystem-particles');
   let seed = 217;
   const rand = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
   const fragment = document.createDocumentFragment();
   for (let i=0; i<104; i++) {
-    const dot = document.createElement('i');
+    const dot=document.createElement('span');
+    dot.className='stream-dot';
     const angle=rand()*Math.PI*2;
-    const radius=.05+Math.sqrt(rand())*.23;
-    dot.style.left=(50+Math.cos(angle)*radius*100).toFixed(2)+'%';
-    dot.style.top=(50+Math.sin(angle)*radius*100).toFixed(2)+'%';
-    dot.style.width=(1.7+rand()*2.0).toFixed(1)+'px';
-    dot.style.height=dot.style.width;
-    dot.style.opacity=(.25+rand()*.57).toFixed(2);
-    dot.style.animationDelay=(rand()*4).toFixed(2)+'s';
-    const distance=.48+rand()*.68;
-    dot.style.setProperty('--scatter-x',(Math.cos(angle)*distance*26).toFixed(2)+'vw');
-    dot.style.setProperty('--scatter-y',(Math.sin(angle)*distance*22).toFixed(2)+'vh');
-    const gray=Math.round(104+rand()*104);
+    const radius=.52+Math.sqrt(rand())*.48;
+    const startX=Math.cos(angle)*(10+radius*19);
+    const startY=Math.sin(angle)*(6+radius*13);
+    const curve=(rand()-.5)*5;
+    dot.style.setProperty('--from-x',startX.toFixed(2)+'vw');
+    dot.style.setProperty('--from-y',startY.toFixed(2)+'vh');
+    dot.style.setProperty('--mid-x',(startX*.43-Math.sin(angle)*curve).toFixed(2)+'vw');
+    dot.style.setProperty('--mid-y',(startY*.43+Math.cos(angle)*curve*.6).toFixed(2)+'vh');
+    dot.style.setProperty('--fallback-x',(startX*.25).toFixed(2)+'vw');
+    dot.style.setProperty('--fallback-y',(startY*.25).toFixed(2)+'vh');
+    dot.style.setProperty('--dot-alpha',(.4+rand()*.42).toFixed(2));
+    const size=(1.8+rand()*2.1).toFixed(1)+'px';
+    dot.style.width=size;dot.style.height=size;
+    const gray=Math.round(102+rand()*116);
     dot.style.background='rgb('+gray+','+gray+','+gray+')';
+    dot.style.animationDuration=(3.8+rand()*4.8).toFixed(2)+'s';
+    dot.style.animationDelay=(-rand()*9).toFixed(2)+'s';
     fragment.append(dot);
   }
   cloud.append(fragment);

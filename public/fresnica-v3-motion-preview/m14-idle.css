@@ -1,7 +1,6 @@
 /* M14: animate content while a scene is parked. Never animate the entire scene
    or overwrite the existing wheel-scrubbed states. */
 @keyframes m14-gleam { 0%,12% {transform:translateX(-145%);opacity:0} 25%{opacity:.27} 62%{transform:translateX(160%);opacity:.22} 75%,100%{transform:translateX(160%);opacity:0} }
-@keyframes m14-pulse { 0%,100%{opacity:.38;transform:scale(.84)} 50%{opacity:.9;transform:scale(1.23)} }
 @keyframes m14-balance {0%,100%{transform:scaleX(.65)} 46%{transform:scaleX(.94)} 72%{transform:scaleX(.78)}}
 @keyframes m14-floating {0%,100%{transform:translate3d(0,0,0);opacity:.48}50%{transform:translate3d(4px,-7px,0);opacity:.92}}
 @keyframes m14-route {0%,100%{opacity:.20;transform:translateX(-13px)} 48%{opacity:.80;transform:translateX(14px)}}
@@ -12,15 +11,6 @@
 @media (prefers-reduced-motion:no-preference) {
   /* Screen 1: live Hero shader/ticker are pre-existing; keep its fallback gently alive too. */
   html.m14-motion #overview.m14-current .fallback-orb {animation:m14-floating 6.4s ease-in-out infinite;}
-
-  /* Screen 2: the existing scroll-positioned dots retain their coordinates; their
-     little glows drift independently without fighting M5's !important transforms. */
-  html.m14-motion #v3-ecosystem.m14-current .particle-cloud i::after {
-    content:'';position:absolute;inset:-2px;border-radius:50%;pointer-events:none;
-    background:rgba(138,151,149,.74);box-shadow:0 0 9px rgba(117,133,131,.23);
-    animation:m14-pulse 2.8s ease-in-out infinite;
-    animation-delay:calc((var(--m14-seed,1) * -0.13s));
-  }
 
   /* Screen 3: independent visual heartbeat on the planned platform illustrations.
      Nothing suggests that a download is available. */
