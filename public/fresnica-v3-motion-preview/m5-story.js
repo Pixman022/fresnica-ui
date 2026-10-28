@@ -79,7 +79,8 @@
     set(section, '--m5-bottom-shift', `${((1-lower)*19).toFixed(2)}px`);
     set(section, '--m5-cloud-alpha', (.22+.7*smooth(.12,.36,p)*fadeOut(p,.75,.99)).toFixed(3));
     set(section, '--m5-cloud-scale', (.93+.10*smooth(.08,.73,p)).toFixed(3));
-    set(section, '--m5-scatter', (1-smooth(.08,.42,p)+.9*smooth(.73,.98,p)).toFixed(3));
+    set(section, '--m5-scatter', (1-smooth(.08,.58,p)+.9*smooth(.80,.99,p)).toFixed(3));
+    set(section, '--m5-core-alpha', (smooth(.18,.46,p)*fadeOut(p,.88,1)).toFixed(3));
     sceneBy.particles.querySelectorAll('.orbital-intro .reveal').forEach((el,i) => reveal(el, upper*smooth(.02+i*.04,.17+i*.05,p)));
     sceneBy.particles.querySelectorAll('.bottom-intro .reveal').forEach((el,i) => reveal(el, lower*smooth(.36+i*.06,.56+i*.06,p)));
     // Preserve the seeded point positions produced by the existing M3 script.

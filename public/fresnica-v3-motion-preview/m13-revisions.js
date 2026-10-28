@@ -88,7 +88,9 @@
     const target=stops().find(x=>x.id===id);
     if(!target)return;
     event.preventDefault();event.stopImmediatePropagation();
-    cancel();animateTo(target.top);
+    // The shared corner control returns to the actual scroll origin, not the
+    // usual cinematic Hero hold frame positioned inside its sticky runway.
+    cancel();animateTo(link.classList.contains('back-to-top')?0:target.top);
     history.replaceState(null,'','#'+encodeURIComponent(id));
   },true);
   reduced.addEventListener('change',cancel);

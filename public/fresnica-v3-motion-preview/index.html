@@ -103,9 +103,6 @@ body{background:#192330}
 .accent{color:#109a73}
 .centered{text-align:center}
 .green-label{color:#0e9c72}
-.scene-badge{position:absolute;right:24px;bottom:20px;background:#111415;color:#e3e7e5;border-radius:50px;padding:10px 17px;font:10px Consolas,monospace;letter-spacing:.035em;display:flex;align-items:center;gap:8px;z-index:5}
-.scene-badge:before{content:'';width:13px;height:13px;background:radial-gradient(circle at 29% 29%,#a7edd0,#087657 55%,#154e56);border-radius:50%;border:2px solid #d3e7dc}
-.dark .scene-badge{border:1px solid #414847}
 .page-count{position:absolute;left:clamp(48px,6vw,110px);bottom:31px;color:#9ca29e;font:11px Consolas,monospace;letter-spacing:.08em}
 .reveal{opacity:0;transform:translate3d(0,28px,0);transition:transform .8s cubic-bezier(.2,.72,.2,1),opacity .8s ease;will-change:transform,opacity}
 .reveal.is-visible{opacity:1;transform:translate3d(0,0,0)}
@@ -243,13 +240,12 @@ body{background:#192330}
 .site-header.on-footer-dark .nav-sep{background:#d9e3dc}
 .site-header.on-footer-dark .nav-button{background:#e9eeeb;color:#17221b}
 .site-header.on-footer-dark .status-pill{background:#fff;color:#1b221d;border:1px solid #f4f4f4}
-.footer-scene.day .scene-badge{border-color:#d7e1db}
 /* The local footer theme control must clear the persistent status pill. */
 .footer-scene .footer-switch{top:86px;z-index:7}
 
 .scene-mini-note{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font:10px Consolas,monospace;color:#959c98}
 @media(max-width:1080px){.chapter{padding-left:45px;padding-right:45px}.site-header{width:calc(100% - 75px)}.asset-scene{grid-template-columns:40% 60%}.asset-scene .asset-left{padding-right:20px}.workspace-scene .workspace-copy{left:5%;width:36%}.workspace-mini{right:4%;width:56%}.feature-window{margin-left:-30px;width:calc(100% + 60px)}.footer-top{gap:23px}}
-@media(max-width:680px){.site-header{top:22px;width:calc(100% - 34px)}.site-header .brand small,.nav-caption,.status-pill{display:none!important}.site-header .top-nav{min-width:unset;gap:5px}.nav-title{font-size:12px}.stage{padding-top:65px;width:calc(100% - 18px);min-height:840px;margin:10px auto}.chapter{width:calc(100% - 18px);height:auto;min-height:700px;padding:105px 25px 90px;margin:9px auto}.chapter-title{font-size:43px}.chapter-sub{font-size:14px}.particle-cloud{left:12%;width:76%}.particle-scene{height:760px}.particle-scene .orbital-intro{top:19%}.compare-scene{height:770px;padding-top:130px}.compare-scene .chapter-title{font-size:39px}.compare-cards{grid-template-columns:1fr;margin-top:55px;margin-bottom:65px}.compare-card{min-height:123px}.compare-card h3{font-size:21px;margin:7px 0}.feature-scroll{height:auto}.feature-chapter{position:relative;top:0;height:790px}.feature-window{top:10%;margin:0 -25px;width:calc(100% + 50px);overflow-x:auto;scroll-snap-type:x mandatory}.feature-track{transform:none!important}.feature-card{scroll-snap-align:center;width:300px}.feature-art{height:260px}.feature-controls{right:25px}.feature-progress{left:25px}.asset-scene{display:flex;flex-direction:column;justify-content:center;gap:35px;min-height:960px}.asset-board{width:100%}.asset-columns{grid-template-columns:1fr}.asset-cell{min-height:155px}.bottom-stepper{width:94%;left:3%;bottom:20px}.bottom-stepper span{font-size:9px;padding:14px 4px}.audience-track{margin-top:90px}.workspace-scene{height:1010px}.workspace-scene .workspace-copy{position:static;width:auto}.workspace-mini{top:42%;left:20px;right:20px;width:auto;height:47%;grid-template-columns:105px 1fr}.ws-sidebar{padding:9px 5px}.ws-content{padding:15px 9px}.ws-stats{grid-template-columns:repeat(3,1fr)}.ws-stat{padding:8px 4px}.ws-stat b{font-size:14px}.ws-stat{font-size:8px}.paths-grid{grid-template-columns:1fr;margin-top:70px}.path-card{min-height:185px}.paths-scene{min-height:1000px}.trust-panel{inset:8% 4%;padding:35px 23px}.trust-grid{grid-template-columns:1fr}.trust-grid>div{padding:14px}.trust-scene{height:860px}.planned-platforms{grid-template-columns:1fr;margin-top:35px}.download-scene{min-height:980px}.platform-box{min-height:130px;padding:22px}.faq-line{margin-top:22px}.footer-scene{min-height:780px}.footer-top{grid-template-columns:1fr 1fr;gap:24px}.footer-top>div:first-child{grid-column:1/-1}.dot-word{font-size:15vw}.word-wrap{bottom:95px}.scene-badge{right:16px;bottom:16px;font-size:8px}.page-count{left:25px}}
+@media(max-width:680px){.site-header{top:22px;width:calc(100% - 34px)}.site-header .brand small,.nav-caption,.status-pill{display:none!important}.site-header .top-nav{min-width:unset;gap:5px}.nav-title{font-size:12px}.stage{padding-top:65px;width:calc(100% - 18px);min-height:840px;margin:10px auto}.chapter{width:calc(100% - 18px);height:auto;min-height:700px;padding:105px 25px 90px;margin:9px auto}.chapter-title{font-size:43px}.chapter-sub{font-size:14px}.particle-cloud{left:12%;width:76%}.particle-scene{height:760px}.particle-scene .orbital-intro{top:19%}.compare-scene{height:770px;padding-top:130px}.compare-scene .chapter-title{font-size:39px}.compare-cards{grid-template-columns:1fr;margin-top:55px;margin-bottom:65px}.compare-card{min-height:123px}.compare-card h3{font-size:21px;margin:7px 0}.feature-scroll{height:auto}.feature-chapter{position:relative;top:0;height:790px}.feature-window{top:10%;margin:0 -25px;width:calc(100% + 50px);overflow-x:auto;scroll-snap-type:x mandatory}.feature-track{transform:none!important}.feature-card{scroll-snap-align:center;width:300px}.feature-art{height:260px}.feature-controls{right:25px}.feature-progress{left:25px}.asset-scene{display:flex;flex-direction:column;justify-content:center;gap:35px;min-height:960px}.asset-board{width:100%}.asset-columns{grid-template-columns:1fr}.asset-cell{min-height:155px}.bottom-stepper{width:94%;left:3%;bottom:20px}.bottom-stepper span{font-size:9px;padding:14px 4px}.audience-track{margin-top:90px}.workspace-scene{height:1010px}.workspace-scene .workspace-copy{position:static;width:auto}.workspace-mini{top:42%;left:20px;right:20px;width:auto;height:47%;grid-template-columns:105px 1fr}.ws-sidebar{padding:9px 5px}.ws-content{padding:15px 9px}.ws-stats{grid-template-columns:repeat(3,1fr)}.ws-stat{padding:8px 4px}.ws-stat b{font-size:14px}.ws-stat{font-size:8px}.paths-grid{grid-template-columns:1fr;margin-top:70px}.path-card{min-height:185px}.paths-scene{min-height:1000px}.trust-panel{inset:8% 4%;padding:35px 23px}.trust-grid{grid-template-columns:1fr}.trust-grid>div{padding:14px}.trust-scene{height:860px}.planned-platforms{grid-template-columns:1fr;margin-top:35px}.download-scene{min-height:980px}.platform-box{min-height:130px;padding:22px}.faq-line{margin-top:22px}.footer-scene{min-height:780px}.footer-top{grid-template-columns:1fr 1fr;gap:24px}.footer-top>div:first-child{grid-column:1/-1}.dot-word{font-size:15vw}.word-wrap{bottom:95px}.page-count{left:25px}}
 @media(prefers-reduced-motion:reduce){.reveal,.dot-word,.network polyline{transition:none!important;animation:none!important;opacity:1!important;transform:none!important}.feature-scroll{height:auto!important}.feature-chapter{position:relative!important;top:0!important}.feature-window{overflow-x:auto!important}.feature-track{transform:none!important}.particle-cloud i{animation:none!important}}
 /* Keep controls clear of the persistent preview badge and maintain a no-JS content fallback. */
 .feature-controls{bottom:88px}
@@ -289,7 +285,6 @@ html.m10-framed .m5-runway>.chapter{top:0!important;margin:0!important;height:10
 html.m10-framed .feature-scroll{margin:0}
 html.m10-framed .feature-chapter{position:sticky;top:0!important;margin:0!important;height:100dvh;min-height:0}
 html.m10-framed .chapter .page-count{bottom:clamp(18px,3vh,31px)}
-html.m10-framed .chapter .scene-badge{bottom:clamp(14px,2.4vh,24px)}
 /* Rebalanced internal anchors: the visible screen, not a 745px desktop minimum. */
 html.m10-framed .stage .hero{height:calc(100% - 48px);min-height:0;max-width:1280px;margin:0 auto;align-items:center;padding:0 clamp(30px,3.8vw,56px);gap:clamp(10px,2vw,30px)}
 html.m10-framed .stage .hero-copy{padding:0}
@@ -567,15 +562,13 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
   html.m10-framed .dot-word {font-size:clamp(57px,18vw,94px);font-weight:700;letter-spacing:-.075em;}
 }
 
-/* M17: lift the Hero focal copy near the upper golden-ratio guide without
-   pulling the larger orb into the fixed header. */
+/* M19: shift the Hero as one visual unit. This is a subtle upward adjustment
+   relative to the former independently offset copy and sphere. */
 @media (min-width:1101px) {
-  html.m10-framed .stage .hero-copy {transform:translateY(-clamp(54px,10dvh,104px));}
-  html.m10-framed .stage .hero-art {transform:translateY(-clamp(24px,4dvh,48px));}
+  html.m10-framed .stage .hero {transform:translateY(-clamp(63px,8.7dvh,93px));}
 }
 @media (min-width:991px) and (max-width:1100px) {
-  html.m10-framed .stage .hero-copy {transform:translateY(-clamp(22px,6dvh,55px));}
-  html.m10-framed .stage .hero-art {transform:translateY(-clamp(12px,3dvh,30px));}
+  html.m10-framed .stage .hero {transform:translateY(-clamp(28px,4.5dvh,53px));}
 }
 /* The final scene is deliberately shorter than a desktop viewport. The scroll
    endpoint then reveals a small portion of the previous Q&A scene above it. */
@@ -600,6 +593,60 @@ html.m10-framed .dot-word {
 }
 html.m10-framed .footer-scene.day .dot-word {
   background-image:radial-gradient(circle,#727272 1.2px,transparent 1.5px);
+}
+
+/* M19: one shared back-to-top control replaces the repeated preview badges. */
+html.m10-framed .back-to-top {
+  position:absolute;right:clamp(18px,2.75vw,40px);bottom:clamp(15px,2.6vh,28px);
+  z-index:90;display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:42px;padding:10px 16px;background:#151a18;color:#f7faf7;
+  border:1px solid #33443a;border-radius:999px;text-decoration:none;
+  font:600 12px/1.2 var(--Fresnica-font-family);
+  box-shadow:0 6px 19px rgba(13,22,18,.13);
+  transition:background .2s ease,transform .2s ease,box-shadow .2s ease;
+}
+html.m10-framed .back-to-top[hidden]{display:none!important}
+html.m10-framed .back-to-top svg{width:16px;height:16px;flex:none}
+html.m10-framed .back-to-top:hover{background:#273b31;transform:translateY(-3px);box-shadow:0 9px 22px rgba(13,22,18,.18)}
+html.m10-framed .site-header.on-dark ~ .back-to-top,
+html.m10-framed .site-header.on-footer-dark ~ .back-to-top{
+  background:#f4f8f5;color:#16231c;border-color:#bdcfc1;
+}
+@media(max-width:680px) {
+  html.m10-framed .back-to-top{right:16px;bottom:16px;width:43px;height:43px;padding:0}
+  html.m10-framed .back-to-top span{display:none}
+}
+
+/* Neutral outer dots gather into a small cluster; the only green particle
+   is the stationary center, with two overlapping breathing glow layers. */
+#v3-ecosystem .particle-cloud {pointer-events:none;overflow:visible}
+#v3-ecosystem .particle-cloud i {background:#a3aaa8}
+#v3-ecosystem .ecosystem-core {
+  position:absolute;left:50%;top:50%;width:9px;height:9px;
+  transform:translate(-50%,-50%);border-radius:50%;z-index:2;
+  background:#0bbd81;box-shadow:0 0 9px rgba(8,180,113,.9),0 0 22px rgba(8,174,111,.36);
+  opacity:var(--m5-core-alpha,1);pointer-events:none;
+}
+#v3-ecosystem .ecosystem-core::before,
+#v3-ecosystem .ecosystem-core::after {
+  content:'';position:absolute;border-radius:50%;pointer-events:none;
+}
+#v3-ecosystem .ecosystem-core::before {
+  inset:-24px;background:radial-gradient(circle,rgba(11,183,119,.28),rgba(16,172,115,.09) 40%,transparent 73%);
+  filter:blur(3px);animation:ecosystem-halo-breathe 3.8s ease-in-out infinite;
+}
+#v3-ecosystem .ecosystem-core::after {
+  inset:-10px;border:1px solid rgba(16,189,121,.24);
+  box-shadow:0 0 17px rgba(15,174,119,.17);
+  animation:ecosystem-halo-breathe 4.9s ease-in-out -1.5s infinite;
+}
+@keyframes ecosystem-halo-breathe{
+  0%,100%{opacity:.42;transform:scale(.74)}
+  50%{opacity:1;transform:scale(1.3)}
+}
+@media(prefers-reduced-motion:reduce){
+  #v3-ecosystem .ecosystem-core::before,
+  #v3-ecosystem .ecosystem-core::after{animation:none!important;opacity:.6;transform:none}
 }
 </style>
 </head>
@@ -638,14 +685,14 @@ html.m10-framed .footer-scene.day .dot-word {
   <!-- The page follows the reference video's chapter order, proportions and motion rhythm. -->
 <section class="chapter particle-scene" id="v3-ecosystem" data-chapter="Connected experience" data-theme="light" aria-labelledby="ecosystem-title">
   <div class="orbital-intro"><p class="chapter-kicker reveal">FRESNICA / CONNECTED BY DESIGN</p><h2 class="chapter-title reveal delay-1" id="ecosystem-title">Everything, connected.</h2><p class="chapter-kicker reveal delay-2">ASSETS &nbsp; / &nbsp; APPS &nbsp; / &nbsp; EXCHANGE &nbsp; / &nbsp; PEOPLE</p></div>
-  <div class="particle-cloud" id="ecosystem-particles" aria-hidden="true"></div><i class="particle-spine" aria-hidden="true"></i>
+  <div class="particle-cloud" id="ecosystem-particles" aria-hidden="true"><span class="ecosystem-core"></span></div><i class="particle-spine" aria-hidden="true"></i>
   <div class="bottom-intro"><p class="chapter-kicker green-label reveal">ONE CONNECTED EXPERIENCE</p><h2 class="reveal delay-1">Your next move.</h2><p class="chapter-kicker reveal delay-2">EXPLORE. UNDERSTAND. MOVE.</p></div>
-  <span class="page-count">02 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
+  <span class="page-count">02 / 10</span>
 </section>
 <section class="chapter download-scene" id="v3-availability" data-chapter="Mobile app" data-theme="light" aria-labelledby="availability-title">
   <p class="chapter-kicker centered green-label reveal">DOWNLOAD / MOBILE APP</p><h2 class="chapter-title centered reveal delay-1" id="availability-title">Get Fresnica on mobile.</h2><p class="chapter-sub reveal delay-2" style="max-width:640px">Android and iOS versions are planned. Official verified download links will appear here when available.</p>
   <div class="planned-platforms"><article class="platform-box reveal"><div><p class="chapter-kicker">PLATFORM 01</p><h3>Android</h3></div><span class="badge">PLANNED · NOT AVAILABLE YET</span></article><article class="platform-box reveal delay-1"><div><p class="chapter-kicker">PLATFORM 02</p><h3>iOS</h3></div><span class="badge">PLANNED · NOT AVAILABLE YET</span></article></div>
-  <span class="page-count">03 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
+  <span class="page-count">03 / 10</span>
 </section>
 <div class="feature-scroll" id="v3-features" data-chapter="What it does" data-theme="light" aria-label="Four wallet essentials, scroll to explore">
   <section class="chapter feature-chapter" aria-labelledby="feature-title">
@@ -661,14 +708,14 @@ html.m10-framed .footer-scene.day .dot-word {
     </div>
     <div class="feature-progress"><span id="feature-index">01 / 05</span><div class="progress-line" aria-hidden="true"><i id="feature-progress-bar"></i></div></div>
     <div class="feature-controls"><button class="circle-action" id="feature-prev" type="button" aria-label="Previous feature">←</button><button class="circle-action" id="feature-next" type="button" aria-label="Next feature">→</button></div>
-    <span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
+    
   </section>
 </div>
 <section class="chapter asset-scene" id="v3-assets" data-chapter="Your assets" data-theme="light" aria-labelledby="assets-title">
   <div class="asset-left reveal"><p class="chapter-kicker green-label">SEE / UNDERSTAND / MOVE</p><h2 class="chapter-title" id="assets-title">See what's yours.<br>Before your<br>next move.</h2><p class="chapter-sub">A clear overview with the details you need before deciding what comes next.</p></div>
   <div class="asset-board reveal delay-1" aria-label="Illustrative wallet balance and asset list"><div class="asset-topline"><span>YOUR WALLET / ASSETS</span><span>ILLUSTRATIVE INTERFACE · NOT LIVE DATA</span></div><div class="asset-columns"><div class="asset-cell"><p class="chapter-kicker">TOTAL BALANCE</p><p class="asset-value">1,248.50 <span style="font-size:14px">XLM</span></p><p style="color:#0e9f70;font-size:12px">● XLM / NATIVE ASSET</p><div class="mini-bar"><span></span></div></div><div class="asset-cell"><p class="chapter-kicker">YOUR ASSETS</p><div class="mini-row">XLM <em>Stellar</em></div><div class="mini-row">USDC <em>Issued asset</em></div><div class="mini-row">AQUA <em>Issued asset</em></div></div></div></div>
   <div class="bottom-stepper" aria-label="Wallet experience steps"><span>01 / ASSETS</span><span>02 / PAYMENTS</span><span>03 / SWAP</span><span>04 / CONNECT</span></div>
-  <span class="page-count">05 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
+  <span class="page-count">05 / 10</span>
 </section>
 <section class="chapter audience-scene" id="v3-for-you" data-chapter="Built for the way" data-theme="light" aria-labelledby="audience-title">
   <div class="audience-title reveal"><p class="chapter-kicker">BUILT FOR DIFFERENT PATHS</p><h2 class="chapter-title" id="audience-title">Built for the way<br>you move.</h2></div>
@@ -681,7 +728,7 @@ html.m10-framed .footer-scene.day .dot-word {
     <article class="audience-card"><span class="num">06 / YOUR NEXT MOVE</span><div><h3>Made to grow.</h3><p>One place for the experiences ahead.</p></div><span class="num">FRESNICA / WALLET</span></article>
   </div>
   <div class="audience-nav"><button type="button" class="circle-action" id="audience-prev" aria-label="Previous card">←</button><button type="button" class="circle-action" id="audience-next" aria-label="Next card">→</button></div>
-  <span class="page-count">06 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
+  <span class="page-count">06 / 10</span>
 </section>
 <section class="chapter workspace-scene" id="v3-workspace" data-chapter="Desktop" data-theme="light" aria-labelledby="workspace-title">
   <div class="workspace-copy reveal"><p class="chapter-kicker green-label">DESKTOP EXPERIENCE / CONCEPT</p><h2 class="chapter-title" id="workspace-title">Your world,<br>in a wider view.</h2><p class="chapter-sub">Explore how a focused desktop companion could bring assets and connected workflows into view. This remains a concept; availability has not been announced.</p></div>
@@ -689,12 +736,12 @@ html.m10-framed .footer-scene.day .dot-word {
     <div class="ws-sidebar"><strong>Fresnica</strong><span>Overview</span><span>Assets</span><span>Send &amp; receive</span><span>Swap</span><span>Connect</span><span>Activity</span></div>
     <div class="ws-content"><p class="chapter-kicker">DESKTOP INTERFACE · ILLUSTRATIVE</p><h3>A clearer, connected view.</h3><div class="ws-stats"><div class="ws-stat">01 / NETWORK<b>Stellar</b></div><div class="ws-stat">02 / CORE<b>XLM</b></div><div class="ws-stat">03 / DISCOVER<b>Apps</b></div></div><div class="network"><svg viewBox="0 0 480 210" role="img" aria-label="Illustrative network points connected by a green line"><circle cx="80" cy="145" r="5"/><circle cx="167" cy="102" r="5"/><circle cx="255" cy="120" r="5"/><circle cx="337" cy="82" r="5"/><circle cx="419" cy="50" r="5"/><polyline pathLength="1" points="80,145 167,102 255,120 337,82 419,50"/><g fill="#8caba0" opacity=".37"><circle cx="112" cy="66" r="1.5"/><circle cx="230" cy="49" r="2"/><circle cx="363" cy="159" r="2"/><circle cx="291" cy="162" r="1.5"/><circle cx="161" cy="173" r="1.5"/></g></svg></div></div>
   </div>
-  <span class="page-count">07 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
+  <span class="page-count">07 / 10</span>
 </section>
 <section class="chapter paths-scene" id="v3-paths" data-chapter="Several paths" data-theme="light" aria-labelledby="paths-title">
   <div class="paths-copy reveal"><p class="chapter-kicker green-label">ONE WALLET / SEVERAL PATHS</p><h2 class="chapter-title" id="paths-title">One wallet, several paths.</h2><p class="chapter-sub" style="margin:auto;max-width:700px">Whether you're sending XLM, exploring issued assets or connecting to apps, keep each step clear.</p></div><div class="path-lines" aria-hidden="true"></div>
   <div class="paths-grid"><article class="path-card reveal"><p class="chapter-kicker green-label">PATH 01 / SEND</p><h3>Send with clarity.</h3><p>See the destination, asset, amount and memo before confirmation.</p><div class="path-steps"><span>DESTINATION</span><span>ASSET</span><span>AMOUNT</span><span>REVIEW</span></div></article><article class="path-card reveal delay-1"><p class="chapter-kicker green-label">PATH 02 / EXCHANGE</p><h3>Explore an exchange.</h3><p>View supported asset pairs and understand the proposed route.</p><div class="path-steps"><span>ASSET</span><span>PAIR</span><span>PREVIEW</span><span>REVIEW</span></div></article></div>
-  <span class="page-count">08 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
+  <span class="page-count">08 / 10</span>
 </section>
 <section class="chapter trust-scene dark qa-scene" id="v3-clarity" data-chapter="Questions" data-theme="dark" aria-labelledby="clarity-title">
   <div class="qa-layout">
@@ -706,7 +753,7 @@ html.m10-framed .footer-scene.day .dot-word {
       <div><button type="button" aria-expanded="false" aria-controls="faq-answer-4">Can I manage funds on this website?<span aria-hidden="true">+</span></button><p id="faq-answer-4" hidden>No. This site is a product preview; wallet operations will be available in the app when released.</p></div>
     </div>
   </div>
-  <span class="page-count">09 / 10</span><span class="scene-badge">FRESNICA · DESIGN PREVIEW</span>
+  <span class="page-count">09 / 10</span>
 </section>
 <footer class="chapter footer-scene dark day" id="v3-about" data-chapter="About Fresnica" data-theme="dark" aria-labelledby="footer-title">
   <button type="button" id="footer-theme" class="footer-switch" aria-pressed="false" aria-label="Switch to dark theme">DARK MODE</button>
@@ -903,22 +950,27 @@ html.m10-framed .footer-scene.day .dot-word {
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('is-open')) { openMenu(false); menuButton.focus(); } });
   document.addEventListener('pointerdown', e => { if (!header.contains(e.target)) openMenu(false); });
 
-  // Sparse scatter of 70 particles: the video uses near-empty space, not a second Hero orb.
+  // M19: seed neutral particles in a compact cluster; M5's existing scroll
+  // choreography moves them reversibly from an outer field to the green core.
   const cloud = document.getElementById('ecosystem-particles');
   let seed = 217;
   const rand = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
   const fragment = document.createDocumentFragment();
-  for (let i=0; i<78; i++) {
+  for (let i=0; i<104; i++) {
     const dot = document.createElement('i');
-    const x=10+rand()*80, y=5+rand()*90;
-    dot.style.left=x.toFixed(2)+'%'; dot.style.top=y.toFixed(2)+'%';
-    dot.style.width=(2+rand()*2.2).toFixed(1)+'px';
+    const angle=rand()*Math.PI*2;
+    const radius=.05+Math.sqrt(rand())*.23;
+    dot.style.left=(50+Math.cos(angle)*radius*100).toFixed(2)+'%';
+    dot.style.top=(50+Math.sin(angle)*radius*100).toFixed(2)+'%';
+    dot.style.width=(1.7+rand()*2.0).toFixed(1)+'px';
     dot.style.height=dot.style.width;
-    dot.style.opacity=(.17+rand()*.60).toFixed(2);
+    dot.style.opacity=(.25+rand()*.57).toFixed(2);
     dot.style.animationDelay=(rand()*4).toFixed(2)+'s';
-    dot.style.setProperty('--scatter-x',((rand()-.5)*150).toFixed(2)+'px');
-    dot.style.setProperty('--scatter-y',((rand()-.5)*90).toFixed(2)+'px');
-    if(i%5===0) dot.style.background='#a6b3af';
+    const distance=.48+rand()*.68;
+    dot.style.setProperty('--scatter-x',(Math.cos(angle)*distance*26).toFixed(2)+'vw');
+    dot.style.setProperty('--scatter-y',(Math.sin(angle)*distance*22).toFixed(2)+'vh');
+    const gray=Math.round(104+rand()*104);
+    dot.style.background='rgb('+gray+','+gray+','+gray+')';
     fragment.append(dot);
   }
   cloud.append(fragment);

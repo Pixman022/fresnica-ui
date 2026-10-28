@@ -21,6 +21,14 @@
   if (!chapters.length) return;
   document.body.insertBefore(viewport, chapters[0]);
   viewport.append(header, scroller);
+  const backTop=document.createElement('a');
+  backTop.className='back-to-top';
+  backTop.href='#overview';
+  backTop.setAttribute('aria-label','Back to top');
+  backTop.setAttribute('title','Back to top');
+  backTop.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg><span>Back to top</span>';
+  backTop.hidden=true;
+  viewport.append(backTop);
   const plain = [];
   for (const section of chapters) {
     if (section.matches('.m5-runway, .feature-scroll')) {
@@ -83,6 +91,7 @@
   // Existing M1–M7 scroll scripts listen to window. Keep them working while
   // the real scroll now belongs to the bounded page canvas.
   scroller.addEventListener('scroll', () => {
+    backTop.hidden=scroller.scrollTop<scroller.clientHeight*.7;
     window.dispatchEvent(new Event('scroll'));
     requestPaint();
   }, {passive:true});

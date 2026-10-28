@@ -17,7 +17,7 @@
      little glows drift independently without fighting M5's !important transforms. */
   html.m14-motion #v3-ecosystem.m14-current .particle-cloud i::after {
     content:'';position:absolute;inset:-2px;border-radius:50%;pointer-events:none;
-    background:#14a87b;box-shadow:0 0 9px rgba(22,163,113,.24);
+    background:rgba(138,151,149,.74);box-shadow:0 0 9px rgba(117,133,131,.23);
     animation:m14-pulse 2.8s ease-in-out infinite;
     animation-delay:calc((var(--m14-seed,1) * -0.13s));
   }
