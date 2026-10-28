@@ -675,8 +675,20 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
   width:4px;height:10px;border-radius:999px;
   transform:translateX(-50%);opacity:0;pointer-events:none;
   background:linear-gradient(to bottom,#46dca0 0%,#21bc7e 24%,#046542 50%,#21bc7e 76%,#46dca0 100%);
+  box-shadow:0 0 6px rgba(17,202,129,.85),0 0 15px rgba(12,186,117,.43);
 }
-#v3-ecosystem .particle-spine.m21-flowing::before {
+/* A translucent tail follows upward behind the 10px packet. */
+#v3-ecosystem .particle-spine::after {
+  content:'';position:absolute;left:50%;top:0;
+  width:3px;height:36px;border-radius:999px;
+  transform:translate(-50%,calc(-100% + 3px));
+  background:linear-gradient(to bottom,
+    transparent 0%,rgba(14,184,118,.08) 28%,
+    rgba(14,191,123,.32) 70%,rgba(20,201,131,.7) 100%);
+  filter:blur(1.4px);opacity:0;pointer-events:none;
+}
+#v3-ecosystem .particle-spine.m21-flowing::before,
+#v3-ecosystem .particle-spine.m21-flowing::after {
   animation:m21-current-down 680ms linear both;
 }
 @keyframes m21-current-down {
@@ -689,7 +701,8 @@ html.m14-motion #v3-ecosystem.m14-current .particle-cloud .stream-dot {
   100%{top:100%;opacity:0}
 }
 @media(prefers-reduced-motion:reduce) {
-  #v3-ecosystem .particle-spine::before{animation:none!important;opacity:0!important}
+  #v3-ecosystem .particle-spine::before,
+  #v3-ecosystem .particle-spine::after{animation:none!important;opacity:0!important}
 }
 
 /* M23: focused global navigation and a top-aligned Hero composition. */
@@ -936,6 +949,31 @@ html.m10-framed #v3-security{background:#f5f7f5;display:grid;grid-template-colum
   #v3-security .security-principle h3{font-size:19px;margin:8px 0 5px;}
   #v3-security .security-principle p{font-size:12px;}
   #v3-security .security-disclaimer{left:24px;right:24px;bottom:52px;font-size:8px;}
+}
+/* M26: Match the fifth scene copy's boundaries to its 16:9 demo.
+   Demo width min(54vw,710px) gives height min(30.375vw,399.375px). */
+@media(min-width:681px){
+  html.m10-framed #v3-workspace .workspace-copy{
+    top:47%;height:min(30.375vw,399.375px);
+    transform:translateY(-50%);
+    display:flex;flex-direction:column;align-items:flex-start;
+  }
+  html.m10-framed #v3-workspace .workspace-copy .chapter-sub{margin:0;}
+  html.m10-framed #v3-workspace .workspace-copy .desktop-download{margin-top:auto;flex:none;}
+  /* M5 reveal owns transform; retain -50% centering for both elements. */
+  html.m10-framed.m5-motion #v3-workspace .workspace-copy.reveal,
+  html.m10-framed.m5-motion #v3-workspace .workspace-mini.reveal{
+    transform:translate3d(0,calc(-50% + var(--m5-shift,0px)),0)!important;
+  }
+}
+@media(min-width:681px) and (max-width:1100px){
+  html.m10-framed #v3-workspace .workspace-copy .chapter-title{
+    font-size:clamp(28px,3.5vw,38px);line-height:1.07;margin:10px 0 12px;
+  }
+  html.m10-framed #v3-workspace .workspace-copy .chapter-sub{
+    font-size:clamp(11px,1.18vw,13px);line-height:1.47;
+  }
+  html.m10-framed #v3-workspace .workspace-copy .desktop-download{padding:11px 14px;}
 }
 @media(prefers-reduced-motion:reduce){#v3-workspace .desktop-panel{animation:none!important;}}
 </style>
