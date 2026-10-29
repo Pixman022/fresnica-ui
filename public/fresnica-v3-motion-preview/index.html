@@ -1343,7 +1343,7 @@ html.m10-framed #v3-security .security-layout{
         points.push({
           x:Math.cos(around)*ringRadius*layer,y:z*layer,
           z:Math.sin(around)*ringRadius*layer,
-          size:(.62+seeded(i+713)*1.5)*1.56,
+          size:(.62+seeded(i+713)*1.5)*1.872,
           tone:seeded(i+407),phase:seeded(i+633)*6.283
         });
       }
@@ -1351,7 +1351,7 @@ html.m10-framed #v3-security .security-layout{
     }
     function drawFlecks(){
       if(!particleContext)return;
-      const targetCount=compactOrb.matches?1000:2000;
+      const targetCount=compactOrb.matches?700:1400;
       if(flecks.length!==targetCount)flecks=makeFlecks(targetCount);
       const r=particleCanvas.getBoundingClientRect();
       if(r.width<2||r.height<2)return;
