@@ -20,10 +20,9 @@
     .stage::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse 42% 44% at 74% 46%,rgba(172,207,194,.14),transparent 75%),radial-gradient(ellipse 55% 50% at 22% 57%,#fff,transparent 78%); pointer-events:none; }
     .site-header { display: grid; grid-template-columns:1fr 1fr 1fr; align-items: center; gap: 16px; padding: 18px 22px; }
     .brand { display: inline-flex; align-items: center; gap: 10px; background: #fff; color: #222; border: 1px solid #e5e9e8; border-radius: 100px; box-shadow: 0 3px 9px rgba(24,37,34,.07); padding: 8px 15px 8px 10px; width: fit-content; text-decoration: none; white-space: nowrap; font-size: 15px; }
-    .brand-glyph, .nav-dot { width: 20px; height: 20px; flex: none; border-radius: 50%; background: radial-gradient(circle at 31% 25%,#a8e7c7 3%,#2a947a 32%,#135e64 73%,#0d343c 100%); box-shadow: 0 0 0 3px #e6edeb, inset -2px -2px 2px rgba(0,0,0,.12); }
+    .brand-logo { width:28px;height:28px;flex:none;display:block;border-radius:6px; }
     .brand small { font-size: 11px; color: #88908f; }
     .top-nav { justify-self: center; display:flex; gap: 13px; align-items:center; min-height:44px; border-radius:100px; padding: 5px 8px; background:#101213; color:#fff; box-shadow: 0 8px 22px rgba(15,20,20,.16); white-space:nowrap; font-size: 12px; }
-    .nav-dot { width:23px; height:23px; box-shadow:0 0 0 2px #2c3432; }
     .nav-caption { text-transform:uppercase; color:#8e9291; letter-spacing:.08em; font: 9px 'SFMono-Regular',Consolas,monospace; }
     .nav-title { padding: 0 9px 0 0; font-weight:550; }
     .nav-sep { height:20px; width:1px; background:#363a3b; }
@@ -494,7 +493,7 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
  html.m10-framed .nav-caption,html.m10-framed .nav-sep {display:none!important}
  html.m10-framed .top-nav {gap:4px;padding:4px 5px}
  html.m10-framed .brand {font-size:12px;padding:6px 8px;gap:5px}
- html.m10-framed .brand-glyph {width:16px;height:16px}
+ html.m10-framed .brand-logo {width:25px;height:25px}
  html.m10-framed .nav-title {padding-right:2px;font-size:11px}
  html.m10-framed .site-header {display:grid;grid-template-columns:minmax(0,1fr) auto auto;column-gap:4px}
  html.m10-framed .header-tools {gap:4px}
@@ -506,8 +505,8 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
  html.m10-framed .ticker {width:calc(100% - 36px);font-size:11px}
  html.m10-framed .feature-track {margin-left:0!important;padding-right:0!important}
 }
-@media(max-width:480px){html.m10-framed .nav-title{display:none}}
-@media(max-width:360px){html.m10-framed .brand-glyph{display:none}html.m10-framed .brand{padding:7px;font-size:12px}html.m10-framed .header-action{padding:0 5px}}
+@media(max-width:480px){html.m10-framed .brand-label{display:none}html.m10-framed .brand{padding:6px}}
+@media(max-width:360px){html.m10-framed .brand{padding:5px}html.m10-framed .header-action{padding:0 8px}}
 @media(prefers-reduced-motion:reduce){html.m10-framed .ticker-track{animation:none!important}}
 </style>
 <link rel="stylesheet" href="./m13-styles.css">
@@ -1031,15 +1030,92 @@ html.m10-framed #v3-security .security-layout{
 }
 @media(prefers-reduced-motion:reduce){#v3-workspace .desktop-panel{animation:none!important;}}
 </style>
+
+<style id="m28-navigation-and-locale-layout">
+/* The supplied SVG is the brand artwork; the active page label itself opens the section menu. */
+html.m10-framed .site-header {grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:clamp(5px,1.4vw,14px);}
+html.m10-framed .site-header .top-nav {grid-column:2;grid-row:1;min-width:0;gap:7px;padding:5px 7px;}
+html.m10-framed .site-header .header-tools {grid-column:3;grid-row:1;justify-self:end;}
+html.m10-framed .site-header .brand {min-width:0;}
+html.m10-framed .brand-logo {width:29px;height:29px;border-radius:6px;}
+html.m10-framed .nav-title-button {padding:5px 2px 5px 4px;border:0;background:transparent;color:inherit;font:inherit;font-weight:600;white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center;gap:7px;}
+html.m10-framed .nav-title-button::after {content:'⌄';display:inline-block;font-size:13px;line-height:1;opacity:.62;transform:translateY(-2px);}
+html.m10-framed .nav-title-button[aria-expanded="true"]::after {transform:translateY(0) rotate(180deg);opacity:1;}
+html.m10-framed .nav-title-button:focus-visible,
+html.m10-framed .nav-button:focus-visible {outline:2px solid #6de3b1;outline-offset:2px;}
+html.m10-framed .nav-locale {display:inline-flex;align-items:center;justify-content:center;gap:3px;width:auto;min-width:56px;padding-inline:7px;font:600 10px/1 var(--Fresnica-font-family,Arial,sans-serif);white-space:nowrap;}
+html.m10-framed .nav-locale .locale-separator {color:#899a91;}
+html.m10-framed .nav-locale #locale-current {color:#98f0bf;}
+html.m10-framed .nav-theme {font:17px/1 Arial,sans-serif;}
+html.m10-framed .nav-dropdown {z-index:110;top:calc(100% + 9px);max-height:calc(100dvh - 94px);overflow-y:auto;}
+html.m10-framed .download-dropdown {left:auto;right:0;transform:none;min-width:min(290px,calc(100vw - 25px));}
+html.m10-framed .download-dropdown .download-menu-heading {color:#9aaea3;font-size:10px;letter-spacing:.11em;padding:5px 14px 9px;margin:0;}
+html.m10-framed .download-dropdown a {padding:11px 13px;}
+html.m10-framed .download-dropdown a span {display:flex;flex-direction:column;gap:5px;}
+html.m10-framed .download-dropdown a small {font-size:9px;color:#84b6a0;letter-spacing:.06em;}
+html.m10-framed .download-trigger {gap:8px;min-width:95px;}
+html.m10-framed .download-trigger svg {width:16px;height:16px;transition:transform .2s ease;}
+html.m10-framed .download-trigger[aria-expanded="true"] svg {transform:rotate(180deg);}
+html.m10-framed .download-trigger[aria-expanded="true"] {border-color:#0da976;}
+@media(max-width:680px){
+ html.m10-framed .site-header {grid-template-columns:minmax(0,1fr) auto auto;gap:5px;}
+ html.m10-framed .site-header .top-nav {gap:3px;padding:3px 5px;}
+ html.m10-framed .brand-logo {width:25px;height:25px;}
+ html.m10-framed .nav-title-button {font-size:11px;padding:4px 1px;gap:3px;}
+ html.m10-framed .nav-locale {min-width:30px;padding:0 5px;}
+ html.m10-framed .nav-locale .locale-separator,html.m10-framed #locale-target {display:none;}
+ html.m10-framed .nav-caption,html.m10-framed .nav-sep {display:none!important;}
+ html.m10-framed .download-trigger {min-width:0;padding-inline:10px;font-size:10px;}
+ html.m10-framed .download-trigger svg {width:12px;height:12px;}
+}
+@media(max-width:480px){
+ html.m10-framed .site-header .brand-label {display:none;}
+ html.m10-framed .site-header .brand {padding:5px;}
+ html.m10-framed .nav-title-button {display:inline-flex;max-width:120px;overflow:hidden;text-overflow:ellipsis;}
+ html.m10-framed .site-header .nav-theme {width:27px;height:27px;}
+ html.m10-framed .site-header .download-trigger {padding-inline:8px;}
+}
+@media(max-width:360px){
+ html.m10-framed .nav-title-button {max-width:78px;}
+ html.m10-framed .download-trigger {font-size:9px;}
+}
+/* Normal Chinese wrapping inside content, balanced titles, no orphaned Q&A title line. */
+html[lang="zh-CN"] .chapter-title,
+html[lang="zh-CN"] .hero h1,
+html[lang="zh-CN"] .audience-card h3,
+html[lang="zh-CN"] .feature-card h3 {overflow-wrap:break-word;word-break:normal;text-wrap:balance;letter-spacing:0;}
+html[lang="zh-CN"] #v3-clarity #clarity-title {max-width:100%;font-size:clamp(32px,3.8vw,54px);line-height:1.22;overflow-wrap:normal;word-break:keep-all;}
+html[lang="zh-CN"] .chapter-sub,
+html[lang="zh-CN"] .chapter p {overflow-wrap:break-word;text-wrap:pretty;}
+/* Functional whole-site palette change, while preserving the intentionally dark app/Q&A scenes. */
+html.v3-theme-dark .stage,
+html.v3-theme-dark :is(#v3-ecosystem,#v3-features,#v3-workspace,#v3-for-you,#v3-security) {background:#131b18!important;color:#edf4ef!important;}
+html.v3-theme-dark .stage::before {background:radial-gradient(ellipse 45% 48% at 75% 48%,rgba(42,127,89,.21),transparent 75%);}
+html.v3-theme-dark :is(#overview,#v3-ecosystem,#v3-features,#v3-workspace,#v3-for-you,#v3-security) :is(h1,.chapter-title,.eyebrow,.chapter-kicker) {color:#eff7f1;}
+html.v3-theme-dark :is(#overview,#v3-ecosystem,#v3-features,#v3-workspace,#v3-for-you,#v3-security) :is(.intro,.chapter-sub,.body) {color:#bdcfc4;}
+html.v3-theme-dark #v3-ecosystem .particle-spine {background:linear-gradient(#5b8170,transparent);}
+html.v3-theme-dark #v3-workspace .workspace,
+html.v3-theme-dark #v3-features .feature-ui {background:#1f2d26;color:#eef7f0;border-color:#375046;}
+html.v3-theme-dark #v3-workspace :is(.ws-stat b,.ws-content h3) {color:#eef7f0;}
+html.v3-theme-dark #v3-workspace :is(.network,.desktop-demo-row) {background:#1a2920;color:#e6f0e8;border-color:#365044;}
+html.v3-theme-dark #v3-workspace .desktop-demo-row strong {color:#f0f6f1;}
+html.v3-theme-dark #v3-workspace .desktop-download {border-color:#76b997;}
+html.v3-theme-dark #v3-features :is(.mini-row,.feature-art) {background:#233229;color:#e4f0e7;}
+html.v3-theme-dark #v3-for-you .audience-card {background:#223027;color:#f4f7f4;border-color:#3a5242;}
+html.v3-theme-dark #v3-for-you .audience-card.featured {background:#0e1512;}
+html.v3-theme-dark #v3-for-you .audience-card p {color:#b5c7ba;}
+html.v3-theme-dark #v3-security .security-principle {background:#202b24;color:#edf5ef;border-color:#3a4e41;}
+html.v3-theme-dark #v3-security .security-principle h3 {color:#f5faf6;}
+html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
     <header class="site-header">
-      <a class="brand" href="#overview" aria-label="Back to Fresnica preview top"><span class="brand-glyph" aria-hidden="true"></span><span><b>Fresnica</b> <small>· Stellar wallet</small></span></a>
-      <nav class="top-nav" aria-label="Preview controls"><span class="nav-dot" aria-hidden="true"></span><span class="nav-caption">NOW</span><span class="nav-title">Overview</span><span class="nav-sep"></span><button id="toggle-motion" class="nav-button" type="button" title="Pause the animation" aria-label="Pause the animation" aria-pressed="false"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 4h3v12H5zm7 0h3v12h-3z"/></svg></button><button id="replay-motion" class="nav-button" type="button" title="Replay intro animation" aria-label="Replay intro animation"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M16 5v5h-5"/><path d="M15.4 10a6 6 0 1 0-1.7 4.2"/></svg></button></nav>
-      <div class="header-tools" role="group" aria-label="Website display options">
-        <button id="locale-toggle" class="header-action" type="button" aria-pressed="false" aria-label="Switch website to Chinese"><span id="locale-current" class="is-current">EN</span><span class="locale-separator" aria-hidden="true">/</span><span id="locale-target">中文</span></button>
-        <button id="theme-placeholder" class="header-action" type="button" disabled aria-label="Theme switch, coming soon" title="Theme switch coming soon"><span aria-hidden="true">◐</span><span class="theme-text">THEME</span></button>
+      <a class="brand" href="#overview" aria-label="Back to Fresnica preview top"><img class="brand-logo" src="./Fresnica-logo.svg" alt="" width="28" height="28"><span class="brand-label"><b>Fresnica</b> <small>· Stellar wallet</small></span></a>
+      <nav class="top-nav" aria-label="Page navigation and display options"><span class="nav-caption">NOW</span><button id="scene-menu-button" class="nav-title nav-title-button" type="button" title="Jump to a section" aria-controls="scene-menu" aria-expanded="false" aria-haspopup="true">Overview</button><span class="nav-sep" aria-hidden="true"></span><button id="locale-toggle" class="nav-button nav-locale" type="button" aria-pressed="false" aria-label="Switch website to Chinese"><span id="locale-current">EN</span><span class="locale-separator" aria-hidden="true">/</span><span id="locale-target">中文</span></button><button id="theme-toggle" class="nav-button nav-theme" type="button" aria-pressed="false" aria-label="Switch to dark theme" title="Switch to dark theme"><span class="theme-symbol" aria-hidden="true">☾</span></button></nav>
+      <div class="header-tools" role="group" aria-label="Downloads">
+        <button id="download-menu-button" class="header-action download-trigger" type="button" aria-label="Download options" aria-expanded="false" aria-controls="download-menu" aria-haspopup="true"><span>DOWNLOAD</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 8 5 5 5-5"/></svg></button>
       </div>
     </header>
     <section class="hero">
@@ -1221,7 +1297,7 @@ html.m10-framed #v3-security .security-layout{
     const fallback = document.getElementById('fallback-orb');
     const ring = document.getElementById('tick-lines');
     const nodes = document.getElementById('orbit-nodes');
-    const btn = document.getElementById('toggle-motion');
+    const btn = document.getElementById('toggle-motion'); // Legacy controls are intentionally absent from the revised header.
     const replayBtns = [document.getElementById('replay-motion')].filter(Boolean);
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     const ns='http://www.w3.org/2000/svg';
@@ -1398,8 +1474,8 @@ html.m10-framed #v3-security .security-layout{
     const eye=svg=>btn.innerHTML=svg;
     const pauseIcon='<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 4h3v12H5zm7 0h3v12h-3z"/></svg>';
     const playIcon='<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="m6 4 10 6-10 6z"/></svg>';
-    function reflect(){btn.setAttribute('aria-pressed',String(!playing));btn.setAttribute('aria-label',playing?'Pause the animation':'Play the animation');btn.title=playing?'Pause the animation':'Play the animation';eye(playing?pauseIcon:playIcon);field.style.transition=playing?'transform .22s ease-out':'none';}
-    btn.addEventListener('click',()=>{playing=!playing;reflect();refreshFrame();});
+    function reflect(){if(btn){btn.setAttribute('aria-pressed',String(!playing));btn.setAttribute('aria-label',playing?'Pause the animation':'Play the animation');btn.title=playing?'Pause the animation':'Play the animation';eye(playing?pauseIcon:playIcon);}field.style.transition=playing?'transform .22s ease-out':'none';}
+    btn?.addEventListener('click',()=>{playing=!playing;reflect();refreshFrame();});
     replayBtns.forEach(b=>b.addEventListener('click',()=>{t=0;playing=true;reflect();refreshFrame();document.querySelectorAll('.orb-card').forEach(c=>{c.style.animation='none';c.offsetHeight;c.style.animation='';});}));
     reduced.addEventListener('change',()=>{playing=!reduced.matches;reflect();refreshFrame();});
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshFrame();});
@@ -1446,26 +1522,38 @@ html.m10-framed #v3-security .security-layout{
   document.body.insertBefore(header, hero);
   hero.dataset.chapter = 'Overview';
   hero.dataset.theme = 'light';
-  const navTitle = header.querySelector('.nav-title');
-  const nav = header.querySelector('.top-nav');
-  const menu = document.createElement('div');
+  const navTitle = document.getElementById('scene-menu-button');
+  const menuButton = navTitle;
+  const downloadButton = document.getElementById('download-menu-button');
+  const menu = document.createElement('nav');
   menu.className = 'nav-dropdown';
   menu.id = 'scene-menu';
+  menu.setAttribute('aria-label','Page sections');
   menu.innerHTML = '<a href="#overview"><small>01</small> Overview</a><a href="#v3-ecosystem"><small>02</small> Connected experience</a><a href="#v3-availability"><small>03</small> Mobile app</a><a href="#v3-features"><small>04</small> Five essentials</a><a href="#v3-workspace"><small>05</small> Desktop client</a><a href="#v3-for-you"><small>06</small> Built for the way</a><a href="#v3-security"><small>07</small> Security</a><a href="#v3-clarity"><small>08</small> Questions</a><a href="#v3-about"><small>09</small> About Fresnica</a>';
-  const menuButton = document.createElement('button');
-  menuButton.type = 'button';
-  menuButton.className = 'nav-button';
-  menuButton.id = 'scene-menu-button';
-  menuButton.setAttribute('aria-label', 'Jump to a section');
-  menuButton.setAttribute('aria-controls', menu.id);
-  menuButton.setAttribute('aria-expanded', 'false');
-  menuButton.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 6h12M4 10h12M4 14h12"/></svg>';
-  nav.append(menuButton); header.append(menu);
-  function openMenu(show) { menu.classList.toggle('is-open', show); menuButton.setAttribute('aria-expanded', String(show)); }
-  menuButton.addEventListener('click', () => openMenu(!menu.classList.contains('is-open')));
-  menu.addEventListener('click', e => { if (e.target.closest('a')) openMenu(false); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('is-open')) { openMenu(false); menuButton.focus(); } });
-  document.addEventListener('pointerdown', e => { if (!header.contains(e.target)) openMenu(false); });
+  const downloadMenu = document.createElement('nav');
+  downloadMenu.className = 'nav-dropdown download-dropdown';
+  downloadMenu.id = 'download-menu';
+  downloadMenu.setAttribute('aria-label','Download options');
+  downloadMenu.innerHTML = '<p class="download-menu-heading">PLANNED DOWNLOADS</p><a href="#v3-availability"><span>Mobile · iOS<small>COMING SOON</small></span></a><a href="#v3-availability"><span>Mobile · Android<small>COMING SOON</small></span></a><a href="#v3-workspace"><span>Desktop client<small>COMING SOON / CONCEPT</small></span></a>';
+  header.append(menu,downloadMenu);
+  function openMenu(which,show){
+    menu.classList.toggle('is-open',which==='scene'&&show);
+    downloadMenu.classList.toggle('is-open',which==='download'&&show);
+    menuButton.setAttribute('aria-expanded',String(which==='scene'&&show));
+    downloadButton.setAttribute('aria-expanded',String(which==='download'&&show));
+  }
+  menuButton.addEventListener('click',()=>openMenu('scene',!menu.classList.contains('is-open')));
+  downloadButton.addEventListener('click',()=>openMenu('download',!downloadMenu.classList.contains('is-open')));
+  for(const popup of [menu,downloadMenu]){
+    popup.addEventListener('click',e=>{if(e.target.closest('a'))openMenu('',false);});
+  }
+  document.addEventListener('keydown',e=>{
+    if(e.key!=='Escape')return;
+    const wasScene=menu.classList.contains('is-open');
+    const wasDownload=downloadMenu.classList.contains('is-open');
+    if(wasScene||wasDownload){openMenu('',false);(wasDownload?downloadButton:menuButton).focus();}
+  });
+  document.addEventListener('pointerdown',e=>{if(!header.contains(e.target))openMenu('',false);});
 
   // M20: each neutral dot loops from a seeded outer position into the
   // central green point along straight paths, decelerating near the core.
@@ -1594,7 +1682,7 @@ html.m10-framed #v3-security .security-layout{
       if(bounds.top<anchor) current=chapter;
     }
     navTitle.textContent=current.dataset.chapter || 'Overview';
-    const dark=current.dataset.theme==='dark' && !(current.classList.contains('footer-scene')&&current.classList.contains('day'));
+    const dark=document.documentElement.classList.contains('v3-theme-dark') || (current.dataset.theme==='dark' && !(current.classList.contains('footer-scene')&&current.classList.contains('day')));
     header.classList.toggle('on-dark',dark);
     header.classList.toggle('on-footer-dark',current===footerScene && !footerScene.classList.contains('day'));
     updateStoryMotion();
@@ -1615,18 +1703,23 @@ html.m10-framed #v3-security .security-layout{
   }));
   const footer = document.getElementById('v3-about');
   const themeBtn = document.getElementById('footer-theme');
-  themeBtn.addEventListener('click',()=>{
-    const isLight=footer.classList.toggle('day');
-    const darkActive=!isLight;
+  const headerTheme = document.getElementById('theme-toggle');
+  function applyTheme(darkActive){
+    const chinese=document.documentElement.lang==='zh-CN';
+    document.documentElement.classList.toggle('v3-theme-dark',darkActive);
+    footer.classList.toggle('day',!darkActive);
     themeBtn.setAttribute('aria-pressed',String(darkActive));
-    themeBtn.setAttribute('aria-label',darkActive?'Switch to light theme':'Switch to dark theme');
+    themeBtn.setAttribute('aria-label',darkActive?(chinese?'切换为浅色模式':'Switch to light theme'):(chinese?'切换为深色模式':'Switch to dark theme'));
     themeBtn.textContent=darkActive?'LIGHT MODE':'DARK MODE';
+    headerTheme.setAttribute('aria-pressed',String(darkActive));
+    headerTheme.setAttribute('aria-label',darkActive?(chinese?'切换为浅色模式':'Switch to light theme'):(chinese?'切换为深色模式':'Switch to dark theme'));
+    headerTheme.title=headerTheme.getAttribute('aria-label');
+    headerTheme.querySelector('.theme-symbol').textContent=darkActive?'☀':'☾';
     pulseFooter();
     requestScrollUpdate();
-  });
-  // Keep the original Hero's replay/pause buttons focused on the Hero orb, as documented in its own prototype.
-  const pauseButton=document.getElementById('toggle-motion');
-  if(pauseButton) pauseButton.title='Pause or resume Hero orb';
+  }
+  headerTheme.addEventListener('click',()=>applyTheme(!document.documentElement.classList.contains('v3-theme-dark')));
+  themeBtn.addEventListener('click',()=>applyTheme(!document.documentElement.classList.contains('v3-theme-dark')));
 
   // M2: sampled dots from the actual Fresnica wordmark assemble as the final chapter enters.
   // Rendering is local canvas only; no remote 3D dependencies or WebGL required for the footer.
