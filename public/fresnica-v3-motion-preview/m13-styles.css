@@ -102,7 +102,8 @@ html.m10-framed .audience-track.m13-auto{scroll-snap-type:none;scroll-behavior:a
    effects are not interrupted. Scenes retain their final state on departure. */
 @keyframes m22-scene-arrive {
   0%{filter:opacity(0) blur(7px);translate:0 24px;clip-path:inset(0 0 10% 0)}
-  46%{filter:opacity(.78) blur(2px)}
+  /* Finish deblurring early; let the gentle lift and reveal settle afterward. */
+  70%{filter:opacity(1) blur(0)}
   100%{filter:opacity(1) blur(0);translate:0 0;clip-path:inset(0)}
 }
 @media(prefers-reduced-motion:no-preference){
@@ -118,7 +119,7 @@ html.m10-framed .audience-track.m13-auto{scroll-snap-type:none;scroll-behavior:a
     opacity:1;
   }
   html.m10-framed.m14-motion .v3-page-scroll .m14-current .m22-entrance{
-    animation:m22-scene-arrive .82s cubic-bezier(.2,.72,.2,1) both;
+    animation:m22-scene-arrive .78s cubic-bezier(.22,.74,.28,1) both;
     animation-delay:var(--m22-delay,0ms);
   }
 }
