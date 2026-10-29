@@ -79,7 +79,7 @@
     const y=point.top+point.height/2-bounds.top;
     const far=Math.hypot(Math.max(x,bounds.width-x),Math.max(y,bounds.height-y));
     const cover=far*1.1;
-    const duration=1320;
+    const duration=1120;
     const begun=performance.now(),gen=++wheelGeneration;
     const initial=scroller.style.scrollBehavior;
     let jumped=false,revealed=false;
@@ -103,20 +103,20 @@
         radius=4.5*(1+5.2*ease);
       }else{
         portalCircle.setAttribute('fill','#101312');
-        const a=clamp((t-.24)/.50,0,1);
+        const a=clamp((t-.24)/.40,0,1);
         radius=27.9+(cover-27.9)*Math.pow(a,2.25);
       }
       portalCircle.setAttribute('r',radius.toFixed(2));
-      if(t>=.75&&!jumped){
+      if(t>=.65&&!jumped){
         jumped=true;
         scroller.scrollTop=destination;
       }
-      if(t>=.80&&!revealed){
+      if(t>=.70&&!revealed){
         revealed=true;
         document.documentElement.classList.remove('m24-transitioning');
       }
-      if(t>.82){
-        const a=clamp((t-.82)/.18,0,1);
+      if(t>.78){
+        const a=clamp((t-.78)/.22,0,1);
         portal.style.opacity=String(1-a*a*(3-2*a));
       }
       if(t<1)anim=requestAnimationFrame(paint);

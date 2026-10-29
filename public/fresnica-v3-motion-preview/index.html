@@ -258,6 +258,10 @@ body{background:#192330}
 .footer-particles{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;display:block}
 .word-wrap.particles-ready .footer-particles{opacity:1}
 .word-wrap.particles-ready .dot-word{opacity:0!important}
+@media(prefers-reduced-motion:no-preference){
+  .word-wrap.particle-interactive{cursor:pointer;user-select:none;}
+  .word-wrap.particle-interactive:focus-visible{outline:2px solid #0ca477;outline-offset:4px;}
+}
 @media(max-width:680px){.word-wrap{min-height:72px}}
 @media(prefers-reduced-motion:reduce){.motion-enabled .feature-card{opacity:1;scale:1;transition:none}.motion-enabled .network polyline{stroke-dashoffset:0}.word-wrap.particles-ready .footer-particles{opacity:0}.word-wrap.particles-ready .dot-word{opacity:1!important}}
 html:not(.motion-enabled) .reveal{opacity:1;transform:none}
@@ -1568,8 +1572,22 @@ html.m10-framed #v3-security .security-layout{
     const samples = [];
     let width=0, height=0, visible=false, running=false, lastFrame=0;
     let progress=0, themePulseStart=-Infinity;
+    let burstActive=false,burstStarted=0,burstFrame=0;
     const pointer={x:0,y:0,targetX:0,targetY:0,power:0,targetPower:0};
     const hash = n => { const v=Math.sin(n*78.233+16.37)*43758.5453; return v-Math.floor(v); };
+    function syncInteractivity() {
+      const active=samples.length>50&&!reduced.matches;
+      wrap.classList.toggle('particle-interactive',active);
+      if(active){
+        wrap.setAttribute('role','button');
+        wrap.tabIndex=0;
+        wrap.setAttribute('aria-label','Fresnica particles. Click or press Enter to scatter and reassemble the letters.');
+      }else{
+        wrap.removeAttribute('role');
+        wrap.removeAttribute('tabindex');
+        wrap.setAttribute('aria-label','FRESNICA');
+      }
+    }
     function measure() {
       const r=wrap.getBoundingClientRect();
       width=Math.max(1,Math.round(r.width));height=Math.max(1,Math.round(r.height));
@@ -1589,6 +1607,7 @@ html.m10-framed #v3-security .security-layout{
       sc.fillText('FRESNICA',width/2,height*.52);
       const data=sc.getImageData(0,0,width,height).data;
       samples.length=0;
+      burstActive=false;
       let pointIndex=0;
       const step=width<650?4:6;
       for(let y=2;y<height-2;y+=step)for(let x=2;x<width-2;x+=step){
@@ -1599,15 +1618,35 @@ html.m10-framed #v3-security .security-layout{
           dx:(hash(n+3)-.5)*Math.min(275,width*.29),
           dy:(hash(n+4)-.5)*Math.min(160,height*1.8),
           phase:hash(n+5)*6.283,size:(width<650?1.9:2.25)+hash(n+6)*(width<650?1.3:1.65),
-          tone:hash(n+9),opacity:hash(n+14)});
+          tone:hash(n+9),opacity:hash(n+14),
+          burstX:0,burstY:0,burstVx:0,burstVy:0,burstHeat:0});
       }
-      // Preserve existing CSS wordmark for low-motion or canvas-unavailable modes.
-      if(samples.length>50)wrap.classList.add('particles-ready');
+      // Keep the non-interactive wordmark for reduced-motion and Canvas fallback.
+      wrap.classList.toggle('particles-ready',samples.length>50);
+      syncInteractivity();
       render(0);
     }
     function render(now) {
       if(!width || !height)return;
       context.clearRect(0,0,width,height);
+      if(burstActive){
+        const dt=Math.max(0,Math.min(.05,(now-burstFrame)/1000));
+        burstFrame=now;
+        const damping=Math.exp(-8.3*dt);
+        for(const dot of samples){
+          dot.burstVx=(dot.burstVx-dot.burstX*25*dt)*damping;
+          dot.burstVy=(dot.burstVy-dot.burstY*25*dt)*damping;
+          dot.burstX+=dot.burstVx*dt;
+          dot.burstY+=dot.burstVy*dt;
+        }
+        if(now-burstStarted>1900){
+          burstActive=false;
+          for(const dot of samples){
+            dot.burstX=0;dot.burstY=0;dot.burstVx=0;dot.burstVy=0;
+          }
+        }
+      }
+      const burstFlash=burstActive?Math.max(0,1-(now-burstStarted)/520):0;
       const assembled=smooth((progress-.07)/.65);
       // Retain the scrolling plume, but use only neutral shades until cursor hover.
       // The brand green is reserved for particles near the pointer.
@@ -1645,15 +1684,19 @@ html.m10-framed #v3-security .security-layout{
             y+=dy*normal*36*contact+dx*normal*curlForce;
           }
         }
-        // Neutral dots have intentionally varied luminance and opacity.
+        // Click impulse sends the sampled letter dots outward, then the spring regroups them.
+        x+=dot.burstX;
+        y+=dot.burstY;
+        const burstHighlight=burstFlash*dot.burstHeat;
+        // Neutral dots stay neutral; only the click epicenter glows green briefly.
         const gray=Math.round((light?47:132)+dot.tone*(light?108:102));
-        const green=clamp01(contact*2.1);
+        const green=clamp01(contact*2.1+burstHighlight*.85);
         const r=Math.round(gray+((light?0:50)-gray)*green);
         const g=Math.round(gray+((light?168:223)-gray)*green);
         const b=Math.round(gray+((light?117:164)-gray)*green);
-        const alpha=Math.min(1,(.34+assembled*.62)*(.7+dot.opacity*.3)+localBurst*.07+contact*.14);
+        const alpha=Math.min(1,(.34+assembled*.62)*(.7+dot.opacity*.3)+localBurst*.07+contact*.14+burstHighlight*.15);
         context.fillStyle='rgba('+r+','+g+','+b+','+alpha+')';
-        const radius=dot.size*(.76+.24*assembled+.34*localBurst+.2*contact)*.5;
+        const radius=dot.size*(.76+.24*assembled+.34*localBurst+.2*contact+.18*burstHighlight)*.5;
         context.beginPath();
         context.arc(x,y,radius,0,Math.PI*2);
         context.fill();
@@ -1681,6 +1724,38 @@ html.m10-framed #v3-security .security-layout{
     window.addEventListener('resize',()=>{measure();update();start();},{passive:true});
     reduced.addEventListener('change',()=>{update();start();});
     document.addEventListener('visibilitychange',()=>{if(document.hidden)pointer.targetPower=0;start();});
+    function explode(cx,cy){
+      if(reduced.matches||!visible||samples.length<50)return;
+      const now=performance.now();
+      const maxVelocity=Math.min(1850,Math.max(850,width*1.35));
+      const reach=Math.max(115,width*.33);
+      for(let i=0;i<samples.length;i++){
+        const dot=samples[i];
+        const dx=dot.x-cx+(hash(i+207)-.5)*18;
+        const dy=dot.y-cy+(hash(i+307)-.5)*18;
+        const distance=Math.max(2,Math.hypot(dx,dy));
+        const strength=(.57+.43*Math.exp(-distance/reach))*(.7+.55*hash(i+407));
+        const speed=maxVelocity*strength;
+        dot.burstVx=Math.max(-maxVelocity,Math.min(maxVelocity,dot.burstVx*.48+dx/distance*speed));
+        dot.burstVy=Math.max(-maxVelocity,Math.min(maxVelocity,dot.burstVy*.48+dy/distance*speed));
+        dot.burstHeat=Math.exp(-Math.pow(distance/Math.max(95,width*.18),2));
+      }
+      burstActive=true;burstStarted=now;burstFrame=now;
+      start();
+    }
+    wrap.addEventListener('click',event=>{
+      if(event.button!==0||reduced.matches)return;
+      const bounds=wrap.getBoundingClientRect();
+      const cx=event.detail===0?width/2:Math.max(0,Math.min(width,event.clientX-bounds.left));
+      const cy=event.detail===0?height/2:Math.max(0,Math.min(height,event.clientY-bounds.top));
+      explode(cx,cy);
+    });
+    wrap.addEventListener('keydown',event=>{
+      if(event.key!=='Enter'&&event.key!==' ')return;
+      if(reduced.matches||samples.length<50)return;
+      event.preventDefault();
+      explode(width/2,height/2);
+    });
     const finePointer=matchMedia('(hover:hover) and (pointer:fine)');
     wrap.addEventListener('pointermove',event=>{
       if(reduced.matches||!finePointer.matches)return;
@@ -1692,7 +1767,12 @@ html.m10-framed #v3-security .security-layout{
     },{passive:true});
     wrap.addEventListener('pointerleave',()=>{pointer.targetPower=0;});
     window.addEventListener('blur',()=>{pointer.targetPower=0;});
-    reduced.addEventListener('change',()=>{pointer.targetPower=0;pointer.power=0;});
+    reduced.addEventListener('change',()=>{
+      pointer.targetPower=0;pointer.power=0;
+      burstActive=false;
+      samples.forEach(dot=>{dot.burstX=0;dot.burstY=0;dot.burstVx=0;dot.burstVy=0;});
+      syncInteractivity();
+    });
     if(document.fonts)document.fonts.ready.then(()=>{measure();update();});
     measure();update();start();
     return { update, pulse() {
