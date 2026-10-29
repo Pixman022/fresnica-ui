@@ -73,9 +73,9 @@
   walkthrough.innerHTML = `
     <div class="m6-stage-track" aria-hidden="true"><span>01 / ASSETS</span><span>02 / PAYMENT</span><span>03 / SWAP</span></div>
     <div class="m6-stage-viewport">
-      <section class="m6-stage" aria-label="Illustrative asset overview"><div><div class="m6-eyebrow">ASSETS · OVERVIEW / DEMO</div><h3>Everything in view.</h3><p>Understand supported Stellar assets in one place.</p></div><div class="m6-amount">1,248.50 <small>XLM · sample balance</small></div><div class="m6-asset-lines"><span>XLM <b>Native asset</b></span><span>Issued assets <b>Explore</b></span></div><div class="m6-status"><span>ILLUSTRATIVE · NOT LIVE DATA</span><em>01 / 03</em></div></section>
-      <section class="m6-stage" aria-label="Illustrative payment review"><div><div class="m6-eyebrow">SEND / RECEIVE · DEMO</div><h3>Review every detail.</h3><p>Payment details shown before any action.</p></div><div class="m6-fields"><span>Destination <b>GABX…7BD</b></span><span>Asset <b>XLM</b></span><span>Amount <b>25.00</b></span></div><div class="m6-status"><span>MEMO: OPTIONAL · PREVIEW ONLY</span><em>02 / 03</em></div></section>
-      <section class="m6-stage" aria-label="Illustrative swap preview"><div><div class="m6-eyebrow">SWAP · DISCOVERY / DEMO</div><h3>Explore a possible route.</h3><p>Preview supported assets before taking action.</p></div><div><div class="m6-trade-row">From <b>XLM</b></div><div class="m6-trade-row">To <b>Stellar-issued asset</b></div></div><div class="m6-status"><span>PAIR / RATE NOT LIVE · PREVIEW ONLY</span><em>03 / 03</em></div></section>
+      <section class="m6-stage" aria-label="Stellar asset overview"><div><div class="m6-eyebrow">ASSETS / OVERVIEW</div><h3>Everything in view.</h3><p>Understand supported Stellar assets in one place.</p></div><div class="m6-amount">1,248.50 <small>XLM · BALANCE</small></div><div class="m6-asset-lines"><span>XLM <b>Native asset</b></span><span>Issued assets <b>Explore</b></span></div><div class="m6-status"><span>YOUR ASSETS / YOUR VIEW</span><em>01 / 03</em></div></section>
+      <section class="m6-stage" aria-label="Payment details"><div><div class="m6-eyebrow">SEND / RECEIVE</div><h3>Review every detail.</h3><p>Payment details shown before any action.</p></div><div class="m6-fields"><span>Destination <b>GABX…7BD</b></span><span>Asset <b>XLM</b></span><span>Amount <b>25.00</b></span></div><div class="m6-status"><span>MEMO: OPTIONAL · REVIEW BEFORE SIGNING</span><em>02 / 03</em></div></section>
+      <section class="m6-stage" aria-label="Stellar swap details"><div><div class="m6-eyebrow">SWAP / EXCHANGE</div><h3>Find your exchange route.</h3><p>Review the assets and exchange details before confirming.</p></div><div><div class="m6-trade-row">From <b>XLM</b></div><div class="m6-trade-row">To <b>Stellar-issued asset</b></div></div><div class="m6-status"><span>REVIEW PAIR / RATE / CONFIRM</span><em>03 / 03</em></div></section>
     </div>`;
   assetBoard.append(walkthrough);
   const assetStages = [...walkthrough.querySelectorAll('.m6-stage')];
@@ -125,8 +125,8 @@
   network.append(caption);
 
   const statuses = [
-    ['Destination · sample address', 'Select asset · XLM', 'Check amount · 25.00 XLM', 'Review before signing · demo'],
-    ['Select supported asset', 'Explore a possible pair', 'Preview details · not live', 'Review the route · demo']
+    ['Destination · wallet address', 'Select asset · XLM', 'Check amount · 25.00 XLM', 'Review before signing'],
+    ['Select supported asset', 'Select an exchange pair', 'Review exchange details', 'Confirm the exchange']
   ];
   const pathStatus = pathCards.map(card => {
     const node = document.createElement('div');
@@ -180,7 +180,7 @@
       const draw=smooth(i===0?.21:i===1?.45:.67,i===0?.43:i===1?.67:.86,wp);
       lines.forEach((path,j)=>path.style.strokeDashoffset=(1-clamp(draw*lines.length-j*.14)).toFixed(3));
     });
-    caption.textContent=`0${stageIndex+1} / ${networks[stageIndex].title} · ILLUSTRATIVE`;
+    caption.textContent=`0${stageIndex+1} / ${networks[stageIndex].title} · STELLAR`;
     sidebar.forEach((item,i)=>item.classList.toggle('m6-current',i===([1,2,4][stageIndex])));
     workspace.dataset.m6NetworkStep=String(stageIndex+1);
 
@@ -190,7 +190,7 @@
       chip.classList.toggle('m6-step-current',j===step);
       chip.classList.toggle('m6-step-done',j<step);
     }));
-    pathStatus.forEach((node,i)=>node.textContent=`0${step+1} / 04 · ${statuses[i][step]} · illustrative`);
+    pathStatus.forEach((node,i)=>node.textContent=`0${step+1} / 04 · ${statuses[i][step]} · REVIEW`);
     paths.dataset.m6Step=String(step+1);
   }
   function requestPaint(){if(enabled&&!pending){pending=true;requestAnimationFrame(paint);}}
