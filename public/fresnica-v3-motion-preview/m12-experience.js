@@ -81,6 +81,49 @@
     "Keep understandable options and visible confirmation steps in focus.":"明确呈现选项及确认步骤，让决策过程更容易理解。",
     "DESIGN CONCEPT / SECURITY IMPLEMENTATION SUBJECT TO VERIFICATION":"设计概念 / 安全实现有待验证"
   });
+  Object.assign(map, {
+    "Choose language": "选择语言",
+    "Language options": "语言选项",
+    "GET FRESNICA": "获取 Fresnica",
+    "BUILT FOR STELLAR": "专为 Stellar 打造",
+    "MADE FOR STELLAR": "为 Stellar 而生",
+    "Mobile apps": "移动端应用",
+    "iOS APP": "iOS 应用",
+    "ANDROID APP": "Android 应用",
+    "DESKTOP APP": "桌面端应用",
+    "Your Stellar experience, wherever you go.": "随时随地，体验你的 Stellar 钱包。",
+    "Fresnica mobile wallet interface": "Fresnica 移动钱包界面",
+    "STELLAR / WALLET": "STELLAR / 钱包",
+    "WALLET / OVERVIEW": "钱包 / 概览",
+    "Portfolio": "资产组合",
+    "FRESNICA / STELLAR WALLET": "FRESNICA / STELLAR 钱包",
+    "Five Stellar wallet capabilities": "五项 Stellar 钱包核心能力",
+    "PAYMENT / REVIEW": "支付 / 核对",
+    "SWAP / EXCHANGE": "兑换 / 交换",
+    "STELLAR / ECOSYSTEM": "STELLAR / 生态",
+    "WALLET / ACTIVITY": "钱包 / 交易活动",
+    "FRESNICA / DESKTOP WALLET": "FRESNICA / 桌面钱包",
+    "Manage Stellar assets, review payments, explore swaps and connect with compatible apps in a clear desktop experience.": "在桌面端清晰管理 Stellar 资产、核对付款、探索兑换并连接兼容应用。",
+    "Download Fresnica desktop client": "下载 Fresnica 桌面客户端",
+    "Fresnica desktop wallet with four interface sections": "Fresnica 桌面钱包，包含四个可切换的功能界面",
+    "DESKTOP / OVERVIEW": "桌面端 / 概览",
+    "Stellar network activity": "Stellar 网络活动",
+    "SEND / RECEIVE · PAYMENT DETAILS": "收发 / 付款详情",
+    "STELLAR / ASSET EXCHANGE": "STELLAR / 资产兑换",
+    "REVIEW RATES / CONFIRM EXCHANGE": "核对汇率 / 确认兑换",
+    "COMPATIBLE APPS · CONNECT": "兼容应用 / 连接",
+    "REVIEW PERMISSIONS / CONNECT SECURELY": "核对权限 / 安全连接",
+    "Review transaction details before approving, understand connection requests, and stay in control of your wallet.": "确认前核对交易详情，了解应用连接请求，始终掌握钱包的操作决定权。",
+    "SECURITY BEGINS WITH CLEAR DECISIONS": "清晰决策，始于安全",
+    "What assets can I manage?": "可以管理哪些资产？",
+    "Manage XLM and Stellar-issued assets together in one clear view.": "XLM 与 Stellar 发行资产，一处清晰管理。",
+    "What can I do on desktop?": "桌面端可以做什么？",
+    "Review Stellar assets, payments, swaps and compatible app connections on a wider canvas.": "在更宽广的视野中查看 Stellar 资产、收发、兑换与兼容应用连接。",
+    "Where do wallet transactions happen?": "在哪里完成钱包交易？",
+    "Create, review and confirm wallet transactions in the Fresnica app.": "在 Fresnica 应用中发起、核对并确认钱包交易。",
+    "Made for everyday control.": "为日常掌控而设计。",
+    "FRESNICA / BUILT FOR STELLAR": "FRESNICA / 专为 STELLAR 打造"
+  });
   let locale = 'en';
   const nodeOriginal = new WeakMap();
   const attrOriginal = new WeakMap();
@@ -88,8 +131,7 @@
   const chapterTitles = new WeakMap();
   for (const section of chapters) chapterTitles.set(section,section.dataset.chapter);
   const toggle = document.getElementById('locale-toggle');
-  const current = document.getElementById('locale-current');
-  const localeTarget = document.getElementById('locale-target');
+  const languageMenu = document.getElementById('language-menu');
 
   function translateTextNode(node) {
     if (node.nodeType !== Node.TEXT_NODE || !node.parentElement ||
@@ -126,8 +168,8 @@
         const live=((el.id==='footer-theme'||el.id==='theme-toggle') && (key==='aria-label'||key==='title')) ?
           (document.documentElement.classList.contains('v3-theme-dark')?'Switch to light theme':'Switch to dark theme') : old;
         let val=locale==='zh-CN' ? (map[live] || live) : live;
-        if(el.id==='locale-toggle' && key==='aria-label')
-          val=locale==='en'?'Switch website to Chinese':'切换网站为英文';
+        if(el.id==='locale-toggle' && (key==='aria-label'||key==='title'))
+          val=locale==='en'?'Choose language':'选择语言';
         if(el.getAttribute(key)!==val)el.setAttribute(key,val);
       }
     }
@@ -142,13 +184,39 @@
     walkText(header);
     translateAttrs(frame);
     translateAttrs(header);
-    if(current)current.textContent=locale==='en'?'EN':'中文';
-    if(localeTarget)localeTarget.textContent=locale==='en'?'中文':'EN';
-    toggle?.setAttribute('aria-label',locale==='en'?'Switch website to Chinese':'切换网站为英文');
-    toggle?.setAttribute('aria-pressed',String(locale==='zh-CN'));
+    toggle?.setAttribute('aria-label',locale==='en'?'Choose language':'选择语言');
+    toggle?.setAttribute('title',locale==='en'?'Choose language':'选择语言');
+    languageMenu?.querySelectorAll('[data-language]').forEach(button => {
+      button.setAttribute('aria-checked',String(button.dataset.language===locale));
+    });
     window.dispatchEvent(new Event('scroll'));
   }
-  toggle?.addEventListener('click',()=>{locale=locale==='en'?'zh-CN':'en';syncLanguage();});
+  function setLanguageMenu(open) {
+    if (!toggle || !languageMenu) return;
+    languageMenu.hidden = !open;
+    toggle.setAttribute('aria-expanded',String(open));
+    if(open) {
+      for(const id of ['scene-menu','download-menu']) document.getElementById(id)?.classList.remove('is-open');
+      for(const id of ['scene-menu-button','download-menu-button']) document.getElementById(id)?.setAttribute('aria-expanded','false');
+    }
+  }
+  toggle?.addEventListener('click',()=>setLanguageMenu(languageMenu.hidden));
+  languageMenu?.addEventListener('click',event=>{
+    const item=event.target.closest('[data-language]');
+    if(!item)return;
+    locale=item.dataset.language;
+    setLanguageMenu(false);
+    syncLanguage();
+    toggle?.focus();
+  });
+  document.addEventListener('pointerdown',event=>{
+    if(!toggle?.parentElement?.contains(event.target)) setLanguageMenu(false);
+  });
+  document.addEventListener('keydown',event=>{
+    if(event.key!=='Escape'||languageMenu?.hidden)return;
+    setLanguageMenu(false);
+    toggle?.focus();
+  });
   // Scroll-driven presentation steps update text content (nav, M6 network caption).
   // Translate only newly changed text instead of rebuilding the page or its widgets.
   let translatePending=false;
