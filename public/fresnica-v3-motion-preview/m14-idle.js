@@ -108,7 +108,7 @@
         currentTimer=0;
         ecosystemSpine.classList.remove('m21-flowing');
         scheduleCurrent();
-      },300);
+      },480);
     },850+Math.random()*2100);
   }
   function refresh(){
