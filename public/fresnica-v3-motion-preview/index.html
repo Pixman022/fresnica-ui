@@ -1329,25 +1329,32 @@ html.m10-framed #v3-security .security-layout{
       const resize=()=>{const r=canvas.getBoundingClientRect();const width=Math.max(2,Math.round(r.width*scale));const height=Math.max(2,Math.round(r.height*scale));if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}gl.viewport(0,0,width,height);};
       window.addEventListener('resize',resize,{passive:true});resize();fallback.style.display='none';return true;
     }
-    // Every fleck and strand is projected from 3D coordinates on each frame.
-    // No image, texture atlas, external media or pre-rendered sprite is used.
-    const flecks=[];
+    // Procedural point shell: fewer, larger points reduce per-frame Canvas work.
+    // Regenerate the even spherical distribution only when crossing mobile width.
+    const compactOrb=window.matchMedia('(max-width:680px)');
     const seeded=n=>{const f=Math.sin(n*127.1+23.3)*43758.5453;return f-Math.floor(f);};
-    for(let i=0;i<5200;i++){
-      const z=1-2*(i+.5)/5200;
-      const around=i*2.399963229728653+(seeded(i+93)-.5)*.26;
-      const ringRadius=Math.sqrt(Math.max(0,1-z*z));
-      const layer=.55+.45*Math.pow(seeded(i+177),.52);
-      flecks.push({
-        x:Math.cos(around)*ringRadius*layer,y:z*layer,
-        z:Math.sin(around)*ringRadius*layer,
-        size:.62+seeded(i+713)*1.5,
-        tone:seeded(i+407),phase:seeded(i+633)*6.283
-      });
+    let flecks=[];
+    function makeFlecks(count){
+      const points=[];
+      for(let i=0;i<count;i++){
+        const z=1-2*(i+.5)/count;
+        const around=i*2.399963229728653+(seeded(i+93)-.5)*.26;
+        const ringRadius=Math.sqrt(Math.max(0,1-z*z));
+        const layer=.55+.45*Math.pow(seeded(i+177),.52);
+        points.push({
+          x:Math.cos(around)*ringRadius*layer,y:z*layer,
+          z:Math.sin(around)*ringRadius*layer,
+          size:(.62+seeded(i+713)*1.5)*1.3,
+          tone:seeded(i+407),phase:seeded(i+633)*6.283
+        });
+      }
+      return points;
     }
     let lastFlecks=0;
     function drawFlecks(){
       if(!particleContext)return;
+      const targetCount=compactOrb.matches?1800:3000;
+      if(flecks.length!==targetCount)flecks=makeFlecks(targetCount);
       const r=particleCanvas.getBoundingClientRect();
       if(r.width<2||r.height<2)return;
       const width=r.width,height=r.height;
@@ -1384,15 +1391,27 @@ html.m10-framed #v3-security .security-layout{
     }
     try { if(!startGL()) canvas.style.display='none'; } catch(err){console.warn('Orb shader unavailable, showing static fallback.',err);canvas.style.display='none';fallback.style.display='block';gl=null;}
     canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();gl=null;canvas.style.display='none';fallback.style.display='block';});
+    let frameHandle=0;
+    function scheduleFrame(){
+      if(!frameHandle&&visible&&!document.hidden)frameHandle=requestAnimationFrame(frame);
+    }
+    function refreshFrame(){
+      last=0;lastFlecks=0;
+      scheduleFrame();
+    }
     const eye=svg=>btn.innerHTML=svg;
     const pauseIcon='<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 4h3v12H5zm7 0h3v12h-3z"/></svg>';
     const playIcon='<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="m6 4 10 6-10 6z"/></svg>';
     function reflect(){btn.setAttribute('aria-pressed',String(!playing));btn.setAttribute('aria-label',playing?'Pause the animation':'Play the animation');btn.title=playing?'Pause the animation':'Play the animation';eye(playing?pauseIcon:playIcon);field.style.transition=playing?'transform .22s ease-out':'none';}
-    btn.addEventListener('click',()=>{playing=!playing;last=0;reflect();});
-    replayBtns.forEach(b=>b.addEventListener('click',()=>{t=0;last=0;playing=true;reflect();document.querySelectorAll('.orb-card').forEach(c=>{c.style.animation='none';c.offsetHeight;c.style.animation='';});}));
-    reduced.addEventListener('change',()=>{playing=!reduced.matches;last=0;reflect();});
-    document.addEventListener('visibilitychange',()=>{last=0;});
-    const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;last=0;},{threshold:.04});observer.observe(field);
+    btn.addEventListener('click',()=>{playing=!playing;reflect();refreshFrame();});
+    replayBtns.forEach(b=>b.addEventListener('click',()=>{t=0;playing=true;reflect();refreshFrame();document.querySelectorAll('.orb-card').forEach(c=>{c.style.animation='none';c.offsetHeight;c.style.animation='';});}));
+    reduced.addEventListener('change',()=>{playing=!reduced.matches;reflect();refreshFrame();});
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshFrame();});
+    const observer=new IntersectionObserver(entries=>{
+      visible=entries[0].isIntersecting;
+      if(visible)refreshFrame();
+    },{threshold:.04});observer.observe(field);
+    window.addEventListener('resize',refreshFrame,{passive:true});
     field.addEventListener('pointermove',event=>{if(reduced.matches)return;const r=field.getBoundingClientRect();pointX=((event.clientX-r.left)/r.width-.5)*2;pointY=((event.clientY-r.top)/r.height-.5)*2;});
     field.addEventListener('pointerleave',()=>{pointX=0;pointY=0;});
     function renderRing(){
@@ -1401,19 +1420,22 @@ html.m10-framed #v3-security .security-layout{
       ticks.forEach((line,i)=>{let distance=((i/96*2*Math.PI-phase)%(Math.PI*2)+Math.PI*2)%(Math.PI*2);distance=Math.min(distance,Math.PI*2-distance);const active=Math.exp(-distance*distance/.17);line.setAttribute('stroke',active>.12?'#0a9e79':'#8c9f9a');line.setAttribute('stroke-opacity',String(.35+.57*active));});
     }
     function frame(stamp){
-      if(!last)last=stamp;
-      const delta=Math.min(.05,(stamp-last)/1000);last=stamp;
-      if(visible&&!document.hidden){if(playing&&!reduced.matches)t+=delta;else if(playing&&reduced.matches)t=0;
-        smoothX+=(pointX-smoothX)*Math.min(1,delta*5);smoothY+=(pointY-smoothY)*Math.min(1,delta*5);
-        field.style.setProperty('--field-x',(playing&&!reduced.matches?smoothX*6:0).toFixed(2)+'px');
-        field.style.setProperty('--field-y',(playing&&!reduced.matches?smoothY*6:0).toFixed(2)+'px');
-        renderRing();
-        if(gl&&program&&mesh){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(uniforms.time,t);gl.uniform2f(uniforms.pointer,smoothX,smoothY);gl.bindVertexArray(mesh.vao);gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);}
-        if(!lastFlecks||stamp-lastFlecks>=33){drawFlecks();lastFlecks=stamp;}
-      }
-      requestAnimationFrame(frame);
+      frameHandle=0;
+      if(!visible||document.hidden)return;
+      const delta=last?Math.min(.05,(stamp-last)/1000):0;
+      last=stamp;
+      const moving=playing&&!reduced.matches;
+      if(moving)t+=delta;
+      smoothX+=(pointX-smoothX)*Math.min(1,delta*5);
+      smoothY+=(pointY-smoothY)*Math.min(1,delta*5);
+      field.style.setProperty('--field-x',(moving?smoothX*6:0).toFixed(2)+'px');
+      field.style.setProperty('--field-y',(moving?smoothY*6:0).toFixed(2)+'px');
+      renderRing();
+      if(gl&&program&&mesh){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(uniforms.time,t);gl.uniform2f(uniforms.pointer,smoothX,smoothY);gl.bindVertexArray(mesh.vao);gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);}
+      if(!lastFlecks||stamp-lastFlecks>=33||!moving){drawFlecks();lastFlecks=stamp;}
+      if(moving)scheduleFrame();
     }
-    reflect();requestAnimationFrame(frame);
+    reflect();scheduleFrame();
   })();
   </script>
 <script>
