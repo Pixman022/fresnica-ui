@@ -78,7 +78,14 @@ html.m10-framed .header-tools .download-dropdown {
   left: auto;
   right: 0;
   transform: none;
+  transform-origin: right top;
   min-width: min(290px, calc(100vw - 24px));
+}
+html.m10-framed.m7-motion .header-tools .download-dropdown {
+  transform: translateY(-9px) scale(.97);
+}
+html.m10-framed.m7-motion .header-tools .download-dropdown.is-open {
+  transform: translateY(0) scale(1);
 }
 html.m10-framed .site-header .brand-logo {
   display: block;
