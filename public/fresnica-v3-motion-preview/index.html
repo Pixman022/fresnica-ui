@@ -1325,8 +1325,7 @@ html.m10-framed #v3-security .security-layout{
       const loc=gl.getAttribLocation(program,'aPosition');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,3,gl.FLOAT,false,0,0);
       const ebo=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ebo);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(indices),gl.STATIC_DRAW);
       mesh={vao,count:indices.length};
-      const scale=Math.min(window.devicePixelRatio||1,1.6);
-      const resize=()=>{const r=canvas.getBoundingClientRect();const width=Math.max(2,Math.round(r.width*scale));const height=Math.max(2,Math.round(r.height*scale));if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}gl.viewport(0,0,width,height);};
+      const resize=()=>{const r=canvas.getBoundingClientRect();const scale=Math.min(window.devicePixelRatio||1,compactOrb.matches?1.3:1.4);const width=Math.max(2,Math.round(r.width*scale));const height=Math.max(2,Math.round(r.height*scale));if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}gl.viewport(0,0,width,height);};
       window.addEventListener('resize',resize,{passive:true});resize();fallback.style.display='none';return true;
     }
     // Procedural point shell: fewer, larger points reduce per-frame Canvas work.
@@ -1344,21 +1343,20 @@ html.m10-framed #v3-security .security-layout{
         points.push({
           x:Math.cos(around)*ringRadius*layer,y:z*layer,
           z:Math.sin(around)*ringRadius*layer,
-          size:(.62+seeded(i+713)*1.5)*1.3,
+          size:(.62+seeded(i+713)*1.5)*1.56,
           tone:seeded(i+407),phase:seeded(i+633)*6.283
         });
       }
       return points;
     }
-    let lastFlecks=0;
     function drawFlecks(){
       if(!particleContext)return;
-      const targetCount=compactOrb.matches?1800:3000;
+      const targetCount=compactOrb.matches?1000:2000;
       if(flecks.length!==targetCount)flecks=makeFlecks(targetCount);
       const r=particleCanvas.getBoundingClientRect();
       if(r.width<2||r.height<2)return;
       const width=r.width,height=r.height;
-      const scale=Math.min(window.devicePixelRatio||1,1.6);
+      const scale=Math.min(window.devicePixelRatio||1,compactOrb.matches?1.3:1.4);
       const pixWidth=Math.round(width*scale),pixHeight=Math.round(height*scale);
       if(particleCanvas.width!==pixWidth||particleCanvas.height!==pixHeight){
         particleCanvas.width=pixWidth;particleCanvas.height=pixHeight;
@@ -1396,7 +1394,7 @@ html.m10-framed #v3-security .security-layout{
       if(!frameHandle&&visible&&!document.hidden)frameHandle=requestAnimationFrame(frame);
     }
     function refreshFrame(){
-      last=0;lastFlecks=0;
+      last=0;
       scheduleFrame();
     }
     const eye=svg=>btn.innerHTML=svg;
@@ -1422,9 +1420,12 @@ html.m10-framed #v3-security .security-layout{
     function frame(stamp){
       frameHandle=0;
       if(!visible||document.hidden)return;
+      const moving=playing&&!reduced.matches;
+      // Throttle the entire WebGL + Canvas + SVG frame to about 30 FPS.
+      // Pausing, resuming and resizing still draw immediately, even at low motion.
+      if(moving&&last&&stamp-last<30){scheduleFrame();return;}
       const delta=last?Math.min(.05,(stamp-last)/1000):0;
       last=stamp;
-      const moving=playing&&!reduced.matches;
       if(moving)t+=delta;
       smoothX+=(pointX-smoothX)*Math.min(1,delta*5);
       smoothY+=(pointY-smoothY)*Math.min(1,delta*5);
@@ -1432,7 +1433,7 @@ html.m10-framed #v3-security .security-layout{
       field.style.setProperty('--field-y',(moving?smoothY*6:0).toFixed(2)+'px');
       renderRing();
       if(gl&&program&&mesh){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(uniforms.time,t);gl.uniform2f(uniforms.pointer,smoothX,smoothY);gl.bindVertexArray(mesh.vao);gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);}
-      if(!lastFlecks||stamp-lastFlecks>=33||!moving){drawFlecks();lastFlecks=stamp;}
+      drawFlecks();
       if(moving)scheduleFrame();
     }
     reflect();scheduleFrame();
