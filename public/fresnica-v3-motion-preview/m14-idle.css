@@ -92,13 +92,13 @@
   html.m14-motion .m14-current * {animation:none!important;}
 }
 
-/* Safety principles maintain a gentle, restrained orbit while parked. */
+/* Animate the dashed vector orbit without moving or scaling the SVG canvas. */
 @media(prefers-reduced-motion:no-preference){
- html.m14-motion #v3-security.m14-current .security-ring{
+ html.m14-motion #v3-security.m14-current .security-orbit{
    animation:m25-security-orbit 14s linear infinite;
  }
  @keyframes m25-security-orbit{
-   from{transform:translate(-50%,-50%) rotate(0deg);border-style:dashed;}
-   to{transform:translate(-50%,-50%) rotate(360deg);border-style:dashed;}
+   from{stroke-dashoffset:0;}
+   to{stroke-dashoffset:-112;}
  }
 }
