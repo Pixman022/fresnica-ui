@@ -1343,7 +1343,7 @@ html.m10-framed #v3-security .security-layout{
         points.push({
           x:Math.cos(around)*ringRadius*layer,y:z*layer,
           z:Math.sin(around)*ringRadius*layer,
-          size:(.62+seeded(i+713)*1.5)*1.872,
+          size:(.62+seeded(i+713)*1.5)*(compactOrb.matches?1.4:1.872),
           tone:seeded(i+407),phase:seeded(i+633)*6.283
         });
       }
