@@ -1282,12 +1282,6 @@ html.m10-framed #v3-security .security-layout{
       p+=dot(p,p.yzx+33.33);
       return fract((p.x+p.y)*p.z);
     }
-    float fibers(vec3 p){
-      float a=sin(p.y*73.+p.x*31.+3.*sin(p.z*17.+uTime*.09));
-      float b=sin(p.z*62.-p.x*42.+2.6*cos(p.y*19.-uTime*.11));
-      float c=sin((p.x+p.y-p.z)*86.+sin(p.y*15.));
-      return .51*pow(1.-abs(a),19.)+.32*pow(1.-abs(b),21.)+.17*pow(1.-abs(c),18.);
-    }
     void main(){
       vec3 p=normalize(vP);
       float wave1=.5+.5*sin(p.x*8.8+p.y*9.2+sin(p.z*7.+uTime*.13)*1.8);
@@ -1295,16 +1289,15 @@ html.m10-framed #v3-security .security-layout{
       float variation=.57*wave1+.43*wave2;
       float rim=pow(1.-max(0.,dot(normalize(vN),vec3(0.,0.,1.))),1.7);
       float core=exp(-1.7*pow(length((vWorld.xy-vec2(.06,-.05))*vec2(1.45,1.68)),2.0));
-      float lines=fibers(p);
       float frost=step(.984,hash3(floor(p*290.)));
       float light=max(0.,dot(normalize(vN),normalize(vec3(-.42,.67,1.))));
       // A clearer emerald nucleus with a soft translucent mint perimeter.
       vec3 color=mix(vec3(.68,.89,.78),vec3(.20,.70,.48),.18+.76*core);
       color=mix(color,vec3(.33,.83,.59),.16*variation);
-      color=mix(color,vec3(.98,1.,.985),.13*light+.33*lines+.24*frost);
+      color=mix(color,vec3(.98,1.,.985),.13*light+.24*frost);
       color=mix(color,vec3(.25,.55,.40),.12*rim);
       float alpha=(.20+.60*core+.085*variation)*(1.-.28*rim);
-      alpha=clamp(alpha+.08*lines+.07*frost,.12,.90);
+      alpha=clamp(alpha+.07*frost,.12,.90);
       outColor=vec4(color,alpha);
     }`;
     function shader(type,source){const sh=gl.createShader(type);gl.shaderSource(sh,source);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){throw Error(gl.getShaderInfoLog(sh));}return sh;}
@@ -1378,28 +1371,6 @@ html.m10-framed #v3-security .security-layout{
         return {x:width*.5+xr*sx*perspective,
           y:height*.5-yr*sy*perspective,depth};
       };
-      // Wispy, non-geometric filament paths flow across the sphere surface.
-      g.lineWidth=.70;
-      for(let i=0;i<66;i++){
-        const baseLatitude=(seeded(i+1001)-.5)*2.3;
-        const start=seeded(i+1101)*6.283;
-        const span=.40+seeded(i+1201)*1.05;
-        const drift=seeded(i+1301)*6.283;
-        let joined=false;
-        g.beginPath();
-        for(let j=0;j<=18;j++){
-          const u=j/18,a=start+span*u;
-          const latitude=baseLatitude+.075*Math.sin(a*7.5+drift+u*2.)
-            +.028*Math.sin(a*17.+drift*.7);
-          const p=project(.99*Math.cos(latitude)*Math.cos(a),
-            .99*Math.sin(latitude),.99*Math.cos(latitude)*Math.sin(a));
-          if(p.depth<-.12){joined=false;continue;}
-          if(joined)g.lineTo(p.x,p.y);
-          else{g.moveTo(p.x,p.y);joined=true;}
-        }
-        g.strokeStyle=i%3===0?'rgba(51,155,108,.24)':'rgba(251,255,251,.34)';
-        g.stroke();
-      }
       for(let i=0;i<flecks.length;i++){
         const dot=flecks[i],p=project(dot.x,dot.y,dot.z);
         const front=Math.max(0,Math.min(1,.5+p.depth*.5));
