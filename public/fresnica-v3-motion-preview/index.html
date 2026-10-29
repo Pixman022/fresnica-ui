@@ -42,13 +42,13 @@
     .cta.secondary { background:#fff; color:#252a28; border:1px solid #e4e7e5; box-shadow:0 2px 5px rgba(0,0,0,.05); }
     .hero-art { position:relative; height:530px; width:100%; min-width:0; display:grid; place-items:center; }
     .orb-field { width:min(100%,550px); aspect-ratio:1; position:relative; margin:0 auto; transform: translate3d(var(--field-x,0px),var(--field-y,0px),0); transition:transform .22s ease-out; }
-    .orb-field::before { content:''; position:absolute; width:78%; height:78%; left:11%; top:11%; border-radius:50%; opacity:.8; background:radial-gradient(circle at 52% 50%,rgba(23,195,119,.24) 0%,rgba(77,207,144,.13) 29%,rgba(172,231,197,.05) 57%,transparent 78%); filter:blur(22px); pointer-events:none; }
+    .orb-field::before { content:''; position:absolute; width:78%; height:78%; left:11%; top:11%; border-radius:50%; opacity:.58; background:radial-gradient(circle at 52% 50%,rgba(23,195,119,.24) 0%,rgba(77,207,144,.13) 29%,rgba(172,231,197,.05) 57%,transparent 78%); filter:blur(22px); pointer-events:none; }
     .orb-field::after { content:''; position:absolute; width:42%; height:4%; left:29%; bottom:20%; z-index:0; background:rgba(43,107,74,.17); filter:blur(15px); border-radius:50%; pointer-events:none; }
     .orbit-svg { display:block; width:100%; height:100%; position:absolute; inset:0; overflow:visible; pointer-events:none; }
     .orbit-dots { position:absolute; inset:0; border-radius:50%; background-image:radial-gradient(#a2b9b3 0.8px,transparent .8px); background-size:15px 15px; opacity:.20; mask-image:radial-gradient(circle,transparent 34%,#000 59%,transparent 77%); }
-    #orb-canvas { width:100%; height:100%; position:absolute; inset:0; z-index:2; display:block; filter:drop-shadow(0 6px 12px rgba(31,136,83,.05)); }
+    #orb-canvas { width:100%; height:100%; position:absolute; inset:0; z-index:2; display:block; filter:drop-shadow(0 6px 12px rgba(31,136,83,.09)); }
     #orb-particles { width:100%; height:100%; position:absolute; inset:0; z-index:3; display:block; pointer-events:none; }
-    .fallback-orb { position:absolute; width:61%; height:61%; top:19.5%; left:19.5%; border-radius:49% 51% 50% 50%; background:radial-gradient(circle at 53% 53%,rgba(47,200,128,.43),rgba(101,218,159,.31) 28%,rgba(209,247,225,.44) 53%,rgba(252,255,253,.65) 77%,rgba(245,255,250,.12) 100%); box-shadow:inset 13px 13px 30px rgba(255,255,255,.72),inset -12px -12px 25px rgba(75,172,122,.11),0 12px 26px rgba(39,109,70,.06); z-index:1; }
+    .fallback-orb { position:absolute; width:61%; height:61%; top:19.5%; left:19.5%; border-radius:49% 51% 50% 50%; background:radial-gradient(circle at 53% 53%,rgba(35,172,112,.63),rgba(82,200,144,.38) 28%,rgba(186,237,209,.48) 53%,rgba(246,255,250,.72) 77%,rgba(245,255,250,.12) 100%); box-shadow:inset 13px 13px 30px rgba(255,255,255,.72),inset -12px -12px 25px rgba(75,172,122,.11),0 12px 26px rgba(39,109,70,.06); z-index:1; }
     .fallback-orb::before {content:'';position:absolute;inset:1.5%;border-radius:49% 51% 50% 48%;background-image:radial-gradient(circle,rgba(255,255,255,.94) .85px,transparent 1.55px),radial-gradient(circle,rgba(33,154,107,.25) .65px,transparent 1.5px);background-size:5px 7px,11px 13px;background-position:0 0,3px 5px;mask-image:radial-gradient(circle at 48% 53%,transparent 0%,#000 52%,#000 96%);opacity:.48;}
     .fallback-orb::after {content:'';position:absolute;inset:-.5%;border-radius:49% 50% 48% 51%;background:radial-gradient(circle at 23% 21%,rgba(255,255,255,.90),transparent 42%),radial-gradient(circle at 76% 79%,rgba(24,145,105,.13),transparent 46%);border:1px solid rgba(255,255,255,.62);pointer-events:none;}
     .orb-card { position:absolute; z-index:4; background:#fff; border:1px solid #e9ebea; box-shadow:0 9px 26px rgba(14,32,29,.08); border-radius:12px; padding:11px 13px; font-size:11px; line-height:1.5; animation:appear .7s backwards; }
@@ -1298,11 +1298,13 @@ html.m10-framed #v3-security .security-layout{
       float lines=fibers(p);
       float frost=step(.984,hash3(floor(p*290.)));
       float light=max(0.,dot(normalize(vN),normalize(vec3(-.42,.67,1.))));
-      vec3 color=mix(vec3(.91,.99,.95),vec3(.25,.80,.56),.22+.55*core);
-      color=mix(color,vec3(.35,.86,.68),.23*variation);
-      color=mix(color,vec3(.98,1.,.985),.24*light+.39*lines+.34*frost);
-      float alpha=(.14+.48*core+.13*variation)*(1.-.40*rim);
-      alpha=clamp(alpha+.085*lines+.10*frost,.06,.78);
+      // A clearer emerald nucleus with a soft translucent mint perimeter.
+      vec3 color=mix(vec3(.68,.89,.78),vec3(.20,.70,.48),.18+.76*core);
+      color=mix(color,vec3(.33,.83,.59),.16*variation);
+      color=mix(color,vec3(.98,1.,.985),.13*light+.33*lines+.24*frost);
+      color=mix(color,vec3(.25,.55,.40),.12*rim);
+      float alpha=(.20+.60*core+.085*variation)*(1.-.28*rim);
+      alpha=clamp(alpha+.08*lines+.07*frost,.12,.90);
       outColor=vec4(color,alpha);
     }`;
     function shader(type,source){const sh=gl.createShader(type);gl.shaderSource(sh,source);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){throw Error(gl.getShaderInfoLog(sh));}return sh;}
@@ -1346,7 +1348,7 @@ html.m10-framed #v3-security .security-layout{
       flecks.push({
         x:Math.cos(around)*ringRadius*layer,y:z*layer,
         z:Math.sin(around)*ringRadius*layer,
-        size:.45+seeded(i+713)*1.12,
+        size:.62+seeded(i+713)*1.5,
         tone:seeded(i+407),phase:seeded(i+633)*6.283
       });
     }
@@ -1377,7 +1379,7 @@ html.m10-framed #v3-security .security-layout{
           y:height*.5-yr*sy*perspective,depth};
       };
       // Wispy, non-geometric filament paths flow across the sphere surface.
-      g.lineWidth=.56;
+      g.lineWidth=.70;
       for(let i=0;i<66;i++){
         const baseLatitude=(seeded(i+1001)-.5)*2.3;
         const start=seeded(i+1101)*6.283;
@@ -1395,15 +1397,15 @@ html.m10-framed #v3-security .security-layout{
           if(joined)g.lineTo(p.x,p.y);
           else{g.moveTo(p.x,p.y);joined=true;}
         }
-        g.strokeStyle=i%3===0?'rgba(71,170,124,.11)':'rgba(252,255,252,.24)';
+        g.strokeStyle=i%3===0?'rgba(51,155,108,.24)':'rgba(251,255,251,.34)';
         g.stroke();
       }
       for(let i=0;i<flecks.length;i++){
         const dot=flecks[i],p=project(dot.x,dot.y,dot.z);
         const front=Math.max(0,Math.min(1,.5+p.depth*.5));
         const opacity=Math.min(.92,(.16+.65*front)*(.72+.28*Math.sin(t*.56+dot.phase)**2));
-        const green=dot.tone>.84;
-        g.fillStyle=green?'rgba(53,170,124,'+(opacity*.52).toFixed(3)+')'
+        const green=dot.tone>.65;
+        g.fillStyle=green?'rgba(26,130,97,'+(opacity*.86).toFixed(3)+')'
           :'rgba(248,255,250,'+opacity.toFixed(3)+')';
         const size=dot.size*(.75+.52*front);
         g.beginPath();g.arc(p.x,p.y,size*.5,0,Math.PI*2);g.fill();
