@@ -199,8 +199,6 @@
   audience.addEventListener('focusin',()=>{focused=true;});
   audience.addEventListener('focusout',()=>{focused=false;pause();});
   audience.addEventListener('pointerdown',pause,{passive:true});
-  document.getElementById('audience-prev')?.addEventListener('click',pause);
-  document.getElementById('audience-next')?.addEventListener('click',pause);
   function loop(now){
     const dt=lastFrame?Math.min(50,now-lastFrame):0;lastFrame=now;
     if(activate()){

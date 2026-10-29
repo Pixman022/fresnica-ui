@@ -17,7 +17,7 @@
     'v3-availability':'.download-copy .reveal,.download-art',
     'v3-features':'.feature-heading,.feature-card',
     'v3-workspace':'.workspace-copy,.workspace-mini,.desktop-tabs',
-    'v3-for-you':'.audience-title,.audience-track,.audience-nav',
+    'v3-for-you':'.audience-title,.audience-track',
     'v3-security':'.security-head,.security-visual,.security-principles',
     'v3-clarity':'.qa-heading,.qa-list',
     'v3-about':'.footer-top,.word-wrap'
@@ -108,7 +108,7 @@
         currentTimer=0;
         ecosystemSpine.classList.remove('m21-flowing');
         scheduleCurrent();
-      },680);
+      },300);
     },850+Math.random()*2100);
   }
   function refresh(){
