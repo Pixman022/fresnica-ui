@@ -103,19 +103,6 @@ html.m10-framed .site-header .brand-logo {
 #v3-security .security-visual.has-particle-shape .security-artwork {
   opacity: 0;
 }
-#v3-security .security-visual::before {
-  content: '';
-  position: absolute;
-  top: 44%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(90%, 315px);
-  height: min(90%, 260px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(12,173,111,.11), rgba(12,173,111,.045) 42%, transparent 74%);
-  filter: blur(14px);
-  pointer-events: none;
-}
 #v3-security .security-visual .security-particle-canvas {
   position: absolute;
   z-index: 2;
@@ -126,9 +113,6 @@ html.m10-framed .site-header .brand-logo {
   height: calc(100% - 22px);
   pointer-events: auto;
   touch-action: pan-y;
-}
-html.v3-theme-dark #v3-security .security-visual::before {
-  background: radial-gradient(circle, rgba(23,199,130,.15), rgba(23,199,130,.055) 42%, transparent 75%);
 }
 @media (max-width: 680px) {
   html.m10-framed .site-header .top-nav {gap: 7px; padding: 3px 12px;}
