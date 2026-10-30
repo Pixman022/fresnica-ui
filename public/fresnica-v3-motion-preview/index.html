@@ -1498,21 +1498,28 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     function drawLogoFlecks(g,width,height){
       if(!logoFlecks.length)return;
       const mobile=compactOrb.matches;
+      const moving=playing&&!reduced.matches;
       const diameter=Math.min(width,height)*(mobile ? .265 : .255);
       const centreX=width*.5+smoothX*width*.007;
       const centreY=height*.5+smoothY*height*.005;
-      const skew=reduced.matches?0:Math.sin(t*.21)*.022+smoothX*.028;
+      const skew=moving?Math.sin(t*.31)*.028+smoothX*.028:0;
+      // A faint travelling glint moves from the rocket's tail toward its tip.
+      const sweep=moving?(t*.23)%1.6-.8:-10;
       for(let i=0;i<logoFlecks.length;i++){
         if(mobile&&i%4===0)continue;
         const p=logoFlecks[i];
-        const x=centreX+(p.u+p.v*skew)*diameter;
-        const y=centreY+(p.v-p.u*smoothY*.016)*diameter;
-        const shimmer=reduced.matches?1:.94+.06*Math.sin(t*.6+p.phase);
-        const gleam=p.tone>.94;
-        g.fillStyle=gleam?'rgba(204,255,223,.92)':'rgba(13,92,69,.93)';
-        g.globalAlpha=shimmer;
+        const drift=moving?Math.sin(t*1.35+p.phase)*.55:0;
+        const x=centreX+(p.u+p.v*skew)*diameter+drift;
+        const y=centreY+(p.v-p.u*smoothY*.016)*diameter+
+          (moving?Math.cos(t*1.12+p.phase)*.4:0);
+        const wave=moving?.5+.5*Math.sin(t*1.6+p.phase):.5;
+        const glint=Math.max(0,1-Math.abs((p.u-p.v)*.707-sweep)/.17);
+        const bright=p.tone>.975 || (glint>.36&&p.tone>.28);
+        g.fillStyle=bright?'rgba(201,255,222,.98)':
+          p.tone>.77?'rgba(143,224,175,.90)':'rgba(72,168,128,.84)';
+        g.globalAlpha=moving?Math.min(1,.76+.12*wave+.22*glint):.88;
         g.beginPath();
-        g.arc(x,y,p.radius*(mobile ? .91 : 1.06),0,Math.PI*2);
+        g.arc(x,y,p.radius*(mobile ? .91 : 1.06)*(1+.13*glint+.05*wave),0,Math.PI*2);
         g.fill();
       }
       g.globalAlpha=1;
