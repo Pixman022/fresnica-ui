@@ -1497,20 +1497,35 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     }
     function drawLogoFlecks(g,width,height){
       if(!logoFlecks.length)return;
-      // Keep every point anchored to the symbol; add only a gentle star-like twinkle.
+      // Fixed white points; a subset flashes like tiny stars without moving.
       const mobile=compactOrb.matches;
       const diameter=Math.min(width,height)*(mobile ? .285 : .278);
       const centreX=width*.5,centreY=height*.5;
       for(const p of logoFlecks){
-        const twinkle=reduced.matches?1:
-          .55+.45*(.5+.5*Math.sin(t*1.45+p.phase*1.7));
-        const star=p.tone>.86;
+        const star=p.tone>.88;
+        const pulse=reduced.matches?0:
+          Math.pow(Math.max(0,Math.sin(t*2.35+p.phase*2.3)),7);
+        const alpha=reduced.matches?.98:
+          star?.12+.88*pulse:.72+.28*(.5+.5*Math.sin(t*1.05+p.phase));
+        const size=p.radius*(mobile?1.07:1.14)*
+          (star?.78+.92*pulse:.98+.08*pulse);
+        const x=centreX+p.u*diameter,y=centreY+p.v*diameter;
         g.fillStyle='rgba(255,255,255,1)';
-        g.globalAlpha=twinkle*(star?1:.94);
-        const size=p.radius*(mobile?1.07:1.14)*(star?1.12+.10*twinkle:.96+.06*twinkle);
+        g.globalAlpha=alpha;
         g.beginPath();
-        g.arc(centreX+p.u*diameter,centreY+p.v*diameter,size,0,Math.PI*2);
+        g.arc(x,y,size,0,Math.PI*2);
         g.fill();
+        if(star&&pulse>.78){
+          const ray=size*(2.0+pulse*1.9);
+          g.globalAlpha=pulse*.86;
+          g.strokeStyle='rgba(255,255,255,1)';
+          g.lineWidth=.72;
+          g.lineCap='round';
+          g.beginPath();
+          g.moveTo(x-ray,y);g.lineTo(x+ray,y);
+          g.moveTo(x,y-ray);g.lineTo(x,y+ray);
+          g.stroke();
+        }
       }
       g.globalAlpha=1;
     }
@@ -1545,7 +1560,6 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
       const g=particleContext;
       g.setTransform(scale,0,0,scale,0,0);
       g.clearRect(0,0,width,height);
-      drawLogoFlecks(g,width,height);
       const spin=t*.10+smoothX*.17;
       const tilt=-.12+smoothY*.13+Math.sin(t*.19)*.055;
       const cs=Math.cos(spin),ss=Math.sin(spin);
@@ -1562,12 +1576,13 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         const dot=flecks[i],p=project(dot.x,dot.y,dot.z);
         const front=Math.max(0,Math.min(1,.5+p.depth*.5));
         const opacity=Math.min(.92,(.16+.65*front)*(.72+.28*Math.sin(t*.56+dot.phase)**2));
-        const green=dot.tone>.52;
-        g.fillStyle=green?'rgba(62,173,126,'+(opacity*.90).toFixed(3)+')'
+        const green=dot.tone>.65;
+        g.fillStyle=green?'rgba(92,181,148,'+(opacity*.70).toFixed(3)+')'
           :'rgba(252,255,253,'+opacity.toFixed(3)+')';
         const size=dot.size*(.75+.52*front);
         g.beginPath();g.arc(p.x,p.y,size*.5,0,Math.PI*2);g.fill();
       }
+      drawLogoFlecks(g,width,height);
     }
     try { if(!startGL()) canvas.style.display='none'; } catch(err){console.warn('Orb shader unavailable, showing static fallback.',err);canvas.style.display='none';fallback.style.display='block';gl=null;}
     canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();gl=null;canvas.style.display='none';fallback.style.display='block';});
