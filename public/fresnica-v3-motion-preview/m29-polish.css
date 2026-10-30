@@ -95,18 +95,41 @@ html.m10-framed .site-header .brand-logo {
   flex-shrink: 0;
   border-radius: 6px;
 }
-#v3-security .security-visual.has-particle-shield .security-artwork {opacity: 0;}
+/* Use the supplied Fresnica silhouette as the no-JavaScript fallback. */
+#v3-security .security-artwork {
+  object-fit: contain;
+  transition: opacity .22s ease;
+}
+#v3-security .security-visual.has-particle-shape .security-artwork {
+  opacity: 0;
+}
+#v3-security .security-visual::before {
+  content: '';
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90%, 315px);
+  height: min(90%, 260px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(12,173,111,.11), rgba(12,173,111,.045) 42%, transparent 74%);
+  filter: blur(14px);
+  pointer-events: none;
+}
 #v3-security .security-visual .security-particle-canvas {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   left: 50%;
   top: 0;
   transform: translateX(-50%);
   width: min(100%, 350px);
   height: calc(100% - 22px);
-  pointer-events: none;
+  pointer-events: auto;
+  touch-action: pan-y;
 }
-html.v3-theme-dark #v3-security .security-particle-canvas {filter: brightness(1.18);}
+html.v3-theme-dark #v3-security .security-visual::before {
+  background: radial-gradient(circle, rgba(23,199,130,.15), rgba(23,199,130,.055) 42%, transparent 75%);
+}
 @media (max-width: 680px) {
   html.m10-framed .site-header .top-nav {gap: 7px; padding: 3px 12px;}
   html.m10-framed .top-nav .nav-locale {width: 29px; height: 29px; min-width: 29px;}
