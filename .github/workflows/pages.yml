@@ -74,6 +74,8 @@ jobs:
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m25-desktop-tabs.js
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m29-polish.css
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m29-security-particles.js
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/security-shape.svg
+                  grep -Fq 'src="./security-shape.svg"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'href="./m15-typography.css"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'href="./m29-polish.css"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'src="./m29-security-particles.js"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
@@ -133,6 +135,7 @@ jobs:
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m25-desktop-tabs.js demo-dist/fresnica-v3-motion-preview/m25-desktop-tabs.js
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m29-polish.css demo-dist/fresnica-v3-motion-preview/m29-polish.css
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m29-security-particles.js demo-dist/fresnica-v3-motion-preview/m29-security-particles.js
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/security-shape.svg demo-dist/fresnica-v3-motion-preview/security-shape.svg
                   # Reuse the exact Roboto and Noto Sans SC families already sourced by frozen V2.
                   # Keep the font files inside the isolated V3 route only.
                   mkdir -p demo-dist/fresnica-v3-motion-preview/fonts
@@ -166,7 +169,8 @@ jobs:
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m25-desktop-tabs.js demo-dist/fresnica-v3-motion-preview/m25-desktop-tabs.js
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m29-polish.css demo-dist/fresnica-v3-motion-preview/m29-polish.css
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m29-security-particles.js demo-dist/fresnica-v3-motion-preview/m29-security-particles.js
-                  echo 'V3 logo, M25 desktop tabs, M29 styles/particle shield and fonts copied and checked'
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/security-shape.svg demo-dist/fresnica-v3-motion-preview/security-shape.svg
+                  echo 'V3 logo, M25 tabs, M29 styles, sampled symbol particles, SVG source and fonts checked'
                   cmp .v3-preview-source/public/fresnica-v3-orb-demo/index.html demo-dist/fresnica-v3-orb-demo/index.html
                   # Recheck the legacy route immediately before uploading Pages.
                   cmp public/fresnica-website-preview/index.html demo-dist/fresnica-website-preview/index.html
