@@ -22,7 +22,7 @@
     seed = (1664525 * seed + 1013904223) >>> 0;
     return seed / 4294967296;
   };
-  let edgeCandidates = [], fillCandidates = [], particles = [];
+  let shapeCandidates = [], particles = [];
   let width = 0, height = 0, scale = 0;
   let ready = false, visible = false, running = false, frameId = 0, lastDraw = 0;
 
@@ -33,19 +33,14 @@
     if (!mask) return false;
     mask.drawImage(artwork, 0, 0, rasterSize, rasterSize);
     const pixels = mask.getImageData(0, 0, rasterSize, rasterSize).data;
-    const alpha = (x, y) => pixels[(y * rasterSize + x) * 4 + 3];
-    const edge = [], fill = [];
+    const points = [];
     for (let y = 3; y < rasterSize - 3; y += 3) {
       for (let x = 3; x < rasterSize - 3; x += 3) {
-        if (alpha(x, y) < 96) continue;
-        const boundary = alpha(x - 3, y) < 96 || alpha(x + 3, y) < 96
-          || alpha(x, y - 3) < 96 || alpha(x, y + 3) < 96;
-        (boundary ? edge : fill).push([x, y]);
+        if (pixels[(y * rasterSize + x) * 4 + 3] >= 96) points.push([x, y]);
       }
     }
-    if (edge.length < 100 || fill.length < 100) return false;
-    edgeCandidates = edge;
-    fillCandidates = fill;
+    if (points.length < 200) return false;
+    shapeCandidates = points;
     return true;
   }
 
@@ -61,27 +56,26 @@
 
   function buildParticles() {
     seed = 291017;
-    const outlines = takeSamples(edgeCandidates, compact.matches ? 420 : 580);
-    const interior = takeSamples(fillCandidates, compact.matches ? 310 : 550);
-    const make = (point, edge) => {
+    // Sample the complete filled area uniformly; no separate edge particles.
+    const points = takeSamples(shapeCandidates, compact.matches ? 730 : 1130);
+    particles = points.map(point => {
       const tone = random();
-      const accent = random() < (edge ? 0.18 : 0.05);
-      const light = edge
-        ? (accent ? 'rgba(10,181,119,.92)' : 'rgba(25,147,107,.76)')
-        : (accent ? 'rgba(17,157,103,.75)' : 'rgba(79,108,93,' + (0.42 + tone * 0.29).toFixed(2) + ')');
-      const dark = edge
-        ? (accent ? 'rgba(100,242,177,.95)' : 'rgba(82,206,143,.83)')
-        : (accent ? 'rgba(104,220,156,.8)' : 'rgba(179,208,188,' + (0.46 + tone * 0.28).toFixed(2) + ')');
+      const accent = random() < 0.075;
+      const light = accent
+        ? 'rgba(20,160,107,' + (0.68 + tone * 0.18).toFixed(2) + ')'
+        : 'rgba(81,108,95,' + (0.51 + tone * 0.32).toFixed(2) + ')';
+      const dark = accent
+        ? 'rgba(92,226,156,' + (0.70 + tone * 0.20).toFixed(2) + ')'
+        : 'rgba(182,208,193,' + (0.53 + tone * 0.30).toFixed(2) + ')';
       return {
-        u: point[0] / rasterSize - 0.5,
-        v: point[1] / rasterSize - 0.5,
-        size: edge ? 1.10 + random() * 0.82 : 0.72 + random() * 0.62,
+        u: (point[0] + (random() - 0.5) * 1.6) / rasterSize - 0.5,
+        v: (point[1] + (random() - 0.5) * 1.6) / rasterSize - 0.5,
+        size: 0.98 + random() * 0.77,
         phase: random() * Math.PI * 2,
         speed: 0.65 + random() * 0.6,
         light, dark, x:0, y:0, vx:0, vy:0
       };
-    };
-    particles = outlines.map(p => make(p, true)).concat(interior.map(p => make(p, false)));
+    });
     resize();
   }
 
