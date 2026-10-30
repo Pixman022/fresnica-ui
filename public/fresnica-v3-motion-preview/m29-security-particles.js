@@ -22,7 +22,7 @@
     seed = (1664525 * seed + 1013904223) >>> 0;
     return seed / 4294967296;
   };
-  let shapeCandidates = [], particles = [];
+  let shapeMask = null, filledCount = 0, particles = [];
   let width = 0, height = 0, scale = 0;
   let ready = false, visible = false, running = false, frameId = 0, lastDraw = 0;
 
@@ -33,44 +33,48 @@
     if (!mask) return false;
     mask.drawImage(artwork, 0, 0, rasterSize, rasterSize);
     const pixels = mask.getImageData(0, 0, rasterSize, rasterSize).data;
-    const points = [];
-    for (let y = 3; y < rasterSize - 3; y += 3) {
-      for (let x = 3; x < rasterSize - 3; x += 3) {
-        if (pixels[(y * rasterSize + x) * 4 + 3] >= 96) points.push([x, y]);
-      }
+    const area = new Uint8Array(rasterSize * rasterSize);
+    let occupied = 0;
+    for (let i = 0; i < area.length; i++) {
+      const filled = pixels[i * 4 + 3] >= 128 ? 1 : 0;
+      area[i] = filled;
+      occupied += filled;
     }
-    if (points.length < 200) return false;
-    shapeCandidates = points;
+    if (occupied < 1000) return false;
+    shapeMask = area;
+    filledCount = occupied;
     return true;
-  }
-
-  function takeSamples(source, count) {
-    const shuffled = source.slice();
-    const limit = Math.min(count, shuffled.length);
-    for (let i = 0; i < limit; i++) {
-      const j = i + Math.floor(random() * (shuffled.length - i));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled.slice(0, limit);
   }
 
   function buildParticles() {
     seed = 291017;
-    // Sample the complete filled area uniformly; no separate edge particles.
-    const points = takeSamples(shapeCandidates, compact.matches ? 730 : 1130);
+    // Place uniform, lightly jittered samples across the filled silhouette.
+    // No dedicated perimeter points, outlines, strokes, or edge-specific colors.
+    const target = compact.matches ? 1050 : 1650;
+    const spacing = Math.sqrt(filledCount / target);
+    const points = [];
+    for (let row = 0, y = spacing * 0.5; y < rasterSize; row++, y += spacing) {
+      const shift = row % 2 ? spacing * 0.5 : 0;
+      for (let x = spacing * 0.5 + shift; x < rasterSize; x += spacing) {
+        const px = x + (random() - 0.5) * spacing * 0.48;
+        const py = y + (random() - 0.5) * spacing * 0.48;
+        if (px < 0 || px >= rasterSize || py < 0 || py >= rasterSize) continue;
+        if (shapeMask[Math.floor(py) * rasterSize + Math.floor(px)]) points.push([px, py]);
+      }
+    }
     particles = points.map(point => {
       const tone = random();
-      const accent = random() < 0.075;
+      const accent = random() < 0.06;
       const light = accent
-        ? 'rgba(20,160,107,' + (0.68 + tone * 0.18).toFixed(2) + ')'
-        : 'rgba(81,108,95,' + (0.51 + tone * 0.32).toFixed(2) + ')';
+        ? 'rgba(15,159,106,' + (0.70 + tone * 0.20).toFixed(2) + ')'
+        : 'rgba(62,89,76,' + (0.69 + tone * 0.18).toFixed(2) + ')';
       const dark = accent
-        ? 'rgba(92,226,156,' + (0.70 + tone * 0.20).toFixed(2) + ')'
-        : 'rgba(182,208,193,' + (0.53 + tone * 0.30).toFixed(2) + ')';
+        ? 'rgba(105,226,158,' + (0.70 + tone * 0.20).toFixed(2) + ')'
+        : 'rgba(194,219,203,' + (0.69 + tone * 0.18).toFixed(2) + ')';
       return {
-        u: (point[0] + (random() - 0.5) * 1.6) / rasterSize - 0.5,
-        v: (point[1] + (random() - 0.5) * 1.6) / rasterSize - 0.5,
-        size: 0.98 + random() * 0.77,
+        u: point[0] / rasterSize - 0.5,
+        v: point[1] / rasterSize - 0.5,
+        size: 1.25 + random() * 0.72,
         phase: random() * Math.PI * 2,
         speed: 0.65 + random() * 0.6,
         light, dark, x:0, y:0, vx:0, vy:0
@@ -84,7 +88,7 @@
     if (bounds.width < 2 || bounds.height < 2) return;
     width = bounds.width;
     height = bounds.height;
-    scale = Math.min(width * 0.93, height * 0.95);
+    scale = Math.min(width * 0.96, height * 0.98);
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     const pxWidth = Math.max(1, Math.round(width * dpr));
     const pxHeight = Math.max(1, Math.round(height * dpr));
