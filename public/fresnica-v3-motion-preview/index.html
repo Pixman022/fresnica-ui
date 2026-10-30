@@ -47,9 +47,8 @@
     .orbit-dots { position:absolute; inset:0; border-radius:50%; background-image:radial-gradient(#a2b9b3 0.8px,transparent .8px); background-size:15px 15px; opacity:.20; mask-image:radial-gradient(circle,transparent 34%,#000 59%,transparent 77%); }
     #orb-canvas { width:100%; height:100%; position:absolute; inset:0; z-index:2; display:block; filter:drop-shadow(0 6px 12px rgba(31,136,83,.09)); }
     #orb-particles { width:100%; height:100%; position:absolute; inset:0; z-index:3; display:block; pointer-events:none; }
-    /* The original mark remains a subtle fallback if its particle sampling is unavailable. */
-    #orb-center-logo { position:absolute; z-index:2; left:50%; top:50%; width:26%; height:26%; object-fit:contain; transform:translate(-50%,-50%); pointer-events:none; opacity:.49; mix-blend-mode:multiply; }
-    .orb-field.orb-logo-ready #orb-center-logo { opacity:.09; filter:blur(.35px); }
+    /* The SVG is only a source for Canvas particle sampling, never a visible layer. */
+    #orb-center-logo { display:none!important; }
     .fallback-orb { position:absolute; width:61%; height:61%; top:19.5%; left:19.5%; border-radius:49% 51% 50% 50%; background:radial-gradient(circle at 53% 53%,rgba(35,172,112,.63),rgba(82,200,144,.38) 28%,rgba(186,237,209,.48) 53%,rgba(246,255,250,.72) 77%,rgba(245,255,250,.12) 100%); box-shadow:inset 13px 13px 30px rgba(255,255,255,.72),inset -12px -12px 25px rgba(75,172,122,.11),0 12px 26px rgba(39,109,70,.06); z-index:1; }
     .fallback-orb::before {content:'';position:absolute;inset:1.5%;border-radius:49% 51% 50% 48%;background-image:radial-gradient(circle,rgba(255,255,255,.94) .85px,transparent 1.55px),radial-gradient(circle,rgba(33,154,107,.25) .65px,transparent 1.5px);background-size:5px 7px,11px 13px;background-position:0 0,3px 5px;mask-image:radial-gradient(circle at 48% 53%,transparent 0%,#000 52%,#000 96%);opacity:.48;}
     .fallback-orb::after {content:'';position:absolute;inset:-.5%;border-radius:49% 50% 48% 51%;background:radial-gradient(circle at 23% 21%,rgba(255,255,255,.90),transparent 42%),radial-gradient(circle at 76% 79%,rgba(24,145,105,.13),transparent 46%);border:1px solid rgba(255,255,255,.62);pointer-events:none;}
@@ -1198,7 +1197,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
           <svg class="orbit-svg" id="orbit-svg" viewBox="0 0 550 550" role="img" aria-label="Fine radial tick-ring and circulating green orbit markers"><circle cx="275" cy="275" r="204" stroke="#bfc9c6" stroke-opacity=".43" stroke-width="1.1" fill="none"/><circle cx="275" cy="275" r="235" stroke="#d5ddda" stroke-opacity=".45" stroke-width="1" fill="none"/><g id="tick-lines"></g><g id="orbit-nodes"></g></svg>
           <div class="fallback-orb" id="fallback-orb" aria-hidden="true"></div>
           <canvas id="orb-canvas" width="640" height="640" aria-hidden="true"></canvas>
-          <img id="orb-center-logo" src="./security-shape.svg" alt="" aria-hidden="true" decoding="async">
+          <img id="orb-center-logo" src="./security-shape.svg" alt="" aria-hidden="true" decoding="async" hidden>
           <canvas id="orb-particles" width="640" height="640" aria-hidden="true"></canvas>
           <div class="orb-card first"><label>FRESNICA</label><strong>A more connected view.</strong></div>
           <div class="orb-card second"><label>WALLET</label><strong>Assets, in one place.</strong></div>
@@ -1494,7 +1493,6 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
       }
       if(dots.length<120)return;
       logoFlecks=dots;
-      field.classList.add('orb-logo-ready');
       refreshFrame();
     }
     function drawLogoFlecks(g,width,height){
