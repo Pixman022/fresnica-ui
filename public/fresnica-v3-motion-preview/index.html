@@ -47,6 +47,9 @@
     .orbit-dots { position:absolute; inset:0; border-radius:50%; background-image:radial-gradient(#a2b9b3 0.8px,transparent .8px); background-size:15px 15px; opacity:.20; mask-image:radial-gradient(circle,transparent 34%,#000 59%,transparent 77%); }
     #orb-canvas { width:100%; height:100%; position:absolute; inset:0; z-index:2; display:block; filter:drop-shadow(0 6px 12px rgba(31,136,83,.09)); }
     #orb-particles { width:100%; height:100%; position:absolute; inset:0; z-index:3; display:block; pointer-events:none; }
+    /* The original mark remains a subtle fallback if its particle sampling is unavailable. */
+    #orb-center-logo { position:absolute; z-index:2; left:50%; top:50%; width:26%; height:26%; object-fit:contain; transform:translate(-50%,-50%); pointer-events:none; opacity:.49; mix-blend-mode:multiply; }
+    .orb-field.orb-logo-ready #orb-center-logo { opacity:.09; filter:blur(.35px); }
     .fallback-orb { position:absolute; width:61%; height:61%; top:19.5%; left:19.5%; border-radius:49% 51% 50% 50%; background:radial-gradient(circle at 53% 53%,rgba(35,172,112,.63),rgba(82,200,144,.38) 28%,rgba(186,237,209,.48) 53%,rgba(246,255,250,.72) 77%,rgba(245,255,250,.12) 100%); box-shadow:inset 13px 13px 30px rgba(255,255,255,.72),inset -12px -12px 25px rgba(75,172,122,.11),0 12px 26px rgba(39,109,70,.06); z-index:1; }
     .fallback-orb::before {content:'';position:absolute;inset:1.5%;border-radius:49% 51% 50% 48%;background-image:radial-gradient(circle,rgba(255,255,255,.94) .85px,transparent 1.55px),radial-gradient(circle,rgba(33,154,107,.25) .65px,transparent 1.5px);background-size:5px 7px,11px 13px;background-position:0 0,3px 5px;mask-image:radial-gradient(circle at 48% 53%,transparent 0%,#000 52%,#000 96%);opacity:.48;}
     .fallback-orb::after {content:'';position:absolute;inset:-.5%;border-radius:49% 50% 48% 51%;background:radial-gradient(circle at 23% 21%,rgba(255,255,255,.90),transparent 42%),radial-gradient(circle at 76% 79%,rgba(24,145,105,.13),transparent 46%);border:1px solid rgba(255,255,255,.62);pointer-events:none;}
@@ -1189,12 +1192,13 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         <p class="intro">Fresnica is designed to bring your Stellar assets, payments, swaps and compatible apps into one clear, considered experience.</p>
         <div class="actions"><a class="cta primary" href="#v3-availability">DOWNLOAD APP <span aria-hidden="true">↗</span></a><a class="cta secondary" href="#v3-ecosystem">LEARN MORE <span aria-hidden="true">→</span></a></div>
       </div>
-      <div class="hero-art" aria-label="Procedurally rendered translucent mint-green sphere with fine particles, luminous fibers and orbiting markers">
+      <div class="hero-art" aria-label="Translucent mint particle sphere with a Fresnica symbol formed from fine points at its centre, and orbiting markers">
         <div class="orb-field" id="orb-field">
           <span class="orbit-dots" aria-hidden="true"></span>
           <svg class="orbit-svg" id="orbit-svg" viewBox="0 0 550 550" role="img" aria-label="Fine radial tick-ring and circulating green orbit markers"><circle cx="275" cy="275" r="204" stroke="#bfc9c6" stroke-opacity=".43" stroke-width="1.1" fill="none"/><circle cx="275" cy="275" r="235" stroke="#d5ddda" stroke-opacity=".45" stroke-width="1" fill="none"/><g id="tick-lines"></g><g id="orbit-nodes"></g></svg>
           <div class="fallback-orb" id="fallback-orb" aria-hidden="true"></div>
           <canvas id="orb-canvas" width="640" height="640" aria-hidden="true"></canvas>
+          <img id="orb-center-logo" src="./security-shape.svg" alt="" aria-hidden="true" decoding="async">
           <canvas id="orb-particles" width="640" height="640" aria-hidden="true"></canvas>
           <div class="orb-card first"><label>FRESNICA</label><strong>A more connected view.</strong></div>
           <div class="orb-card second"><label>WALLET</label><strong>Assets, in one place.</strong></div>
@@ -1348,6 +1352,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     const canvas = document.getElementById('orb-canvas');
     const particleCanvas = document.getElementById('orb-particles');
     const particleContext = particleCanvas && particleCanvas.getContext('2d',{alpha:true});
+    const logoArtwork = document.getElementById('orb-center-logo');
     const fallback = document.getElementById('fallback-orb');
     const ring = document.getElementById('tick-lines');
     const nodes = document.getElementById('orbit-nodes');
@@ -1460,7 +1465,60 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     // Regenerate the even spherical distribution only when crossing mobile width.
     const compactOrb=window.matchMedia('(max-width:680px)');
     const seeded=n=>{const f=Math.sin(n*127.1+23.3)*43758.5453;return f-Math.floor(f);};
-    let flecks=[];
+    let flecks=[],logoFlecks=[];
+    function buildLogoFlecks(){
+      if(!logoArtwork?.naturalWidth || !particleContext)return;
+      const side=192,maskCanvas=document.createElement('canvas');
+      maskCanvas.width=maskCanvas.height=side;
+      const mask=maskCanvas.getContext('2d',{willReadFrequently:true});
+      if(!mask)return;
+      let rgba;
+      try{
+        mask.drawImage(logoArtwork,0,0,side,side);
+        rgba=mask.getImageData(0,0,side,side).data;
+      }catch(_){return;}
+      const dots=[],gap=6.5;
+      for(let row=0,y=gap*.5;y<side-gap*.5;row++,y+=gap){
+        for(let x=gap*.5+(row%2)*gap*.5;x<side-gap*.5;x+=gap){
+          const index=(Math.floor(y)*side+Math.floor(x))*4+3;
+          if(rgba[index]<140)continue;
+          const n=dots.length;
+          dots.push({
+            u:(x+(seeded(n+1013)-.5)*1.5)/side-.5,
+            v:(y+(seeded(n+1259)-.5)*1.5)/side-.5,
+            radius:.86+seeded(n+1487)*.42,
+            tone:seeded(n+1771),
+            phase:seeded(n+1987)*Math.PI*2
+          });
+        }
+      }
+      if(dots.length<120)return;
+      logoFlecks=dots;
+      field.classList.add('orb-logo-ready');
+      refreshFrame();
+    }
+    function drawLogoFlecks(g,width,height){
+      if(!logoFlecks.length)return;
+      const mobile=compactOrb.matches;
+      const diameter=Math.min(width,height)*(mobile ? .265 : .255);
+      const centreX=width*.5+smoothX*width*.007;
+      const centreY=height*.5+smoothY*height*.005;
+      const skew=reduced.matches?0:Math.sin(t*.21)*.022+smoothX*.028;
+      for(let i=0;i<logoFlecks.length;i++){
+        if(mobile&&i%4===0)continue;
+        const p=logoFlecks[i];
+        const x=centreX+(p.u+p.v*skew)*diameter;
+        const y=centreY+(p.v-p.u*smoothY*.016)*diameter;
+        const shimmer=reduced.matches?1:.94+.06*Math.sin(t*.6+p.phase);
+        const gleam=p.tone>.94;
+        g.fillStyle=gleam?'rgba(204,255,223,.92)':'rgba(13,92,69,.93)';
+        g.globalAlpha=shimmer;
+        g.beginPath();
+        g.arc(x,y,p.radius*(mobile ? .91 : 1.06),0,Math.PI*2);
+        g.fill();
+      }
+      g.globalAlpha=1;
+    }
     function makeFlecks(count){
       const points=[];
       for(let i=0;i<count;i++){
@@ -1492,6 +1550,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
       const g=particleContext;
       g.setTransform(scale,0,0,scale,0,0);
       g.clearRect(0,0,width,height);
+      drawLogoFlecks(g,width,height);
       const spin=t*.10+smoothX*.17;
       const tilt=-.12+smoothY*.13+Math.sin(t*.19)*.055;
       const cs=Math.cos(spin),ss=Math.sin(spin);
@@ -1563,6 +1622,10 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
       if(gl&&program&&mesh){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(uniforms.time,t);gl.uniform2f(uniforms.pointer,smoothX,smoothY);gl.bindVertexArray(mesh.vao);gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);}
       drawFlecks();
       if(moving)scheduleFrame();
+    }
+    if(logoArtwork){
+      if(logoArtwork.complete)buildLogoFlecks();
+      else logoArtwork.addEventListener('load',buildLogoFlecks,{once:true});
     }
     reflect();scheduleFrame();
   })();
