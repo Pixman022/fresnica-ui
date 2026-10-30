@@ -1497,17 +1497,22 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     }
     function drawLogoFlecks(g,width,height){
       if(!logoFlecks.length)return;
-      // Fixed white particles; only the surrounding sphere continues to rotate.
-      const diameter=Math.min(width,height)*(compactOrb.matches ? .285 : .278);
+      // Keep every point anchored to the symbol; add only a gentle star-like twinkle.
+      const mobile=compactOrb.matches;
+      const diameter=Math.min(width,height)*(mobile ? .285 : .278);
       const centreX=width*.5,centreY=height*.5;
-      g.fillStyle='rgba(255,255,255,.98)';
-      g.globalAlpha=1;
       for(const p of logoFlecks){
+        const twinkle=reduced.matches?1:
+          .55+.45*(.5+.5*Math.sin(t*1.45+p.phase*1.7));
+        const star=p.tone>.86;
+        g.fillStyle='rgba(255,255,255,1)';
+        g.globalAlpha=twinkle*(star?1:.94);
+        const size=p.radius*(mobile?1.07:1.14)*(star?1.12+.10*twinkle:.96+.06*twinkle);
         g.beginPath();
-        g.arc(centreX+p.u*diameter,centreY+p.v*diameter,
-          p.radius*(compactOrb.matches ? 1.07 : 1.14),0,Math.PI*2);
+        g.arc(centreX+p.u*diameter,centreY+p.v*diameter,size,0,Math.PI*2);
         g.fill();
       }
+      g.globalAlpha=1;
     }
         function makeFlecks(count){
       const points=[];
@@ -1557,8 +1562,8 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         const dot=flecks[i],p=project(dot.x,dot.y,dot.z);
         const front=Math.max(0,Math.min(1,.5+p.depth*.5));
         const opacity=Math.min(.92,(.16+.65*front)*(.72+.28*Math.sin(t*.56+dot.phase)**2));
-        const green=dot.tone>.65;
-        g.fillStyle=green?'rgba(92,181,148,'+(opacity*.70).toFixed(3)+')'
+        const green=dot.tone>.52;
+        g.fillStyle=green?'rgba(62,173,126,'+(opacity*.90).toFixed(3)+')'
           :'rgba(252,255,253,'+opacity.toFixed(3)+')';
         const size=dot.size*(.75+.52*front);
         g.beginPath();g.arc(p.x,p.y,size*.5,0,Math.PI*2);g.fill();
