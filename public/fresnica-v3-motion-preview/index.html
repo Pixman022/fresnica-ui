@@ -1424,12 +1424,12 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
       float frost=step(.984,hash3(floor(p*290.)));
       float light=max(0.,dot(normalize(vN),normalize(vec3(-.42,.67,1.))));
       // A clearer emerald nucleus with a soft translucent mint perimeter.
-      vec3 color=mix(vec3(.68,.89,.78),vec3(.20,.70,.48),.18+.76*core);
-      color=mix(color,vec3(.33,.83,.59),.16*variation);
+      vec3 color=mix(vec3(.80,.95,.87),vec3(.45,.82,.65),.15+.72*core);
+      color=mix(color,vec3(.59,.90,.74),.13*variation);
       color=mix(color,vec3(.98,1.,.985),.13*light+.24*frost);
-      color=mix(color,vec3(.25,.55,.40),.12*rim);
-      float alpha=(.20+.60*core+.085*variation)*(1.-.28*rim);
-      alpha=clamp(alpha+.07*frost,.12,.90);
+      color=mix(color,vec3(.54,.74,.63),.08*rim);
+      float alpha=(.15+.49*core+.072*variation)*(1.-.28*rim);
+      alpha=clamp(alpha+.055*frost,.10,.78);
       outColor=vec4(color,alpha);
     }`;
     function shader(type,source){const sh=gl.createShader(type);gl.shaderSource(sh,source);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){throw Error(gl.getShaderInfoLog(sh));}return sh;}
@@ -1476,7 +1476,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         mask.drawImage(logoArtwork,0,0,side,side);
         rgba=mask.getImageData(0,0,side,side).data;
       }catch(_){return;}
-      const dots=[],gap=6.5;
+      const dots=[],gap=5.4;
       for(let row=0,y=gap*.5;y<side-gap*.5;row++,y+=gap){
         for(let x=gap*.5+(row%2)*gap*.5;x<side-gap*.5;x+=gap){
           const index=(Math.floor(y)*side+Math.floor(x))*4+3;
@@ -1497,34 +1497,19 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     }
     function drawLogoFlecks(g,width,height){
       if(!logoFlecks.length)return;
-      const mobile=compactOrb.matches;
-      const moving=playing&&!reduced.matches;
-      const diameter=Math.min(width,height)*(mobile ? .265 : .255);
-      const centreX=width*.5+smoothX*width*.007;
-      const centreY=height*.5+smoothY*height*.005;
-      const skew=moving?Math.sin(t*.31)*.028+smoothX*.028:0;
-      // A faint travelling glint moves from the rocket's tail toward its tip.
-      const sweep=moving?(t*.23)%1.6-.8:-10;
-      for(let i=0;i<logoFlecks.length;i++){
-        if(mobile&&i%4===0)continue;
-        const p=logoFlecks[i];
-        const drift=moving?Math.sin(t*1.35+p.phase)*.55:0;
-        const x=centreX+(p.u+p.v*skew)*diameter+drift;
-        const y=centreY+(p.v-p.u*smoothY*.016)*diameter+
-          (moving?Math.cos(t*1.12+p.phase)*.4:0);
-        const wave=moving?.5+.5*Math.sin(t*1.6+p.phase):.5;
-        const glint=Math.max(0,1-Math.abs((p.u-p.v)*.707-sweep)/.17);
-        const bright=p.tone>.975 || (glint>.36&&p.tone>.28);
-        g.fillStyle=bright?'rgba(201,255,222,.98)':
-          p.tone>.77?'rgba(143,224,175,.90)':'rgba(72,168,128,.84)';
-        g.globalAlpha=moving?Math.min(1,.76+.12*wave+.22*glint):.88;
+      // Fixed white particles; only the surrounding sphere continues to rotate.
+      const diameter=Math.min(width,height)*(compactOrb.matches ? .285 : .278);
+      const centreX=width*.5,centreY=height*.5;
+      g.fillStyle='rgba(255,255,255,.98)';
+      g.globalAlpha=1;
+      for(const p of logoFlecks){
         g.beginPath();
-        g.arc(x,y,p.radius*(mobile ? .91 : 1.06)*(1+.13*glint+.05*wave),0,Math.PI*2);
+        g.arc(centreX+p.u*diameter,centreY+p.v*diameter,
+          p.radius*(compactOrb.matches ? 1.07 : 1.14),0,Math.PI*2);
         g.fill();
       }
-      g.globalAlpha=1;
     }
-    function makeFlecks(count){
+        function makeFlecks(count){
       const points=[];
       for(let i=0;i<count;i++){
         const z=1-2*(i+.5)/count;
@@ -1573,8 +1558,8 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         const front=Math.max(0,Math.min(1,.5+p.depth*.5));
         const opacity=Math.min(.92,(.16+.65*front)*(.72+.28*Math.sin(t*.56+dot.phase)**2));
         const green=dot.tone>.65;
-        g.fillStyle=green?'rgba(26,130,97,'+(opacity*.86).toFixed(3)+')'
-          :'rgba(248,255,250,'+opacity.toFixed(3)+')';
+        g.fillStyle=green?'rgba(92,181,148,'+(opacity*.70).toFixed(3)+')'
+          :'rgba(252,255,253,'+opacity.toFixed(3)+')';
         const size=dot.size*(.75+.52*front);
         g.beginPath();g.arc(p.x,p.y,size*.5,0,Math.PI*2);g.fill();
       }
