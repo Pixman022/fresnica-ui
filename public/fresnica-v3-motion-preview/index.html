@@ -143,7 +143,6 @@ body{background:#192330}
 .mini-bar{height:6px;background:#e7e9e8;border-radius:6px;margin:17px 0;overflow:hidden}
 .mini-bar span{display:block;height:100%;background:#90d6b1;border-radius:6px;width:60%}
 .feature-card:first-child .mini-trend{display:block;width:100%;height:60px;margin:5px 0 11px;overflow:visible}
-.feature-card:first-child .mini-trend-area{fill:rgba(12,164,119,.11)}
 .feature-card:first-child .mini-trend-line{fill:none;stroke:#0ca477;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 /* One card: light, CSS-only rolling digits. Static final values work without JavaScript. */
 .feature-card:first-child .mini-balance{display:flex;align-items:baseline;gap:7px}
@@ -152,24 +151,18 @@ body{background:#192330}
 .feature-card:first-child .mini-odometer-digit{display:inline-block;width:.59em;height:1em;overflow:hidden;line-height:1em;flex:none}
 .feature-card:first-child .mini-odometer-digit::before{content:"0\A 1\A 2\A 3\A 4\A 5\A 6\A 7\A 8\A 9\A 0\A 1\A 2\A 3\A 4\A 5\A 6\A 7\A 8\A 9";display:block;white-space:pre;line-height:1em;transform:translateY(var(--end))}
 .feature-card:first-child .mini-odometer-sep{line-height:1em}
-/* Curve draws left-to-right; its soft green underlay wipes from top to bottom. */
+/* Curve draws left-to-right; rolling digits keep their own animation. */
 html.m14-motion #v3-features .mini-trend-line{stroke-dasharray:1;stroke-dashoffset:1}
-html.m14-motion #v3-features .mini-trend-area{clip-path:inset(0 0 100% 0)}
 html.m14-motion #v3-features .mini-odometer-digit::before{transform:translateY(0)}
 html.m14-motion #v3-features.m14-current .mini-trend-line{animation:m30-trend-grow 2.6s cubic-bezier(.18,.68,.22,1) .18s forwards}
-html.m14-motion #v3-features.m14-current .mini-trend-area{animation:m30-trend-fill 1.35s cubic-bezier(.18,.68,.22,1) 1.3s forwards}
 html.m14-motion #v3-features.m14-current .mini-odometer-digit::before{animation:m32-balance-roll 2.75s cubic-bezier(.17,.72,.24,1) .12s forwards}
 @keyframes m30-trend-grow{to{stroke-dashoffset:0}}
-@keyframes m30-trend-fill{to{clip-path:inset(0 0 0 0)}}
 @keyframes m32-balance-roll{to{transform:translateY(var(--end))}}
 /* Hover repeats the same progression while the pointer remains on the card. */
 @media (hover:hover) and (prefers-reduced-motion:no-preference){
  html #v3-features .feature-card:first-child:hover .mini-trend-line{
    stroke-dasharray:1;
    animation:m31-trend-hover-line 3.6s cubic-bezier(.19,.68,.2,1) infinite;
- }
- html #v3-features .feature-card:first-child:hover .mini-trend-area{
-   animation:m31-trend-hover-area 3.6s cubic-bezier(.2,.7,.25,1) infinite;
  }
  html #v3-features .feature-card:first-child:hover .mini-odometer-digit::before{
    animation:m32-balance-hover 3.6s cubic-bezier(.18,.68,.2,1) infinite;
@@ -179,17 +172,12 @@ html.m14-motion #v3-features.m14-current .mini-odometer-digit::before{animation:
  0%{stroke-dashoffset:1}
  82%,100%{stroke-dashoffset:0}
 }
-@keyframes m31-trend-hover-area{
- 0%,40%{clip-path:inset(0 0 100% 0)}
- 84%,100%{clip-path:inset(0 0 0 0)}
-}
 @keyframes m32-balance-hover{
  0%{transform:translateY(0)}
  82%,100%{transform:translateY(var(--end))}
 }
 @media(prefers-reduced-motion:reduce){
  html.m14-motion #v3-features .mini-trend-line{stroke-dashoffset:0;animation:none}
- html.m14-motion #v3-features .mini-trend-area{clip-path:none;animation:none}
  html.m14-motion #v3-features .mini-odometer-digit::before{transform:translateY(var(--end));animation:none}
 }
 .mini-row{background:#f4f5f4;border-radius:10px;padding:11px;margin-top:8px;font-size:13px;display:flex;align-items:center;justify-content:space-between}
@@ -1162,7 +1150,6 @@ html.v3-theme-dark #v3-workspace .desktop-demo-row strong {color:#f0f6f1;}
 html.v3-theme-dark #v3-workspace .desktop-download {border-color:#76b997;}
 html.v3-theme-dark #v3-features .feature-chapter {background:#131b18!important;color:#edf4ef!important;}
 html.v3-theme-dark #v3-features :is(.mini-row,.feature-art) {background:#233229;color:#e4f0e7;}
-html.v3-theme-dark #v3-features .mini-trend-area {fill:rgba(75,210,160,.14);}
 html.v3-theme-dark #v3-features .mini-trend-line {stroke:#4bd2a0;}
 /* Desktop tab strip uses the same dark surfaces as the preview panel. */
 html.v3-theme-dark #v3-workspace .desktop-tabs {background:#1f2d26;border-color:#375046;}
@@ -1310,7 +1297,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     <div class="feature-heading reveal"><p class="chapter-kicker">CORE CAPABILITIES</p><h2 class="chapter-title" id="feature-title">Five essentials, one flow.</h2></div>
     <div class="feature-window" id="feature-window" aria-label="Five Stellar wallet capabilities">
       <div class="feature-track" id="feature-track">
-        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET / OVERVIEW</span><strong class="mini-balance"><span class="mini-balance-sr">1,248.50 XLM</span><span class="mini-odometer" aria-hidden="true"><span class="mini-odometer-digit" style="--end:-11em"></span><span class="mini-odometer-sep">,</span><span class="mini-odometer-digit" style="--end:-12em"></span><span class="mini-odometer-digit" style="--end:-14em"></span><span class="mini-odometer-digit" style="--end:-18em"></span><span class="mini-odometer-sep">.</span><span class="mini-odometer-digit" style="--end:-15em"></span><span class="mini-odometer-digit" style="--end:-10em"></span></span><small aria-hidden="true">XLM</small></strong><svg class="mini-trend" viewBox="0 0 220 68" preserveAspectRatio="none" role="img" aria-label="Illustrative upward trend"><path class="mini-trend-area" d="M3 61 C25 67 43 28 75 41 S115 55 145 23 S184 33 217 6 L217 67 L3 67 Z"/><path class="mini-trend-line" pathLength="1" d="M3 61 C25 67 43 28 75 41 S115 55 145 23 S184 33 217 6"/></svg><div class="mini-row">XLM <em>Native asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">Keep the assets you follow together, clearly and simply.</p></article>
+        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET / OVERVIEW</span><strong class="mini-balance"><span class="mini-balance-sr">1,248.50 XLM</span><span class="mini-odometer" aria-hidden="true"><span class="mini-odometer-digit" style="--end:-11em"></span><span class="mini-odometer-sep">,</span><span class="mini-odometer-digit" style="--end:-12em"></span><span class="mini-odometer-digit" style="--end:-14em"></span><span class="mini-odometer-digit" style="--end:-18em"></span><span class="mini-odometer-sep">.</span><span class="mini-odometer-digit" style="--end:-15em"></span><span class="mini-odometer-digit" style="--end:-10em"></span></span><small aria-hidden="true">XLM</small></strong><svg class="mini-trend" viewBox="0 0 220 68" preserveAspectRatio="none" role="img" aria-label="Illustrative upward trend"><path class="mini-trend-line" pathLength="1" d="M3 61 C25 67 43 28 75 41 S115 55 145 23 S184 33 217 6"/></svg><div class="mini-row">XLM <em>Native asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">Keep the assets you follow together, clearly and simply.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">PAYMENT / REVIEW</span><div class="mini-row">Destination <em>GABX…7BD</em></div><div class="mini-row">Asset <em>XLM</em></div><div class="mini-row">Amount <em>25.00</em></div><div class="mini-row">Memo <em>Optional</em></div></div></div><div class="label-row"><h3>Send &amp; receive</h3><span class="chapter-kicker">02</span></div><p class="body">Keep important payment details visible from start to finish.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">SWAP / EXCHANGE</span><div class="mini-row">From <em>XLM</em></div><strong style="text-align:center;color:#0c9b71;font-size:30px;margin:0">⇅</strong><div class="mini-row">To <em>Stellar asset</em></div><div class="mini-row">Review <em>Before confirming</em></div></div></div><div class="label-row"><h3>Discover swaps</h3><span class="chapter-kicker">03</span></div><p class="body">Preview potential exchanges and review each step with clarity.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">STELLAR / ECOSYSTEM</span><div class="mini-row">Discover apps <em>↗</em></div><div class="mini-row">Connections <em>↗</em></div><div class="mini-row">Permissions <em>↗</em></div></div></div><div class="label-row"><h3>Connect apps</h3><span class="chapter-kicker">04</span></div><p class="body">Explore compatible apps and keep connections easy to understand.</p></article>
