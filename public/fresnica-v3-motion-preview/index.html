@@ -145,6 +145,17 @@ body{background:#192330}
 .feature-card:first-child .mini-trend{display:block;width:100%;height:60px;margin:5px 0 11px;overflow:visible}
 .feature-card:first-child .mini-trend-area{fill:rgba(12,164,119,.11)}
 .feature-card:first-child .mini-trend-line{fill:none;stroke:#0ca477;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+/* Draw the curve when the features screen enters; replay on every return. */
+html.m14-motion #v3-features .mini-trend-line{stroke-dasharray:1;stroke-dashoffset:1}
+html.m14-motion #v3-features .mini-trend-area{opacity:0}
+html.m14-motion #v3-features.m14-current .mini-trend-line{animation:m30-trend-grow 1.65s cubic-bezier(.18,.68,.22,1) .18s forwards}
+html.m14-motion #v3-features.m14-current .mini-trend-area{animation:m30-trend-fill .7s ease 1.07s forwards}
+@keyframes m30-trend-grow{to{stroke-dashoffset:0}}
+@keyframes m30-trend-fill{to{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+ html.m14-motion #v3-features .mini-trend-line{stroke-dashoffset:0;animation:none}
+ html.m14-motion #v3-features .mini-trend-area{opacity:1;animation:none}
+}
 .mini-row{background:#f4f5f4;border-radius:10px;padding:11px;margin-top:8px;font-size:13px;display:flex;align-items:center;justify-content:space-between}
 .mini-row em{font-style:normal;color:#7e8985;font-size:11px}
 .feature-card .label-row{display:flex;justify-content:space-between;gap:14px;align-items:center;margin:18px 3px 8px}
@@ -1259,7 +1270,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     <div class="feature-heading reveal"><p class="chapter-kicker">CORE CAPABILITIES</p><h2 class="chapter-title" id="feature-title">Five essentials, one flow.</h2></div>
     <div class="feature-window" id="feature-window" aria-label="Five Stellar wallet capabilities">
       <div class="feature-track" id="feature-track">
-        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET / OVERVIEW</span><strong>1,248.50 <small>XLM</small></strong><svg class="mini-trend" viewBox="0 0 220 68" preserveAspectRatio="none" role="img" aria-label="Illustrative upward trend"><path class="mini-trend-area" d="M3 62 C22 60 32 45 49 48 S77 50 94 38 S123 39 140 28 S167 27 183 17 S207 13 217 6 L217 67 L3 67 Z"/><path class="mini-trend-line" d="M3 62 C22 60 32 45 49 48 S77 50 94 38 S123 39 140 28 S167 27 183 17 S207 13 217 6"/></svg><div class="mini-row">XLM <em>Native asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">Keep the assets you follow together, clearly and simply.</p></article>
+        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET / OVERVIEW</span><strong>1,248.50 <small>XLM</small></strong><svg class="mini-trend" viewBox="0 0 220 68" preserveAspectRatio="none" role="img" aria-label="Illustrative upward trend"><path class="mini-trend-area" d="M3 63 C17 65 22 35 38 40 S55 60 71 53 S89 20 103 29 S123 49 139 35 S154 8 171 18 S189 29 203 11 S212 11 217 4 L217 67 L3 67 Z"/><path class="mini-trend-line" pathLength="1" d="M3 63 C17 65 22 35 38 40 S55 60 71 53 S89 20 103 29 S123 49 139 35 S154 8 171 18 S189 29 203 11 S212 11 217 4"/></svg><div class="mini-row">XLM <em>Native asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">Keep the assets you follow together, clearly and simply.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">PAYMENT / REVIEW</span><div class="mini-row">Destination <em>GABX…7BD</em></div><div class="mini-row">Asset <em>XLM</em></div><div class="mini-row">Amount <em>25.00</em></div><div class="mini-row">Memo <em>Optional</em></div></div></div><div class="label-row"><h3>Send &amp; receive</h3><span class="chapter-kicker">02</span></div><p class="body">Keep important payment details visible from start to finish.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">SWAP / EXCHANGE</span><div class="mini-row">From <em>XLM</em></div><strong style="text-align:center;color:#0c9b71;font-size:30px;margin:0">⇅</strong><div class="mini-row">To <em>Stellar asset</em></div><div class="mini-row">Review <em>Before confirming</em></div></div></div><div class="label-row"><h3>Discover swaps</h3><span class="chapter-kicker">03</span></div><p class="body">Preview potential exchanges and review each step with clarity.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">STELLAR / ECOSYSTEM</span><div class="mini-row">Discover apps <em>↗</em></div><div class="mini-row">Connections <em>↗</em></div><div class="mini-row">Permissions <em>↗</em></div></div></div><div class="label-row"><h3>Connect apps</h3><span class="chapter-kicker">04</span></div><p class="body">Explore compatible apps and keep connections easy to understand.</p></article>
