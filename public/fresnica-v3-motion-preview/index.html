@@ -1603,11 +1603,8 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
       color=mix(color,vec3(.59,.90,.74),.13*variation);
       color=mix(color,vec3(.98,1.,.985),.13*light+.24*frost);
       color=mix(color,vec3(.54,.74,.63),.08*rim);
-      // A gradual emerald nucleus increases white-logo contrast, with no solid disc.
-      float logoFocus=exp(-2.35*dot(vWorld.xy,vWorld.xy));
-      color=mix(color,vec3(.14,.49,.32),.66*logoFocus);
       float alpha=(.15+.49*core+.072*variation)*(1.-.28*rim);
-      alpha=clamp(alpha+.055*frost+.16*logoFocus,.10,.85);
+      alpha=clamp(alpha+.055*frost,.10,.85);
       outColor=vec4(color,alpha);
     }`;
     function shader(type,source){const sh=gl.createShader(type);gl.shaderSource(sh,source);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){throw Error(gl.getShaderInfoLog(sh));}return sh;}
@@ -1654,19 +1651,13 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         mask.drawImage(logoArtwork,0,0,side,side);
         rgba=mask.getImageData(0,0,side,side).data;
       }catch(_){return;}
-      const dots=[],gap=5.15;
+      // An even, denser mask preserves narrow details in the Fresnica symbol.
+      const dots=[],gap=4.15;
       for(let row=0,y=gap*.5;y<side-gap*.5;row++,y+=gap){
         for(let x=gap*.5+(row%2)*gap*.5;x<side-gap*.5;x+=gap){
           const index=(Math.floor(y)*side+Math.floor(x))*4+3;
-          if(rgba[index]<140)continue;
-          const n=dots.length;
-          dots.push({
-            u:(x+(seeded(n+1013)-.5)*1.5)/side-.5,
-            v:(y+(seeded(n+1259)-.5)*1.5)/side-.5,
-            radius:.86+seeded(n+1487)*.42,
-            tone:seeded(n+1771),
-            phase:seeded(n+1987)*Math.PI*2
-          });
+          if(rgba[index]<120)continue;
+          dots.push({u:x/side-.5,v:y/side-.5});
         }
       }
       if(dots.length<120)return;
@@ -1675,26 +1666,21 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     }
     function drawLogoFlecks(g,width,height){
       if(!logoFlecks.length)return;
-      // Fixed white points; a subset flashes like tiny stars without moving.
+      // Solid white particles only: no gradient, flicker, motion or dark logo layer.
       const mobile=compactOrb.matches;
-      const diameter=Math.min(width,height)*(mobile ? .298 : .291);
+      const diameter=Math.min(width,height)*(mobile ? .308 : .301);
       const centreX=width*.5,centreY=height*.5;
+      const radius=mobile?.82:1.10;
+      g.save();
+      g.fillStyle='#fff';
+      g.globalAlpha=1;
       for(const p of logoFlecks){
-        const star=p.tone>.88;
-        const pulse=reduced.matches?0:
-          Math.pow(Math.max(0,Math.sin(t*2.35+p.phase*2.3)),7);
-        const alpha=reduced.matches?.98:
-          star?.12+.88*pulse:.72+.28*(.5+.5*Math.sin(t*1.05+p.phase));
-        const size=p.radius*(mobile?1.07:1.14)*
-          (star?.78+.92*pulse:.98+.08*pulse);
         const x=centreX+p.u*diameter,y=centreY+p.v*diameter;
-        g.fillStyle='rgba(255,255,255,1)';
-        g.globalAlpha=alpha;
         g.beginPath();
-        g.arc(x,y,size,0,Math.PI*2);
+        g.arc(x,y,radius,0,Math.PI*2);
         g.fill();
       }
-      g.globalAlpha=1;
+      g.restore();
     }
         function makeFlecks(count){
       const points=[];
