@@ -1429,10 +1429,10 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
       color=mix(color,vec3(.98,1.,.985),.13*light+.24*frost);
       color=mix(color,vec3(.54,.74,.63),.08*rim);
       // A gradual emerald nucleus increases white-logo contrast, with no solid disc.
-      float logoFocus=exp(-3.25*dot(vWorld.xy,vWorld.xy));
-      color=mix(color,vec3(.14,.49,.32),.70*logoFocus);
+      float logoFocus=exp(-2.35*dot(vWorld.xy,vWorld.xy));
+      color=mix(color,vec3(.14,.49,.32),.66*logoFocus);
       float alpha=(.15+.49*core+.072*variation)*(1.-.28*rim);
-      alpha=clamp(alpha+.055*frost+.15*logoFocus,.10,.85);
+      alpha=clamp(alpha+.055*frost+.16*logoFocus,.10,.85);
       outColor=vec4(color,alpha);
     }`;
     function shader(type,source){const sh=gl.createShader(type);gl.shaderSource(sh,source);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){throw Error(gl.getShaderInfoLog(sh));}return sh;}
