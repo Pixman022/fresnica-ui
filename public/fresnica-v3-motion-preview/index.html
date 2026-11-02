@@ -1111,6 +1111,10 @@ html[lang="zh-CN"] .chapter p {overflow-wrap:break-word;text-wrap:pretty;}
 html.v3-theme-dark .stage,
 html.v3-theme-dark :is(#v3-ecosystem,#v3-features,#v3-workspace,#v3-for-you,#v3-security) {background:#131b18!important;color:#edf4ef!important;}
 html.v3-theme-dark .stage::before {background:radial-gradient(ellipse 45% 48% at 75% 48%,rgba(42,127,89,.21),transparent 75%);}
+/* Dark theme: translucent orb shell, while the particle logo stays fully white. */
+html.v3-theme-dark #orb-canvas {opacity:.62;}
+html.v3-theme-dark .orb-field::before {opacity:.36;}
+html.v3-theme-dark #fallback-orb {opacity:.65;}
 html.v3-theme-dark :is(#overview,#v3-ecosystem,#v3-features,#v3-workspace,#v3-for-you,#v3-security) :is(h1,.chapter-title,.eyebrow,.chapter-kicker) {color:#eff7f1;}
 html.v3-theme-dark :is(#overview,#v3-ecosystem,#v3-features,#v3-workspace,#v3-for-you,#v3-security) :is(.intro,.chapter-sub,.body) {color:#bdcfc4;}
 html.v3-theme-dark #v3-ecosystem .particle-spine {background:linear-gradient(#5b8170,transparent);}
@@ -1270,7 +1274,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     <div class="feature-heading reveal"><p class="chapter-kicker">CORE CAPABILITIES</p><h2 class="chapter-title" id="feature-title">Five essentials, one flow.</h2></div>
     <div class="feature-window" id="feature-window" aria-label="Five Stellar wallet capabilities">
       <div class="feature-track" id="feature-track">
-        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET / OVERVIEW</span><strong>1,248.50 <small>XLM</small></strong><svg class="mini-trend" viewBox="0 0 220 68" preserveAspectRatio="none" role="img" aria-label="Illustrative upward trend"><path class="mini-trend-area" d="M3 63 C17 65 22 35 38 40 S55 60 71 53 S89 20 103 29 S123 49 139 35 S154 8 171 18 S189 29 203 11 S212 11 217 4 L217 67 L3 67 Z"/><path class="mini-trend-line" pathLength="1" d="M3 63 C17 65 22 35 38 40 S55 60 71 53 S89 20 103 29 S123 49 139 35 S154 8 171 18 S189 29 203 11 S212 11 217 4"/></svg><div class="mini-row">XLM <em>Native asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">Keep the assets you follow together, clearly and simply.</p></article>
+        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET / OVERVIEW</span><strong>1,248.50 <small>XLM</small></strong><svg class="mini-trend" viewBox="0 0 220 68" preserveAspectRatio="none" role="img" aria-label="Illustrative upward trend"><path class="mini-trend-area" d="M3 61 C30 64 44 39 75 44 S116 43 145 28 S184 27 217 7 L217 67 L3 67 Z"/><path class="mini-trend-line" pathLength="1" d="M3 61 C30 64 44 39 75 44 S116 43 145 28 S184 27 217 7"/></svg><div class="mini-row">XLM <em>Native asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">Keep the assets you follow together, clearly and simply.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">PAYMENT / REVIEW</span><div class="mini-row">Destination <em>GABX…7BD</em></div><div class="mini-row">Asset <em>XLM</em></div><div class="mini-row">Amount <em>25.00</em></div><div class="mini-row">Memo <em>Optional</em></div></div></div><div class="label-row"><h3>Send &amp; receive</h3><span class="chapter-kicker">02</span></div><p class="body">Keep important payment details visible from start to finish.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">SWAP / EXCHANGE</span><div class="mini-row">From <em>XLM</em></div><strong style="text-align:center;color:#0c9b71;font-size:30px;margin:0">⇅</strong><div class="mini-row">To <em>Stellar asset</em></div><div class="mini-row">Review <em>Before confirming</em></div></div></div><div class="label-row"><h3>Discover swaps</h3><span class="chapter-kicker">03</span></div><p class="body">Preview potential exchanges and review each step with clarity.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">STELLAR / ECOSYSTEM</span><div class="mini-row">Discover apps <em>↗</em></div><div class="mini-row">Connections <em>↗</em></div><div class="mini-row">Permissions <em>↗</em></div></div></div><div class="label-row"><h3>Connect apps</h3><span class="chapter-kicker">04</span></div><p class="body">Explore compatible apps and keep connections easy to understand.</p></article>
@@ -1573,6 +1577,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
       const g=particleContext;
       g.setTransform(scale,0,0,scale,0,0);
       g.clearRect(0,0,width,height);
+      const shellAlpha=document.documentElement.classList.contains('v3-theme-dark')?.70:1;
       const spin=t*.10+smoothX*.17;
       const tilt=-.12+smoothY*.13+Math.sin(t*.19)*.055;
       const cs=Math.cos(spin),ss=Math.sin(spin);
@@ -1585,6 +1590,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         return {x:width*.5+xr*sx*perspective,
           y:height*.5-yr*sy*perspective,depth};
       };
+      g.globalAlpha=shellAlpha;
       for(let i=0;i<flecks.length;i++){
         const dot=flecks[i],p=project(dot.x,dot.y,dot.z);
         const front=Math.max(0,Math.min(1,.5+p.depth*.5));
@@ -1604,6 +1610,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         const size=dot.size*(.75+.52*front);
         g.beginPath();g.arc(p.x,p.y,size*.5,0,Math.PI*2);g.fill();
       }
+      g.globalAlpha=1;
       drawLogoFlecks(g,width,height);
     }
     try { if(!startGL()) canvas.style.display='none'; } catch(err){console.warn('Orb shader unavailable, showing static fallback.',err);canvas.style.display='none';fallback.style.display='block';gl=null;}
