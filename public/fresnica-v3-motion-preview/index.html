@@ -1518,17 +1518,6 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         g.beginPath();
         g.arc(x,y,size,0,Math.PI*2);
         g.fill();
-        if(star&&pulse>.78){
-          const ray=size*(2.0+pulse*1.9);
-          g.globalAlpha=pulse*.86;
-          g.strokeStyle='rgba(255,255,255,1)';
-          g.lineWidth=.72;
-          g.lineCap='round';
-          g.beginPath();
-          g.moveTo(x-ray,y);g.lineTo(x+ray,y);
-          g.moveTo(x,y-ray);g.lineTo(x,y+ray);
-          g.stroke();
-        }
       }
       g.globalAlpha=1;
     }
