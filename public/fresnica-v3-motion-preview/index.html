@@ -1428,8 +1428,11 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
       color=mix(color,vec3(.59,.90,.74),.13*variation);
       color=mix(color,vec3(.98,1.,.985),.13*light+.24*frost);
       color=mix(color,vec3(.54,.74,.63),.08*rim);
+      // A gradual emerald nucleus increases white-logo contrast, with no solid disc.
+      float logoFocus=exp(-3.25*dot(vWorld.xy,vWorld.xy));
+      color=mix(color,vec3(.14,.49,.32),.70*logoFocus);
       float alpha=(.15+.49*core+.072*variation)*(1.-.28*rim);
-      alpha=clamp(alpha+.055*frost,.10,.78);
+      alpha=clamp(alpha+.055*frost+.15*logoFocus,.10,.85);
       outColor=vec4(color,alpha);
     }`;
     function shader(type,source){const sh=gl.createShader(type);gl.shaderSource(sh,source);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){throw Error(gl.getShaderInfoLog(sh));}return sh;}
@@ -1476,7 +1479,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         mask.drawImage(logoArtwork,0,0,side,side);
         rgba=mask.getImageData(0,0,side,side).data;
       }catch(_){return;}
-      const dots=[],gap=5.4;
+      const dots=[],gap=5.15;
       for(let row=0,y=gap*.5;y<side-gap*.5;row++,y+=gap){
         for(let x=gap*.5+(row%2)*gap*.5;x<side-gap*.5;x+=gap){
           const index=(Math.floor(y)*side+Math.floor(x))*4+3;
@@ -1499,7 +1502,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
       if(!logoFlecks.length)return;
       // Fixed white points; a subset flashes like tiny stars without moving.
       const mobile=compactOrb.matches;
-      const diameter=Math.min(width,height)*(mobile ? .285 : .278);
+      const diameter=Math.min(width,height)*(mobile ? .298 : .291);
       const centreX=width*.5,centreY=height*.5;
       for(const p of logoFlecks){
         const star=p.tone>.88;
@@ -1577,8 +1580,17 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         const front=Math.max(0,Math.min(1,.5+p.depth*.5));
         const opacity=Math.min(.92,(.16+.65*front)*(.72+.28*Math.sin(t*.56+dot.phase)**2));
         const green=dot.tone>.65;
-        g.fillStyle=green?'rgba(92,181,148,'+(opacity*.70).toFixed(3)+')'
-          :'rgba(252,255,253,'+opacity.toFixed(3)+')';
+        // Clear the area behind the particle logo without changing the outer shell.
+        const distance=Math.hypot(p.x-width*.5,p.y-height*.5);
+        const avoidRadius=Math.min(width,height)*.16;
+        const fade=Math.max(0,Math.min(1,(distance-avoidRadius*.58)/(avoidRadius*.68)));
+        const clearance=fade*fade*(3-2*fade);
+        if(!green&&clearance<.24&&dot.tone<.34)continue;
+        const localOpacity=green
+          ? opacity*.70*(.46+.54*clearance)
+          : opacity*(.22+.78*clearance);
+        g.fillStyle=green?'rgba(92,181,148,'+localOpacity.toFixed(3)+')'
+          :'rgba(252,255,253,'+localOpacity.toFixed(3)+')';
         const size=dot.size*(.75+.52*front);
         g.beginPath();g.arc(p.x,p.y,size*.5,0,Math.PI*2);g.fill();
       }
