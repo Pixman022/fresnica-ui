@@ -183,10 +183,10 @@ html.m14-motion #v3-features.m14-current .mini-odometer-digit::before{animation:
 .mini-row{background:#f4f5f4;border-radius:10px;padding:11px;margin-top:8px;font-size:13px;display:flex;align-items:center;justify-content:space-between}
 .mini-row em{font-style:normal;color:#7e8985;font-size:11px}
 /* Illustrative send sequence; no transaction is performed. */
-#v3-features .feature-card:nth-child(2) .mini-send-demo{margin-top:11px}
-#v3-features .mini-send-amount{display:inline-block;width:5.5ch;text-align:left;font:11px/1.2 Consolas,monospace}
+#v3-features .feature-card:nth-child(2) .mini-send-demo{position:relative;margin-top:11px}
+#v3-features .mini-send-amount{display:inline-block;width:8.5ch;text-align:left;font:11px/1.2 Consolas,monospace}
 #v3-features .mini-send-amount span{display:block;width:100%;box-sizing:border-box;overflow:hidden;white-space:nowrap;border-right:1px solid transparent}
-#v3-features .feature-card:nth-child(2):has(.mini-send-demo.is-sending) .mini-send-amount span{animation:m34-amount-type 1.15s steps(5,end) both}
+#v3-features .feature-card:nth-child(2):has(.mini-send-demo.is-sending) .mini-send-amount span{animation:m34-amount-type .7s steps(8,end) both}
 @keyframes m34-amount-type{
  0%{width:0;border-right-color:#0ca477}
  95%{border-right-color:#0ca477}
@@ -196,31 +196,43 @@ html.m14-motion #v3-features.m14-current .mini-odometer-digit::before{animation:
 #v3-features .mini-send-button:focus-visible{outline:2px solid #0ca477;outline-offset:3px}
 #v3-features .mini-send-button>span{position:absolute;display:flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;pointer-events:none}
 #v3-features .mini-send-button svg{width:15px;height:15px;flex:none}
-#v3-features .mini-send-wait,#v3-features .mini-send-success{opacity:0}
+#v3-features .mini-send-wait{opacity:0}
+#v3-features .mini-send-success{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:9px;pointer-events:none;opacity:0;transform:translateY(12px) scale(.82);color:#138761;font:700 12px/1.1 var(--Fresnica-font-family,Arial,sans-serif);letter-spacing:.01em}
+#v3-features .mini-send-check{display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#def6e9;color:#0b9465}
+#v3-features .mini-send-check svg{width:16px;height:16px}
+html.v3-theme-dark #v3-features .mini-send-success{color:#87e8b9}
+html.v3-theme-dark #v3-features .mini-send-check{background:#294c3a;color:#8ee8b9}
 #v3-features .mini-send-wait i{display:block;width:12px;height:12px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%}
 #v3-features .mini-send-demo.is-sending .mini-send-wait i{animation:m33-send-spinner .55s linear infinite}
-#v3-features .mini-send-demo.is-sending .mini-send-button{animation:m33-send-press 3.1s ease 1.2s both}
-#v3-features .mini-send-demo.is-sending .mini-send-ready{animation:m33-send-ready 3.1s ease 1.2s both}
-#v3-features .mini-send-demo.is-sending .mini-send-wait{animation:m33-send-wait 3.1s ease 1.2s both}
-#v3-features .mini-send-demo.is-sending .mini-send-success{animation:m33-send-success 3.1s ease 1.2s both}
+#v3-features .mini-send-demo.is-sending .mini-send-button{animation:m33-send-press 3.1s ease .75s both}
+#v3-features .mini-send-demo.is-sending .mini-send-ready{animation:m33-send-ready 3.1s ease .75s both}
+#v3-features .mini-send-demo.is-sending .mini-send-wait{animation:m33-send-wait 3.1s ease .75s both}
+#v3-features .mini-send-demo.is-sending .mini-send-success{animation:m33-send-success 3.1s ease .75s both}
+#v3-features .mini-send-demo.is-sending .mini-send-check{animation:m35-success-check 3.1s ease .75s both}
 @keyframes m33-send-spinner{to{transform:rotate(360deg)}}
 @keyframes m33-send-press{
- 0%,10%{transform:scale(1);background:#0d996f}
- 17%,23%{transform:scale(.935);background:#087852}
- 31%,54%{transform:scale(1);background:#0d996f}
- 65%,95%{transform:scale(1);background:#17694e}
- 100%{transform:scale(1);background:#0d996f}
+ 0%,10%{transform:scale(1);background:#0d996f;opacity:1}
+ 17%,23%{transform:scale(.935);background:#087852;opacity:1}
+ 31%,55%{transform:scale(1);background:#0d996f;opacity:1}
+ 68%,95%{transform:scale(.88);background:#0d996f;opacity:0}
+ 100%{transform:scale(1);background:#0d996f;opacity:1}
 }
 @keyframes m33-send-ready{0%,23%{opacity:1}35%,100%{opacity:0}}
 @keyframes m33-send-wait{0%,29%{opacity:0}38%,54%{opacity:1}62%,100%{opacity:0}}
 @keyframes m33-send-success{
- 0%,54%{opacity:0;transform:translateY(5px)}
- 68%,94%{opacity:1;transform:translateY(0)}
- 100%{opacity:0;transform:translateY(0)}
+ 0%,55%{opacity:0;transform:translateY(12px) scale(.82)}
+ 70%{opacity:1;transform:translateY(-2px) scale(1.07)}
+ 78%,94%{opacity:1;transform:translateY(0) scale(1)}
+ 100%{opacity:0;transform:translateY(-4px) scale(.96)}
+}
+@keyframes m35-success-check{
+ 0%,55%{transform:scale(.45) rotate(-16deg)}
+ 70%{transform:scale(1.18) rotate(2deg)}
+ 78%,100%{transform:scale(1) rotate(0)}
 }
 @media(prefers-reduced-motion:reduce){
  #v3-features .feature-card:nth-child(2) .mini-send-amount span{animation:none!important;width:100%;border-right-color:transparent}
- #v3-features .mini-send-demo.is-sending .mini-send-button{animation:none;background:#17694e}
+ #v3-features .mini-send-demo.is-sending .mini-send-button{animation:none;opacity:0}
  #v3-features .mini-send-demo.is-sending .mini-send-ready{animation:none;opacity:0}
  #v3-features .mini-send-demo.is-sending .mini-send-wait{animation:none;opacity:0}
  #v3-features .mini-send-demo.is-sending .mini-send-success{animation:none;opacity:1;transform:none}
@@ -1341,7 +1353,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     <div class="feature-window" id="feature-window" aria-label="Five Stellar wallet capabilities">
       <div class="feature-track" id="feature-track">
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET / OVERVIEW</span><strong class="mini-balance"><span class="mini-balance-sr">1,248.50 XLM</span><span class="mini-odometer" aria-hidden="true"><span class="mini-odometer-digit" style="--end:-11em"></span><span class="mini-odometer-sep">,</span><span class="mini-odometer-digit" style="--end:-12em"></span><span class="mini-odometer-digit" style="--end:-14em"></span><span class="mini-odometer-digit" style="--end:-18em"></span><span class="mini-odometer-sep">.</span><span class="mini-odometer-digit" style="--end:-15em"></span><span class="mini-odometer-digit" style="--end:-10em"></span></span><small aria-hidden="true">XLM</small></strong><svg class="mini-trend" viewBox="0 0 220 68" preserveAspectRatio="none" role="img" aria-label="Illustrative upward trend"><path class="mini-trend-line" pathLength="1" d="M3 61 C25 67 43 28 75 41 S115 55 145 23 S184 33 217 6"/></svg><div class="mini-row">XLM <em>Native asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">Keep the assets you follow together, clearly and simply.</p></article>
-        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">PAYMENT / REVIEW</span><div class="mini-row">Destination <em>GABX…7BD</em></div><div class="mini-row">Amount <em class="mini-send-amount"><span>25.00</span></em></div><div class="mini-send-demo"><button class="mini-send-button" type="button" aria-label="Preview send animation, no payment is made"><span class="mini-send-ready">SEND <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mini-send-wait" aria-hidden="true"><i></i> SENDING</span><span class="mini-send-success" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> SENT SUCCESSFULLY</span></button></div></div></div><div class="label-row"><h3>Send &amp; receive</h3><span class="chapter-kicker">02</span></div><p class="body">Keep important payment details visible from start to finish.</p></article>
+        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">PAYMENT / REVIEW</span><div class="mini-row">Destination <em>GABX…7BD</em></div><div class="mini-row">Amount <em class="mini-send-amount"><span>1,250.00</span></em></div><div class="mini-send-demo"><button class="mini-send-button" type="button" aria-label="Preview send animation, no payment is made"><span class="mini-send-ready">SEND <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mini-send-wait" aria-hidden="true"><i></i> SENDING</span></button><span class="mini-send-success" aria-hidden="true"><span class="mini-send-check"><svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Success</span></span></div></div></div><div class="label-row"><h3>Send &amp; receive</h3><span class="chapter-kicker">02</span></div><p class="body">Keep important payment details visible from start to finish.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">SWAP / EXCHANGE</span><div class="mini-row">From <em>XLM</em></div><strong style="text-align:center;color:#0c9b71;font-size:30px;margin:0">⇅</strong><div class="mini-row">To <em>Stellar asset</em></div><div class="mini-row">Review <em>Before confirming</em></div></div></div><div class="label-row"><h3>Discover swaps</h3><span class="chapter-kicker">03</span></div><p class="body">Preview potential exchanges and review each step with clarity.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">STELLAR / ECOSYSTEM</span><div class="mini-row">Discover apps <em>↗</em></div><div class="mini-row">Connections <em>↗</em></div><div class="mini-row">Permissions <em>↗</em></div></div></div><div class="label-row"><h3>Connect apps</h3><span class="chapter-kicker">04</span></div><p class="body">Explore compatible apps and keep connections easy to understand.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET / ACTIVITY</span><strong style="font-size:25px">Your activity.</strong><div class="mini-row">Received XLM <em>+20.00</em></div><div class="mini-row">Sent XLM <em>−5.00</em></div><div class="mini-row">Trustline <em>Updated</em></div></div></div><div class="label-row"><h3>Keep the details</h3><span class="chapter-kicker">05</span></div><p class="body">Review your activity and return to the information that matters.</p></article>
