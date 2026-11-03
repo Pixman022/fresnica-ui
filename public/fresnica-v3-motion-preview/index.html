@@ -185,7 +185,7 @@ html.m14-motion #v3-features.m14-current .mini-odometer-digit::before{animation:
 /* Fifth feature card: a receipt becomes an item in a compact activity timeline. */
 #v3-features .feature-card:nth-child(5) .feature-art{padding:clamp(18px,3vh,28px)}
 #v3-features .feature-card:nth-child(5) .activity-demo{box-sizing:border-box;position:relative;display:flex;flex-direction:column;width:min(254px,100%);height:226px;min-height:0;padding:14px;overflow:hidden;transform:rotate(-.7deg);background:#fff;font-family:var(--Fresnica-font-family,Roboto,"Noto Sans SC",-apple-system,Arial,sans-serif)}
-#v3-features .feature-card:nth-child(5) .activity-list{display:grid;gap:8px;margin:auto 0}
+#v3-features .feature-card:nth-child(5) .activity-list{display:grid;gap:8px;margin:auto 0;overflow:hidden}
 #v3-features .feature-card:nth-child(5) .activity-entry{display:flex;align-items:center;gap:8px;min-height:40px;padding:5px 8px;border-radius:9px;background:#f3f5f4;box-sizing:border-box}
 #v3-features .feature-card:nth-child(5) .activity-entry.is-new{background:#edf8f1}
 #v3-features .feature-card:nth-child(5) .activity-symbol{display:grid;place-items:center;flex:none;width:27px;height:27px;border-radius:8px;background:#e4ebe7;color:#527967}
@@ -204,9 +204,9 @@ html.m14-motion #v3-features.m14-current .mini-odometer-digit::before{animation:
 #v3-features .feature-card:nth-child(5) .activity-demo.is-playing .activity-receipt{animation:m43-activity-receipt 2.55s cubic-bezier(.22,.7,.22,1) both}
 #v3-features .feature-card:nth-child(5) .activity-demo.is-playing .activity-entry.is-new{animation:m43-activity-new 2.55s ease both}
 #v3-features .feature-card:nth-child(5) .activity-demo.is-playing .activity-entry:not(.is-new){animation:m43-activity-shift 2.55s cubic-bezier(.25,.8,.2,1) both}
-@keyframes m43-activity-receipt{0%,11%{opacity:0;transform:translate3d(-50%,-38%,0) scale(.85)}23%{opacity:1;transform:translate3d(-50%,-50%,0) scale(1.03)}32%,55%{opacity:1;transform:translate3d(-50%,-50%,0) scale(1)}72%{opacity:.9;transform:translate3d(-50%,-85%,0) scale(.77)}84%,100%{opacity:0;transform:translate3d(-50%,-128%,0) scale(.46)}}
-@keyframes m43-activity-new{0%,66%{opacity:0;transform:translateY(-12px) scale(.94)}84%,100%{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes m43-activity-shift{0%,66%{transform:translateY(-44px)}84%,100%{transform:translateY(0)}}
+@keyframes m43-activity-receipt{0%,29%{opacity:0;transform:translate3d(-50%,-38%,0) scale(.85)}39%{opacity:1;transform:translate3d(-50%,-50%,0) scale(1.03)}47%,62%{opacity:1;transform:translate3d(-50%,-50%,0) scale(1)}72%{opacity:.9;transform:translate3d(-50%,-85%,0) scale(.77)}86%,100%{opacity:0;transform:translate3d(-50%,-128%,0) scale(.46)}}
+@keyframes m43-activity-new{0%,7%{opacity:1;transform:translateY(0)}27%,72%{opacity:0;transform:translateY(-48px)}90%,100%{opacity:1;transform:translateY(0)}}
+@keyframes m43-activity-shift{0%,7%{transform:translateY(0)}27%,72%{transform:translateY(-48px)}90%,100%{transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){#v3-features .feature-card:nth-child(5) .activity-demo.is-playing .activity-receipt,#v3-features .feature-card:nth-child(5) .activity-demo.is-playing .activity-entry{animation:none!important}}
 /* Fourth feature card: larger circular DApp badges, preserving the miniature wallet UI frame. */
 #v3-features .feature-card:nth-child(4) .feature-art{padding:clamp(10px,2vh,22px)}
