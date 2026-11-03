@@ -144,7 +144,7 @@ body{background:#192330}
 .mini-bar span{display:block;height:100%;background:#90d6b1;border-radius:6px;width:60%}
 .feature-card:first-child .mini-trend{display:block;width:100%;height:60px;margin:5px 0 11px;overflow:visible}
 .feature-card:first-child .mini-trend-line{fill:none;stroke:#0ca477;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
-.feature-card:first-child .mini-trend-dot{fill:#0ca477;stroke:#fff;stroke-width:2;vector-effect:non-scaling-stroke;offset-path:url(#m45-asset-trend-path);offset-distance:100%;offset-rotate:0deg}
+.feature-card:first-child .mini-trend-dot{fill:#0ca477;stroke:#fff;stroke-width:2;vector-effect:non-scaling-stroke}
 /* One card: light, CSS-only rolling digits. Static final values work without JavaScript. */
 .feature-card:first-child .mini-balance{display:flex;align-items:baseline;gap:7px}
 .feature-card:first-child .mini-balance-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -154,13 +154,13 @@ body{background:#192330}
 .feature-card:first-child .mini-odometer-sep{line-height:1em}
 /* Curve draws left-to-right; rolling digits keep their own animation. */
 html.m14-motion #v3-features .mini-trend-line{stroke-dasharray:1;stroke-dashoffset:1}
-html.m14-motion #v3-features .mini-trend-dot{offset-distance:0%;opacity:0}
+html.m14-motion #v3-features .mini-trend-dot{opacity:0}
 html.m14-motion #v3-features .mini-odometer-digit::before{transform:translateY(0)}
 html.m14-motion #v3-features.m14-current .mini-trend-line{animation:m30-trend-grow 2.6s cubic-bezier(.18,.68,.22,1) .18s forwards}
-html.m14-motion #v3-features.m14-current .mini-trend-dot{animation:m45-trend-dot 2.6s cubic-bezier(.18,.68,.22,1) .18s forwards}
+html.m14-motion #v3-features.m14-current .mini-trend-dot{animation:m45-trend-dot-visibility 2.6s linear .18s both}
 html.m14-motion #v3-features.m14-current .mini-odometer-digit::before{animation:m32-balance-roll 2.75s cubic-bezier(.17,.72,.24,1) .12s forwards}
 @keyframes m30-trend-grow{to{stroke-dashoffset:0}}
-@keyframes m45-trend-dot{0%{offset-distance:0%;opacity:1}100%{offset-distance:100%;opacity:1}}
+@keyframes m45-trend-dot-visibility{0%{opacity:0}1%,100%{opacity:1}}
 @keyframes m32-balance-roll{to{transform:translateY(var(--end))}}
 /* Hover repeats the same progression while the pointer remains on the card. */
 @media (hover:hover) and (prefers-reduced-motion:no-preference){
@@ -169,7 +169,7 @@ html.m14-motion #v3-features.m14-current .mini-odometer-digit::before{animation:
    animation:m31-trend-hover-line 3.6s cubic-bezier(.19,.68,.2,1) infinite;
  }
  html #v3-features .feature-card:first-child:hover .mini-trend-dot{
-   animation:m45-trend-dot-hover 3.6s cubic-bezier(.19,.68,.2,1) infinite;
+   animation:m45-trend-dot-hover-visibility 3.6s linear infinite;
  }
  html #v3-features .feature-card:first-child:hover .mini-odometer-digit::before{
    animation:m32-balance-hover 3.6s cubic-bezier(.18,.68,.2,1) infinite;
@@ -179,14 +179,14 @@ html.m14-motion #v3-features.m14-current .mini-odometer-digit::before{animation:
  0%{stroke-dashoffset:1}
  82%,100%{stroke-dashoffset:0}
 }
-@keyframes m45-trend-dot-hover{0%{offset-distance:0%;opacity:1}82%,100%{offset-distance:100%;opacity:1}}
+@keyframes m45-trend-dot-hover-visibility{0%,100%{opacity:1}}
 @keyframes m32-balance-hover{
  0%{transform:translateY(0)}
  82%,100%{transform:translateY(var(--end))}
 }
 @media(prefers-reduced-motion:reduce){
  html.m14-motion #v3-features .mini-trend-line{stroke-dashoffset:0;animation:none}
- html.m14-motion #v3-features .mini-trend-dot{offset-distance:100%;opacity:1;animation:none}
+ html.m14-motion #v3-features .mini-trend-dot{opacity:1;animation:none}
  html.m14-motion #v3-features .mini-odometer-digit::before{transform:translateY(var(--end));animation:none}
 }
 .mini-row{background:#f4f5f4;border-radius:10px;padding:11px;margin-top:8px;font-size:13px;display:flex;align-items:center;justify-content:space-between}
@@ -1481,7 +1481,7 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     <div class="feature-heading reveal"><p class="chapter-kicker">CORE CAPABILITIES</p><h2 class="chapter-title" id="feature-title">Five essentials, one flow.</h2></div>
     <div class="feature-window" id="feature-window" aria-label="Five Stellar wallet capabilities">
       <div class="feature-track" id="feature-track">
-        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET / OVERVIEW</span><strong class="mini-balance"><span class="mini-balance-sr">1,248.50 XLM</span><span class="mini-odometer" aria-hidden="true"><span class="mini-odometer-digit" style="--end:-11em"></span><span class="mini-odometer-sep">,</span><span class="mini-odometer-digit" style="--end:-12em"></span><span class="mini-odometer-digit" style="--end:-14em"></span><span class="mini-odometer-digit" style="--end:-18em"></span><span class="mini-odometer-sep">.</span><span class="mini-odometer-digit" style="--end:-15em"></span><span class="mini-odometer-digit" style="--end:-10em"></span></span><small aria-hidden="true">XLM</small></strong><svg class="mini-trend" viewBox="0 0 220 68" preserveAspectRatio="none" role="img" aria-label="Illustrative upward trend"><path id="m45-asset-trend-path" class="mini-trend-line" pathLength="1" d="M3 61 C25 67 43 28 75 41 S115 55 145 23 S184 33 217 6"/><circle class="mini-trend-dot" r="4.2" aria-hidden="true"/></svg><div class="mini-row">XLM <em>Native asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">Keep the assets you follow together, clearly and simply.</p></article>
+        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET / OVERVIEW</span><strong class="mini-balance"><span class="mini-balance-sr">1,248.50 XLM</span><span class="mini-odometer" aria-hidden="true"><span class="mini-odometer-digit" style="--end:-11em"></span><span class="mini-odometer-sep">,</span><span class="mini-odometer-digit" style="--end:-12em"></span><span class="mini-odometer-digit" style="--end:-14em"></span><span class="mini-odometer-digit" style="--end:-18em"></span><span class="mini-odometer-sep">.</span><span class="mini-odometer-digit" style="--end:-15em"></span><span class="mini-odometer-digit" style="--end:-10em"></span></span><small aria-hidden="true">XLM</small></strong><svg class="mini-trend" viewBox="0 0 220 68" preserveAspectRatio="none" role="img" aria-label="Illustrative upward trend"><path id="m45-asset-trend-path" class="mini-trend-line" pathLength="1" d="M3 61 C25 67 43 28 75 41 S115 55 145 23 S184 33 217 6"/><circle class="mini-trend-dot" cx="217" cy="6" r="4.2" aria-hidden="true"/></svg><div class="mini-row">XLM <em>Native asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">Keep the assets you follow together, clearly and simply.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">SEND/REVIEW</span><div class="mini-row">Destination <em>GABX…7BD</em></div><div class="mini-row">Amount <em class="mini-send-amount"><span>1,250.00</span></em></div><div class="mini-send-demo"><button class="mini-send-button" type="button" aria-label="Preview send animation, no payment is made"><span class="mini-send-ready">SEND</span><span class="mini-send-wait" aria-hidden="true"><i></i> SENDING</span></button><span class="mini-send-success" aria-hidden="true"><span class="mini-send-check"><svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Success</span></span></div></div></div><div class="label-row"><h3>Send &amp; receive</h3><span class="chapter-kicker">02</span></div><p class="body">Keep important payment details visible from start to finish.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><div class="mini-swap-preview"><div class="mini-swap-content"><span class="mini-label">SWAP</span><div class="mini-row mini-swap-from">From <em>XLM</em></div><div class="mini-swap-direction-row"><button class="mini-swap-direction" type="button" aria-label="Preview asset direction switch and swap animation" title="Switch assets"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5v13m0 0-3-3m3 3 3-3M13.5 16.5v-13m0 0-3 3m3-3 3 3"/></svg></button></div><div class="mini-row mini-swap-to">To <em>Stellar asset</em></div><button class="mini-swap-button" type="button" aria-label="Preview a swap — no exchange is executed">SWAP</button></div><div class="mini-swap-success" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="33" fill="#0ca477"/><path class="mini-swap-success-check" pathLength="1" d="M34 50 45 61 67 39" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Success</span></div></div></div></div><div class="label-row"><h3>Discover swaps</h3><span class="chapter-kicker">03</span></div><p class="body">Preview potential exchanges and review each step with clarity.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">DAPP / ECOSYSTEM</span><div class="dapp-hive" role="img" aria-label="Fresnica surrounded by illustrative DApp categories, including payments, trading, gaming and identity"><div class="dapp-hive-row"><span class="dapp-node is-accent" style="--hive-delay:210ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h13.5a3 3 0 0 1 3 3v2.1h-4.8a3.1 3.1 0 1 0 0 6.2h4.8v1.7a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-10a3 3 0 0 1 3-3Z"/><path fill-rule="evenodd" d="M16.7 10.7H22V15h-5.3a2.15 2.15 0 0 1 0-4.3Zm0 1.55a.6.6 0 1 0 0 1.2.6.6 0 1 0 0-1.2Z"/></svg></span><span class="dapp-node" style="--hive-delay:390ms"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.2" y="13.2" width="4.5" height="7.8" rx="1.45"/><rect x="9.75" y="8.9" width="4.5" height="12.1" rx="1.45"/><rect x="16.3" y="3.1" width="4.5" height="17.9" rx="1.45"/></svg></span><span class="dapp-node" style="--hive-delay:440ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5.7h11.1V2.8L21.7 8l-6.1 5.1v-2.9H4.5a2.25 2.25 0 0 1 0-4.5ZM19.5 18.3H8.4v2.9L2.3 16l6.1-5.1v2.9h11.1a2.25 2.25 0 0 1 0 4.5Z"/></svg></span><span class="dapp-node" style="--hive-delay:350ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2.2 20.45 5.8v5.7c0 5.3-3.5 9.2-8.45 10.5-4.95-1.3-8.45-5.2-8.45-10.5V5.8L12 2.2Zm-1.6 13.95 7.2-7.2-1.65-1.65-5.55 5.55-2.3-2.3-1.65 1.65 3.95 3.95Z"/></svg></span></div><div class="dapp-hive-row"><span class="dapp-node" style="--hive-delay:260ms"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.6" r="4.35"/><path d="M3.2 20.6a8.8 8.8 0 0 1 17.6 0v.4H3.2v-.4Z"/></svg></span><span class="dapp-node" style="--hive-delay:160ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5 2.5h14a2.5 2.5 0 0 1 2.5 2.5v14a2.5 2.5 0 0 1-2.5 2.5H5A2.5 2.5 0 0 1 2.5 19V5A2.5 2.5 0 0 1 5 2.5Zm3.3 4.1a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Zm-2.6 10.9h12.6l-4.4-5.9-3.1 3.15-2-1.8-3.1 4.55Z"/></svg></span><span class="dapp-node is-accent is-hub" style="--hive-delay:0ms"><img class="dapp-hub-logo" src="./Fresnica-logo-light.svg" alt="" decoding="async"/><img class="dapp-hub-logo dapp-hub-inverted" src="./Fresnica-logo-inverted.svg" alt="" decoding="async"/></span><span class="dapp-node" style="--hive-delay:140ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.3 7h9.4a4.6 4.6 0 0 1 4.5 3.7l1 4.9c.6 3.1-2.8 4.8-5 2.7L15 16.1H9l-2.2 2.2c-2.2 2.1-5.6.4-5-2.7l1-4.9A4.6 4.6 0 0 1 7.3 7Z"/><path d="M6.5 10.4h1.7v2h2v1.7h-2v2H6.5v-2h-2v-1.7h2v-2Z" fill="#f2f5f3"/><circle cx="16.6" cy="11.5" r="1.15" fill="#f2f5f3"/><circle cx="19.1" cy="14" r="1.15" fill="#f2f5f3"/></svg></span><span class="dapp-node" style="--hive-delay:410ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.6 9.4 5.3-9.4 5.3-9.4-5.3L12 2.6ZM2.6 11.4l9.4 5.3 9.4-5.3v2.5L12 19.2l-9.4-5.3v-2.5ZM2.6 16.8l9.4 5.3 9.4-5.3v2.4L12 24l-9.4-4.8v-2.4Z"/></svg></span></div><div class="dapp-hive-row"><span class="dapp-node" style="--hive-delay:460ms"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5.4" rx="8.4" ry="3.15"/><path d="M3.6 8.5c2.1 1.6 5.1 2.4 8.4 2.4s6.3-.8 8.4-2.4v4.5c0 1.8-3.8 3.1-8.4 3.1s-8.4-1.3-8.4-3.1V8.5ZM3.6 15.1c2 1.4 5 2.1 8.4 2.1s6.4-.7 8.4-2.1v3.2c0 1.9-3.8 3.2-8.4 3.2s-8.4-1.3-8.4-3.2v-3.2Z"/></svg></span><span class="dapp-node is-accent" style="--hive-delay:220ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17.6 6.6-6.6 3.9 3.8 5-5H16V6h6v6h-3v-1l-5.6 5.7-3.9-3.8-4.7 4.7L3 17.6Z"/></svg></span><span class="dapp-node" style="--hive-delay:520ms"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg></span><span class="dapp-node" style="--hive-delay:500ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10.7 6.4-5 10.1 2.15 1.05 5-10.1-2.15-1.05Zm2.6 0-2.15 1.05 5 10.1 2.15-1.05-5-10.1ZM7 18.3h10v2.2H7z"/><circle cx="12" cy="4.7" r="3.1"/><circle cx="4.8" cy="19" r="3.1"/><circle cx="19.2" cy="19" r="3.1"/></svg></span></div></div></div></div><div class="label-row"><h3>Connect apps</h3><span class="chapter-kicker">04</span></div><p class="body">Explore a rich ecosystem of compatible DApps in one clear view.</p></article>
@@ -1952,6 +1952,36 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
   const featureWindow = document.getElementById('feature-window');
   const featureTrack = document.getElementById('feature-track');
   const featureCards = [...featureTrack.querySelectorAll('.feature-card')];
+  // Read positions from the actual SVG path; its viewBox scaling matches the dot exactly.
+  const trendPath=featureCards[0]?.querySelector('.mini-trend-line');
+  const trendDot=featureCards[0]?.querySelector('.mini-trend-dot');
+  if(trendPath&&trendDot){
+    const length=trendPath.getTotalLength();
+    let trendFrame=0;
+    const updateTrendDot=()=>{
+      const offset=parseFloat(getComputedStyle(trendPath).strokeDashoffset);
+      const progress=Number.isFinite(offset)?Math.max(0,Math.min(1,1-offset)):1;
+      const point=trendPath.getPointAtLength(length*progress);
+      trendDot.setAttribute('cx',point.x.toFixed(2));
+      trendDot.setAttribute('cy',point.y.toFixed(2));
+    };
+    const trackTrend=()=>{
+      updateTrendDot();
+      trendFrame=requestAnimationFrame(trackTrend);
+    };
+    trendPath.addEventListener('animationstart',()=>{
+      cancelAnimationFrame(trendFrame);
+      trackTrend();
+    });
+    const finishTrend=()=>{
+      cancelAnimationFrame(trendFrame);
+      updateTrendDot();
+    };
+    trendPath.addEventListener('animationend',finishTrend);
+    trendPath.addEventListener('animationcancel',finishTrend);
+    updateTrendDot();
+  }
+
   // A self-contained button demonstration: press, progress and success.
   const sendDemo=featureCards[1]?.querySelector('.mini-send-demo');
   if(sendDemo){
