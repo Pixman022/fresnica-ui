@@ -190,20 +190,22 @@ html.m14-motion #v3-features.m14-current .mini-odometer-digit::before{animation:
 #v3-features .feature-card:nth-child(4) .dapp-hive-row{display:flex;align-items:center;justify-content:center;gap:12px;flex:none}
 #v3-features .feature-card:nth-child(4) .dapp-hive-row:nth-child(2){gap:7px}
 #v3-features .feature-card:nth-child(4) .dapp-hive-row+.dapp-hive-row{margin-top:8px}
-#v3-features .feature-card:nth-child(4) .dapp-node{display:grid;place-items:center;width:clamp(32px,4.2vh,36px);height:clamp(32px,4.2vh,36px);flex:none;border:0;border-radius:50%;background:#f2f5f3;box-shadow:0 2px 6px rgba(21,47,36,.04)}
+#v3-features .feature-card:nth-child(4) .dapp-node{position:relative;z-index:1;display:grid;place-items:center;width:clamp(32px,4.2vh,36px);height:clamp(32px,4.2vh,36px);flex:none;border:0;border-radius:50%;background:#f2f5f3;box-shadow:0 2px 6px rgba(21,47,36,.04)}
 #v3-features .feature-card:nth-child(4) .dapp-node svg{display:block;width:20px;height:20px;fill:currentColor;stroke:none;color:#8ab5a1}
 #v3-features .feature-card:nth-child(4) .dapp-node.is-accent{background:#f2f5f3;box-shadow:0 2px 6px rgba(21,47,36,.04)}
 #v3-features .feature-card:nth-child(4) .dapp-node.is-accent svg{color:#8ab5a1}
-#v3-features .feature-card:nth-child(4) .dapp-node.is-hub{width:clamp(41px,5.2vh,46px);height:clamp(41px,5.2vh,46px);background:#f2f5f3;box-shadow:0 2px 6px rgba(21,47,36,.04)}
+#v3-features .feature-card:nth-child(4) .dapp-node.is-hub{z-index:3;width:clamp(41px,5.2vh,46px);height:clamp(41px,5.2vh,46px);background:#f2f5f3;box-shadow:0 2px 6px rgba(21,47,36,.04)}
 #v3-features .feature-card:nth-child(4) .dapp-hub-logo{display:block;width:100%;height:100%;border-radius:50%;object-fit:contain}
 html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node{background:#f2f5f3}
 html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node svg{color:#8ab5a1}
 html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node.is-accent{background:#f2f5f3}
 html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node.is-accent svg{color:#8ab5a1}
 html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node.is-hub{background:#f2f5f3}
-#v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node{animation:m38-hive-arrive 1.25s cubic-bezier(.2,.78,.25,1) var(--hive-delay,0ms) both}
+#v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node.is-hub{animation:m38-hive-arrive 1.25s cubic-bezier(.2,.78,.25,1) both}
+#v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node:not(.is-hub){animation:m38-hive-arrive 1.25s cubic-bezier(.2,.78,.25,1) var(--hive-delay,0ms) both,m39-hive-collapse 1s cubic-bezier(.55,.08,.32,1) 1.95s forwards}
 @keyframes m38-hive-arrive{0%{opacity:0;transform:translateY(7px) scale(.76)}38%{opacity:1;transform:translateY(-2px) scale(1.06)}70%,100%{opacity:1;transform:translateY(0) scale(1)}}
-@media(prefers-reduced-motion:reduce){#v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node{animation:none}}
+@keyframes m39-hive-collapse{0%{opacity:1;transform:translate3d(0,0,0) scale(1)}72%{opacity:1;transform:translate3d(var(--hive-to-x,0px),var(--hive-to-y,0px),0) scale(.72)}100%{opacity:0;transform:translate3d(var(--hive-to-x,0px),var(--hive-to-y,0px),0) scale(.58)}}
+@media(prefers-reduced-motion:reduce){#v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node{animation:none!important}}
 
 /* Third card: visual swap walkthrough, with no on-chain exchange. */
 #v3-features .feature-card:nth-child(3) .mini-swap-direction-row{display:flex;justify-content:center;align-items:center;height:36px;margin:4px 0 -3px}
@@ -1943,16 +1945,28 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         swapPreview.classList.remove('is-playing');
     });
   }
-  // Reveal the DApp honeycomb only when its card is visible or re-entered by pointer.
+  // DApp icons appear first, then converge underneath the centered Fresnica mark.
   const dappCard=featureCards[3];
   const dappHive=dappCard?.querySelector('.dapp-hive');
   if(dappHive){
+    const hub=dappHive.querySelector('.dapp-node.is-hub');
+    const outerNodes=[...dappHive.querySelectorAll('.dapp-node:not(.is-hub)')];
+    const measureHiveVectors=()=>{
+      const centerX=hub.offsetLeft+hub.offsetWidth/2;
+      const centerY=hub.offsetTop+hub.offsetHeight/2;
+      outerNodes.forEach(node=>{
+        node.style.setProperty('--hive-to-x',(centerX-node.offsetLeft-node.offsetWidth/2)+'px');
+        node.style.setProperty('--hive-to-y',(centerY-node.offsetTop-node.offsetHeight/2)+'px');
+      });
+    };
     const replayHive=()=>{
       if(reduced.matches)return;
       dappHive.classList.remove('is-playing');
+      measureHiveVectors();
       void dappHive.offsetWidth;
       dappHive.classList.add('is-playing');
     };
+    window.addEventListener('resize',measureHiveVectors,{passive:true});
     dappCard.addEventListener('pointerenter',event=>{
       if(event.pointerType==='mouse')replayHive();
     });
