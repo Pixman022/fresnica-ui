@@ -71,6 +71,7 @@ jobs:
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.js
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m15-typography.css
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo.svg
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo-light.svg
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m25-desktop-tabs.js
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m29-polish.css
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m29-security-particles.js
@@ -132,6 +133,7 @@ jobs:
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.js demo-dist/fresnica-v3-motion-preview/m14-idle.js
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m15-typography.css demo-dist/fresnica-v3-motion-preview/m15-typography.css
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo.svg demo-dist/fresnica-v3-motion-preview/Fresnica-logo.svg
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo-light.svg demo-dist/fresnica-v3-motion-preview/Fresnica-logo-light.svg
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m25-desktop-tabs.js demo-dist/fresnica-v3-motion-preview/m25-desktop-tabs.js
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m29-polish.css demo-dist/fresnica-v3-motion-preview/m29-polish.css
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m29-security-particles.js demo-dist/fresnica-v3-motion-preview/m29-security-particles.js
@@ -166,6 +168,7 @@ jobs:
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.js demo-dist/fresnica-v3-motion-preview/m14-idle.js
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m15-typography.css demo-dist/fresnica-v3-motion-preview/m15-typography.css
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo.svg demo-dist/fresnica-v3-motion-preview/Fresnica-logo.svg
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo-light.svg demo-dist/fresnica-v3-motion-preview/Fresnica-logo-light.svg
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m25-desktop-tabs.js demo-dist/fresnica-v3-motion-preview/m25-desktop-tabs.js
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m29-polish.css demo-dist/fresnica-v3-motion-preview/m29-polish.css
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m29-security-particles.js demo-dist/fresnica-v3-motion-preview/m29-security-particles.js
