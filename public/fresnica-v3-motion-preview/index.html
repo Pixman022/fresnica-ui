@@ -233,9 +233,9 @@ html.m14-motion #v3-features.m14-current .mini-odometer-digit::before{animation:
 #v3-features .feature-card:nth-child(4) .dapp-hub-logo{display:block;width:100%;height:100%;border-radius:50%;object-fit:contain}
 #v3-features .feature-card:nth-child(4) .dapp-hub-inverted{position:absolute;inset:0;opacity:0;pointer-events:none}
 html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node{background:#f2f5f3}
-html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node svg{color:#8ab5a1}
+html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node svg{color:#527f68}
 html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node.is-accent{background:#f2f5f3}
-html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node.is-accent svg{color:#8ab5a1}
+html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node.is-accent svg{color:#527f68}
 html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node.is-hub{background:#f2f5f3}
 #v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node.is-hub{animation:m38-hive-arrive 1.25s cubic-bezier(.2,.78,.25,1) both}
 #v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node:not(.is-hub){animation:m38-hive-arrive 1.25s cubic-bezier(.2,.78,.25,1) var(--hive-delay,0ms) both,m39-hive-collapse .58s cubic-bezier(.55,.08,.32,1) 1.92s forwards}
@@ -1345,6 +1345,33 @@ html.v3-theme-dark #v3-for-you .audience-card p {color:#b5c7ba;}
 html.v3-theme-dark #v3-security .security-principle {background:#202b24;color:#edf5ef;border-color:#3a4e41;}
 html.v3-theme-dark #v3-security .security-principle h3 {color:#f5faf6;}
 html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
+/* Dark palette audit: fix nested light surfaces and small-text contrast without touching light mode. */
+html.v3-theme-dark #overview .orb-card{background:#223027;border-color:#3a5142;color:#eef7f0;box-shadow:0 9px 26px #07150c55;}
+html.v3-theme-dark #overview .orb-card label{color:#bacfc2;}
+html.v3-theme-dark #overview .orb-card strong{color:#f4faf6;}
+html.v3-theme-dark #overview .ticker{color:#b9cfc1;border-top-color:#34463a;}
+html.v3-theme-dark #overview .orb-status{background:#1b2922;border:1px solid #375046;color:#eef7f0;}
+html.v3-theme-dark #v3-features .feature-art::before{background:radial-gradient(circle at 50% 80%,rgba(62,130,92,.24),transparent 55%);}
+html.v3-theme-dark #v3-features .feature-card:nth-child(5) .activity-demo{background:#1f2d26;color:#eef7f0;}
+html.v3-theme-dark #v3-features .feature-ui .mini-label{color:#b6cdbf;}
+html.v3-theme-dark #v3-features .mini-row em{color:#bfd4c7;}
+html.v3-theme-dark #v3-features .mini-bar{background:#34483d;}
+html.v3-theme-dark #v3-features .feature-card:nth-child(2) .mini-send-button,
+html.v3-theme-dark #v3-features .feature-card:nth-child(3) .mini-swap-button{background:#097654;color:#fff;}
+html.v3-theme-dark #v3-features .feature-card:nth-child(3) .mini-swap-button:hover{background:#075d43;}
+html.v3-theme-dark.m14-motion #v3-features.m14-current .feature-ui .mini-row{animation-name:m46-dark-mini-row;}
+@keyframes m46-dark-mini-row{0%,100%{background-color:#263a2f}50%{background-color:#2b4335}}
+html.v3-theme-dark #v3-workspace .ws-sidebar{border-right-color:#3a5142;}
+html.v3-theme-dark #v3-workspace .ws-sidebar span,
+html.v3-theme-dark #v3-workspace .ws-sidebar span:first-of-type{color:#bdd2c4;}
+html.v3-theme-dark #v3-workspace .ws-sidebar span.desktop-current{background:#304e3c;color:#a6edc4;box-shadow:inset 3px 0 #4bd2a0;}
+html.v3-theme-dark #v3-workspace .ws-stat{background:#223329;border-color:#3a5142;color:#b2caba;}
+html.v3-theme-dark #v3-workspace .desktop-hint{color:#bdd2c4;}
+html.v3-theme-dark #v3-workspace .desktop-demo-row span{color:#b3d0bb;}
+html.v3-theme-dark #v3-workspace .desktop-demo-status{border-top-color:#3a5142;color:#8ee8b7;}
+html.v3-theme-dark #v3-workspace .desktop-swap-mark{color:#8ee8b7;}
+html.v3-theme-dark #v3-security .security-visual{color:#63c89c;}
+html.v3-theme-dark #v3-security .security-principle>span{color:#9acfb0;}
 </style>
 <link rel="stylesheet" href="./m29-polish.css">
 </head>
