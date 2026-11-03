@@ -208,9 +208,14 @@ html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node.is-hub{bac
 @keyframes m39-hive-collapse{0%{opacity:1;transform:translate3d(0,0,0) scale(1)}72%{opacity:1;transform:translate3d(var(--hive-to-x,0px),var(--hive-to-y,0px),0) scale(.72)}100%{opacity:0;transform:translate3d(var(--hive-to-x,0px),var(--hive-to-y,0px),0) scale(.58)}}
 #v3-features .feature-card:nth-child(4) .dapp-hive.is-absorbing .dapp-hub-inverted{animation:m40-hub-invert 1s ease-in-out both}
 @keyframes m40-hub-invert{0%,100%{opacity:0;transform:scale(1)}22%,73%{opacity:1;transform:scale(1.06)}}
+#v3-features .feature-card:nth-child(4) .dapp-node.is-hub::after{content:"";position:absolute;inset:-3px;border:1.5px solid #0ca477;border-radius:50%;opacity:0;pointer-events:none}
+#v3-features .feature-card:nth-child(4) .dapp-hive.is-absorbing .dapp-node.is-hub{animation:m42-hub-impact 1s ease-in-out both}
+#v3-features .feature-card:nth-child(4) .dapp-hive.is-absorbing .dapp-node.is-hub::after{animation:m42-hub-ring .8s cubic-bezier(.18,.7,.22,1) .12s both}
+@keyframes m42-hub-impact{0%,100%{transform:scale(1)}14%{transform:scale(.87)}36%{transform:scale(1.17)}58%{transform:scale(.96)}77%{transform:scale(1.055)}}
+@keyframes m42-hub-ring{0%{opacity:0;transform:scale(.75)}20%{opacity:.75}100%{opacity:0;transform:scale(1.85)}}
 #v3-features .feature-card:nth-child(4) .dapp-hive.is-returning .dapp-node:not(.is-hub){animation:m41-hive-return .52s cubic-bezier(.2,.8,.25,1) both}
 @keyframes m41-hive-return{0%{opacity:0;transform:translateY(4px) scale(.83)}100%{opacity:1;transform:translateY(0) scale(1)}}
-@media(prefers-reduced-motion:reduce){#v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node,#v3-features .feature-card:nth-child(4) .dapp-hive.is-absorbing .dapp-hub-inverted,#v3-features .feature-card:nth-child(4) .dapp-hive.is-returning .dapp-node{animation:none!important}}
+@media(prefers-reduced-motion:reduce){#v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node,#v3-features .feature-card:nth-child(4) .dapp-hive.is-absorbing .dapp-hub-inverted,#v3-features .feature-card:nth-child(4) .dapp-hive.is-absorbing .dapp-node.is-hub,#v3-features .feature-card:nth-child(4) .dapp-hive.is-absorbing .dapp-node.is-hub::after,#v3-features .feature-card:nth-child(4) .dapp-hive.is-returning .dapp-node{animation:none!important}}
 
 /* Third card: visual swap walkthrough, with no on-chain exchange. */
 #v3-features .feature-card:nth-child(3) .mini-swap-direction-row{display:flex;justify-content:center;align-items:center;height:36px;margin:4px 0 -3px}
