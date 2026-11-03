@@ -202,10 +202,12 @@ html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node.is-accent{
 html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node.is-accent svg{color:#8ab5a1}
 html.v3-theme-dark #v3-features .feature-card:nth-child(4) .dapp-node.is-hub{background:#f2f5f3}
 #v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node.is-hub{animation:m38-hive-arrive 1.25s cubic-bezier(.2,.78,.25,1) both}
-#v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node:not(.is-hub){animation:m38-hive-arrive 1.25s cubic-bezier(.2,.78,.25,1) var(--hive-delay,0ms) both,m39-hive-collapse 1s cubic-bezier(.55,.08,.32,1) 1.95s forwards}
+#v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node:not(.is-hub){animation:m38-hive-arrive 1.25s cubic-bezier(.2,.78,.25,1) var(--hive-delay,0ms) both,m39-hive-collapse .58s cubic-bezier(.55,.08,.32,1) 1.92s forwards}
 @keyframes m38-hive-arrive{0%{opacity:0;transform:translateY(7px) scale(.76)}38%{opacity:1;transform:translateY(-2px) scale(1.06)}70%,100%{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes m39-hive-collapse{0%{opacity:1;transform:translate3d(0,0,0) scale(1)}72%{opacity:1;transform:translate3d(var(--hive-to-x,0px),var(--hive-to-y,0px),0) scale(.72)}100%{opacity:0;transform:translate3d(var(--hive-to-x,0px),var(--hive-to-y,0px),0) scale(.58)}}
-@media(prefers-reduced-motion:reduce){#v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node{animation:none!important}}
+#v3-features .feature-card:nth-child(4) .dapp-hive.is-absorbing .dapp-hub-logo{animation:m40-hub-color-shift .72s ease-in-out both}
+@keyframes m40-hub-color-shift{0%,100%{filter:none;transform:scale(1)}46%{filter:brightness(1.32) saturate(.78);transform:scale(1.1)}}
+@media(prefers-reduced-motion:reduce){#v3-features .feature-card:nth-child(4) .dapp-hive.is-playing .dapp-node,#v3-features .feature-card:nth-child(4) .dapp-hive.is-absorbing .dapp-hub-logo{animation:none!important}}
 
 /* Third card: visual swap walkthrough, with no on-chain exchange. */
 #v3-features .feature-card:nth-child(3) .mini-swap-direction-row{display:flex;justify-content:center;align-items:center;height:36px;margin:4px 0 -3px}
@@ -1945,12 +1947,14 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         swapPreview.classList.remove('is-playing');
     });
   }
-  // DApp icons appear first, then converge underneath the centered Fresnica mark.
+  // DApp icons appear, quickly converge behind Fresnica, flash mint, then pause and repeat.
   const dappCard=featureCards[3];
   const dappHive=dappCard?.querySelector('.dapp-hive');
   if(dappHive){
     const hub=dappHive.querySelector('.dapp-node.is-hub');
     const outerNodes=[...dappHive.querySelectorAll('.dapp-node:not(.is-hub)')];
+    let hiveVisible=false;
+    let hivePulseTimer=0,hiveRepeatTimer=0;
     const measureHiveVectors=()=>{
       const centerX=hub.offsetLeft+hub.offsetWidth/2;
       const centerY=hub.offsetTop+hub.offsetHeight/2;
@@ -1959,12 +1963,21 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
         node.style.setProperty('--hive-to-y',(centerY-node.offsetTop-node.offsetHeight/2)+'px');
       });
     };
+    const stopHive=()=>{
+      clearTimeout(hivePulseTimer);
+      clearTimeout(hiveRepeatTimer);
+      dappHive.classList.remove('is-playing','is-absorbing');
+    };
     const replayHive=()=>{
-      if(reduced.matches)return;
-      dappHive.classList.remove('is-playing');
+      if(reduced.matches||!hiveVisible||document.hidden)return;
+      stopHive();
       measureHiveVectors();
       void dappHive.offsetWidth;
       dappHive.classList.add('is-playing');
+      hivePulseTimer=setTimeout(()=>{
+        if(hiveVisible&&!reduced.matches&&!document.hidden)dappHive.classList.add('is-absorbing');
+      },2550);
+      hiveRepeatTimer=setTimeout(replayHive,4300);
     };
     window.addEventListener('resize',measureHiveVectors,{passive:true});
     dappCard.addEventListener('pointerenter',event=>{
@@ -1972,10 +1985,20 @@ html.v3-theme-dark #v3-security .security-principle p {color:#b8ccbe;}
     });
     if('IntersectionObserver' in window){
       const hiveObserver=new IntersectionObserver(entries=>{
-        if(entries[0]?.isIntersecting)replayHive();
+        const visible=Boolean(entries[0]?.isIntersecting);
+        if(visible&&!hiveVisible){hiveVisible=true;replayHive();}
+        else if(!visible&&hiveVisible){hiveVisible=false;stopHive();}
       },{root:featureWindow,threshold:.5});
       hiveObserver.observe(dappCard);
-    }
+    }else{hiveVisible=true;replayHive();}
+    reduced.addEventListener('change',()=>{
+      if(reduced.matches)stopHive();
+      else replayHive();
+    });
+    document.addEventListener('visibilitychange',()=>{
+      if(document.hidden)stopHive();
+      else replayHive();
+    });
   }
   const allChapters = [hero, ...document.querySelectorAll('[data-chapter]')].filter((el, i, arr) => arr.indexOf(el)===i);
   const audienceTrack = document.getElementById('audience-track');
