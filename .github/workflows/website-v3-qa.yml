@@ -78,7 +78,7 @@ jobs:
 
   # Independent from the established Chromium gate; only V3 marketing pages.
   v3-browser-engine-qa:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
