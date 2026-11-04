@@ -133,6 +133,13 @@
 - **跨系统验收**：`b3f2290` 将四模块边界/选中/截图检查加入 Windows Edge/Firefox 与 macOS WebKit 独立基线。[跨系统 CI #41792945973](https://github.com/Pixman022/fresnica-ui/actions/runs/41792945973) Windows 与 macOS 均成功；[Windows Edge 原生 200% #41792594956](https://github.com/Pixman022/fresnica-ui/actions/runs/41792594956) 继续成功；[V3 Pages #41792595063](https://github.com/Pixman022/fresnica-ui/actions/runs/41792595063) 发布成功。已抽样核对四模块的桌面浅色英文、桌面深色中文和 720×450 中文截图，未见明显错位、内容截断。
 - **未完成**：原生 macOS Safari、其他浏览器的原生 200% 缩放、真实 GPU 性能及设计所有者的最终逐屏视觉批准。自动化成功不代表钱包后台功能已经接入。
 
+## 2026-11-04 P2 补充：首页球体浅色模式二次对比增强
+
+- **原因**：方案 A 只将近白外壳粒子改为淡灰绿，但实际 1440×900 主页截图中 WebGL 球面仍然太浅，且球面边缘透明度降低，球体轮廓与白背景分离不足。
+- **局部调整**：`24a7589` 仅调整 `public/fresnica-v3-motion-preview/index.html` 首页球体。增加 WebGL 浅色模式 uniform，在浅色模式提高球面及边缘不透明度，并向较清楚的薄荷绿调整颜色；Canvas 外壳粒子改为更清楚的灰绿与绿色。深色模式的着色和粒子配色计算保持原参数。增加主题切换时的重绘事件，确保减弱动态模式在切换主题后也刷新球面颜色。不改变 Logo 粒子、外部轨道、旋转速率、点数和几何尺寸。
+- **视觉取样与复核**：使用同一组 1440×900 Chromium 渲染图对比球体外圈（中心约 x=994, y=516、半径 135–180px）的平均 sRGB 亮度，修复前约 **233.5/255**、调整后约 **217.9/255**，背景仍接近白色。该取样是视觉回归辅助指标，不等同于文字可访问性对比度。已人工比对浅色模式前后截图及深色模式截图；浅色球体边缘和点阵更容易看清。
+- **回归状态**：[Linux Chromium/Firefox/WebKit V3 QA #41796882492](https://github.com/Pixman022/fresnica-ui/actions/runs/41796882492) 两项作业 **SUCCESS**；[Windows Edge/Firefox + macOS WebKit QA #41796882621](https://github.com/Pixman022/fresnica-ui/actions/runs/41796882621) 两项作业 **SUCCESS**；[Windows Edge 原生 200% #41796882493](https://github.com/Pixman022/fresnica-ui/actions/runs/41796882493) **SUCCESS**；[V3 Pages #41796882531](https://github.com/Pixman022/fresnica-ui/actions/runs/41796882531) **SUCCESS**。视觉方案仍可由设计负责人继续微调，并非正式硬件 GPU 或逐屏视觉签收。
+
 ## 未完成 / 不应宣称已验收的内容
 
 - **真实设备与剩余浏览器原生缩放**：Linux Chromium 和 Windows Edge 均已通过 OS 键盘触发的原生 200% 页面缩放（由 CSS 1440×900 到 720×450、DPR 1→2），其中 Windows Edge 含双语言/双主题的 12 张截图。此前 CSS `zoom:2` 仅视作近似压力检查。Windows Firefox、macOS Safari/WebKit 的系统级原生缩放、真实设备 GPU 与设计负责人逐屏签收仍未完成。
