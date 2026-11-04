@@ -118,6 +118,55 @@ try{
       }
     }
   }
+  // Bilingual layouts at representative wide and narrow viewports (the baseline
+  // above remains reduced-motion to keep screenshots deterministic).
+  for(const {name,width,height} of [
+    {name:'desktop-1440',width:1440,height:900},
+    {name:'mobile-430',width:430,height:932},
+    {name:'mobile-320',width:320,height:720}
+  ]){
+    for(const theme of ['light','dark']){
+      const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
+      page.on('pageerror',err=>failures.push(`zh/${name}/${theme}: browser error ${err.message}`));
+      try{
+        await page.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
+        await page.evaluate(()=>document.fonts.ready);
+        if(theme==='dark')await page.locator('#theme-toggle').click();
+        await page.locator('#locale-toggle').click();
+        await page.locator('[data-language="zh-CN"]').click();
+        await page.waitForFunction(()=>document.documentElement.lang==='zh-CN'&&
+          document.getElementById('feature-title')?.textContent?.includes('核心能力'),null,{timeout:5000});
+        const data=await page.evaluate(()=>{
+          const selectors=['#feature-title','#workspace-title','#clarity-title'];
+          return {lang:document.documentElement.lang,
+            theme:document.documentElement.classList.contains('v3-theme-dark')?'dark':'light',
+            overflow:document.documentElement.scrollWidth-window.innerWidth,
+            titles:selectors.map(selector=>{
+              const node=document.querySelector(selector);
+              return {selector,text:node?.textContent?.trim()||'',
+                excess:(node?.scrollWidth||0)-(node?.clientWidth||0)};
+            })};
+        });
+        assert(data.lang==='zh-CN'&&data.theme===theme,`zh/${name}/${theme}: language/theme mismatch`);
+        assert(data.overflow<=8,`zh/${name}/${theme}: horizontal document overflow ${data.overflow}px`);
+        for(const title of data.titles){
+          assert(title.excess<=4,`zh/${name}/${theme}: ${title.selector} text overflows by ${title.excess}px`);
+        }
+        for(const id of ['overview','v3-features','v3-workspace','v3-clarity']){
+          await page.evaluate(id=>{document.getElementById(id)?.scrollIntoView({block:'start',behavior:'instant'});},id);
+          await page.waitForTimeout(140);
+          const filename=`zh-${name}-${theme}-${id}.png`;
+          await page.screenshot({path:path.join(dest,filename),animations:'disabled'});
+          captures.push(filename);
+        }
+        console.log(`[V3 browser] zh/${name}/${theme} overflow=${data.overflow}px titles=${data.titles.length}`);
+      }catch(error){
+        failures.push(`zh/${name}/${theme}: ${String(error.message||error).slice(0,550)}`);
+      }finally{
+        await page.close();
+      }
+    }
+  }
 }finally{
   await browser.close();
 }
