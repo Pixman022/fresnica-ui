@@ -140,6 +140,12 @@
 - **视觉取样与复核**：使用同一组 1440×900 Chromium 渲染图对比球体外圈（中心约 x=994, y=516、半径 135–180px）的平均 sRGB 亮度，修复前约 **233.5/255**、调整后约 **217.9/255**，背景仍接近白色。该取样是视觉回归辅助指标，不等同于文字可访问性对比度。已人工比对浅色模式前后截图及深色模式截图；浅色球体边缘和点阵更容易看清。
 - **回归状态**：[Linux Chromium/Firefox/WebKit V3 QA #41796882492](https://github.com/Pixman022/fresnica-ui/actions/runs/41796882492) 两项作业 **SUCCESS**；[Windows Edge/Firefox + macOS WebKit QA #41796882621](https://github.com/Pixman022/fresnica-ui/actions/runs/41796882621) 两项作业 **SUCCESS**；[Windows Edge 原生 200% #41796882493](https://github.com/Pixman022/fresnica-ui/actions/runs/41796882493) **SUCCESS**；[V3 Pages #41796882531](https://github.com/Pixman022/fresnica-ui/actions/runs/41796882531) **SUCCESS**。视觉方案仍可由设计负责人继续微调，并非正式硬件 GPU 或逐屏视觉签收。
 
+## 2026-11-04 P2 补充：浅色首页球壳粒子调亮
+
+- **用户反馈**：二次增强球面透明度与边缘轮廓后，球壳 Canvas 点阵颜色偏暗，视觉密度太重。
+- **调整**：`5bdc653` 仅修改浅色模式的两组外壳粒子颜色与不透明度：绿色 `rgba(50,148,107)` × 0.90 改为 `rgba(106,186,150)` × 0.76，灰绿 `rgba(70,124,100)` × 0.90 改为 `rgba(138,174,157)` × 0.72，均保留逐粒子本地透明度调节。WebGL 球面及边缘对比度沿用上一版；不改变白色 Logo、几何形状、粒子数量、尺寸、动画和深色模式。已比对相同 1440×900 Chromium 首页截图，浅色外壳点阵更柔和，球面轮廓仍可辨。
+- **验收**：[Linux Chromium/Firefox/WebKit #41798122358](https://github.com/Pixman022/fresnica-ui/actions/runs/41798122358)、[Windows Edge/Firefox 与 macOS WebKit #41798122317](https://github.com/Pixman022/fresnica-ui/actions/runs/41798122317)、[Windows Edge 原生 200% #41798122304](https://github.com/Pixman022/fresnica-ui/actions/runs/41798122304)、[Pages #41798122293](https://github.com/Pixman022/fresnica-ui/actions/runs/41798122293) 全部成功。仍以使用者实际审看视觉效果为准。
+
 ## 未完成 / 不应宣称已验收的内容
 
 - **真实设备与剩余浏览器原生缩放**：Linux Chromium 和 Windows Edge 均已通过 OS 键盘触发的原生 200% 页面缩放（由 CSS 1440×900 到 720×450、DPR 1→2），其中 Windows Edge 含双语言/双主题的 12 张截图。此前 CSS `zoom:2` 仅视作近似压力检查。Windows Firefox、macOS Safari/WebKit 的系统级原生缩放、真实设备 GPU 与设计负责人逐屏签收仍未完成。
