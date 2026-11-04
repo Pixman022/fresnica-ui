@@ -135,7 +135,6 @@
     "Stellar network":"Stellar 网络",
     "WALLET / ASSETS":"钱包 / 资产",
     "Assets overview":"资产总览",
-    "3 assets":"3 项资产",
     "Total portfolio":"资产总值",
     "All your assets, together":"全部资产，汇于一处",
     "Portfolio value trend":"资产总值趋势",
