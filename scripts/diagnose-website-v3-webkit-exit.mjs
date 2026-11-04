@@ -12,9 +12,11 @@ if(!engine)throw new Error('Unknown engine '+name);
 const output=path.resolve(process.env.V3_QA_OUTPUT||'artifacts/website-v3-engines');
 fs.mkdirSync(output,{recursive:true});
 const variants=[
-  {name:'animated-baseline'},
-  {name:'animated-no-arrival-compositing',noEntrance:true},
-  {name:'instant-navigation',instant:true}
+  {name:'overview-to-clarity',target:'v3-clarity'},
+  {name:'overview-to-clarity-reduced',target:'v3-clarity',reduced:true},
+  {name:'security-to-clarity-no-qa-idle',target:'v3-clarity',fromSecurity:true,noQaIdle:true},
+  {name:'security-to-clarity-no-css-animation',target:'v3-clarity',fromSecurity:true,noAllCss:true},
+  {name:'overview-to-about',target:'v3-about'}
 ];
 const results=[];
 for(const variant of variants){
@@ -24,18 +26,21 @@ for(const variant of variants){
     browser=await engine.launch({headless:true,
       ...(name==='chromium'&&process.env.V3_CHROME_PATH?{executablePath:process.env.V3_CHROME_PATH}:{}),
       ...(name==='chromium'?{args:['--no-sandbox','--disable-dev-shm-usage']}: {})});
-    page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
+    page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:variant.reduced?'reduce':'no-preference'});
     page.on('crash',()=>events.push('page crashed during '+last));
     page.on('pageerror',e=>events.push('JS error: '+e.message));
     last='navigation';
     if(process.env.V3_INLINE_FIXTURE)await page.setContent(fs.readFileSync(process.env.V3_INLINE_FIXTURE,'utf8'),{waitUntil:'domcontentloaded'});
     else await page.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
     await page.waitForFunction(()=>document.documentElement.classList.contains('m10-framed')&&
-      document.documentElement.dataset.m14Active==='overview',null,{timeout:15000});
-    if(variant.noEntrance){
-      await page.addStyleTag({content:'html.m10-framed .v3-page-scroll .m22-entrance,html.m10-framed .v3-page-scroll .m14-current .m22-entrance{animation:none!important;filter:none!important;clip-path:none!important;translate:none!important;}'});
+      !!document.getElementById('v3-clarity'),null,{timeout:15000});
+    if(variant.noQaIdle){
+      await page.addStyleTag({content:'html.m14-motion #v3-clarity.m14-current .qa-heading::after,html.m14-motion #v3-clarity.m14-current .qa-list button span{animation:none!important;}'});
     }
-    last='security positioning';
+    if(variant.noAllCss){
+      await page.addStyleTag({content:'*,*::before,*::after{animation:none!important;transition:none!important;filter:none!important;clip-path:none!important;}'});
+    }
+    last='target positioning';
     const goHold=id=>page.evaluate(id=>{
       const scroll=document.getElementById('v3-page-scroll');
       const section=document.getElementById(id);
@@ -46,21 +51,28 @@ for(const variant of variants){
       const fraction=id==='v3-ecosystem'?.76:id==='v3-workspace'?.77:id==='v3-features'?.47:runway.classList.contains('m5-runway')?.73:.46;
       scroll.style.scrollBehavior='auto';scroll.scrollTop=top+room*fraction;scroll.style.scrollBehavior='';
     },id);
-    await goHold('v3-security');
-    await page.waitForFunction(()=>document.documentElement.dataset.m14Active==='v3-security',null,{timeout:5000});
-    await page.waitForTimeout(800);
-    await page.mouse.move(150,500);
-    last=variant.instant?'instant clarity jump':'security-to-clarity wheel';
-    if(variant.instant)await goHold('v3-clarity');
-    else await page.mouse.wheel(0,170);
-    last='settling on clarity';
+    if(variant.fromSecurity){
+      await goHold('v3-security');
+      await page.waitForFunction(()=>document.documentElement.dataset.m14Active==='v3-security',null,{timeout:5000});
+      await page.waitForTimeout(800);
+    }
+    last='instant jump to '+variant.target;
+    await goHold(variant.target);
+    last='settling on '+variant.target;
     await page.waitForTimeout(1900);
-    const state=await page.evaluate(()=>({scene:document.documentElement.dataset.m14Active,
-      top:document.getElementById('v3-page-scroll').scrollTop,
-      portal:document.querySelector('.m24-portal')?.style.display,
-      transitioning:document.documentElement.classList.contains('m24-transitioning')}));
-    if(state.scene!=='v3-clarity'||state.transitioning||state.portal==='block')
-      throw new Error('Incorrect settled clarity state '+JSON.stringify(state));
+    const state=await page.evaluate(id=>{
+      const scroller=document.getElementById('v3-page-scroll');
+      const a=scroller.getBoundingClientRect();
+      const r=document.getElementById(id).getBoundingClientRect();
+      const center=a.top+scroller.clientHeight/2;
+      return {scene:document.documentElement.dataset.m14Active,
+        targetShown:r.top<=center&&r.bottom>=center,
+        top:scroller.scrollTop,
+        portal:document.querySelector('.m24-portal')?.style.display,
+        transitioning:document.documentElement.classList.contains('m24-transitioning')};
+    },variant.target);
+    if(!state.targetShown||(!variant.reduced&&state.scene!==variant.target)||state.transitioning||state.portal==='block')
+      throw new Error('Incorrect settled target state '+JSON.stringify(state));
     results.push({variant:variant.name,status:'PASS',state,events});
     console.log('[V3 WebKit exit diagnostic] '+variant.name+' PASS '+JSON.stringify(state));
   }catch(error){
