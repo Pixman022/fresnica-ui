@@ -125,6 +125,52 @@
     "Made for everyday control.": "为日常掌控而设计。",
     "FRESNICA / BUILT FOR STELLAR": "FRESNICA / 专为 STELLAR 打造"
   });
+  // Desktop module labels live inside the four selectable wallet screens.
+  Object.assign(map,{
+    "Desktop wallet sections":"桌面钱包功能分区",
+    "WALLET":"钱包",
+    "Assets":"资产",
+    "Payments":"收付款",
+    "Connect":"连接",
+    "Stellar network":"Stellar 网络",
+    "WALLET / ASSETS":"钱包 / 资产",
+    "Assets overview":"资产总览",
+    "3 assets":"3 项资产",
+    "Total portfolio":"资产总值",
+    "All your assets, together":"全部资产，汇于一处",
+    "Portfolio value trend":"资产总值趋势",
+    "Asset balances":"资产余额",
+    "Stellar asset":"Stellar 资产",
+    "Native asset":"原生资产",
+    "Issued asset":"发行资产",
+    "WALLET / PAYMENTS":"钱包 / 收付款",
+    "Send & receive":"发送与接收",
+    "Stellar":"Stellar",
+    "SEND / PAYMENT DETAILS":"发送 / 付款详情",
+    "To address":"收款地址",
+    "Amount":"金额",
+    "Memo":"备注",
+    "Optional":"可选",
+    "Your wallet address":"你的钱包地址",
+    "Review details before approval":"确认前核对交易信息",
+    "Review payment":"核对付款",
+    "WALLET / SWAP":"钱包 / 兑换",
+    "Swap assets":"资产兑换",
+    "You pay":"支付",
+    "You receive":"收到",
+    "Review estimated quote":"核对预估兑换报价",
+    "Review swap":"核对兑换",
+    "WALLET / CONNECTIONS":"钱包 / 应用连接",
+    "App connection":"应用连接请求",
+    "Request":"请求",
+    "Compatible app":"兼容应用",
+    "Pending":"待确认",
+    "REQUESTED ACCESS":"请求的权限",
+    "View public wallet address":"查看公开钱包地址",
+    "Request transaction approval":"请求交易授权",
+    "Decline":"拒绝",
+    "Connect wallet":"连接钱包"
+  });
   let locale = 'en';
   const nodeOriginal = new WeakMap();
   const attrOriginal = new WeakMap();
