@@ -16,6 +16,7 @@ on:
       - scripts/check-website-v3-engines.mjs
       - scripts/check-website-v3-engine-motion.mjs
       - scripts/check-website-v3-engine-scenes.mjs
+      - scripts/diagnose-website-v3-webkit-exit.mjs
       - scripts/check-website-v3-native-zoom.mjs
       - scripts/v3-native-zoom-keys.py
       - package.json
@@ -111,7 +112,7 @@ jobs:
           sleep 2
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engines.mjs
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engine-motion.mjs
-          V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" V3_BROWSER_ENGINES=webkit V3_SCENE_PROBE_ONLY=1 V3_SCENE_PROBE_DISABLE_SECURITY=1 node scripts/check-website-v3-engine-scenes.mjs
+          V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/diagnose-website-v3-webkit-exit.mjs
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engine-scenes.mjs
       - name: Upload browser engine screenshots and results
         if: always()
