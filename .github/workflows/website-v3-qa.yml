@@ -36,7 +36,13 @@ jobs:
           npm install --prefix /tmp/v3-playwright --no-save --no-package-lock --ignore-scripts playwright@1.55.1
           ln -s /tmp/v3-playwright/node_modules/playwright node_modules/playwright
           ln -s /tmp/v3-playwright/node_modules/playwright-core node_modules/playwright-core
-          node node_modules/playwright/cli.js install --with-deps chromium
+          CHROME_PATH="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          if [ -z "$CHROME_PATH" ]; then
+            echo "No system Chromium/Chrome available on this runner" >&2
+            exit 1
+          fi
+          echo "V3_CHROME_PATH=$CHROME_PATH" >> "$GITHUB_ENV"
+          "$CHROME_PATH" --version
           mkdir -p public/fresnica-v3-motion-preview/fonts
           for weight in 400 500 600 700; do
             cp "node_modules/@fontsource/roboto/files/roboto-latin-${weight}-normal.woff2" public/fresnica-v3-motion-preview/fonts/
