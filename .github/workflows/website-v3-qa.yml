@@ -11,6 +11,8 @@ on:
       - scripts/audit-website-v3.mjs
       - scripts/check-website-v3-browser.mjs
       - scripts/check-website-v3-motion.mjs
+      - scripts/check-website-v3-native-zoom.mjs
+      - scripts/v3-native-zoom-keys.py
       - package.json
 
 permissions:
