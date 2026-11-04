@@ -14,6 +14,7 @@ on:
       - scripts/check-website-v3-carousel-idle.mjs
       - scripts/check-website-v3-transitions.mjs
       - scripts/check-website-v3-engines.mjs
+      - scripts/check-website-v3-engine-motion.mjs
       - scripts/check-website-v3-native-zoom.mjs
       - scripts/v3-native-zoom-keys.py
       - package.json
@@ -108,6 +109,7 @@ jobs:
           trap 'kill "$SERVER_PID" || true' EXIT
           sleep 2
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engines.mjs
+          V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engine-motion.mjs
       - name: Upload browser engine screenshots and results
         if: always()
         uses: actions/upload-artifact@v4
