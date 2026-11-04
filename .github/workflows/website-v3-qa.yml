@@ -10,6 +10,7 @@ on:
       - public/fresnica-v3-motion-preview/**
       - scripts/audit-website-v3.mjs
       - scripts/check-website-v3-browser.mjs
+      - scripts/check-website-v3-motion.mjs
       - package.json
 
 permissions:
@@ -57,6 +58,7 @@ jobs:
           trap 'kill "$SERVER_PID" || true' EXIT
           sleep 2
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-browser.mjs
+          V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-motion.mjs
       - name: Upload screenshots and findings
         if: always()
         uses: actions/upload-artifact@v4
