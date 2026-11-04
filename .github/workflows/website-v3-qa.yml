@@ -1,0 +1,56 @@
+name: V3 Website Visual QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - design/website-vision-motion-concept-2026-10-27
+    paths:
+      - .github/workflows/website-v3-qa.yml
+      - public/fresnica-v3-motion-preview/**
+      - scripts/audit-website-v3.mjs
+      - scripts/check-website-v3-browser.mjs
+      - package.json
+
+permissions:
+  contents: read
+
+jobs:
+  v3-visual-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Check V3 static design contract
+        run: npm run audit:website-v3
+      - name: Prepare isolated browser and preview fonts
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright@1.55.1
+          npx playwright install --with-deps chromium
+          mkdir -p public/fresnica-v3-motion-preview/fonts
+          for weight in 400 500 600 700; do
+            cp "node_modules/@fontsource/roboto/files/roboto-latin-${weight}-normal.woff2" public/fresnica-v3-motion-preview/fonts/
+          done
+          for weight in 400 500 700; do
+            cp "src/assets/fonts/noto-sans-sc-chinese-simplified-${weight}-normal.woff2" public/fresnica-v3-motion-preview/fonts/
+          done
+      - name: Capture and inspect seven widths and both themes
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory public > /tmp/v3-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 2
+          V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-browser.mjs
+      - name: Upload screenshots and findings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fresnica-v3-visual-qa
+          path: artifacts/website-v3-browser/
+          retention-days: 14
+          if-no-files-found: warn
