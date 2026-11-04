@@ -121,6 +121,7 @@
     "Review Stellar assets, payments, swaps and compatible app connections on a wider canvas.": "在更宽广的视野中查看 Stellar 资产、收发、兑换与兼容应用连接。",
     "Where do wallet transactions happen?": "在哪里完成钱包交易？",
     "Create, review and confirm wallet transactions in the Fresnica app.": "在 Fresnica 应用中发起、核对并确认钱包交易。",
+    "Fresnica is an independent wallet designed for the Stellar ecosystem, with clarity and everyday control in mind.": "Fresnica 是面向 Stellar 生态的独立钱包，强调清晰体验与日常掌控。",
     "Made for everyday control.": "为日常掌控而设计。",
     "FRESNICA / BUILT FOR STELLAR": "FRESNICA / 专为 STELLAR 打造"
   });
