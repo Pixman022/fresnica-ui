@@ -25,12 +25,19 @@ for(const name of engines){
     // Run the fresh 07 -> 08 diagnostic in a separate browser process.
     if(process.env.V3_SCENE_PROBE_ONLY==='1'){
       const probe=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
+      probe.on('crash',()=>events.push('fresh probe page crashed during '+lastPhase));
+      probe.on('close',()=>events.push('fresh probe page closed during '+lastPhase));
       try{
+        lastPhase='fresh security probe navigation';
+        if(process.env.V3_SCENE_PROBE_DISABLE_SECURITY==='1'){
+          await probe.route('**/m29-security-particles.js',route=>route.fulfill({body:'/* isolated security particle script */',contentType:'application/javascript'}));
+        }
         if(process.env.V3_INLINE_FIXTURE)
           await probe.setContent(fs.readFileSync(process.env.V3_INLINE_FIXTURE,'utf8'),{waitUntil:'domcontentloaded'});
         else await probe.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
         await probe.waitForFunction(()=>document.documentElement.classList.contains('m10-framed')&&
           document.documentElement.dataset.m14Active==='overview',null,{timeout:15000});
+        lastPhase='fresh security probe positioning';
         await probe.evaluate(()=>{
           const scroller=document.getElementById('v3-page-scroll');
           const section=document.getElementById('v3-security');
@@ -43,9 +50,12 @@ for(const name of engines){
           scroller.style.scrollBehavior='';
         });
         await probe.waitForFunction(()=>document.documentElement.dataset.m14Active==='v3-security',null,{timeout:5000});
+        lastPhase='fresh security probe hold';
         await probe.waitForTimeout(850);
         await probe.mouse.move(150,500);
+        lastPhase='fresh security probe wheel';
         await probe.mouse.wheel(0,170);
+        lastPhase='fresh security probe waiting for clarity';
         await probe.waitForTimeout(1800);
         const scene=await probe.evaluate(()=>document.documentElement.dataset.m14Active);
         assert(scene==='v3-clarity',name+' direct security exit landed on '+scene);
