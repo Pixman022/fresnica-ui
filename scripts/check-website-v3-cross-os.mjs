@@ -89,13 +89,15 @@ try{
                     return {id,width:r?.width,height:r?.height,left:r?.left,right:r?.right};});
                 const scene=document.querySelector('#v3-workspace')?.getBoundingClientRect();
                 const cta=document.querySelector('#v3-workspace .desktop-download')?.getBoundingClientRect();
+                const mini=document.querySelector('#v3-workspace .workspace-mini')?.getBoundingClientRect();
                 return {theme:document.documentElement.classList.contains('v3-theme-dark')?'dark':'light',
                   overflow:document.documentElement.scrollWidth-innerWidth,controls,
                   cards:document.querySelectorAll('.feature-card').length,
                   firstCardLeft:document.querySelector('#v3-features .feature-card')?.getBoundingClientRect().left,
                   disabled:[...document.querySelectorAll('.download-action')].every(el=>el.disabled),
                   reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,
-                  cta:scene&&cta?{top:cta.top-scene.top,bottom:cta.bottom-scene.top,sceneHeight:scene.height}:null};
+                  cta:scene&&cta?{top:cta.top-scene.top,bottom:cta.bottom-scene.top,sceneHeight:scene.height}:null,
+                  mini:scene&&mini?{top:mini.top-scene.top,width:mini.width,height:mini.height}:null};
               });
               check(data.theme===theme&&data.cards===5&&data.disabled&&data.reduced,tag+' base contract');
               check(data.overflow<=8,tag+' horizontal overflow '+data.overflow);
@@ -106,6 +108,10 @@ try{
               if(config.width<=430)check(data.firstCardLeft>=10,tag+' first card clipped');
               if(config.width>=681)check(data.cta&&data.cta.top>=12&&data.cta.bottom<=data.cta.sceneHeight-12,
                 tag+' desktop CTA clipped '+JSON.stringify(data.cta));
+              // On 720x450, the app preview must clear the fixed top navigation.
+              // This also catches a WebKit intrinsic grid height overriding 16:9.
+              if(config.name==='zoom-equivalent')check(data.mini&&data.mini.top>=70,
+                tag+' desktop preview under header '+JSON.stringify(data.mini));
               if(config.name==='desktop'&&theme==='light'){
                 for(const [button,menu,hidden] of [
                   ['scene-menu-button','scene-menu',false],
