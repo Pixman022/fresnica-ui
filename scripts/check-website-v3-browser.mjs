@@ -93,9 +93,9 @@ try{
           assert(await page.evaluate(()=>document.activeElement?.id==='download-menu-button'),'Escape did not return focus to download button');
           await page.locator('#locale-toggle').focus();
           await page.keyboard.press('Enter');
-          assert(!await page.locator('#locale-menu').evaluate(el=>el.hidden),'Keyboard Enter did not open language menu');
+          assert(!await page.locator('#language-menu').evaluate(el=>el.hidden),'Keyboard Enter did not open language menu');
           await page.keyboard.press('Escape');
-          assert(await page.locator('#locale-menu').evaluate(el=>el.hidden),'Escape did not close language menu');
+          assert(await page.locator('#language-menu').evaluate(el=>el.hidden),'Escape did not close language menu');
           assert(await page.evaluate(()=>document.activeElement?.id==='locale-toggle'),'Escape did not return focus to language button');
           await page.locator('#locale-toggle').click();
           await page.locator('[data-language="zh-CN"]').click();
