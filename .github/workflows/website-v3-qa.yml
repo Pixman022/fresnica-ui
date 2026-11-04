@@ -112,8 +112,7 @@ jobs:
           sleep 2
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engines.mjs
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engine-motion.mjs
-          V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/diagnose-website-v3-webkit-exit.mjs
-          V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engine-scenes.mjs
+          V3_SCENE_SCREENSHOT_ENGINES="firefox,webkit" V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engine-scenes.mjs
       - name: Upload browser engine screenshots and results
         if: always()
         uses: actions/upload-artifact@v4
