@@ -14,6 +14,9 @@ fs.mkdirSync(output,{recursive:true});
 const variants=[
   {name:'overview-to-clarity',target:'v3-clarity'},
   {name:'overview-to-clarity-reduced',target:'v3-clarity',reduced:true},
+  {name:'security-to-clarity-baseline',target:'v3-clarity',fromSecurity:true},
+  {name:'security-to-clarity-no-qa-heading',target:'v3-clarity',fromSecurity:true,noQaHeading:true},
+  {name:'security-to-clarity-no-qa-span',target:'v3-clarity',fromSecurity:true,noQaSpan:true},
   {name:'security-to-clarity-no-qa-idle',target:'v3-clarity',fromSecurity:true,noQaIdle:true},
   {name:'security-to-clarity-no-css-animation',target:'v3-clarity',fromSecurity:true,noAllCss:true},
   {name:'overview-to-about',target:'v3-about'}
@@ -34,6 +37,12 @@ for(const variant of variants){
     else await page.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
     await page.waitForFunction(()=>document.documentElement.classList.contains('m10-framed')&&
       !!document.getElementById('v3-clarity'),null,{timeout:15000});
+    if(variant.noQaHeading){
+      await page.addStyleTag({content:'html.m14-motion #v3-clarity.m14-current .qa-heading::after{animation:none!important;}'});
+    }
+    if(variant.noQaSpan){
+      await page.addStyleTag({content:'html.m14-motion #v3-clarity.m14-current .qa-list button span{animation:none!important;}'});
+    }
     if(variant.noQaIdle){
       await page.addStyleTag({content:'html.m14-motion #v3-clarity.m14-current .qa-heading::after,html.m14-motion #v3-clarity.m14-current .qa-list button span{animation:none!important;}'});
     }
