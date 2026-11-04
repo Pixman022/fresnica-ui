@@ -31,11 +31,21 @@ for(const [name,engine] of Object.entries({firefox,webkit})){
             const controls=['scene-menu-button','locale-toggle','theme-toggle','download-menu-button']
               .map(id=>{const rect=document.getElementById(id)?.getBoundingClientRect();
                 return {id,width:rect?.width,height:rect?.height,left:rect?.left,right:rect?.right};});
+            const quickIcons=[...document.querySelectorAll('#v3-availability .phone-quick > span')].map(card=>{
+              const icon=card.querySelector('.phone-quick-icon'),svg=icon?.querySelector('svg');
+              const style=icon&&getComputedStyle(icon),r=icon?.getBoundingClientRect();
+              const inner=svg?.getBoundingClientRect(),outer=card.getBoundingClientRect();
+              return {padding:style?.paddingTop,border:style?.borderTopWidth,
+                width:r?.width,height:r?.height,
+                centered:r&&inner&&Math.abs(r.left+r.width/2-inner.left-inner.width/2)<=1&&
+                  Math.abs(r.top+r.height/2-inner.top-inner.height/2)<=1&&
+                  Math.abs(r.left+r.width/2-outer.left-outer.width/2)<=2};
+            });
             const section=document.querySelector('#v3-workspace')?.getBoundingClientRect();
             const cta=document.querySelector('#v3-workspace .desktop-download')?.getBoundingClientRect();
             return {theme:document.documentElement.classList.contains('v3-theme-dark')?'dark':'light',
               lang:document.documentElement.lang,overflow:document.documentElement.scrollWidth-innerWidth,
-              cards:document.querySelectorAll('.feature-card').length,controls,
+              cards:document.querySelectorAll('.feature-card').length,controls,quickIcons,
               cardLeft:document.querySelector('#v3-features .feature-card')?.getBoundingClientRect().left,
               reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,
               disabled:[...document.querySelectorAll('.download-action')].every(b=>b.disabled),
@@ -43,6 +53,10 @@ for(const [name,engine] of Object.entries({firefox,webkit})){
           });
           check(state.theme===theme&&state.lang==='en',tag+' theme/English mismatch');
           check(state.cards===5&&state.reduced&&state.disabled,tag+' cards/motion/download contract broken');
+          check(state.quickIcons.length===3&&state.quickIcons.every(icon=>
+            parseFloat(icon.padding)===0&&parseFloat(icon.border)===0&&
+            Math.abs(icon.width-22)<=1&&Math.abs(icon.height-22)<=1&&icon.centered),
+            tag+' Send/Receive/Swap icon misaligned '+JSON.stringify(state.quickIcons));
           check(state.overflow<=8,tag+' horizontal overflow '+state.overflow+'px');
           for(const c of state.controls){
             check(c.width>=39&&c.height>=39,tag+' '+c.id+' hit target too small');
