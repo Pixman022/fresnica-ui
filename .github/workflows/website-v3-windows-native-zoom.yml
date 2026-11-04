@@ -1,0 +1,41 @@
+name: V3 Windows Edge Real Page Zoom QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - design/website-vision-motion-concept-2026-10-27
+    paths:
+      - .github/workflows/website-v3-windows-native-zoom.yml
+      - scripts/check-website-v3-windows-native-zoom.mjs
+      - scripts/v3-native-zoom-windows.ps1
+      - public/fresnica-v3-motion-preview/**
+
+permissions:
+  contents: read
+
+jobs:
+  windows-edge-native-zoom:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install isolated Playwright (use system Microsoft Edge)
+        shell: bash
+        run: |
+          npm install --prefix .v3-playwright --no-save --no-package-lock --ignore-scripts playwright@1.55.1
+      - name: Test real 200% Edge zoom via Windows desktop keyboard events
+        run: node scripts/check-website-v3-windows-native-zoom.mjs
+      - name: Archive OS zoom measurements and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fresnica-v3-windows-edge-native-zoom
+          path: artifacts/website-v3-windows-zoom/
+          retention-days: 14
+          if-no-files-found: warn
