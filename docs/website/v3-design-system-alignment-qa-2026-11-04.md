@@ -26,6 +26,7 @@
 
 ### 最新可复查证据
 
+- [V3 九屏滚动/视口变化综合 QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41766299879)：新增 `transition-results.json` 为 **PASS、5 个场景、0 个失败**；九屏前进、三个逆向回归、绿色圆点扩张、中途调整窗口尺寸及 Esc 清理、减弱动效原生滚动均通过；关键转场截图两张，原有截图/五卡动效/走马灯生命周期及原生 Zoom 200% 回归同轮成功。
 - [V3 完整 Chrome QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41763615194)，包括新增的走马灯动画生命周期测试，以及既有七视口/双主题、五卡动效、原生 Zoom 200% 回归。该次 fresnica-v3-visual-qa Artifact 中 carousel-idle-results.json 状态 PASS、失败数 0；首屏不再申请走马灯动画帧，进入走马灯页面后继续正常运动。
 
 - [GitHub Pages 修复版预览发布（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41759900489)，对应下载按钮布局源码提交 `047645d`
@@ -65,7 +66,7 @@
 - **问题与复现**：旧版 `m13-revisions.js` 在滚动过渡开始后保存旧视口的固定像素目的地；窗口由 1440×900 改为 1200×720 后仍停在 1797px，而新视口应驻留在约 1438px，产生约 359px 的偏移。第 2→3 屏圆点扩张期间改变尺寸时同样存在目标坐标失效风险。
 - **限定修复**：提交 `0ca94fd` 保存当次过渡的目标章节 ID，真实视口变化时取消旧动画、清理遮罩、重新计算同一目标章节的驻留位置；合成 `resize` 事件且视口尺寸未变时不改变过渡。保留普通滚动的运动曲线、860–1180ms 时长和圆点扩张 960ms 时序，不改变品牌视觉。
 - **本地整页 Chromium 回归（常规动效，1440×900）**：九屏顺序前进全部驻留正确；从末屏向前抽查三次均正确；绿色圆点变黑并扩张后，下载屏驻留和遮罩清理正常；Esc 可取消遮罩；减弱动效下滚轮保留浏览器原生行为。窗口改变期间普通滚动目的地修正为约 1438px，第 2→3 屏遮罩切换修正为约 2442px，未发现脚本异常。旧版正常滚动中改尺寸的测试失败，修复版通过。
-- **自动复核**：新增 `scripts/check-website-v3-transitions.mjs`（`171850b`），通过 `.github/workflows/website-v3-qa.yml`（`a8bb442`）接入原有专项 CI；输出 `transition-results.json` 和圆点扩张、下载屏驻留两个关键截图。本地报告 PASS，5 个场景、0 个失败；[云端 V3 QA #41766299879](https://github.com/Pixman022/fresnica-ui/actions/runs/41766299879) 的最终状态须另行核实。
+- **自动复核**：新增 `scripts/check-website-v3-transitions.mjs`（`171850b`），通过 `.github/workflows/website-v3-qa.yml`（`a8bb442`）接入原有专项 CI；输出 `transition-results.json` 和圆点扩张、下载屏驻留两个关键截图。本地报告 PASS，5 个场景、0 个失败；[云端 V3 QA #41766299879](https://github.com/Pixman022/fresnica-ui/actions/runs/41766299879) **已成功**。下载并核对 `fresnica-v3-visual-qa` Artifact：`transition-results.json` 报告 PASS，5 个场景、0 个失败，章节驻留值与本地一致；另有两张关键转场截图，原有截图/动效/走马灯及原生缩放测试仍通过。
 - **验收边界**：这些是 Linux Chromium 的功能和几何驻留检查，不代替 Windows/macOS 交叉浏览器、真实 GPU 端到端性能以及视觉负责人逐屏签收。
 
 ## 未完成 / 不应宣称已验收的内容
