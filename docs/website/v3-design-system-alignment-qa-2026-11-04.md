@@ -26,6 +26,8 @@
 
 ### 最新可复查证据
 
+- [第三屏 Send/Receive/Swap 图标修复后 Linux QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41789060919)、[Windows/macOS QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41789085384) 与 [V3 Pages（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41789022690)；[Windows Edge 原生 200% 缩放（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41789022659)。
+
 - [Windows Edge/Firefox 与 macOS WebKit 跨系统 CI（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886750)：21/21 PASS、0 失败；[同步 Linux V3 全套 QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886749)；[修复版 GitHub Pages（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886747)。短高视口的 WebKit 右侧示例通过修复前失败、修复后通过的独立断言。
 
 - [最新 V3 Linux Firefox/WebKit 九屏与 Chromium 全量 QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41781419359)：Firefox/WebKit 8 次前进 + 8 次反向各通过，第 4～9 屏双引擎截图归档，Q&A WebKit 崩溃修复保留回归；Chromium 原有测试成功。
@@ -108,9 +110,21 @@
 - **修复后 CI 与归档**：[Windows/macOS #41783886750](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886750) 两作业 **SUCCESS**；归档 `cross-os-results.json` Windows **14/14 PASS**、macOS **7/7 PASS**，均 **0 失败**；21 组中英文横向溢出记录均为 0px。已抽查桌面安全屏、中文深色手机功能卡片、短高中文桌面端和动效下载页截图。同步执行的 [Linux V3 QA #41783886749](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886749) Chromium/Firefox/WebKit 两作业均成功；[V3 Pages 发布 #41783886747](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886747) 成功。没有修改 `main` 或冻结的 V2。
 - **边界**：Windows Edge 是系统浏览器，但测试运行在 GitHub 托管虚拟机；Playwright Firefox 和 macOS WebKit 使用其随版本提供的测试浏览器，不是未经修改的 Firefox 或 macOS Safari 应用。无真实 GPU 帧率结论、无设备级 200% 页面缩放结论、无设计负责人最终视觉签收。
 
+## 2026-11-04 P2 补充：第三屏手机快捷操作图标对齐
+
+- **复现**：第三屏手机示意中的 Send/Receive/Swap 三个快捷操作使用外层卡片 span 包裹内部 `.phone-quick-icon` span。旧版 `#v3-availability .phone-quick span` 同时给内部图标添加 13px 顶部内边距、11px 底部内边距、1px 边框和背景。浏览器本地复现：图标容器实际高约 **26px**（设计高 22px），内部 20px SVG 向下偏移约 **13px**；三个图标均受影响。
+- **最小修复**：`f589453` 把选择器限定为 `.phone-quick > span`，让卡片样式只作用于直接子元素，内部图标保持无边框/无内边距的 22×22px 居中网格；不改变图标路径、文字、按钮卡片尺寸、入场动画。修复前后在本地 Chromium 实际整张手机示例截图中复核。
+- **自动防回归**：`4f7cc59` 在 Linux Firefox/WebKit 测试、`aae3f30` 在 Windows Edge/Firefox 与 macOS WebKit 测试中加入三个图标的宽高、SVG 中心偏差、边框/内边距校验。修复后 [Linux V3 QA #41789060919](https://github.com/Pixman022/fresnica-ui/actions/runs/41789060919) 双作业成功；[Windows/macOS QA #41789085384](https://github.com/Pixman022/fresnica-ui/actions/runs/41789085384) **21/21 PASS、失败 0**；[GitHub Pages #41789022690](https://github.com/Pixman022/fresnica-ui/actions/runs/41789022690) 成功。均仅涉及 V3，未修改 `main` 或冻结的 V2。
+
+## 2026-11-04 P2 补充：Windows Edge 真实 200% 页面缩放
+
+- **实现**：独立 Windows 2025 有界面 Edge 作业 `.github/workflows/website-v3-windows-native-zoom.yml`（`58bdbe5`），以 `scripts/v3-native-zoom-windows.ps1`（`a9f28aa`）发出 Windows 原生 Ctrl+加号事件；`scripts/check-website-v3-windows-native-zoom.mjs`（`dd92a55`）核实浏览器实际缩放，而非 CSS zoom 或浏览器移动设备模拟。
+- **证据**：[V3 Windows Edge 原生缩放 #41788697714](https://github.com/Pixman022/fresnica-ui/actions/runs/41788697714) 已成功，归档 `windows-native-zoom-results.json` 报告 **PASS、0 失败**：初始 CSS 视口 **1440px/DPR 1**，原生缩放后 **720px/DPR 2**，`visualViewport.scale=1`，`CSS zoom=1`。英文/中文 × 深浅主题 × 3 个章节共 **12 张截图**，横向溢出、CTA/桌面端右侧示例、标签栏间距及顶部菜单键盘行为全部通过。第三屏图标修复后的重跑 [#41789022659](https://github.com/Pixman022/fresnica-ui/actions/runs/41789022659) 仍成功。
+- **边界**：此为 GitHub Windows 托管虚拟机中 Microsoft Edge 的真实页面缩放；不是 Mac Safari 的原生页面缩放、真实 Windows 用户硬件 GPU 或移动设备验收。其他浏览器的系统级 200% 页面缩放仍待检查。
+
 ## 未完成 / 不应宣称已验收的内容
 
-- **真实设备与跨浏览器 200% 缩放**：已补充 Xvfb 有界面 Chromium 的真正 Ctrl+加号页面缩放，1440×900 到 200%（CSS 720×450、DPR 2）的多语言/主题自动检查，并在本地复核 1280×800 到 CSS 640×400 的情况。此前 CSS `zoom:2` 仍仅视作近似压力检查。Windows/macOS 浏览器原生缩放、真机表现与全部章节的人工逐屏签收仍未完成。
+- **真实设备与剩余浏览器原生缩放**：Linux Chromium 和 Windows Edge 均已通过 OS 键盘触发的原生 200% 页面缩放（由 CSS 1440×900 到 720×450、DPR 1→2），其中 Windows Edge 含双语言/双主题的 12 张截图。此前 CSS `zoom:2` 仅视作近似压力检查。Windows Firefox、macOS Safari/WebKit 的系统级原生缩放、真实设备 GPU 与设计负责人逐屏签收仍未完成。
 - **动效视觉与性能**：新增 no-preference 模式测试，曲线圆点、SEND、Swap、DApp 同步返回、Activity 滚动均已验证启动/关键阶段/归位；仍需在非减弱动效下人工审看整屏切换、粒子效果和真机性能。
 - **全量人工视觉签收**：已人工查看桌面九屏缩略合成图与部分移动端截图，尚不能将所有 55 张图视为经过设计所有者逐张批准；应继续保留视觉审核人与签收记录。
 - **组件设计完全同源**：本次只把营销网站中的产品示意面板对齐语义 Token；未承诺官网全部品牌场景都迁移到组件库。网站独立的品牌动效仍是保留项。
