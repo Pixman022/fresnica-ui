@@ -1023,7 +1023,8 @@ html.m10-framed #v3-availability .chapter-title{
 #v3-availability .phone-overview p{font-size:10px;color:#66816e;margin:0;}
 #v3-availability .phone-quick{display:flex;gap:8px;margin-top:clamp(23px,3.4vh,34px);}
 #v3-availability .phone-quick span{flex:1;text-align:center;border:1px solid #dce8df;border-radius:10px;background:#edf5ef;padding:13px 4px 11px;font-size:10px;font-weight:650;}
-#v3-availability .phone-quick b{display:block;font-size:19px;line-height:1;color:#118c60;margin-bottom:6px;}
+#v3-availability .phone-quick .phone-quick-icon{display:grid;place-items:center;width:22px;height:22px;margin:0 auto 5px;color:#118c60}
+#v3-availability .phone-quick .phone-quick-icon svg{display:block;width:20px;height:20px}
 #v3-availability .phone-list{margin-top:clamp(25px,3.6vh,33px);}
 #v3-availability .phone-list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
 #v3-availability .phone-list-header b{font-size:12px;}
@@ -1426,6 +1427,132 @@ html.v3-theme-dark.m10-framed #v3-features .feature-ui .mini-label{color:#b6cdbf
   html.m10-framed .site-header .download-trigger{padding-inline:6px;}
 }
 </style>
+<style id="m48-product-ui-tokens">
+/* The website's brand art is independent; wallet/desktop UI examples use the
+   same semantic roles as fresnica-ui without adding a build-time CSS dependency. */
+:root{
+  --Fresnica-primary-color:#00A875;
+  --Fresnica-on-primary-color:#FFFFFF;
+  --Fresnica-text-color:#1A1C1D;
+  --Fresnica-text-color-secondary:#3F4942;
+  --Fresnica-surface:#FFFFFF;
+  --Fresnica-surface-high:#EDEEF0;
+  --Fresnica-border-color:#E3E3E5;
+  --Fresnica-gain-color:#0A8F68;
+  --Fresnica-gain-color-bg:#E0F7EF;
+  --Fresnica-success-color:#00CA8A;
+  --Fresnica-success-color-bg:#D4F7E9;
+  --Fresnica-on-success-container-color:#005235;
+  --Fresnica-inverse-color:#111214;
+  --Fresnica-on-inverse-color:#FFFFFF;
+  --v3-inverse-hover:#2A2C30;
+  --v3-success-solid:#087852;
+  --v3-success-ink:#087852;
+}
+html.v3-theme-dark{
+  --Fresnica-primary-color:#00CA8A;
+  --Fresnica-text-color:#F5F5F7;
+  --Fresnica-text-color-secondary:#A0A0A5;
+  --Fresnica-surface:#222226;
+  --Fresnica-surface-high:#2A2A30;
+  --Fresnica-border-color:#2E2E34;
+  --Fresnica-gain-color:#32DFA4;
+  --Fresnica-gain-color-bg:#123D30;
+  --Fresnica-success-color:#00CA8A;
+  --Fresnica-success-color-bg:#12372B;
+  --Fresnica-on-success-container-color:#A9F5D0;
+  --Fresnica-inverse-color:#FFFFFF;
+  --Fresnica-on-inverse-color:#111214;
+  --v3-inverse-hover:#EDEEF0;
+  --v3-success-solid:#097654;
+  --v3-success-ink:#00CA8A;
+}
+html.m10-framed #v3-features .feature-ui{
+  background:var(--Fresnica-surface);color:var(--Fresnica-text-color);
+  border-color:var(--Fresnica-border-color);box-shadow:none;
+}
+html.m10-framed #v3-features .mini-row{
+  background:var(--Fresnica-surface-high);color:var(--Fresnica-text-color);
+}
+html.m10-framed #v3-features .mini-row em,
+html.m10-framed #v3-features .feature-ui small{color:var(--Fresnica-text-color-secondary);}
+html.m10-framed #v3-features .mini-bar{background:var(--Fresnica-surface-high);}
+html.m10-framed #v3-features .feature-card:first-child :is(.mini-trend-line,.mini-trend-dot){
+  stroke:var(--Fresnica-gain-color);
+}
+html.m10-framed #v3-features .feature-card:first-child .mini-trend-dot{fill:var(--Fresnica-gain-color);}
+html.m10-framed #v3-features .mini-send-success,
+html.m10-framed #v3-features .mini-swap-success{color:var(--v3-success-ink);}
+html.m10-framed #v3-features .mini-send-check{background:var(--Fresnica-success-color-bg);color:var(--Fresnica-on-success-container-color);}
+html.m10-framed #v3-features .mini-swap-success-disc{fill:var(--v3-success-solid);}
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-button{
+  background:var(--Fresnica-inverse-color);color:var(--Fresnica-on-inverse-color);
+}
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-button:hover{
+  background:var(--v3-inverse-hover);color:var(--Fresnica-on-inverse-color);
+}
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-direction{
+  background:var(--Fresnica-surface-high);border-color:var(--Fresnica-border-color);
+  color:var(--Fresnica-text-color);
+}
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-direction:hover{
+  background:var(--Fresnica-surface-high);color:var(--Fresnica-text-color);
+}
+html.m10-framed #v3-features .feature-card:nth-child(5) .activity-demo{
+  background:var(--Fresnica-surface);color:var(--Fresnica-text-color);
+}
+html.m10-framed #v3-features .feature-card:nth-child(5) .activity-entry{
+  background:var(--Fresnica-surface-high);color:var(--Fresnica-text-color);
+}
+html.m10-framed #v3-features .feature-card:nth-child(5) .activity-entry.is-new{
+  background:var(--Fresnica-gain-color-bg);
+}
+html.m10-framed #v3-features .feature-card:nth-child(5) .activity-entry em{
+  color:var(--Fresnica-text-color-secondary);
+}
+html.m10-framed #v3-features .feature-card:nth-child(5) .activity-entry .activity-positive,
+html.m10-framed #v3-features .feature-card:nth-child(5) .activity-receipt>strong{
+  color:var(--Fresnica-gain-color);
+}
+html.m10-framed #v3-features .feature-card:nth-child(5) .activity-receipt{
+  background:var(--Fresnica-surface);color:var(--Fresnica-text-color);
+  border-color:var(--Fresnica-border-color);box-shadow:none;
+}
+html.m10-framed #v3-features .feature-card:nth-child(5) .activity-receipt-icon{
+  background:var(--v3-success-solid);color:#FFFFFF;
+}
+html.m10-framed #v3-features .feature-card:nth-child(5) .activity-receipt-status{
+  background:var(--Fresnica-success-color-bg);
+  color:var(--Fresnica-on-success-container-color);
+}
+html.m10-framed #v3-workspace .workspace{
+  background:var(--Fresnica-surface);color:var(--Fresnica-text-color);
+  border-color:var(--Fresnica-border-color);box-shadow:none;
+}
+html.m10-framed #v3-workspace .ws-sidebar{border-right-color:var(--Fresnica-border-color);}
+html.m10-framed #v3-workspace .ws-stat{
+  background:var(--Fresnica-surface-high);color:var(--Fresnica-text-color-secondary);
+  border-color:var(--Fresnica-border-color);
+}
+html.m10-framed #v3-workspace :is(.ws-stat b,.ws-content h3){color:var(--Fresnica-text-color);}
+html.m10-framed #v3-workspace .desktop-tabs button[aria-selected="true"]{
+  background:var(--v3-action-aa);color:var(--Fresnica-on-primary-color);box-shadow:none;
+}
+html.m10-framed #v3-workspace .desktop-demo-row{
+  background:var(--Fresnica-surface-high);
+  border-color:var(--Fresnica-border-color);color:var(--Fresnica-text-color);
+}
+html.m10-framed #v3-workspace .desktop-demo-row strong{color:var(--Fresnica-text-color);}
+html.m10-framed #overview .orb-card,
+html.m10-framed #v3-features .activity-receipt{box-shadow:none;}
+/* Tiny font exceptions in illustrations remain intentional; functional labels use tokens. */
+html.m10-framed #v3-features .activity-entry-copy b,
+html.m10-framed #v3-features .activity-entry em{
+  font-family:var(--Fresnica-font-family);
+  font-variant-numeric:tabular-nums;
+}
+html.m10-framed #v3-workspace .desktop-tabs button{font-family:var(--Fresnica-font-family);}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
@@ -1542,7 +1669,7 @@ html.v3-theme-dark.m10-framed #v3-features .feature-ui .mini-label{color:#b6cdbf
       <span class="phone-island" aria-hidden="true"></span>
       <div class="phone-header"><span class="phone-brand"><i aria-hidden="true"></i>Fresnica</span><span class="phone-network">STELLAR / WALLET</span></div>
       <div class="phone-overview"><span class="phone-label">WALLET / OVERVIEW</span><strong>1,248.50 <small>XLM</small></strong><p>Stellar assets, all in view.</p></div>
-      <div class="phone-quick"><span><b aria-hidden="true">↗</b>Send</span><span><b aria-hidden="true">↙</b>Receive</span><span><b aria-hidden="true">⇄</b>Swap</span></div>
+      <div class="phone-quick"><span><span class="phone-quick-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>Send</span><span><span class="phone-quick-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M17 17H7V7"/></svg></span>Receive</span><span><span class="phone-quick-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m7 7-4 4 4 4M3 11h18m-4 6 4-4-4-4M21 13H3"/></svg></span>Swap</span></div>
       <div class="phone-list">
         <div class="phone-list-header"><b>Your assets</b><span>Portfolio</span></div>
         <div class="phone-asset"><i aria-hidden="true">X</i><div><b>XLM</b><small>Stellar native asset</small></div><strong>1,248.50</strong></div>
@@ -1562,7 +1689,7 @@ html.v3-theme-dark.m10-framed #v3-features .feature-ui .mini-label{color:#b6cdbf
       <div class="feature-track" id="feature-track">
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">WALLET / OVERVIEW</span><strong class="mini-balance"><span class="mini-balance-sr">1,248.50 XLM</span><span class="mini-odometer" aria-hidden="true"><span class="mini-odometer-digit" style="--end:-11em"></span><span class="mini-odometer-sep">,</span><span class="mini-odometer-digit" style="--end:-12em"></span><span class="mini-odometer-digit" style="--end:-14em"></span><span class="mini-odometer-digit" style="--end:-18em"></span><span class="mini-odometer-sep">.</span><span class="mini-odometer-digit" style="--end:-15em"></span><span class="mini-odometer-digit" style="--end:-10em"></span></span><small aria-hidden="true">XLM</small></strong><svg class="mini-trend" viewBox="0 0 220 68" preserveAspectRatio="none" role="img" aria-label="Illustrative upward trend"><path id="m45-asset-trend-path" class="mini-trend-line" pathLength="1" d="M3 61 C25 67 43 28 75 41 S115 55 145 23 S184 33 217 6"/><circle class="mini-trend-dot" cx="217" cy="6" r="4.2" aria-hidden="true"/></svg><div class="mini-row">XLM <em>Native asset</em></div></div></div><div class="label-row"><h3>Manage assets</h3><span class="chapter-kicker">01</span></div><p class="body">Keep the assets you follow together, clearly and simply.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">SEND/REVIEW</span><div class="mini-row">Destination <em>GABX…7BD</em></div><div class="mini-row">Amount <em class="mini-send-amount"><span>1,250.00</span></em></div><div class="mini-send-demo"><button class="mini-send-button" type="button" aria-label="Preview send animation, no payment is made"><span class="mini-send-ready">SEND</span><span class="mini-send-wait" aria-hidden="true"><i></i> SENDING</span></button><span class="mini-send-success" aria-hidden="true"><span class="mini-send-check"><svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Success</span></span></div></div></div><div class="label-row"><h3>Send &amp; receive</h3><span class="chapter-kicker">02</span></div><p class="body">Keep important payment details visible from start to finish.</p></article>
-        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><div class="mini-swap-preview"><div class="mini-swap-content"><span class="mini-label">SWAP</span><div class="mini-row mini-swap-from">From <em>XLM</em></div><div class="mini-swap-direction-row"><button class="mini-swap-direction" type="button" aria-label="Preview asset direction switch and swap animation" title="Switch assets"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5v13m0 0-3-3m3 3 3-3M13.5 16.5v-13m0 0-3 3m3-3 3 3"/></svg></button></div><div class="mini-row mini-swap-to">To <em>Stellar asset</em></div><button class="mini-swap-button" type="button" aria-label="Preview a swap — no exchange is executed">SWAP</button></div><div class="mini-swap-success" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="33" fill="#0ca477"/><path class="mini-swap-success-check" pathLength="1" d="M34 50 45 61 67 39" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Success</span></div></div></div></div><div class="label-row"><h3>Discover swaps</h3><span class="chapter-kicker">03</span></div><p class="body">Preview potential exchanges and review each step with clarity.</p></article>
+        <article class="feature-card"><div class="feature-art"><div class="feature-ui"><div class="mini-swap-preview"><div class="mini-swap-content"><span class="mini-label">SWAP</span><div class="mini-row mini-swap-from">From <em>XLM</em></div><div class="mini-swap-direction-row"><button class="mini-swap-direction" type="button" aria-label="Preview asset direction switch and swap animation" title="Switch assets"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5v13m0 0-3-3m3 3 3-3M13.5 16.5v-13m0 0-3 3m3-3 3 3"/></svg></button></div><div class="mini-row mini-swap-to">To <em>Stellar asset</em></div><button class="mini-swap-button" type="button" aria-label="Preview a swap — no exchange is executed">SWAP</button></div><div class="mini-swap-success" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="mini-swap-success-disc" cx="50" cy="50" r="33"/><path class="mini-swap-success-check" pathLength="1" d="M34 50 45 61 67 39" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Success</span></div></div></div></div><div class="label-row"><h3>Discover swaps</h3><span class="chapter-kicker">03</span></div><p class="body">Preview potential exchanges and review each step with clarity.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui"><span class="mini-label">DAPP / ECOSYSTEM</span><div class="dapp-hive" role="img" aria-label="Fresnica surrounded by illustrative DApp categories, including payments, trading, gaming and identity"><div class="dapp-hive-row"><span class="dapp-node is-accent" style="--hive-delay:210ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h13.5a3 3 0 0 1 3 3v2.1h-4.8a3.1 3.1 0 1 0 0 6.2h4.8v1.7a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-10a3 3 0 0 1 3-3Z"/><path fill-rule="evenodd" d="M16.7 10.7H22V15h-5.3a2.15 2.15 0 0 1 0-4.3Zm0 1.55a.6.6 0 1 0 0 1.2.6.6 0 1 0 0-1.2Z"/></svg></span><span class="dapp-node" style="--hive-delay:390ms"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.2" y="13.2" width="4.5" height="7.8" rx="1.45"/><rect x="9.75" y="8.9" width="4.5" height="12.1" rx="1.45"/><rect x="16.3" y="3.1" width="4.5" height="17.9" rx="1.45"/></svg></span><span class="dapp-node" style="--hive-delay:440ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5.7h11.1V2.8L21.7 8l-6.1 5.1v-2.9H4.5a2.25 2.25 0 0 1 0-4.5ZM19.5 18.3H8.4v2.9L2.3 16l6.1-5.1v2.9h11.1a2.25 2.25 0 0 1 0 4.5Z"/></svg></span><span class="dapp-node" style="--hive-delay:350ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2.2 20.45 5.8v5.7c0 5.3-3.5 9.2-8.45 10.5-4.95-1.3-8.45-5.2-8.45-10.5V5.8L12 2.2Zm-1.6 13.95 7.2-7.2-1.65-1.65-5.55 5.55-2.3-2.3-1.65 1.65 3.95 3.95Z"/></svg></span></div><div class="dapp-hive-row"><span class="dapp-node" style="--hive-delay:260ms"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.6" r="4.35"/><path d="M3.2 20.6a8.8 8.8 0 0 1 17.6 0v.4H3.2v-.4Z"/></svg></span><span class="dapp-node" style="--hive-delay:160ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5 2.5h14a2.5 2.5 0 0 1 2.5 2.5v14a2.5 2.5 0 0 1-2.5 2.5H5A2.5 2.5 0 0 1 2.5 19V5A2.5 2.5 0 0 1 5 2.5Zm3.3 4.1a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Zm-2.6 10.9h12.6l-4.4-5.9-3.1 3.15-2-1.8-3.1 4.55Z"/></svg></span><span class="dapp-node is-accent is-hub" style="--hive-delay:0ms"><img class="dapp-hub-logo" src="./Fresnica-logo-light.svg" alt="" decoding="async"/><img class="dapp-hub-logo dapp-hub-inverted" src="./Fresnica-logo-inverted.svg" alt="" decoding="async"/></span><span class="dapp-node" style="--hive-delay:140ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.3 7h9.4a4.6 4.6 0 0 1 4.5 3.7l1 4.9c.6 3.1-2.8 4.8-5 2.7L15 16.1H9l-2.2 2.2c-2.2 2.1-5.6.4-5-2.7l1-4.9A4.6 4.6 0 0 1 7.3 7Z"/><path d="M6.5 10.4h1.7v2h2v1.7h-2v2H6.5v-2h-2v-1.7h2v-2Z" fill="#f2f5f3"/><circle cx="16.6" cy="11.5" r="1.15" fill="#f2f5f3"/><circle cx="19.1" cy="14" r="1.15" fill="#f2f5f3"/></svg></span><span class="dapp-node" style="--hive-delay:410ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.6 9.4 5.3-9.4 5.3-9.4-5.3L12 2.6ZM2.6 11.4l9.4 5.3 9.4-5.3v2.5L12 19.2l-9.4-5.3v-2.5ZM2.6 16.8l9.4 5.3 9.4-5.3v2.4L12 24l-9.4-4.8v-2.4Z"/></svg></span></div><div class="dapp-hive-row"><span class="dapp-node" style="--hive-delay:460ms"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5.4" rx="8.4" ry="3.15"/><path d="M3.6 8.5c2.1 1.6 5.1 2.4 8.4 2.4s6.3-.8 8.4-2.4v4.5c0 1.8-3.8 3.1-8.4 3.1s-8.4-1.3-8.4-3.1V8.5ZM3.6 15.1c2 1.4 5 2.1 8.4 2.1s6.4-.7 8.4-2.1v3.2c0 1.9-3.8 3.2-8.4 3.2s-8.4-1.3-8.4-3.2v-3.2Z"/></svg></span><span class="dapp-node is-accent" style="--hive-delay:220ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17.6 6.6-6.6 3.9 3.8 5-5H16V6h6v6h-3v-1l-5.6 5.7-3.9-3.8-4.7 4.7L3 17.6Z"/></svg></span><span class="dapp-node" style="--hive-delay:520ms"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg></span><span class="dapp-node" style="--hive-delay:500ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10.7 6.4-5 10.1 2.15 1.05 5-10.1-2.15-1.05Zm2.6 0-2.15 1.05 5 10.1 2.15-1.05-5-10.1ZM7 18.3h10v2.2H7z"/><circle cx="12" cy="4.7" r="3.1"/><circle cx="4.8" cy="19" r="3.1"/><circle cx="19.2" cy="19" r="3.1"/></svg></span></div></div></div></div><div class="label-row"><h3>Connect apps</h3><span class="chapter-kicker">04</span></div><p class="body">Explore a rich ecosystem of compatible DApps in one clear view.</p></article>
         <article class="feature-card"><div class="feature-art"><div class="feature-ui activity-demo" role="img" aria-label="Illustrative wallet activity: received 20, sent 5 and a completed swap. A receipt folds into the activity list."><span class="mini-label">WALLET / ACTIVITY</span><div class="activity-list"><div class="activity-entry is-new"><span class="activity-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17"/><path d="M17 17H7V7"/></svg></span><span class="activity-entry-copy"><b>Received</b></span><em class="activity-positive">+20.00</em></div><div class="activity-entry"><span class="activity-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span><span class="activity-entry-copy"><b>Sent</b></span><em>−5.00</em></div><div class="activity-entry"><span class="activity-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3-4 4 4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></svg></span><span class="activity-entry-copy"><b>Swapped</b></span><em>Done</em></div></div><div class="activity-receipt" aria-hidden="true"><div class="activity-receipt-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg></div><b>Received</b><strong>+20.00</strong><span class="activity-receipt-status">Confirmed</span></div></div></div><div class="label-row"><h3>Review activity</h3><span class="chapter-kicker">05</span></div><p class="body">Every transaction, clearly recorded.</p></article>
       </div>
