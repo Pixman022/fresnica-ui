@@ -13,6 +13,7 @@ on:
       - scripts/check-website-v3-motion.mjs
       - scripts/check-website-v3-carousel-idle.mjs
       - scripts/check-website-v3-transitions.mjs
+      - scripts/check-website-v3-engines.mjs
       - scripts/check-website-v3-native-zoom.mjs
       - scripts/v3-native-zoom-keys.py
       - package.json
@@ -72,5 +73,46 @@ jobs:
         with:
           name: fresnica-v3-visual-qa
           path: artifacts/website-v3-browser/
+          retention-days: 14
+          if-no-files-found: warn
+
+  # Independent from the established Chromium gate; only V3 marketing pages.
+  v3-browser-engine-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install Firefox and WebKit for isolated compatibility checks
+        run: |
+          mkdir -p /tmp/v3-playwright
+          npm install --prefix /tmp/v3-playwright --no-save --no-package-lock --ignore-scripts playwright@1.55.1
+          ln -s /tmp/v3-playwright/node_modules/playwright node_modules/playwright
+          ln -s /tmp/v3-playwright/node_modules/playwright-core node_modules/playwright-core
+          node /tmp/v3-playwright/node_modules/playwright/cli.js install --with-deps firefox webkit
+          mkdir -p public/fresnica-v3-motion-preview/fonts
+          for weight in 400 500 600 700; do
+            cp "node_modules/@fontsource/roboto/files/roboto-latin-$weight-normal.woff2" public/fresnica-v3-motion-preview/fonts/
+          done
+          for weight in 400 500 700; do
+            cp "src/assets/fonts/noto-sans-sc-chinese-simplified-$weight-normal.woff2" public/fresnica-v3-motion-preview/fonts/
+          done
+      - name: Check Firefox and WebKit themes, layout, menus and locale
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory public > /tmp/v3-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 2
+          V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engines.mjs
+      - name: Upload browser engine screenshots and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fresnica-v3-browser-engines-qa
+          path: artifacts/website-v3-engines/
           retention-days: 14
           if-no-files-found: warn
