@@ -158,6 +158,33 @@ try{
                 await page.evaluate(()=>document.getElementById('v3-workspace')?.scrollIntoView({block:'start',behavior:'instant'}));
                 await page.screenshot({path:path.join(out,name+'-zoom-equivalent-dark-zh-workspace.png'),animations:'disabled'});
               }
+              // Four desktop modules should remain readable on each native OS engine.
+              if((config.name==='desktop'&&theme==='light')||
+                (config.name==='zoom-equivalent'&&theme==='dark')||
+                (config.name==='mobile'&&theme==='dark')){
+                for(const id of ['assets','payments','swap','connect']){
+                  await page.locator('#desktop-tab-'+id).click();
+                  const panel=await page.evaluate(id=>{
+                    const scene=document.getElementById('v3-workspace');
+                    const el=document.getElementById('desktop-panel-'+id);
+                    const r=el.getBoundingClientRect(),last=el.lastElementChild?.getBoundingClientRect();
+                    return {selected:scene.dataset.desktopTab,
+                      scrollHeight:el.scrollHeight,clientHeight:el.clientHeight,
+                      scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,
+                      lastBottom:last?.bottom,bottom:r.bottom,
+                      sidebar:[...scene.querySelectorAll('[data-desktop-nav].desktop-current')].map(x=>x.dataset.desktopNav)};
+                  },id);
+                  check(panel.selected==='desktop-tab-'+id&&panel.sidebar.length===1&&
+                    panel.sidebar[0]===id&&panel.scrollHeight<=panel.clientHeight+5&&
+                    panel.scrollWidth<=panel.clientWidth+3&&panel.lastBottom<=panel.bottom+5,
+                    tag+' '+id+' desktop panel clipped or desynchronized '+JSON.stringify(panel));
+                  if(config.name!=='mobile'){
+                    await page.locator('#v3-workspace .workspace-mini').screenshot({
+                      path:path.join(out,name+'-'+config.name+'-'+theme+'-zh-desktop-'+id+'.png'),
+                      animations:'disabled'});
+                  }
+                }
+              }
               check(errors.length===0,tag+' browser errors '+errors.join('; '));
               return {overflow:data.overflow,zhOverflow:zh.overflow};
             }finally{await page.close();}
