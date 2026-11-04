@@ -1,0 +1,56 @@
+name: V3 Website Native OS Browser QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - design/website-vision-motion-concept-2026-10-27
+    paths:
+      - .github/workflows/website-v3-os-qa.yml
+      - scripts/check-website-v3-cross-os.mjs
+      - public/fresnica-v3-motion-preview/**
+
+permissions:
+  contents: read
+
+jobs:
+  v3-cross-os:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2025
+            label: windows
+            browsers: msedge,firefox
+            install: firefox
+          - os: macos-15
+            label: macos
+            browsers: webkit
+            install: webkit
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install isolated Playwright browsers
+        shell: bash
+        run: |
+          npm install --prefix .v3-playwright --no-save --no-package-lock --ignore-scripts playwright@1.55.1
+          node .v3-playwright/node_modules/playwright/cli.js install ${{ matrix.install }}
+      - name: Check V3 cross-OS layout, keyboard, locale and full-motion portal
+        run: node scripts/check-website-v3-cross-os.mjs
+        env:
+          V3_OS_LABEL: ${{ matrix.label }}
+          V3_OS_BROWSERS: ${{ matrix.browsers }}
+      - name: Upload cross-OS screenshots and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fresnica-v3-${{ matrix.label }}-os-qa
+          path: artifacts/website-v3-os/${{ matrix.label }}/
+          retention-days: 14
+          if-no-files-found: warn
