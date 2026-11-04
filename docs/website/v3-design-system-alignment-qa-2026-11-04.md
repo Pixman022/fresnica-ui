@@ -26,6 +26,8 @@
 
 ### 最新可复查证据
 
+- [V3 完整 Chrome QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41763615194)，包括新增的走马灯动画生命周期测试，以及既有七视口/双主题、五卡动效、原生 Zoom 200% 回归。该次 fresnica-v3-visual-qa Artifact 中 carousel-idle-results.json 状态 PASS、失败数 0；首屏不再申请走马灯动画帧，进入走马灯页面后继续正常运动。
+
 - [GitHub Pages 修复版预览发布（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41759900489)，对应下载按钮布局源码提交 `047645d`
 - [V3 Chromium 最新截图与自动验收（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41759917426)，对应回归测试提交 `2479be0`；基础 14 组、中文 6 组、五卡正常动效、CSS zoom 2x 近似场景以及新增第 5 屏按钮边界断言均通过。已核对本次工作流中桌面 1440px 中英文、深浅四张第 5 屏截图，CTA 完整显示。截图与 `results.json`、`motion-results.json` 保存在 `fresnica-v3-visual-qa` Artifact（保留 14 天）
 - [V3 官网预览](https://pixman022.github.io/fresnica-ui/fresnica-v3-motion-preview/)
@@ -49,6 +51,14 @@
 - **问题 B（已修复）**：桌面第 5 屏 CTA 在 720×450 CSS 视口中与底部标签栏间距仅约 8px（英文），中文重叠约 5px。提交 `799bf2f` 局部收紧窄而矮视口的标题与文案位置；提交 `7f2f8ac` 新增 CTA 与标签栏至少 12px 的浏览器断言。本地原生缩放回归先失败、修复后通过。
 - **复现与归档**：`scripts/check-website-v3-native-zoom.mjs`、`scripts/v3-native-zoom-keys.py`，`.github/workflows/website-v3-qa.yml`；首轮原生缩放 CI [#41761658774](https://github.com/Pixman022/fresnica-ui/actions/runs/41761658774) 成功。新间距断言在 [V3 QA #41762349233](https://github.com/Pixman022/fresnica-ui/actions/runs/41762349233) **执行成功并通过**。已下载核对 CI Artifact：`native-zoom-results.json` 状态 `PASS`、失败数 0、1440×900 的原生缩放实测 CSS 宽 720、DPR 2、CSS zoom 1、8 张 EN/中文 × 双主题的真实缩放截图；其余原有浏览器与动效测试亦通过。截图及报告随 `fresnica-v3-visual-qa` Artifact 上传。
 - **性能观察边界**：本地无 GPU 代表性的头less Chromium 抽样显示首屏帧间隔长于其他章节，不能据此判定真机帧率或直接修改已确认的粒子视觉；仍待硬件环境采样与用户视觉签收。
+
+## 2026-11-04 P2 补充：整屏转场与第 6 屏动画调度
+
+- **整屏转场烟测（本地 Chromium 1440×900 / 常规动效）**：使用 V3 公共预览构建资源，内联静态资源后运行整页脚本，依次通过滚轮触发概览 → 生态连接（驻留 scrollTop≈1797）、生态连接 → 移动端下载（圆点扩张后驻留 scrollTop≈3052）、下载 → 五张卡片（驻留 scrollTop≈4633）。三次章节状态识别正确，浏览器脚本异常 0。这是本地无代表性 GPU 的功能烟测，不是全部屏幕的正式视觉/帧率签收。
+- **发现并修复离屏性能浪费**：原 m13-revisions.js 的第 6 屏走马灯在不可见时仍每帧执行 RAF 回调。独立 Chromium 场景实测：首屏停留约 0.62 秒，修复前申请 40 次 RAF、修复后 0 次；离开第 6 屏和 reduced-motion 状态不再持续调度。可见时仍保持既定 dt*.037 运动速度，保留 5 张原卡和 5 张用于循环的克隆卡。
+- **保留交互行为**：只有在可见、非减弱动效、标签页未隐藏且无键盘焦点时才启动 RAF；原有用户操作后 4.5 秒暂停和恢复语义保留。重新进入页面不会跳帧推进已停留时间。修改限定于走马灯调度，未改变 Hero 粒子数量、品牌效果和卡片视觉。
+- **可重复回归**：源码提交 [0a1ac3a](https://github.com/Pixman022/fresnica-ui/commit/0a1ac3a3582ba65097c2f58bb2d879b504e89fc1)；独立测试 scripts/check-website-v3-carousel-idle.mjs 与 V3 专属 workflow 由 cdc0ff1、b14f279 接入。该测试已验证旧脚本失败、新脚本成功；[V3 QA #41763615194](https://github.com/Pixman022/fresnica-ui/actions/runs/41763615194) 最终通过。已下载并读取该 CI Artifact 中 carousel-idle-results.json：PASS，失败数 0，初始 RAF=0，进入页面后 46 次 RAF、走马灯水平滚动 44px；其余既有测试仍通过。
+- **性能结论边界**：证明的是“非活动场景动画帧申请归零”和行为回归，而非网站整体 FPS、GPU 占用或内存降低百分比；这些仍需真实硬件测量和设计视觉审看。
 
 ## 未完成 / 不应宣称已验收的内容
 
