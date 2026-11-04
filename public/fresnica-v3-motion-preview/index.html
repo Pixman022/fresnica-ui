@@ -1238,6 +1238,13 @@ html.m10-framed #v3-security .security-layout{
     transform:translate3d(0,calc(-50% + var(--m5-shift,0px)),0)!important;
   }
 }
+/* Reduced motion disables entrance effects, not the layout's vertical centering. */
+@media(min-width:681px) and (prefers-reduced-motion:reduce){
+  html.m10-framed #v3-workspace .workspace-copy.reveal,
+  html.m10-framed #v3-workspace .workspace-mini.reveal{
+    transform:translateY(-50%)!important;
+  }
+}
 @media(min-width:681px) and (max-width:1100px){
   html.m10-framed #v3-workspace .workspace-copy .chapter-title{
     font-size:clamp(28px,3.5vw,38px);line-height:1.07;margin:10px 0 12px;
