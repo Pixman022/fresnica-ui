@@ -227,6 +227,9 @@ html.v3-theme-dark #v3-workspace .dp-preview-action {color:#10261b;}
   #v3-workspace .dp-asset-row {padding:2px 0;min-height:24px;}
   #v3-workspace .dp-receive-symbol {width:22px;height:22px;}
   #v3-workspace .dp-footer-line {justify-content:flex-end;}
+  #v3-workspace .dp-panel-connect .dp-app-request {padding-block:5px;}
+  #v3-workspace .dp-panel-connect .dp-permissions {margin-top:4px;padding-block:5px;}
+  #v3-workspace .dp-panel-connect .dp-connect-actions {margin-top:4px;}
 }
 @media(prefers-reduced-motion:reduce){
   #v3-workspace .dp-panel {animation:none!important;}
