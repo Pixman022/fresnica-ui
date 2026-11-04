@@ -87,8 +87,8 @@ try{
           await page.locator('#locale-toggle').click();
           await page.locator('[data-language="zh-CN"]').click();
           await page.waitForFunction(()=>document.documentElement.lang==='zh-CN'&&
-            document.querySelector('.footer-top p')?.textContent?.includes('Fresnica 是面向'),null,{timeout:5000}).catch(()=>{});
-          const locale=await page.evaluate(()=>({lang:document.documentElement.lang,footer:document.querySelector('.footer-top p')?.textContent||''}));
+            document.querySelector('.footer-top > div:first-child > p:not(.chapter-kicker)')?.textContent?.includes('Fresnica 是面向'),null,{timeout:5000}).catch(()=>{});
+          const locale=await page.evaluate(()=>({lang:document.documentElement.lang,footer:document.querySelector('.footer-top > div:first-child > p:not(.chapter-kicker)')?.textContent||''}));
           assert(locale.lang==='zh-CN','Language picker did not switch to Chinese');
           assert(locale.footer.includes('Fresnica 是面向'),`Chinese footer translation missing; got: ${locale.footer.slice(0,120)}`);
           await page.screenshot({path:path.join(dest,'desktop-1440-zh.png'),animations:'disabled'});
