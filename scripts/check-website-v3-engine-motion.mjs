@@ -44,9 +44,23 @@ for(const name of engines){
       top:document.getElementById('v3-page-scroll').scrollTop,
       transitioning:document.documentElement.classList.contains('m24-transitioning')}));
     requireThat(second.scene==='v3-availability'&&!second.transitioning,name+' screen 3 has residual portal');
+    // The chapter state changes before its staggered 780ms entrance completes.
+    // Compare only the settled phone, never a frame inside its reveal delay.
+    await page.waitForTimeout(1400);
+    const art=await page.evaluate(()=>{
+      const el=document.querySelector('#v3-availability .download-art');
+      const style=getComputedStyle(el),box=el.getBoundingClientRect();
+      return {width:box.width,height:box.height,visibility:style.visibility,
+        opacity:style.opacity,filter:style.filter,animation:style.animationName};
+    });
+    requireThat(art.width>=160&&art.height>=200&&art.visibility==='visible',
+      name+' mobile artwork has invalid geometry or visibility');
+    requireThat(!/opacity\(0(?:\.0+)?\)/.test(art.filter)&&Number(art.opacity)>0.9,
+      name+' mobile artwork remains invisible after entrance: '+art.filter);
     requireThat(errors.length===0,name+' runtime errors: '+errors.join(' | '));
     await page.screenshot({path:path.join(output,name+'-motion-download.png'),timeout:20000});
-    observations.push({engine:name,status:'PASS',screen2:first,screen3:second,pageErrors:errors.length});
+    observations.push({engine:name,status:'PASS',screen2:first,screen3:second,
+      artwork:art,pageErrors:errors.length});
     console.log('[V3 engine motion] '+name+' PASS');
   }catch(error){const message=name+': '+String(error.message||error).slice(0,650);
     findings.push(message);console.error('[V3 engine motion] '+message);}
