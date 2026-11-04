@@ -79,14 +79,24 @@ try{
           files.push(path.relative(dest,target));
         }
         if(name==='desktop-1440'&&theme==='light'){
-          await page.locator('#scene-menu-button').click();
-          assert(await page.locator('#scene-menu').evaluate(e=>e.classList.contains('is-open')),'Section menu did not open');
+          await page.locator('#scene-menu-button').focus();
+          await page.keyboard.press('Enter');
+          assert(await page.locator('#scene-menu').evaluate(e=>e.classList.contains('is-open')),'Keyboard Enter did not open section menu');
           await page.keyboard.press('Escape');
           assert(!await page.locator('#scene-menu').evaluate(e=>e.classList.contains('is-open')),'Escape did not close section menu');
-          await page.locator('#download-menu-button').click();
-          assert(await page.locator('#download-menu').evaluate(e=>e.classList.contains('is-open')),'Download menu did not open');
+          assert(await page.evaluate(()=>document.activeElement?.id==='scene-menu-button'),'Escape did not return focus to section button');
+          await page.locator('#download-menu-button').focus();
+          await page.keyboard.press('Enter');
+          assert(await page.locator('#download-menu').evaluate(e=>e.classList.contains('is-open')),'Keyboard Enter did not open download menu');
           await page.keyboard.press('Escape');
           assert(!await page.locator('#download-menu').evaluate(e=>e.classList.contains('is-open')),'Escape did not close download menu');
+          assert(await page.evaluate(()=>document.activeElement?.id==='download-menu-button'),'Escape did not return focus to download button');
+          await page.locator('#locale-toggle').focus();
+          await page.keyboard.press('Enter');
+          assert(!await page.locator('#locale-menu').evaluate(el=>el.hidden),'Keyboard Enter did not open language menu');
+          await page.keyboard.press('Escape');
+          assert(await page.locator('#locale-menu').evaluate(el=>el.hidden),'Escape did not close language menu');
+          assert(await page.evaluate(()=>document.activeElement?.id==='locale-toggle'),'Escape did not return focus to language button');
           await page.locator('#locale-toggle').click();
           await page.locator('[data-language="zh-CN"]').click();
           await page.waitForFunction(()=>document.documentElement.lang==='zh-CN'&&
