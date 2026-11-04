@@ -1574,6 +1574,12 @@ html.m10-framed #v3-features .activity-entry em{
   font-variant-numeric:tabular-nums;
 }
 html.m10-framed #v3-workspace .desktop-tabs button{font-family:var(--Fresnica-font-family);}
+/* Product-preview labels and amounts use the UI typeface; brand story headings remain editorial. */
+html.m10-framed #v3-features :is(.feature-ui .mini-label,.mini-send-amount),
+html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-demo-row span,.desktop-demo-status){
+  font-family:var(--Fresnica-font-family);
+  font-variant-numeric:tabular-nums;
+}
 </style>
 <style id="m49-mobile-feature-safe-inset">
 /* Compact carousel: allow a next-card peek without clipping the first card copy. */
