@@ -55,6 +55,7 @@
         "badges": "node scripts/generate-coverage-badges.mjs",
         "delivery:record": "node scripts/generate-delivery-record.mjs",
         "audit:tokens": "node scripts/audit-design-tokens.mjs",
+        "audit:website-v3": "node scripts/audit-website-v3.mjs",
         "check:docs": "node scripts/check-docs-sync.mjs",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
