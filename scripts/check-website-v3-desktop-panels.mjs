@@ -16,10 +16,10 @@ const configs=[
   {name:'mobile-dark-zh',width:390,height:844,theme:'dark',locale:'zh-CN'}
 ];
 const modules=[
-  {id:'assets',child:'.dp-balance',count:1,title:'Assets overview',zh:'资产总览'},
-  {id:'payments',child:'.dp-payment-grid',count:1,title:'Send & receive',zh:'发送与接收'},
-  {id:'swap',child:'.dp-swap-asset',count:2,title:'Swap assets',zh:'资产兑换'},
-  {id:'connect',child:'.dp-permissions > div',count:2,title:'App connection',zh:'应用连接请求'}
+  {id:'assets',child:'.dp-balance',count:1,detail:'.dp-asset-row',details:2,title:'Assets overview',zh:'资产总览'},
+  {id:'payments',child:'.dp-payment-grid',count:1,detail:'.dp-field',details:2,title:'Send & receive',zh:'发送与接收'},
+  {id:'swap',child:'.dp-swap-asset',count:2,detail:'.dp-preview-action',details:1,title:'Swap assets',zh:'资产兑换'},
+  {id:'connect',child:'.dp-permissions > div',count:2,detail:'.dp-preview-action',details:1,title:'App connection',zh:'应用连接请求'}
 ];
 fs.mkdirSync(output,{recursive:true});
 const results=[],failures=[];
@@ -76,6 +76,8 @@ for(const name of names){
           check(state.title===(cfg.locale==='en'?m.title:m.zh),tag+' unexpected panel title '+state.title);
           check(await page.locator('#desktop-panel-'+m.id+' '+m.child).count()===m.count,
             tag+' missing functional product elements '+m.child);
+          check(await page.locator('#desktop-panel-'+m.id+' '+m.detail).count()===m.details,
+            tag+' should show only essential product details '+m.detail);
           check(state.scrollWidth<=state.clientWidth+3,tag+' horizontal panel clipping '+JSON.stringify(state));
           check(state.scrollHeight<=state.clientHeight+5&&state.lastBottom<=state.panelBottom+5,
             tag+' vertical panel clipping '+JSON.stringify(state));
