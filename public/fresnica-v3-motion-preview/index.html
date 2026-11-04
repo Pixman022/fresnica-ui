@@ -1437,6 +1437,7 @@ html.v3-theme-dark.m10-framed #v3-features .feature-ui .mini-label{color:#b6cdbf
   --Fresnica-text-color-secondary:#3F4942;
   --Fresnica-surface:#FFFFFF;
   --Fresnica-surface-high:#EDEEF0;
+  --Fresnica-surface-highest:#E8E8EA;
   --Fresnica-border-color:#E3E3E5;
   --Fresnica-gain-color:#0A8F68;
   --Fresnica-gain-color-bg:#E0F7EF;
@@ -1455,6 +1456,7 @@ html.v3-theme-dark{
   --Fresnica-text-color-secondary:#A0A0A5;
   --Fresnica-surface:#222226;
   --Fresnica-surface-high:#2A2A30;
+  --Fresnica-surface-highest:#34343C;
   --Fresnica-border-color:#2E2E34;
   --Fresnica-gain-color:#32DFA4;
   --Fresnica-gain-color-bg:#123D30;
@@ -1545,6 +1547,24 @@ html.m10-framed #v3-workspace .desktop-demo-row{
 html.m10-framed #v3-workspace .desktop-demo-row strong{color:var(--Fresnica-text-color);}
 html.m10-framed #overview .orb-card,
 html.m10-framed #v3-features .activity-receipt{box-shadow:none;}
+/* Wallet-preview rows remain neutral even during ambient motion. */
+html.m14-motion #v3-features.m14-current .feature-ui .mini-row,
+html.v3-theme-dark.m14-motion #v3-features.m14-current .feature-ui .mini-row{
+  animation-name:m48-neutral-row;
+}
+@keyframes m48-neutral-row{
+  0%,100%{background-color:var(--Fresnica-surface-high)}
+  50%{background-color:var(--Fresnica-surface-highest)}
+}
+/* Use visible 1px borders instead of decorative elevation for product-like controls. */
+html.m10-framed .site-header :is(.brand,.top-nav,.header-action,.nav-dropdown){box-shadow:none;}
+html.m10-framed #overview .orb-card label{color:var(--Fresnica-text-color-secondary);}
+html.m10-framed #v3-workspace .desktop-tabs button{color:var(--Fresnica-text-color-secondary);}
+html.m10-framed #v3-workspace .desktop-tabs button[aria-selected="true"]{
+  color:var(--Fresnica-on-primary-color);
+}
+html.m10-framed #v3-availability :is(.phone-label,.phone-list-header span,.phone-network){color:#59685f;}
+html.v3-theme-dark{color-scheme:dark;}
 /* Tiny font exceptions in illustrations remain intentional; functional labels use tokens. */
 html.m10-framed #v3-features .activity-entry-copy b,
 html.m10-framed #v3-features .activity-entry em{
