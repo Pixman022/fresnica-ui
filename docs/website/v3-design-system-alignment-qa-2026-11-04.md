@@ -21,11 +21,12 @@
 | 下载占位 | **通过** | 未上线示意按钮继续保持禁用 |
 | 移动端第四屏卡片安全区 | **通过** | 320/360/393/430px 的首卡实际左侧间距为 **24px**；不再裁切「Manage assets」的首字 |
 | 主要按钮静态对比度 | **通过** | 白字/填充绿：浅色 5.50:1，深色 5.63:1，满足普通文字 AA 4.5:1 |
+| 第 5 屏桌面下载按钮边界 | **通过（自动 + 重点截图复核）** | 1440px、768px 和 720×450 近似视口，双主题 reduced-motion 下按钮须留在屏内；确认 1440px 中英文深浅主题截图均完整显示 |
 
 ### 最新可复查证据
 
-- [GitHub Pages 最新预览发布（成功，16 项检查）](https://github.com/Pixman022/fresnica-ui/actions/runs/41758286270)，对应官网源码提交 `8e6f0f5`
-- [V3 Chromium 截图与自动验收（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41758286308)；基础 14 组、中文 6 组、五卡正常动效和 CSS zoom 2x 近似场景均通过。截图与 `results.json`、`motion-results.json` 保存在该运行的 `fresnica-v3-visual-qa` Artifact（保留 14 天）
+- [GitHub Pages 修复版预览发布（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41759900489)，对应下载按钮布局源码提交 `047645d`
+- [V3 Chromium 最新截图与自动验收（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41759917426)，对应回归测试提交 `2479be0`；基础 14 组、中文 6 组、五卡正常动效、CSS zoom 2x 近似场景以及新增第 5 屏按钮边界断言均通过。已核对本次工作流中桌面 1440px 中英文、深浅四张第 5 屏截图，CTA 完整显示。截图与 `results.json`、`motion-results.json` 保存在 `fresnica-v3-visual-qa` Artifact（保留 14 天）
 - [V3 官网预览](https://pixman022.github.io/fresnica-ui/fresnica-v3-motion-preview/)
 
 ## 发现的问题及处理
@@ -38,6 +39,7 @@
 6. 中文 320px 第四屏主标题曾出现不自然的分词断行：缩小仅超窄屏中文标题字号；通过最新深浅主题截图复核，两行展示且未出现横向溢出。
 7. 产品示例仍混用 Consolas/Arial：仅将钱包面板、活动数字和桌面端统计/标签切换为 Fresnica 语义字体及 tabular-nums；保持营销主标题字体不变。
 8. 记录为 [P2/P3 工作计划](v3-design-system-alignment-plan-2026-11-04.md) 的阶段性自动验收证据；本记录不代替用户/设计负责人最终视觉批准。
+9. **桌面端第 5 屏下载按钮被裁切**：审看上轮 1440×900 中英文截图时发现 CTA 在 reduced-motion 下接近或超出页面底部；原因是全局 `.reveal` 的 `transform:none!important` 同时取消了垂直居中所需的 `translateY(-50%)`。`047645d` 针对桌面 reduced-motion 恢复定位位移，保持入口动效禁用；`2479be0` 在自动验收中新增 CTA 相对于章节高度的边界断言。经本地 Chromium 实测及最新 CI 桌面中英深浅四张截图复核，按钮全部完整显示。此项不代表原生 Zoom 200% 或真机验收。
 
 ## 未完成 / 不应宣称已验收的内容
 
