@@ -19,7 +19,11 @@ const setups=[
 const sceneIds=['overview','v3-ecosystem','v3-availability','v3-features','v3-workspace','v3-for-you','v3-security','v3-clarity','v3-about'];
 const failures=[],reports=[],captures=[];
 fs.mkdirSync(dest,{recursive:true});
-const browser=await chromium.launch({headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+const browser=await chromium.launch({
+  headless:true,
+  ...(process.env.V3_CHROME_PATH?{executablePath:process.env.V3_CHROME_PATH}:{}),
+  args:['--no-sandbox','--disable-dev-shm-usage']
+});
 const assert=(condition,message)=>{if(!condition)failures.push(message);};
 try{
   for(const {name,width,height} of setups){
