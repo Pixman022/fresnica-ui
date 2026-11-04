@@ -20,7 +20,7 @@
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
   const snapEnabled=()=>!compact.matches&&!reduced.matches;
   let wheelSum=0,wheelDirection=0,lastWheel=0,anim=0,locked=false,lockUntil=0;
-  let wheelGeneration=0;
+  let wheelGeneration=0,transitionTarget=null;
   function stops(){
     const root=scroller.getBoundingClientRect();
     const max=Math.max(0,scroller.scrollHeight-scroller.clientHeight);
@@ -36,7 +36,7 @@
       }).sort((a,b)=>a.top-b.top);
   }
   function cancel(){
-    wheelGeneration++;
+    wheelGeneration++;transitionTarget=null;
     if(anim)cancelAnimationFrame(anim);
     anim=0;locked=false;wheelSum=0;wheelDirection=0;lastWheel=0;
     scroller.style.scrollBehavior='';
@@ -44,13 +44,13 @@
     portal.style.opacity='';
     document.documentElement.classList.remove('m24-transitioning');
   }
-  function animateTo(destination){
+  function animateTo(destination,targetId){
     if(locked)return;
     const from=scroller.scrollTop,dist=destination-from;
     if(Math.abs(dist)<2)return;
     const duration=clamp(710+Math.abs(dist)*.14,860,1180);
     const begun=performance.now(),gen=++wheelGeneration;
-    locked=true;
+    locked=true;transitionTarget=targetId;
     const initial=scroller.style.scrollBehavior;
     scroller.style.scrollBehavior='auto';
     function paint(now){
@@ -63,7 +63,7 @@
         anim=0;scroller.scrollTop=destination;scroller.style.scrollBehavior=initial;
         // Ignore trackpad inertia from this same deliberate gesture.
         lockUntil=performance.now()+110;
-        locked=false;wheelSum=0;wheelDirection=0;lastWheel=0;
+        locked=false;transitionTarget=null;wheelSum=0;wheelDirection=0;lastWheel=0;
       }
     }
     anim=requestAnimationFrame(paint);
@@ -71,8 +71,8 @@
 
   // Screen 02 -> 03: the actual green core grows, turns instantly dark, then
   // expands into the dark download scene. Swap scroll positions while covered.
-  function morphToDownload(destination){
-    if(locked||!core){animateTo(destination);return;}
+  function morphToDownload(destination,targetId){
+    if(locked||!core){animateTo(destination,targetId);return;}
     const bounds=frame.getBoundingClientRect();
     const point=core.getBoundingClientRect();
     const x=point.left+point.width/2-bounds.left;
@@ -83,7 +83,7 @@
     const begun=performance.now(),gen=++wheelGeneration;
     const initial=scroller.style.scrollBehavior;
     let jumped=false,revealed=false;
-    locked=true;
+    locked=true;transitionTarget=targetId;
     scroller.style.scrollBehavior='auto';
     document.documentElement.classList.add('m24-transitioning');
     portal.setAttribute('viewBox','0 0 '+bounds.width+' '+bounds.height);
@@ -126,7 +126,7 @@
         portal.style.opacity='';
         scroller.style.scrollBehavior=initial;
         lockUntil=performance.now()+110;
-        locked=false;wheelSum=0;wheelDirection=0;lastWheel=0;
+        locked=false;transitionTarget=null;wheelSum=0;wheelDirection=0;lastWheel=0;
         document.documentElement.classList.remove('m24-transitioning');
       }
     }
@@ -140,8 +140,8 @@
     const next=clamp(at+sign,0,all.length-1);
     if(at===next)return;
     if(sign>0&&all[at].id==='v3-ecosystem'&&all[next].id==='v3-availability'){
-      morphToDownload(all[next].top);
-    }else animateTo(all[next].top);
+      morphToDownload(all[next].top,all[next].id);
+    }else animateTo(all[next].top,all[next].id);
   }
   // Capturing wheel events supersedes the earlier M12 bubble listener on desktop;
   // mobile, touch and reduced-motion continue to use their original native paths.
@@ -168,7 +168,8 @@
     event.preventDefault();event.stopImmediatePropagation();
     // The shared corner control returns to the actual scroll origin, not the
     // usual cinematic Hero hold frame positioned inside its sticky runway.
-    cancel();animateTo(link.classList.contains('back-to-top')?0:target.top);
+    const backToTop=link.classList.contains('back-to-top');
+    cancel();animateTo(backToTop?0:target.top,backToTop?'__top__':target.id);
     history.replaceState(null,'','#'+encodeURIComponent(id));
   },true);
   reduced.addEventListener('change',cancel);
@@ -176,8 +177,22 @@
   document.addEventListener('visibilitychange',()=>{
     if(document.hidden&&portal.style.display==='block')cancel();
   });
+  let viewportWidth=innerWidth,viewportHeight=innerHeight;
   window.addEventListener('resize',()=>{
-    if(portal.style.display==='block')cancel();
+    const changed=innerWidth!==viewportWidth||innerHeight!==viewportHeight;
+    viewportWidth=innerWidth;viewportHeight=innerHeight;
+    if(!changed||!locked)return;
+    // An in-flight snap uses coordinates from the old viewport. Settle at
+    // the same destination's new hold position instead of the stale pixel.
+    const id=transitionTarget;
+    cancel();
+    const top=id==='__top__'?0:stops().find(stop=>stop.id===id)?.top;
+    if(top!==undefined&&snapEnabled()){
+      const initial=scroller.style.scrollBehavior;
+      scroller.style.scrollBehavior='auto';
+      scroller.scrollTop=top;
+      scroller.style.scrollBehavior=initial;
+    }
   },{passive:true});
 
   if(!audience)return;
