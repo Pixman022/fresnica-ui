@@ -43,6 +43,8 @@ try{
             return {id:el.id,width:r.width,height:r.height,left:r.left,right:r.right,top:r.top,bottom:r.bottom};
           });
           const q=s=>document.querySelector(s);
+          const scene=q('#v3-workspace')?.getBoundingClientRect();
+          const cta=q('#v3-workspace .desktop-download')?.getBoundingClientRect();
           return {
             theme:document.documentElement.classList.contains('v3-theme-dark')?'dark':'light',
             scrollWidth:document.documentElement.scrollWidth,
@@ -50,6 +52,9 @@ try{
             controls,
             cards:document.querySelectorAll('.feature-card').length,
             firstCardLeft:q('#v3-features .feature-card')?.getBoundingClientRect().left??null,
+            workspaceCta:scene&&cta?{
+              top:cta.top-scene.top,bottom:cta.bottom-scene.top,sceneHeight:scene.height
+            }:null,
             sendBackground:getComputedStyle(q('.mini-send-button')).backgroundColor,
             swapBackground:getComputedStyle(q('.mini-swap-button')).backgroundColor,
             activitySurface:getComputedStyle(q('.activity-demo')).backgroundColor,
@@ -62,6 +67,11 @@ try{
         assert(state.cards===5,`${prefix}: missing feature card`);
         if(width<=430)assert(state.firstCardLeft!==null&&state.firstCardLeft>=10,
           `${prefix}: feature card begins too close to left edge (${state.firstCardLeft}px)`);
+        if(width>=681){
+          const cta=state.workspaceCta;
+          assert(cta&&cta.top>=15&&cta.bottom<=cta.sceneHeight-15,
+            `${prefix}: desktop download CTA clipped in reduced-motion scene (${JSON.stringify(cta)})`);
+        }
         assert(state.reducedMotion,`${prefix}: reduced-motion emulation inactive`);
         assert(state.disabledDownloads,`${prefix}: unverified download unexpectedly enabled`);
         assert(state.scrollWidth<=state.innerWidth+8,`${prefix}: document overflows horizontally by ${state.scrollWidth-state.innerWidth}px`);
