@@ -75,11 +75,13 @@ jobs:
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo-inverted.svg
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m25-desktop-tabs.js
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m29-polish.css
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/m50-desktop-preview.css
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m29-security-particles.js
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/security-shape.svg
                   grep -Fq 'src="./security-shape.svg"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'href="./m15-typography.css"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'href="./m29-polish.css"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
+                  grep -Fq 'href="./m50-desktop-preview.css"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'src="./m29-security-particles.js"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'src="./m25-desktop-tabs.js"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'href="./m14-idle.css"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
@@ -138,6 +140,7 @@ jobs:
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo-inverted.svg demo-dist/fresnica-v3-motion-preview/Fresnica-logo-inverted.svg
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m25-desktop-tabs.js demo-dist/fresnica-v3-motion-preview/m25-desktop-tabs.js
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m29-polish.css demo-dist/fresnica-v3-motion-preview/m29-polish.css
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/m50-desktop-preview.css demo-dist/fresnica-v3-motion-preview/m50-desktop-preview.css
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m29-security-particles.js demo-dist/fresnica-v3-motion-preview/m29-security-particles.js
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/security-shape.svg demo-dist/fresnica-v3-motion-preview/security-shape.svg
                   # Reuse the exact Roboto and Noto Sans SC families already sourced by frozen V2.
@@ -174,9 +177,10 @@ jobs:
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo-inverted.svg demo-dist/fresnica-v3-motion-preview/Fresnica-logo-inverted.svg
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m25-desktop-tabs.js demo-dist/fresnica-v3-motion-preview/m25-desktop-tabs.js
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m29-polish.css demo-dist/fresnica-v3-motion-preview/m29-polish.css
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/m50-desktop-preview.css demo-dist/fresnica-v3-motion-preview/m50-desktop-preview.css
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m29-security-particles.js demo-dist/fresnica-v3-motion-preview/m29-security-particles.js
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/security-shape.svg demo-dist/fresnica-v3-motion-preview/security-shape.svg
-                  echo 'V3 logo, M25 tabs, M29 styles, sampled symbol particles, SVG source and fonts checked'
+                  echo 'V3 logo, M25 tabs, M29 styles, M50 desktop preview styles, sampled symbol particles, SVG source and fonts checked'
                   cmp .v3-preview-source/public/fresnica-v3-orb-demo/index.html demo-dist/fresnica-v3-orb-demo/index.html
                   # Recheck the legacy route immediately before uploading Pages.
                   cmp public/fresnica-website-preview/index.html demo-dist/fresnica-website-preview/index.html
