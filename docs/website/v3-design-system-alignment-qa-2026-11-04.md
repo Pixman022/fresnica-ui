@@ -26,6 +26,8 @@
 
 ### 最新可复查证据
 
+- [V3 Firefox/WebKit 正常动效补充与 Chromium 全量回归（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41768662316)：engine-results.json 12/12 PASS、engine-motion-results.json 2/2 PASS，含两种引擎的圆点扩张和第三屏手机完整入场截图；原有 Chromium QA 亦通过。
+
 - [V3 Firefox/WebKit 双引擎与既有 Chromium QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41767698389)：Linux Firefox/WebKit 12/12 场景 PASS、失败 0；独立 fresnica-v3-browser-engines-qa Artifact 保存四张对比截图与 engine-results.json；原有 Chromium 视觉/动效/原生缩放回归亦成功。
 
 - [V3 九屏滚动/视口变化综合 QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41766299879)：新增 `transition-results.json` 为 **PASS、5 个场景、0 个失败**；九屏前进、三个逆向回归、绿色圆点扩张、中途调整窗口尺寸及 Esc 清理、减弱动效原生滚动均通过；关键转场截图两张，原有截图/五卡动效/走马灯生命周期及原生 Zoom 200% 回归同轮成功。
@@ -77,6 +79,13 @@
 - **验证**：[V3 Website Visual QA #41767698389](https://github.com/Pixman022/fresnica-ui/actions/runs/41767698389) 最终 success，已有 Chromium 作业与新增浏览器引擎作业均通过。已读取 fresnica-v3-browser-engines-qa Artifact 中的 engine-results.json：**12/12 PASS，失败数 0**，所有场景的英文和中文 scrollWidth-innerWidth 均为 **0px**。另有 Firefox/WebKit 两种引擎各两张截图（桌面浅色安全章节、移动端中文深色功能章节），已抽样并排比对，未见明显跨引擎布局差异。
 - **首次运行问题**：初始 ubuntu-latest 已为 Ubuntu 26.04，Playwright 1.55.1 无法在该系统安装 Firefox/WebKit，失败发生在浏览器安装前，非网页错误。提交 06a06b0 仅把新增作业改为 ubuntu-24.04，既有 Chromium 作业不变。新增脚本 scripts/check-website-v3-engines.mjs（b9615fc），工作流首次接入 9712f59；本轮未改网页视觉或动效源码。
 - **限制**：此结果是 **Linux 上 Firefox/WebKit 浏览器引擎的 reduced-motion 基础兼容性**，不能代替 Windows 版 Firefox/Edge、macOS 原生 Safari、iOS Safari、Android 真机，也不证明两种引擎下正常动效的完整视觉与 GPU 性能。原生 200% 缩放此前仅针对 Linux Chromium，跨系统/引擎缩放仍待补充。
+
+## 2026-11-04 P2 补充：Firefox / WebKit 正常动效入场
+
+- **新增可重复测试**：scripts/check-website-v3-engine-motion.mjs（327cb32）在两种引擎的 1440×900 桌面视口启用 no-preference 正常动效，真实滚轮触发首屏 → 第 2 屏 → 第 3 屏，检查章节驻留、绿色核心转为黑色圆点、遮罩清理和脚本异常；后由 f91399e 强化第 3 屏手机示例入场结束后的元素尺寸、透明度、滤镜与可见性检查。测试已并入 V3 专用浏览器引擎 CI，未改动页面源码。
+- **实测结果**：[V3 QA #41768662316](https://github.com/Pixman022/fresnica-ui/actions/runs/41768662316) 中原有 Chromium 与 Firefox/WebKit 两个作业均成功。下载核对 fresnica-v3-browser-engines-qa Artifact：engine-motion-results.json 为 **2/2 PASS、失败 0**，Firefox/WebKit 第 2 屏均驻留 1797px，第 3 屏约 3052/3051px，过渡结束均未残留遮罩，脚本错误 0。最终下载屏手机示例均为 **opacity=1、filter=opacity(1) blur(0px)**，尺寸约 600×753px。
+- **截图时机误判已排除**：首轮在绿色圆点切换完毕后仅停 210ms 截图，WebKit 右侧手机仍处于延迟入场阶段而未显示，Firefox 同期为模糊状态。等待完整的错峰入场动画后重新截取，Firefox 与 WebKit 的手机均完整显示。故本轮只修正测试时序和断言，没有改变已确认的动画或页面样式。归档含两种引擎各自的圆点扩张与完整下载画面截图。
+- **验收边界**：仅证明两种 Linux 引擎在正常动效下前两次分屏切换及手机入场可用；不能外推为九屏所有动画在跨系统浏览器全部通过，亦非真实 GPU 帧率测试或设计视觉签收。
 
 ## 未完成 / 不应宣称已验收的内容
 
