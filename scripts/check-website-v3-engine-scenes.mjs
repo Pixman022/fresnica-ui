@@ -16,7 +16,8 @@ const assert=(ok,message)=>{if(!ok)throw new Error(message);};
 for(const name of engines){
   const engine={chromium,firefox,webkit}[name];
   if(!engine){failures.push('Unknown browser engine '+name);continue;}
-  let browser,page;
+  let browser,page,lastPhase='launch';
+  const events=[];
   try{
     browser=await engine.launch({headless:true,
       ...(name==='chromium'&&process.env.V3_CHROME_PATH?{executablePath:process.env.V3_CHROME_PATH}:{}),
@@ -24,6 +25,9 @@ for(const name of engines){
     page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
+    page.on('crash',()=>events.push('page crash during '+lastPhase));
+    page.on('close',()=>events.push('page closed during '+lastPhase));
+    browser.on('disconnected',()=>events.push('browser disconnected during '+lastPhase));
     if(process.env.V3_INLINE_FIXTURE)
       await page.setContent(fs.readFileSync(process.env.V3_INLINE_FIXTURE,'utf8'),{waitUntil:'domcontentloaded'});
     else await page.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
@@ -63,24 +67,34 @@ for(const name of engines){
       assert(state.scrollWidth<=state.viewportWidth+8,label+' horizontal overflow');
       return {scene:id,top:Math.round(state.top),hold:Math.round(state.expected)};
     };
-    const forward=[],reverse=[];
+    const forward=[],reverse=[],screenshots=[];
+    const capture=(process.env.V3_SCENE_SCREENSHOT_ENGINES||'firefox').split(',').includes(name);
     assert((await getState()).scene===scenes[0],name+' initial chapter is not overview');
     for(let i=1;i<scenes.length;i++){
+      lastPhase='forward '+scenes[i];
       await page.mouse.wheel(0,170);
       await page.waitForTimeout(1550);
       forward.push(await verify(scenes[i],name+' forward '+i));
-      if(i>=3) await page.screenshot({path:path.join(dest,name+'-scene-'+String(i+1).padStart(2,'0')+'.png'),timeout:20000});
+      console.log('[V3 nine-scene engines] '+name+' reached '+scenes[i]);
+      if(i>=3&&capture){
+        lastPhase='screenshot '+scenes[i];
+        await page.screenshot({path:path.join(dest,name+'-scene-'+String(i+1).padStart(2,'0')+'.png'),timeout:20000});
+        screenshots.push(scenes[i]);
+      }
     }
     for(let i=scenes.length-2;i>=0;i--){
+      lastPhase='reverse '+scenes[i];
       await page.mouse.wheel(0,-170);
       await page.waitForTimeout(1450);
       reverse.push(await verify(scenes[i],name+' reverse '+i));
+      console.log('[V3 nine-scene engines] '+name+' returned '+scenes[i]);
     }
     assert(errors.length===0,name+' page errors: '+errors.join(' | '));
-    observations.push({engine:name,status:'PASS',forward,reverse,screenshots:scenes.length-3,pageErrors:errors.length});
+    observations.push({engine:name,status:'PASS',forward,reverse,screenshots,pageErrors:errors.length});
     console.log('[V3 nine-scene engines] '+name+' PASS forward='+forward.length+' reverse='+reverse.length);
   }catch(error){const message=name+': '+String(error.message||error).slice(0,750);
-    failures.push(message);console.error('[V3 nine-scene engines] '+message);
+    failures.push(message+'; phase='+lastPhase+'; events='+events.join(' / '));
+    console.error('[V3 nine-scene engines] '+message+'; phase='+lastPhase+'; events='+events.join(' / '));
   }finally{if(page)await page.close();if(browser)await browser.close();}
 }
 const report={status:failures.length?'FAIL':'PASS',date:new Date().toISOString(),url:base,
