@@ -22,7 +22,7 @@
 | 移动端第四屏卡片安全区 | **通过** | 320/360/393/430px 的首卡实际左侧间距为 **24px**；不再裁切「Manage assets」的首字 |
 | 主要按钮静态对比度 | **通过** | 白字/填充绿：浅色 5.50:1，深色 5.63:1，满足普通文字 AA 4.5:1 |
 | 第 5 屏桌面下载按钮边界 | **通过（自动 + 重点截图复核）** | 1440px、768px 和 720×450 近似视口，双主题 reduced-motion 下按钮须留在屏内；确认 1440px 中英文深浅主题截图均完整显示 |
-| Chromium 原生页面 Zoom 200% | **通过（本地与首轮 CI）** | 有界面 Chromium 通过 X11 键盘快捷键原生缩放，1440×900 变为 CSS 720×450、DPR 2，非 CSS zoom；EN/zh-CN × light/dark 检查导航热区、按钮/标签栏间距、横向溢出与控制状态，增加可重复 CI。1280×800 的 CSS 640×400 原生缩放场景仅做了本地检查 |
+| Chromium 原生页面 Zoom 200% | **通过（最新 CI + 本地）** | 有界面 Chromium 通过 X11 键盘快捷键原生缩放，1440×900 变为 CSS 720×450、DPR 2，非 CSS zoom；EN/zh-CN × light/dark 检查导航热区、按钮/标签栏间距、横向溢出与控制状态，增加可重复 CI。1280×800 的 CSS 640×400 原生缩放场景仅做了本地检查 |
 
 ### 最新可复查证据
 
@@ -47,7 +47,7 @@
 - **实现方式**：启动有界面 Chromium，通过 X11 键盘事件实际发送五次 Ctrl+加号。检测 1440px 初始 CSS 视口变为 720px、`devicePixelRatio` 变为 2、`visualViewport.scale` 为 1、CSS `zoom` 仍为 1，以防把样式缩放误报成浏览器原生缩放。
 - **问题 A（已修复）**：中文短章节名称导致顶部菜单按钮在 200% 下缩为约 30–32px，低于 40px 目标。提交 `404b9a3` 设定 44px 最小宽度；常规 Chrome QA [#41761537156](https://github.com/Pixman022/fresnica-ui/actions/runs/41761537156) 成功。
 - **问题 B（已修复）**：桌面第 5 屏 CTA 在 720×450 CSS 视口中与底部标签栏间距仅约 8px（英文），中文重叠约 5px。提交 `799bf2f` 局部收紧窄而矮视口的标题与文案位置；提交 `7f2f8ac` 新增 CTA 与标签栏至少 12px 的浏览器断言。本地原生缩放回归先失败、修复后通过。
-- **复现与归档**：`scripts/check-website-v3-native-zoom.mjs`、`scripts/v3-native-zoom-keys.py`，`.github/workflows/website-v3-qa.yml`；首轮原生缩放 CI [#41761658774](https://github.com/Pixman022/fresnica-ui/actions/runs/41761658774) 成功。新间距断言在 [#41762349233](https://github.com/Pixman022/fresnica-ui/actions/runs/41762349233) 执行；需以该运行的最终结果核实新版本。截图及 `native-zoom-results.json` 随 `fresnica-v3-visual-qa` Artifact 上传。
+- **复现与归档**：`scripts/check-website-v3-native-zoom.mjs`、`scripts/v3-native-zoom-keys.py`，`.github/workflows/website-v3-qa.yml`；首轮原生缩放 CI [#41761658774](https://github.com/Pixman022/fresnica-ui/actions/runs/41761658774) 成功。新间距断言在 [V3 QA #41762349233](https://github.com/Pixman022/fresnica-ui/actions/runs/41762349233) **执行成功并通过**。已下载核对 CI Artifact：`native-zoom-results.json` 状态 `PASS`、失败数 0、1440×900 的原生缩放实测 CSS 宽 720、DPR 2、CSS zoom 1、8 张 EN/中文 × 双主题的真实缩放截图；其余原有浏览器与动效测试亦通过。截图及报告随 `fresnica-v3-visual-qa` Artifact 上传。
 - **性能观察边界**：本地无 GPU 代表性的头less Chromium 抽样显示首屏帧间隔长于其他章节，不能据此判定真机帧率或直接修改已确认的粒子视觉；仍待硬件环境采样与用户视觉签收。
 
 ## 未完成 / 不应宣称已验收的内容
@@ -59,4 +59,4 @@
 
 ## 结论
 
-P0/P1 的主要规范整改、P3 的静态审核以及 P2 的多视口/双主题/中文/五卡正常动画自动验收均已完成。**浏览器自动检查通过，不等于全部设计视觉签收。** 后续仅针对整屏过渡和粒子性能、浏览器原生缩放及真实设备进行补充检查，保留已确认的品牌视觉。
+P0/P1 的主要规范整改、P3 的静态审核以及 P2 的多视口/双主题/中文/五卡正常动画自动验收均已完成。**浏览器自动检查通过，不等于全部设计视觉签收。** 后续针对整屏过渡和粒子性能、其他系统/浏览器的原生缩放及真实设备进行补充检查，保留已确认的品牌视觉。
