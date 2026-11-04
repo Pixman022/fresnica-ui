@@ -15,6 +15,7 @@ on:
       - scripts/check-website-v3-transitions.mjs
       - scripts/check-website-v3-engines.mjs
       - scripts/check-website-v3-engine-motion.mjs
+      - scripts/check-website-v3-engine-scenes.mjs
       - scripts/check-website-v3-native-zoom.mjs
       - scripts/v3-native-zoom-keys.py
       - package.json
@@ -110,6 +111,7 @@ jobs:
           sleep 2
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engines.mjs
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engine-motion.mjs
+          V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-engine-scenes.mjs
       - name: Upload browser engine screenshots and results
         if: always()
         uses: actions/upload-artifact@v4
