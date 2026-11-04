@@ -2478,7 +2478,7 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
       compareLines.forEach(el => { el.style.removeProperty('opacity'); el.style.removeProperty('transform'); });
       workspace.style.removeProperty('scale');
       workspace.style.removeProperty('translate');
-      networkLine.style.removeProperty('--network-offset');
+      networkLine?.style.removeProperty('--network-offset');
       return;
     }
     const story = entranceProgress(particleScene);
@@ -2495,7 +2495,7 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
     const ready=smooth(view);
     workspace.style.scale=(.965+ready*.035).toFixed(3);
     workspace.style.translate='0 '+((1-ready)*13).toFixed(2)+'px';
-    networkLine.style.setProperty('--network-offset',(1-ready).toFixed(3));
+    networkLine?.style.setProperty('--network-offset',(1-ready).toFixed(3));
   }
   function updateScroll() {
     rafPending = false;
