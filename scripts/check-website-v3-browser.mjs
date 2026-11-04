@@ -49,6 +49,7 @@ try{
             innerWidth:window.innerWidth,
             controls,
             cards:document.querySelectorAll('.feature-card').length,
+            firstCardLeft:q('#v3-features .feature-card')?.getBoundingClientRect().left??null,
             sendBackground:getComputedStyle(q('.mini-send-button')).backgroundColor,
             swapBackground:getComputedStyle(q('.mini-swap-button')).backgroundColor,
             activitySurface:getComputedStyle(q('.activity-demo')).backgroundColor,
@@ -59,6 +60,8 @@ try{
         const prefix=name+'/'+theme;
         assert(state.theme===theme,`${prefix}: theme switch mismatch`);
         assert(state.cards===5,`${prefix}: missing feature card`);
+        if(width<=430)assert(state.firstCardLeft!==null&&state.firstCardLeft>=10,
+          `${prefix}: feature card begins too close to left edge (${state.firstCardLeft}px)`);
         assert(state.reducedMotion,`${prefix}: reduced-motion emulation inactive`);
         assert(state.disabledDownloads,`${prefix}: unverified download unexpectedly enabled`);
         assert(state.scrollWidth<=state.innerWidth+8,`${prefix}: document overflows horizontally by ${state.scrollWidth-state.innerWidth}px`);
