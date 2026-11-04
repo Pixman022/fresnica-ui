@@ -177,7 +177,6 @@ html.v3-theme-dark #v3-workspace .dp-preview-action {color:#10261b;}
   #v3-workspace .dp-connect-actions {margin-top:8px;gap:5px;}
 }
 @media(max-width:800px) {
-  #v3-workspace .dp-asset-row:last-child {display:none;}
   #v3-workspace .dp-receive-card code {display:none;}
   #v3-workspace .dp-footer-line {justify-content:flex-end;}
 }
