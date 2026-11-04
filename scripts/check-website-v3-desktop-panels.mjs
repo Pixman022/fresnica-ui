@@ -78,6 +78,9 @@ for(const name of names){
             tag+' missing functional product elements '+m.child);
           check(await page.locator('#desktop-panel-'+m.id+' '+m.detail).count()===m.details,
             tag+' should show only essential product details '+m.detail);
+          if(m.id==='assets')check(
+            await page.locator('#desktop-panel-assets .dp-asset-row:visible').count()===2,
+            tag+' both asset rows must remain visible in the compact preview');
           check(state.scrollWidth<=state.clientWidth+3,tag+' horizontal panel clipping '+JSON.stringify(state));
           check(state.scrollHeight<=state.clientHeight+5&&state.lastBottom<=state.panelBottom+5,
             tag+' vertical panel clipping '+JSON.stringify(state));
