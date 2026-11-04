@@ -215,6 +215,7 @@ html.v3-theme-dark #v3-workspace .dp-preview-action {color:#10261b;}
   #v3-workspace .dp-memo {display:none;}
   #v3-workspace .dp-receive-card > small,#v3-workspace .dp-receive-card code {display:none;}
   #v3-workspace .dp-footer-line > span:first-child {display:none;}
+  #v3-workspace .dp-footer-line {justify-content:flex-end;}
 }
 @media(max-width:680px) {
   #v3-workspace .ws-sidebar {padding:7px 4px;}
