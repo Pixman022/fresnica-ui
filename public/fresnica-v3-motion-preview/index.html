@@ -1622,6 +1622,7 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
   }
 }
 </style>
+  <link rel="stylesheet" href="./m50-desktop-preview.css">
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
@@ -1771,34 +1772,74 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
 <section class="chapter workspace-scene" id="v3-workspace" data-chapter="Desktop client" data-theme="light" aria-labelledby="workspace-title">
   <div class="workspace-copy reveal"><p class="chapter-kicker green-label">FRESNICA / DESKTOP WALLET</p><h2 class="chapter-title" id="workspace-title">Your Stellar world.<br>On a wider canvas.</h2><p class="chapter-sub">Manage Stellar assets, review payments, explore swaps and connect with compatible apps in a clear desktop experience.</p><button type="button" class="desktop-download" disabled aria-label="Download Fresnica desktop client"><span>DOWNLOAD DESKTOP CLIENT<small>DESKTOP APP</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 18v3h16v-3"/></svg></button></div>
   <div class="workspace workspace-mini reveal delay-1" aria-label="Fresnica desktop wallet with four interface sections">
-    <div class="ws-sidebar"><strong>Fresnica</strong><span>Overview</span><span>Assets</span><span>Send &amp; receive</span><span>Swap</span><span>Connect</span><span>Activity</span></div>
+    <div class="ws-sidebar" aria-label="Desktop wallet sections">
+      <strong>Fresnica</strong>
+      <small class="dp-side-heading">WALLET</small>
+      <span data-desktop-nav="assets">Assets</span>
+      <span data-desktop-nav="payments">Payments</span>
+      <span data-desktop-nav="swap">Swap</span>
+      <span data-desktop-nav="connect">Connect</span>
+      <small class="dp-side-network"><i aria-hidden="true"></i>Stellar network</small>
+    </div>
     <div class="ws-content">
-      <p class="chapter-kicker">DESKTOP / OVERVIEW</p>
-      <div class="desktop-panel" id="desktop-panel-assets" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-assets">
-        <h3>Assets in view.</h3>
-        <div class="ws-stats"><div class="ws-stat">NETWORK<b>Stellar</b></div><div class="ws-stat">NATIVE ASSET<b>XLM</b></div><div class="ws-stat">DISCOVER<b>Apps</b></div></div>
-        <div class="network"><svg viewBox="0 0 480 210" role="img" aria-label="Stellar network activity"><circle cx="80" cy="145" r="5"/><circle cx="167" cy="102" r="5"/><circle cx="255" cy="120" r="5"/><circle cx="337" cy="82" r="5"/><circle cx="419" cy="50" r="5"/><polyline pathLength="1" points="80,145 167,102 255,120 337,82 419,50"/><g fill="#8caba0" opacity=".37"><circle cx="112" cy="66" r="1.5"/><circle cx="230" cy="49" r="2"/><circle cx="363" cy="159" r="2"/><circle cx="291" cy="162" r="1.5"/><circle cx="161" cy="173" r="1.5"/></g></svg></div>
+      <div class="desktop-panel dp-panel dp-panel-assets" id="desktop-panel-assets" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-assets">
+        <p class="dp-kicker">WALLET / ASSETS</p>
+        <div class="dp-heading"><h3>Assets overview</h3><span class="dp-subtle-chip">3 assets</span></div>
+        <div class="dp-balance">
+          <div><span>Total portfolio</span><strong>$12,480.50</strong><small>All your assets, together</small></div>
+          <svg viewBox="0 0 240 76" preserveAspectRatio="none" role="img" aria-label="Portfolio value trend">
+            <path class="dp-trend-area" d="M0 67 L0 57 L28 49 L50 53 L78 36 L104 43 L130 28 L152 33 L177 18 L199 25 L218 11 L240 14 L240 76 Z"/>
+            <path class="dp-trend-line" d="M0 57 L28 49 L50 53 L78 36 L104 43 L130 28 L152 33 L177 18 L199 25 L218 11 L240 14"/>
+            <circle class="dp-trend-end" cx="240" cy="14" r="3.5"/>
+          </svg>
+        </div>
+        <div class="dp-assets-list" aria-label="Asset balances">
+          <div class="dp-asset-row"><span class="dp-token dp-token-usdc">U</span><div><b>USDC</b><small>Stellar asset</small></div><strong>6,480.50</strong></div>
+          <div class="dp-asset-row"><span class="dp-token dp-token-xlm">X</span><div><b>XLM</b><small>Native asset</small></div><strong>3,250.00</strong></div>
+          <div class="dp-asset-row"><span class="dp-token dp-token-aqua">A</span><div><b>AQUA</b><small>Issued asset</small></div><strong>2,750.00</strong></div>
+        </div>
       </div>
-      <div class="desktop-panel" id="desktop-panel-payments" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-payments" hidden>
-        <h3>Review a payment.</h3><p class="desktop-hint">SEND / RECEIVE · PAYMENT DETAILS</p>
-        <div class="desktop-demo-row"><span>DESTINATION</span><strong>GABX…7BD</strong></div>
-        <div class="desktop-demo-row"><span>ASSET</span><strong>XLM</strong></div>
-        <div class="desktop-demo-row"><span>AMOUNT</span><strong>25.00</strong></div>
-        <p class="desktop-demo-status">MEMO OPTIONAL · REVIEW BEFORE CONFIRMING</p>
+      <div class="desktop-panel dp-panel dp-panel-payments" id="desktop-panel-payments" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-payments" hidden>
+        <p class="dp-kicker">WALLET / PAYMENTS</p>
+        <div class="dp-heading"><h3>Send &amp; receive</h3><span class="dp-subtle-chip">Stellar</span></div>
+        <div class="dp-payment-grid">
+          <div class="dp-payment-card">
+            <span class="dp-card-eyebrow">SEND / PAYMENT DETAILS</span>
+            <div class="dp-field"><span>To address</span><strong>GABX…7BD</strong></div>
+            <div class="dp-field"><span>Amount</span><strong>25.00 <small>USDC</small></strong></div>
+            <div class="dp-field dp-memo"><span>Memo</span><strong>Optional</strong></div>
+          </div>
+          <div class="dp-receive-card">
+            <span class="dp-receive-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v14m0 0-5-5m5 5 5-5M5 21h14"/></svg></span>
+            <strong>Receive</strong><small>Your wallet address</small><code>GABX…7BD</code>
+          </div>
+        </div>
+        <div class="dp-footer-line"><span>Review details before approval</span><span class="dp-preview-action">Review payment <b aria-hidden="true">↗</b></span></div>
       </div>
-      <div class="desktop-panel" id="desktop-panel-swap" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-swap" hidden>
-        <h3>Explore a swap.</h3><p class="desktop-hint">STELLAR / ASSET EXCHANGE</p>
-        <div class="desktop-demo-row"><span>FROM</span><strong>25.00 XLM</strong></div>
-        <p class="desktop-swap-mark" aria-hidden="true">⇅</p>
-        <div class="desktop-demo-row"><span>TO</span><strong>Stellar-issued asset</strong></div>
-        <p class="desktop-demo-status">REVIEW RATES / CONFIRM EXCHANGE</p>
+      <div class="desktop-panel dp-panel dp-panel-swap" id="desktop-panel-swap" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-swap" hidden>
+        <p class="dp-kicker">WALLET / SWAP</p>
+        <div class="dp-heading"><h3>Swap assets</h3><span class="dp-subtle-chip">Stellar</span></div>
+        <div class="dp-swap-flow">
+          <div class="dp-swap-asset"><div><span>You pay</span><strong>120.00</strong></div><span class="dp-asset-tag"><i class="dp-token dp-token-xlm">X</i>XLM</span></div>
+          <span class="dp-swap-direction" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v15m0 0-4-4m4 4 4-4M16 20V5m0 0-4 4m4-4 4 4"/></svg></span>
+          <div class="dp-swap-asset"><div><span>You receive</span><strong>≈ 14.40</strong></div><span class="dp-asset-tag"><i class="dp-token dp-token-usdc">U</i>USDC</span></div>
+        </div>
+        <div class="dp-footer-line"><span>Review estimated quote</span><span class="dp-preview-action">Review swap <b aria-hidden="true">↗</b></span></div>
       </div>
-      <div class="desktop-panel" id="desktop-panel-connect" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-connect" hidden>
-        <h3>Understand connections.</h3><p class="desktop-hint">COMPATIBLE APPS · CONNECT</p>
-        <div class="desktop-demo-row"><span>01 / DISCOVER</span><strong>Explore apps</strong></div>
-        <div class="desktop-demo-row"><span>02 / REVIEW</span><strong>Understand requests</strong></div>
-        <div class="desktop-demo-row"><span>03 / CHOOSE</span><strong>Confirm with context</strong></div>
-        <p class="desktop-demo-status">REVIEW PERMISSIONS / CONNECT SECURELY</p>
+      <div class="desktop-panel dp-panel dp-panel-connect" id="desktop-panel-connect" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-connect" hidden>
+        <p class="dp-kicker">WALLET / CONNECTIONS</p>
+        <div class="dp-heading"><h3>App connection</h3><span class="dp-subtle-chip">Request</span></div>
+        <div class="dp-app-request">
+          <span class="dp-app-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3 20 12 12 21 4 12zM12 7v10M7 12h10"/></svg></span>
+          <div><strong>Compatible app</strong><small>Stellar network</small></div>
+          <span class="dp-connection-state">Pending</span>
+        </div>
+        <div class="dp-permissions">
+          <p>REQUESTED ACCESS</p>
+          <div><span aria-hidden="true">✓</span>View public wallet address</div>
+          <div><span aria-hidden="true">✓</span>Request transaction approval</div>
+        </div>
+        <div class="dp-connect-actions"><span>Decline</span><span class="dp-preview-action">Connect wallet <b aria-hidden="true">↗</b></span></div>
       </div>
     </div>
   </div>
