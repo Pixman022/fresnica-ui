@@ -1258,6 +1258,9 @@ html.m10-framed #v3-security .security-layout{
 @media(min-width:681px) and (max-width:740px) and (max-height:520px){
   html.m10-framed #v3-workspace .workspace-copy{top:48%;}
   html.m10-framed #v3-workspace .workspace-copy .chapter-title{font-size:24px;line-height:1.1;}
+  /* WebKit may let intrinsic grid content enlarge an auto-height 16:9 preview.
+     Width is 54vw here; cap height at width * 9/16 so the header stays clear. */
+  html.m10-framed #v3-workspace .workspace-mini{min-height:0;max-height:30.375vw;}
 }
 @media(min-width:681px) and (max-width:740px) and (max-height:430px){
   html.m10-framed #v3-workspace .desktop-tabs{bottom:30px;}
