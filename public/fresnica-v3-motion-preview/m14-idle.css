@@ -8,6 +8,8 @@
 @keyframes m14-assetCell {0%,100%{background-color:rgba(23,172,115,.025)}50%{background-color:rgba(23,172,115,.11)}}
 @keyframes m14-cardFloat {0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 @keyframes m14-signal {0%,100%{opacity:.38;filter:drop-shadow(0 0 2px #12a16b)} 48%{opacity:1;filter:drop-shadow(0 0 7px #32d498)}}
+/* Keep QA '+' motion without animating a WebKit-crashing SVG-like drop-shadow filter. */
+@keyframes m14-qa-pulse {0%,100%{opacity:.48} 50%{opacity:1}}
 @media (prefers-reduced-motion:no-preference) {
   /* Screen 1: live Hero shader/ticker are pre-existing; keep its fallback gently alive too. */
   html.m14-motion #overview.m14-current .fallback-orb {animation:m14-floating 6.4s ease-in-out infinite;}
@@ -83,7 +85,7 @@
     background:linear-gradient(90deg,#16c18b,transparent);
     animation:m14-route 4.5s ease-in-out infinite;
   }
-  html.m14-motion #v3-clarity.m14-current .qa-list button span{animation:m14-signal 4.5s ease-in-out infinite;}
+  html.m14-motion #v3-clarity.m14-current .qa-list button span{animation:m14-qa-pulse 4.5s ease-in-out infinite;}
 
   /* Screen 10: the existing canvas wordmark particle loop remains authoritative. */
 }
