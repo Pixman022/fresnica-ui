@@ -22,6 +22,38 @@ for(const name of engines){
     browser=await engine.launch({headless:true,
       ...(name==='chromium'&&process.env.V3_CHROME_PATH?{executablePath:process.env.V3_CHROME_PATH}:{}),
       ...(name==='chromium'?{args:['--no-sandbox','--disable-dev-shm-usage']}: {})});
+    // Run the fresh 07 -> 08 diagnostic in a separate browser process.
+    if(process.env.V3_SCENE_PROBE_ONLY==='1'){
+      const probe=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
+      try{
+        if(process.env.V3_INLINE_FIXTURE)
+          await probe.setContent(fs.readFileSync(process.env.V3_INLINE_FIXTURE,'utf8'),{waitUntil:'domcontentloaded'});
+        else await probe.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
+        await probe.waitForFunction(()=>document.documentElement.classList.contains('m10-framed')&&
+          document.documentElement.dataset.m14Active==='overview',null,{timeout:15000});
+        await probe.evaluate(()=>{
+          const scroller=document.getElementById('v3-page-scroll');
+          const section=document.getElementById('v3-security');
+          const runway=section.closest('.v3-screen-runway,.m5-runway,.feature-scroll');
+          const bounds=scroller.getBoundingClientRect();
+          const top=scroller.scrollTop+runway.getBoundingClientRect().top-bounds.top;
+          const room=Math.max(0,runway.offsetHeight-scroller.clientHeight);
+          scroller.style.scrollBehavior='auto';
+          scroller.scrollTop=top+room*.46;
+          scroller.style.scrollBehavior='';
+        });
+        await probe.waitForFunction(()=>document.documentElement.dataset.m14Active==='v3-security',null,{timeout:5000});
+        await probe.waitForTimeout(850);
+        await probe.mouse.move(150,500);
+        await probe.mouse.wheel(0,170);
+        await probe.waitForTimeout(1800);
+        const scene=await probe.evaluate(()=>document.documentElement.dataset.m14Active);
+        assert(scene==='v3-clarity',name+' direct security exit landed on '+scene);
+        console.log('[V3 nine-scene engines] '+name+' fresh security -> clarity PASS');
+      }finally{await probe.close();}
+      observations.push({engine:name,status:'PASS',directSecurityExit:true});
+      continue;
+    }
     page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
@@ -100,6 +132,7 @@ for(const name of engines){
 const report={status:failures.length?'FAIL':'PASS',date:new Date().toISOString(),url:base,
   meaning:'Linux browser engines normal-motion nine-scene geometry and direction checks, not GPU FPS or design approval',
   observations,failures};
-fs.writeFileSync(path.join(dest,'engine-scenes-results.json'),JSON.stringify(report,null,2)+'\n');
+const reportFile=process.env.V3_SCENE_PROBE_ONLY==='1'?'engine-security-exit-results.json':'engine-scenes-results.json';
+fs.writeFileSync(path.join(dest,reportFile),JSON.stringify(report,null,2)+'\n');
 console.log('[V3 nine-scene engines] '+report.status+' '+observations.length+' engines '+failures.length+' failures');
 if(failures.length)process.exitCode=1;
