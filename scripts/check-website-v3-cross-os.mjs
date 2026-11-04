@@ -87,11 +87,21 @@ try{
                 const controls=['scene-menu-button','locale-toggle','theme-toggle','download-menu-button']
                   .map(id=>{const r=document.getElementById(id)?.getBoundingClientRect();
                     return {id,width:r?.width,height:r?.height,left:r?.left,right:r?.right};});
+                const quickIcons=[...document.querySelectorAll('#v3-availability .phone-quick > span')].map(card=>{
+                  const icon=card.querySelector('.phone-quick-icon'),svg=icon?.querySelector('svg');
+                  const style=icon&&getComputedStyle(icon),r=icon?.getBoundingClientRect();
+                  const inner=svg?.getBoundingClientRect(),outer=card.getBoundingClientRect();
+                  return {padding:style?.paddingTop,border:style?.borderTopWidth,
+                    width:r?.width,height:r?.height,
+                    centered:r&&inner&&Math.abs(r.left+r.width/2-inner.left-inner.width/2)<=1&&
+                      Math.abs(r.top+r.height/2-inner.top-inner.height/2)<=1&&
+                      Math.abs(r.left+r.width/2-outer.left-outer.width/2)<=2};
+                });
                 const scene=document.querySelector('#v3-workspace')?.getBoundingClientRect();
                 const cta=document.querySelector('#v3-workspace .desktop-download')?.getBoundingClientRect();
                 const mini=document.querySelector('#v3-workspace .workspace-mini')?.getBoundingClientRect();
                 return {theme:document.documentElement.classList.contains('v3-theme-dark')?'dark':'light',
-                  overflow:document.documentElement.scrollWidth-innerWidth,controls,
+                  overflow:document.documentElement.scrollWidth-innerWidth,controls,quickIcons,
                   cards:document.querySelectorAll('.feature-card').length,
                   firstCardLeft:document.querySelector('#v3-features .feature-card')?.getBoundingClientRect().left,
                   disabled:[...document.querySelectorAll('.download-action')].every(el=>el.disabled),
@@ -100,6 +110,10 @@ try{
                   mini:scene&&mini?{top:mini.top-scene.top,width:mini.width,height:mini.height}:null};
               });
               check(data.theme===theme&&data.cards===5&&data.disabled&&data.reduced,tag+' base contract');
+              check(data.quickIcons.length===3&&data.quickIcons.every(icon=>
+                parseFloat(icon.padding)===0&&parseFloat(icon.border)===0&&
+                Math.abs(icon.width-22)<=1&&Math.abs(icon.height-22)<=1&&icon.centered),
+                tag+' Send/Receive/Swap icon misaligned '+JSON.stringify(data.quickIcons));
               check(data.overflow<=8,tag+' horizontal overflow '+data.overflow);
               for(const c of data.controls){
                 check(c.width>=39&&c.height>=39,tag+' '+c.id+' target too small');
