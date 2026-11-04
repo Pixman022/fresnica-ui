@@ -26,6 +26,8 @@
 
 ### 最新可复查证据
 
+- [最新 V3 Linux Firefox/WebKit 九屏与 Chromium 全量 QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41781419359)：Firefox/WebKit 8 次前进 + 8 次反向各通过，第 4～9 屏双引擎截图归档，Q&A WebKit 崩溃修复保留回归；Chromium 原有测试成功。
+
 - [V3 Firefox/WebKit 正常动效补充与 Chromium 全量回归（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41768662316)：engine-results.json 12/12 PASS、engine-motion-results.json 2/2 PASS，含两种引擎的圆点扩张和第三屏手机完整入场截图；原有 Chromium QA 亦通过。
 
 - [V3 Firefox/WebKit 双引擎与既有 Chromium QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41767698389)：Linux Firefox/WebKit 12/12 场景 PASS、失败 0；独立 fresnica-v3-browser-engines-qa Artifact 保存四张对比截图与 engine-results.json；原有 Chromium 视觉/动效/原生缩放回归亦成功。
@@ -86,6 +88,14 @@
 - **实测结果**：[V3 QA #41768662316](https://github.com/Pixman022/fresnica-ui/actions/runs/41768662316) 中原有 Chromium 与 Firefox/WebKit 两个作业均成功。下载核对 fresnica-v3-browser-engines-qa Artifact：engine-motion-results.json 为 **2/2 PASS、失败 0**，Firefox/WebKit 第 2 屏均驻留 1797px，第 3 屏约 3052/3051px，过渡结束均未残留遮罩，脚本错误 0。最终下载屏手机示例均为 **opacity=1、filter=opacity(1) blur(0px)**，尺寸约 600×753px。
 - **截图时机误判已排除**：首轮在绿色圆点切换完毕后仅停 210ms 截图，WebKit 右侧手机仍处于延迟入场阶段而未显示，Firefox 同期为模糊状态。等待完整的错峰入场动画后重新截取，Firefox 与 WebKit 的手机均完整显示。故本轮只修正测试时序和断言，没有改变已确认的动画或页面样式。归档含两种引擎各自的圆点扩张与完整下载画面截图。
 - **验收边界**：仅证明两种 Linux 引擎在正常动效下前两次分屏切换及手机入场可用；不能外推为九屏所有动画在跨系统浏览器全部通过，亦非真实 GPU 帧率测试或设计视觉签收。
+
+## 2026-11-04 P2 补充：Firefox/WebKit 九屏往返与 Q&A 崩溃修复
+
+- **覆盖扩大**：scripts/check-website-v3-engine-scenes.mjs 在 Linux Ubuntu 24.04 的 Firefox 与 WebKit 上，1440×900 正常动效模式，逐屏执行概览至页脚的全部 8 次前进和 8 次反向返回；检查当前章节唯一性、预期驻留几何位置、遮罩关闭、入场标识与横向溢出。两引擎总计 **32 次章节切换**。使用有界的实测驻留等待，不再以固定的 1.55 秒立即判定；在超时情况下保留真实布局和滚动状态信息。该变更只影响测试，不放宽位置误差门槛。
+- **真实 WebKit 兼容性问题（已修复）**：早期 CI 在 WebKit 进入第 8 屏 Q&A 时出现页面进程崩溃。专项诊断 scripts/diagnose-website-v3-webkit-exit.mjs 分别禁用 Q&A 标题装饰线与问答加号动画，确认只有禁用问答加号的 m14-signal（含动画化 drop-shadow 滤镜）才能避免崩溃；禁用标题装饰线并不能解决。提交 [9ca2f3b](https://github.com/Pixman022/fresnica-ui/commit/9ca2f3b66e4749ad42f4db4324b3e35e493bfa4f) 仅将 Q&A 加号改为不含滤镜动画的透明度呼吸 m14-qa-pulse，其余粒子、页面布局、过渡时长及视觉风格不变。
+- **修复后证据**：[V3 QA #41780980410](https://github.com/Pixman022/fresnica-ui/actions/runs/41780980410) 两个作业均成功；已下载归档核对 engine-scenes-results.json：Firefox 与 WebKit **各 8 次前进 + 8 次返回，PASS，失败数 0**。webkit-security-exit-diagnostic.json 中 8 个场景全部 PASS（包括之前崩溃的 baseline），WebKit 不再出现 Q&A 进程崩溃；engine-results.json 12/12 PASS、engine-motion-results.json 2/2 PASS，Chromium 原有全套 QA 亦成功。对应的 [Pages #41780980377](https://github.com/Pixman022/fresnica-ui/actions/runs/41780980377) 已成功发布修复版。
+- **双引擎逐屏视觉抽查**：后续将 Firefox/WebKit 的第 4～9 屏截图都纳入 CI（070b201），不再每次运行 8 组诊断页；诊断脚本保留供故障调查，完整九屏回归仍作为真正的阻断验收。最新 [V3 QA #41781419359](https://github.com/Pixman022/fresnica-ui/actions/runs/41781419359) 两个作业成功，归档 engine-scenes-results.json PASS，0 失败；共 20 张浏览器引擎截图。已对照两引擎的五卡、桌面端、走马灯、安全粒子、Q&A、页脚六屏布局，未见明显跨引擎错位或裁切。截图检查为重点抽查，不代表正式设计批准。
+- **仍待完成**：Windows/macOS 原生浏览器缩放及真实设备、真实 GPU 性能采样、正式设计负责人逐屏签收。Linux WebKit 引擎通过不应等同于 macOS Safari 全设备通过。
 
 ## 未完成 / 不应宣称已验收的内容
 
