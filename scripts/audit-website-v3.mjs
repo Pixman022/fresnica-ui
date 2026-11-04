@@ -9,11 +9,11 @@ const html=fs.readFileSync(path.join(preview,'index.html'),'utf8');
 const scripts=['m12-experience.js','m10-frame.js'];
 const errors=[];
 const check=(ok,message)=>{if(!ok)errors.push(message);};
-const styleTagOpen=(html.match(/<style\\b/g)||[]).length;
-const styleTagClose=(html.match(/<\\/style>/g)||[]).length;
-const styleBlocks=[...html.matchAll(/<style\\b[^>]*>([\\s\\S]*?)<\\/style>/g)];
+const styleTagOpen=(html.match(/<style\b/g)||[]).length;
+const styleTagClose=(html.match(/<\/style>/g)||[]).length;
+const styleBlocks=[...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/g)];
 check(styleTagOpen===styleTagClose&&styleBlocks.length===styleTagOpen,'Unbalanced style tags');
-check(styleBlocks.every(block=>!/<style\\b/.test(block[1])),'Nested style tags; CSS may be ignored by browser');
+check(styleBlocks.every(block=>!/<style\b/.test(block[1])),'Nested style tags; CSS may be ignored by browser');
 
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
 const knownIds=new Set(ids);
