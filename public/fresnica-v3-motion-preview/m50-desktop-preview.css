@@ -197,3 +197,10 @@ html.v3-theme-dark #v3-workspace .dp-preview-action {color:#10261b;}
 @media(prefers-reduced-motion:reduce){
   #v3-workspace .dp-panel {animation:none!important;}
 }
+
+/* Keep the four desktop preview modules on the shared Fresnica weight scale. */
+#v3-workspace .ws-sidebar [data-desktop-nav]{font-weight:var(--Fresnica-font-weight-medium)}
+#v3-workspace .ws-sidebar [data-desktop-nav].desktop-current{font-weight:var(--Fresnica-font-weight-bold)}
+#v3-workspace .dp-heading h3{font-weight:var(--Fresnica-font-weight-semibold)}
+#v3-workspace .dp-balance strong{font-weight:var(--Fresnica-font-weight-bold)}
+#v3-workspace .dp-token{font-weight:var(--Fresnica-font-weight-bold)}
