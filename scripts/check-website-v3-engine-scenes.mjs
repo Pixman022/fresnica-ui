@@ -109,13 +109,34 @@ for(const name of engines){
       assert(state.scrollWidth<=state.viewportWidth+8,label+' horizontal overflow');
       return {scene:id,top:Math.round(state.top),hold:Math.round(state.expected)};
     };
+    // Slow software-rendered WebKit frames can run beyond a fixed wall-clock
+    // delay. Observe the actual chapter hold, with a hard timeout, rather than
+    // accepting an incomplete animation or hiding a permanently stuck scene.
+    const waitForHold=async id=>{
+      await page.waitForFunction(id=>{
+        const scroll=document.getElementById('v3-page-scroll');
+        const root=scroll.getBoundingClientRect();
+        const runway=[...scroll.children].find(el=>el.matches('.v3-screen-runway,.m5-runway,.feature-scroll')&&
+          (el.dataset.sceneId||el.querySelector('.stage,.chapter')?.id||el.id)===id);
+        if(!runway||document.documentElement.dataset.m14Active!==id)return false;
+        const room=Math.max(0,runway.offsetHeight-scroll.clientHeight);
+        const fraction=id==='v3-ecosystem'?.76:id==='v3-workspace'?.77:
+          id==='v3-features'?.47:runway.classList.contains('m5-runway')?.73:.46;
+        const top=scroll.scrollTop+runway.getBoundingClientRect().top-root.top;
+        const expected=Math.max(0,Math.min(scroll.scrollHeight-scroll.clientHeight,top+room*fraction));
+        return Math.abs(scroll.scrollTop-expected)<=12&&
+          !document.documentElement.classList.contains('m24-transitioning')&&
+          document.querySelector('.m24-portal')?.style.display!=='block';
+      },id,{timeout:7000});
+      await page.waitForTimeout(120);
+    };
     const forward=[],reverse=[],screenshots=[];
     const capture=(process.env.V3_SCENE_SCREENSHOT_ENGINES||'firefox').split(',').includes(name);
     assert((await getState()).scene===scenes[0],name+' initial chapter is not overview');
     for(let i=1;i<scenes.length;i++){
       lastPhase='forward '+scenes[i];
       await page.mouse.wheel(0,170);
-      await page.waitForTimeout(1550);
+      await waitForHold(scenes[i]);
       forward.push(await verify(scenes[i],name+' forward '+i));
       console.log('[V3 nine-scene engines] '+name+' reached '+scenes[i]);
       if(i>=3&&capture){
@@ -127,7 +148,7 @@ for(const name of engines){
     for(let i=scenes.length-2;i>=0;i--){
       lastPhase='reverse '+scenes[i];
       await page.mouse.wheel(0,-170);
-      await page.waitForTimeout(1450);
+      await waitForHold(scenes[i]);
       reverse.push(await verify(scenes[i],name+' reverse '+i));
       console.log('[V3 nine-scene engines] '+name+' returned '+scenes[i]);
     }
