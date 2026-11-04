@@ -113,6 +113,8 @@ for(const name of engines){
     // delay. Observe the actual chapter hold, with a hard timeout, rather than
     // accepting an incomplete animation or hiding a permanently stuck scene.
     const waitForHold=async id=>{
+      // Allow the wheel and portal RAF sequence to run before polling geometry.
+      await page.waitForTimeout(1170);
       await page.waitForFunction(id=>{
         const scroll=document.getElementById('v3-page-scroll');
         const root=scroll.getBoundingClientRect();
@@ -127,7 +129,7 @@ for(const name of engines){
         return Math.abs(scroll.scrollTop-expected)<=12&&
           !document.documentElement.classList.contains('m24-transitioning')&&
           document.querySelector('.m24-portal')?.style.display!=='block';
-      },id,{timeout:7000});
+      },id,{timeout:5500,polling:120});
       await page.waitForTimeout(120);
     };
     const forward=[],reverse=[],screenshots=[];
