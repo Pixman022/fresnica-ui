@@ -67,6 +67,7 @@ for(const item of cases){
               theme:document.documentElement.classList.contains('v3-theme-dark')?'dark':'light',
               lang:document.documentElement.lang,
               cta:rect(document.querySelector('#v3-workspace .desktop-download')),
+              tabs:rect(document.querySelector('#v3-workspace .desktop-tabs')),
               workspace:rect(document.querySelector('#v3-workspace')),
               controls:controlIds.map(id=>({id,rect:rect(document.getElementById(id))})),
               disabledDownloads:[...document.querySelectorAll('.download-action')].every(b=>b.disabled)
@@ -84,6 +85,10 @@ for(const item of cases){
             const cta=state.cta,section=state.workspace;
             check(cta&&section&&cta.top>=section.top+15&&cta.bottom<=section.bottom-15,
               `${key}: desktop download CTA outside chapter: ${JSON.stringify({cta,section})}`);
+            if(state.width>=681){
+              check(state.tabs&&cta&&state.tabs.top-cta.bottom>=12,
+                `${key}: desktop download CTA overlaps tabs: ${JSON.stringify({cta,tabs:state.tabs})}`);
+            }
           }
           if(scene!=='v3-features'){
             const file=`native-zoom200-${item.name}-${lang}-${theme}-${scene}.png`;
