@@ -1374,6 +1374,58 @@ html.v3-theme-dark #v3-security .security-visual{color:#63c89c;}
 html.v3-theme-dark #v3-security .security-principle>span{color:#9acfb0;}
 </style>
 <link rel="stylesheet" href="./m29-polish.css">
+<style id="m47-a11y-alignment">
+/* Fresnica interaction contract: the brand palette stays canonical; small white-label
+   controls use a darker fill to satisfy 4.5:1, rather than recoloring the brand. */
+:root{
+  --Fresnica-focus-color:#00A875;
+  --v3-action-aa:#087852;
+  --v3-action-aa-hover:#066345;
+  --v3-quiet-text:#59655e;
+}
+html.v3-theme-dark{
+  --Fresnica-focus-color:#00CA8A;
+  --v3-action-aa:#097654;
+  --v3-action-aa-hover:#075d43;
+  --v3-quiet-text:#bdcfc4;
+}
+html.m10-framed :is(a,button,[tabindex]):focus-visible{outline-color:var(--Fresnica-focus-color)!important;}
+html.m10-framed .site-header .top-nav{height:48px;min-height:48px;padding-block:2px;}
+html.m10-framed .site-header .nav-title-button{min-height:44px;align-items:center;}
+html.m10-framed .site-header :is(.nav-locale,.nav-theme){display:grid;place-items:center;min-width:44px;width:44px;min-height:44px;height:44px;padding:0;flex:none;}
+html.m10-framed .site-header .download-trigger{min-height:44px;height:44px;}
+html.m10-framed .site-header .locale-dropdown button,
+html.m10-framed .site-header :is(.nav-dropdown,.download-dropdown) a{min-height:44px;}
+html.m10-framed #v3-features .feature-card:nth-child(2) .mini-send-button,
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-button{
+  min-height:44px;height:44px;background:var(--v3-action-aa);color:#fff;font-size:12px;
+}
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-button:hover{background:var(--v3-action-aa-hover);}
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-direction-row{height:44px;}
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-direction{width:44px;height:44px;}
+html.m10-framed #v3-features .feature-card .body{color:var(--v3-quiet-text);}
+html.m10-framed #v3-features .feature-ui .mini-label{color:#5e6c64;}
+html.v3-theme-dark.m10-framed #v3-features .feature-ui .mini-label{color:#b6cdbf;}
+/* Keep the send animation's existing timestamps; adjust only the contrast-unsafe fill. */
+@keyframes m33-send-press{
+  0%,8%{transform:scale(1);background:var(--v3-action-aa);opacity:1}
+  12%,18%{transform:scale(.935);background:var(--v3-action-aa-hover);opacity:1}
+  25%,48%{transform:scale(1);background:var(--v3-action-aa);opacity:1}
+  63%,94%{transform:scale(.88);background:var(--v3-action-aa);opacity:0}
+  100%{transform:scale(1);background:var(--v3-action-aa);opacity:1}
+}
+@media(max-width:680px){
+  html.m10-framed .site-header .top-nav{height:46px;min-height:46px;gap:2px;padding:1px 4px;}
+  html.m10-framed .site-header :is(.nav-locale,.nav-theme){min-width:40px;width:40px;min-height:44px;height:44px;}
+  html.m10-framed .site-header .nav-title-button{min-height:44px;max-width:90px;}
+  html.m10-framed .site-header .download-trigger{min-height:44px;height:44px;}
+}
+@media(max-width:360px){
+  html.m10-framed .site-header .top-nav{gap:1px;padding-inline:2px;}
+  html.m10-framed .site-header .nav-title-button{max-width:70px;font-size:10px;}
+  html.m10-framed .site-header .download-trigger{padding-inline:6px;}
+}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
