@@ -26,6 +26,8 @@
 
 ### 最新可复查证据
 
+- [Windows Edge/Firefox 与 macOS WebKit 跨系统 CI（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886750)：21/21 PASS、0 失败；[同步 Linux V3 全套 QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886749)；[修复版 GitHub Pages（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886747)。短高视口的 WebKit 右侧示例通过修复前失败、修复后通过的独立断言。
+
 - [最新 V3 Linux Firefox/WebKit 九屏与 Chromium 全量 QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41781419359)：Firefox/WebKit 8 次前进 + 8 次反向各通过，第 4～9 屏双引擎截图归档，Q&A WebKit 崩溃修复保留回归；Chromium 原有测试成功。
 
 - [V3 Firefox/WebKit 正常动效补充与 Chromium 全量回归（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41768662316)：engine-results.json 12/12 PASS、engine-motion-results.json 2/2 PASS，含两种引擎的圆点扩张和第三屏手机完整入场截图；原有 Chromium QA 亦通过。
@@ -96,6 +98,15 @@
 - **修复后证据**：[V3 QA #41780980410](https://github.com/Pixman022/fresnica-ui/actions/runs/41780980410) 两个作业均成功；已下载归档核对 engine-scenes-results.json：Firefox 与 WebKit **各 8 次前进 + 8 次返回，PASS，失败数 0**。webkit-security-exit-diagnostic.json 中 8 个场景全部 PASS（包括之前崩溃的 baseline），WebKit 不再出现 Q&A 进程崩溃；engine-results.json 12/12 PASS、engine-motion-results.json 2/2 PASS，Chromium 原有全套 QA 亦成功。对应的 [Pages #41780980377](https://github.com/Pixman022/fresnica-ui/actions/runs/41780980377) 已成功发布修复版。
 - **双引擎逐屏视觉抽查**：后续将 Firefox/WebKit 的第 4～9 屏截图都纳入 CI（070b201），不再每次运行 8 组诊断页；诊断脚本保留供故障调查，完整九屏回归仍作为真正的阻断验收。最新 [V3 QA #41781419359](https://github.com/Pixman022/fresnica-ui/actions/runs/41781419359) 两个作业成功，归档 engine-scenes-results.json PASS，0 失败；共 20 张浏览器引擎截图。已对照两引擎的五卡、桌面端、走马灯、安全粒子、Q&A、页脚六屏布局，未见明显跨引擎错位或裁切。截图检查为重点抽查，不代表正式设计批准。
 - **仍待完成**：Windows/macOS 原生浏览器缩放及真实设备、真实 GPU 性能采样、正式设计负责人逐屏签收。Linux WebKit 引擎通过不应等同于 macOS Safari 全设备通过。
+
+## 2026-11-04 P2 补充：Windows/macOS 浏览器与 WebKit 短高视口修复
+
+- **新基线与环境**：新增独立 [V3 Native OS Browser QA](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886750)；Windows Server 2025 运行系统安装的 Microsoft Edge 和 Playwright Firefox，macOS 15 运行 Playwright WebKit。测试脚本为 `scripts/check-website-v3-cross-os.mjs`（`cd12626`），独立工作流 `.github/workflows/website-v3-os-qa.yml`（`778458a`），不修改原有 Linux Chromium/Firefox/WebKit 测试门槛。
+- **检查范围**：每浏览器覆盖 1440×900 桌面、390×844 手机和 720×450 短高视口，分别检查浅/深主题与英文/中文，含顶部控件尺寸/边界、菜单 Enter/Escape 焦点返回、五张卡片、下载占位禁用状态、桌面 CTA 位置和横向溢出；另以正常动效检查首屏→第 2 屏→第 3 屏的圆点扩张与手机完整入场。每引擎 6 组布局/主题 + 1 组动画；Windows 两引擎 14 项，macOS 一引擎 7 项，共 **21 项**。720×450 **只是 200% 等效 CSS 视口**，不能称为原生浏览器 200% 缩放。
+- **修复前实际问题**：首次跨 OS 基线 [#41783191855](https://github.com/Pixman022/fresnica-ui/actions/runs/41783191855) 在旧断言下通过，但人工对照发现 macOS WebKit 第 5 屏在 720×450 时右侧应用示例顶部被固定导航栏遮挡。新增几何断言 `ae8f01b` 后，[#41783699037](https://github.com/Pixman022/fresnica-ui/actions/runs/41783699037) **如预期在 macOS WebKit 的浅色/深色两组失败**：16:9 目标宽约 388.8px，实际容器高 **360px**、顶部相对章节仅 **31.5px**；Windows Edge/Firefox 同一检查通过。
+- **局部修复**：`3517ba2` 仅在宽度 681–740px 且高度不超过 520px 的场景，为 `#v3-workspace .workspace-mini` 设置 `min-height:0;max-height:30.375vw`；这里示例宽为 54vw，高度上限对应 16:9，不改变正常宽度的视觉。macOS WebKit 复测截图显示示例完整避开顶部导航，与 Windows Edge/Firefox 短高布局对齐。
+- **修复后 CI 与归档**：[Windows/macOS #41783886750](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886750) 两作业 **SUCCESS**；归档 `cross-os-results.json` Windows **14/14 PASS**、macOS **7/7 PASS**，均 **0 失败**；21 组中英文横向溢出记录均为 0px。已抽查桌面安全屏、中文深色手机功能卡片、短高中文桌面端和动效下载页截图。同步执行的 [Linux V3 QA #41783886749](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886749) Chromium/Firefox/WebKit 两作业均成功；[V3 Pages 发布 #41783886747](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886747) 成功。没有修改 `main` 或冻结的 V2。
+- **边界**：Windows Edge 是系统浏览器，但测试运行在 GitHub 托管虚拟机；Playwright Firefox 和 macOS WebKit 使用其随版本提供的测试浏览器，不是未经修改的 Firefox 或 macOS Safari 应用。无真实 GPU 帧率结论、无设备级 200% 页面缩放结论、无设计负责人最终视觉签收。
 
 ## 未完成 / 不应宣称已验收的内容
 
