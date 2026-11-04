@@ -1574,6 +1574,21 @@ html.m10-framed #v3-features .activity-entry em{
   font-variant-numeric:tabular-nums;
 }
 html.m10-framed #v3-workspace .desktop-tabs button{font-family:var(--Fresnica-font-family);}
+<style id="m49-mobile-feature-safe-inset">
+/* Compact carousel: allow a next-card peek without clipping the first card copy. */
+@media(max-width:680px){
+  html.m10-framed #v3-features .feature-window{
+    scroll-padding-inline:24px;
+  }
+  html.m10-framed #v3-features .feature-track{
+    margin-left:0!important;
+    padding-inline:24px!important;
+  }
+  html.m10-framed #v3-features .feature-card{
+    scroll-snap-align:start;
+  }
+}
+</style>
 </style>
 </head>
 <body>
