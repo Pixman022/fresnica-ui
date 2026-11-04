@@ -5,7 +5,7 @@
   if(!scene)return;
   const tabs=[...scene.querySelectorAll('.desktop-tabs [role="tab"]')];
   const panels=tabs.map(tab=>document.getElementById(tab.getAttribute('aria-controls')));
-  const sidebar=[...scene.querySelectorAll('.ws-sidebar span')];
+  const sidebar=[...scene.querySelectorAll('.ws-sidebar [data-desktop-nav]')];
   if(tabs.length!==4||panels.some(panel=>!panel))return;
   const select=index=>{
     tabs.forEach((tab,i)=>{
@@ -14,7 +14,7 @@
       tab.tabIndex=selected?0:-1;
       panels[i].hidden=!selected;
     });
-    sidebar.forEach((item,i)=>item.classList.toggle('desktop-current',i===[1,2,3,4][index]));
+    sidebar.forEach((item,i)=>item.classList.toggle('desktop-current',i===index));
     scene.dataset.desktopTab=tabs[index].id;
   };
   tabs.forEach((tab,i)=>{
