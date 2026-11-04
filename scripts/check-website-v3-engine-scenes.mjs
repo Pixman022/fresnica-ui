@@ -115,7 +115,7 @@ for(const name of engines){
     const waitForHold=async id=>{
       // Allow the wheel and portal RAF sequence to run before polling geometry.
       await page.waitForTimeout(1170);
-      await page.waitForFunction(id=>{
+      try{await page.waitForFunction(id=>{
         const scroll=document.getElementById('v3-page-scroll');
         const root=scroll.getBoundingClientRect();
         const runway=[...scroll.children].find(el=>el.matches('.v3-screen-runway,.m5-runway,.feature-scroll')&&
@@ -129,7 +129,21 @@ for(const name of engines){
         return Math.abs(scroll.scrollTop-expected)<=12&&
           !document.documentElement.classList.contains('m24-transitioning')&&
           document.querySelector('.m24-portal')?.style.display!=='block';
-      },id,{timeout:5500,polling:120});
+      },id,{timeout:5500,polling:120});}
+      catch(error){
+        const status=await getState().catch(()=>null);
+        const layout=await page.evaluate(id=>{
+          const scroll=document.getElementById('v3-page-scroll');
+          const el=document.getElementById(id);
+          const run=el?.closest('.v3-screen-runway,.m5-runway,.feature-scroll');
+          const rect=run?.getBoundingClientRect();
+          return {scrollHeight:scroll.scrollHeight,clientHeight:scroll.clientHeight,
+            inlineBehavior:scroll.style.scrollBehavior,cssBehavior:getComputedStyle(scroll).scrollBehavior,
+            snap:getComputedStyle(scroll).scrollSnapType,runwayTop:rect?.top,runwayHeight:run?.offsetHeight};
+        },id).catch(()=>null);
+        throw new Error('Timed out awaiting '+id+': '+JSON.stringify({state:status,layout})+
+          ' / '+String(error.message||error));
+      }
       await page.waitForTimeout(120);
     };
     const forward=[],reverse=[],screenshots=[];
