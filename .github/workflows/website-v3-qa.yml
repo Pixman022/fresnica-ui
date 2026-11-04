@@ -11,6 +11,7 @@ on:
       - scripts/audit-website-v3.mjs
       - scripts/check-website-v3-browser.mjs
       - scripts/check-website-v3-motion.mjs
+      - scripts/check-website-v3-carousel-idle.mjs
       - scripts/check-website-v3-native-zoom.mjs
       - scripts/v3-native-zoom-keys.py
       - package.json
@@ -61,6 +62,7 @@ jobs:
           sleep 2
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-browser.mjs
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-motion.mjs
+          node scripts/check-website-v3-carousel-idle.mjs
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" xvfb-run -a --server-args='-screen 0 1920x1200x24' node scripts/check-website-v3-native-zoom.mjs
       - name: Upload screenshots and findings
         if: always()
