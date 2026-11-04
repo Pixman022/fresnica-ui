@@ -49,7 +49,7 @@
     #orb-particles { width:100%; height:100%; position:absolute; inset:0; z-index:3; display:block; pointer-events:none; }
     /* The SVG is only a source for Canvas particle sampling, never a visible layer. */
     #orb-center-logo { display:none!important; }
-    .fallback-orb { position:absolute; width:61%; height:61%; top:19.5%; left:19.5%; border-radius:49% 51% 50% 50%; background:radial-gradient(circle at 53% 53%,rgba(24,170,99,.70) 0%,rgba(72,194,127,.56) 28%,rgba(159,225,181,.32) 58%,rgba(235,254,239,.19) 82%,rgba(245,255,250,.04) 100%); box-shadow:inset 13px 13px 30px rgba(255,255,255,.72),inset -12px -12px 25px rgba(75,172,122,.11),0 12px 26px rgba(39,109,70,.06); z-index:1; }
+    .fallback-orb { position:absolute; width:61%; height:61%; top:19.5%; left:19.5%; border-radius:49% 51% 50% 50%; background:radial-gradient(circle at 53% 53%,rgba(24,170,99,.70) 0%,rgba(88,199,142,.56) 25%,rgba(157,224,182,.36) 50%,rgba(222,244,229,.21) 75%,rgba(245,255,250,.04) 100%); box-shadow:inset 13px 13px 30px rgba(255,255,255,.72),inset -12px -12px 25px rgba(75,172,122,.11),0 12px 26px rgba(39,109,70,.06); z-index:1; }
     .fallback-orb::before {content:'';position:absolute;inset:1.5%;border-radius:49% 51% 50% 48%;background-image:radial-gradient(circle,rgba(255,255,255,.94) .85px,transparent 1.55px),radial-gradient(circle,rgba(33,154,107,.25) .65px,transparent 1.5px);background-size:5px 7px,11px 13px;background-position:0 0,3px 5px;mask-image:radial-gradient(circle at 48% 53%,transparent 0%,#000 52%,#000 96%);opacity:.48;}
     .fallback-orb::after {content:'';position:absolute;inset:-.5%;border-radius:49% 50% 48% 51%;background:radial-gradient(circle at 23% 21%,rgba(255,255,255,.90),transparent 42%),radial-gradient(circle at 76% 79%,rgba(24,145,105,.13),transparent 46%);border:1px solid rgba(255,255,255,.62);pointer-events:none;}
     .orb-card { position:absolute; z-index:4; background:#fff; border:1px solid #e9ebea; box-shadow:0 9px 26px rgba(14,32,29,.08); border-radius:12px; padding:11px 13px; font-size:11px; line-height:1.5; animation:appear .7s backwards; }
@@ -1968,7 +1968,8 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
       color=mix(color,vec3(.98,1.,.985),.13*light+.24*frost);
       color=mix(color,vec3(.54,.74,.63),.08*rim);
       // Light mode: a vivid inner green fades through mint to a translucent outer shell.
-      float gradient=smoothstep(.08,.98,core);
+      float u=clamp((core-.08)/.90,0.,1.);
+      float gradient=mix(smoothstep(0.,1.,u),u,.40);
       vec3 lightShell=mix(vec3(.87,.97,.90),vec3(.16,.70,.45),pow(gradient,1.02));
       lightShell=mix(lightShell,vec3(.98,1.,.985),.065*light+.07*frost);
       color=mix(color,lightShell,uLightMode);
