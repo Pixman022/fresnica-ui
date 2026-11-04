@@ -48,7 +48,7 @@
     if(locked)return;
     const from=scroller.scrollTop,dist=destination-from;
     if(Math.abs(dist)<2)return;
-    const duration=clamp(710+Math.abs(dist)*.14,860,1180);
+    const duration=clamp(850+Math.abs(dist)*.17,1020,1420);
     const begun=performance.now(),gen=++wheelGeneration;
     locked=true;transitionTarget=targetId;
     const initial=scroller.style.scrollBehavior;
@@ -56,7 +56,8 @@
     function paint(now){
       if(gen!==wheelGeneration)return;
       const t=clamp((now-begun)/duration,0,1);
-      const eased=t<.5?8*t*t*t*t:1-Math.pow(-2*t+2,4)/2;
+      // Stronger cinematic acceleration and deceleration, with a longer travel window.
+      const eased=t<.5?16*t*t*t*t*t:1-Math.pow(-2*t+2,5)/2;
       scroller.scrollTop=from+dist*eased;
       if(t<1)anim=requestAnimationFrame(paint);
       else{
