@@ -1,0 +1,91 @@
+#!/usr/bin/env node
+// Full nine-chapter normal-motion traversal in Firefox/WebKit.
+// Tests scene identity/hold geometry, not hardware FPS or design sign-off.
+import fs from 'node:fs';
+import path from 'node:path';
+import {chromium,firefox,webkit} from 'playwright';
+
+const base=process.env.V3_PREVIEW_URL||'http://127.0.0.1:4173/fresnica-v3-motion-preview/';
+const engines=(process.env.V3_BROWSER_ENGINES||'firefox,webkit').split(',').map(x=>x.trim()).filter(Boolean);
+const dest=path.resolve(process.env.V3_QA_OUTPUT||'artifacts/website-v3-engines');
+const scenes=['overview','v3-ecosystem','v3-availability','v3-features','v3-workspace',
+  'v3-for-you','v3-security','v3-clarity','v3-about'];
+const observations=[],failures=[];
+fs.mkdirSync(dest,{recursive:true});
+const assert=(ok,message)=>{if(!ok)throw new Error(message);};
+for(const name of engines){
+  const engine={chromium,firefox,webkit}[name];
+  if(!engine){failures.push('Unknown browser engine '+name);continue;}
+  let browser,page;
+  try{
+    browser=await engine.launch({headless:true,
+      ...(name==='chromium'&&process.env.V3_CHROME_PATH?{executablePath:process.env.V3_CHROME_PATH}:{}),
+      ...(name==='chromium'?{args:['--no-sandbox','--disable-dev-shm-usage']}: {})});
+    page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
+    const errors=[];
+    page.on('pageerror',e=>errors.push(e.message));
+    if(process.env.V3_INLINE_FIXTURE)
+      await page.setContent(fs.readFileSync(process.env.V3_INLINE_FIXTURE,'utf8'),{waitUntil:'domcontentloaded'});
+    else await page.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
+    await page.waitForFunction(()=>document.documentElement.classList.contains('m10-framed')&&
+      !!document.querySelector('.m24-portal')&&!!document.documentElement.dataset.m14Active,
+      null,{timeout:15000});
+    assert(await page.evaluate(()=>matchMedia('(prefers-reduced-motion: no-preference)').matches),
+      name+' normal motion not enabled');
+    await page.mouse.move(150,500);
+    const getState=()=>page.evaluate(()=>{
+      const scroll=document.getElementById('v3-page-scroll'),root=scroll.getBoundingClientRect();
+      const max=Math.max(0,scroll.scrollHeight-scroll.clientHeight);
+      const scene=document.documentElement.dataset.m14Active;
+      const runway=[...scroll.children].find(el=>el.matches('.v3-screen-runway,.m5-runway,.feature-scroll')&&
+        (el.dataset.sceneId||el.querySelector('.stage,.chapter')?.id||el.id)===scene);
+      let expected=null;
+      if(runway){
+        const room=Math.max(0,runway.offsetHeight-scroll.clientHeight);
+        const fraction=scene==='v3-ecosystem'?.76:scene==='v3-workspace'?.77:
+          scene==='v3-features'?.47:runway.classList.contains('m5-runway')?.73:.46;
+        expected=Math.max(0,Math.min(max,scroll.scrollTop+runway.getBoundingClientRect().top-root.top+room*fraction));
+      }
+      const portal=document.querySelector('.m24-portal');
+      return {scene,top:scroll.scrollTop,expected,scrollWidth:document.documentElement.scrollWidth,
+        viewportWidth:innerWidth,portal:portal?.style.display,
+        transitioning:document.documentElement.classList.contains('m24-transitioning'),
+        current:document.querySelectorAll('.m14-current').length,
+        seen:document.getElementById(scene)?.classList.contains('m22-seen')??false};
+    });
+    const verify=async(id,label)=>{
+      const state=await getState();
+      assert(state.scene===id,label+' scene='+state.scene+' expected '+id);
+      assert(Number.isFinite(state.expected),label+' missing runway hold');
+      assert(Math.abs(state.top-state.expected)<=12,label+' hold '+state.top.toFixed(1)+' vs '+state.expected.toFixed(1));
+      assert(!state.transitioning&&state.portal!=='block',label+' portal remains visible');
+      assert(state.current===1&&state.seen,label+' scene gating or entrance state missing');
+      assert(state.scrollWidth<=state.viewportWidth+8,label+' horizontal overflow');
+      return {scene:id,top:Math.round(state.top),hold:Math.round(state.expected)};
+    };
+    const forward=[],reverse=[];
+    assert((await getState()).scene===scenes[0],name+' initial chapter is not overview');
+    for(let i=1;i<scenes.length;i++){
+      await page.mouse.wheel(0,170);
+      await page.waitForTimeout(1550);
+      forward.push(await verify(scenes[i],name+' forward '+i));
+      if(i>=3) await page.screenshot({path:path.join(dest,name+'-scene-'+String(i+1).padStart(2,'0')+'.png'),timeout:20000});
+    }
+    for(let i=scenes.length-2;i>=0;i--){
+      await page.mouse.wheel(0,-170);
+      await page.waitForTimeout(1450);
+      reverse.push(await verify(scenes[i],name+' reverse '+i));
+    }
+    assert(errors.length===0,name+' page errors: '+errors.join(' | '));
+    observations.push({engine:name,status:'PASS',forward,reverse,screenshots:scenes.length-3,pageErrors:errors.length});
+    console.log('[V3 nine-scene engines] '+name+' PASS forward='+forward.length+' reverse='+reverse.length);
+  }catch(error){const message=name+': '+String(error.message||error).slice(0,750);
+    failures.push(message);console.error('[V3 nine-scene engines] '+message);
+  }finally{if(page)await page.close();if(browser)await browser.close();}
+}
+const report={status:failures.length?'FAIL':'PASS',date:new Date().toISOString(),url:base,
+  meaning:'Linux browser engines normal-motion nine-scene geometry and direction checks, not GPU FPS or design approval',
+  observations,failures};
+fs.writeFileSync(path.join(dest,'engine-scenes-results.json'),JSON.stringify(report,null,2)+'\n');
+console.log('[V3 nine-scene engines] '+report.status+' '+observations.length+' engines '+failures.length+' failures');
+if(failures.length)process.exitCode=1;
