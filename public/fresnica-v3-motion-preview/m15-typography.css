@@ -1,12 +1,7 @@
 /* M15: Fresnica typography tokens from the canonical design system.
    Editorial display headings keep their approved website scale. */
-@font-face{font-family:Roboto;font-style:normal;font-weight:400;font-display:swap;src:url('./fonts/roboto-latin-400-normal.woff2') format('woff2')}
-@font-face{font-family:Roboto;font-style:normal;font-weight:500;font-display:swap;src:url('./fonts/roboto-latin-500-normal.woff2') format('woff2')}
-@font-face{font-family:Roboto;font-style:normal;font-weight:600;font-display:swap;src:url('./fonts/roboto-latin-600-normal.woff2') format('woff2')}
-@font-face{font-family:Roboto;font-style:normal;font-weight:700;font-display:swap;src:url('./fonts/roboto-latin-700-normal.woff2') format('woff2')}
-@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:400;font-display:swap;src:url('./fonts/noto-sans-sc-chinese-simplified-400-normal.woff2') format('woff2')}
-@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:500;font-display:swap;src:url('./fonts/noto-sans-sc-chinese-simplified-500-normal.woff2') format('woff2')}
-@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:700;font-display:swap;src:url('./fonts/noto-sans-sc-chinese-simplified-700-normal.woff2') format('woff2')}
+/* No font binaries are shipped in this preview: use the canonical font stack
+   without requesting nonexistent local WOFF2 assets. */
 :root{
   --Fresnica-font-family:Roboto,'Noto Sans SC',-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
   --Fresnica-font-family-mono:'SF Mono','Fira Code','Cascadia Code',Consolas,monospace;
@@ -127,3 +122,35 @@ html[lang='zh-CN'] .feature-card h3{letter-spacing:0;overflow-wrap:break-word}
   html.m10-framed .nav-title{font-size:var(--Fresnica-font-size-caption)}
   html.m10-framed .feature-card .body{font-size:var(--Fresnica-font-size-base)}
 }
+
+/* Canonical Fresnica typography roles for the V3 marketing and wallet surfaces.
+   Editorial headings retain their cinematic responsive scale. */
+html.m10-framed .stage,
+html.m10-framed .chapter,
+html.m10-framed .workspace-mini,
+html.m10-framed .feature-ui,
+html.m10-framed .audience-card,
+html.m10-framed .qa-list,
+html.m10-framed .footer-top {font-family:var(--Fresnica-font-family)}
+html.m10-framed .ticker,
+html.m10-framed .orb-card,
+html.m10-framed .orb-status,
+html.m10-framed .download-dropdown,
+html.m10-framed .locale-dropdown,
+html.m10-framed .ws-content {font-family:var(--Fresnica-font-family)}
+html.m10-framed .chapter p,
+html.m10-framed .feature-card .body,
+html.m10-framed .audience-card p,
+html.m10-framed .qa-list p {font-weight:var(--Fresnica-font-weight-regular);line-height:var(--Fresnica-line-height-base)}
+html.m10-framed .feature-card h3,
+html.m10-framed .ws-content h3 {font-weight:var(--Fresnica-font-weight-bold)}
+html.m10-framed .ws-sidebar [data-desktop-nav] {font-family:var(--Fresnica-font-family);font-weight:var(--Fresnica-font-weight-medium)}
+html.m10-framed .ws-sidebar [data-desktop-nav].desktop-current {font-weight:var(--Fresnica-font-weight-bold)}
+html.m10-framed .dp-heading h3 {font-family:var(--Fresnica-font-family);font-weight:var(--Fresnica-font-weight-semibold)}
+html.m10-framed .dp-balance strong {font-family:var(--Fresnica-font-family);font-weight:var(--Fresnica-font-weight-bold)}
+html.m10-framed .nav-title,
+html.m10-framed .header-action,
+html.m10-framed .cta {font-family:var(--Fresnica-font-family)}
+html[lang='zh-CN'].m10-framed .chapter-title,
+html[lang='zh-CN'].m10-framed .hero h1,
+html[lang='zh-CN'].m10-framed .dp-heading h3 {letter-spacing:0;word-break:normal;overflow-wrap:break-word}
