@@ -41,7 +41,7 @@
     .cta.secondary { background:#fff; color:#252a28; border:1px solid #e4e7e5; box-shadow:0 2px 5px rgba(0,0,0,.05); }
     .hero-art { position:relative; height:530px; width:100%; min-width:0; display:grid; place-items:center; }
     .orb-field { width:min(100%,550px); aspect-ratio:1; position:relative; margin:0 auto; transform: translate3d(var(--field-x,0px),var(--field-y,0px),0); transition:transform .22s ease-out; }
-    .orb-field::before { content:''; position:absolute; width:78%; height:78%; left:11%; top:11%; border-radius:50%; opacity:.72; background:radial-gradient(circle at 52% 50%,rgba(13,171,94,.34) 0%,rgba(65,203,132,.21) 31%,rgba(180,232,195,.06) 63%,transparent 82%); filter:blur(22px); pointer-events:none; }
+    .orb-field::before { content:''; position:absolute; width:78%; height:78%; left:11%; top:11%; border-radius:50%; opacity:.68; background:radial-gradient(circle at 52% 50%,rgba(13,171,94,.30) 0%,rgba(65,203,132,.18) 34%,rgba(180,232,195,.075) 67%,transparent 86%); filter:blur(22px); pointer-events:none; }
     .orb-field::after { content:''; position:absolute; width:42%; height:4%; left:29%; bottom:20%; z-index:0; background:rgba(43,107,74,.17); filter:blur(15px); border-radius:50%; pointer-events:none; }
     .orbit-svg { display:block; width:100%; height:100%; position:absolute; inset:0; overflow:visible; pointer-events:none; }
     .orbit-dots { position:absolute; inset:0; border-radius:50%; background-image:radial-gradient(#a2b9b3 0.8px,transparent .8px); background-size:15px 15px; opacity:.20; mask-image:radial-gradient(circle,transparent 34%,#000 59%,transparent 77%); }
@@ -49,7 +49,7 @@
     #orb-particles { width:100%; height:100%; position:absolute; inset:0; z-index:3; display:block; pointer-events:none; }
     /* The SVG is only a source for Canvas particle sampling, never a visible layer. */
     #orb-center-logo { display:none!important; }
-    .fallback-orb { position:absolute; width:61%; height:61%; top:19.5%; left:19.5%; border-radius:49% 51% 50% 50%; background:radial-gradient(circle at 53% 53%,rgba(14,160,83,.78) 0%,rgba(54,190,111,.62) 25%,rgba(159,225,181,.30) 56%,rgba(235,254,239,.20) 79%,rgba(245,255,250,.04) 100%); box-shadow:inset 13px 13px 30px rgba(255,255,255,.72),inset -12px -12px 25px rgba(75,172,122,.11),0 12px 26px rgba(39,109,70,.06); z-index:1; }
+    .fallback-orb { position:absolute; width:61%; height:61%; top:19.5%; left:19.5%; border-radius:49% 51% 50% 50%; background:radial-gradient(circle at 53% 53%,rgba(24,170,99,.70) 0%,rgba(72,194,127,.56) 28%,rgba(159,225,181,.32) 58%,rgba(235,254,239,.19) 82%,rgba(245,255,250,.04) 100%); box-shadow:inset 13px 13px 30px rgba(255,255,255,.72),inset -12px -12px 25px rgba(75,172,122,.11),0 12px 26px rgba(39,109,70,.06); z-index:1; }
     .fallback-orb::before {content:'';position:absolute;inset:1.5%;border-radius:49% 51% 50% 48%;background-image:radial-gradient(circle,rgba(255,255,255,.94) .85px,transparent 1.55px),radial-gradient(circle,rgba(33,154,107,.25) .65px,transparent 1.5px);background-size:5px 7px,11px 13px;background-position:0 0,3px 5px;mask-image:radial-gradient(circle at 48% 53%,transparent 0%,#000 52%,#000 96%);opacity:.48;}
     .fallback-orb::after {content:'';position:absolute;inset:-.5%;border-radius:49% 50% 48% 51%;background:radial-gradient(circle at 23% 21%,rgba(255,255,255,.90),transparent 42%),radial-gradient(circle at 76% 79%,rgba(24,145,105,.13),transparent 46%);border:1px solid rgba(255,255,255,.62);pointer-events:none;}
     .orb-card { position:absolute; z-index:4; background:#fff; border:1px solid #e9ebea; box-shadow:0 9px 26px rgba(14,32,29,.08); border-radius:12px; padding:11px 13px; font-size:11px; line-height:1.5; animation:appear .7s backwards; }
@@ -1968,13 +1968,13 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
       color=mix(color,vec3(.98,1.,.985),.13*light+.24*frost);
       color=mix(color,vec3(.54,.74,.63),.08*rim);
       // Light mode: a vivid inner green fades through mint to a translucent outer shell.
-      float gradient=smoothstep(.12,.94,core);
-      vec3 lightShell=mix(vec3(.88,.98,.92),vec3(.08,.65,.39),pow(gradient,.92));
+      float gradient=smoothstep(.08,.98,core);
+      vec3 lightShell=mix(vec3(.87,.97,.90),vec3(.16,.70,.45),pow(gradient,1.02));
       lightShell=mix(lightShell,vec3(.98,1.,.985),.065*light+.07*frost);
       color=mix(color,lightShell,uLightMode);
       float alpha=(.15+.49*core+.072*variation)*(1.-.28*rim);
       alpha=clamp(alpha+.055*frost,.10,.88);
-      float lightAlpha=(.28+.64*pow(gradient,.98))*(1.-.15*rim);
+      float lightAlpha=(.32+.56*pow(gradient,1.02))*(1.-.15*rim);
       alpha=mix(alpha,clamp(lightAlpha+.035*frost,.18,.94),uLightMode);
       outColor=vec4(color,alpha);
     }`;
