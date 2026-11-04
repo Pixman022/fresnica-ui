@@ -26,6 +26,8 @@
 
 ### 最新可复查证据
 
+- [第五屏四模块 Linux Chromium/Firefox/WebKit QA（全部成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41792595032)（20 + 40 个模块布局/切换断言、对应桌面和小尺寸截图）；[跨系统 QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41792945973)；[部署（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41792595063)。
+
 - [第三屏 Send/Receive/Swap 图标修复后 Linux QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41789060919)、[Windows/macOS QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41789085384) 与 [V3 Pages（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41789022690)；[Windows Edge 原生 200% 缩放（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41789022659)。
 
 - [Windows Edge/Firefox 与 macOS WebKit 跨系统 CI（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886750)：21/21 PASS、0 失败；[同步 Linux V3 全套 QA（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886749)；[修复版 GitHub Pages（成功）](https://github.com/Pixman022/fresnica-ui/actions/runs/41783886747)。短高视口的 WebKit 右侧示例通过修复前失败、修复后通过的独立断言。
@@ -121,6 +123,15 @@
 - **实现**：独立 Windows 2025 有界面 Edge 作业 `.github/workflows/website-v3-windows-native-zoom.yml`（`58bdbe5`），以 `scripts/v3-native-zoom-windows.ps1`（`a9f28aa`）发出 Windows 原生 Ctrl+加号事件；`scripts/check-website-v3-windows-native-zoom.mjs`（`dd92a55`）核实浏览器实际缩放，而非 CSS zoom 或浏览器移动设备模拟。
 - **证据**：[V3 Windows Edge 原生缩放 #41788697714](https://github.com/Pixman022/fresnica-ui/actions/runs/41788697714) 已成功，归档 `windows-native-zoom-results.json` 报告 **PASS、0 失败**：初始 CSS 视口 **1440px/DPR 1**，原生缩放后 **720px/DPR 2**，`visualViewport.scale=1`，`CSS zoom=1`。英文/中文 × 深浅主题 × 3 个章节共 **12 张截图**，横向溢出、CTA/桌面端右侧示例、标签栏间距及顶部菜单键盘行为全部通过。第三屏图标修复后的重跑 [#41789022659](https://github.com/Pixman022/fresnica-ui/actions/runs/41789022659) 仍成功。
 - **边界**：此为 GitHub Windows 托管虚拟机中 Microsoft Edge 的真实页面缩放；不是 Mac Safari 的原生页面缩放、真实 Windows 用户硬件 GPU 或移动设备验收。其他浏览器的系统级 200% 页面缩放仍待检查。
+
+## 2026-11-04 P2 补充：第五屏桌面钱包四模块功能化重设计
+
+- **需求与范围**：保留第五屏整体布局、16:9 桌面设备窗口、四个可点击切换的标签及原有滚动驻留方式。将 Assets / Payments / Swap / Connect 的内部演示从通用三行文案改为四种对应功能的可辨识界面，不涉及真实钱包交易、签名、网络请求或下载能力。
+- **四模块内容**：Assets 展示资产总值、曲线和资产列表；Payments 组合发送目标/金额/备注与接收地址卡片；Swap 展示支付/接收两种资产、方向和报价核对；Connect 展示应用身份、连接请求、权限清单和确认动作。侧栏精简为与底部四标签一致的项目并同步高亮，保持方向键、Home/End 与 ARIA 选中状态。新增 `m50-desktop-preview.css` 响应式双主题样式、`m12-experience.js` 中英翻译及 `m25-desktop-tabs.js` 侧栏映射；产品示例内的核对操作仅为视觉呈现，非真实支付按钮。
+- **兼容修复**：首次回归发现旧的 `.network polyline` 已移除，而页面保留的 M2 动效仍直接调用 `networkLine.style`，导致 Chromium/Firefox/WebKit 脚本错误；提交 `a18e0c9` 对旧网络元素做可选检查，保留其他章节的动效逻辑。首轮新增的桌面模块测试又发现 390px 中文深色 Connect 底部多出约 **6px**，提交 `b7e4107` 只压缩该视口权限卡与操作区间距，未删除内容；后续统一紧凑态核对按钮右对齐，并将资产角标由固定的“3 assets”改为“Portfolio”，避免窄屏隐藏最后一行时信息不一致。
+- **自动验收**：新增 `scripts/check-website-v3-desktop-panels.mjs`（`50dd25f`）及独立 CI 门槛（`72c0c8a`），每引擎涵盖桌面浅色英文、桌面深色中文、平板浅色英文、720×450 深色中文、390px 手机深色中文 × 四模块；检查模块结构、唯一可见面板、侧栏同步、翻译、内部横/纵向裁切、方向键操作。修复后的 [Linux V3 QA #41792595032](https://github.com/Pixman022/fresnica-ui/actions/runs/41792595032) **两项作业均成功**；实际归档 `desktop-panels-results.json` 为 Chromium **20/20 PASS**、Firefox/WebKit 合计 **40/40 PASS**、失败 0。原有九屏、缩放、卡片动效和静态审计均在同次成功。
+- **跨系统验收**：`b3f2290` 将四模块边界/选中/截图检查加入 Windows Edge/Firefox 与 macOS WebKit 独立基线。[跨系统 CI #41792945973](https://github.com/Pixman022/fresnica-ui/actions/runs/41792945973) Windows 与 macOS 均成功；[Windows Edge 原生 200% #41792594956](https://github.com/Pixman022/fresnica-ui/actions/runs/41792594956) 继续成功；[V3 Pages #41792595063](https://github.com/Pixman022/fresnica-ui/actions/runs/41792595063) 发布成功。已抽样核对四模块的桌面浅色英文、桌面深色中文和 720×450 中文截图，未见明显错位、内容截断。
+- **未完成**：原生 macOS Safari、其他浏览器的原生 200% 缩放、真实 GPU 性能及设计所有者的最终逐屏视觉批准。自动化成功不代表钱包后台功能已经接入。
 
 ## 未完成 / 不应宣称已验收的内容
 
