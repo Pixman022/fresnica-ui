@@ -1943,6 +1943,7 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
     const fs=`#version 300 es
     precision highp float;
     uniform float uTime;
+    uniform float uLightMode;
     in vec3 vP;
     in vec3 vN;
     in vec3 vWorld;
@@ -1966,8 +1967,10 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
       color=mix(color,vec3(.59,.90,.74),.13*variation);
       color=mix(color,vec3(.98,1.,.985),.13*light+.24*frost);
       color=mix(color,vec3(.54,.74,.63),.08*rim);
+      // Light-mode only: strengthen the translucent body and silhouette.
+      color=mix(color,vec3(.35,.69,.51),uLightMode*(.24+.15*rim));
       float alpha=(.15+.49*core+.072*variation)*(1.-.28*rim);
-      alpha=clamp(alpha+.055*frost,.10,.85);
+      alpha=clamp(alpha+.055*frost+uLightMode*(.08+.13*rim),.10,.88);
       outColor=vec4(color,alpha);
     }`;
     function shader(type,source){const sh=gl.createShader(type);gl.shaderSource(sh,source);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){throw Error(gl.getShaderInfoLog(sh));}return sh;}
@@ -1981,7 +1984,7 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
       gl.useProgram(program);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);
       gl.enable(gl.BLEND);
       gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
-      uniforms.time=gl.getUniformLocation(program,'uTime');uniforms.pointer=gl.getUniformLocation(program,'uPointer');
+      uniforms.time=gl.getUniformLocation(program,'uTime');uniforms.pointer=gl.getUniformLocation(program,'uPointer');uniforms.lightMode=gl.getUniformLocation(program,'uLightMode');
       const vertices=[],indices=[];const rows=105,cols=140;
       for(let row=0;row<=rows;row++){
         const theta=Math.PI*row/rows;
@@ -2105,9 +2108,11 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
         const localOpacity=green
           ? opacity*.70*(.46+.54*clearance)
           : opacity*(.22+.78*clearance);
-        g.fillStyle=green?'rgba(92,181,148,'+localOpacity.toFixed(3)+')'
-          :lightShell?'rgba(104,134,120,'+(localOpacity*.68).toFixed(3)+')'
-          :'rgba(252,255,253,'+localOpacity.toFixed(3)+')';
+        g.fillStyle=lightShell
+          ?green?'rgba(50,148,107,'+(localOpacity*.90).toFixed(3)+')'
+            :'rgba(70,124,100,'+(localOpacity*.90).toFixed(3)+')'
+          :green?'rgba(92,181,148,'+localOpacity.toFixed(3)+')'
+            :'rgba(252,255,253,'+localOpacity.toFixed(3)+')';
         const size=dot.size*(.75+.52*front);
         g.beginPath();g.arc(p.x,p.y,size*.5,0,Math.PI*2);g.fill();
       }
@@ -2137,6 +2142,7 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
       if(visible)refreshFrame();
     },{threshold:.04});observer.observe(field);
     window.addEventListener('resize',refreshFrame,{passive:true});
+    window.addEventListener('v3-theme-change',refreshFrame);
     field.addEventListener('pointermove',event=>{if(reduced.matches)return;const r=field.getBoundingClientRect();pointX=((event.clientX-r.left)/r.width-.5)*2;pointY=((event.clientY-r.top)/r.height-.5)*2;});
     field.addEventListener('pointerleave',()=>{pointX=0;pointY=0;});
     function renderRing(){
@@ -2159,7 +2165,7 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
       field.style.setProperty('--field-x',(moving?smoothX*6:0).toFixed(2)+'px');
       field.style.setProperty('--field-y',(moving?smoothY*6:0).toFixed(2)+'px');
       renderRing();
-      if(gl&&program&&mesh){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(uniforms.time,t);gl.uniform2f(uniforms.pointer,smoothX,smoothY);gl.bindVertexArray(mesh.vao);gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);}
+      if(gl&&program&&mesh){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(uniforms.time,t);gl.uniform1f(uniforms.lightMode,document.documentElement.classList.contains('v3-theme-dark')?0:1);gl.uniform2f(uniforms.pointer,smoothX,smoothY);gl.bindVertexArray(mesh.vao);gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);}
       drawFlecks();
       if(moving)scheduleFrame();
     }
@@ -2535,6 +2541,7 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
     headerTheme.setAttribute('aria-label',darkActive?(chinese?'切换为浅色模式':'Switch to light theme'):(chinese?'切换为深色模式':'Switch to dark theme'));
     headerTheme.title=headerTheme.getAttribute('aria-label');
     headerTheme.querySelector('.theme-symbol').textContent=darkActive?'☀':'☾';
+    window.dispatchEvent(new Event('v3-theme-change'));
     pulseFooter();
     requestScrollUpdate();
   }
