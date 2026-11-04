@@ -2045,7 +2045,8 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
       const g=particleContext;
       g.setTransform(scale,0,0,scale,0,0);
       g.clearRect(0,0,width,height);
-      const shellAlpha=document.documentElement.classList.contains('v3-theme-dark')?.70:1;
+      const lightShell=!document.documentElement.classList.contains('v3-theme-dark');
+      const shellAlpha=lightShell?1:.70;
       const spin=t*.10+smoothX*.17;
       const tilt=-.12+smoothY*.13+Math.sin(t*.19)*.055;
       const cs=Math.cos(spin),ss=Math.sin(spin);
@@ -2074,6 +2075,7 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
           ? opacity*.70*(.46+.54*clearance)
           : opacity*(.22+.78*clearance);
         g.fillStyle=green?'rgba(92,181,148,'+localOpacity.toFixed(3)+')'
+          :lightShell?'rgba(104,134,120,'+(localOpacity*.68).toFixed(3)+')'
           :'rgba(252,255,253,'+localOpacity.toFixed(3)+')';
         const size=dot.size*(.75+.52*front);
         g.beginPath();g.arc(p.x,p.y,size*.5,0,Math.PI*2);g.fill();
