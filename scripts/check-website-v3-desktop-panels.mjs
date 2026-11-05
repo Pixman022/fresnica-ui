@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Four real tab panels in the V3 marketing mockup, across engines, themes and widths.
-// All controls inside the wallet picture are presentation-only; only the outer tabs interact.
+// Asset quick actions switch preview tabs; no wallet operation occurs in the mockup.
 import fs from 'node:fs';
 import path from 'node:path';
 import {chromium,firefox,webkit} from 'playwright';
@@ -104,6 +104,29 @@ for(const name of names){
               tag+' chart points must lie on the smooth curve and remain circular '+JSON.stringify(chart));
             check(await page.locator('#desktop-panel-assets .dp-quick-action').count()===3,
               tag+' missing Send / Receive / Swap actions');
+          }
+          if(m.id==='payments'){
+            check(await page.locator('#desktop-panel-payments .dp-payment-amount').count()===1&&
+              await page.locator('#desktop-panel-payments .dp-receive-address').count()===1,
+              tag+' Send amount and Receive address must both be represented');
+          }
+          if(m.id==='swap'){
+            check(await page.locator('#desktop-panel-swap .dp-swap-shell').count()===1&&
+              (await page.locator('#desktop-panel-swap .dp-swap-hint').innerText()).length>5,
+              tag+' Swap must explain that the displayed quote is a preview');
+          }
+          if(m.id==='connect'){
+            check(await page.locator('#desktop-panel-connect .dp-connect-shell').count()===1&&
+              await page.locator('#desktop-panel-connect .dp-request-tag').count()===1,
+              tag+' Connect must display app identity, request and permission review');
+          }
+          if(cfg.theme==='dark'&&m.id!=='assets'){
+            const bg=await page.locator('#desktop-panel-'+m.id+
+              (m.id==='payments'?' .dp-payment-card':m.id==='swap'?' .dp-swap-shell':' .dp-connect-shell'))
+              .evaluate(el=>getComputedStyle(el).backgroundColor);
+            const rgb=bg.match(/[\\d.]+/g)?.slice(0,3).map(Number)||[];
+            check(rgb.length===3&&Math.max(...rgb)-Math.min(...rgb)<=8,
+              tag+' dark preview card must use neutral gray, not tinted green '+bg);
           }
           check(state.scrollWidth<=state.clientWidth+3,tag+' horizontal panel clipping '+JSON.stringify(state));
           check(state.scrollHeight<=state.clientHeight+5&&state.lastBottom<=state.panelBottom+5,
