@@ -92,10 +92,9 @@ html.v3-theme-dark #v3-workspace .workspace-mini {
 }
 #v3-workspace .dp-preview-action {
   display:inline-flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap;
-  padding:9px 13px;border-radius:8px;background:var(--dp-accent);color:#fff;
+  padding:9px 13px;border-radius:8px;background:var(--v3-action-aa);color:#fff;
   font:650 10px/1 var(--Fresnica-font-family,Arial,sans-serif);
 }
-html.v3-theme-dark #v3-workspace .dp-preview-action {color:#10261b;}
 #v3-workspace .dp-preview-action b {font-size:14px;line-height:.8;}
 #v3-workspace .dp-swap-flow {position:relative;display:grid;gap:14px;margin-top:14px;}
 #v3-workspace .dp-swap-asset {
