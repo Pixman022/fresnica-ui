@@ -31,5 +31,14 @@
       tabs[next].focus();
     });
   });
+  // The three actions in the Assets mockup navigate to their preview only.
+  // No real wallet transaction is initiated by this website.
+  scene.querySelectorAll('[data-desktop-action]').forEach(button=>{
+    button.addEventListener('click',()=>{
+      const target=button.dataset.desktopAction==='swap'?2:1;
+      select(target);
+      tabs[target].focus({preventScroll:true});
+    });
+  });
   select(0);
 })();
