@@ -35,7 +35,10 @@ try{
         await page.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
         await page.evaluate(()=>document.fonts.ready);
         await page.waitForTimeout(300);
-        if(theme==='dark')await page.locator('#theme-toggle').click();
+        if(theme==='dark'){
+          await page.locator('#theme-toggle').click();
+          await page.waitForFunction(()=>document.querySelector('.site-header')?.classList.contains('on-dark'));
+        }
         const state=await page.evaluate(()=>{
           const selector='#scene-menu-button,#locale-toggle,#theme-toggle,#download-menu-button';
           const controls=[...document.querySelectorAll(selector)].map(el=>{
@@ -50,6 +53,10 @@ try{
             scrollWidth:document.documentElement.scrollWidth,
             innerWidth:window.innerWidth,
             controls,
+            navigation:{
+              background:getComputedStyle(q('.site-header .top-nav')).backgroundColor,
+              border:getComputedStyle(q('.site-header .top-nav')).borderColor
+            },
             cards:document.querySelectorAll('.feature-card').length,
             firstCardLeft:q('#v3-features .feature-card')?.getBoundingClientRect().left??null,
             workspaceCta:scene&&cta?{
@@ -77,6 +84,10 @@ try{
         assert(state.theme===theme,`${prefix}: theme switch mismatch`);
         assert(state.cards===5,`${prefix}: missing feature card`);
         if(theme==='dark'){
+          assert(state.navigation.background==='rgb(42, 42, 48)',
+            `${prefix}: dark navigation background differs from Fresnica raised surface (${state.navigation.background})`);
+          assert(state.navigation.border==='rgb(72, 72, 80)',
+            `${prefix}: dark navigation border differs from neutral border (${state.navigation.border})`);
           for(const {selector,color} of state.cardSurfaces){
             const rgb=color.match(/[\d.]+/g)?.slice(0,3).map(Number)||[];
             assert(rgb.length===3&&Math.max(...rgb)-Math.min(...rgb)<=8,
@@ -101,6 +112,18 @@ try{
         for(const id of name==='desktop-1440'?sceneIds:['overview','v3-features','v3-workspace']){
           await page.evaluate(id=>{document.getElementById(id)?.scrollIntoView({block:'start',behavior:'instant'});if(id==='v3-features'){const reel=document.getElementById('feature-window');if(reel)reel.scrollLeft=0;}},id);
           await page.waitForTimeout(160);
+          if(theme==='dark'&&id==='v3-about'){
+            const footerNav=await page.evaluate(()=>{
+              const header=document.querySelector('.site-header');
+              return {
+                isFooter:header.classList.contains('on-footer-dark'),
+                background:getComputedStyle(header.querySelector('.top-nav')).backgroundColor
+              };
+            });
+            assert(footerNav.isFooter,`${prefix}: footer navigation state was not activated`);
+            assert(footerNav.background==='rgb(42, 42, 48)',
+              `${prefix}: footer navigation reverted to light surface (${footerNav.background})`);
+          }
           const target=path.join(dest,`${prefix}-${id}.png`);
           fs.mkdirSync(path.dirname(target),{recursive:true});
           await page.screenshot({path:target,animations:'disabled',timeout:20000});
