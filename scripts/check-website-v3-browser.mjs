@@ -64,6 +64,23 @@ try{
             }:null,
             sendBackground:getComputedStyle(q('.mini-send-button')).backgroundColor,
             swapBackground:getComputedStyle(q('.mini-swap-button')).backgroundColor,
+            buttonSystem:{
+              primary:getComputedStyle(q('#overview .cta.primary')).backgroundColor,
+              primaryInk:getComputedStyle(q('#overview .cta.primary')).color,
+              secondary:getComputedStyle(q('#overview .cta.secondary')).backgroundColor,
+              topDownload:getComputedStyle(q('#download-menu-button')).backgroundColor,
+              swapInk:getComputedStyle(q('.mini-swap-button')).color,
+              swapDirection:getComputedStyle(q('.mini-swap-direction')).backgroundColor,
+              selectedTab:getComputedStyle(q('#v3-workspace .desktop-tabs button[aria-selected="true"]')).backgroundColor,
+              selectedTabInk:getComputedStyle(q('#v3-workspace .desktop-tabs button[aria-selected="true"]')).color,
+              disabledMobile:[...document.querySelectorAll('#v3-availability .download-action')].map(el=>({
+                disabled:el.disabled,background:getComputedStyle(el).backgroundColor
+              })),
+              disabledDesktop:{
+                disabled:q('#v3-workspace .desktop-download').disabled,
+                background:getComputedStyle(q('#v3-workspace .desktop-download')).backgroundColor
+              }
+            },
             activitySurface:getComputedStyle(q('.activity-demo')).backgroundColor,
             cardSurfaces:[
               '#overview .orb-card',
@@ -83,6 +100,25 @@ try{
         const prefix=name+'/'+theme;
         assert(state.theme===theme,`${prefix}: theme switch mismatch`);
         assert(state.cards===5,`${prefix}: missing feature card`);
+        const palette=state.buttonSystem;
+        const primary=theme==='dark'?'rgb(9, 118, 84)':'rgb(8, 120, 82)';
+        const secondary=theme==='dark'?'rgb(42, 42, 48)':'rgb(255, 255, 255)';
+        assert(palette.primary===primary&&palette.primaryInk==='rgb(255, 255, 255)',
+          `${prefix}: primary button no longer AA green/white (${palette.primary}, ${palette.primaryInk})`);
+        assert(state.sendBackground===primary,
+          `${prefix}: Send example no longer uses primary surface (${state.sendBackground})`);
+        assert(palette.secondary===secondary&&palette.topDownload===secondary,
+          `${prefix}: hero/header secondary surfaces differ (${palette.secondary}, ${palette.topDownload})`);
+        assert(state.swapBackground===(theme==='dark'?'rgb(255, 255, 255)':'rgb(17, 18, 20)'),
+          `${prefix}: Swap example lost inverse action (${state.swapBackground})`);
+        assert(palette.swapInk===(theme==='dark'?'rgb(17, 18, 20)':'rgb(255, 255, 255)'),
+          `${prefix}: Swap inverse foreground is incorrect (${palette.swapInk})`);
+        assert(palette.selectedTab===primary&&palette.selectedTabInk==='rgb(255, 255, 255)',
+          `${prefix}: desktop selected tab should be green with white type (${palette.selectedTab}, ${palette.selectedTabInk})`);
+        assert(palette.disabledMobile.length===2&&palette.disabledMobile.every(x=>x.disabled&&x.background==='rgb(52, 52, 60)'),
+          `${prefix}: mobile download controls should be neutral and disabled (${JSON.stringify(palette.disabledMobile)})`);
+        assert(palette.disabledDesktop.disabled&&palette.disabledDesktop.background===(theme==='dark'?'rgb(52, 52, 60)':'rgb(243, 243, 245)'),
+          `${prefix}: desktop download should be neutral and disabled (${JSON.stringify(palette.disabledDesktop)})`);
         if(theme==='dark'){
           assert(state.navigation.background==='rgb(42, 42, 48)',
             `${prefix}: dark navigation background differs from Fresnica raised surface (${state.navigation.background})`);
