@@ -244,3 +244,152 @@ html.v3-theme-dark #v3-workspace .ws-sidebar [data-desktop-nav].desktop-current{
 @media(prefers-reduced-motion:reduce){
   #v3-workspace .dp-panel{animation:none!important;}
 }
+
+/* Photo-guided Assets view: precise spline markers, window chrome and three actions.
+   Keep this preview as live HTML/SVG, with no real wallet or market data. */
+#v3-workspace .workspace-mini{position:absolute;}
+html.v3-theme-dark #v3-workspace .workspace.workspace-mini{
+  background:var(--Fresnica-surface);border-color:var(--Fresnica-border-color);
+}
+#v3-workspace .dp-window-chrome{
+  position:absolute;z-index:2;top:0;left:0;right:0;
+  height:21px;display:flex;align-items:center;gap:5px;padding-left:12px;
+  background:var(--Fresnica-surface-high);
+  border-bottom:1px solid var(--Fresnica-border-color);
+  pointer-events:none;
+}
+#v3-workspace .dp-window-chrome i{width:7px;height:7px;border-radius:50%;flex:none;}
+#v3-workspace .dp-window-chrome i:nth-child(1){background:#e46d63;}
+#v3-workspace .dp-window-chrome i:nth-child(2){background:#dfb84c;}
+#v3-workspace .dp-window-chrome i:nth-child(3){background:#5db97b;}
+#v3-workspace .ws-sidebar{padding-top:33px;}
+html.m10-framed #v3-workspace .ws-content{padding:31px 18px 10px;}
+#v3-workspace .ws-sidebar [data-desktop-nav]{
+  display:flex;align-items:center;gap:9px;white-space:nowrap;
+}
+#v3-workspace .ws-sidebar [data-desktop-nav] svg{
+  flex:none;width:15px;height:15px;color:currentColor;
+}
+#v3-workspace .dp-panel-assets .dp-heading{margin:5px 0 12px;}
+#v3-workspace .dp-panel-assets .dp-balance{
+  display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:8px;
+  box-sizing:border-box;height:clamp(60px,10.5vw,146px);min-height:0;
+  padding:clamp(6px,1.2vw,18px);
+}
+#v3-workspace .dp-balance-summary{flex:1 1 45%;min-width:0;}
+#v3-workspace .dp-panel-assets .dp-balance strong{
+  font-size:clamp(16px,2.2vw,31px);letter-spacing:-.045em;
+  margin:8px 0 0;
+}
+#v3-workspace .dp-balance-change{display:flex;align-items:center;gap:8px;margin-top:10px;}
+#v3-workspace .dp-balance-change b{
+  display:inline-flex;align-items:center;border-radius:20px;
+  padding:5px 9px;background:var(--Fresnica-surface-highest);
+  color:var(--Fresnica-gain-color);
+  font:600 10px/1.1 var(--Fresnica-font-family,Arial,sans-serif);
+}
+#v3-workspace .dp-balance-change small{color:var(--dp-muted);font:500 10px/1.1 var(--Fresnica-font-family,Arial,sans-serif);}
+#v3-workspace .dp-panel-assets .dp-balance .dp-portfolio-chart{
+  display:block;flex:0 1 52%;width:52%;height:auto;aspect-ratio:3/1;max-height:100%;
+  overflow:visible;margin:0;min-width:0;
+}
+#v3-workspace .dp-panel-assets .dp-trend-area{fill:url(#dp-portfolio-fill);stroke:none;}
+#v3-workspace .dp-panel-assets .dp-trend-line{
+  fill:none;stroke:var(--Fresnica-gain-color);stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round;
+}
+#v3-workspace .dp-panel-assets .dp-trend-points circle{
+  fill:var(--dp-surface);stroke:var(--Fresnica-gain-color);stroke-width:2.1;
+  vector-effect:non-scaling-stroke;
+}
+#v3-workspace .dp-quick-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:10px;}
+#v3-workspace .dp-quick-action{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  box-sizing:border-box;min-width:0;height:41px;padding:0 9px;border-radius:10px;
+  background:var(--Fresnica-surface-high);
+  color:var(--dp-ink);border:1px solid var(--dp-line);
+  font:600 12px/1 var(--Fresnica-font-family,Arial,sans-serif);cursor:pointer;
+  transition:background-color .18s ease,border-color .18s ease;
+}
+#v3-workspace .dp-quick-action svg{width:16px;height:16px;flex:none;color:var(--v3-action-aa);}
+html.v3-theme-dark #v3-workspace .dp-quick-action:not(.dp-quick-primary) svg{color:var(--Fresnica-primary-color);}
+#v3-workspace .dp-quick-action:hover{background:var(--Fresnica-surface-highest);}
+#v3-workspace .dp-quick-action:focus-visible{
+  outline:2px solid var(--Fresnica-focus-color);outline-offset:2px;
+}
+#v3-workspace .dp-quick-action.dp-quick-primary{
+  background:var(--v3-action-aa);border-color:var(--v3-action-aa);color:#fff;
+}
+#v3-workspace .dp-quick-action.dp-quick-primary svg{color:#fff;}
+#v3-workspace .dp-quick-action.dp-quick-primary:hover{
+  background:var(--v3-action-aa-hover);border-color:var(--v3-action-aa-hover);
+}
+#v3-workspace .dp-panel-assets .dp-assets-list{
+  box-sizing:border-box;margin-top:10px;padding:0 13px;border:1px solid var(--dp-line);
+  border-radius:13px;background:var(--Fresnica-surface);
+}
+#v3-workspace .dp-panel-assets .dp-asset-row{min-height:45px;padding:6px 2px;}
+#v3-workspace .dp-panel-assets .dp-asset-row > div:not(.dp-asset-values) small{
+  display:block;margin-top:4px;color:var(--dp-muted);
+  font:500 10px/1.1 var(--Fresnica-font-family,Arial,sans-serif);
+}
+#v3-workspace .dp-panel-assets .dp-asset-values{
+  display:flex;flex-direction:column;align-items:flex-end;gap:5px;
+  flex:0 0 auto;white-space:nowrap;
+}
+#v3-workspace .dp-panel-assets .dp-asset-values strong{
+  color:var(--dp-ink);font:700 12px/1 var(--Fresnica-font-family,Arial,sans-serif);
+  font-variant-numeric:tabular-nums;
+}
+#v3-workspace .dp-panel-assets .dp-asset-values small{
+  color:var(--dp-muted);font:500 9px/1 var(--Fresnica-font-family,Arial,sans-serif);
+  font-variant-numeric:tabular-nums;
+}
+@media(max-width:1100px){
+  #v3-workspace .dp-window-chrome{height:16px;padding-left:8px;gap:4px;}
+  #v3-workspace .dp-window-chrome i{width:5px;height:5px;}
+  #v3-workspace .ws-sidebar{padding-top:22px;}
+  html.m10-framed #v3-workspace .ws-content{padding:23px 10px 6px;}
+  #v3-workspace .ws-sidebar [data-desktop-nav]{gap:5px;}
+  #v3-workspace .ws-sidebar [data-desktop-nav] svg{width:11px;height:11px;}
+  #v3-workspace .dp-panel-assets .dp-heading{margin:2px 0 7px;}
+  #v3-workspace .dp-panel-assets .dp-balance{padding:7px 9px;gap:4px;border-radius:9px;}
+  #v3-workspace .dp-panel-assets .dp-balance span{font-size:8px;}
+  #v3-workspace .dp-panel-assets .dp-balance strong{font-size:18px;margin-top:3px;}
+  #v3-workspace .dp-balance-change{margin-top:4px;gap:5px;}
+  #v3-workspace .dp-balance-change b{font-size:7px;padding:3px 5px;}
+  #v3-workspace .dp-balance-change small{font-size:7px;}
+  #v3-workspace .dp-panel-assets .dp-trend-line{stroke-width:2.6;}
+  #v3-workspace .dp-quick-actions{margin-top:6px;gap:5px;}
+  #v3-workspace .dp-quick-action{height:28px;gap:4px;padding:0 4px;font-size:9px;border-radius:7px;}
+  #v3-workspace .dp-quick-action svg{width:12px;height:12px;}
+  #v3-workspace .dp-panel-assets .dp-assets-list{margin-top:6px;padding:0 7px;border-radius:9px;}
+  #v3-workspace .dp-panel-assets .dp-asset-row{min-height:28px;padding:3px 1px;gap:6px;}
+  #v3-workspace .dp-panel-assets .dp-asset-values strong{font-size:9px;}
+  #v3-workspace .dp-panel-assets .dp-asset-values small,
+  #v3-workspace .dp-panel-assets .dp-asset-row > div:not(.dp-asset-values) small{font-size:7px;margin-top:2px;}
+  #v3-workspace .dp-panel-assets .dp-asset-values{gap:2px;}
+}
+@media(max-width:680px){
+  #v3-workspace .dp-window-chrome{height:13px;}
+  #v3-workspace .ws-sidebar{padding-top:18px;}
+  html.m10-framed #v3-workspace .ws-content{padding:19px 8px 5px;}
+  #v3-workspace .ws-sidebar [data-desktop-nav]{gap:3px;}
+  #v3-workspace .ws-sidebar [data-desktop-nav] svg{width:9px;height:9px;}
+  #v3-workspace .dp-panel-assets .dp-heading{margin:1px 0 5px;}
+  #v3-workspace .dp-panel-assets .dp-balance{padding:5px 7px;border-radius:7px;}
+  #v3-workspace .dp-panel-assets .dp-balance strong{font-size:14px;}
+  #v3-workspace .dp-balance-change{gap:3px;margin-top:2px;}
+  #v3-workspace .dp-balance-change b{font-size:6px;padding:2px 4px;}
+  #v3-workspace .dp-balance-change small{font-size:6px;}
+  #v3-workspace .dp-quick-actions{margin-top:5px;gap:4px;}
+  #v3-workspace .dp-quick-action{height:24px;gap:3px;padding:0 2px;font-size:8px;border-radius:6px;}
+  #v3-workspace .dp-quick-action svg{width:9px;height:9px;}
+  #v3-workspace .dp-panel-assets .dp-assets-list{margin-top:5px;padding:0 5px;}
+  #v3-workspace .dp-panel-assets .dp-asset-row{min-height:24px;padding:2px 1px;gap:4px;}
+  #v3-workspace .dp-panel-assets .dp-asset-values strong{font-size:8px;}
+  #v3-workspace .dp-panel-assets .dp-asset-values small,
+  #v3-workspace .dp-panel-assets .dp-asset-row > div:not(.dp-asset-values) small{font-size:6px;}
+}
+@media(prefers-reduced-motion:reduce){
+  #v3-workspace .dp-quick-action{transition:none;}
+}
