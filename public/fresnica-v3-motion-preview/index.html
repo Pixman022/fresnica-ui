@@ -1658,8 +1658,6 @@ html[lang="zh-CN"] #orb-tuner [lang="zh-CN"]{display:inline}
 #orb-tuner .ot-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
 #orb-tuner h2{margin:0;color:var(--ot-ink);font:700 17px/1.25 var(--Fresnica-font-family,Arial,sans-serif)}
 #orb-tuner .ot-description{margin:6px 0 16px;color:var(--ot-muted);font-size:11px}
-#orb-tuner .ot-dark-note{display:none;margin:-8px 0 12px;color:var(--ot-muted);font-size:11px}
-html.v3-theme-dark #orb-tuner .ot-dark-note{display:block}
 #orb-tuner .ot-close{
   width:30px;height:30px;border:0;background:transparent;color:var(--ot-muted);
   font:normal 23px/1 var(--Fresnica-font-family,Arial,sans-serif);border-radius:6px;
@@ -1794,7 +1792,6 @@ html.v3-theme-dark #orb-tuner #orb-tuner-copy{color:#10251b}
         <button class="ot-close" id="orb-tuner-close" type="button" aria-label="Close gradient panel">×</button>
       </div>
       <p class="ot-description"><span lang="en">Adjust the live sphere. Its two green colors stay unchanged.</span><span lang="zh-CN">实时调整球体，两端绿色色值保持不变。</span></p>
-      <p class="ot-dark-note"><span lang="en">Switch to light theme to see gradient adjustments.</span><span lang="zh-CN">请切换至浅色模式查看渐变调整效果。</span></p>
       <div class="ot-setting">
         <div class="ot-label"><label for="orb-tuner-spread"><span lang="en">Green coverage</span><span lang="zh-CN">深绿覆盖范围</span></label><output id="orb-tuner-spread-value" for="orb-tuner-spread">0.62</output></div>
         <input type="range" id="orb-tuner-spread" min="0.10" max="1.40" step="0.02" value="0.62" aria-describedby="orb-tuner-spread-hint">
@@ -2072,18 +2069,20 @@ html.v3-theme-dark #orb-tuner #orb-tuner-copy{color:#10251b}
       float core=exp(-1.7*pow(length((vWorld.xy-vec2(.06,-.05))*vec2(1.45,1.68)),2.0));
       float frost=step(.984,hash3(floor(p*290.)));
       float light=max(0.,dot(normalize(vN),normalize(vec3(-.42,.67,1.))));
-      // A clearer emerald nucleus with a soft translucent mint perimeter.
-      vec3 color=mix(vec3(.80,.95,.87),vec3(.45,.82,.65),.15+.72*core);
+      // One adjustable gradient controls coverage, transition and opacity in both themes.
+      float u=clamp((core-.08)/.90,0.,1.);
+      float gradient=mix(smoothstep(0.,1.,u),u,uGradientMix);
+      float coverage=pow(gradient,uSpread);
+      // Keep the original dark-theme emerald palette, wave highlights and soft rim.
+      vec3 color=mix(vec3(.80,.95,.87),vec3(.45,.82,.65),.15+.72*coverage);
       color=mix(color,vec3(.59,.90,.74),.13*variation);
       color=mix(color,vec3(.98,1.,.985),.13*light+.24*frost);
       color=mix(color,vec3(.54,.74,.63),.08*rim);
-      // Light mode: a vivid inner green fades through mint to a translucent outer shell.
-      float u=clamp((core-.08)/.90,0.,1.);
-      float gradient=mix(smoothstep(0.,1.,u),u,uGradientMix);
-      vec3 lightShell=mix(vec3(.87,.97,.90),vec3(.16,.70,.45),pow(gradient,uSpread));
+      // Light theme keeps its approved two endpoint colors.
+      vec3 lightShell=mix(vec3(.87,.97,.90),vec3(.16,.70,.45),coverage);
       lightShell=mix(lightShell,vec3(.98,1.,.985),.065*light+.07*frost);
       color=mix(color,lightShell,uLightMode);
-      float alpha=(.15+.49*core+.072*variation)*(1.-.28*rim);
+      float alpha=(mix(uOuterAlpha,uInnerAlpha,pow(gradient,1.02))+.072*variation)*(1.-.28*rim);
       alpha=clamp(alpha+.055*frost,.10,.88);
       float lightAlpha=mix(uOuterAlpha,uInnerAlpha,pow(gradient,1.02))*(1.-.15*rim);
       alpha=mix(alpha,clamp(lightAlpha+.035*frost,.08,1.),uLightMode);
