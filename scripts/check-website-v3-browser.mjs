@@ -38,6 +38,8 @@ try{
         if(theme==='dark'){
           await page.locator('#theme-toggle').click();
           await page.waitForFunction(()=>document.querySelector('.site-header')?.classList.contains('on-dark'));
+          // Wait for the 0.18-0.2s button color transitions before sampling computed colors.
+          await page.waitForTimeout(320);
         }
         const state=await page.evaluate(()=>{
           const selector='#scene-menu-button,#locale-toggle,#theme-toggle,#download-menu-button';
