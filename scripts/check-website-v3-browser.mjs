@@ -88,6 +88,48 @@ try{
           await page.screenshot({path:target,animations:'disabled',timeout:20000});
           files.push(path.relative(dest,target));
         }
+        if(name==='desktop-1440'&&theme==='dark'){
+          // Dark-theme orb uses the same approved uniforms and keeps its own green palette.
+          await page.evaluate(()=>document.getElementById('orb-field')?.scrollIntoView({block:'center',behavior:'instant'}));
+          await page.waitForFunction(()=>document.getElementById('orb-tuner')?.hidden===false,null,{timeout:8000});
+          const canvas=page.locator('#orb-canvas');
+          const hasWebGL=await canvas.evaluate(el=>el.style.display!=='none'&&Boolean(el.getContext('webgl2')));
+          const before=hasWebGL?await canvas.screenshot({animations:'disabled'}):null;
+          const backgroundBefore=await page.locator('#fallback-orb').evaluate(el=>el.style.background);
+          await page.locator('#orb-tuner-toggle').click();
+          assert(await page.locator('#orb-tuner-panel').isVisible(),'Dark-mode gradient tuner failed to open');
+          await page.locator('#orb-tuner-spread').evaluate(el=>{
+            el.value='0.20';el.dispatchEvent(new Event('input',{bubbles:true}));
+          });
+          await page.locator('#orb-tuner-inner').evaluate(el=>{
+            el.value='0.84';el.dispatchEvent(new Event('input',{bubbles:true}));
+          });
+          await page.waitForTimeout(130);
+          const adjusted=await page.evaluate(()=>{
+            const el=document.getElementById('orb-canvas');
+            const gl=el.getContext('webgl2');
+            const program=gl?.getParameter(gl.CURRENT_PROGRAM);
+            return {
+              spread:document.getElementById('orb-tuner-spread-value').textContent,
+              inner:document.getElementById('orb-tuner-inner-value').textContent,
+              background:document.getElementById('fallback-orb').style.background,
+              dark:document.documentElement.classList.contains('v3-theme-dark'),
+              gpuMode:program?gl.getUniform(program,gl.getUniformLocation(program,'uLightMode')):null,
+              gpuSpread:program?gl.getUniform(program,gl.getUniformLocation(program,'uSpread')):null
+            };
+          });
+          assert(adjusted.dark&&adjusted.spread==='0.20'&&adjusted.inner==='0.84'&&
+            adjusted.background!==backgroundBefore,
+            'Dark mode orb controls did not update: '+JSON.stringify(adjusted));
+          if(hasWebGL){
+            assert(adjusted.gpuMode===0&&Math.abs(adjusted.gpuSpread-.20)<.001,
+              'Dark mode shader failed to receive live gradient uniforms: '+JSON.stringify(adjusted));
+            const after=await canvas.screenshot({animations:'disabled'});
+            assert(!before.equals(after),'Dark-mode orb canvas did not react to gradient change');
+          }
+          await page.locator('#orb-tuner-reset').click();
+          await page.keyboard.press('Escape');
+        }
         if(name==='desktop-1440'&&theme==='light'){
           // Live gradient controls update the shader inputs and the CSS fallback without a reload.
           await page.evaluate(()=>document.getElementById('orb-field')?.scrollIntoView({block:'center',behavior:'instant'}));
