@@ -19,7 +19,7 @@ const modules=[
   {id:'assets',child:'.dp-balance',count:1,detail:'.dp-asset-row',details:2,title:'Assets overview',zh:'资产总览'},
   {id:'payments',child:'.dp-payment-grid',count:1,detail:'.dp-field',details:2,title:'Send & receive',zh:'发送与接收'},
   {id:'swap',child:'.dp-swap-asset',count:2,detail:'.dp-preview-action',details:1,title:'Swap assets',zh:'资产兑换'},
-  {id:'connect',child:'.dp-permissions > div',count:2,detail:'.dp-preview-action',details:1,title:'App connection',zh:'应用连接请求'}
+  {id:'connect',child:'.dp-permissions > div',count:1,detail:'.dp-preview-action',details:1,title:'App connection',zh:'应用连接请求'}
 ];
 fs.mkdirSync(output,{recursive:true});
 const results=[],failures=[];
