@@ -2211,33 +2211,50 @@ html.m10-framed #orb-tuner .ot-close{min-width:44px;background:transparent;color
         <div class="dp-heading"><h3>Send &amp; receive</h3></div>
         <div class="dp-payment-grid">
           <div class="dp-payment-card">
-            <span class="dp-card-eyebrow">SEND</span>
-            <div class="dp-field"><span>Amount</span><strong>25.00 <small>USDC</small></strong></div>
+            <div class="dp-card-topline"><span class="dp-card-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="dp-card-eyebrow">SEND</span></div>
+            <div class="dp-payment-amount"><span>Amount</span><strong>25.00 <small>USDC</small></strong></div>
             <div class="dp-field"><span>To address</span><strong>GABX…7BD</strong></div>
+            <div class="dp-field"><span>Memo</span><strong>Optional</strong></div>
           </div>
           <div class="dp-receive-card">
-            <span class="dp-receive-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13m0 0-4-4m4 4 4-4M5 20h14"/></svg></span>
-            <strong>Receive</strong><code>GABX…7BD</code>
+            <span class="dp-receive-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v15m0 0-5-5m5 5 5-5M5 21h14"/></svg></span>
+            <strong>Receive</strong>
+            <div class="dp-receive-address"><span>Your wallet address</span><code>GABX…7BD</code></div>
           </div>
         </div>
+        <div class="dp-payment-footer"><span>Review details before approval</span><span class="dp-preview-action">Review <b aria-hidden="true">↗</b></span></div>
       </div>
       <div class="desktop-panel dp-panel dp-panel-swap" id="desktop-panel-swap" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-swap" hidden>
         <div class="dp-heading"><h3>Swap assets</h3></div>
-        <div class="dp-swap-flow">
-          <div class="dp-swap-asset"><div><span>You pay</span><strong>120.00</strong></div><span class="dp-asset-tag"><i class="dp-token dp-token-xlm">X</i>XLM</span></div>
-          <span class="dp-swap-direction" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v15m0 0-4-4m4 4 4-4M16 20V5m0 0-4 4m4-4 4 4"/></svg></span>
-          <div class="dp-swap-asset"><div><span>You receive</span><strong>≈ 14.40</strong></div><span class="dp-asset-tag"><i class="dp-token dp-token-usdc">U</i>USDC</span></div>
+        <div class="dp-swap-shell">
+          <div class="dp-swap-flow">
+            <div class="dp-swap-asset">
+              <div><span>You pay</span><strong>120.00</strong></div>
+              <span class="dp-asset-tag"><i class="dp-token dp-token-xlm" aria-hidden="true">X</i>XLM</span>
+            </div>
+            <span class="dp-swap-direction" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v15m0 0-4-4m4 4 4-4M16 20V5m0 0-4 4m4-4 4 4"/></svg></span>
+            <div class="dp-swap-asset">
+              <div><span>You receive</span><strong>≈ 14.40</strong></div>
+              <span class="dp-asset-tag"><i class="dp-token dp-token-usdc" aria-hidden="true">U</i>USDC</span>
+            </div>
+          </div>
         </div>
-        <div class="dp-footer-line"><span class="dp-preview-action">Review <b aria-hidden="true">↗</b></span></div>
+        <div class="dp-footer-line"><span class="dp-swap-hint">Estimated quote · Preview</span><span class="dp-preview-action">Review swap <b aria-hidden="true">↗</b></span></div>
       </div>
       <div class="desktop-panel dp-panel dp-panel-connect" id="desktop-panel-connect" role="tabpanel" tabindex="0" aria-labelledby="desktop-tab-connect" hidden>
         <div class="dp-heading"><h3>App connection</h3></div>
-        <div class="dp-app-request">
-          <span class="dp-app-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m10 13 4-4M8 15H7a4 4 0 0 1 0-8h4m2 2h4a4 4 0 0 1 0 8h-4"/></svg></span>
-          <div><strong>Compatible app</strong></div>
+        <div class="dp-connect-shell">
+          <div class="dp-app-request">
+            <span class="dp-app-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a5 5 0 0 0 8 1l2-2a5 5 0 0 0-7-7l-2 2M14 10a5 5 0 0 0-8-1l-2 2a5 5 0 0 0 7 7l2-2"/></svg></span>
+            <div><strong>Compatible app</strong><small>Connection request</small></div>
+            <span class="dp-request-tag">Pending</span>
+          </div>
+          <div class="dp-permissions">
+            <span class="dp-permissions-label">Requested access</span>
+            <div><span class="dp-permission-check" aria-hidden="true">✓</span>View public wallet address</div>
+          </div>
+          <div class="dp-connect-actions"><span class="dp-connect-hint">Review permissions first</span><span class="dp-preview-action">Review <b aria-hidden="true">↗</b></span></div>
         </div>
-        <div class="dp-permissions"><div><span aria-hidden="true">✓</span>View public wallet address</div></div>
-        <div class="dp-connect-actions"><span class="dp-preview-action">Review <b aria-hidden="true">↗</b></span></div>
       </div>
     </div>
   </div>
