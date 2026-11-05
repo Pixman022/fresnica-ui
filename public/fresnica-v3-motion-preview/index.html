@@ -2186,13 +2186,7 @@ html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .top-nav
         for(let x=gap*.5+(row%2)*gap*.5;x<side-gap*.5;x+=gap){
           const index=(Math.floor(y)*side+Math.floor(x))*4+3;
           if(rgba[index]<120)continue;
-          const id=dots.length;
-          dots.push({
-            u:x/side-.5,v:y/side-.5,
-            sparkle:seeded(id+1701)<.32,
-            phase:seeded(id+2307)*Math.PI*2,
-            rate:1.2+seeded(id+2891)*1.8
-          });
+          dots.push({u:x/side-.5,v:y/side-.5});
         }
       }
       if(dots.length<120)return;
@@ -2201,19 +2195,21 @@ html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .top-nav
     }
     function drawLogoFlecks(g,width,height){
       if(!logoFlecks.length)return;
-      // Keep the white logo fixed and legible; only scattered particles twinkle.
+      // Steady white particles; a restrained breathing shape and passing ripple replace flicker.
       const mobile=compactOrb.matches;
       const diameter=Math.min(width,height)*(mobile ? .308 : .301);
       const centreX=width*.5,centreY=height*.5;
       const radius=mobile?.82:1.10;
-      const twinkling=playing&&!reduced.matches;
+      const animated=playing&&!reduced.matches;
+      const breathe=animated ? 1+.012*Math.sin(t*.9) : 1;
+      const floatY=animated ? .75*Math.sin(t*.65) : 0;
       g.save();
       g.fillStyle='#fff';
+      g.globalAlpha=1;
       for(const p of logoFlecks){
-        g.globalAlpha=twinkling&&p.sparkle
-          ? .38+.62*Math.pow(.5+.5*Math.sin(t*p.rate+p.phase),3)
-          : 1;
-        const x=centreX+p.u*diameter,y=centreY+p.v*diameter;
+        const ripple=animated ? .65*Math.sin(t*1.25+p.u*9-p.v*5) : 0;
+        const x=centreX+p.u*diameter*breathe;
+        const y=centreY+p.v*diameter*breathe+floatY+ripple;
         g.beginPath();
         g.arc(x,y,radius,0,Math.PI*2);
         g.fill();
