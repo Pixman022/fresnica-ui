@@ -124,7 +124,7 @@ for(const name of names){
             const bg=await page.locator('#desktop-panel-'+m.id+
               (m.id==='payments'?' .dp-payment-card':m.id==='swap'?' .dp-swap-shell':' .dp-connect-shell'))
               .evaluate(el=>getComputedStyle(el).backgroundColor);
-            const rgb=bg.match(/[\\d.]+/g)?.slice(0,3).map(Number)||[];
+            const rgb=bg.match(/[0-9.]+/g)?.slice(0,3).map(Number)||[];
             check(rgb.length===3&&Math.max(...rgb)-Math.min(...rgb)<=8,
               tag+' dark preview card must use neutral gray, not tinted green '+bg);
           }
