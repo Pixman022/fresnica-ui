@@ -179,7 +179,11 @@
     "View Receive preview":"查看收款功能示例",
     "View Swap preview":"查看兑换功能示例",
     "USD Coin":"USD Coin",
-    "Stellar Lumens":"Stellar Lumens"
+    "Stellar Lumens":"Stellar Lumens",
+    "Estimated quote · Preview":"预估兑换 · 仅供演示",
+    "Connection request":"连接请求",
+    "Requested access":"请求的权限",
+    "Review permissions first":"请先核对权限"
   });
   let locale = 'en';
   const nodeOriginal = new WeakMap();
