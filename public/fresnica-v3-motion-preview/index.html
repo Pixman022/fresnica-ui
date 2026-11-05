@@ -1623,6 +1623,67 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
 }
 </style>
   <link rel="stylesheet" href="./m50-desktop-preview.css">
+
+<style id="orb-tuner-styles">
+/* V3 preview-only gradient tuning; kept outside the framed page so it never clips the orb. */
+#orb-tuner{
+  --ot-bg:#ffffff;--ot-ink:#203328;--ot-muted:#64766c;--ot-border:#dce9df;--ot-accent:#0b9064;
+  position:fixed;bottom:clamp(16px,2.5vh,28px);left:clamp(14px,2.4vw,32px);
+  z-index:1500;width:min(318px,calc(100vw - 28px));
+  font:500 12px/1.45 var(--Fresnica-font-family,Arial,sans-serif);color:var(--ot-ink);
+}
+html.v3-theme-dark #orb-tuner{
+  --ot-bg:#17271f;--ot-ink:#e9f5ec;--ot-muted:#a3b9ab;--ot-border:#3d5948;--ot-accent:#8ce2b3;
+}
+#orb-tuner[hidden],#orb-tuner-panel[hidden]{display:none!important}
+#orb-tuner [lang="zh-CN"]{display:none}
+html[lang="zh-CN"] #orb-tuner [lang="en"]{display:none}
+html[lang="zh-CN"] #orb-tuner [lang="zh-CN"]{display:inline}
+#orb-tuner button,#orb-tuner input{touch-action:manipulation}
+#orb-tuner-toggle{
+  display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:10px 15px;
+  border:1px solid rgba(255,255,255,.17);border-radius:999px;
+  background:#14271e;color:#fff;font:700 11px/1 var(--Fresnica-font-family,Arial,sans-serif);
+  letter-spacing:.035em;box-shadow:0 9px 28px rgba(9,26,17,.18);
+}
+#orb-tuner-toggle svg{width:17px;height:17px;flex:none}
+#orb-tuner-toggle[aria-expanded="true"]{background:#136c4b}
+#orb-tuner-panel{
+  position:absolute;left:0;bottom:calc(100% + 11px);width:100%;
+  max-height:calc(100dvh - 110px);overflow-y:auto;overscroll-behavior:contain;
+  padding:17px 17px 13px;border-radius:15px;
+  background:var(--ot-bg);border:1px solid var(--ot-border);
+  box-shadow:0 19px 50px rgba(14,37,24,.19);
+}
+#orb-tuner .ot-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+#orb-tuner h2{margin:0;color:var(--ot-ink);font:700 17px/1.25 var(--Fresnica-font-family,Arial,sans-serif)}
+#orb-tuner .ot-description{margin:6px 0 16px;color:var(--ot-muted);font-size:11px}
+#orb-tuner .ot-close{
+  width:30px;height:30px;border:0;background:transparent;color:var(--ot-muted);
+  font:normal 23px/1 var(--Fresnica-font-family,Arial,sans-serif);border-radius:6px;
+}
+#orb-tuner .ot-setting{margin:12px 0 16px}
+#orb-tuner .ot-label{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px}
+#orb-tuner .ot-label label{color:var(--ot-ink);font-weight:650}
+#orb-tuner output{font:700 12px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--ot-accent);font-variant-numeric:tabular-nums}
+#orb-tuner input[type="range"]{display:block;width:100%;height:20px;margin:0;accent-color:var(--ot-accent);cursor:pointer}
+#orb-tuner .ot-hint{display:block;margin-top:3px;color:var(--ot-muted);font-size:10px}
+#orb-tuner .ot-actions{display:flex;align-items:center;gap:8px;margin-top:4px}
+#orb-tuner .ot-action{
+  flex:1;min-height:38px;padding:8px 10px;border:1px solid var(--ot-border);
+  border-radius:8px;background:transparent;color:var(--ot-ink);font-weight:650;font-size:11px;
+}
+#orb-tuner #orb-tuner-copy{background:var(--ot-accent);color:var(--ot-bg);border-color:var(--ot-accent)}
+html.v3-theme-dark #orb-tuner #orb-tuner-copy{color:#10251b}
+#orb-tuner .ot-status{min-height:16px;margin:8px 0 0;color:var(--ot-muted);font-size:11px}
+#orb-tuner button:focus-visible,#orb-tuner input:focus-visible{
+  outline:2px solid var(--ot-accent);outline-offset:3px;
+}
+@media(max-width:680px){
+  #orb-tuner{bottom:12px;left:12px;width:min(306px,calc(100vw - 24px))}
+  #orb-tuner-panel{padding:14px;max-height:calc(100dvh - 88px)}
+}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
@@ -1716,6 +1777,46 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
     </section>
     <div class="ticker" aria-label="Fresnica wallet focus: assets, transfers, swaps and connected apps"><div class="ticker-track"><span><em></em>YOUR ASSETS</span><span><em></em>SEND &amp; RECEIVE</span><span><em></em>SWAPS</span><span><em></em>COMPATIBLE APPS</span><span><em></em>BUILT FOR STELLAR</span><span><em></em>YOUR ASSETS</span><span><em></em>SEND &amp; RECEIVE</span><span><em></em>SWAPS</span><span><em></em>COMPATIBLE APPS</span><span><em></em>BUILT FOR STELLAR</span></div></div>
   </main>
+
+  <aside id="orb-tuner" aria-label="Orb gradient adjustments" hidden>
+    <button id="orb-tuner-toggle" type="button" aria-expanded="false" aria-controls="orb-tuner-panel"
+      title="Adjust sphere gradient">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="#14271e"/><circle cx="15" cy="12" r="2" fill="#14271e"/><circle cx="9" cy="17" r="2" fill="#14271e"/>
+      </svg>
+      <span lang="en">ORB GRADIENT</span><span lang="zh-CN">球体渐变</span>
+    </button>
+    <section id="orb-tuner-panel" aria-labelledby="orb-tuner-title" hidden>
+      <div class="ot-top">
+        <h2 id="orb-tuner-title"><span lang="en">Orb gradient</span><span lang="zh-CN">球体渐变调节</span></h2>
+        <button class="ot-close" id="orb-tuner-close" type="button" aria-label="Close gradient panel">×</button>
+      </div>
+      <p class="ot-description"><span lang="en">Adjust the live sphere. Its two green colors stay unchanged.</span><span lang="zh-CN">实时调整球体，两端绿色色值保持不变。</span></p>
+      <div class="ot-setting">
+        <div class="ot-label"><label for="orb-tuner-spread"><span lang="en">Green coverage</span><span lang="zh-CN">深绿覆盖范围</span></label><output id="orb-tuner-spread-value" for="orb-tuner-spread">0.88</output></div>
+        <input type="range" id="orb-tuner-spread" min="0.60" max="1.40" step="0.02" value="0.88" aria-describedby="orb-tuner-spread-hint">
+        <small class="ot-hint" id="orb-tuner-spread-hint"><span lang="en">Lower value = wider green center</span><span lang="zh-CN">数值越小，深绿部分越向外扩张</span></small>
+      </div>
+      <div class="ot-setting">
+        <div class="ot-label"><label for="orb-tuner-blend"><span lang="en">Linear transition</span><span lang="zh-CN">线性过渡权重</span></label><output id="orb-tuner-blend-value" for="orb-tuner-blend">0.60</output></div>
+        <input type="range" id="orb-tuner-blend" min="0" max="1" step="0.05" value="0.60">
+        <small class="ot-hint"><span lang="en">Higher value = a more even fade</span><span lang="zh-CN">数值越大，中间渐变越均匀</span></small>
+      </div>
+      <div class="ot-setting">
+        <div class="ot-label"><label for="orb-tuner-outer"><span lang="en">Outer opacity</span><span lang="zh-CN">外层透明度</span></label><output id="orb-tuner-outer-value" for="orb-tuner-outer">0.32</output></div>
+        <input type="range" id="orb-tuner-outer" min="0.10" max="0.60" step="0.02" value="0.32">
+      </div>
+      <div class="ot-setting">
+        <div class="ot-label"><label for="orb-tuner-inner"><span lang="en">Inner opacity</span><span lang="zh-CN">中心透明度</span></label><output id="orb-tuner-inner-value" for="orb-tuner-inner">0.88</output></div>
+        <input type="range" id="orb-tuner-inner" min="0.50" max="1" step="0.02" value="0.88">
+      </div>
+      <div class="ot-actions">
+        <button class="ot-action" id="orb-tuner-reset" type="button"><span lang="en">Reset</span><span lang="zh-CN">恢复默认</span></button>
+        <button class="ot-action" id="orb-tuner-copy" type="button"><span lang="en">Copy values</span><span lang="zh-CN">复制参数</span></button>
+      </div>
+      <p class="ot-status" id="orb-tuner-status" role="status" aria-live="polite"></p>
+    </section>
+  </aside>
   <!-- The page follows the reference video's chapter order, proportions and motion rhythm. -->
 <section class="chapter particle-scene" id="v3-ecosystem" data-chapter="Connected experience" data-theme="light" aria-labelledby="ecosystem-title">
   <div class="orbital-intro"><p class="chapter-kicker reveal">FRESNICA / CONNECTED BY DESIGN</p><h2 class="chapter-title reveal delay-1" id="ecosystem-title">Everything, connected.</h2><p class="chapter-kicker reveal delay-2">ASSETS &nbsp; / &nbsp; APPS &nbsp; / &nbsp; EXCHANGE &nbsp; / &nbsp; PEOPLE</p></div>
@@ -1918,6 +2019,8 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
     let smoothX=0,smoothY=0;
     let gl=null,program=null,mesh=null;
     let uniforms={};
+    const orbDefaults={spread:.88,blend:.60,outer:.32,inner:.88};
+    const orbValues={...orbDefaults};
     const vs=`#version 300 es
     precision highp float;
     in vec3 aPosition;
@@ -1944,6 +2047,10 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
     precision highp float;
     uniform float uTime;
     uniform float uLightMode;
+    uniform float uSpread;
+    uniform float uGradientMix;
+    uniform float uOuterAlpha;
+    uniform float uInnerAlpha;
     in vec3 vP;
     in vec3 vN;
     in vec3 vWorld;
@@ -1969,13 +2076,13 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
       color=mix(color,vec3(.54,.74,.63),.08*rim);
       // Light mode: a vivid inner green fades through mint to a translucent outer shell.
       float u=clamp((core-.08)/.90,0.,1.);
-      float gradient=mix(smoothstep(0.,1.,u),u,.40);
-      vec3 lightShell=mix(vec3(.87,.97,.90),vec3(.16,.70,.45),pow(gradient,1.02));
+      float gradient=mix(smoothstep(0.,1.,u),u,uGradientMix);
+      vec3 lightShell=mix(vec3(.87,.97,.90),vec3(.16,.70,.45),pow(gradient,uSpread));
       lightShell=mix(lightShell,vec3(.98,1.,.985),.065*light+.07*frost);
       color=mix(color,lightShell,uLightMode);
       float alpha=(.15+.49*core+.072*variation)*(1.-.28*rim);
       alpha=clamp(alpha+.055*frost,.10,.88);
-      float lightAlpha=(.32+.56*pow(gradient,1.02))*(1.-.15*rim);
+      float lightAlpha=mix(uOuterAlpha,uInnerAlpha,pow(gradient,1.02))*(1.-.15*rim);
       alpha=mix(alpha,clamp(lightAlpha+.035*frost,.18,.94),uLightMode);
       outColor=vec4(color,alpha);
     }`;
@@ -1991,6 +2098,7 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
       gl.enable(gl.BLEND);
       gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
       uniforms.time=gl.getUniformLocation(program,'uTime');uniforms.pointer=gl.getUniformLocation(program,'uPointer');uniforms.lightMode=gl.getUniformLocation(program,'uLightMode');
+      uniforms.spread=gl.getUniformLocation(program,'uSpread');uniforms.blend=gl.getUniformLocation(program,'uGradientMix');uniforms.outer=gl.getUniformLocation(program,'uOuterAlpha');uniforms.inner=gl.getUniformLocation(program,'uInnerAlpha');
       const vertices=[],indices=[];const rows=105,cols=140;
       for(let row=0;row<=rows;row++){
         const theta=Math.PI*row/rows;
@@ -2136,6 +2244,72 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
       last=0;
       scheduleFrame();
     }
+    const tuner=document.getElementById('orb-tuner');
+    const tunerToggle=document.getElementById('orb-tuner-toggle');
+    const tunerPanel=document.getElementById('orb-tuner-panel');
+    const tunerStatus=document.getElementById('orb-tuner-status');
+    const tunerControls=Object.fromEntries(Object.keys(orbDefaults).map(key=>[key,document.getElementById('orb-tuner-'+key)]));
+    const tunerOutput=Object.fromEntries(Object.keys(orbDefaults).map(key=>[key,document.getElementById('orb-tuner-'+key+'-value')]));
+    const tunerMessage=(en,zh)=>document.documentElement.lang==='zh-CN'?zh:en;
+    function updateFallbackGradient(){
+      // CSS-only fallback follows the same coverage/opacity adjustments if WebGL is unavailable.
+      const offset=(1.02-orbValues.spread)*23+(orbValues.blend-.40)*8;
+      const a=Math.max(15,Math.min(42,25+offset));
+      const b=Math.max(a+10,Math.min(74,50+offset*1.4));
+      const c=Math.max(b+9,Math.min(93,75+offset));
+      const inner=Math.max(.05,Math.min(1,orbValues.inner-.18));
+      const outer=Math.max(.01,Math.min(.35,orbValues.outer-.28));
+      const midShift=(orbValues.inner-.88)*.5+(orbValues.outer-.32)*.5;
+      const opacity=value=>Math.max(.01,Math.min(1,value+midShift)).toFixed(3);
+      fallback.style.background='radial-gradient(circle at 53% 53%,rgba(24,170,99,'+inner.toFixed(3)+') 0%,rgba(88,199,142,'+opacity(.56)+') '+a.toFixed(1)+'%,rgba(157,224,182,'+opacity(.36)+') '+b.toFixed(1)+'%,rgba(222,244,229,'+opacity(.21)+') '+c.toFixed(1)+'%,rgba(245,255,250,'+outer.toFixed(3)+') 100%)';
+    }
+    function updateOrbGradient(){
+      for(const key of Object.keys(orbDefaults)){
+        orbValues[key]=Number(tunerControls[key].value);
+        tunerOutput[key].textContent=orbValues[key].toFixed(2);
+      }
+      tunerStatus.textContent='';
+      updateFallbackGradient();
+      refreshFrame();
+    }
+    function closeTuner(restoreFocus=false){
+      tunerPanel.hidden=true;
+      tunerToggle.setAttribute('aria-expanded','false');
+      if(restoreFocus)tunerToggle.focus();
+    }
+    tunerToggle.addEventListener('click',()=>{
+      const opening=tunerPanel.hidden;
+      tunerPanel.hidden=!opening;
+      tunerToggle.setAttribute('aria-expanded',String(opening));
+      if(opening)tunerControls.spread.focus();
+    });
+    document.getElementById('orb-tuner-close').addEventListener('click',()=>closeTuner(true));
+    tunerPanel.addEventListener('keydown',e=>{
+      if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeTuner(true);}
+    });
+    for(const control of Object.values(tunerControls))control.addEventListener('input',updateOrbGradient);
+    document.getElementById('orb-tuner-reset').addEventListener('click',()=>{
+      for(const key of Object.keys(orbDefaults))tunerControls[key].value=orbDefaults[key].toFixed(2);
+      updateOrbGradient();
+      tunerStatus.textContent=tunerMessage('Default values restored.','已恢复默认参数。');
+    });
+    document.getElementById('orb-tuner-copy').addEventListener('click',async()=>{
+      const values=['Fresnica V3 orb gradient',
+        ...Object.keys(orbDefaults).map(key=>key+'='+orbValues[key].toFixed(2)),
+        'outerColor=vec3(.87,.97,.90)','innerColor=vec3(.16,.70,.45)'].join('\n');
+      try{
+        if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(values);
+        else{
+          const temp=document.createElement('textarea');
+          temp.value=values;temp.style.position='fixed';temp.style.opacity='0';
+          document.body.append(temp);temp.select();
+          const copied=document.execCommand('copy');temp.remove();
+          if(!copied)throw Error('Copy failed');
+        }
+        tunerStatus.textContent=tunerMessage('Values copied.','参数已复制。');
+      }catch(_){tunerStatus.textContent=tunerMessage('Copy unavailable in this browser.','浏览器不允许复制，请手动记录数值。');}
+    });
+    updateFallbackGradient();
     const eye=svg=>btn.innerHTML=svg;
     const pauseIcon='<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 4h3v12H5zm7 0h3v12h-3z"/></svg>';
     const playIcon='<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="m6 4 10 6-10 6z"/></svg>';
@@ -2146,7 +2320,9 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshFrame();});
     const observer=new IntersectionObserver(entries=>{
       visible=entries[0].isIntersecting;
+      tuner.hidden=!visible;
       if(visible)refreshFrame();
+      else closeTuner();
     },{threshold:.04});observer.observe(field);
     window.addEventListener('resize',refreshFrame,{passive:true});
     window.addEventListener('v3-theme-change',refreshFrame);
@@ -2172,7 +2348,7 @@ html.m10-framed #v3-workspace :is(.ws-stat,.ws-stat b,.desktop-hint,.desktop-dem
       field.style.setProperty('--field-x',(moving?smoothX*6:0).toFixed(2)+'px');
       field.style.setProperty('--field-y',(moving?smoothY*6:0).toFixed(2)+'px');
       renderRing();
-      if(gl&&program&&mesh){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(uniforms.time,t);gl.uniform1f(uniforms.lightMode,document.documentElement.classList.contains('v3-theme-dark')?0:1);gl.uniform2f(uniforms.pointer,smoothX,smoothY);gl.bindVertexArray(mesh.vao);gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);}
+      if(gl&&program&&mesh){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(uniforms.time,t);gl.uniform1f(uniforms.lightMode,document.documentElement.classList.contains('v3-theme-dark')?0:1);gl.uniform1f(uniforms.spread,orbValues.spread);gl.uniform1f(uniforms.blend,orbValues.blend);gl.uniform1f(uniforms.outer,orbValues.outer);gl.uniform1f(uniforms.inner,orbValues.inner);gl.uniform2f(uniforms.pointer,smoothX,smoothY);gl.bindVertexArray(mesh.vao);gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);}
       drawFlecks();
       if(moving)scheduleFrame();
     }
