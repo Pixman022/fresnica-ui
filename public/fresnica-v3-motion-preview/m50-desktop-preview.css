@@ -442,3 +442,214 @@ html.v3-theme-dark #v3-workspace .ws-sidebar [data-desktop-nav]:not(.desktop-cur
 @media(max-width:680px){
   #v3-workspace .dp-panel-assets .dp-token-xlm svg{width:13px;height:13px;}
 }
+
+/* Desktop Payments, Swap and Connect share the Assets overview visual hierarchy.
+   A concise, presentation-only Stellar wallet concept: no live operations. */
+#v3-workspace .dp-panel:not(.dp-panel-assets) .dp-heading{margin:5px 0 12px;}
+#v3-workspace .dp-payment-grid{
+  grid-template-columns:minmax(0,1.16fr) minmax(0,.84fr);gap:12px;margin:0;
+}
+#v3-workspace .dp-payment-card,#v3-workspace .dp-receive-card{
+  box-sizing:border-box;min-height:0;height:202px;min-width:0;
+  padding:17px 18px;background:var(--dp-surface);
+  border:1px solid var(--dp-line);border-radius:16px;
+}
+#v3-workspace .dp-card-topline{
+  display:flex;align-items:center;gap:9px;margin-bottom:11px;
+}
+#v3-workspace .dp-card-symbol{
+  display:grid;place-items:center;width:34px;height:34px;flex:none;
+  border-radius:10px;color:var(--dp-ink);border:1px solid var(--dp-line);
+  background:var(--Fresnica-surface);
+}
+#v3-workspace .dp-card-symbol svg{width:19px;height:19px;}
+#v3-workspace .dp-card-topline .dp-card-eyebrow{
+  margin:0;color:var(--dp-muted);letter-spacing:.09em;
+}
+#v3-workspace .dp-payment-amount>span{
+  display:block;color:var(--dp-muted);
+  font:500 11px/1.2 var(--Fresnica-font-family,Arial,sans-serif);
+}
+#v3-workspace .dp-payment-amount strong{
+  display:block;margin:7px 0 12px;color:var(--dp-ink);white-space:nowrap;
+  font:700 clamp(23px,2.2vw,30px)/1 var(--Fresnica-font-family,Arial,sans-serif);
+  font-variant-numeric:tabular-nums;letter-spacing:-.035em;
+}
+#v3-workspace .dp-payment-amount strong small{
+  font:600 12px/1 var(--Fresnica-font-family,Arial,sans-serif);
+  color:var(--dp-muted);letter-spacing:0;
+}
+#v3-workspace .dp-payment-card .dp-field{
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+  border-top:1px solid var(--dp-line);padding:8px 0;
+}
+#v3-workspace .dp-payment-card .dp-field>span{flex:none;color:var(--dp-muted);}
+#v3-workspace .dp-payment-card .dp-field strong{font-size:12px;text-align:right;}
+#v3-workspace .dp-receive-card{
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  gap:11px;background:var(--Fresnica-surface);border-color:var(--dp-line);
+}
+#v3-workspace .dp-receive-symbol{
+  width:39px;height:39px;border-radius:12px;
+  background:var(--dp-surface);color:var(--dp-ink);
+}
+#v3-workspace .dp-receive-card>strong{font-size:17px;}
+#v3-workspace .dp-receive-address{display:grid;gap:5px;min-width:0;}
+#v3-workspace .dp-receive-address>span{color:var(--dp-muted);
+  font:500 10px/1.2 var(--Fresnica-font-family,Arial,sans-serif);}
+#v3-workspace .dp-receive-address code{color:var(--dp-ink);
+  font:600 12px/1.2 var(--Fresnica-font-family,Arial,sans-serif);
+  white-space:nowrap;}
+#v3-workspace .dp-payment-footer{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-top:15px;
+}
+#v3-workspace .dp-payment-footer>span:first-child{
+  color:var(--dp-muted);font:500 11px/1.3 var(--Fresnica-font-family,Arial,sans-serif);
+}
+#v3-workspace .dp-swap-shell{
+  box-sizing:border-box;padding:14px;border-radius:16px;
+  border:1px solid var(--dp-line);background:var(--dp-surface);
+}
+#v3-workspace .dp-swap-shell .dp-swap-flow{gap:11px;margin:0;}
+#v3-workspace .dp-swap-shell .dp-swap-asset{
+  box-sizing:border-box;min-height:79px;padding:13px 16px;
+  border-radius:12px;background:var(--Fresnica-surface);
+}
+#v3-workspace .dp-swap-shell .dp-swap-asset>div>strong{font-size:24px;}
+#v3-workspace .dp-swap-direction{
+  background:var(--Fresnica-surface-highest);
+  color:var(--dp-ink);border-color:var(--dp-line);
+  box-shadow:none;
+}
+#v3-workspace .dp-swap-hint{
+  color:var(--dp-muted);font:500 11px/1.3 var(--Fresnica-font-family,Arial,sans-serif);
+}
+#v3-workspace .dp-panel-swap .dp-footer-line{
+  align-items:center;justify-content:space-between;gap:9px;margin-top:15px;
+}
+#v3-workspace .dp-panel-swap .dp-preview-action{
+  background:var(--Fresnica-inverse-color);
+  color:var(--Fresnica-on-inverse-color);
+}
+#v3-workspace .dp-connect-shell{
+  box-sizing:border-box;padding:15px;border:1px solid var(--dp-line);
+  border-radius:16px;background:var(--dp-surface);
+}
+#v3-workspace .dp-connect-shell .dp-app-request{
+  box-sizing:border-box;min-height:74px;margin:0;padding:13px 15px;
+  border-radius:12px;background:var(--Fresnica-surface);
+}
+#v3-workspace .dp-connect-shell .dp-app-symbol{width:41px;height:41px;border-radius:12px;}
+#v3-workspace .dp-connect-shell .dp-app-request strong{font-size:15px;}
+#v3-workspace .dp-app-request small{
+  display:block;margin-top:6px;color:var(--dp-muted);
+  font:500 10px/1.2 var(--Fresnica-font-family,Arial,sans-serif);
+}
+#v3-workspace .dp-request-tag{
+  flex:none;padding:5px 8px;border-radius:20px;
+  background:var(--Fresnica-surface-highest);color:var(--dp-muted);
+  font:600 10px/1.1 var(--Fresnica-font-family,Arial,sans-serif);
+}
+#v3-workspace .dp-connect-shell .dp-permissions{margin-top:14px;}
+#v3-workspace .dp-permissions-label{
+  display:block;margin-bottom:7px;color:var(--dp-muted);
+  font:600 10px/1.2 var(--Fresnica-font-family,Arial,sans-serif);
+}
+#v3-workspace .dp-connect-shell .dp-permissions>div{
+  display:flex;align-items:center;gap:11px;padding:11px 12px;
+  background:var(--Fresnica-surface);
+  border:1px solid var(--dp-line);border-radius:10px;color:var(--dp-ink);
+}
+#v3-workspace .dp-permission-check{
+  display:grid;place-items:center;width:22px;height:22px;flex:none;
+  border:1px solid var(--dp-line);border-radius:7px;
+  background:var(--dp-surface);color:var(--dp-ink);
+}
+#v3-workspace .dp-connect-shell .dp-connect-actions{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-top:13px;
+}
+#v3-workspace .dp-connect-hint{
+  color:var(--dp-muted);font:500 10px/1.2 var(--Fresnica-font-family,Arial,sans-serif);
+}
+@media(max-width:1100px){
+  #v3-workspace .dp-panel:not(.dp-panel-assets) .dp-heading{margin:2px 0 7px;}
+  #v3-workspace .dp-payment-grid{gap:7px;}
+  #v3-workspace .dp-payment-card,#v3-workspace .dp-receive-card{
+    height:111px;padding:8px 10px;border-radius:9px;
+  }
+  #v3-workspace .dp-card-topline{gap:5px;margin-bottom:4px;}
+  #v3-workspace .dp-card-symbol{width:22px;height:22px;border-radius:7px;}
+  #v3-workspace .dp-card-symbol svg{width:13px;height:13px;}
+  #v3-workspace .dp-card-topline .dp-card-eyebrow{font-size:8px;}
+  #v3-workspace .dp-payment-amount>span{font-size:8px;}
+  #v3-workspace .dp-payment-amount strong{font-size:17px;margin:4px 0 6px;}
+  #v3-workspace .dp-payment-amount strong small{font-size:9px;}
+  #v3-workspace .dp-payment-card .dp-field{padding:5px 0;gap:3px;}
+  #v3-workspace .dp-payment-card .dp-field>span,
+  #v3-workspace .dp-payment-card .dp-field strong{font-size:9px;}
+  #v3-workspace .dp-receive-card{gap:5px;}
+  #v3-workspace .dp-receive-symbol{width:25px;height:25px;border-radius:8px;}
+  #v3-workspace .dp-receive-card>strong{font-size:11px;}
+  #v3-workspace .dp-receive-address{gap:2px;}
+  #v3-workspace .dp-receive-address>span{font-size:8px;}
+  #v3-workspace .dp-receive-address code{font-size:9px;}
+  #v3-workspace .dp-payment-footer{margin-top:8px;}
+  #v3-workspace .dp-payment-footer>span:first-child{font-size:8px;}
+  #v3-workspace .dp-swap-shell{padding:8px;border-radius:10px;}
+  #v3-workspace .dp-swap-shell .dp-swap-flow{gap:8px;}
+  #v3-workspace .dp-swap-shell .dp-swap-asset{min-height:50px;padding:8px 10px;border-radius:8px;}
+  #v3-workspace .dp-swap-shell .dp-swap-asset>div>strong{font-size:17px;}
+  #v3-workspace .dp-swap-hint{font-size:8px;}
+  #v3-workspace .dp-panel-swap .dp-footer-line{margin-top:9px;}
+  #v3-workspace .dp-connect-shell{padding:8px;border-radius:10px;}
+  #v3-workspace .dp-connect-shell .dp-app-request{min-height:0;padding:7px 9px;gap:7px;border-radius:8px;}
+  #v3-workspace .dp-connect-shell .dp-app-symbol{width:26px;height:26px;border-radius:8px;}
+  #v3-workspace .dp-connect-shell .dp-app-request strong{font-size:11px;}
+  #v3-workspace .dp-app-request small{font-size:8px;margin-top:3px;}
+  #v3-workspace .dp-request-tag{font-size:8px;padding:4px 6px;}
+  #v3-workspace .dp-connect-shell .dp-permissions{margin-top:7px;}
+  #v3-workspace .dp-permissions-label{font-size:8px;margin-bottom:4px;}
+  #v3-workspace .dp-connect-shell .dp-permissions>div{padding:6px;gap:6px;font-size:9px;border-radius:7px;}
+  #v3-workspace .dp-permission-check{width:17px;height:17px;border-radius:5px;}
+  #v3-workspace .dp-connect-shell .dp-connect-actions{margin-top:8px;}
+  #v3-workspace .dp-connect-hint{font-size:8px;}
+}
+@media(max-width:800px){
+  #v3-workspace .dp-payment-footer>span:first-child,
+  #v3-workspace .dp-connect-hint{display:none;}
+  #v3-workspace .dp-payment-footer{justify-content:flex-end;}
+  #v3-workspace .dp-receive-address code{display:block;font-size:8px;}
+}
+@media(max-width:680px){
+  #v3-workspace .dp-panel:not(.dp-panel-assets) .dp-heading{margin:1px 0 5px;}
+  #v3-workspace .dp-payment-grid{gap:5px;}
+  #v3-workspace .dp-payment-card,#v3-workspace .dp-receive-card{height:106px;padding:7px 8px;}
+  #v3-workspace .dp-payment-amount strong{font-size:14px;margin:3px 0 4px;}
+  #v3-workspace .dp-payment-card .dp-field{padding:5px 0;}
+  #v3-workspace .dp-payment-card .dp-field>span,
+  #v3-workspace .dp-payment-card .dp-field strong{font-size:8px;}
+  #v3-workspace .dp-receive-address>span{font-size:7px;}
+  #v3-workspace .dp-receive-address code{display:none;}
+  #v3-workspace .dp-payment-footer{margin-top:6px;}
+  #v3-workspace .dp-swap-shell{padding:6px;}
+  #v3-workspace .dp-swap-shell .dp-swap-asset{min-height:45px;padding:6px 9px;}
+  #v3-workspace .dp-swap-shell .dp-swap-asset>div>strong{font-size:14px;}
+  #v3-workspace .dp-swap-hint{font-size:7px;}
+  #v3-workspace .dp-panel-swap .dp-footer-line{margin-top:7px;}
+  #v3-workspace .dp-connect-shell{padding:6px;}
+  #v3-workspace .dp-connect-shell .dp-app-request{padding:6px 7px;}
+  #v3-workspace .dp-connect-shell .dp-app-symbol{width:24px;height:24px;}
+  #v3-workspace .dp-connect-shell .dp-app-request strong{font-size:9px;}
+  #v3-workspace .dp-app-request small{font-size:7px;}
+  #v3-workspace .dp-request-tag{font-size:7px;padding:3px 5px;}
+  #v3-workspace .dp-permissions-label{font-size:7px;}
+  #v3-workspace .dp-connect-shell .dp-permissions>div{font-size:8px;padding:5px;}
+  #v3-workspace .dp-connect-shell .dp-connect-actions{margin-top:6px;}
+}
+@media(min-width:681px) and (max-width:800px) and (max-height:520px){
+  #v3-workspace .dp-payment-card,#v3-workspace .dp-receive-card{height:103px;}
+  #v3-workspace .dp-payment-footer{margin-top:6px;}
+  #v3-workspace .dp-swap-shell .dp-swap-asset{min-height:45px;}
+}
