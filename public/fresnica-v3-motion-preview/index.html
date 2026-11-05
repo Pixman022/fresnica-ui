@@ -2195,21 +2195,16 @@ html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .top-nav
     }
     function drawLogoFlecks(g,width,height){
       if(!logoFlecks.length)return;
-      // Steady white particles; a restrained breathing shape and passing ripple replace flicker.
+      // Static white dot matrix; logo particles do not animate.
       const mobile=compactOrb.matches;
       const diameter=Math.min(width,height)*(mobile ? .308 : .301);
       const centreX=width*.5,centreY=height*.5;
       const radius=mobile?.82:1.10;
-      const animated=playing&&!reduced.matches;
-      const breathe=animated ? 1+.012*Math.sin(t*.9) : 1;
-      const floatY=animated ? .75*Math.sin(t*.65) : 0;
       g.save();
       g.fillStyle='#fff';
       g.globalAlpha=1;
       for(const p of logoFlecks){
-        const ripple=animated ? .65*Math.sin(t*1.25+p.u*9-p.v*5) : 0;
-        const x=centreX+p.u*diameter*breathe;
-        const y=centreY+p.v*diameter*breathe+floatY+ripple;
+        const x=centreX+p.u*diameter,y=centreY+p.v*diameter;
         g.beginPath();
         g.arc(x,y,radius,0,Math.PI*2);
         g.fill();
