@@ -2186,7 +2186,13 @@ html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .top-nav
         for(let x=gap*.5+(row%2)*gap*.5;x<side-gap*.5;x+=gap){
           const index=(Math.floor(y)*side+Math.floor(x))*4+3;
           if(rgba[index]<120)continue;
-          dots.push({u:x/side-.5,v:y/side-.5});
+          const id=dots.length;
+          dots.push({
+            u:x/side-.5,v:y/side-.5,
+            sparkle:seeded(id+1701)<.32,
+            phase:seeded(id+2307)*Math.PI*2,
+            rate:1.2+seeded(id+2891)*1.8
+          });
         }
       }
       if(dots.length<120)return;
@@ -2195,15 +2201,18 @@ html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .top-nav
     }
     function drawLogoFlecks(g,width,height){
       if(!logoFlecks.length)return;
-      // Solid white particles only: no gradient, flicker, motion or dark logo layer.
+      // Keep the white logo fixed and legible; only scattered particles twinkle.
       const mobile=compactOrb.matches;
       const diameter=Math.min(width,height)*(mobile ? .308 : .301);
       const centreX=width*.5,centreY=height*.5;
       const radius=mobile?.82:1.10;
+      const twinkling=playing&&!reduced.matches;
       g.save();
       g.fillStyle='#fff';
-      g.globalAlpha=1;
       for(const p of logoFlecks){
+        g.globalAlpha=twinkling&&p.sparkle
+          ? .38+.62*Math.pow(.5+.5*Math.sin(t*p.rate+p.phase),3)
+          : 1;
         const x=centreX+p.u*diameter,y=centreY+p.v*diameter;
         g.beginPath();
         g.arc(x,y,radius,0,Math.PI*2);
