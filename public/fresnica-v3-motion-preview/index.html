@@ -1796,8 +1796,8 @@ html.v3-theme-dark #orb-tuner #orb-tuner-copy{color:#10251b}
       <p class="ot-description"><span lang="en">Adjust the live sphere. Its two green colors stay unchanged.</span><span lang="zh-CN">实时调整球体，两端绿色色值保持不变。</span></p>
       <p class="ot-dark-note"><span lang="en">Switch to light theme to see gradient adjustments.</span><span lang="zh-CN">请切换至浅色模式查看渐变调整效果。</span></p>
       <div class="ot-setting">
-        <div class="ot-label"><label for="orb-tuner-spread"><span lang="en">Green coverage</span><span lang="zh-CN">深绿覆盖范围</span></label><output id="orb-tuner-spread-value" for="orb-tuner-spread">0.88</output></div>
-        <input type="range" id="orb-tuner-spread" min="0.10" max="1.40" step="0.02" value="0.88" aria-describedby="orb-tuner-spread-hint">
+        <div class="ot-label"><label for="orb-tuner-spread"><span lang="en">Green coverage</span><span lang="zh-CN">深绿覆盖范围</span></label><output id="orb-tuner-spread-value" for="orb-tuner-spread">0.62</output></div>
+        <input type="range" id="orb-tuner-spread" min="0.10" max="1.40" step="0.02" value="0.62" aria-describedby="orb-tuner-spread-hint">
         <small class="ot-hint" id="orb-tuner-spread-hint"><span lang="en">Lower value = wider green center</span><span lang="zh-CN">数值越小，深绿部分越向外扩张</span></small>
       </div>
       <div class="ot-setting">
@@ -1806,12 +1806,12 @@ html.v3-theme-dark #orb-tuner #orb-tuner-copy{color:#10251b}
         <small class="ot-hint"><span lang="en">Higher value = a more even fade</span><span lang="zh-CN">数值越大，中间渐变越均匀</span></small>
       </div>
       <div class="ot-setting">
-        <div class="ot-label"><label for="orb-tuner-outer"><span lang="en">Outer opacity</span><span lang="zh-CN">外层透明度</span></label><output id="orb-tuner-outer-value" for="orb-tuner-outer">0.32</output></div>
-        <input type="range" id="orb-tuner-outer" min="0.10" max="0.60" step="0.02" value="0.32">
+        <div class="ot-label"><label for="orb-tuner-outer"><span lang="en">Outer opacity</span><span lang="zh-CN">外层透明度</span></label><output id="orb-tuner-outer-value" for="orb-tuner-outer">0.24</output></div>
+        <input type="range" id="orb-tuner-outer" min="0.10" max="0.60" step="0.02" value="0.24">
       </div>
       <div class="ot-setting">
-        <div class="ot-label"><label for="orb-tuner-inner"><span lang="en">Inner opacity</span><span lang="zh-CN">中心透明度</span></label><output id="orb-tuner-inner-value" for="orb-tuner-inner">0.88</output></div>
-        <input type="range" id="orb-tuner-inner" min="0.50" max="1" step="0.02" value="0.88">
+        <div class="ot-label"><label for="orb-tuner-inner"><span lang="en">Inner opacity</span><span lang="zh-CN">中心透明度</span></label><output id="orb-tuner-inner-value" for="orb-tuner-inner">0.68</output></div>
+        <input type="range" id="orb-tuner-inner" min="0.50" max="1" step="0.02" value="0.68">
       </div>
       <div class="ot-actions">
         <button class="ot-action" id="orb-tuner-reset" type="button"><span lang="en">Reset</span><span lang="zh-CN">恢复默认</span></button>
@@ -2022,7 +2022,7 @@ html.v3-theme-dark #orb-tuner #orb-tuner-copy{color:#10251b}
     let smoothX=0,smoothY=0;
     let gl=null,program=null,mesh=null;
     let uniforms={};
-    const orbDefaults={spread:.88,blend:.60,outer:.32,inner:.88};
+    const orbDefaults={spread:.62,blend:.60,outer:.24,inner:.68};
     const orbValues={...orbDefaults};
     const vs=`#version 300 es
     precision highp float;
