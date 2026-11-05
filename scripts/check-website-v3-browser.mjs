@@ -120,13 +120,13 @@ try{
           await page.locator('#orb-tuner-reset').click();
           const reset=await page.evaluate(()=>Object.fromEntries(
             ['spread','blend','outer','inner'].map(key=>[key,document.getElementById('orb-tuner-'+key).value])));
-          assert(reset.spread==='0.88'&&reset.blend==='0.6'&&reset.outer==='0.32'&&reset.inner==='0.88',
+          assert(reset.spread==='0.62'&&reset.blend==='0.6'&&reset.outer==='0.24'&&reset.inner==='0.68',
             'Orb gradient reset failed: '+JSON.stringify(reset));
           await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{
             configurable:true,value:{writeText:async value=>{window.__orbCopied=value;}}
           }));
           await page.locator('#orb-tuner-copy').click();
-          await page.waitForFunction(()=>window.__orbCopied?.includes('spread=0.88'),null,{timeout:3000});
+          await page.waitForFunction(()=>window.__orbCopied?.includes('spread=0.62'),null,{timeout:3000});
           assert(await page.locator('#orb-tuner-status').textContent()==='Values copied.',
             'Orb parameter copy did not confirm success');
           await page.keyboard.press('Escape');
