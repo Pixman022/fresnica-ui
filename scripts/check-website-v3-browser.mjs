@@ -89,6 +89,50 @@ try{
           files.push(path.relative(dest,target));
         }
         if(name==='desktop-1440'&&theme==='light'){
+          // Live gradient controls update the shader inputs and the CSS fallback without a reload.
+          await page.evaluate(()=>document.getElementById('orb-field')?.scrollIntoView({block:'center',behavior:'instant'}));
+          await page.waitForFunction(()=>document.getElementById('orb-tuner')?.hidden===false,null,{timeout:8000});
+          await page.locator('#orb-tuner-toggle').click();
+          assert(await page.locator('#orb-tuner-panel').isVisible(),'Orb gradient tuner failed to open');
+          const fallbackBefore=await page.locator('#fallback-orb').evaluate(el=>el.style.background);
+          await page.locator('#orb-tuner-spread').evaluate(el=>{
+            el.value='0.70';el.dispatchEvent(new Event('input',{bubbles:true}));
+          });
+          const tuned=await page.evaluate(()=>({
+            value:document.getElementById('orb-tuner-spread').value,
+            display:document.getElementById('orb-tuner-spread-value').textContent,
+            fallback:document.getElementById('fallback-orb').style.background
+          }));
+          assert(tuned.value==='0.70'&&tuned.display==='0.70'&&tuned.fallback!==fallbackBefore,
+            'Orb slider did not update its value and fallback gradient');
+          await page.waitForTimeout(100);
+          const gpu=await page.evaluate(()=>{
+            const canvas=document.getElementById('orb-canvas');
+            if(canvas.style.display==='none')return null;
+            const gl=canvas.getContext('webgl2');
+            if(!gl)return null;
+            const program=gl.getParameter(gl.CURRENT_PROGRAM);
+            if(!program)return null;
+            const location=gl.getUniformLocation(program,'uSpread');
+            return location===null?null:gl.getUniform(program,location);
+          });
+          if(gpu!==null)assert(Math.abs(gpu-.70)<.001,'WebGL did not receive the live spread uniform');
+          await page.locator('#orb-tuner-reset').click();
+          const reset=await page.evaluate(()=>Object.fromEntries(
+            ['spread','blend','outer','inner'].map(key=>[key,document.getElementById('orb-tuner-'+key).value])));
+          assert(reset.spread==='0.88'&&reset.blend==='0.6'&&reset.outer==='0.32'&&reset.inner==='0.88',
+            'Orb gradient reset failed: '+JSON.stringify(reset));
+          await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{
+            configurable:true,value:{writeText:async value=>{window.__orbCopied=value;}}
+          }));
+          await page.locator('#orb-tuner-copy').click();
+          await page.waitForFunction(()=>window.__orbCopied?.includes('spread=0.88'),null,{timeout:3000});
+          assert(await page.locator('#orb-tuner-status').textContent()==='Values copied.',
+            'Orb parameter copy did not confirm success');
+          await page.keyboard.press('Escape');
+          assert(await page.locator('#orb-tuner-panel').isHidden()&&
+            await page.evaluate(()=>document.activeElement?.id==='orb-tuner-toggle'),
+            'Escape did not close tuner and restore keyboard focus');
           await page.locator('#scene-menu-button').focus();
           await page.keyboard.press('Enter');
           assert(await page.locator('#scene-menu').evaluate(e=>e.classList.contains('is-open')),'Keyboard Enter did not open section menu');
