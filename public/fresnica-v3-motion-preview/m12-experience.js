@@ -173,7 +173,13 @@
     "View public wallet address":"查看公开钱包地址",
     "Request transaction approval":"请求交易授权",
     "Decline":"拒绝",
-    "Connect wallet":"连接钱包"
+    "Connect wallet":"连接钱包",
+    "Wallet actions":"钱包快捷操作",
+    "View Send preview":"查看发送功能示例",
+    "View Receive preview":"查看收款功能示例",
+    "View Swap preview":"查看兑换功能示例",
+    "USD Coin":"USD Coin",
+    "Stellar Lumens":"Stellar Lumens"
   });
   let locale = 'en';
   const nodeOriginal = new WeakMap();
