@@ -1684,6 +1684,45 @@ html.v3-theme-dark #orb-tuner #orb-tuner-copy{color:#10251b}
   #orb-tuner-panel{padding:14px;max-height:calc(100dvh - 88px)}
 }
 </style>
+<style id="m51-dark-outline-buttons">
+/* Experimental option C: visible mint outlines for black buttons only in dark theme. */
+html.v3-theme-dark #overview .cta.primary,
+html.v3-theme-dark #v3-workspace .desktop-download {
+  background:#19271f;color:#b5f0d0;border:1px solid #81cda5;
+}
+html.v3-theme-dark #overview .cta.primary:hover {
+  background:#244233;color:#e8fbf0;border-color:#a3e5c2;
+}
+html.v3-theme-dark #v3-workspace .desktop-download :is(small,svg) {color:#b5f0d0;}
+html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .top-nav {
+  background:#19271f;color:#b5f0d0;border:1px solid #81cda5;
+}
+html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .top-nav .nav-button {
+  background:#21392b;color:#b5f0d0;border:1px solid #638f75;
+}
+html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .top-nav .nav-button:hover,
+html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .top-nav .nav-button[aria-expanded="true"] {
+  background:#244233;border-color:#a3e5c2;
+}
+html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .header-action:not([disabled]) {
+  background:#19271f;color:#b5f0d0;border-color:#81cda5;
+}
+html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .header-action:not([disabled]):hover {
+  background:#244233;color:#e8fbf0;border-color:#a3e5c2;
+}
+html.v3-theme-dark #v3-features .feature-card:nth-child(3) .mini-swap-direction {
+  background:#19271f;color:#b5f0d0;border-color:#81cda5;
+}
+html.v3-theme-dark #v3-features .feature-card:nth-child(3) .mini-swap-direction:hover {
+  background:#244233;border-color:#a3e5c2;
+}
+html.v3-theme-dark #orb-tuner-toggle {
+  background:#19271f;color:#b5f0d0;border-color:#81cda5;
+}
+html.v3-theme-dark #orb-tuner-toggle[aria-expanded="true"] {
+  background:#244233;border-color:#a3e5c2;
+}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
