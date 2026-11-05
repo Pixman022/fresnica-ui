@@ -119,9 +119,9 @@ for(const name of names){
         }
         // Quick actions should navigate preview sections, never trigger wallet operations.
         const actions=[{label:'Send',tab:'payments'},{label:'Receive',tab:'payments'},{label:'Swap',tab:'swap'}];
-        for(const {label,tab} of actions){
+        for(const [index,{label,tab}] of actions.entries()){
           await page.locator('#desktop-tab-assets').click();
-          await page.locator('#desktop-panel-assets .dp-quick-action').filter({hasText:label}).click();
+          await page.locator('#desktop-panel-assets .dp-quick-action').nth(index).click();
           check(await page.locator('#desktop-tab-'+tab).getAttribute('aria-selected')==='true',
             name+'/'+cfg.name+' '+label+' did not navigate to '+tab+' preview');
         }
