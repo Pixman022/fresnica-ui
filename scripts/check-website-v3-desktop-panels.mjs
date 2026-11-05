@@ -78,9 +78,33 @@ for(const name of names){
             tag+' missing functional product elements '+m.child);
           check(await page.locator('#desktop-panel-'+m.id+' '+m.detail).count()===m.details,
             tag+' should show only essential product details '+m.detail);
-          if(m.id==='assets')check(
-            await page.locator('#desktop-panel-assets .dp-asset-row:visible').count()===2,
-            tag+' both asset rows must remain visible in the compact preview');
+          if(m.id==='assets'){
+            check(await page.locator('#desktop-panel-assets .dp-asset-row:visible').count()===2,
+              tag+' both asset rows must remain visible in the compact preview');
+            const chart=await page.locator('#desktop-panel-assets .dp-portfolio-chart').evaluate(svg=>{
+              const line=svg.querySelector('.dp-trend-line');
+              const markers=[...svg.querySelectorAll('.dp-trend-points circle')];
+              const total=line.getTotalLength();
+              const distances=markers.map(marker=>{
+                const x=Number(marker.getAttribute('cx')),y=Number(marker.getAttribute('cy'));
+                let min=Infinity;
+                for(let j=0;j<=1000;j++){
+                  const p=line.getPointAtLength(total*j/1000);
+                  min=Math.min(min,Math.hypot(p.x-x,p.y-y));
+                }
+                return min;
+              });
+              const matrix=svg.getScreenCTM();
+              const scaleX=Math.hypot(matrix.a,matrix.b),scaleY=Math.hypot(matrix.c,matrix.d);
+              return {curved:line.getAttribute('d').includes('C'),
+                count:markers.length,maxDistance:Math.max(...distances),
+                markerShapeRatio:scaleX/scaleY};
+            });
+            check(chart.curved&&chart.count===5&&chart.maxDistance<.9&&Math.abs(chart.markerShapeRatio-1)<.02,
+              tag+' chart points must lie on the smooth curve and remain circular '+JSON.stringify(chart));
+            check(await page.locator('#desktop-panel-assets .dp-quick-action').count()===3,
+              tag+' missing Send / Receive / Swap actions');
+          }
           check(state.scrollWidth<=state.clientWidth+3,tag+' horizontal panel clipping '+JSON.stringify(state));
           check(state.scrollHeight<=state.clientHeight+5&&state.lastBottom<=state.panelBottom+5,
             tag+' vertical panel clipping '+JSON.stringify(state));
@@ -92,6 +116,14 @@ for(const name of names){
           results.push({tag,status:'PASS',panelHeight:state.clientHeight,
             panelContentHeight:state.scrollHeight});
           console.log('[V3 desktop panels] '+tag+' PASS');
+        }
+        // Quick actions should navigate preview sections, never trigger wallet operations.
+        const actions=[{label:'Send',tab:'payments'},{label:'Receive',tab:'payments'},{label:'Swap',tab:'swap'}];
+        for(const {label,tab} of actions){
+          await page.locator('#desktop-tab-assets').click();
+          await page.locator('#desktop-panel-assets .dp-quick-action').filter({hasText:label}).click();
+          check(await page.locator('#desktop-tab-'+tab).getAttribute('aria-selected')==='true',
+            name+'/'+cfg.name+' '+label+' did not navigate to '+tab+' preview');
         }
         const tabs=page.locator('#v3-workspace .desktop-tabs [role="tab"]');
         await tabs.nth(0).focus();
