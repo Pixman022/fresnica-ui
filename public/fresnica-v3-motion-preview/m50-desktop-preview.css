@@ -390,6 +390,13 @@ html.v3-theme-dark #v3-workspace .dp-quick-action:not(.dp-quick-primary) svg{col
   #v3-workspace .dp-panel-assets .dp-asset-values small,
   #v3-workspace .dp-panel-assets .dp-asset-row > div:not(.dp-asset-values) small{font-size:6px;}
 }
+@media(min-width:681px) and (max-width:800px) and (max-height:520px){
+  /* Native 200%-zoom equivalent: preserve the 16:9 viewport with all actions visible. */
+  #v3-workspace .dp-panel-assets .dp-heading{margin:0 0 4px;}
+  #v3-workspace .dp-panel-assets .dp-balance{height:62px;}
+  #v3-workspace .dp-quick-action{height:26px;}
+  #v3-workspace .dp-panel-assets .dp-asset-row{min-height:26px;}
+}
 @media(prefers-reduced-motion:reduce){
   #v3-workspace .dp-quick-action{transition:none;}
 }
