@@ -58,6 +58,17 @@ try{
             sendBackground:getComputedStyle(q('.mini-send-button')).backgroundColor,
             swapBackground:getComputedStyle(q('.mini-swap-button')).backgroundColor,
             activitySurface:getComputedStyle(q('.activity-demo')).backgroundColor,
+            cardSurfaces:[
+              '#overview .orb-card',
+              '#v3-features .feature-art',
+              '#v3-features .feature-ui',
+              '#v3-features .activity-entry.is-new',
+              '#v3-workspace .dp-balance',
+              '#v3-workspace .dp-receive-card',
+              '#v3-for-you .audience-card',
+              '#v3-for-you .audience-card.featured',
+              '#v3-security .security-principle'
+            ].map(selector=>({selector,color:getComputedStyle(q(selector)).backgroundColor})),
             reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,
             disabledDownloads:[...document.querySelectorAll('.download-action')].every(b=>b.disabled)
           };
@@ -65,6 +76,13 @@ try{
         const prefix=name+'/'+theme;
         assert(state.theme===theme,`${prefix}: theme switch mismatch`);
         assert(state.cards===5,`${prefix}: missing feature card`);
+        if(theme==='dark'){
+          for(const {selector,color} of state.cardSurfaces){
+            const rgb=color.match(/[\d.]+/g)?.slice(0,3).map(Number)||[];
+            assert(rgb.length===3&&Math.max(...rgb)-Math.min(...rgb)<=8,
+              `${prefix}: ${selector} still has tinted card background ${color}`);
+          }
+        }
         if(width<=430)assert(state.firstCardLeft!==null&&state.firstCardLeft>=10,
           `${prefix}: feature card begins too close to left edge (${state.firstCardLeft}px)`);
         if(width>=681){
