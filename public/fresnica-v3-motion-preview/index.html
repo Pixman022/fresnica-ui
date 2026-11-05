@@ -1684,34 +1684,7 @@ html.v3-theme-dark #orb-tuner #orb-tuner-copy{color:#10251b}
   #orb-tuner-panel{padding:14px;max-height:calc(100dvh - 88px)}
 }
 </style>
-<style id="m51-dark-outline-buttons">
-/* Experimental option C: visible mint outlines for black buttons only in dark theme. */
-html.v3-theme-dark #overview .cta.primary,
-html.v3-theme-dark #v3-workspace .desktop-download {
-  background:#19271f;color:#b5f0d0;border:1px solid #81cda5;
-}
-html.v3-theme-dark #overview .cta.primary:hover {
-  background:#244233;color:#e8fbf0;border-color:#a3e5c2;
-}
-html.v3-theme-dark #v3-workspace .desktop-download :is(small,svg) {color:#b5f0d0;}
-html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .header-action:not([disabled]) {
-  background:#19271f;color:#b5f0d0;border-color:#81cda5;
-}
-html.v3-theme-dark.m10-framed .site-header.on-dark:not(.on-footer-dark) .header-action:not([disabled]):hover {
-  background:#244233;color:#e8fbf0;border-color:#a3e5c2;
-}
-html.v3-theme-dark #v3-features .feature-card:nth-child(3) .mini-swap-direction {
-  background:#19271f;color:#b5f0d0;border-color:#81cda5;
-}
-html.v3-theme-dark #v3-features .feature-card:nth-child(3) .mini-swap-direction:hover {
-  background:#244233;border-color:#a3e5c2;
-}
-html.v3-theme-dark #orb-tuner-toggle {
-  background:#19271f;color:#b5f0d0;border-color:#81cda5;
-}
-html.v3-theme-dark #orb-tuner-toggle[aria-expanded="true"] {
-  background:#244233;border-color:#a3e5c2;
-}
+<style id="m51-dark-navigation">
 /* Dark navigation follows Fresnica neutral surfaces across all chapters, including the footer. */
 html.v3-theme-dark.m10-framed .site-header.on-dark .top-nav {
   --v3-nav-icon:#d8d8de;
@@ -1786,6 +1759,210 @@ html.v3-theme-dark #v3-workspace :is(.network,.desktop-tabs,.desktop-tabs button
 html.v3-theme-dark.m10-framed #v3-workspace .desktop-tabs button[aria-selected="true"]{
  background:var(--v3-neutral-card-raised);color:#f5f5f7;
  box-shadow:inset 0 3px var(--Fresnica-primary-color);
+}
+</style>
+<style id="m53-button-system">
+/* Fresnica V3 actions: brand only for primary and selected controls; no ornamental shadows. */
+:root{
+  --v3-button-primary:var(--v3-action-aa);
+  --v3-button-primary-hover:var(--v3-action-aa-hover);
+  --v3-button-neutral-bg:var(--Fresnica-surface);
+  --v3-button-neutral-hover:var(--Fresnica-surface-high);
+  --v3-button-neutral-fg:var(--Fresnica-text-color);
+  --v3-button-neutral-border:var(--Fresnica-border-color);
+  --v3-button-disabled-bg:#F3F3F5;
+  --v3-button-disabled-fg:#71717A;
+  --v3-button-disabled-border:var(--Fresnica-border-color);
+  --v3-button-ease:cubic-bezier(.4,0,.2,1);
+}
+html.v3-theme-dark{
+  --v3-button-neutral-bg:var(--Fresnica-surface-high);
+  --v3-button-neutral-hover:var(--Fresnica-surface-highest);
+  --v3-button-neutral-border:var(--v3-neutral-card-border);
+  --v3-button-disabled-bg:var(--Fresnica-surface-highest);
+  --v3-button-disabled-fg:var(--Fresnica-text-color-secondary);
+  --v3-button-disabled-border:var(--v3-neutral-card-border);
+}
+/* Primary marketing action: AA-safe deep green with white label in both themes. */
+html.m10-framed #overview .cta{
+  box-sizing:border-box;min-height:48px;padding:12px 20px;border-radius:12px;
+  font:600 14px/20px var(--Fresnica-font-family,Roboto,Arial,sans-serif);
+  letter-spacing:0;box-shadow:none;
+  transition:background-color .2s var(--v3-button-ease),color .2s var(--v3-button-ease),transform .2s var(--v3-button-ease);
+}
+html.m10-framed #overview .cta:hover{transform:translateY(-1px);box-shadow:none;}
+html.m10-framed #overview .cta:active{transform:scale(.98);}
+html.m10-framed #overview .cta.primary{
+  background:var(--v3-button-primary);border:1px solid var(--v3-button-primary);color:#fff;
+}
+html.m10-framed #overview .cta.primary:hover{
+  background:var(--v3-button-primary-hover);border-color:var(--v3-button-primary-hover);color:#fff;
+}
+html.m10-framed #overview .cta.secondary{
+  background:var(--v3-button-neutral-bg);border:1px solid var(--v3-button-neutral-border);
+  color:var(--v3-button-neutral-fg);box-shadow:none;
+}
+html.m10-framed #overview .cta.secondary:hover{background:var(--v3-button-neutral-hover);box-shadow:none;}
+/* Header download is secondary, never a green outline or a white inverse action. */
+html.m10-framed .site-header.on-dark{
+  --v3-button-neutral-bg:#2A2A30;--v3-button-neutral-hover:#34343C;
+  --v3-button-neutral-fg:#F5F5F7;--v3-button-neutral-border:#484850;
+}
+html.m10-framed .site-header .header-tools .download-trigger,
+html.m10-framed .site-header.on-dark .header-tools .download-trigger:not([disabled]),
+html.m10-framed .site-header.on-footer-dark .header-tools .download-trigger{
+  min-height:44px;height:44px;padding-inline:10px;border-radius:12px;
+  background:var(--v3-button-neutral-bg);color:var(--v3-button-neutral-fg);
+  border:1px solid var(--v3-button-neutral-border);box-shadow:none;
+  font:600 11px/1.2 var(--Fresnica-font-family,Roboto,Arial,sans-serif);
+  transition:background-color .2s var(--v3-button-ease);
+}
+html.m10-framed .site-header .header-tools .download-trigger:hover,
+html.m10-framed .site-header.on-dark .header-tools .download-trigger:not([disabled]):hover,
+html.m10-framed .site-header.on-footer-dark .header-tools .download-trigger:hover,
+html.m10-framed .site-header .header-tools .download-trigger[aria-expanded="true"]{
+  background:var(--v3-button-neutral-hover);color:var(--v3-button-neutral-fg);
+  border-color:var(--v3-button-neutral-border);
+}
+/* Navigation, language and theme controls are ghost buttons with neutral hover. */
+html.m10-framed .site-header .top-nav .nav-title-button,
+html.m10-framed .site-header .top-nav .nav-button{
+  border:0;border-radius:12px;background:transparent;color:inherit;box-shadow:none;
+  transition:background-color .2s var(--v3-button-ease),color .2s var(--v3-button-ease);
+}
+html.m10-framed .site-header .top-nav .nav-title-button:hover,
+html.m10-framed .site-header .top-nav .nav-button:hover,
+html.m10-framed .site-header .top-nav .nav-title-button[aria-expanded="true"],
+html.m10-framed .site-header .top-nav .nav-button[aria-expanded="true"]{
+  background:#34343C;color:#F5F5F7;
+}
+html.m10-framed .site-header.on-footer-dark:not(.on-dark) .top-nav :is(.nav-title-button,.nav-button):hover,
+html.m10-framed .site-header.on-footer-dark:not(.on-dark) .top-nav :is(.nav-title-button,.nav-button)[aria-expanded="true"]{
+  background:#E8E8EA;color:#1A1C1D;
+}
+html.m10-framed .site-header .top-nav #locale-current{color:inherit;}
+html.v3-theme-dark.m10-framed .site-header.on-dark .top-nav .nav-button[aria-expanded="true"]{
+  background:var(--Fresnica-surface-highest);color:var(--Fresnica-primary-color);
+}
+/* Dropdowns: matching neutral layers and accessible 44px menu targets. */
+html.m10-framed .site-header :is(.nav-dropdown,.download-dropdown,.locale-dropdown){
+  background:#222226;color:#F5F5F7;border:1px solid #484850;box-shadow:none;
+}
+html.m10-framed .site-header :is(.nav-dropdown,.download-dropdown,.locale-dropdown) :is(a,button){
+  min-height:44px;color:#F5F5F7;background:transparent;border:0;border-radius:8px;
+  font-family:var(--Fresnica-font-family,Roboto,Arial,sans-serif);
+}
+html.m10-framed .site-header :is(.nav-dropdown,.download-dropdown,.locale-dropdown) :is(a,button):hover,
+html.m10-framed .site-header :is(.nav-dropdown,.download-dropdown,.locale-dropdown) :is(a,button):focus-visible{
+  background:#34343C;color:#F5F5F7;
+}
+html.m10-framed .site-header .locale-dropdown button[aria-checked="true"]{
+  background:#34343C;color:#F5F5F7;
+}
+html.m10-framed .site-header .locale-dropdown button[aria-checked="true"]::after{
+  color:var(--Fresnica-primary-color);
+}
+html.m10-framed :is(a,button,[role="button"]):focus-visible{
+  outline:2px solid var(--Fresnica-focus-color);outline-offset:3px;
+}
+/* Mobile and desktop downloads remain genuinely disabled: no filled black/green CTA. */
+html.m10-framed #v3-availability :is(.download-action,.download-action.secondary):disabled{
+  min-height:56px;border:1px solid #484850;border-radius:12px;
+  background:#34343C;color:#A0A0A5;opacity:1;box-shadow:none;cursor:not-allowed;
+}
+html.m10-framed #v3-availability .download-action:disabled :is(b,small,svg){color:inherit;}
+html.m10-framed #v3-workspace .desktop-download:disabled{
+  box-sizing:border-box;min-height:56px;padding:12px 16px;border-radius:12px;
+  background:var(--v3-button-disabled-bg);color:var(--v3-button-disabled-fg);
+  border:1px solid var(--v3-button-disabled-border);box-shadow:none;opacity:1;cursor:not-allowed;
+}
+html.m10-framed #v3-workspace .desktop-download:disabled :is(span,small,svg){color:inherit;}
+/* The five feature demos keep their timings; only button roles and colors change. */
+html.m10-framed #v3-features .feature-card:nth-child(2) .mini-send-button{
+  background:var(--v3-button-primary);color:#fff;font-weight:600;border-radius:12px;
+}
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-button{
+  background:var(--Fresnica-inverse-color);color:var(--Fresnica-on-inverse-color);
+  border-radius:12px;font-weight:600;
+}
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-button:hover{
+  background:var(--v3-inverse-hover);color:var(--Fresnica-on-inverse-color);
+}
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-direction{
+  background:var(--Fresnica-surface-high);color:var(--Fresnica-text-color);
+  border:1px solid var(--Fresnica-border-color);
+  transition:background-color .2s var(--v3-button-ease);
+}
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-direction:hover,
+html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-direction:active{
+  background:var(--Fresnica-surface-highest);color:var(--Fresnica-text-color);
+}
+/* Desktop demo tabs: selected=AA green/white; all inactive tabs stay neutral. */
+html.m10-framed #v3-workspace .desktop-tabs button:not([aria-selected="true"]){
+  background:var(--v3-button-neutral-bg);color:var(--Fresnica-text-color-secondary);box-shadow:none;
+}
+html.m10-framed #v3-workspace .desktop-tabs button:not([aria-selected="true"]):hover{
+  background:var(--v3-button-neutral-hover);color:var(--Fresnica-text-color);
+}
+html.m10-framed #v3-workspace .desktop-tabs button[aria-selected="true"],
+html.v3-theme-dark.m10-framed #v3-workspace .desktop-tabs button[aria-selected="true"]{
+  background:var(--v3-button-primary);color:#fff;box-shadow:none;
+}
+html.m10-framed #v3-workspace .desktop-tabs button{min-height:44px;font-weight:600;}
+/* FAQ and footer are text/ghost interactions, not filled-primary controls. */
+html.m10-framed #v3-clarity .faq-line button{
+  min-height:44px;background:transparent;color:#F5F5F7;
+  border-bottom:1px solid #484850;font:600 14px/1.45 var(--Fresnica-font-family,Roboto,Arial,sans-serif);
+  transition:background-color .2s var(--v3-button-ease);
+}
+html.m10-framed #v3-clarity .faq-line button:hover,
+html.m10-framed #v3-clarity .faq-line button[aria-expanded="true"]{background:rgba(255,255,255,.045);}
+html.m10-framed #v3-about .footer-top a{text-decoration:none;text-underline-offset:4px;}
+html.m10-framed #v3-about.day .footer-top a{color:#1A1C1D;}
+html.v3-theme-dark.m10-framed #v3-about .footer-top a{color:#F5F5F7;}
+html.m10-framed #v3-about .footer-top a:hover,
+html.m10-framed #v3-about .footer-top a:focus-visible{text-decoration:underline;}
+/* One neutral back-to-top control irrespective of current chapter. */
+html.m10-framed .back-to-top,
+html.m10-framed .site-header.on-dark ~ .back-to-top,
+html.m10-framed .site-header.on-footer-dark ~ .back-to-top{
+  min-height:44px;background:var(--v3-button-neutral-bg);color:var(--v3-button-neutral-fg);
+  border:1px solid var(--v3-button-neutral-border);box-shadow:none;
+}
+html.m10-framed .back-to-top:hover{
+  background:var(--v3-button-neutral-hover);box-shadow:none;transform:translateY(-1px);
+}
+/* Optional orb controls use the same neutral utility language. */
+html.v3-theme-dark #orb-tuner{
+  --ot-bg:#222226;--ot-ink:#F5F5F7;--ot-muted:#A0A0A5;
+  --ot-border:#484850;--ot-accent:var(--Fresnica-focus-color);
+}
+html.m10-framed #orb-tuner-toggle,
+html.v3-theme-dark #orb-tuner-toggle,
+html.v3-theme-dark #orb-tuner-toggle[aria-expanded="true"]{
+  background:var(--v3-button-neutral-bg);color:var(--v3-button-neutral-fg);
+  border:1px solid var(--v3-button-neutral-border);box-shadow:none;
+  border-radius:12px;
+}
+html.m10-framed #orb-tuner-toggle:hover,
+html.m10-framed #orb-tuner-toggle[aria-expanded="true"]{background:var(--v3-button-neutral-hover);}
+html.m10-framed #orb-tuner :is(.ot-action,.ot-close){min-height:44px;border-radius:8px;box-shadow:none;}
+html.m10-framed #orb-tuner .ot-action,
+html.m10-framed #orb-tuner #orb-tuner-copy{
+  background:var(--v3-button-neutral-bg);color:var(--v3-button-neutral-fg);
+  border:1px solid var(--v3-button-neutral-border);
+}
+html.m10-framed #orb-tuner .ot-action:hover,
+html.m10-framed #orb-tuner .ot-close:hover{background:var(--v3-button-neutral-hover);}
+html.m10-framed #orb-tuner .ot-close{min-width:44px;background:transparent;color:var(--v3-button-neutral-fg);}
+@media(max-width:680px){
+  html.m10-framed .site-header .header-tools .download-trigger{padding-inline:7px;font-size:10px;}
+}
+@media(max-width:360px){
+  html.m10-framed .site-header .header-tools .download-trigger{padding-inline:6px;}
+}
+@media(prefers-reduced-motion:reduce){
+  html.m10-framed :is(.cta,.nav-button,.nav-title-button,.download-trigger,.back-to-top){transition:none;}
 }
 </style>
 </head>
