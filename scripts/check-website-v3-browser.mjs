@@ -103,8 +103,8 @@ try{
             display:document.getElementById('orb-tuner-spread-value').textContent,
             fallback:document.getElementById('fallback-orb').style.background
           }));
-          assert(tuned.value==='0.70'&&tuned.display==='0.70'&&tuned.fallback!==fallbackBefore,
-            'Orb slider did not update its value and fallback gradient');
+          assert(Number(tuned.value)===.70&&tuned.display==='0.70'&&tuned.fallback!==fallbackBefore,
+            'Orb slider did not update its value and fallback gradient: '+JSON.stringify(tuned));
           await page.waitForTimeout(100);
           const gpu=await page.evaluate(()=>{
             const canvas=document.getElementById('orb-canvas');
