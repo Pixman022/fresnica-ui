@@ -238,26 +238,44 @@
   });
   let locale = 'en';
   const nodeOriginal = new WeakMap();
+  const nodeLastApplied = new WeakMap();
   const attrOriginal = new WeakMap();
+  const originalTitle = document.title;
+  const description = document.querySelector('meta[name="description"]');
+  const originalDescription = description?.content || '';
+  const tuner = document.getElementById('orb-tuner');
   const chapters = [...frame.querySelectorAll('[data-chapter]')];
   const chapterTitles = new WeakMap();
   for (const section of chapters) chapterTitles.set(section,section.dataset.chapter);
   const toggle = document.getElementById('locale-toggle');
   const languageMenu = document.getElementById('language-menu');
 
+  function translateToken(token) {
+    if (map[token]) return map[token];
+    // M6 scroll states combine a translated label with a numeric step.
+    const state = token.match(/^(\d{2}\s*\/\s*\d{2})\s*·\s*(.+)\s*·\s*(REVIEW|STELLAR)$/);
+    if (state && map[state[2]])
+      return state[1]+' · '+map[state[2]]+' · '+(state[3]==='REVIEW'?'核对':'STELLAR');
+    return token;
+  }
   function translateTextNode(node) {
     if (node.nodeType !== Node.TEXT_NODE || !node.parentElement ||
         node.parentElement.closest('script,style,template')) return;
     const value = node.nodeValue;
-    // A script may replace a previously translated text node with a new English state.
-    const before = nodeOriginal.has(node) ? nodeOriginal.get(node) : value;
-    if (!nodeOriginal.has(node)) nodeOriginal.set(node,before);
+    let before = nodeOriginal.has(node) ? nodeOriginal.get(node) : value;
+    // Some animated labels reuse a text node. Preserve the latest English state
+    // rather than restoring the first one whenever that node changes.
+    if (nodeOriginal.has(node) && locale==='zh-CN' &&
+        value!==before && value!==nodeLastApplied.get(node)) {
+      before=value;
+      nodeOriginal.set(node,before);
+    } else if (!nodeOriginal.has(node)) nodeOriginal.set(node,before);
     const token = before.trim().replace(/\s+/g,' ');
-    const translated = locale==='zh-CN' ? (map[token] || token) : before.trim();
-    // Keep indentation and whitespace around the original text node.
+    const translated = locale==='zh-CN' ? translateToken(token) : token;
     const prefix = before.match(/^\s*/)?.[0] || '';
     const suffix = before.match(/\s*$/)?.[0] || '';
-    const next = locale==='zh-CN' && map[token] ? prefix+translated+suffix : before;
+    const next = locale==='zh-CN' && translated!==token ? prefix+translated+suffix : before;
+    nodeLastApplied.set(node,next);
     if (value!==next) node.nodeValue=next;
   }
   function walkText(root) {
@@ -288,6 +306,9 @@
   }
   function syncLanguage(){
     document.documentElement.lang=locale;
+    document.title=locale==='zh-CN' ? (map[originalTitle] || originalTitle) : originalTitle;
+    if (description) description.content=locale==='zh-CN' ?
+      (map[originalDescription] || originalDescription) : originalDescription;
     chapters.forEach(section=>{
       const english=chapterTitles.get(section);
       section.dataset.chapter=locale==='zh-CN' ? (map[english] || english) : english;
@@ -296,6 +317,7 @@
     walkText(header);
     translateAttrs(frame);
     translateAttrs(header);
+    if (tuner) translateAttrs(tuner);
     toggle?.setAttribute('aria-label',locale==='en'?'Choose language':'选择语言');
     toggle?.setAttribute('title',locale==='en'?'Choose language':'选择语言');
     languageMenu?.querySelectorAll('[data-language]').forEach(button => {
