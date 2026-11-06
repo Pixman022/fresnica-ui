@@ -1712,6 +1712,14 @@ html.v3-theme-dark.m10-framed .site-header.on-dark .top-nav .nav-button[aria-exp
   background:var(--Fresnica-surface-highest);
   color:var(--Fresnica-primary-color);
 }
+/* Light theme on black chapters: reveal the floating navigation capsule.
+   Reuse the neutral header action surface; leave light chapters and dark theme unchanged. */
+html.m10-framed:not(.v3-theme-dark) .site-header.on-dark:not(.on-footer-dark) .top-nav {
+  background:var(--v3-button-neutral-bg,#2A2A30);
+  color:var(--v3-button-neutral-fg,#F5F5F7);
+  border:1px solid var(--v3-button-neutral-border,#484850);
+  box-shadow:none;
+}
 </style>
 <style id="m52-dark-neutral-cards">
 /* Neutral charcoal card surfaces in dark mode; green stays on accents/status. */
