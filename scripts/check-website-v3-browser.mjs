@@ -150,6 +150,24 @@ try{
         for(const id of name==='desktop-1440'?sceneIds:['overview','v3-features','v3-workspace']){
           await page.evaluate(id=>{document.getElementById(id)?.scrollIntoView({block:'start',behavior:'instant'});if(id==='v3-features'){const reel=document.getElementById('feature-window');if(reel)reel.scrollLeft=0;}},id);
           await page.waitForTimeout(160);
+          if(theme==='light'&&['v3-availability','v3-clarity'].includes(id)){
+            const darkSceneNav=await page.evaluate(()=>{
+              const header=document.querySelector('.site-header');
+              const nav=header.querySelector('.top-nav');
+              const style=getComputedStyle(nav);
+              return {
+                isDark:header.classList.contains('on-dark'),
+                background:style.backgroundColor,
+                border:style.borderColor,
+                text:style.color
+              };
+            });
+            assert(darkSceneNav.isDark,`${prefix}: ${id} did not activate dark-scene navigation`);
+            assert(darkSceneNav.background==='rgb(42, 42, 48)' &&
+              darkSceneNav.border==='rgb(72, 72, 80)' &&
+              darkSceneNav.text==='rgb(245, 245, 247)',
+              `${prefix}: ${id} navigation capsule blends into black background (${JSON.stringify(darkSceneNav)})`);
+          }
           if(theme==='dark'&&id==='v3-about'){
             const footerNav=await page.evaluate(()=>{
               const header=document.querySelector('.site-header');
