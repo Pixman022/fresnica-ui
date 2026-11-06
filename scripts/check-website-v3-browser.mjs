@@ -279,7 +279,56 @@ try{
           const locale=await page.evaluate(()=>({lang:document.documentElement.lang,footer:document.querySelector('.footer-top > div:first-child > p:not(.chapter-kicker)')?.textContent||''}));
           assert(locale.lang==='zh-CN','Language picker did not switch to Chinese');
           assert(locale.footer.includes('Fresnica 是面向'),`Chinese footer translation missing; got: ${locale.footer.slice(0,120)}`);
+          const localized=await page.evaluate(()=>{
+            const txt=selector=>document.querySelector(selector)?.textContent?.trim()||'';
+            const attr=(selector,name)=>document.querySelector(selector)?.getAttribute(name)||'';
+            return {
+              title:document.title,
+              description:document.querySelector('meta[name="description"]')?.content||'',
+              sendPreview:txt('#v3-features .feature-card:nth-child(2) .mini-label'),
+              activity:txt('#v3-features .feature-card:nth-child(5)'),
+              payments:txt('#desktop-panel-payments .dp-payment-footer > span:first-child'),
+              swap:txt('#desktop-panel-swap .dp-swap-hint'),
+              connect:txt('#desktop-panel-connect .dp-connect-hint'),
+              permission:txt('#desktop-panel-connect .dp-permissions-label'),
+              languageMenu:attr('#language-menu','aria-label'),
+              gradient:attr('#orb-tuner','aria-label'),
+              gradientButton:attr('#orb-tuner-toggle','title'),
+              gradientClose:attr('#orb-tuner-close','aria-label'),
+              sendDescription:attr('#v3-features .feature-card:nth-child(2) [aria-label]','aria-label'),
+              portfolio:attr('#desktop-panel-assets .dp-portfolio-chart','aria-label')
+            };
+          });
+          for(const [key,expected] of Object.entries({
+            title:'你的 Stellar 钱包',
+            description:'专注 Stellar 生态',
+            sendPreview:'发送 / 核对',
+            activity:'查看活动记录',
+            payments:'确认前核对交易信息',
+            swap:'预估兑换',
+            connect:'请先核对权限',
+            permission:'请求的权限',
+            languageMenu:'语言选项',
+            gradient:'球体渐变参数调整',
+            gradientButton:'调整球体渐变',
+            gradientClose:'关闭渐变参数面板',
+            sendDescription:'预览发送动画',
+            portfolio:'资产总值趋势'
+          })){
+            assert(localized[key]?.includes(expected),
+              `Chinese locale: ${key} not localized, got ${String(localized[key]).slice(0,120)}`);
+          }
+          await page.locator('#theme-toggle').click();
+          assert((await page.locator('#theme-toggle').getAttribute('aria-label'))==='切换为浅色模式',
+            'Chinese theme toggle did not update its accessible label');
+          await page.locator('#theme-toggle').click();
           await page.screenshot({path:path.join(dest,'desktop-1440-zh.png'),animations:'disabled'});
+          await page.locator('#locale-toggle').click();
+          await page.locator('[data-language="en"]').click();
+          assert((await page.title())==='Fresnica — Your Stellar Wallet',
+            'Switching back to English did not restore document title');
+          assert((await page.locator('#orb-tuner-close').getAttribute('aria-label'))==='Close gradient panel',
+            'Switching back to English did not restore gradient controls');
           files.push('desktop-1440-zh.png');
         }
         assert(pageErrors.length===0,`${prefix}: browser script errors: ${pageErrors.join('; ').slice(0,500)}`);
