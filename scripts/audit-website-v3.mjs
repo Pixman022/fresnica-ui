@@ -64,8 +64,41 @@ const hrefs=new Set(footerAnchors);
 check(hrefs.has('#v3-security')&&hrefs.has('#v3-clarity'),'Footer must include Security and Questions');
 check(html.includes('aria-label="Preview send animation, no payment is made"'),'Send preview must not imply a real transaction');
 
+// Keep new visible strings and accessible names covered by the Chinese dictionary.
+// The orb tuner uses explicit bilingual <span lang="..."> pairs instead.
+const localeScript=fs.readFileSync(path.join(preview,'m12-experience.js'),'utf8');
+const translationKeys=new Set([...localeScript.matchAll(/("(?:\\.|[^"\\])*")\s*:\s*("(?:\\.|[^"\\])*")/g)]
+  .map(match=>JSON.parse(match[1])));
+const normalizeText=value=>value.replace(/&nbsp;|\u00a0/g,' ').replace(/&amp;/g,'&')
+  .replace(/&quot;/g,'"').trim().replace(/\s+/g,' ');
+const preserveEnglish=new Set(['Fresnica','FRESNICA','English','XLM','USDC','X','U','A','GABX…7BD','(24h)']);
+const isBrandOrData=token=>preserveEnglish.has(token) ||
+  /^[\d\s,.$%+()\-]+(?:XLM|USDC)?$/.test(token) ||
+  /^\d[\d,.]*\s+(?:XLM|USDC)$/.test(token);
+const visibleTokens=source=>source.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,'')
+  .replace(/<!--([\s\S]*?)-->/g,'').split(/<[^>]*>/g)
+  .map(normalizeText).filter(token=>/[A-Za-z]/.test(token));
+const bodyHtml=html.slice(html.indexOf('<body>'),html.lastIndexOf('</body>')+7)
+  .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'');
+const markupWithoutManualBilingual=bodyHtml.replace(/<aside id="orb-tuner"[\s\S]*?<\/aside>/,'');
+const siteText=visibleTokens(markupWithoutManualBilingual);
+const accessibleNames=[...bodyHtml.matchAll(/\b(?:aria-label|title|placeholder|data-chapter)="([^"]+)"/g)]
+  .map(m=>normalizeText(m[1]));
+const oldDemo=fs.readFileSync(path.join(preview,'m6-states.js'),'utf8');
+const demoTemplate=oldDemo.match(/walkthrough\.innerHTML\s*=\s*`([\s\S]*?)`;/)?.[1]||'';
+const demoText=visibleTokens(demoTemplate);
+const statusesSource=oldDemo.match(/const statuses\s*=\s*\[([\s\S]*?)\];/)?.[1]||'';
+const dynamicStatus=[...statusesSource.matchAll(/'([^']+)'/g)].map(m=>m[1]);
+const missingTranslation=[...new Set([...siteText,...accessibleNames,...demoText,...dynamicStatus]
+  .filter(token=>/[A-Za-z]/.test(token)&&!isBrandOrData(token)&&!translationKeys.has(token)))];
+check(missingTranslation.length===0,
+  'V3 untranslated visible strings or accessible labels: '+missingTranslation.join(' | '));
+check(translationKeys.has('Fresnica — Your Stellar Wallet')&&
+  translationKeys.has('Fresnica is a Stellar wallet for XLM, issued assets, payments, swaps, and compatible apps.'),
+  'V3 localized title and SEO description are missing');
+
 const report={
-  result:errors.length?'FAIL':'PASS',checks:'anchors, IDs, assets, brand colors, action contrast, card animations, footer, non-live action wording',
+  result:errors.length?'FAIL':'PASS',checks:'anchors, IDs, assets, action contrast, demo animations, footer, locale strings and accessible names',
   ids:ids.length,anchors:anchors.length,localAssets:assets.length,cards,
   whiteButtonContrast:actionFills.map(fill=>({fill,ratio:Number(contrast(fill,'#FFFFFF').toFixed(2))})),
   errors
