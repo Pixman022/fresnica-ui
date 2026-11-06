@@ -80,7 +80,13 @@ const visibleTokens=source=>source.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,'
   .map(normalizeText).filter(token=>/[A-Za-z]/.test(token));
 const bodyHtml=html.slice(html.indexOf('<body>'),html.lastIndexOf('</body>')+7)
   .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'');
-const markupWithoutManualBilingual=bodyHtml.replace(/<aside id="orb-tuner"[\s\S]*?<\/aside>/,'');
+const orbBilingual=bodyHtml.match(/<aside id="orb-tuner"[\s\S]*?<\/aside>/)?.[0]||'';
+const orbPairs=[...orbBilingual.matchAll(/<span lang="en">([^<]+)<\/span>\s*<span lang="zh-CN">([^<]+)<\/span>/g)];
+const orbEnglish=(orbBilingual.match(/<span lang="en">/g)||[]).length;
+const orbChinese=(orbBilingual.match(/<span lang="zh-CN">/g)||[]).length;
+check(orbEnglish>0&&orbPairs.length===orbEnglish&&orbPairs.length===orbChinese,
+  'Orb gradient controls have unmatched manual English/Chinese labels');
+const markupWithoutManualBilingual=bodyHtml.replace(orbBilingual,'');
 const siteText=visibleTokens(markupWithoutManualBilingual);
 const accessibleNames=[...bodyHtml.matchAll(/\b(?:aria-label|title|placeholder|data-chapter)="([^"]+)"/g)]
   .map(m=>normalizeText(m[1]));
@@ -89,7 +95,8 @@ const demoTemplate=oldDemo.match(/walkthrough\.innerHTML\s*=\s*`([\s\S]*?)`;/)?.
 const demoText=visibleTokens(demoTemplate);
 const statusesSource=oldDemo.match(/const statuses\s*=\s*\[([\s\S]*?)\];/)?.[1]||'';
 const dynamicStatus=[...statusesSource.matchAll(/'([^']+)'/g)].map(m=>m[1]);
-const missingTranslation=[...new Set([...siteText,...accessibleNames,...demoText,...dynamicStatus]
+const demoNames=[...demoTemplate.matchAll(/\baria-label="([^"]+)"/g)].map(m=>normalizeText(m[1]));
+const missingTranslation=[...new Set([...siteText,...accessibleNames,...demoText,...demoNames,...dynamicStatus]
   .filter(token=>/[A-Za-z]/.test(token)&&!isBrandOrData(token)&&!translationKeys.has(token)))];
 check(missingTranslation.length===0,
   'V3 untranslated visible strings or accessible labels: '+missingTranslation.join(' | '));
