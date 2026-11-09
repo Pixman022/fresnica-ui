@@ -80,6 +80,9 @@ try{
           const q=s=>document.querySelector(s);
           const scene=q('#v3-workspace')?.getBoundingClientRect();
           const cta=q('#v3-workspace .desktop-download')?.getBoundingClientRect();
+          const nav=q('.site-header .top-nav').getBoundingClientRect();
+          const brand=q('.site-header .brand').getBoundingClientRect();
+          const download=q('#download-menu-button').getBoundingClientRect();
           return {
             theme:document.documentElement.classList.contains('v3-theme-dark')?'dark':'light',
             scrollWidth:document.documentElement.scrollWidth,
@@ -87,7 +90,9 @@ try{
             controls,
             navigation:{
               background:getComputedStyle(q('.site-header .top-nav')).backgroundColor,
-              border:getComputedStyle(q('.site-header .top-nav')).borderColor
+              border:getComputedStyle(q('.site-header .top-nav')).borderColor,
+              width:nav.width,left:nav.left,right:nav.right,
+              brandRight:brand.right,downloadLeft:download.left
             },
             cards:document.querySelectorAll('.feature-card').length,
             firstCardLeft:q('#v3-features .feature-card')?.getBoundingClientRect().left??null,
@@ -130,6 +135,14 @@ try{
           };
         });
         const prefix=name+'/'+theme;
+        const expectedNavWidth=width<=375?Math.min(184,width-172):
+          width<=680?Math.min(210,width-172):340;
+        assert(Math.abs(state.navigation.width-expectedNavWidth)<=1,
+          `${prefix}: navigation capsule width changed from the viewport preset ${expectedNavWidth}px (${state.navigation.width}px)`);
+        assert(state.navigation.left>=-1&&state.navigation.right<=width+1&&
+          state.navigation.left>=state.navigation.brandRight-1&&
+          state.navigation.right<=state.navigation.downloadLeft+1,
+          `${prefix}: fixed navigation overlaps brand/download or viewport (${JSON.stringify(state.navigation)})`);
         const mobileActions=await page.evaluate(measureMobileDownloads);
         checkMobileDownloads(mobileActions,prefix,'en');
         mobileDownloadObservations.push({viewport:name,theme,locale:'en',actions:mobileActions});
@@ -183,6 +196,9 @@ try{
         for(const id of name==='desktop-1440'?sceneIds:['overview','v3-availability','v3-features','v3-workspace']){
           await page.evaluate(id=>{document.getElementById(id)?.scrollIntoView({block:'start',behavior:'instant'});if(id==='v3-features'){const reel=document.getElementById('feature-window');if(reel)reel.scrollLeft=0;}},id);
           await page.waitForTimeout(160);
+          const navWidth=await page.locator('.site-header .top-nav').evaluate(el=>el.getBoundingClientRect().width);
+          assert(Math.abs(navWidth-state.navigation.width)<=1,
+            `${prefix}/${id}: navigation width changed when chapter title updated (${navWidth}px vs ${state.navigation.width}px)`);
           if(theme==='light'&&['v3-availability','v3-clarity'].includes(id)){
             const darkSceneNav=await page.evaluate(()=>{
               const header=document.querySelector('.site-header');
@@ -347,6 +363,9 @@ try{
             document.querySelector('.footer-top > div:first-child > p:not(.chapter-kicker)')?.textContent?.includes('Fresnica 是面向'),null,{timeout:5000}).catch(()=>{});
           const locale=await page.evaluate(()=>({lang:document.documentElement.lang,footer:document.querySelector('.footer-top > div:first-child > p:not(.chapter-kicker)')?.textContent||''}));
           assert(locale.lang==='zh-CN','Language picker did not switch to Chinese');
+          const chineseNavWidth=await page.locator('.site-header .top-nav').evaluate(el=>el.getBoundingClientRect().width);
+          assert(Math.abs(chineseNavWidth-state.navigation.width)<=1,
+            `Changing the navigation language resized its capsule: ${chineseNavWidth}px vs ${state.navigation.width}px`);
           assert(locale.footer.includes('Fresnica 是面向'),`Chinese footer translation missing; got: ${locale.footer.slice(0,120)}`);
           const localized=await page.evaluate(()=>{
             const txt=selector=>document.querySelector(selector)?.textContent?.trim()||'';
@@ -459,6 +478,10 @@ try{
             })};
         });
         assert(data.lang==='zh-CN'&&data.theme===theme,`zh/${name}/${theme}: language/theme mismatch`);
+        const zhNavWidth=await page.locator('.site-header .top-nav').evaluate(el=>el.getBoundingClientRect().width);
+        const presetNavWidth=width<=375?Math.min(184,width-172):width<=680?Math.min(210,width-172):340;
+        assert(Math.abs(zhNavWidth-presetNavWidth)<=1,
+          `zh/${name}/${theme}: navigation capsule changed width after localization (${zhNavWidth}px vs ${presetNavWidth}px)`);
         assert(data.overflow<=8,`zh/${name}/${theme}: horizontal document overflow ${data.overflow}px`);
         const zhMobileActions=await page.evaluate(measureMobileDownloads);
         checkMobileDownloads(zhMobileActions,`zh/${name}/${theme}`,'zh-CN');
