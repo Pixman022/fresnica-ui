@@ -44,7 +44,7 @@
 
 ## 发布前单独决策（本轮不擅自开启）
 
-- [x] 已针对 V3 当前真实页面完成 [发布前事实、链接和预览保护审计](v3-publication-readiness-2026-11-09.md)：iOS/Android/桌面端入口未开放，导航只链接本页章节，预览页保留 `noindex,nofollow,noarchive`；`scripts/audit-website-v3.mjs` 新增预览元标记、非本地链接和表单/第三方嵌入保护检查。**此为预览状态保护，不等于批准正式发布。**
+- [x] 已针对 V3 当前真实页面完成 [发布前事实、链接和预览保护审计](v3-publication-readiness-2026-11-09.md)：iOS/Android/桌面端入口未开放，导航只链接本页章节，预览页保留 `noindex,nofollow,noarchive`；`scripts/audit-website-v3.mjs` 新增预览元标记、非本地链接和表单/第三方嵌入保护检查。**此为预览状态保护，不等于批准正式发布。** [V3 Visual QA #42556084372](https://github.com/Pixman022/fresnica-ui/actions/runs/42556084372) 两个作业均成功：静态发布保护检测通过，Chromium 14 组视口/主题及 97 张截图 0 异常，8 组动效性能样本通过，Firefox/WebKit 12 组引擎场景、双向各 8 次九屏滚动均通过。
 
 - [ ] 经确认的 iOS/Android/桌面端官方下载链接与发布状态。
 - [ ] 联系方式、隐私/条款文档和产品安全承诺经事实核对。
