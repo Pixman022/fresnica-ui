@@ -2784,6 +2784,15 @@ html.m10-framed #orb-tuner .ot-close{min-width:44px;background:transparent;color
     if(wasScene||wasDownload){openMenu('',false);(wasDownload?downloadButton:menuButton).focus();}
   });
   document.addEventListener('pointerdown',e=>{if(!header.contains(e.target))openMenu('',false);});
+  // Theme and brand controls are outside the menus, but still inside the header.
+  // Keyboard activation has no pointerdown; close disclosures in both paths.
+  header.addEventListener('click',e=>{
+    if(!e.target.closest('.brand,#theme-toggle'))return;
+    openMenu('',false);
+    const languageMenu=document.getElementById('language-menu');
+    if(languageMenu)languageMenu.hidden=true;
+    document.getElementById('locale-toggle')?.setAttribute('aria-expanded','false');
+  });
 
   // M20: each neutral dot loops from a seeded outer position into the
   // central green point along straight paths, decelerating near the core.
