@@ -821,6 +821,11 @@ html.m10-framed .site-header.on-footer-dark ~ .back-to-top{
 @media(max-width:680px) {
   html.m10-framed .back-to-top{right:16px;bottom:16px;width:43px;height:43px;padding:0}
   html.m10-framed .back-to-top span{display:none}
+  /* The desktop mockup fills the bottom of a narrow viewport. Do not obscure
+     its Send / Receive / Swap previews; the fixed brand link still returns home. */
+  html.m10-framed[data-m14-active="v3-workspace"] .back-to-top{
+    visibility:hidden;pointer-events:none;
+  }
 }
 
 /* Neutral outer dots gather into a small cluster; the only green particle
