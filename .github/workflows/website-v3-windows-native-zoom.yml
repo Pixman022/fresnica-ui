@@ -25,6 +25,16 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Stage bundled V3 fonts for native-browser coverage
+        shell: bash
+        run: |
+          mkdir -p public/fresnica-v3-motion-preview/fonts
+          for weight in 400 500 600 700; do
+            cp "node_modules/@fontsource/roboto/files/roboto-latin-${weight}-normal.woff2" public/fresnica-v3-motion-preview/fonts/
+          done
+          for weight in 400 500 700; do
+            cp "src/assets/fonts/noto-sans-sc-chinese-simplified-${weight}-normal.woff2" public/fresnica-v3-motion-preview/fonts/
+          done
       - name: Install isolated Playwright (use system Microsoft Edge)
         shell: bash
         run: |
