@@ -78,7 +78,22 @@ for(const name of engines){
       null,{timeout:15000});
     assert(await page.evaluate(()=>matchMedia('(prefers-reduced-motion: no-preference)').matches),
       name+' normal motion not enabled');
-    await page.mouse.move(150,500);
+    // WebKit screenshots can disturb the automation pointer's target. Keep
+    // each genuine browser wheel gesture on a verified, non-interactive gutter
+    // rather than relying on the cursor location from the first scene.
+    const wheelAtGutter=async delta=>{
+      const point=await page.evaluate(()=>{
+        const frame=document.getElementById('v3-page-frame');
+        const rect=frame.getBoundingClientRect();
+        const x=Math.round(rect.right-18),y=Math.round(rect.top+rect.height/2);
+        const hit=document.elementFromPoint(x,y);
+        return {x,y,inside:!!hit&&frame.contains(hit),
+          native:!!hit?.closest?.('[data-native-wheel]')};
+      });
+      assert(point.inside&&!point.native,name+' wheel gutter not on the scene frame: '+JSON.stringify(point));
+      await page.mouse.move(point.x,point.y);
+      await page.mouse.wheel(0,delta);
+    };
     // Diagnose rare WebKit gestures lost after the feature scene. A document
     // capture listener observes input before the M13 frame capture listener.
     await page.evaluate(()=>{
@@ -173,7 +188,7 @@ for(const name of engines){
     assert((await getState()).scene===scenes[0],name+' initial chapter is not overview');
     for(let i=1;i<scenes.length;i++){
       lastPhase='forward '+scenes[i];
-      await page.mouse.wheel(0,170);
+      await wheelAtGutter(170);
       await waitForHold(scenes[i]);
       forward.push(await verify(scenes[i],name+' forward '+i));
       console.log('[V3 nine-scene engines] '+name+' reached '+scenes[i]);
@@ -185,7 +200,7 @@ for(const name of engines){
     }
     for(let i=scenes.length-2;i>=0;i--){
       lastPhase='reverse '+scenes[i];
-      await page.mouse.wheel(0,-170);
+      await wheelAtGutter(-170);
       await waitForHold(scenes[i]);
       reverse.push(await verify(scenes[i],name+' reverse '+i));
       console.log('[V3 nine-scene engines] '+name+' returned '+scenes[i]);
