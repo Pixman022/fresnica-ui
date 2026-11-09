@@ -17,7 +17,37 @@ const setups=[
   {name:'zoom200-equivalent',width:720,height:450}
 ];
 const sceneIds=['overview','v3-ecosystem','v3-availability','v3-features','v3-workspace','v3-for-you','v3-security','v3-clarity','v3-about'];
-const failures=[],reports=[],captures=[];
+const failures=[],reports=[],captures=[],mobileDownloadObservations=[];
+const measureMobileDownloads=()=>[...document.querySelectorAll('#v3-availability .download-action')].map(button=>{
+  const icon=button.querySelector('svg'),label=button.querySelector('span');
+  const box=button.getBoundingClientRect(),mark=icon?.getBoundingClientRect();
+  const text=label?.getBoundingClientRect();
+  return {disabled:button.disabled,brand:icon?.getAttribute('class'),
+    fill:icon?.getAttribute('fill'),iconColor:icon?getComputedStyle(icon).color:null,
+    renderedFill:icon?getComputedStyle(icon).fill:null,
+    text:label?.textContent?.trim(),ariaLabel:button.getAttribute('aria-label'),
+    height:box.height,iconWidth:mark?.width,iconHeight:mark?.height,
+    iconBeforeText:!!mark&&!!text&&mark.right<text.left,
+    aligned:!!mark&&!!text&&Math.abs((mark.top+mark.height/2)-(text.top+text.height/2))<=4,
+    unclipped:!!mark&&!!text&&mark.left>=box.left+3&&text.right<=box.right-5,
+    oneLine:label?.getClientRects().length===1};
+});
+const checkMobileDownloads=(actions,prefix,lang)=>{
+  const expected=lang==='zh-CN'?['下载 iOS','下载 Android']:['Download iOS','Download Android'];
+  const accessible=lang==='zh-CN'?['下载 iOS 版本','下载 Android 版本']:
+    ['Download for iOS','Download for Android'];
+  assert(actions.length===2,prefix+': mobile iOS/Android buttons missing');
+  for(let i=0;i<actions.length;i++){
+    const a=actions[i];
+    assert(a.disabled&&a.brand===(i===0?'platform-mark-apple':'platform-mark-android')&&
+      a.fill==='currentColor'&&a.renderedFill===a.iconColor,
+      prefix+': platform '+i+' icon/disabled contract failed '+JSON.stringify(a));
+    assert(a.text===expected[i]&&a.ariaLabel===accessible[i]&&
+      a.oneLine&&a.iconBeforeText&&a.aligned&&a.unclipped&&
+      a.height>=55&&a.iconWidth>=18&&a.iconHeight>=18,
+      prefix+': platform '+i+' text or layout failed '+JSON.stringify(a));
+  }
+};
 fs.mkdirSync(dest,{recursive:true});
 const browser=await chromium.launch({
   headless:true,
@@ -100,6 +130,9 @@ try{
           };
         });
         const prefix=name+'/'+theme;
+        const mobileActions=await page.evaluate(measureMobileDownloads);
+        checkMobileDownloads(mobileActions,prefix,'en');
+        mobileDownloadObservations.push({viewport:name,theme,locale:'en',actions:mobileActions});
         assert(state.theme===theme,`${prefix}: theme switch mismatch`);
         assert(state.cards===5,`${prefix}: missing feature card`);
         const palette=state.buttonSystem;
@@ -147,7 +180,7 @@ try{
           assert(c.left>=-2&&c.right<=width+2,`${prefix}: ${c.id} clipped at viewport edge`);
         }
         const files=[];
-        for(const id of name==='desktop-1440'?sceneIds:['overview','v3-features','v3-workspace']){
+        for(const id of name==='desktop-1440'?sceneIds:['overview','v3-availability','v3-features','v3-workspace']){
           await page.evaluate(id=>{document.getElementById(id)?.scrollIntoView({block:'start',behavior:'instant'});if(id==='v3-features'){const reel=document.getElementById('feature-window');if(reel)reel.scrollLeft=0;}},id);
           await page.waitForTimeout(160);
           if(theme==='light'&&['v3-availability','v3-clarity'].includes(id)){
@@ -391,10 +424,13 @@ try{
         });
         assert(data.lang==='zh-CN'&&data.theme===theme,`zh/${name}/${theme}: language/theme mismatch`);
         assert(data.overflow<=8,`zh/${name}/${theme}: horizontal document overflow ${data.overflow}px`);
+        const zhMobileActions=await page.evaluate(measureMobileDownloads);
+        checkMobileDownloads(zhMobileActions,`zh/${name}/${theme}`,'zh-CN');
+        mobileDownloadObservations.push({viewport:name,theme,locale:'zh-CN',actions:zhMobileActions});
         for(const title of data.titles){
           assert(title.excess<=4,`zh/${name}/${theme}: ${title.selector} text overflows by ${title.excess}px`);
         }
-        for(const id of ['overview','v3-features','v3-workspace','v3-clarity']){
+        for(const id of ['overview','v3-availability','v3-features','v3-workspace','v3-clarity']){
           await page.evaluate(id=>{document.getElementById(id)?.scrollIntoView({block:'start',behavior:'instant'});},id);
           await page.waitForTimeout(140);
           const filename=`zh-${name}-${theme}-${id}.png`;
@@ -435,7 +471,7 @@ try{
 }finally{
   await browser.close();
 }
-const result={status:failures.length?'FAIL':'PASS',date:new Date().toISOString(),url:base,checks:'theme, key targets, horizontal overflow, reduced motion, demo only buttons, menu keyboard, zh translation, screenshots',viewports:setups.map(s=>s.name),captureCount:captures.length,reports,failures};
+const result={status:failures.length?'FAIL':'PASS',date:new Date().toISOString(),url:base,checks:'theme, mobile platform icons and one-line labels, key targets, horizontal overflow, reduced motion, demo only buttons, menu keyboard, zh translation, screenshots',viewports:setups.map(s=>s.name),captureCount:captures.length,mobileDownloadObservations,reports,failures};
 fs.writeFileSync(path.join(dest,'results.json'),JSON.stringify(result,null,2)+'\n');
 console.log('[V3 browser] '+result.status+'; '+reports.length+' viewport/themes; '+captures.length+' screenshots; '+failures.length+' findings');
 for(const failure of failures)console.error('[V3 browser] '+failure);
