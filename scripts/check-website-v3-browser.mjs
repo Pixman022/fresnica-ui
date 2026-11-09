@@ -413,14 +413,14 @@ try{
               const scroll=document.getElementById('v3-page-scroll').getBoundingClientRect();
               const tabs=document.querySelector('#v3-workspace .desktop-tabs').getBoundingClientRect();
               const back=document.querySelector('.back-to-top');
-              return {scene:document.documentElement.dataset.m14Active,
+              return {workspaceVisible:back.classList.contains('v3-over-workspace'),
                 tabsTop:tabs.top,tabsBottom:tabs.bottom,scrollTop:scroll.top,scrollBottom:scroll.bottom,
                 backVisibility:getComputedStyle(back).visibility,
                 brandHome:document.querySelector('.site-header .brand')?.getAttribute('href')};
             });
             assert(mobile.tabsTop>=mobile.scrollTop-4&&mobile.tabsBottom<=mobile.scrollBottom+4,
               `zh/${name}/${theme}: desktop preview tabs are not reachable (${JSON.stringify(mobile)})`);
-            assert(mobile.scene==='v3-workspace'&&mobile.backVisibility==='hidden'&&mobile.brandHome==='#overview',
+            assert(mobile.workspaceVisible&&mobile.backVisibility==='hidden'&&mobile.brandHome==='#overview',
               `zh/${name}/${theme}: back-to-top covers the compact desktop demo (${JSON.stringify(mobile)})`);
           }
         }
