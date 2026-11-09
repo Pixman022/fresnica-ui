@@ -339,6 +339,25 @@ try{
           await page.keyboard.press('Escape');
           assert(await page.locator('#language-menu').evaluate(el=>el.hidden),'Escape did not close language menu');
           assert(await page.evaluate(()=>document.activeElement?.id==='locale-toggle'),'Escape did not return focus to language button');
+          // The locale popup advertises role=menu/menuitemradio: support arrow
+          // navigation (including opening from the trigger) and Home/End.
+          await page.keyboard.press('ArrowDown');
+          assert(!await page.locator('#language-menu').evaluate(el=>el.hidden),
+            'ArrowDown did not open the language menu');
+          const focusedLanguage=()=>page.evaluate(()=>document.activeElement?.dataset?.language||'');
+          assert(await focusedLanguage()==='en','ArrowDown did not focus English');
+          await page.keyboard.press('ArrowDown');
+          assert(await focusedLanguage()==='zh-CN','ArrowDown did not move to Chinese');
+          await page.keyboard.press('ArrowUp');
+          assert(await focusedLanguage()==='en','ArrowUp did not return to English');
+          await page.keyboard.press('End');
+          assert(await focusedLanguage()==='zh-CN','End did not focus last language');
+          await page.keyboard.press('Home');
+          assert(await focusedLanguage()==='en','Home did not focus first language');
+          await page.keyboard.press('Escape');
+          assert(await page.locator('#language-menu').evaluate(el=>el.hidden)&&
+            await page.evaluate(()=>document.activeElement?.id==='locale-toggle'),
+            'Escape did not close keyboard-navigated language menu and restore focus');
           // Keyboard-only switching must not leave two header disclosures open.
           // Pointer clicks already dismiss the locale menu via document pointerdown.
           for(const target of ['scene-menu-button','download-menu-button']){
