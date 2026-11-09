@@ -33,6 +33,9 @@ try{
   }else{
     if(!lost.contextLost||!lost.canvasHidden||!lost.fallbackVisible)
       throw Error('Lost context did not show fallback: '+JSON.stringify(lost));
+    // A viewport resize while WebGL is unavailable must not throw or
+    // leave the restored canvas with a 2x2 drawing buffer.
+    await page.setViewportSize({width:1280,height:800});
     // WEBGL_lose_context must dispatch restored before the UI recovers.
     await page.evaluate(async()=>{
       const canvas=document.getElementById('orb-canvas');
@@ -49,7 +52,7 @@ try{
       const gl=canvas.getContext('webgl2');
       const fallback=document.getElementById('fallback-orb');
       return !gl.isContextLost()&&canvas.style.display!=='none'&&
-        fallback.style.display==='none'&&
+        fallback.style.display==='none'&&canvas.width>100&&canvas.height>100&&
         !!gl.getParameter(gl.CURRENT_PROGRAM)&&!!gl.getParameter(gl.VERTEX_ARRAY_BINDING);
     },null,{timeout:4000});
     if(errors.length)throw Error('Page errors after recovery: '+errors.join(' | '));
