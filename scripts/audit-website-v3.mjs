@@ -63,10 +63,10 @@ check(html.includes('--v3-gain-ink:#087852;')&&html.includes('--v3-gain-ink:#32D
 const hrefs=new Set(footerAnchors);
 check(hrefs.has('#v3-security')&&hrefs.has('#v3-clarity'),'Footer must include Security and Questions');
 check(html.includes('aria-label="Preview send animation, no payment is made"'),'Send preview must not imply a real transaction');
-const desktopDownload=html.match(/<button\\b[^>]*class="desktop-download"[^>]*>[\\s\\S]*?<\\/button>/)?.[0]||'';
+const desktopDownload=html.match(/<button\b[^>]*class="desktop-download"[^>]*>[\s\S]*?<\/button>/)?.[0]||'';
 check(desktopDownload.includes('<span>DOWNLOAD</span>')&&!desktopDownload.includes('<small>'),
   'Desktop CTA must have one short label without redundant subtitle');
-check(/\\bdisabled\\b/.test(desktopDownload),'Unreleased desktop download must remain disabled');
+check(/\bdisabled\b/.test(desktopDownload),'Unreleased desktop download must remain disabled');
 
 // Keep new visible strings and accessible names covered by the Chinese dictionary.
 // The orb tuner uses explicit bilingual <span lang="..."> pairs instead.
