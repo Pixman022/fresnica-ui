@@ -71,6 +71,11 @@ try{
     if(lang==='zh-CN'){
       await page.locator('#locale-toggle').click();
       await page.locator('[data-language="zh-CN"]').click();
+      const cjkLoaded=await page.evaluate(async()=>{
+        const faces=await document.fonts.load('500 24px "Noto Sans SC"','中文钱包下载');
+        return faces.some(face=>face.family.replace(/["']/g,'')==='Noto Sans SC'&&face.status==='loaded');
+      });
+      check(cjkLoaded,'Bundled Chinese font missing at native 200% Edge zoom');
     }
     for(const theme of ['light','dark']){
       if(theme==='dark'||(lang==='zh-CN'&&theme==='light'))await page.locator('#theme-toggle').click();
