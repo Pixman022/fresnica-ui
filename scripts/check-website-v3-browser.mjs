@@ -411,6 +411,24 @@ try{
         await page.locator('[data-language="zh-CN"]').click();
         await page.waitForFunction(()=>document.documentElement.lang==='zh-CN'&&
           document.getElementById('feature-title')?.textContent?.includes('核心能力'),null,{timeout:5000});
+        // Font fallback can render Chinese as empty squares without causing
+        // text overflow or a browser script error. Require the bundled CJK
+        // font to load, not merely the presence of translated strings.
+        const chineseFonts=await page.evaluate(async()=>{
+          const glyphs='中文钱包资产下载安全';
+          const weights=[400,500,700];
+          const counts=[];
+          for(const weight of weights){
+            const faces=await document.fonts.load(weight+' 24px "Noto Sans SC"',glyphs);
+            counts.push(faces.filter(face=>face.family.replace(/["']/g,'')==='Noto Sans SC'&&
+              face.status==='loaded').length);
+          }
+          await document.fonts.ready;
+          return {counts,available:weights.map(weight=>
+            document.fonts.check(weight+' 24px "Noto Sans SC"',glyphs))};
+        });
+        assert(chineseFonts.counts.every(n=>n>0)&&chineseFonts.available.every(Boolean),
+          `zh/${name}/${theme}: bundled Noto Sans SC not loaded ${JSON.stringify(chineseFonts)}`);
         const data=await page.evaluate(()=>{
           const selectors=['#feature-title','#workspace-title','#clarity-title'];
           return {lang:document.documentElement.lang,
