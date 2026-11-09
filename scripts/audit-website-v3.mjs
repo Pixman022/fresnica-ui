@@ -41,6 +41,19 @@ const anchors=[...new Set(rawLinks.flatMap(s=>[...s.matchAll(/href="#([^"]+)"/g)
 const broken=anchors.filter(anchor=>!knownIds.has(anchor));
 check(broken.length===0,`Unresolved in-page anchors: ${broken.join(', ')}`);
 
+// V3 remains an informational preview until official release destinations,
+// legal pages and public indexing receive explicit approval.
+const robots=html.match(/<meta\s+name="robots"\s+content="([^"]+)"/i)?.[1]
+  .split(',').map(token=>token.trim().toLowerCase())||[];
+check(['noindex','nofollow','noarchive'].every(token=>robots.includes(token)),
+  'Preview indexing restrictions must remain in place until release approval');
+const linkDestinations=rawLinks.flatMap(source=>
+  [...source.matchAll(/\bhref="([^"]+)"/g)].map(match=>match[1]));
+const unverifiedDestinations=[...new Set(linkDestinations.filter(dest=>
+  !dest.startsWith('#')&&!dest.startsWith('./')))];
+check(unverifiedDestinations.length===0,
+  'Preview must not activate external or unreviewed destinations: '+unverifiedDestinations.join(', '));
+
 const assets=[...html.matchAll(/(?:src|href)="\.\/([^"#?]+)"/g)].map(m=>m[1]);
 const missing=[...new Set(assets)].filter(asset=>!fs.existsSync(path.join(preview,asset)));
 check(missing.length===0,`Referenced local assets missing: ${missing.join(', ')}`);
@@ -85,6 +98,8 @@ const desktopDownload=html.match(/<button\b[^>]*class="desktop-download"[^>]*>[\
 check(desktopDownload.includes('<span>DOWNLOAD</span>')&&!desktopDownload.includes('<small>'),
   'Desktop CTA must have one short label without redundant subtitle');
 check(/\bdisabled\b/.test(desktopDownload),'Unreleased desktop download must remain disabled');
+check(!/<(?:form|iframe)\b/i.test(html),
+  'V3 preview cannot add data-collection forms or embedded third-party pages without review');
 const mobileDownloadButtons=[...html.matchAll(/<button\b[^>]*class="download-action(?: secondary)?"[^>]*>[\s\S]*?<\/button>/g)]
   .map(match=>match[0]);
 check(mobileDownloadButtons.length===2&&mobileDownloadButtons.every(button=>
