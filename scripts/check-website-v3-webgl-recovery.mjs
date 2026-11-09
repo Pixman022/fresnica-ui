@@ -17,6 +17,7 @@ try{
     const gl=canvas.getContext('webgl2');
     const extension=gl?.getExtension('WEBGL_lose_context');
     if(!extension)return {supported:false,reason:gl?'WEBGL_lose_context unavailable':'WebGL2 unavailable'};
+    window.__v3WebGLRecoveryExtension=extension;
     const event=new Promise((resolve,reject)=>{
       const timeout=setTimeout(()=>reject(Error('webglcontextlost event missing')),3500);
       canvas.addEventListener('webglcontextlost',()=>{clearTimeout(timeout);resolve();},{once:true});
@@ -39,12 +40,12 @@ try{
     // WEBGL_lose_context must dispatch restored before the UI recovers.
     await page.evaluate(async()=>{
       const canvas=document.getElementById('orb-canvas');
-      const gl=canvas.getContext('webgl2');
+      const extension=window.__v3WebGLRecoveryExtension;
       const restored=new Promise((resolve,reject)=>{
         const timeout=setTimeout(()=>reject(Error('webglcontextrestored event missing')),4000);
         canvas.addEventListener('webglcontextrestored',()=>{clearTimeout(timeout);resolve();},{once:true});
       });
-      gl.getExtension('WEBGL_lose_context').restoreContext();
+      extension.restoreContext();
       await restored;
     });
     await page.waitForFunction(()=>{
