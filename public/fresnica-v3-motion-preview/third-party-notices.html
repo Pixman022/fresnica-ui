@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <title>Third-party notices | Fresnica</title>
+  <link rel="stylesheet" href="./m15-typography.css">
   <style>
     :root{font-family:Roboto,"Noto Sans SC",Arial,sans-serif;color-scheme:light dark;}
     *{box-sizing:border-box;}
@@ -34,5 +35,17 @@
     <p>The Android robot is reproduced or modified from work created and shared by Google and used according to terms described in the Creative Commons 3.0 Attribution License.</p>
     <p class="license"><a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a></p>
   </main>
+  <script>
+    // Keep the legal attribution in its original English wording.
+    // Only the surrounding navigation and heading follow the chosen locale.
+    if(new URLSearchParams(location.search).get('lang')==='zh-CN'){
+      document.documentElement.lang='zh-CN';
+      document.title='第三方声明 | Fresnica';
+      document.querySelector('.back').textContent='← 返回 Fresnica';
+      document.querySelector('.back').setAttribute('href','./index.html?lang=zh-CN#v3-about');
+      document.querySelector('.eyebrow').textContent='FRESNICA / 第三方署名';
+      document.querySelector('h1').textContent='第三方声明';
+    }
+  </script>
 </body>
 </html>
