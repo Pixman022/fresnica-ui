@@ -2455,7 +2455,7 @@ html.m10-framed #orb-tuner .ot-close{min-width:44px;background:transparent;color
     // Regenerate the even spherical distribution only when crossing mobile width.
     const compactOrb=window.matchMedia('(max-width:680px)');
     const seeded=n=>{const f=Math.sin(n*127.1+23.3)*43758.5453;return f-Math.floor(f);};
-    let flecks=[],logoFlecks=[];
+    let flecks=[],logoFlecks=[],logoPath=null,logoPathKey='';
     function buildLogoFlecks(){
       if(!logoArtwork?.naturalWidth || !particleContext)return;
       const side=192,maskCanvas=document.createElement('canvas');
@@ -2477,25 +2477,30 @@ html.m10-framed #orb-tuner .ot-close{min-width:44px;background:transparent;color
         }
       }
       if(dots.length<120)return;
-      logoFlecks=dots;
+      logoFlecks=dots;logoPathKey='';
       refreshFrame();
     }
     function drawLogoFlecks(g,width,height){
       if(!logoFlecks.length)return;
-      // Static white dot matrix; logo particles do not animate.
+      // Static white dots share one reusable path instead of hundreds of
+      // independent draw calls on every moving shell frame.
       const mobile=compactOrb.matches;
-      const diameter=Math.min(width,height)*(mobile ? .308 : .301);
-      const centreX=width*.5,centreY=height*.5;
-      const radius=mobile?.82:1.10;
-      g.save();
-      g.fillStyle='#fff';
-      g.globalAlpha=1;
-      for(const p of logoFlecks){
-        const x=centreX+p.u*diameter,y=centreY+p.v*diameter;
-        g.beginPath();
-        g.arc(x,y,radius,0,Math.PI*2);
-        g.fill();
+      const key=width+':'+height+':'+mobile+':'+logoFlecks.length;
+      if(!logoPath||logoPathKey!==key){
+        const diameter=Math.min(width,height)*(mobile ? .308 : .301);
+        const centreX=width*.5,centreY=height*.5;
+        const radius=mobile?.82:1.10;
+        const points=new Path2D();
+        for(const p of logoFlecks){
+          const x=centreX+p.u*diameter,y=centreY+p.v*diameter;
+          points.moveTo(x+radius,y);
+          points.arc(x,y,radius,0,Math.PI*2);
+        }
+        logoPath=points;logoPathKey=key;
       }
+      g.save();
+      g.fillStyle='#fff';g.globalAlpha=1;
+      g.fill(logoPath);
       g.restore();
     }
         function makeFlecks(count){
