@@ -150,6 +150,11 @@ try{
                 title:document.getElementById('feature-title')?.textContent,
                 overflow:document.documentElement.scrollWidth-innerWidth}));
               check(zh.lang==='zh-CN'&&zh.title?.includes('核心能力')&&zh.overflow<=8,tag+' Chinese layout');
+              const cjkLoaded=await page.evaluate(async()=>{
+                const faces=await document.fonts.load('500 24px "Noto Sans SC"','中文钱包下载');
+                return faces.some(face=>face.family.replace(/["']/g,'')==='Noto Sans SC'&&face.status==='loaded');
+              });
+              check(cjkLoaded,tag+' bundled Chinese font did not load');
               if(config.name==='mobile'&&theme==='dark'){
                 await page.evaluate(()=>document.getElementById('v3-features')?.scrollIntoView({block:'start',behavior:'instant'}));
                 await page.screenshot({path:path.join(out,name+'-mobile-dark-zh-features.png'),animations:'disabled'});
