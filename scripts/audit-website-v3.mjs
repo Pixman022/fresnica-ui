@@ -30,7 +30,7 @@ for(const weight of [400,500,600,700]){
     fs.existsSync(path.join(root,'node_modules/@fontsource/roboto/files',name)),
     'Missing declared or bundled Roboto '+weight+' face');
 }
-check((typography.match(/@font-face\\s*\\{/g)||[]).length===7,
+check((typography.match(/@font-face\s*\{/g)||[]).length===7,
   'V3 typography must declare seven bundled font faces');
 
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
