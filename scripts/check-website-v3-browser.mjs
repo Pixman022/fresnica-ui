@@ -422,6 +422,34 @@ try{
           assert(Math.abs(chineseNavWidth-state.navigation.width)<=1,
             `Changing the navigation language resized its capsule: ${chineseNavWidth}px vs ${state.navigation.width}px`);
           assert(locale.footer.includes('Fresnica 是面向'),`Chinese footer translation missing; got: ${locale.footer.slice(0,120)}`);
+          // The compact footer link must preserve Chinese when navigating to
+          // third-party notices and back, while keeping the original license text.
+          const noticeLink=page.locator('#v3-about .platform-credit');
+          assert((await noticeLink.textContent())?.trim()==='第三方声明',
+            'Third-party notices footer link was not localized');
+          const noticeHref=await noticeLink.getAttribute('href');
+          const noticePage=await page.context().newPage();
+          try{
+            await noticePage.goto(new URL(noticeHref,base).href,{waitUntil:'domcontentloaded',timeout:30000});
+            const notice=await noticePage.evaluate(()=>({
+              lang:document.documentElement.lang,
+              title:document.querySelector('h1')?.textContent?.trim(),
+              credit:document.body.textContent.includes('Android is a trademark of Google LLC.'),
+              back:document.querySelector('.back')?.textContent?.trim()
+            }));
+            assert(notice.lang==='zh-CN'&&notice.title==='第三方声明'&&notice.credit&&
+              notice.back?.includes('返回'),
+              'Chinese notice page did not preserve language and legal credit: '+JSON.stringify(notice));
+            await noticePage.locator('.back').click();
+            await noticePage.waitForURL(/index\\.html/, {timeout:10000});
+            const returned=await noticePage.evaluate(()=>({
+              lang:document.documentElement.lang,
+              hash:location.hash,
+              scroll:document.getElementById('v3-page-scroll')?.scrollTop
+            }));
+            assert(returned.lang==='zh-CN'&&returned.hash==='#v3-about',
+              'Notice return link lost language or footer anchor: '+JSON.stringify(returned));
+          }finally{await noticePage.close();}
           const localized=await page.evaluate(()=>{
             const txt=selector=>document.querySelector(selector)?.textContent?.trim()||'';
             const attr=(selector,name)=>document.querySelector(selector)?.getAttribute(name)||'';
