@@ -400,6 +400,29 @@ try{
           const filename=`zh-${name}-${theme}-${id}.png`;
           await page.screenshot({path:path.join(dest,filename),animations:'disabled'});
           captures.push(filename);
+          if(width<=430&&id==='v3-workspace'){
+            // Mobile chapters can be taller than the viewport: the tab strip must
+            // remain reachable by native scrolling, without a floating overlay.
+            await page.evaluate(()=>{
+              const scroll=document.getElementById('v3-page-scroll');
+              const tab=document.querySelector('#v3-workspace .desktop-tabs');
+              scroll.scrollTop+=tab.getBoundingClientRect().bottom-scroll.getBoundingClientRect().bottom+18;
+            });
+            await page.waitForTimeout(180);
+            const mobile=await page.evaluate(()=>{
+              const scroll=document.getElementById('v3-page-scroll').getBoundingClientRect();
+              const tabs=document.querySelector('#v3-workspace .desktop-tabs').getBoundingClientRect();
+              const back=document.querySelector('.back-to-top');
+              return {scene:document.documentElement.dataset.m14Active,
+                tabsTop:tabs.top,tabsBottom:tabs.bottom,scrollTop:scroll.top,scrollBottom:scroll.bottom,
+                backVisibility:getComputedStyle(back).visibility,
+                brandHome:document.querySelector('.site-header .brand')?.getAttribute('href')};
+            });
+            assert(mobile.tabsTop>=mobile.scrollTop-4&&mobile.tabsBottom<=mobile.scrollBottom+4,
+              `zh/${name}/${theme}: desktop preview tabs are not reachable (${JSON.stringify(mobile)})`);
+            assert(mobile.scene==='v3-workspace'&&mobile.backVisibility==='hidden'&&mobile.brandHome==='#overview',
+              `zh/${name}/${theme}: back-to-top covers the compact desktop demo (${JSON.stringify(mobile)})`);
+          }
         }
         console.log(`[V3 browser] zh/${name}/${theme} overflow=${data.overflow}px titles=${data.titles.length}`);
       }catch(error){
