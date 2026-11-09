@@ -376,6 +376,42 @@ try{
               'Keyboard disclosure switch left language menu open: '+target+' '+JSON.stringify(state));
             await page.keyboard.press('Escape');
           }
+          // Switching to theme or home must dismiss any header disclosure,
+          // including keyboard clicks which have no outside pointerdown.
+          for(const trigger of ['scene-menu-button','download-menu-button','locale-toggle']){
+            await page.locator('#'+trigger).focus();
+            await page.keyboard.press('Enter');
+            assert(await page.locator('#'+(trigger==='locale-toggle'?'language-menu':
+              trigger==='scene-menu-button'?'scene-menu':'download-menu'))
+              .evaluate(el=>el.id==='language-menu'?!el.hidden:el.classList.contains('is-open')),
+              'Header disclosure did not open before theme switch: '+trigger);
+            await page.locator('#theme-toggle').focus();
+            await page.keyboard.press('Enter');
+            const menus=await page.evaluate(()=>({
+              scene:document.getElementById('scene-menu').classList.contains('is-open'),
+              download:document.getElementById('download-menu').classList.contains('is-open'),
+              language:!document.getElementById('language-menu').hidden,
+              expanded:[...document.querySelectorAll('#scene-menu-button,#download-menu-button,#locale-toggle')]
+                .map(el=>el.getAttribute('aria-expanded'))
+            }));
+            assert(!menus.scene&&!menus.download&&!menus.language&&menus.expanded.every(x=>x==='false'),
+              'Switching theme left a header disclosure expanded: '+trigger+' '+JSON.stringify(menus));
+          }
+          // Three theme toggles above leave dark mode on; restore original light state.
+          await page.locator('#theme-toggle').click();
+          for(const trigger of ['scene-menu-button','download-menu-button','locale-toggle']){
+            await page.locator('#'+trigger).focus();
+            await page.keyboard.press('Enter');
+            await page.locator('.site-header .brand').focus();
+            await page.keyboard.press('Enter');
+            const closed=await page.evaluate(()=>({
+              scene:document.getElementById('scene-menu').classList.contains('is-open'),
+              download:document.getElementById('download-menu').classList.contains('is-open'),
+              language:!document.getElementById('language-menu').hidden
+            }));
+            assert(!closed.scene&&!closed.download&&!closed.language,
+              'Brand home navigation left disclosure expanded: '+trigger+' '+JSON.stringify(closed));
+          }
           await page.locator('#locale-toggle').click();
           await page.locator('[data-language="zh-CN"]').click();
           await page.waitForFunction(()=>document.documentElement.lang==='zh-CN'&&
