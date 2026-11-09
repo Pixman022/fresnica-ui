@@ -24,6 +24,7 @@
 - [x] 核对 320px/430px 第五屏的可滚动标签与无遮挡快捷操作；在窄屏第五屏隐藏遮挡示例的悬浮回顶控件，固定品牌 Logo 仍可返回首页。
 - [x] 增加 320px/430px 中文 × 深浅模式的滚动可达性、品牌返回入口与回顶按钮避让断言；[Chromium CI #42547918650](https://github.com/Pixman022/fresnica-ui/actions/runs/42547918650) 14 组视口/主题、79 张截图、20 个模块场景通过。
 - [x] 沿用已有顶部导航边界、44px 点击面积与键盘焦点回归，近期 Windows Edge 原生缩放 [#42547905622](https://github.com/Pixman022/fresnica-ui/actions/runs/42547905622) 及跨平台检查 [#42547905647](https://github.com/Pixman022/fresnica-ui/actions/runs/42547905647) 成功。
+- [x] 补齐中文字体的真实浏览器加载：字体文件原已复制到 V3 Pages 和 Linux/跨平台测试，但 `m15-typography.css` 没有 `@font-face`，导致无中文系统字体的 Linux Chromium 中英文文本仍会显示空方框。已以原有 4 组 Roboto + 3 组 Noto Sans SC WOFF2 声明本地字体、CSS 与渲染路径不再依赖系统字体。新增浏览器 CJK 字体加载及可用字重断言，并人工核对修复前后 320px 中文深色/1440px 中文浅色截图；[V3 QA #42555051637](https://github.com/Pixman022/fresnica-ui/actions/runs/42555051637) 两项作业成功。
 
 **验收**：窄屏不存在不可达操作或页面横向溢出；截图与 DOM 几何检查一致。
 
@@ -38,6 +39,8 @@
 - **2026-11-09 · WebKit 第 04→05 屏回归修复已验证**：针对滚轮事件可达、页面却停留原场景的失效，测试等待 M13 将滚动容器的内联 `scrollBehavior` 从 `auto` 恢复，确认五次方切屏动画最后一帧执行完，再给 110ms 惯性保护留出空间。没有增大 5.5s 故障判定时限，也没有修改生产页面滚动逻辑。测试保持可追踪的真实浏览器滚轮与非交互边缘命中检查。完整 [V3 Visual QA #42552701712](https://github.com/Pixman022/fresnica-ui/actions/runs/42552701712) **双作业成功**：Chromium 多视口/双主题/动效通过，Firefox 与 WebKit 分别完成九屏正向 8 + 逆向 8 次，页面脚本异常 0。此为一次完整 CI 成功，不代替真实设备视觉/GPU 验收；若未来同场景再复现，优先检查保留的滚轮追踪证据，而不是调大超时。
 
 - **2026-11-09 · 三组高优先级 CSS 层叠复核**：对照 V3 当前样式加载顺序（内联 m28 → `m29-polish.css` → 内联 m47 → m53，以及独立 `m50-desktop-preview.css`），确认：① 导航 `.top-nav` 的 `gap/padding` 逐层配合 <=680px、<=375px、<=360px 和触控目标尺寸；② `.back-to-top` 的 m16 位置/展开及 <=680px 第五屏避让、m53 中性按钮配色属于不同职责；③ 第五屏 `.workspace-mini` 的 16:9 布局与 `.dp-receive-card` 在 m50 中的 1100/800/680px 及矮屏分支属于适配层，不应凭选择器重复次数删除。既有 [#42552701712](https://github.com/Pixman022/fresnica-ui/actions/runs/42552701712) Chromium 14 组视口/主题与 Firefox/WebKit 九屏回归成功，未见需立即改样式的可复现故障。此结论仅是**重点候选的源代码分类及自动化几何证据**，不等同人工批准所有 34 组候选、真机颜色或 GPU 视觉；因此没有擅自合并 CSS。移动端 iOS/Android 品牌图标的实际尺寸/一行排版已另加浏览器回归（`scripts/check-website-v3-browser.mjs`），等待该次独立 CI 结果。
+
+- **2026-11-09 · 中文字形视觉缺陷已修复**：针对最新移动端品牌按钮截图，发现静态翻译和溢出测试虽然 PASS，但中文文本实际被渲染为「□」；这是 **视觉回归真实缺陷** 而不是翻译内容错误。V3 的 Pages/Linux QA 构建本就部署 7 组项目字体，却缺少 CSS `@font-face` 定义。提交 [`9adf6a1`](https://github.com/Pixman022/fresnica-ui/commit/9adf6a16fcc26e9dbe6fd8b19f5517df41bc37ff) 为已有本地文件注册 font faces；[`7a6c3ce`](https://github.com/Pixman022/fresnica-ui/commit/7a6c3cee98ad06350e499af804b6927724da0cf4) 之后，中文浏览器 QA 强制加载 Noto Sans SC 的 400/500/700 字重，避免未来再将方框误判为合格。320px/1440px 中英文/深浅现场截图已核对：中文恢复，iOS/Android 图标及单行文案未被裁切；[Chromium + Firefox/WebKit QA #42555051637](https://github.com/Pixman022/fresnica-ui/actions/runs/42555051637) 成功。跨系统及 Windows 原生缩放 CJK 字体加载断言追加到既有 QA，Windows Edge 原生缩放 [#42555204374](https://github.com/Pixman022/fresnica-ui/actions/runs/42555204374) 成功；其他后续 CI 以最新执行结果为准。本修复只使用已托管的字体文件，未更换品牌字型、按钮和切屏动效。
 
 ## 发布前单独决策（本轮不擅自开启）
 
