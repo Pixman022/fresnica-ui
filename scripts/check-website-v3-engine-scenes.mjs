@@ -88,13 +88,15 @@ for(const name of engines){
         const entry={
           target:(event.target?.id||event.target?.className?.baseVal||event.target?.className||event.target?.tagName||'').toString().slice(0,90),
           delta:Math.round(event.deltaY),cancelable:event.cancelable,
+          inFrame:event.composedPath().some(node=>node?.id==='v3-page-frame'),
           scene:document.documentElement.dataset.m14Active,
           scrollTop:Math.round(document.getElementById('v3-page-scroll')?.scrollTop||0),
           atPoint:(document.elementFromPoint(150,500)?.id||document.elementFromPoint(150,500)?.className||'').toString().slice(0,90)
         };
         trace.push(entry);
         if(trace.length>30)trace.shift();
-        queueMicrotask(()=>{entry.prevented=event.defaultPrevented;});
+        setTimeout(()=>{entry.prevented=event.defaultPrevented;
+          entry.finalTop=Math.round(document.getElementById('v3-page-scroll')?.scrollTop||0);},0);
       },{capture:true,passive:true});
     });
     const getState=()=>page.evaluate(()=>{
@@ -159,7 +161,8 @@ for(const name of engines){
             inlineBehavior:scroll.style.scrollBehavior,cssBehavior:getComputedStyle(scroll).scrollBehavior,
             snap:getComputedStyle(scroll).scrollSnapType,runwayTop:rect?.top,runwayHeight:run?.offsetHeight};
         },id).catch(()=>null);
-        const wheelTrace=await page.evaluate(()=>window.__v3WheelTrace?.slice(-8)||[]).catch(()=>[]);
+        const wheelTrace=await page.evaluate(()=>window.__v3WheelTrace?.slice(-3)||[]).catch(()=>[]);
+        console.error('[V3 wheel debug] '+name+' '+lastPhase+' '+JSON.stringify(wheelTrace));
         throw new Error('Timed out awaiting '+id+': '+JSON.stringify({state:status,layout,wheelTrace})+
           ' / '+String(error.message||error));
       }
