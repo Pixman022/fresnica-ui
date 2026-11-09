@@ -441,7 +441,7 @@ try{
               notice.back?.includes('返回'),
               'Chinese notice page did not preserve language and legal credit: '+JSON.stringify(notice));
             await noticePage.locator('.back').click();
-            await noticePage.waitForURL(/index\\.html/, {timeout:10000});
+            await noticePage.waitForURL(url=>url.pathname.endsWith('/index.html'),{timeout:10000});
             const returned=await noticePage.evaluate(()=>({
               lang:document.documentElement.lang,
               hash:location.hash,
