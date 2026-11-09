@@ -237,7 +237,7 @@
     "Review exchange details":"核对兑换详情",
     "Confirm the exchange":"确认兑换"
   });
-  let locale = 'en';
+  let locale = new URLSearchParams(location.search).get('lang')==='zh-CN'?'zh-CN':'en';
   const nodeOriginal = new WeakMap();
   const nodeLastApplied = new WeakMap();
   const attrOriginal = new WeakMap();
@@ -321,6 +321,9 @@
     if (tuner) translateAttrs(tuner);
     toggle?.setAttribute('aria-label',locale==='en'?'Choose language':'选择语言');
     toggle?.setAttribute('title',locale==='en'?'Choose language':'选择语言');
+    const noticesLink=document.querySelector('#v3-about .platform-credit');
+    if(noticesLink)noticesLink.setAttribute('href',
+      locale==='zh-CN'?'./third-party-notices.html?lang=zh-CN':'./third-party-notices.html');
     languageMenu?.querySelectorAll('[data-language]').forEach(button => {
       button.setAttribute('aria-checked',String(button.dataset.language===locale));
     });
