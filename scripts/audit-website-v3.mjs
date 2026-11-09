@@ -112,9 +112,17 @@ check(mobileDownloadButtons.length===2&&
   mobileDownloadButtons.every(button=>button.includes('fill="currentColor"')&&
     !button.includes('stroke="currentColor"')&&button.includes('<path d="')),
   'Mobile platform buttons must show distinct filled Apple and Android marks');
-check(html.includes('class="platform-credit"')&&
-  html.includes('Android is a trademark of Google LLC. The Android robot is reproduced or modified'),
-  'Android robot trademark and license attribution must remain visible in the footer');
+const noticesPath=path.join(preview,'third-party-notices.html');
+const notices=fs.existsSync(noticesPath)?fs.readFileSync(noticesPath,'utf8'):'';
+check(html.includes('href="./third-party-notices.html" class="platform-credit"')&&
+  !html.includes('Android is a trademark of Google LLC.'),
+  'Footer should link to third-party notices instead of displaying the full attribution');
+check(notices.includes('Android is a trademark of Google LLC.')&&
+  notices.includes('The Android robot is reproduced or modified from work created and shared by Google')&&
+  notices.includes('https://creativecommons.org/licenses/by/3.0/'),
+  'Third-party notices must retain Android trademark and CC 3.0 attribution');
+check(notices.includes('name="robots" content="noindex,nofollow,noarchive"'),
+  'Third-party notices must remain excluded from search indexing in preview');
 
 // Keep new visible strings and accessible names covered by the Chinese dictionary.
 // The orb tuner uses explicit bilingual <span lang="..."> pairs instead.
