@@ -33,6 +33,7 @@
 - [x] 取得首屏球体、第二屏粒子、第六屏走马灯、第七屏安全粒子的 Chromium CI 正常/减少动态 8 组 RAF/主线程任务基线；不将该数据冒充真实设备 GPU FPS。
 - [ ] 仅针对实测热点降低粒子或绘制占用，严格保留已经确认的球体中心静态点阵 Logo。
 - [x] 完成重复/冲突 CSS 的静态候选清单；只记录优先核对的样式层叠位置，不在缺少逐屏视觉证据时合并既有规则。
+- [x] 首屏 WebGL2 上下文丢失/恢复回归：保留静态备用球体，恢复后重建着色器、网格与绘制缓冲；丢失期间改变视口不再访问失效的 GL 对象。专项模拟测试和正常视觉回归已通过 [V3 QA #42568573702](https://github.com/Pixman022/fresnica-ui/actions/runs/42568573702)。
 
 **验收**：提供可重现的性能记录，优化不影响画面和通过的现有回归。
 
@@ -41,6 +42,8 @@
 - **2026-11-09 · 三组高优先级 CSS 层叠复核**：对照 V3 当前样式加载顺序（内联 m28 → `m29-polish.css` → 内联 m47 → m53，以及独立 `m50-desktop-preview.css`），确认：① 导航 `.top-nav` 的 `gap/padding` 逐层配合 <=680px、<=375px、<=360px 和触控目标尺寸；② `.back-to-top` 的 m16 位置/展开及 <=680px 第五屏避让、m53 中性按钮配色属于不同职责；③ 第五屏 `.workspace-mini` 的 16:9 布局与 `.dp-receive-card` 在 m50 中的 1100/800/680px 及矮屏分支属于适配层，不应凭选择器重复次数删除。既有 [#42552701712](https://github.com/Pixman022/fresnica-ui/actions/runs/42552701712) Chromium 14 组视口/主题与 Firefox/WebKit 九屏回归成功，未见需立即改样式的可复现故障。此结论仅是**重点候选的源代码分类及自动化几何证据**，不等同人工批准所有 34 组候选、真机颜色或 GPU 视觉；因此没有擅自合并 CSS。移动端 iOS/Android 品牌图标的实际尺寸/一行排版已另加浏览器回归（`scripts/check-website-v3-browser.mjs`），等待该次独立 CI 结果。
 
 - **2026-11-09 · 中文字形视觉缺陷已修复**：针对最新移动端品牌按钮截图，发现静态翻译和溢出测试虽然 PASS，但中文文本实际被渲染为「□」；这是 **视觉回归真实缺陷** 而不是翻译内容错误。V3 的 Pages/Linux QA 构建本就部署 7 组项目字体，却缺少 CSS `@font-face` 定义。提交 [`9adf6a1`](https://github.com/Pixman022/fresnica-ui/commit/9adf6a16fcc26e9dbe6fd8b19f5517df41bc37ff) 为已有本地文件注册 font faces；[`7a6c3ce`](https://github.com/Pixman022/fresnica-ui/commit/7a6c3cee98ad06350e499af804b6927724da0cf4) 之后，中文浏览器 QA 强制加载 Noto Sans SC 的 400/500/700 字重，避免未来再将方框误判为合格。320px/1440px 中英文/深浅现场截图已核对：中文恢复，iOS/Android 图标及单行文案未被裁切；[Chromium + Firefox/WebKit QA #42555051637](https://github.com/Pixman022/fresnica-ui/actions/runs/42555051637) 成功。跨系统及 Windows 原生缩放 CJK 字体加载断言追加到既有 QA，Windows Edge 原生缩放 [#42555204374](https://github.com/Pixman022/fresnica-ui/actions/runs/42555204374) 成功；跨系统 Windows Edge/Firefox 与 macOS WebKit [#42555199408](https://github.com/Pixman022/fresnica-ui/actions/runs/42555199408) 全部成功；最新字体静态审核、Chrome 97 张截图、CJK 字体加载与 Firefox/WebKit 九屏完整 [#42555111731](https://github.com/Pixman022/fresnica-ui/actions/runs/42555111731) 双作业成功。本修复只使用已托管的字体文件，未更换品牌字型、按钮和切屏动效。
+
+- **2026-11-09 · 首屏 WebGL 上下文恢复缺口修复**：源码此前仅监听 `webglcontextlost`，将 WebGL 画布隐藏并显示静态 fallback，未监听 `webglcontextrestored`；同时失效上下文期间的 resize 仍会尝试调用 `gl.viewport`。在不更改球体默认着色器、外壳粒子、白色 Logo 或动效参数的情况下，新增恢复后重新编译程序/重建 VAO+缓冲区并刷新首屏；只注册一处窗口 resize 处理器，失效时避免访问 GL。测试通过 `WEBGL_lose_context` 模拟中断、静态 fallback、失效期间窗口缩放及资源恢复。原始测试版本在丢失后重新获取扩展句柄时自己报错，因此之前的两个测试红灯不能作为产品失败证据；测试改为先保留句柄后，[V3 QA #42568573702](https://github.com/Pixman022/fresnica-ui/actions/runs/42568573702) 明确输出 **`[V3 WebGL recovery] PASS`**。同一轮 Chromium 14 组视口/主题及 97 张截图通过、Firefox/WebKit 各 8 正向 + 8 反向九屏、8 组性能基线全部通过。恢复测试是**模拟上下文中断，不等于真实 GPU 故障/重启验收**，真机事项仍待处理。
 
 ## 发布前单独决策（本轮不擅自开启）
 
