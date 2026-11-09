@@ -15,6 +15,24 @@ const styleBlocks=[...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/g)];
 check(styleTagOpen===styleTagClose&&styleBlocks.length===styleTagOpen,'Unbalanced style tags');
 check(styleBlocks.every(block=>!/<style\b/.test(block[1])),'Nested style tags; CSS may be ignored by browser');
 
+// These font binaries are already included in the Pages and CI deployments.
+// Without @font-face, Chinese text becomes missing-glyph boxes on Linux.
+const typography=fs.readFileSync(path.join(preview,'m15-typography.css'),'utf8');
+for(const weight of [400,500,700]){
+  const name='noto-sans-sc-chinese-simplified-'+weight+'-normal.woff2';
+  check(typography.includes("'./fonts/"+name+"'")&&
+    fs.existsSync(path.join(root,'src/assets/fonts',name)),
+    'Missing declared or bundled Noto Sans SC '+weight+' face');
+}
+for(const weight of [400,500,600,700]){
+  const name='roboto-latin-'+weight+'-normal.woff2';
+  check(typography.includes("'./fonts/"+name+"'")&&
+    fs.existsSync(path.join(root,'node_modules/@fontsource/roboto/files',name)),
+    'Missing declared or bundled Roboto '+weight+' face');
+}
+check((typography.match(/@font-face\\s*\\{/g)||[]).length===7,
+  'V3 typography must declare seven bundled font faces');
+
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
 const knownIds=new Set(ids);
 check(ids.length===knownIds.size,'Duplicate HTML id detected');
