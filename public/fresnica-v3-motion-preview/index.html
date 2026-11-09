@@ -2758,6 +2758,15 @@ html.m10-framed #orb-tuner .ot-close{min-width:44px;background:transparent;color
   header.append(menu);
   header.querySelector('.header-tools').append(downloadMenu);
   function openMenu(which,show){
+    // Keyboard activation does not emit pointerdown, so explicitly dismiss
+    // the separately controlled language disclosure before opening another.
+    if(show){
+      const languageMenu=document.getElementById('language-menu');
+      if(languageMenu&&!languageMenu.hidden){
+        languageMenu.hidden=true;
+        document.getElementById('locale-toggle')?.setAttribute('aria-expanded','false');
+      }
+    }
     menu.classList.toggle('is-open',which==='scene'&&show);
     downloadMenu.classList.toggle('is-open',which==='download'&&show);
     menuButton.setAttribute('aria-expanded',String(which==='scene'&&show));
