@@ -1,7 +1,23 @@
 /* M29: final-release visual polish for the V3 website. */
 html.m10-framed .site-header .top-nav {
+  width: 340px;
+  max-width: 100%;
   gap: 12px;
   padding: 5px 18px;
+}
+/* Keep the capsule stationary as chapter names and language change. */
+html.m10-framed .site-header .top-nav .nav-title-button {
+  display: block;
+  flex: 1 1 0;
+  min-width: 44px;
+  max-width: none;
+  height: 44px;
+  padding: 0 4px;
+  line-height: 44px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 html.m10-framed .top-nav .nav-title-button {
   padding: 5px 4px;
@@ -115,13 +131,21 @@ html.m10-framed .site-header .brand-logo {
   touch-action: pan-y;
 }
 @media (max-width: 680px) {
-  html.m10-framed .site-header .top-nav {gap: 7px; padding: 3px 12px;}
+  html.m10-framed .site-header .top-nav {
+    width: min(210px, calc(100vw - 172px));
+    gap: 7px;
+    padding: 3px 12px;
+  }
   html.m10-framed .top-nav .nav-locale {width: 29px; height: 29px; min-width: 29px;}
   html.m10-framed .site-header .brand-logo {width: 25px; height: 25px; min-width: 25px;}
   html.m10-framed .top-nav .locale-dropdown {right: -36px;}
 }
 @media (max-width: 375px) {
-  html.m10-framed .site-header .top-nav {gap: 4px; padding-inline: 8px;}
+  html.m10-framed .site-header .top-nav {
+    width: min(184px, calc(100vw - 172px));
+    gap: 4px;
+    padding-inline: 8px;
+  }
   html.m10-framed .top-nav .nav-locale {width: 27px; height: 27px; min-width: 27px;}
 }
 @media (prefers-reduced-motion: reduce) {
