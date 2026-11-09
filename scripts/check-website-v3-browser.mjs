@@ -323,6 +323,24 @@ try{
           await page.keyboard.press('Escape');
           assert(await page.locator('#language-menu').evaluate(el=>el.hidden),'Escape did not close language menu');
           assert(await page.evaluate(()=>document.activeElement?.id==='locale-toggle'),'Escape did not return focus to language button');
+          // Keyboard-only switching must not leave two header disclosures open.
+          // Pointer clicks already dismiss the locale menu via document pointerdown.
+          for(const target of ['scene-menu-button','download-menu-button']){
+            await page.locator('#locale-toggle').focus();
+            await page.keyboard.press('Enter');
+            assert(!await page.locator('#language-menu').evaluate(el=>el.hidden),
+              'Language menu did not open before keyboard disclosure switch');
+            await page.locator('#'+target).focus();
+            await page.keyboard.press('Enter');
+            const state=await page.evaluate(id=>({
+              languageHidden:document.getElementById('language-menu').hidden,
+              languageExpanded:document.getElementById('locale-toggle').getAttribute('aria-expanded'),
+              targetExpanded:document.getElementById(id).getAttribute('aria-expanded')
+            }),target);
+            assert(state.languageHidden&&state.languageExpanded==='false'&&state.targetExpanded==='true',
+              'Keyboard disclosure switch left language menu open: '+target+' '+JSON.stringify(state));
+            await page.keyboard.press('Escape');
+          }
           await page.locator('#locale-toggle').click();
           await page.locator('[data-language="zh-CN"]').click();
           await page.waitForFunction(()=>document.documentElement.lang==='zh-CN'&&
