@@ -67,6 +67,12 @@ const desktopDownload=html.match(/<button\b[^>]*class="desktop-download"[^>]*>[\
 check(desktopDownload.includes('<span>DOWNLOAD</span>')&&!desktopDownload.includes('<small>'),
   'Desktop CTA must have one short label without redundant subtitle');
 check(/\bdisabled\b/.test(desktopDownload),'Unreleased desktop download must remain disabled');
+const mobileDownloadButtons=[...html.matchAll(/<button\b[^>]*class="download-action(?: secondary)?"[^>]*>[\s\S]*?<\/button>/g)]
+  .map(match=>match[0]);
+check(mobileDownloadButtons.length===2&&mobileDownloadButtons.every(button=>
+  /\bdisabled\b/.test(button)&&!button.includes('<small>')&&
+  /<svg\b[\s\S]*?<\/svg><span>Download (?:iOS|Android)<\/span>/.test(button)),
+  'Mobile download buttons must be disabled, icon-first and single-line');
 
 // Keep new visible strings and accessible names covered by the Chinese dictionary.
 // The orb tuner uses explicit bilingual <span lang="..."> pairs instead.
