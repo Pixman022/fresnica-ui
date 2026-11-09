@@ -336,6 +336,23 @@
     }
   }
   toggle?.addEventListener('click',()=>setLanguageMenu(languageMenu.hidden));
+  toggle?.addEventListener('keydown',event=>{
+    if(event.key!=='ArrowDown'&&event.key!=='ArrowUp')return;
+    event.preventDefault();
+    setLanguageMenu(true);
+    const options=languageMenu.querySelectorAll('[data-language]');
+    options[event.key==='ArrowDown'?0:options.length-1]?.focus();
+  });
+  languageMenu?.addEventListener('keydown',event=>{
+    const options=[...languageMenu.querySelectorAll('[data-language]')];
+    const index=options.indexOf(document.activeElement);
+    let next;
+    if(event.key==='ArrowDown')next=options[(index+1)%options.length];
+    else if(event.key==='ArrowUp')next=options[(index-1+options.length)%options.length];
+    else if(event.key==='Home')next=options[0];
+    else if(event.key==='End')next=options[options.length-1];
+    if(next){event.preventDefault();next.focus();}
+  });
   languageMenu?.addEventListener('click',event=>{
     const item=event.target.closest('[data-language]');
     if(!item)return;
