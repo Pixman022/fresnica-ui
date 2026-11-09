@@ -12,6 +12,7 @@ on:
       - scripts/check-website-v3-browser.mjs
       - scripts/check-website-v3-motion.mjs
       - scripts/check-website-v3-carousel-idle.mjs
+      - scripts/check-website-v3-performance.mjs
       - scripts/check-website-v3-transitions.mjs
       - scripts/check-website-v3-engines.mjs
       - scripts/check-website-v3-engine-motion.mjs
@@ -70,6 +71,7 @@ jobs:
           V3_BROWSER_ENGINES=chromium V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-desktop-panels.mjs
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-motion.mjs
           node scripts/check-website-v3-carousel-idle.mjs
+          V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-performance.mjs
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" node scripts/check-website-v3-transitions.mjs
           V3_PREVIEW_URL="http://127.0.0.1:4173/fresnica-v3-motion-preview/" xvfb-run -a --server-args='-screen 0 1920x1200x24' node scripts/check-website-v3-native-zoom.mjs
       - name: Upload screenshots and findings
