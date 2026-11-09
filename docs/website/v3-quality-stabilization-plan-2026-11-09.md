@@ -25,6 +25,7 @@
 - [x] 增加 320px/430px 中文 × 深浅模式的滚动可达性、品牌返回入口与回顶按钮避让断言；[Chromium CI #42547918650](https://github.com/Pixman022/fresnica-ui/actions/runs/42547918650) 14 组视口/主题、79 张截图、20 个模块场景通过。
 - [x] 沿用已有顶部导航边界、44px 点击面积与键盘焦点回归，近期 Windows Edge 原生缩放 [#42547905622](https://github.com/Pixman022/fresnica-ui/actions/runs/42547905622) 及跨平台检查 [#42547905647](https://github.com/Pixman022/fresnica-ui/actions/runs/42547905647) 成功。
 - [x] 补齐中文字体的真实浏览器加载：字体文件原已复制到 V3 Pages 和 Linux/跨平台测试，但 `m15-typography.css` 没有 `@font-face`，导致无中文系统字体的 Linux Chromium 中英文文本仍会显示空方框。已以原有 4 组 Roboto + 3 组 Noto Sans SC WOFF2 声明本地字体、CSS 与渲染路径不再依赖系统字体。新增浏览器 CJK 字体加载及可用字重断言，并人工核对修复前后 320px 中文深色/1440px 中文浅色截图；[V3 QA #42555051637](https://github.com/Pixman022/fresnica-ui/actions/runs/42555051637) 两项作业成功。
+- [x] **顶部菜单键盘互斥**：补充语言菜单开启后，直接以键盘打开章节/下载菜单的用例。[修复前 QA #42570085411](https://github.com/Pixman022/fresnica-ui/actions/runs/42570085411) 在 Chromium 复现两处语言/目标菜单同时 `aria-expanded=true`；新增另一方向的收起同步逻辑，保留既有鼠标/Escape 焦点返回。[修复后完整 QA #42570113844](https://github.com/Pixman022/fresnica-ui/actions/runs/42570113844) 两作业成功：14 组视口/主题、97 张截图 0 异常，WebGL 恢复与性能基线通过，Firefox/WebKit 九屏正反向测试通过；[Windows/macOS #42570113780](https://github.com/Pixman022/fresnica-ui/actions/runs/42570113780)、[Windows Edge 原生缩放 #42570113785](https://github.com/Pixman022/fresnica-ui/actions/runs/42570113785)、[Pages #42570113796](https://github.com/Pixman022/fresnica-ui/actions/runs/42570113796) 全部成功。
 
 **验收**：窄屏不存在不可达操作或页面横向溢出；截图与 DOM 几何检查一致。
 
