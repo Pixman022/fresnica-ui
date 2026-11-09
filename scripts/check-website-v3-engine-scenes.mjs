@@ -79,6 +79,24 @@ for(const name of engines){
     assert(await page.evaluate(()=>matchMedia('(prefers-reduced-motion: no-preference)').matches),
       name+' normal motion not enabled');
     await page.mouse.move(150,500);
+    // Observe delivered wheel events without changing their handling or timing.
+    // This distinguishes a lost input from a navigation state/geometry regression.
+    await page.evaluate(()=>{
+      const trace=[];
+      window.__v3WheelTrace=trace;
+      window.addEventListener('wheel',event=>{
+        const entry={
+          target:(event.target?.id||event.target?.className?.baseVal||event.target?.className||event.target?.tagName||'').toString().slice(0,90),
+          delta:Math.round(event.deltaY),cancelable:event.cancelable,
+          scene:document.documentElement.dataset.m14Active,
+          scrollTop:Math.round(document.getElementById('v3-page-scroll')?.scrollTop||0),
+          atPoint:(document.elementFromPoint(150,500)?.id||document.elementFromPoint(150,500)?.className||'').toString().slice(0,90)
+        };
+        trace.push(entry);
+        if(trace.length>30)trace.shift();
+        queueMicrotask(()=>{entry.prevented=event.defaultPrevented;});
+      },{capture:true,passive:true});
+    });
     const getState=()=>page.evaluate(()=>{
       const scroll=document.getElementById('v3-page-scroll'),root=scroll.getBoundingClientRect();
       const max=Math.max(0,scroll.scrollHeight-scroll.clientHeight);
@@ -141,7 +159,8 @@ for(const name of engines){
             inlineBehavior:scroll.style.scrollBehavior,cssBehavior:getComputedStyle(scroll).scrollBehavior,
             snap:getComputedStyle(scroll).scrollSnapType,runwayTop:rect?.top,runwayHeight:run?.offsetHeight};
         },id).catch(()=>null);
-        throw new Error('Timed out awaiting '+id+': '+JSON.stringify({state:status,layout})+
+        const wheelTrace=await page.evaluate(()=>window.__v3WheelTrace?.slice(-8)||[]).catch(()=>[]);
+        throw new Error('Timed out awaiting '+id+': '+JSON.stringify({state:status,layout,wheelTrace})+
           ' / '+String(error.message||error));
       }
       await page.waitForTimeout(120);
