@@ -166,7 +166,10 @@ for(const name of engines){
         throw new Error('Timed out awaiting '+id+': '+JSON.stringify({state:status,layout,wheelTrace})+
           ' / '+String(error.message||error));
       }
-      await page.waitForTimeout(120);
+      // Position settles to within 12px before the quintic RAF finishes.
+      // Allow the remaining easing tail plus M13's 110ms inertia guard to clear
+      // before issuing an unrelated synthetic wheel gesture.
+      await page.waitForTimeout(420);
     };
     const forward=[],reverse=[],screenshots=[];
     const capture=(process.env.V3_SCENE_SCREENSHOT_ENGINES||'firefox').split(',').includes(name);
