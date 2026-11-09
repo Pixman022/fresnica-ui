@@ -79,6 +79,24 @@ for(const name of engines){
     assert(await page.evaluate(()=>matchMedia('(prefers-reduced-motion: no-preference)').matches),
       name+' normal motion not enabled');
     await page.mouse.move(150,500);
+    // Diagnose rare WebKit gestures lost after the feature scene. A document
+    // capture listener observes input before the M13 frame capture listener.
+    await page.evaluate(()=>{
+      window.__v3WheelTrace=[];
+      document.addEventListener('wheel',event=>{
+        const target=event.target;
+        const name=target?.className;
+        const className=typeof name==='string'?name:name?.baseVal||'';
+        const trace={scene:document.documentElement.dataset.m14Active,
+          delta:event.deltaY,cancelable:event.cancelable,
+          inFrame:document.getElementById('v3-page-frame')?.contains(target),
+          native:!!target?.closest?.('[data-native-wheel]'),
+          target:(target?.tagName||'')+'.'+String(className).slice(0,90),
+          time:Math.round(performance.now())};
+        window.__v3WheelTrace.push(trace);
+        if(window.__v3WheelTrace.length>32)window.__v3WheelTrace.shift();
+      },{capture:true,passive:true});
+    });
     const getState=()=>page.evaluate(()=>{
       const scroll=document.getElementById('v3-page-scroll'),root=scroll.getBoundingClientRect();
       const max=Math.max(0,scroll.scrollHeight-scroll.clientHeight);
@@ -141,7 +159,8 @@ for(const name of engines){
             inlineBehavior:scroll.style.scrollBehavior,cssBehavior:getComputedStyle(scroll).scrollBehavior,
             snap:getComputedStyle(scroll).scrollSnapType,runwayTop:rect?.top,runwayHeight:run?.offsetHeight};
         },id).catch(()=>null);
-        throw new Error('Timed out awaiting '+id+': '+JSON.stringify({state:status,layout})+
+        const wheelTrace=await page.evaluate(()=>window.__v3WheelTrace?.slice(-12)||[]).catch(()=>[]);
+        throw new Error('Timed out awaiting '+id+': '+JSON.stringify({state:status,layout,wheelTrace})+
           ' / '+String(error.message||error));
       }
       // Position settles to within 12px before the quintic RAF finishes.
