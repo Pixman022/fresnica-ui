@@ -49,6 +49,17 @@
   }
   document.documentElement.classList.add('m10-framed');
 
+  // The compact desktop mockup occupies the lower mobile viewport. Avoid
+  // covering its controls, including in reduced-motion mode where M14 has
+  // no active scene marker. The fixed brand link remains a home shortcut.
+  const workspace=document.getElementById('v3-workspace');
+  if(workspace){
+    const observer=new IntersectionObserver(([entry])=>{
+      backTop.classList.toggle('v3-over-workspace',entry.isIntersecting);
+    },{root:scroller});
+    observer.observe(workspace);
+  }
+
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const compact = matchMedia('(max-width: 680px)');
   const clamp = value => Math.max(0, Math.min(1, value));
