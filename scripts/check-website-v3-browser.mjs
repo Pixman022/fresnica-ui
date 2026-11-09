@@ -428,7 +428,7 @@ try{
           assert((await noticeLink.textContent())?.trim()==='第三方声明',
             'Third-party notices footer link was not localized');
           const noticeHref=await noticeLink.getAttribute('href');
-          const noticePage=await page.context().newPage();
+          const noticePage=await browser.newPage({viewport:{width,height},deviceScaleFactor:1,reducedMotion:'reduce'});
           try{
             await noticePage.goto(new URL(noticeHref,base).href,{waitUntil:'domcontentloaded',timeout:30000});
             const notice=await noticePage.evaluate(()=>({
