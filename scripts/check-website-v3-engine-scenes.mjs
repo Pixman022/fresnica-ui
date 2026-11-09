@@ -160,6 +160,10 @@ for(const name of engines){
         const top=scroll.scrollTop+runway.getBoundingClientRect().top-root.top;
         const expected=Math.max(0,Math.min(scroll.scrollHeight-scroll.clientHeight,top+room*fraction));
         return Math.abs(scroll.scrollTop-expected)<=12&&
+          // The quintic can enter the 12px hold tolerance before its final
+          // RAF. WebKit may pause RAF during screenshots; wait for M13 to
+          // restore the inline scroll behaviour (actual transition end).
+          scroll.style.scrollBehavior!=='auto'&&
           !document.documentElement.classList.contains('m24-transitioning')&&
           document.querySelector('.m24-portal')?.style.display!=='block';
       },id,{timeout:5500,polling:120});}
@@ -178,10 +182,9 @@ for(const name of engines){
         throw new Error('Timed out awaiting '+id+': '+JSON.stringify({state:status,layout,wheelTrace})+
           ' / '+String(error.message||error));
       }
-      // Position settles to within 12px before the quintic RAF finishes.
-      // Allow the remaining easing tail plus M13's 110ms inertia guard to clear
-      // before issuing an unrelated synthetic wheel gesture.
-      await page.waitForTimeout(420);
+      // M13 sets its 110ms inertia guard after restoring scroll behaviour.
+      // A small guard here avoids mistaking that deliberate block for lost input.
+      await page.waitForTimeout(145);
     };
     const forward=[],reverse=[],screenshots=[];
     const capture=(process.env.V3_SCENE_SCREENSHOT_ENGINES||'firefox').split(',').includes(name);
