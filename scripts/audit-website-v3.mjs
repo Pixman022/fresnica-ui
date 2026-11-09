@@ -73,6 +73,15 @@ check(mobileDownloadButtons.length===2&&mobileDownloadButtons.every(button=>
   /\bdisabled\b/.test(button)&&!button.includes('<small>')&&
   /<svg\b[\s\S]*?<\/svg><span>Download (?:iOS|Android)<\/span>/.test(button)),
   'Mobile download buttons must be disabled, icon-first and single-line');
+check(mobileDownloadButtons.length===2&&
+  mobileDownloadButtons[0].includes('class="platform-mark-apple"')&&
+  mobileDownloadButtons[1].includes('class="platform-mark-android"')&&
+  mobileDownloadButtons.every(button=>button.includes('fill="currentColor"')&&
+    !button.includes('stroke="currentColor"')&&button.includes('<path d="')),
+  'Mobile platform buttons must show distinct filled Apple and Android marks');
+check(html.includes('class="platform-credit"')&&
+  html.includes('Android is a trademark of Google LLC. The Android robot is reproduced or modified'),
+  'Android robot trademark and license attribution must remain visible in the footer');
 
 // Keep new visible strings and accessible names covered by the Chinese dictionary.
 // The orb tuner uses explicit bilingual <span lang="..."> pairs instead.
