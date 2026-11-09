@@ -2332,7 +2332,7 @@ html.m10-framed #orb-tuner .ot-close{min-width:44px;background:transparent;color
     const replayBtns = [document.getElementById('replay-motion')].filter(Boolean);
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     const ns='http://www.w3.org/2000/svg';
-    const ticks=[];
+    const ticks=[],tickStroke=[],tickOpacity=[];
     for (let i=0;i<96;i++) {
       const a=i*Math.PI*2/96-Math.PI/2;
       const major=i%8===0; const inner=major?208:214; const outer=major?227:224;
@@ -2348,7 +2348,7 @@ html.m10-framed #orb-tuner .ot-close{min-width:44px;background:transparent;color
     });
     let playing=!reduced.matches;
     let visible=true;
-    let t=0,last=0;
+    let t=0,last=0,renderedFieldX,renderedFieldY;
     let pointX=0,pointY=0;
     let smoothX=0,smoothY=0;
     let gl=null,program=null,mesh=null;
@@ -2672,7 +2672,16 @@ html.m10-framed #orb-tuner .ot-close{min-width:44px;background:transparent;color
     function renderRing(){
       const phase=t*.34;
       markers.forEach((m,i)=>{const a=m.angle+phase*(i%2===0?1:-.65);m.node.setAttribute('cx',String(275+Math.cos(a)*m.radius));m.node.setAttribute('cy',String(275+Math.sin(a)*m.radius));});
-      ticks.forEach((line,i)=>{let distance=((i/96*2*Math.PI-phase)%(Math.PI*2)+Math.PI*2)%(Math.PI*2);distance=Math.min(distance,Math.PI*2-distance);const active=Math.exp(-distance*distance/.17);line.setAttribute('stroke',active>.12?'#0a9e79':'#8c9f9a');line.setAttribute('stroke-opacity',String(.35+.57*active));});
+      ticks.forEach((line,i)=>{
+        let distance=((i/96*2*Math.PI-phase)%(Math.PI*2)+Math.PI*2)%(Math.PI*2);
+        distance=Math.min(distance,Math.PI*2-distance);
+        const active=Math.exp(-distance*distance/.17);
+        const stroke=active>.12?'#0a9e79':'#8c9f9a';
+        const opacity=String(.35+.57*active);
+        // Preserve the exact existing values; skip redundant SVG DOM writes.
+        if(tickStroke[i]!==stroke){line.setAttribute('stroke',stroke);tickStroke[i]=stroke;}
+        if(tickOpacity[i]!==opacity){line.setAttribute('stroke-opacity',opacity);tickOpacity[i]=opacity;}
+      });
     }
     function frame(stamp){
       frameHandle=0;
@@ -2686,8 +2695,10 @@ html.m10-framed #orb-tuner .ot-close{min-width:44px;background:transparent;color
       if(moving)t+=delta;
       smoothX+=(pointX-smoothX)*Math.min(1,delta*5);
       smoothY+=(pointY-smoothY)*Math.min(1,delta*5);
-      field.style.setProperty('--field-x',(moving?smoothX*6:0).toFixed(2)+'px');
-      field.style.setProperty('--field-y',(moving?smoothY*6:0).toFixed(2)+'px');
+      const fieldX=(moving?smoothX*6:0).toFixed(2)+'px';
+      const fieldY=(moving?smoothY*6:0).toFixed(2)+'px';
+      if(fieldX!==renderedFieldX){field.style.setProperty('--field-x',fieldX);renderedFieldX=fieldX;}
+      if(fieldY!==renderedFieldY){field.style.setProperty('--field-y',fieldY);renderedFieldY=fieldY;}
       renderRing();
       if(gl&&program&&mesh){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(uniforms.time,t);gl.uniform1f(uniforms.lightMode,document.documentElement.classList.contains('v3-theme-dark')?0:1);gl.uniform1f(uniforms.spread,orbValues.spread);gl.uniform1f(uniforms.blend,orbValues.blend);gl.uniform1f(uniforms.outer,orbValues.outer);gl.uniform1f(uniforms.inner,orbValues.inner);gl.uniform2f(uniforms.pointer,smoothX,smoothY);gl.bindVertexArray(mesh.vao);gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);}
       drawFlecks();
