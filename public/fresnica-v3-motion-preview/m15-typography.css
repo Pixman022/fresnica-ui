@@ -1,7 +1,35 @@
 /* M15: Fresnica typography tokens from the canonical design system.
    Editorial display headings keep their approved website scale. */
-/* No font binaries are shipped in this preview: use the canonical font stack
-   without requesting nonexistent local WOFF2 assets. */
+/* The V3 preview ships these fonts in ./fonts (both Pages and browser QA).
+   Load the CJK face explicitly so Chinese text does not depend on OS fonts. */
+@font-face{
+  font-family:Roboto;font-style:normal;font-weight:400;font-display:swap;
+  src:url('./fonts/roboto-latin-400-normal.woff2') format('woff2');
+}
+@font-face{
+  font-family:Roboto;font-style:normal;font-weight:500;font-display:swap;
+  src:url('./fonts/roboto-latin-500-normal.woff2') format('woff2');
+}
+@font-face{
+  font-family:Roboto;font-style:normal;font-weight:600;font-display:swap;
+  src:url('./fonts/roboto-latin-600-normal.woff2') format('woff2');
+}
+@font-face{
+  font-family:Roboto;font-style:normal;font-weight:700;font-display:swap;
+  src:url('./fonts/roboto-latin-700-normal.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Noto Sans SC';font-style:normal;font-weight:400;font-display:swap;
+  src:url('./fonts/noto-sans-sc-chinese-simplified-400-normal.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Noto Sans SC';font-style:normal;font-weight:500;font-display:swap;
+  src:url('./fonts/noto-sans-sc-chinese-simplified-500-normal.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Noto Sans SC';font-style:normal;font-weight:700;font-display:swap;
+  src:url('./fonts/noto-sans-sc-chinese-simplified-700-normal.woff2') format('woff2');
+}
 :root{
   --Fresnica-font-family:Roboto,'Noto Sans SC',-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
   --Fresnica-font-family-mono:'SF Mono','Fira Code','Cascadia Code',Consolas,monospace;
