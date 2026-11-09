@@ -24,7 +24,7 @@
     "Your Stellar world.":"你的 Stellar 世界。",
     "In your pocket.":"尽在掌中。",
     "A focused mobile wallet experience for XLM, Stellar-issued assets, payments, swaps and compatible apps. Designed for clarity, from your first look to your next move.":"专为 XLM、Stellar 发行资产、收发、兑换和兼容应用打造的移动钱包体验。从第一眼到每一步操作，都清晰直观。",
-    "Download for iOS":"下载 iOS 版本","Download for Android":"下载 Android 版本",
+    "Download for iOS":"下载 iOS 版本","Download for Android":"下载 Android 版本","Download iOS":"下载 iOS","Download Android":"下载 Android",
     "Download for iOS, coming soon":"下载 iOS 版本，即将开放",
     "Download for Android, coming soon":"下载 Android 版本，即将开放",
     "COMING SOON":"即将开放","Planned mobile downloads":"移动端下载计划",
