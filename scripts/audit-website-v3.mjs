@@ -68,8 +68,8 @@ check(html.includes('id="theme-toggle"'),'Theme switch missing');
 check(/id="download-menu-button"[^>]*aria-label="Get Fresnica download options"[^>]*>/.test(html)&&
   html.includes('class="download-label-full">Get Fresnica</span>')&&
   html.includes('class="download-label-compact" aria-hidden="true">Get</span>')&&
-  html.includes('class="download-mark"')&&html.includes('class="download-chevron"'),
-  'Top-right Get Fresnica button must keep its branding, icons, and compact label');
+  html.includes('class="download-mark"')&&!html.includes('download-chevron'),
+  'Top-right Get Fresnica button must keep its download icon and labels without a chevron');
 const platformMenu=html.match(/downloadMenu\.innerHTML\s*=\s*'([^']*)';/)?.[1]||'';
 const platformOptions=[...platformMenu.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)]
   .map(match=>({href:match[1],label:match[2]}));

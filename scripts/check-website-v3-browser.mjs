@@ -117,7 +117,7 @@ try{
         }));
         assert(getButton.label===(width<=480?'Get':'Get Fresnica')&&
           getButton.accessible==='Get Fresnica download options'&&
-          getButton.icon&&getButton.chevron,
+          getButton.icon&&!getButton.chevron,
           `Top-right Get Fresnica button failed: ${name}/${theme} ${JSON.stringify(getButton)}`);
         await page.waitForTimeout(300);
         if(theme==='dark'){
