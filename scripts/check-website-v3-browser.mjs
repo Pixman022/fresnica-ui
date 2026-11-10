@@ -64,6 +64,8 @@ try{
       try{
         await page.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
         await page.evaluate(()=>document.fonts.ready);
+        assert((await page.locator('#download-menu-button > span').textContent())==='GET',
+          `Top-right Get label missing in English: ${name}/${theme}`);
         await page.waitForTimeout(300);
         if(theme==='dark'){
           await page.locator('#theme-toggle').click();
@@ -418,6 +420,8 @@ try{
             document.querySelector('.footer-top > div:first-child > p:not(.chapter-kicker)')?.textContent?.includes('Fresnica 是面向'),null,{timeout:5000}).catch(()=>{});
           const locale=await page.evaluate(()=>({lang:document.documentElement.lang,footer:document.querySelector('.footer-top > div:first-child > p:not(.chapter-kicker)')?.textContent||''}));
           assert(locale.lang==='zh-CN','Language picker did not switch to Chinese');
+          assert((await page.locator('#download-menu-button > span').textContent())==='获取',
+            'Top-right Get label did not localize to 获取');
           const chineseNavWidth=await page.locator('.site-header .top-nav').evaluate(el=>el.getBoundingClientRect().width);
           assert(Math.abs(chineseNavWidth-state.navigation.width)<=1,
             `Changing the navigation language resized its capsule: ${chineseNavWidth}px vs ${state.navigation.width}px`);
