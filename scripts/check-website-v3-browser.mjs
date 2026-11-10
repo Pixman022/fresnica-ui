@@ -48,6 +48,27 @@ const checkMobileDownloads=(actions,prefix,lang)=>{
       prefix+': platform '+i+' text or layout failed '+JSON.stringify(a));
   }
 };
+// Validate actual browser-computed button text/icon identity (not just CSS strings).
+const measureActionIdentity=()=>{
+  const read=(selector,iconSelector,labelSelector)=>{
+    const button=document.querySelector(selector);
+    const icon=button.querySelector(iconSelector);
+    const label=button.querySelector(labelSelector);
+    const b=getComputedStyle(button),i=getComputedStyle(icon),l=getComputedStyle(label);
+    return {
+      buttonColor:b.color,iconColor:i.color,labelColor:l.color,
+      fontFamily:b.fontFamily,labelFontFamily:l.fontFamily,
+      fontWeight:l.fontWeight,fontSize:l.fontSize,
+      iconWidth:icon.getBoundingClientRect().width
+    };
+  };
+  return {
+    header:read('#download-menu-button','.download-mark','.download-label'),
+    ios:read('#v3-availability .download-action','.platform-mark-apple','span'),
+    android:read('#v3-availability .download-action.secondary','.platform-mark-android','span'),
+    desktop:read('#v3-workspace .desktop-download','svg','span')
+  };
+};
 fs.mkdirSync(dest,{recursive:true});
 const browser=await chromium.launch({
   headless:true,
@@ -145,6 +166,19 @@ try{
           };
         });
         const prefix=name+'/'+theme;
+        const actionIdentity=await page.evaluate(measureActionIdentity);
+        for(const [kind,style] of Object.entries(actionIdentity)){
+          assert(style.buttonColor===style.iconColor&&style.iconColor===style.labelColor,
+            `${prefix}: ${kind} icon and label colors differ (${JSON.stringify(style)})`);
+          assert(style.fontFamily===style.labelFontFamily&&style.fontFamily.includes('Roboto')&&
+            style.fontWeight==='600',
+            `${prefix}: ${kind} button typography differs from Fresnica tokens (${JSON.stringify(style)})`);
+        }
+        for(const kind of ['ios','android','desktop']){
+          const style=actionIdentity[kind];
+          assert(style.fontSize==='13px'&&style.iconWidth>=19.5&&style.iconWidth<=20.5,
+            `${prefix}: ${kind} download typography/icon size is inconsistent (${JSON.stringify(style)})`);
+        }
         const expectedNavWidth=width<=375?Math.min(184,width-172):
           width<=680?Math.min(210,width-172):340;
         assert(Math.abs(state.navigation.width-expectedNavWidth)<=1,
