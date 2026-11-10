@@ -1786,6 +1786,11 @@ html.v3-theme-dark.m10-framed #v3-workspace .desktop-tabs button[aria-selected="
   --v3-button-disabled-fg:#71717A;
   --v3-button-disabled-border:var(--Fresnica-border-color);
   --v3-button-ease:cubic-bezier(.4,0,.2,1);
+  /* Fresnica button geometry: actions, compact controls, and circles. */
+  --v3-radius-action:12px;
+  --v3-radius-compact:8px;
+  --v3-radius-circle:50%;
+  --v3-radius-pill:999px;
 }
 html.v3-theme-dark{
   --v3-button-neutral-bg:var(--Fresnica-surface-high);
@@ -1797,7 +1802,7 @@ html.v3-theme-dark{
 }
 /* Primary marketing action: AA-safe deep green with white label in both themes. */
 html.m10-framed #overview .cta{
-  box-sizing:border-box;min-height:48px;padding:12px 20px;border-radius:12px;
+  box-sizing:border-box;min-height:48px;padding:12px 20px;border-radius:var(--v3-radius-action);
   font:600 14px/20px var(--Fresnica-font-family,Roboto,Arial,sans-serif);
   letter-spacing:0;box-shadow:none;
   transition:background-color .2s var(--v3-button-ease),color .2s var(--v3-button-ease),transform .2s var(--v3-button-ease);
@@ -1823,7 +1828,7 @@ html.m10-framed .site-header.on-dark{
 html.m10-framed .site-header .header-tools .download-trigger,
 html.m10-framed .site-header.on-dark .header-tools .download-trigger:not([disabled]),
 html.m10-framed .site-header.on-footer-dark .header-tools .download-trigger{
-  min-height:44px;height:44px;padding-inline:10px;border-radius:12px;
+  min-height:44px;height:44px;padding-inline:10px;border-radius:var(--v3-radius-action);
   background:var(--v3-button-neutral-bg);color:var(--v3-button-neutral-fg);
   border:1px solid var(--v3-button-neutral-border);box-shadow:none;
   font:600 11px/1.2 var(--Fresnica-font-family,Roboto,Arial,sans-serif);
@@ -1839,7 +1844,7 @@ html.m10-framed .site-header .header-tools .download-trigger[aria-expanded="true
 /* Navigation, language and theme controls are ghost buttons with neutral hover. */
 html.m10-framed .site-header .top-nav .nav-title-button,
 html.m10-framed .site-header .top-nav .nav-button{
-  border:0;border-radius:12px;background:transparent;color:inherit;box-shadow:none;
+  border:0;border-radius:var(--v3-radius-action);background:transparent;color:inherit;box-shadow:none;
   transition:background-color .2s var(--v3-button-ease),color .2s var(--v3-button-ease);
 }
 html.m10-framed .site-header .top-nav .nav-title-button:hover,
@@ -1861,7 +1866,7 @@ html.m10-framed .site-header :is(.nav-dropdown,.download-dropdown,.locale-dropdo
   background:#222226;color:#F5F5F7;border:1px solid #484850;box-shadow:none;
 }
 html.m10-framed .site-header :is(.nav-dropdown,.download-dropdown,.locale-dropdown) :is(a,button){
-  min-height:44px;color:#F5F5F7;background:transparent;border:0;border-radius:8px;
+  min-height:44px;color:#F5F5F7;background:transparent;border:0;border-radius:var(--v3-radius-compact);
   font-family:var(--Fresnica-font-family,Roboto,Arial,sans-serif);
 }
 html.m10-framed .site-header :is(.nav-dropdown,.download-dropdown,.locale-dropdown) :is(a,button):hover,
@@ -1879,23 +1884,23 @@ html.m10-framed :is(a,button,[role="button"]):focus-visible{
 }
 /* Mobile and desktop downloads remain genuinely disabled: no filled black/green CTA. */
 html.m10-framed #v3-availability :is(.download-action,.download-action.secondary):disabled{
-  min-height:56px;border:1px solid #484850;border-radius:12px;
+  min-height:56px;border:1px solid #484850;border-radius:var(--v3-radius-action);
   background:#34343C;color:#A0A0A5;opacity:1;box-shadow:none;cursor:not-allowed;
 }
 html.m10-framed #v3-availability .download-action:disabled :is(span,svg){color:inherit;}
 html.m10-framed #v3-workspace .desktop-download:disabled{
-  box-sizing:border-box;min-height:56px;padding:12px 16px;border-radius:12px;
+  box-sizing:border-box;min-height:56px;padding:12px 16px;border-radius:var(--v3-radius-action);
   background:var(--v3-button-disabled-bg);color:var(--v3-button-disabled-fg);
   border:1px solid var(--v3-button-disabled-border);box-shadow:none;opacity:1;cursor:not-allowed;
 }
 html.m10-framed #v3-workspace .desktop-download:disabled :is(span,svg){color:inherit;}
 /* The five feature demos keep their timings; only button roles and colors change. */
 html.m10-framed #v3-features .feature-card:nth-child(2) .mini-send-button{
-  background:var(--v3-button-primary);color:#fff;font-weight:600;border-radius:12px;
+  background:var(--v3-button-primary);color:#fff;font-weight:600;border-radius:var(--v3-radius-action);
 }
 html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-button{
   background:var(--Fresnica-inverse-color);color:var(--Fresnica-on-inverse-color);
-  border-radius:12px;font-weight:600;
+  border-radius:var(--v3-radius-action);font-weight:600;
 }
 html.m10-framed #v3-features .feature-card:nth-child(3) .mini-swap-button:hover{
   background:var(--v3-inverse-hover);color:var(--Fresnica-on-inverse-color);
@@ -1954,11 +1959,11 @@ html.v3-theme-dark #orb-tuner-toggle,
 html.v3-theme-dark #orb-tuner-toggle[aria-expanded="true"]{
   background:var(--v3-button-neutral-bg);color:var(--v3-button-neutral-fg);
   border:1px solid var(--v3-button-neutral-border);box-shadow:none;
-  border-radius:12px;
+  border-radius:var(--v3-radius-action);
 }
 html.m10-framed #orb-tuner-toggle:hover,
 html.m10-framed #orb-tuner-toggle[aria-expanded="true"]{background:var(--v3-button-neutral-hover);}
-html.m10-framed #orb-tuner :is(.ot-action,.ot-close){min-height:44px;border-radius:8px;box-shadow:none;}
+html.m10-framed #orb-tuner :is(.ot-action,.ot-close){min-height:44px;border-radius:var(--v3-radius-compact);box-shadow:none;}
 html.m10-framed #orb-tuner .ot-action,
 html.m10-framed #orb-tuner #orb-tuner-copy{
   background:var(--v3-button-neutral-bg);color:var(--v3-button-neutral-fg);
@@ -2017,6 +2022,25 @@ html.m10-framed .site-header .header-tools .download-trigger > :is(svg.download-
 html.m10-framed #overview .cta > span[aria-hidden="true"]{
   font:inherit;
   color:inherit;
+}
+/* M55: joined tabs stay continuous; expandable circular action becomes a pill only when open. */
+html.m10-framed #v3-workspace .desktop-tabs{
+  border-radius:var(--v3-radius-action);
+}
+html.m10-framed #v3-workspace .desktop-tabs button{
+  border-radius:0;
+}
+html.m10-framed :is(.circle-action,.back-to-top),
+html.m10-framed #v3-features .mini-swap-direction{
+  border-radius:var(--v3-radius-circle);
+}
+html.m10-framed .back-to-top:is(:hover,:focus-visible){
+  border-radius:var(--v3-radius-pill);
+}
+@media(max-width:680px){
+  html.m10-framed .back-to-top:is(:hover,:focus-visible){
+    border-radius:var(--v3-radius-circle);
+  }
 }
 </style>
 </head>

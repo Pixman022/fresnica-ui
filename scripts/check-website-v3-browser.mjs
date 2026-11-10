@@ -69,6 +69,30 @@ const measureActionIdentity=()=>{
     desktop:read('#v3-workspace .desktop-download','svg','span')
   };
 };
+const measureControlRadii=()=>Object.fromEntries(Object.entries({
+  hero:'#overview .cta.primary',
+  header:'#download-menu-button',
+  mobile:'#v3-availability .download-action',
+  desktop:'#v3-workspace .desktop-download',
+  send:'#v3-features .mini-send-button',
+  swap:'#v3-features .mini-swap-button',
+  preview:'#v3-workspace .dp-preview-action',
+  desktopTabs:'#v3-workspace .desktop-tabs',
+  navSection:'#scene-menu-button',
+  navTheme:'#theme-toggle',
+  tuner:'#orb-tuner-toggle',
+  downloadOption:'#download-menu a',
+  localeOption:'#language-menu button',
+  tunerAction:'#orb-tuner .ot-action',
+  tunerClose:'#orb-tuner .ot-close',
+  quick:'#v3-workspace .dp-quick-action',
+  desktopTab:'#v3-workspace .desktop-tabs button',
+  backToTop:'.back-to-top',
+  swapDirection:'#v3-features .mini-swap-direction'
+}).map(([kind,selector])=>{
+  const element=document.querySelector(selector);
+  return [kind,element?getComputedStyle(element).borderTopLeftRadius:null];
+}));
 fs.mkdirSync(dest,{recursive:true});
 const browser=await chromium.launch({
   headless:true,
@@ -167,6 +191,18 @@ try{
         });
         const prefix=name+'/'+theme;
         const actionIdentity=await page.evaluate(measureActionIdentity);
+        const controlRadii=await page.evaluate(measureControlRadii);
+        for(const kind of ['hero','header','mobile','desktop','send','swap','preview','desktopTabs','navSection','navTheme','tuner']){
+          assert(controlRadii[kind]==='12px',
+            `${prefix}: ${kind} action radius expected 12px, got ${controlRadii[kind]}`);
+        }
+        for(const kind of ['downloadOption','localeOption','tunerAction','tunerClose','quick']){
+          assert(controlRadii[kind]==='8px',
+            `${prefix}: ${kind} compact radius expected 8px, got ${controlRadii[kind]}`);
+        }
+        assert(controlRadii.desktopTab==='0px'&&
+          controlRadii.backToTop==='50%'&&controlRadii.swapDirection==='50%',
+          `${prefix}: joined tabs or circular control radius differs (${JSON.stringify(controlRadii)})`);
         for(const [kind,style] of Object.entries(actionIdentity)){
           assert(style.buttonColor===style.iconColor&&style.iconColor===style.labelColor,
             `${prefix}: ${kind} icon and label colors differ (${JSON.stringify(style)})`);
