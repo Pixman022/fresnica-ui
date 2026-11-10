@@ -65,8 +65,11 @@ const footerAnchors=[...foot.matchAll(/<a\s+href="([^"]+)"[^>]*>(.*?)<\/a>/g)].m
 check(footerAnchors.length===new Set(footerAnchors).size,'Duplicate footer navigation destinations');
 check(!foot.includes('Made for everyday control.</p>'),'Repeated footer intro sentence');
 check(html.includes('id="theme-toggle"'),'Theme switch missing');
-check(/id="download-menu-button"[^>]*><span>GET<\/span>/.test(html),
-  'Top-right Get button must keep the concise GET label');
+check(/id="download-menu-button"[^>]*aria-label="Get Fresnica download options"[^>]*>/.test(html)&&
+  html.includes('class="download-label-full">Get Fresnica</span>')&&
+  html.includes('class="download-label-compact" aria-hidden="true">Get</span>')&&
+  html.includes('class="download-mark"')&&html.includes('class="download-chevron"'),
+  'Top-right Get Fresnica button must keep its branding, icons, and compact label');
 check(html.includes('prefers-reduced-motion:reduce'),'Reduced-motion CSS missing');
 for(const keyframe of ['m33-send-press','m37-success-draw','m44-hub-hide','m43-activity-shift','m45-trend-dot-visibility']){
   check(html.includes(keyframe),`Approved card animation missing: ${keyframe}`);
