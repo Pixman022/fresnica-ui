@@ -1979,6 +1979,48 @@ html.m10-framed #orb-tuner .ot-close{min-width:44px;background:transparent;color
 @media(prefers-reduced-motion:reduce){
   html.m10-framed :is(.cta,.nav-button,.nav-title-button,.download-trigger,.back-to-top){transition:none;}
 }
+/* M54: use the same Fresnica text face and foreground for button icons and labels. */
+html.m10-framed :is(
+  #overview .cta,
+  .site-header .header-tools .download-trigger,
+  .site-header .top-nav .nav-title-button,
+  .site-header .top-nav .nav-locale,
+  #v3-availability .download-action,
+  #v3-workspace .desktop-download,
+  #v3-workspace .desktop-tabs button,
+  #v3-features .mini-send-button,
+  #v3-features .mini-swap-button,
+  #v3-clarity .faq-line button
+){font-family:var(--Fresnica-font-family);}
+html.m10-framed #v3-availability .download-action,
+html.m10-framed #v3-workspace .desktop-download{
+  font-size:var(--Fresnica-font-size-supporting);
+  font-weight:var(--Fresnica-font-weight-semibold);
+  line-height:20px;
+  letter-spacing:0;
+  gap:10px;
+}
+html.m10-framed #v3-availability .download-action > span,
+html.m10-framed #v3-workspace .desktop-download > span{
+  font:inherit;
+  color:inherit;
+  white-space:nowrap;
+}
+html.m10-framed #v3-availability .download-action > svg,
+html.m10-framed #v3-workspace .desktop-download > svg{
+  display:block;
+  width:20px;
+  height:20px;
+  flex:none;
+  color:inherit;
+}
+html.m10-framed .site-header .header-tools .download-trigger > :is(svg.download-mark,svg.download-chevron){
+  color:inherit;
+}
+html.m10-framed #overview .cta > span[aria-hidden="true"]{
+  font:inherit;
+  color:inherit;
+}
 </style>
 </head>
 <body>
