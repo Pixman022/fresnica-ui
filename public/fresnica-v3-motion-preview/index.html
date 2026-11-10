@@ -1288,10 +1288,7 @@ html.m10-framed .nav-locale #locale-current {color:#98f0bf;}
 html.m10-framed .nav-theme {font:17px/1 Arial,sans-serif;}
 html.m10-framed .nav-dropdown {z-index:110;top:calc(100% + 9px);max-height:calc(100dvh - 94px);overflow-y:auto;}
 html.m10-framed .download-dropdown {left:auto;right:0;transform:none;min-width:min(290px,calc(100vw - 25px));}
-html.m10-framed .download-dropdown .download-menu-heading {color:#9aaea3;font-size:10px;letter-spacing:.11em;padding:5px 14px 9px;margin:0;}
 html.m10-framed .download-dropdown a {padding:11px 13px;}
-html.m10-framed .download-dropdown a span {display:flex;flex-direction:column;gap:5px;}
-html.m10-framed .download-dropdown a small {font-size:9px;color:#84b6a0;letter-spacing:.06em;}
 html.m10-framed .download-trigger {gap:8px;min-width:95px;}
 html.m10-framed .download-trigger svg.download-mark {width:16px;height:16px;flex:none;color:var(--Fresnica-primary-color,#00A875);}
 html.m10-framed .download-trigger svg.download-chevron {width:16px;height:16px;flex:none;transition:transform .2s ease;}
@@ -2801,7 +2798,8 @@ html.m10-framed #overview .cta > span[aria-hidden="true"]{
   downloadMenu.className = 'nav-dropdown download-dropdown';
   downloadMenu.id = 'download-menu';
   downloadMenu.setAttribute('aria-label','Download options');
-  downloadMenu.innerHTML = '<p class="download-menu-heading">GET FRESNICA</p><a href="#v3-availability"><span>Mobile · iOS<small>iOS APP</small></span></a><a href="#v3-availability"><span>Mobile · Android<small>ANDROID APP</small></span></a><a href="#v3-workspace"><span>Desktop client<small>DESKTOP APP</small></span></a>';
+  // Group by destination: the mobile section already offers both iOS and Android.
+  downloadMenu.innerHTML = '<a href="#v3-availability">Mobile · iOS &amp; Android</a><a href="#v3-workspace">Desktop</a>';
   header.append(menu);
   header.querySelector('.header-tools').append(downloadMenu);
   function openMenu(which,show){

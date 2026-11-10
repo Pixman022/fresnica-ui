@@ -374,6 +374,14 @@ try{
           await page.locator('#download-menu-button').focus();
           await page.keyboard.press('Enter');
           assert(await page.locator('#download-menu').evaluate(e=>e.classList.contains('is-open')),'Keyboard Enter did not open download menu');
+          const platformOptions=await page.locator('#download-menu a').evaluateAll(links=>
+            links.map(link=>({label:link.textContent.trim(),href:link.getAttribute('href')})));
+          assert(platformOptions.length===2&&
+            platformOptions[0].label==='Mobile · iOS & Android'&&
+            platformOptions[0].href==='#v3-availability'&&
+            platformOptions[1].label==='Desktop'&&
+            platformOptions[1].href==='#v3-workspace',
+            'Download menu repeats labels or targets: '+JSON.stringify(platformOptions));
           await page.keyboard.press('Escape');
           assert(!await page.locator('#download-menu').evaluate(e=>e.classList.contains('is-open')),'Escape did not close download menu');
           assert(await page.evaluate(()=>document.activeElement?.id==='download-menu-button'),'Escape did not return focus to download button');
@@ -468,6 +476,11 @@ try{
           assert(zhGetButton.label===(width<=480?'获取':'获取 Fresnica')&&
             zhGetButton.accessible==='获取 Fresnica 下载选项',
             'Top-right Get Fresnica Chinese label failed: '+JSON.stringify(zhGetButton));
+          const zhPlatformOptions=await page.locator('#download-menu a').allTextContents();
+          assert(zhPlatformOptions.length===2&&
+            zhPlatformOptions[0].trim()==='移动端 · iOS / Android'&&
+            zhPlatformOptions[1].trim()==='桌面端',
+            'Chinese download menu labels are redundant or untranslated: '+JSON.stringify(zhPlatformOptions));
           const chineseNavWidth=await page.locator('.site-header .top-nav').evaluate(el=>el.getBoundingClientRect().width);
           assert(Math.abs(chineseNavWidth-state.navigation.width)<=1,
             `Changing the navigation language resized its capsule: ${chineseNavWidth}px vs ${state.navigation.width}px`);

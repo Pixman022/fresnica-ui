@@ -70,6 +70,16 @@ check(/id="download-menu-button"[^>]*aria-label="Get Fresnica download options"[
   html.includes('class="download-label-compact" aria-hidden="true">Get</span>')&&
   html.includes('class="download-mark"')&&html.includes('class="download-chevron"'),
   'Top-right Get Fresnica button must keep its branding, icons, and compact label');
+const platformMenu=html.match(/downloadMenu\.innerHTML\s*=\s*'([^']*)';/)?.[1]||'';
+const platformOptions=[...platformMenu.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)]
+  .map(match=>({href:match[1],label:match[2]}));
+check(platformOptions.length===2&&
+  platformOptions[0].href==='#v3-availability'&&
+  platformOptions[0].label==='Mobile · iOS &amp; Android'&&
+  platformOptions[1].href==='#v3-workspace'&&
+  platformOptions[1].label==='Desktop'&&
+  !/<small\b|download-menu-heading/.test(platformMenu),
+  'Download menu must offer two distinct, non-redundant platform destinations');
 check(html.includes('prefers-reduced-motion:reduce'),'Reduced-motion CSS missing');
 for(const keyframe of ['m33-send-press','m37-success-draw','m44-hub-hide','m43-activity-shift','m45-trend-dot-visibility']){
   check(html.includes(keyframe),`Approved card animation missing: ${keyframe}`);
