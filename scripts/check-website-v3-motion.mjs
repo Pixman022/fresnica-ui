@@ -60,7 +60,13 @@ try{
         lowerOpacity:Number(getComputedStyle(lower).opacity),
         upper:bounds(upper),lower:bounds(lower),view:bounds(scroller),
         hash:location.hash,
-        anchorTrace:window.__v3InitialAnchorTrace||[]
+        anchorTrace:window.__v3InitialAnchorTrace||[],
+        frameTrace:window.__v3FrameAnchorTrace||[],
+        initialAnchor:window.__v3InitialAnchor||'',
+        reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,
+        compact:matchMedia('(max-width: 680px)').matches,
+        runwayClass:runway.className,
+        runwayHeight:runway.offsetHeight
       };
     });
     const fullSecond=(s,label)=>{
