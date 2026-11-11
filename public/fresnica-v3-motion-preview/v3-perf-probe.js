@@ -74,6 +74,28 @@
     const startMode=matchMedia('(prefers-reduced-motion: reduce)').matches?'reduce':'no-preference';
     const startTheme=document.documentElement.classList.contains('v3-theme-dark')?'dark':'light';
     const startedAt=new Date().toISOString();
+    const startLanguage=document.documentElement.lang;
+    const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+    const changes={scrolled:false,resized:false,theme:false,language:false,motion:false};
+    const onScroll=()=>{changes.scrolled=true;};
+    const onResize=()=>{changes.resized=true;};
+    const onMotion=()=>{changes.motion=true;};
+    const onSettings=records=>{
+      for(const item of records){
+        if(item.attributeName==='lang'&&document.documentElement.lang!==startLanguage)
+          changes.language=true;
+        if(item.attributeName==='class'&&
+          document.documentElement.classList.contains('v3-theme-dark')!==(startTheme==='dark'))
+          changes.theme=true;
+      }
+    };
+    const settingsObserver=new MutationObserver(onSettings);
+    settingsObserver.observe(document.documentElement,{
+      attributes:true,attributeFilter:['class','lang']
+    });
+    scroller.addEventListener('scroll',onScroll,{passive:true});
+    window.addEventListener('resize',onResize,{passive:true});
+    motionPreference.addEventListener('change',onMotion);
     const t0=performance.now(),heapStartMB=heap();
     const intervals=[],tasks=[],longFrames=[],observers=[];
     const longTaskSupported=observe('longtask',tasks,observers);
@@ -90,6 +112,11 @@
     await new Promise(resolve=>setTimeout(resolve,durationMs));
     cancelAnimationFrame(raf);
     document.removeEventListener('visibilitychange',onVisibility);
+    scroller.removeEventListener('scroll',onScroll);
+    window.removeEventListener('resize',onResize);
+    motionPreference.removeEventListener('change',onMotion);
+    onSettings(settingsObserver.takeRecords());
+    settingsObserver.disconnect();
     for(const {observer,durations} of observers){
       for(const entry of observer.takeRecords())durations.push(entry.duration);
       observer.disconnect();
@@ -99,10 +126,15 @@
     const sceneEnd=visibleScene();
     const sample={
       recordedAt:startedAt,scene:sceneStart,sceneEnd,
-      theme:startTheme,language:document.documentElement.lang,
+      theme:startTheme,language:startLanguage,
       motion:startMode,requestedMs:durationMs,elapsedMs,
       validHold:!wasHidden&&sceneStart===sceneEnd&&
+        Object.values(changes).every(changed=>!changed)&&
+        document.documentElement.lang===startLanguage&&
+        (document.documentElement.classList.contains('v3-theme-dark')===
+          (startTheme==='dark'))&&
         (matchMedia('(prefers-reduced-motion: reduce)').matches?'reduce':'no-preference')===startMode,
+      changedDuringSample:changes,
       rafScheduling:{
         intervals:intervals.length,meanIntervalMs:sorted.length?
           round(sorted.reduce((sum,n)=>sum+n,0)/sorted.length):null,

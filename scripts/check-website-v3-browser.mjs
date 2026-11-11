@@ -791,14 +791,43 @@ try{
     const sample=await perfPage.evaluate(()=>window.__v3PerfProbe.record(350));
     assert(sample?.scene==='overview'&&sample?.motion==='reduce'&&
       sample?.elapsedMs>=250&&sample?.rafScheduling?.intervals>=1&&
-      typeof sample?.validHold==='boolean'&&
+      sample?.validHold===true&&
       await perfPage.locator('#v3-perf-export').isEnabled(),
-      'Opt-in device probe failed to produce a valid sample: '+JSON.stringify(sample));
+      'Opt-in device probe failed to produce a valid stable sample: '+JSON.stringify(sample));
+    const interrupted=await perfPage.evaluate(async()=>{
+      const scroller=document.getElementById('v3-page-scroll');
+      const root=document.documentElement;
+      const initialScroll=scroller.scrollTop,initialLang=root.lang;
+      const oldDark=root.classList.contains('v3-theme-dark');
+      const sampling=window.__v3PerfProbe.record(350);
+      await new Promise(resolve=>setTimeout(resolve,80));
+      scroller.scrollTop=initialScroll+180;
+      root.classList.toggle('v3-theme-dark');
+      root.lang=initialLang==='en'?'zh-CN':'en';
+      await new Promise(resolve=>setTimeout(resolve,80));
+      scroller.scrollTop=initialScroll;
+      root.classList.toggle('v3-theme-dark',oldDark);
+      root.lang=initialLang;
+      return sampling;
+    });
+    assert(interrupted?.validHold===false&&
+      interrupted.changedDuringSample?.scrolled===true&&
+      interrupted.changedDuringSample?.theme===true&&
+      interrupted.changedDuringSample?.language===true,
+      'Probe accepted a scrolled/changed sample that returned to its start state: '+
+        JSON.stringify(interrupted));
     const downloadPromise=perfPage.waitForEvent('download',{timeout:5000});
     await perfPage.locator('#v3-perf-export').click();
     const download=await downloadPromise;
     assert(/^fresnica-v3-device-perf-\d{4}-\d{2}-\d{2}\.json$/.test(download.suggestedFilename()),
       'Unexpected device probe export name: '+download.suggestedFilename());
+    const exported=JSON.parse(await fs.promises.readFile(await download.path(),'utf8'));
+    assert(exported.schema==='fresnica-v3-device-probe-v1'&&
+      exported.samples?.length===2&&
+      exported.samples[0].validHold===true&&
+      exported.samples[1].validHold===false&&
+      exported.samples[1].changedDuringSample?.scrolled===true,
+      'Downloaded device report lost the raw stable/interrupted results');
   }catch(error){
     failures.push('opt-in device probe: '+String(error.message||error).slice(0,600));
   }finally{await perfPage.close();}
