@@ -764,6 +764,50 @@ try{
       }
     }
   }
+  // Opening a secondary page must preserve both the selected theme and locale.
+  const noticeTrip=await browser.newPage({
+    viewport:{width:1440,height:900},reducedMotion:'reduce',colorScheme:'light'
+  });
+  try{
+    await noticeTrip.goto(base,{waitUntil:'load',timeout:45000});
+    await noticeTrip.locator('#theme-toggle').click();
+    await noticeTrip.locator('#locale-toggle').click();
+    await noticeTrip.locator('[data-language="zh-CN"]').click();
+    const href=await noticeTrip.locator('#v3-about .platform-credit').getAttribute('href');
+    assert(href?.includes('lang=zh-CN')&&href?.includes('theme=dark'),
+      'Theme/locale not passed to third-party notices: '+href);
+    await noticeTrip.goto(new URL(href,base).href,{waitUntil:'load',timeout:30000});
+    const noticeState=await noticeTrip.evaluate(()=>({
+      lang:document.documentElement.lang,
+      theme:document.documentElement.dataset.theme,
+      background:getComputedStyle(document.body).backgroundColor,
+      returnHref:document.querySelector('.back')?.getAttribute('href')
+    }));
+    assert(noticeState.lang==='zh-CN'&&noticeState.theme==='dark'&&
+      noticeState.background==='rgb(23, 24, 27)'&&
+      noticeState.returnHref?.includes('theme=dark'),
+      'Notice page lost dark preference: '+JSON.stringify(noticeState));
+    await noticeTrip.locator('.back').click();
+    await noticeTrip.waitForURL(url=>url.pathname.endsWith('/index.html'),{timeout:15000});
+    const restored=await noticeTrip.evaluate(()=>({
+      lang:document.documentElement.lang,
+      dark:document.documentElement.classList.contains('v3-theme-dark'),
+      pressed:document.querySelector('#theme-toggle')?.getAttribute('aria-pressed'),
+      footerDay:document.querySelector('#v3-about')?.classList.contains('day'),
+      hash:location.hash
+    }));
+    assert(restored.lang==='zh-CN'&&restored.dark&&restored.pressed==='true'&&
+      !restored.footerDay&&restored.hash==='#v3-about',
+      'Return navigation lost selected theme/locale: '+JSON.stringify(restored));
+    await noticeTrip.locator('#theme-toggle').click();
+    const lightHref=await noticeTrip.locator('#v3-about .platform-credit').getAttribute('href');
+    assert(lightHref?.includes('theme=light'),'Explicit light theme not passed to notices');
+    await noticeTrip.goto(new URL(lightHref,base).href,{waitUntil:'domcontentloaded',timeout:30000});
+    assert(await noticeTrip.evaluate(()=>getComputedStyle(document.body).backgroundColor)==='rgb(247, 248, 247)',
+      'Explicit light notice theme not honored');
+  }catch(error){
+    failures.push('notice language/theme roundtrip: '+String(error.message||error).slice(0,650));
+  }finally{await noticeTrip.close();}
   // Confirm the documented URL opt-in opens the existing developer controls.
   const debugPage=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
   try{

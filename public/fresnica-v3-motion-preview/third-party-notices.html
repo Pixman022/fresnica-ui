@@ -23,6 +23,10 @@
       body{background:#17181b;color:#f5f5f7;}
       .eyebrow{color:#9ad5b8;}
     }
+    html[data-theme="dark"] body{background:#17181b;color:#f5f5f7;}
+    html[data-theme="dark"] .eyebrow{color:#9ad5b8;}
+    html[data-theme="light"] body{background:#f7f8f7;color:#1a1c1d;}
+    html[data-theme="light"] .eyebrow{color:#4b6959;}
   </style>
 </head>
 <body>
@@ -38,14 +42,22 @@
   <script>
     // Keep the legal attribution in its original English wording.
     // Only the surrounding navigation and heading follow the chosen locale.
-    if(new URLSearchParams(location.search).get('lang')==='zh-CN'){
+    const params=new URLSearchParams(location.search);
+    const theme=params.get('theme');
+    if(theme==='light'||theme==='dark')document.documentElement.dataset.theme=theme;
+    const returnParams=new URLSearchParams();
+    if(params.get('lang')==='zh-CN'){
       document.documentElement.lang='zh-CN';
       document.title='第三方声明 | Fresnica';
       document.querySelector('.back').textContent='← 返回 Fresnica';
-      document.querySelector('.back').setAttribute('href','./index.html?lang=zh-CN#v3-about');
       document.querySelector('.eyebrow').textContent='FRESNICA / 第三方署名';
       document.querySelector('h1').textContent='第三方声明';
+      returnParams.set('lang','zh-CN');
     }
+    if(theme==='light'||theme==='dark')returnParams.set('theme',theme);
+    const suffix=returnParams.toString();
+    document.querySelector('.back').setAttribute('href',
+      './index.html'+(suffix?'?'+suffix:'')+'#v3-about');
   </script>
 </body>
 </html>

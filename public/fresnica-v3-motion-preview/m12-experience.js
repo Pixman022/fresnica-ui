@@ -303,6 +303,15 @@
       }
     }
   }
+  function syncNoticesLink(){
+    const link=document.querySelector('#v3-about .platform-credit');
+    if(!link)return;
+    const params=new URLSearchParams();
+    if(locale==='zh-CN')params.set('lang','zh-CN');
+    params.set('theme',document.documentElement.classList.contains('v3-theme-dark')?'dark':'light');
+    link.setAttribute('href','./third-party-notices.html?'+params.toString());
+  }
+  window.addEventListener('v3-theme-change',syncNoticesLink);
   function syncLanguage(){
     document.documentElement.lang=locale;
     document.title=locale==='zh-CN' ? (map[originalTitle] || originalTitle) : originalTitle;
@@ -319,9 +328,7 @@
     if (tuner) translateAttrs(tuner);
     toggle?.setAttribute('aria-label',locale==='en'?'Choose language':'选择语言');
     toggle?.setAttribute('title',locale==='en'?'Choose language':'选择语言');
-    const noticesLink=document.querySelector('#v3-about .platform-credit');
-    if(noticesLink)noticesLink.setAttribute('href',
-      locale==='zh-CN'?'./third-party-notices.html?lang=zh-CN':'./third-party-notices.html');
+    syncNoticesLink();
     languageMenu?.querySelectorAll('[data-language]').forEach(button => {
       button.setAttribute('aria-checked',String(button.dataset.language===locale));
     });

@@ -3222,6 +3222,9 @@ html.m10-framed #overview .orb-card.second{
     requestScrollUpdate();
   }
   headerTheme.addEventListener('click',()=>applyTheme(!document.documentElement.classList.contains('v3-theme-dark')));
+  // Preserve the selected theme when returning from the legal notice page.
+  const requestedTheme=new URLSearchParams(location.search).get('theme');
+  if(requestedTheme==='light'||requestedTheme==='dark')applyTheme(requestedTheme==='dark');
 
   // M2: sampled dots from the actual Fresnica wordmark assemble as the final chapter enters.
   // Rendering is local canvas only; no remote 3D dependencies or WebGL required for the footer.
