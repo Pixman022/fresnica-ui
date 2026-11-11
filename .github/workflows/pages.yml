@@ -211,6 +211,11 @@ jobs:
               with:
                   path: demo-dist
 
+            # GitHub's artifact search may lag just after upload: an immediate
+            # deploy-pages lookup can report zero matching artifacts.
+            - name: Allow Pages artifact indexing to settle
+              run: sleep 15
+
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@v5
