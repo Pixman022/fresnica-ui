@@ -40,7 +40,10 @@
   const initialAnchor=window.__v3InitialAnchor ||
     (location.hash?decodeURIComponent(location.hash.slice(1)):'');
   function alignInitialAnchor(){
-    if(!initialAnchor || !snapEnabled())return;
+    // An initial URL may be replaced with a new chapter while late font/load
+    // corrections are pending. Do not drag the reader back to the old anchor.
+    if(!initialAnchor || !snapEnabled() ||
+      (location.hash && decodeURIComponent(location.hash.slice(1))!==initialAnchor))return;
     // Calculate against the requested section directly. During document load,
     // the scene-stop list may not yet contain every reparented sticky chapter.
     const section=document.getElementById(initialAnchor);
@@ -72,6 +75,7 @@
     let userNavigated=false;
     for(const type of ['wheel','touchstart','pointerdown','keydown'])
       frame.addEventListener(type,()=>{userNavigated=true;},{once:true,passive:true});
+    window.addEventListener('hashchange',()=>{userNavigated=true;},{once:true});
     const settleInitialAnchor=()=>{
       if(!userNavigated)requestAnimationFrame(()=>{
         if(!userNavigated)alignInitialAnchor();
@@ -85,7 +89,8 @@
       // A hash can trigger the browser's own delayed fragment navigation.
       // Restore it after layout, then explicitly correct the scene position.
       requestAnimationFrame(()=>{
-        if(userNavigated)return;
+        if(userNavigated ||
+          (location.hash&&decodeURIComponent(location.hash.slice(1))!==initialAnchor))return;
         if(window.__v3InitialAnchor){
           history.replaceState(history.state,'',
             location.pathname+location.search+'#'+encodeURIComponent(initialAnchor));
