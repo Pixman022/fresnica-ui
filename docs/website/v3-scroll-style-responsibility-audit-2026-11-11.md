@@ -39,3 +39,10 @@
 3. **发布事实**：官方安装地址、法律政策和安全能力声明未获核实，维持预览站 `noindex`、下载禁用状态。
 
 正式性能验收模板仍为 [`v3-device-performance-acceptance-2026-11-09.md`](v3-device-performance-acceptance-2026-11-09.md)。
+
+## 4. 最终回归证据
+
+- **修复前对照**：[V3 Visual QA #42970836175](https://github.com/Pixman022/fresnica-ui/actions/runs/42970836175) 的新增快速切换用例失败（`actual=1797`, `expected≈6663`），其它原有测试未要求放宽门槛。
+- **修复后**：[V3 Visual QA #42971091576](https://github.com/Pixman022/fresnica-ui/actions/runs/42971091576) 双作业均 success，Chromium 14 组视口/双主题、97 张截图 0 项异常，动态测试共 11 项观察 0 失败，包含 `deep-link-then-new-chapter-without-rewind`。Firefox/WebKit 九屏回归成功。
+- [原生 Edge 200% #42971091507](https://github.com/Pixman022/fresnica-ui/actions/runs/42971091507)、[Windows/macOS #42971091546](https://github.com/Pixman022/fresnica-ui/actions/runs/42971091546)、[Pages #42971091551](https://github.com/Pixman022/fresnica-ui/actions/runs/42971091551)：均成功，冻结 V2 未变。
+- 本记录证明本批的技术回归和 CSS 规则职责分类；不声称物理设备 GPU 性能或设计最终批准。

@@ -22,8 +22,8 @@
 ### P2 · 工程及性能维护（分批开展，避免大改）
 - [ ] 以 `v3-device-performance-acceptance-2026-11-09.md` 的真实设备清单为模板，记录 Windows GPU / macOS Safari / iOS Safari / Android Chrome 各平台首屏、第二屏、第六屏和安全屏的实测帧时间、长任务与内存趋势；未实际测试的项目标为“未验收”。
 - [ ] 只有实测确认瓶颈后，才局部优化球体与粒子；保持中心白色点阵 Logo 与已批准的几何/配色。
-- [ ] 检查启动/锚点/滚轮控制的重复职责，先记录风险与复现条件，再以单项测试保护下的局部修复替代重复逻辑；不做无证据的大规模重构。
-- [ ] 按实际级联与截图整理 CSS 重复选择器，不因静态重复数量直接删除规则。
+- [x] 已复核 M10/M12/M13 控制职责：移除 M12 旧滚轮实现；新增“初始深链接后快速切换章节”回归，确认修复前失败、修复后通过；M10/M13 部分初始校正的进一步合并留作单独验证，避免大改。
+- [x] 已按实际媒体条件和组件职责审查导航、回顶、第五屏示例及移动首屏的重复 CSS；未发现需立即删除的已证实冲突。详见专项复核记录，保留现有视觉。
 
 ### P3 · 正式发布前置条件（待外部事实与批准）
 - [ ] 核实 iOS / Android / 桌面下载的官方渠道与状态，方可启用下载。
@@ -48,5 +48,14 @@
 ### 后续未阻断项
 
 - **P2（尚未完成）**：按真实设备模板记录 Windows GPU / macOS Safari / iOS / Android 的交互及性能；无物理采样不作最终结论。
-- **P2（尚未完成）**：M10/M13 的初始章节/哈希修正存在职责交叉，M12/M13 同时存在滚轮层；先要求明确复现与浏览器差分证据，再局部收敛。14 个内联样式块及 CSS 层叠候选也采用相同原则，不为减少行数冒险调整稳定视觉。
+- **P2（已完成审查，后续按需）**：M12 已退出滚轮控制；M13 的过期锚点恢复已以失败/成功对照修复。M10/M13 尚有初始对齐职责重叠，CSS 层叠仍保留按视口/状态分工的规则；若出现可复现缺陷，再以专项回归局部收敛。见 [职责与级联专项复核](v3-scroll-style-responsibility-audit-2026-11-11.md)。
 - **P3（待负责人资料）**：正式下载 URL、安全文案、隐私条款、联系入口、SEO 及最终设计签收。
+
+## 2026-11-11 · P2 第二批执行记录
+
+- [`c50778b`](https://github.com/Pixman022/fresnica-ui/commit/c50778bbf59f2a30f87b596965e38e976cec7789)：移除 M12 的旧滚轮累计/动画控制器（约 3.4 KB），保留中英翻译和功能卡片排版；静态审计新增 M13 唯一 desktop wheel owner 断言。[原有九屏全量 QA #42970620200](https://github.com/Pixman022/fresnica-ui/actions/runs/42970620200) 通过，Pages/Edge/Windows/macOS 同轮通过。
+- [`97de4a8`](https://github.com/Pixman022/fresnica-ui/commit/97de4a8fba5c32038e096e649e9d3a02c5e30667) 增加第二屏深链接后立即切到第五屏回归。[修复前 QA #42970836175](https://github.com/Pixman022/fresnica-ui/actions/runs/42970836175) **预期失败**：URL 已是 `#v3-workspace`，实际滚动却回到第二屏约 1797px，目标约 6663px。
+- [`2e38b0e`](https://github.com/Pixman022/fresnica-ui/commit/2e38b0e0a128570b014bf938c2f381cc5a600634) 在 M13 初始锚点校正中识别 `hashchange` 和新 URL，防止过期的 `pageshow` / 字体加载定时器覆盖用户最新章节。
+- **验收通过**：[V3 Visual QA #42971091576](https://github.com/Pixman022/fresnica-ui/actions/runs/42971091576) 的 Chromium 14 组视口/双主题、97 张截图、0 项异常，九屏与 11 项动态观察均通过，新增快速切换用例 PASS；Firefox/WebKit 独立作业通过。[Windows/macOS QA #42971091546](https://github.com/Pixman022/fresnica-ui/actions/runs/42971091546)、[Edge 200% #42971091507](https://github.com/Pixman022/fresnica-ui/actions/runs/42971091507)、[Pages #42971091551](https://github.com/Pixman022/fresnica-ui/actions/runs/42971091551) 也全部通过。
+- CSS 的导航固定宽度、悬浮回顶、四模块桌面演示与移动首屏多层规则已分类记录；没有在缺乏视觉差异证据时一次性删改，以免破坏已通过布局。
+- **继续待办**：真实 Windows/macOS/iOS/Android 硬件上的 FPS、GPU、热量/功耗及设计签收尚无用户/真实设备提供的证据，保持“未验收”。正式安装链接与法律信息仍待发布决策。
