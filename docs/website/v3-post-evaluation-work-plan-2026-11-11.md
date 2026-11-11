@@ -91,3 +91,10 @@
 - 汇总仅统计 `validHold=true`、期间无操作变化、实测时长至少 14 秒、具有逐轮视口字段和 rAF p95 的样本；至少三条合格记录才提示“够三轮、仍待人工签收”。长任务或堆内存缺失时显示未支持，而不是补零。采样脚本本身的测试结果不应当被当作真实 GPU FPS。
 - [V3 全量 Chromium / Firefox / WebKit QA #42974849708](https://github.com/Pixman022/fresnica-ui/actions/runs/42974849708) 两个作业均 **success**，包含新增离线报告单测和原有九屏回归；此前源代码变更提交的 [V3 QA #42974627153](https://github.com/Pixman022/fresnica-ui/actions/runs/42974627153)、[Windows/macOS QA #42974627164](https://github.com/Pixman022/fresnica-ui/actions/runs/42974627164)、[Windows Edge 缩放 #42974627260](https://github.com/Pixman022/fresnica-ui/actions/runs/42974627260)、[Pages 部署 #42974627165](https://github.com/Pixman022/fresnica-ui/actions/runs/42974627165) 全部通过。
 - 使用说明见 [真实设备性能采样指南](v3-real-device-performance-capture-2026-11-11.md)。**本批仅完成采样数据处理能力和自动化验收，不是 Windows/macOS/iOS/Android 的物理设备性能签收，也没有修改任何已批准的粒子和品牌视觉参数。**
+
+## 2026-11-11 · P2 第六批：修复 Pages 发布文件遗漏
+
+- **发现的实际工程缺陷**：此前 V3 Pages overlay 使用逐文件复制清单。源码存在 `v3-perf-probe.js`（`?debug=perf` 动态脚本）和 `third-party-notices.html`（页脚第三方声明），但两者未列在 Pages 发布副本里；CI 的成功不代表它们已进入发布物。因此，调试功能和页脚声明链接有潜在失效风险。
+- [修复提交 `e359642`](https://github.com/Pixman022/fresnica-ui/commit/e35964275b4e10128ca0ca4d1fa729b08d3e22b1)：Pages overlay 补齐两文件的源文件检查、复制和 `cmp`，并新增根目录所有 V3 源文件与待发布文件逐一比对。后续忘记登记新静态资源时，部署将因缺文件而失败，而不是返回绿色成功。
+- [Pages 工作流 #42975732804](https://github.com/Pixman022/fresnica-ui/actions/runs/42975732804) **success**；日志明确打印 `V3 root asset parity verified`，并对冻结 V2 路由进行原始文件 SHA-256 核对。此批仅修改 Pages 工作流，无视觉/交易逻辑改动。
+- **验证边界**：CI 证明 Pages 构建产物含这两个文件且部署动作成功；此环境无法完成公网 HTTP 200 独立复核（DNS 不可用），不声明已经通过公网下载实测。正式上线资料与真实 GPU/设备性能仍待外部证据。

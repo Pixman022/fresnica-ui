@@ -69,3 +69,12 @@
 ### 设备性能收集入口
 
 2026-11-11 增加了 [物理设备采样操作指南](v3-real-device-performance-capture-2026-11-11.md) 与 `?debug=perf` 本地探针。正常预览不会加载探针；只在用户明确请求时记录浏览器指标并手动导出 JSON。当前无来自物理设备的采样证据，因此**性能验收未完成**，不能作为正式发布放行依据。
+
+## 2026-11-11 · 预览部署文件完整性补充审计
+
+检查 `.github/workflows/pages.yml` 发现此前静态白名单复制未包含源码的 `third-party-notices.html` 与 `v3-perf-probe.js`。这影响页脚声明页面和仅在 `?debug=perf` 启用的本地性能采样入口的**部署完整性**，与 App 正式下载渠道无关。
+
+- 已在 [提交 `e359642`](https://github.com/Pixman022/fresnica-ui/commit/e35964275b4e10128ca0ca4d1fa729b08d3e22b1) 补齐发布文件；部署前强制检查源文件及 V3 根目录全部文件的产物校验。
+- [Pages #42975732804](https://github.com/Pixman022/fresnica-ui/actions/runs/42975732804) 显示 `V3 root asset parity verified` 和部署成功，V2 原有首页继续保持冻结的 SHA-256 校验。
+- 注意：静态文件进入 Pages 构建产物不等于对公网从任意设备完成 HTTP 可访问性验收；此处尚无独立 HTTP 探测证据，不应声称已完成所有公网可访问性签收。
+- 官方下载 URL、隐私/条款、安全能力和最终设计验收仍按原 P3 阶段处理，未修改禁用按钮、`noindex` 或未经批准的营销承诺。
