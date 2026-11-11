@@ -122,3 +122,10 @@
 - [修复 `4a248de`](https://github.com/Pixman022/fresnica-ui/commit/4a248de8a1432d20eabbec4b9e1eb52306379527)：M13 监听有效新片段，在旧切屏仍处于锁定/动画状态时取消旧 RAF，并由 M10 原有的 `hashchange` 布局对齐完成新导航。不修改动画缓动曲线、时长、切屏层级或粒子绘制。
 - [**V3 全量 QA #42981043025**](https://github.com/Pixman022/fresnica-ui/actions/runs/42981043025) **success**：Chromium 14 组视口/主题、97 张截图、0 项异常；12 项动态观察 0 失败（包括新增专项用例），Firefox/WebKit 独立作业也成功。[Windows/macOS #42981043051](https://github.com/Pixman022/fresnica-ui/actions/runs/42981043051)、[Edge 200% #42981043068](https://github.com/Pixman022/fresnica-ui/actions/runs/42981043068)、[Pages + 公开资源检查 #42981043151](https://github.com/Pixman022/fresnica-ui/actions/runs/42981043151) 均成功。
 - 后续未完成项仍是 **真实设备性能、最终视觉签收及 P3 正式发布资料**；这些没有因本次浏览器测试自动通过。冻结 V2 / `main`、钱包 App 和其它账号均未改动。
+
+## 2026-11-11 · P2/P3 第十批：最新九屏视觉签收资料整理
+
+- [最新一次成功的 V3 Visual QA #42981043025](https://github.com/Pixman022/fresnica-ui/actions/runs/42981043025) 产物 `fresnica-v3-visual-qa` 已提取核对：`results.json`、`motion-results.json`、`performance-baseline.json`、`transition-results.json`、`carousel-idle-results.json`、`desktop-panels-results.json` 均为 `PASS`，截图总数 97 张。
+- 从同一次成功运行的 `desktop-1440/light-*.png` 和 `desktop-1440/dark-*.png` 各选取完整九屏，制作了**浅色九屏与深色九屏桌面设计复核图**，另从中文截图中提取首页、移动端、桌面端和 Q&A 作为**中文关键画面复核图**，作为当前对话里的设计审阅附件。原始全尺寸 PNG 保留于上述 CI 产物中；对话内生成的拼版不是部署资源，因此不修改网站代码/发布产物。
+- **设计审阅重点**：九屏内容顺序、全局布局和留白、深浅配色与按钮层级、首页点阵球体可辨性、第七屏粒子轮廓、中文标题断行、第三屏和第五屏的禁用下载按钮，以及第六屏走马灯驻留状态。实际动画和逐设备触控体验仍须结合官网操作，不可用静态截图推断。
+- **状态区分**：截图准备与自动化回归已完成；产品/设计负责人**未签收**九屏双语双主题视觉；Windows GPU、macOS Safari、iOS Safari、Android Chrome 的真实硬件验收仍待执行。保持 P2/P3 原有未完成复选框，不为生成审阅图而变更项目发布状态。
