@@ -41,16 +41,28 @@
     (location.hash?decodeURIComponent(location.hash.slice(1)):'');
   function alignInitialAnchor(){
     if(!initialAnchor || !snapEnabled())return;
-    const target=stops().find(stop=>stop.id===initialAnchor);
-    if(!target)return;
+    // Calculate against the requested section directly. During document load,
+    // the scene-stop list may not yet contain every reparented sticky chapter.
+    const section=document.getElementById(initialAnchor);
+    const runway=section?.closest('.v3-screen-runway,.m5-runway,.feature-scroll');
+    if(!section || !runway)return;
+    const root=scroller.getBoundingClientRect();
+    const top=scroller.scrollTop+runway.getBoundingClientRect().top-root.top;
+    const room=Math.max(0,runway.offsetHeight-scroller.clientHeight);
+    const fraction=initialAnchor==='v3-ecosystem'?.76:
+      initialAnchor==='v3-workspace'?.77:
+      initialAnchor==='v3-features'?.47:
+      runway.classList.contains('m5-runway')?.73:.46;
+    const max=Math.max(0,scroller.scrollHeight-scroller.clientHeight);
+    const destination=initialAnchor==='overview'?0:clamp(top+room*fraction,0,max);
     const behavior=scroller.style.scrollBehavior;
     scroller.style.scrollBehavior='auto';
-    scroller.scrollTop=initialAnchor==='overview'?0:target.top;
+    scroller.scrollTop=destination;
     scroller.style.scrollBehavior=behavior;
-    // Keep a small diagnostic trail for browser-only fragment restoration.
     (window.__v3InitialAnchorTrace ||= []).push({
-      at:Math.round(performance.now()),expected:Math.round(target.top),
-      actual:Math.round(scroller.scrollTop),hash:location.hash
+      at:Math.round(performance.now()),expected:Math.round(destination),
+      actual:Math.round(scroller.scrollTop),room:Math.round(room),
+      runway:runway.className,hash:location.hash
     });
     window.dispatchEvent(new Event('scroll'));
   }
