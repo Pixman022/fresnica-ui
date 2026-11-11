@@ -57,3 +57,15 @@
 - 九屏进退、第四到第五屏、首屏点阵 Logo、深浅主题/双语均无阻断性问题。
 - 每个异常有截图/trace、设备信息、复现条件与修复前后对照；没有数据不能宣称「已达到目标帧率」。
 - 技术回归通过与设计负责人视觉批准分别有记录；正式下载、法律文案及收录策略仍按 [V3 稳定性计划](v3-quality-stabilization-plan-2026-11-09.md) 单独决策。
+
+## 七、2026-11-11 · 可选网页采样工具（当前仅就绪，尚无实测数据）
+
+仓库在 V3 预览加入了 **只通过 `?debug=perf` 启用** 的本地性能采样工具，操作步骤见 [`v3-real-device-performance-capture-2026-11-11.md`](v3-real-device-performance-capture-2026-11-11.md)。
+
+1. 在实际设备打开 `https://pixman022.github.io/fresnica-ui/fresnica-v3-motion-preview/?debug=perf`。普通入口不会加载采样脚本。
+2. 找到页面左下角 `FRESNICA · DEVICE PERF`，在指定章节静置十秒后点击 **Record 15 s**。同一章节/主题/动态模式至少记录三轮。
+3. 点击 **Export JSON** 保留浏览器 rAF 调度间隔、支持时的长任务/长动画帧、Chrome 可提供的 JS 堆变化和测试环境字段。
+4. 导出文件仅在用户主动点击时由浏览器生成，不自动上传。含浏览器标识和设备能力字段，分享前可检查脱敏。
+5. JSON 中 `p95IntervalMs`、`gapsAbove33Ms` 是观察线索，**不是渲染 GPU 帧率/真实掉帧数**。Firefox/Safari 缺少的 API 为 `null`，不得填成零。需结合各平台原生 Profiler/Timeline 和设计/交互签收完成最终验收。
+
+[浏览器自动化 #42972356755](https://github.com/Pixman022/fresnica-ui/actions/runs/42972356755) 已通过调试工具访问、短样本和 JSON 导出的功能验证，但这不是实际设备测试。当前四类物理设备结果仍为 **未验收**。
