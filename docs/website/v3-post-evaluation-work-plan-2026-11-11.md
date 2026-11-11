@@ -21,6 +21,7 @@
 
 ### P2 · 工程及性能维护（分批开展，避免大改）
 - [x] 已加强物理设备采样工具的数据有效性判定：中途滚动、视口变化、主题/语言与系统动态偏好变化均会标记，恢复原状态也不能误判有效；回归覆盖稳定/中断样本及实际 JSON 内容。
+- [x] 每轮采样独立记录视口与 DPR；新增离线多文件 JSON 汇总及有效记录过滤、同组至少三轮提示。合成数据与真实浏览器导出格式由 CI 验证，但仍未取得任何真实设备采样结果。
 - [x] 已提供仅限 `?debug=perf` 的真实设备本地记录器和导出 JSON 能力，并编写统一采样指南；四类设备的**实际采样与最终签收仍未完成**。
 - [ ] 以 `v3-device-performance-acceptance-2026-11-09.md` 的真实设备清单为模板，记录 Windows GPU / macOS Safari / iOS Safari / Android Chrome 各平台首屏、第二屏、第六屏和安全屏的实测帧时间、长任务与内存趋势；未实际测试的项目标为“未验收”。
 - [ ] 只有实测确认瓶颈后，才局部优化球体与粒子；保持中心白色点阵 Logo 与已批准的几何/配色。
@@ -81,3 +82,12 @@
 - [Pages 部署 #42973343281](https://github.com/Pixman022/fresnica-ui/actions/runs/42973343281)、[Windows Edge 200% #42973343528](https://github.com/Pixman022/fresnica-ui/actions/runs/42973343528)、[Windows/macOS 跨系统 #42973343282](https://github.com/Pixman022/fresnica-ui/actions/runs/42973343282)：全部成功。
 - 操作说明在 [设备性能采样指南](v3-real-device-performance-capture-2026-11-11.md)。本轮没有接入物理设备，也没有发布新的下载链接、调整视觉球体或更改 V2。
 - **当前阻断项仍不变**：真实设备采样/最终设计签收、官方发布渠道与法律安全审查，需要负责人提供实际测试记录或批准，不能由 CI 自行完成。
+
+## 2026-11-11 · P2 第五批：设备数据分组和本地汇总
+
+- [`05854b7`](https://github.com/Pixman022/fresnica-ui/commit/05854b7a0cc4a0a6bf3d5703a2c0cedcd13b2fcd) 新增 `scripts/summarize-website-v3-device-performance.mjs` 及合成数据测试，可在本地将导出 JSON 生成 Markdown 汇总报告，不进行网络传输，也不混合不同文件来源的设备。
+- [`2865c18`](https://github.com/Pixman022/fresnica-ui/commit/2865c18e135f45be5e2e7ac4a090452cf900a7ed) 让每一轮记录包含实际视口宽高与 DPR，修复只有导出时整体环境快照导致不同视口记录可能被误合并的问题。浏览器回归增加导出字段检查，V3 CI 增加脚本单测门禁。
+- [`6de43e9`](https://github.com/Pixman022/fresnica-ui/commit/6de43e933ef003b9614b104203f6bf75cd4f0c23) 补充同一份 JSON 内含不同宽度的合成测试，确保按单轮环境正确分组。
+- 汇总仅统计 `validHold=true`、期间无操作变化、实测时长至少 14 秒、具有逐轮视口字段和 rAF p95 的样本；至少三条合格记录才提示“够三轮、仍待人工签收”。长任务或堆内存缺失时显示未支持，而不是补零。采样脚本本身的测试结果不应当被当作真实 GPU FPS。
+- [V3 全量 Chromium / Firefox / WebKit QA #42974849708](https://github.com/Pixman022/fresnica-ui/actions/runs/42974849708) 两个作业均 **success**，包含新增离线报告单测和原有九屏回归；此前源代码变更提交的 [V3 QA #42974627153](https://github.com/Pixman022/fresnica-ui/actions/runs/42974627153)、[Windows/macOS QA #42974627164](https://github.com/Pixman022/fresnica-ui/actions/runs/42974627164)、[Windows Edge 缩放 #42974627260](https://github.com/Pixman022/fresnica-ui/actions/runs/42974627260)、[Pages 部署 #42974627165](https://github.com/Pixman022/fresnica-ui/actions/runs/42974627165) 全部通过。
+- 使用说明见 [真实设备性能采样指南](v3-real-device-performance-capture-2026-11-11.md)。**本批仅完成采样数据处理能力和自动化验收，不是 Windows/macOS/iOS/Android 的物理设备性能签收，也没有修改任何已批准的粒子和品牌视觉参数。**
