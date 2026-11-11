@@ -214,3 +214,30 @@ jobs:
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@v5
+            - name: Verify public V3 routes after deployment
+              if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+              shell: bash
+              env:
+                  V3_PAGES_URL: ${{ steps.deployment.outputs.page_url }}
+              run: |
+                  set -euo pipefail
+                  base="${V3_PAGES_URL%/}/fresnica-v3-motion-preview"
+                  for asset in index.html third-party-notices.html v3-perf-probe.js; do
+                      source="demo-dist/fresnica-v3-motion-preview/${asset}"
+                      confirmed=false
+                      for attempt in 1 2 3 4 5 6 7 8; do
+                          if curl --fail --location --silent --show-error --max-time 20 --connect-timeout 8 \
+                              -H 'Cache-Control: no-cache' "${base}/${asset}?verify=${GITHUB_SHA}" \
+                              --output /tmp/fresnica-v3-public-route && \
+                              cmp -s "${source}" /tmp/fresnica-v3-public-route; then
+                              confirmed=true
+                              break
+                          fi
+                          sleep 7
+                      done
+                      if [ "${confirmed}" != true ]; then
+                          echo "Public V3 asset missing or stale: ${base}/${asset}" >&2
+                          exit 1
+                      fi
+                      echo "Public V3 route verified: ${asset}"
+                  done
