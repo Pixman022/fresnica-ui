@@ -30,7 +30,8 @@ try{
   const desktop=path.join(dir,'desktop.json');
   fs.writeFileSync(desktop,JSON.stringify(document(desktopView,[
     makeSample(desktopView,18),makeSample(desktopView,20),
-    makeSample(desktopView,22),interrupted
+    makeSample(desktopView,22),interrupted,
+    makeSample({width:1280,height:720,dpr:1},31)
   ])));
   const legacy=makeSample(phoneView,26);
   delete legacy.viewport;
@@ -48,6 +49,8 @@ try{
   assert.match(result.stdout,/有效记录不足三轮/);
   assert.match(result.stdout,/缺少逐次视口\/DPR/);
   assert.match(result.stdout,/1440 × 900 \/ 1/);
+  assert.match(result.stdout,/1280 × 720 \/ 1/);
+  assert.match(result.stdout,/1 \/ 1/);
   assert.match(result.stdout,/390 × 844 \/ 3/);
   assert.match(result.stdout,/rAF 调度间隔不是 GPU FPS/);
   const broken=path.join(dir,'broken.json');
