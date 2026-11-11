@@ -127,6 +127,26 @@ try{
         }));
         assert(freshEntry.hash===''&&freshEntry.scrollTop<2,
           `Fresh entry should stay on the overview, not scroll to scene two: ${name}/${theme} ${JSON.stringify(freshEntry)}`);
+        assert(!await page.locator('#orb-tuner-toggle').isVisible(),
+          `${name}/${theme}: engineering orb tuner is exposed in a normal preview`);
+        if(width<=430){
+          const mobileHero=await page.evaluate(()=>{
+            const rect=el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};};
+            const view=rect(document.getElementById('v3-page-scroll'));
+            const field=rect(document.getElementById('orb-field'));
+            const fallback=rect(document.getElementById('fallback-orb'));
+            const art=rect(document.querySelector('#overview .hero-art'));
+            const actions=[...document.querySelectorAll('#overview .actions .cta')].map(rect);
+            const visible=(r)=>Math.max(0,Math.min(view.bottom,r.bottom)-Math.max(view.top,r.top));
+            return {fieldVisible:visible(field),sphereVisible:visible(fallback),
+              artTop:art.top,viewBottom:view.bottom,actions};
+          });
+          assert(mobileHero.fieldVisible>=155&&mobileHero.sphereVisible>=110,
+            `${name}/${theme}: hero orb is almost invisible on first load (${JSON.stringify(mobileHero)})`);
+          assert(mobileHero.actions.length===2&&mobileHero.actions.every(r=>r.top>=0&&r.bottom<=mobileHero.viewBottom)&&
+            mobileHero.actions.every(r=>r.bottom<=mobileHero.artTop-7),
+            `${name}/${theme}: compact hero CTA overlaps the orb (${JSON.stringify(mobileHero)})`);
+        }
         if(theme==='dark'){
           await page.locator('#theme-toggle').click();
           await page.waitForFunction(()=>document.querySelector('.site-header')?.classList.contains('on-dark'));
@@ -343,6 +363,7 @@ try{
           files.push(path.relative(dest,target));
         }
         if(name==='desktop-1440'&&theme==='dark'){
+          await page.evaluate(()=>document.getElementById('orb-tuner').setAttribute('data-debug-enabled',''));
           // Dark-theme orb uses the same approved uniforms and keeps its own green palette.
           await page.evaluate(()=>document.getElementById('orb-field')?.scrollIntoView({block:'center',behavior:'instant'}));
           await page.waitForFunction(()=>document.getElementById('orb-tuner')?.hidden===false,null,{timeout:8000});
@@ -385,6 +406,7 @@ try{
           await page.keyboard.press('Escape');
         }
         if(name==='desktop-1440'&&theme==='light'){
+          await page.evaluate(()=>document.getElementById('orb-tuner').setAttribute('data-debug-enabled',''));
           // Live gradient controls update the shader inputs and the CSS fallback without a reload.
           await page.evaluate(()=>document.getElementById('orb-field')?.scrollIntoView({block:'center',behavior:'instant'}));
           await page.waitForFunction(()=>document.getElementById('orb-tuner')?.hidden===false,null,{timeout:8000});
@@ -737,6 +759,21 @@ try{
       }
     }
   }
+  // Confirm the documented URL opt-in opens the existing developer controls.
+  const debugPage=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+  try{
+    const debugUrl=new URL(base);
+    debugUrl.searchParams.set('debug','orb');
+    await debugPage.goto(debugUrl.href,{waitUntil:'load',timeout:45000});
+    await debugPage.waitForFunction(()=>{
+      const tuner=document.getElementById('orb-tuner');
+      return tuner?.hasAttribute('data-debug-enabled')&&!tuner.hidden;
+    },null,{timeout:8000});
+    assert(await debugPage.locator('#orb-tuner-toggle').isVisible(),
+      'Orb gradient debugging must be available only via ?debug=orb');
+  }catch(error){
+    failures.push('orb debug URL: '+String(error.message||error).slice(0,500));
+  }finally{await debugPage.close();}
   // Explicit scene-two deep links are different from fresh homepage entries.
   // They must resolve to the completed hold frame after assets/fonts settle.
   const deepLink=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'no-preference'});

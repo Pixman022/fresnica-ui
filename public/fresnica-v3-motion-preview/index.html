@@ -1649,6 +1649,8 @@ html.v3-theme-dark #orb-tuner{
   --ot-bg:#17271f;--ot-ink:#e9f5ec;--ot-muted:#a3b9ab;--ot-border:#3d5948;--ot-accent:#8ce2b3;
 }
 #orb-tuner[hidden],#orb-tuner-panel[hidden]{display:none!important}
+/* Hide the engineering-only tuner in normal site previews. ?debug=orb opts in. */
+#orb-tuner:not([data-debug-enabled]){display:none!important}
 #orb-tuner [lang="zh-CN"]{display:none}
 html[lang="zh-CN"] #orb-tuner [lang="en"]{display:none}
 html[lang="zh-CN"] #orb-tuner [lang="zh-CN"]{display:inline}
@@ -2061,6 +2063,14 @@ html.m10-framed #overview .orb-card.second{
     right:clamp(10px,4%,18px);
     max-width:calc(100% - 20px);
   }
+}
+/* M57: keep the brand copy legible while revealing more of the orb in a 320px first fold. */
+@media(max-width:480px){
+  html.m10-framed #overview.stage{padding-top:82px}
+  html.m10-framed #overview .hero-copy .eyebrow{margin-bottom:16px}
+  html.m10-framed #overview .hero-copy h1{margin-bottom:17px}
+  html.m10-framed #overview .hero-copy .actions{margin-top:18px;row-gap:8px}
+  html.m10-framed #overview.stage .hero{gap:10px}
 }
 </style>
 </head>
@@ -2696,6 +2706,8 @@ html.m10-framed #overview .orb-card.second{
       scheduleFrame();
     }
     const tuner=document.getElementById('orb-tuner');
+    if(new URLSearchParams(location.search).get('debug')==='orb')
+      tuner.setAttribute('data-debug-enabled','');
     const tunerToggle=document.getElementById('orb-tuner-toggle');
     const tunerPanel=document.getElementById('orb-tuner-panel');
     const tunerStatus=document.getElementById('orb-tuner-status');
