@@ -232,6 +232,12 @@
     wheelSum=0;advance(sign);
   },{capture:true,passive:false});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')cancel();});
+  // M10 aligns fragment navigation to the destination hold frame.
+  // Stop an in-flight cinematic snap so its next RAF cannot overwrite it.
+  window.addEventListener('hashchange',()=>{
+    const id=decodeURIComponent(location.hash.slice(1));
+    if(locked&&document.getElementById(id))cancel();
+  });
   frame.addEventListener('click',event=>{
     const link=event.target.closest('a[href^="#"]');
     if(!link || !snapEnabled() || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)return;
