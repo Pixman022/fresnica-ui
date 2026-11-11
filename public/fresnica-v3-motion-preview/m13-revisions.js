@@ -35,6 +35,25 @@
         return {id,top:clamp(top+room*fraction,0,max)};
       }).sort((a,b)=>a.top-b.top);
   }
+  // M10 handles linear/reduced-motion anchors. A desktop deep link must
+  // enter the scene's full-content hold frame, not the animation's empty start.
+  const initialAnchor=location.hash?decodeURIComponent(location.hash.slice(1)):'';
+  function alignInitialAnchor(){
+    if(!initialAnchor || !snapEnabled())return;
+    const target=stops().find(stop=>stop.id===initialAnchor);
+    if(!target)return;
+    const behavior=scroller.style.scrollBehavior;
+    scroller.style.scrollBehavior='auto';
+    scroller.scrollTop=initialAnchor==='overview'?0:target.top;
+    scroller.style.scrollBehavior=behavior;
+    window.dispatchEvent(new Event('scroll'));
+  }
+  if(initialAnchor){
+    requestAnimationFrame(alignInitialAnchor);
+    window.addEventListener('pageshow',()=>{
+      requestAnimationFrame(alignInitialAnchor);
+    },{once:true});
+  }
   function cancel(){
     wheelGeneration++;transitionTarget=null;
     if(anim)cancelAnimationFrame(anim);

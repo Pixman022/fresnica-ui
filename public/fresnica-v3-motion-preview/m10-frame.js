@@ -112,13 +112,13 @@
 
   // Browser anchor navigation should target the actual section runway, even
   // when the section itself is currently sticky and already visible.
-  function jump(target) {
+  function jump(target, immediate = false) {
     if (!target) return;
     const runway = target.closest('.v3-screen-runway, .m5-runway, .feature-scroll');
     const anchor = runway || target;
     const top = scroller.scrollTop + anchor.getBoundingClientRect().top -
       scroller.getBoundingClientRect().top;
-    scroller.scrollTo({top,behavior:reduced.matches?'instant':'smooth'});
+    scroller.scrollTo({top,behavior:immediate||reduced.matches?'instant':'smooth'});
   }
   viewport.addEventListener('click', event => {
     const link = event.target.closest('a[href^="#"]');
@@ -131,12 +131,27 @@
     history.replaceState(null,'','#'+encodeURIComponent(id));
   });
 
+  // Reparenting the full-page scenes into a new scroll container must not
+  // inherit a stale browser scroll position. Deep links are handled below.
+  if ('scrollRestoration' in history) history.scrollRestoration='manual';
+  const resetUnaddressedEntry=()=>{
+    if(location.hash)return;
+    const behavior=scroller.style.scrollBehavior;
+    scroller.style.scrollBehavior='auto';
+    scroller.scrollTop=0;
+    scroller.style.scrollBehavior=behavior;
+  };
+  resetUnaddressedEntry();
+  // Some browsers restore nested scroll positions after DOMContentLoaded.
+  window.addEventListener('pageshow',()=>{
+    requestAnimationFrame(resetUnaddressedEntry);
+  },{once:true});
   mode();
   window.dispatchEvent(new Event('resize'));
   window.dispatchEvent(new Event('scroll'));
-  if (location.hash) {
+  if (location.hash && (compact.matches || reduced.matches)) {
     const id=decodeURIComponent(location.hash.slice(1));
     const target=document.getElementById(id);
-    if (target) requestAnimationFrame(() => jump(target));
+    if (target) requestAnimationFrame(() => jump(target,true));
   }
 })();

@@ -38,6 +38,70 @@ try{
   check(await page.evaluate(()=>matchMedia('(prefers-reduced-motion: no-preference)').matches),
     'Normal motion mode was not enabled');
 
+  // Entry contract: no hash always starts at the Hero, including on reload;
+  // explicit desktop deep links land where BOTH second-screen headings are shown.
+  await run('first-load-and-second-scene-hold',async()=>{
+    const landing=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
+    const read=()=>landing.evaluate(()=>{
+      const scroller=document.getElementById('v3-page-scroll');
+      const section=document.getElementById('v3-ecosystem');
+      const runway=section.closest('.m5-runway');
+      const view=scroller.getBoundingClientRect();
+      const upper=document.querySelector('#v3-ecosystem .orbital-intro');
+      const lower=document.querySelector('#v3-ecosystem .bottom-intro');
+      const top=Math.max(0,view.top-runway.getBoundingClientRect().top);
+      const room=Math.max(1,runway.offsetHeight-scroller.clientHeight);
+      const bounds=el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom};};
+      return {
+        scrollTop:scroller.scrollTop,
+        active:document.documentElement.dataset.m14Active||'',
+        progress:top/room,
+        upperOpacity:Number(getComputedStyle(upper).opacity),
+        lowerOpacity:Number(getComputedStyle(lower).opacity),
+        upper:bounds(upper),lower:bounds(lower),view:bounds(scroller),
+        hash:location.hash
+      };
+    });
+    const fullSecond=(s,label)=>{
+      check(s.progress>=.70&&s.progress<=.84&&s.upperOpacity>=.97&&s.lowerOpacity>=.97&&
+        s.upper.top>=s.view.top+70&&s.upper.bottom<=s.view.bottom-10&&
+        s.lower.top>=s.view.top+70&&s.lower.bottom<=s.view.bottom-10,
+        label+': second-screen text is not fully presented '+JSON.stringify(s));
+    };
+    try{
+      await landing.goto(base,{waitUntil:'domcontentloaded'});
+      await landing.evaluate(()=>document.fonts.ready);
+      await landing.waitForTimeout(450);
+      const first=await read();
+      observations.push({test:'entryHero',...first});
+      check(first.scrollTop<=2&&first.hash==='',
+        'Fresh URL opened away from the Hero: '+JSON.stringify(first));
+
+      await landing.mouse.move(700,450);
+      await landing.mouse.wheel(0,150);
+      await landing.waitForTimeout(1800);
+      const second=await read();
+      observations.push({test:'wheelSecondHold',...second});
+      fullSecond(second,'Wheel navigation');
+
+      await landing.reload({waitUntil:'domcontentloaded'});
+      await landing.waitForTimeout(450);
+      const reloaded=await read();
+      observations.push({test:'reloadHero',...reloaded});
+      check(reloaded.scrollTop<=2&&reloaded.hash==='',
+        'Reload without an anchor restored second screen: '+JSON.stringify(reloaded));
+
+      const deep=new URL(base);
+      deep.hash='v3-ecosystem';
+      await landing.goto(deep.href,{waitUntil:'domcontentloaded'});
+      await landing.waitForTimeout(600);
+      const anchored=await read();
+      observations.push({test:'directSecondHold',...anchored});
+      fullSecond(anchored,'Direct deep link');
+      await landing.screenshot({path:path.join(dest,'motion-second-screen-hold.png'),animations:'disabled'});
+    }finally{await landing.close();}
+  });
+
   await run('trend-dot-path',async()=>{
     await showCard(1);
     await page.locator('#v3-features .feature-card:first-child').hover();
