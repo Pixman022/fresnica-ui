@@ -58,7 +58,7 @@
 - [ ] 经确认的 iOS/Android/桌面端官方下载链接与发布状态。
 - [ ] 联系方式、隐私/条款文档和产品安全承诺经事实核对。
 - [ ] 确认公开收录策略后再移除预览站的 `noindex,nofollow`。
-- [ ] 隐藏/移除调试用球体参数入口须经网站最终版本设计决定；预览阶段保留。
+- [x] 常规预览已隐藏球体参数调试控件，仅 `?debug=orb` 可显式启用；原有调节、复制、重置与键盘操作已通过自动化回归。正式公开版本是否继续允许调试参数，仍需发布负责人决定（不影响正常页面）。
 - [ ] 真实 GPU/移动设备、macOS Safari 原生缩放及设计负责人逐屏视觉确认（执行记录和样本模板见 [V3 真实设备验收记录模板](v3-device-performance-acceptance-2026-11-09.md)，目前均未以真实硬件签收）。
 
 ## 初始证据
@@ -79,3 +79,5 @@
 - **2026-11-09 · P2 首屏重复 DOM 写入优化及对照**：提交 [`de66b6f4`](https://github.com/Pixman022/fresnica-ui/commit/de66b6f4ccf14d19274848567527685bc44a5293) 只缓存首屏 `--field-x/--field-y` 及 96 条环形刻度的上次颜色、透明度；新值严格沿用原有公式与字符串，遇到相同值跳过对 DOM 的重复写入，未改动画频率、粒子数量、几何、配色或点阵 Logo。完成后 [V3 QA #42556640422](https://github.com/Pixman022/fresnica-ui/actions/runs/42556640422) 双作业成功、[Windows/macOS 浏览器 #42556640436](https://github.com/Pixman022/fresnica-ui/actions/runs/42556640436) 成功、[Edge 原生 200% 缩放 #42556640406](https://github.com/Pixman022/fresnica-ui/actions/runs/42556640406) 成功、[V3 Pages #42556640385](https://github.com/Pixman022/fresnica-ui/actions/runs/42556640385) 部署成功。对比前 [#42556084372](https://github.com/Pixman022/fresnica-ui/actions/runs/42556084372) 和优化后 [#42556640422](https://github.com/Pixman022/fresnica-ui/actions/runs/42556640422) 的各自 `fresnica-v3-visual-qa` 工件：128 张对应 PNG 中 118 张 RGB 像素完全一致，全部首屏截图一致；其余主要为动态转场时序/极微小像素差异，暂未发现可复现的几何回归。首屏正常动效下无头 Chromium 单次 1.6s 主线程 `TaskDuration` 从 **1495.3ms（前）变为 1522.0ms（后）**，RAF 时间戳样本 32→26；**不能宣称实测 CPU/GPU 性能或 FPS 已改善**，不同 runner/软件渲染有噪声。保留真实硬件三次采样及进一步性能决策为未完成，当前不继续为了微优化改变视觉。
 
 - **2026-11-09 · WebKit 回归与实机验收准备**：CI [#42552046399](https://github.com/Pixman022/fresnica-ui/actions/runs/42552046399) 的 Chromium 作业通过，WebKit 仍偶发第 04→05 屏无动作；轮询日志表明滚轮事件已送达页面。测试修正为先等待 M13 把内联 `scrollBehavior` 从 `auto` 恢复（动画真实结束），再等待 110ms 惯性保护，而非仅凭驻留位置进入 12px 容差；无生产滚轮改动。加入非交互区域鼠标滚轮坐标检查与事件诊断，等待最新 CI 确认。为真实 GPU、移动端、Safari 与设计验收新增 [设备记录模板](v3-device-performance-acceptance-2026-11-09.md)；此为流程准备而非实机结果。
+
+- **2026-11-11 · 收口状态更新（不修改 UI）**：后续 [V3 后评估主计划](v3-post-evaluation-work-plan-2026-11-11.md) 已完成 320px 首屏压缩和常规预览调试浮层隐藏（通过 `?debug=orb` 显式保留），修复第二屏锚点快速切换回跳、删去旧 M12 重复滚轮控制。最新 [V3 Visual QA #42974849708](https://github.com/Pixman022/fresnica-ui/actions/runs/42974849708) 与 [Windows/macOS #42974627164](https://github.com/Pixman022/fresnica-ui/actions/runs/42974627164)、[Edge 200% #42974627260](https://github.com/Pixman022/fresnica-ui/actions/runs/42974627260) 已通过。Pages 在补齐 `third-party-notices.html` 和 `v3-perf-probe.js` 后，最新 [#42976671768](https://github.com/Pixman022/fresnica-ui/actions/runs/42976671768) 完成部署及三个公开 URL 的内容一致性检查。此处记录为计划同步；**并非**真实设备性能、最终设计签收或正式产品发布批准。
