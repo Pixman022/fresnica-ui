@@ -135,7 +135,7 @@
   // inherit a stale browser scroll position. Deep links are handled below.
   if ('scrollRestoration' in history) history.scrollRestoration='manual';
   const resetUnaddressedEntry=()=>{
-    if(location.hash)return;
+    if(location.hash || window.__v3InitialAnchor)return;
     const behavior=scroller.style.scrollBehavior;
     scroller.style.scrollBehavior='auto';
     scroller.scrollTop=0;
@@ -149,9 +149,10 @@
   mode();
   window.dispatchEvent(new Event('resize'));
   window.dispatchEvent(new Event('scroll'));
-  if (location.hash && (compact.matches || reduced.matches)) {
-    const id=decodeURIComponent(location.hash.slice(1));
-    const target=document.getElementById(id);
+  const initialSection=window.__v3InitialAnchor ||
+    (location.hash?decodeURIComponent(location.hash.slice(1)):'');
+  if (initialSection && (compact.matches || reduced.matches)) {
+    const target=document.getElementById(initialSection);
     if (target) requestAnimationFrame(() => jump(target,true));
   }
 })();

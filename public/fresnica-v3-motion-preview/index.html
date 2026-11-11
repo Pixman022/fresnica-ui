@@ -8,6 +8,19 @@
   <meta name="color-scheme" content="light" />
   <meta name="description" content="Fresnica is a Stellar wallet for XLM, issued assets, payments, swaps, and compatible apps." />
   <title>Fresnica — Your Stellar Wallet</title>
+  <script>
+    // Native fragment scrolling targets the start of a sticky scene, before its
+    // scroll-driven copy is revealed. Preserve the requested scene for JS
+    // navigation and restore the URL after the document finishes loading.
+    (() => {
+      if (!location.hash) return;
+      const id=decodeURIComponent(location.hash.slice(1));
+      if (!['overview','v3-ecosystem','v3-availability','v3-features',
+        'v3-workspace','v3-for-you','v3-security','v3-clarity','v3-about'].includes(id))return;
+      window.__v3InitialAnchor=id;
+      history.replaceState(history.state,'',location.pathname+location.search);
+    })();
+  </script>
   <style>
     :root { color-scheme: light; font-family: Inter, 'Helvetica Neue', Arial, sans-serif; --ink: #111514; --green: #0ba67c; --muted: #606867; }
     * { box-sizing: border-box; }

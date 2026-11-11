@@ -37,7 +37,8 @@
   }
   // M10 handles linear/reduced-motion anchors. A desktop deep link must
   // enter the scene's full-content hold frame, not the animation's empty start.
-  const initialAnchor=location.hash?decodeURIComponent(location.hash.slice(1)):'';
+  const initialAnchor=window.__v3InitialAnchor ||
+    (location.hash?decodeURIComponent(location.hash.slice(1)):'');
   function alignInitialAnchor(){
     if(!initialAnchor || !snapEnabled())return;
     const target=stops().find(stop=>stop.id===initialAnchor);
@@ -51,7 +52,15 @@
   if(initialAnchor){
     requestAnimationFrame(alignInitialAnchor);
     window.addEventListener('pageshow',()=>{
-      requestAnimationFrame(alignInitialAnchor);
+      requestAnimationFrame(()=>{
+        alignInitialAnchor();
+        // replaceState preserves the deep link without retriggering native
+        // anchor scrolling, which otherwise hides the second-screen text.
+        if(window.__v3InitialAnchor){
+          history.replaceState(history.state,'',
+            location.pathname+location.search+'#'+encodeURIComponent(initialAnchor));
+        }
+      });
     },{once:true});
   }
   function cancel(){
