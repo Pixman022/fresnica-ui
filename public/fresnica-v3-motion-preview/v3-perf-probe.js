@@ -71,6 +71,7 @@
     exportButton.disabled=true;
     status.textContent='Recording… keep the scene visible.';
     const sceneStart=visibleScene();
+    const viewport={width:innerWidth,height:innerHeight,dpr:devicePixelRatio};
     const startMode=matchMedia('(prefers-reduced-motion: reduce)').matches?'reduce':'no-preference';
     const startTheme=document.documentElement.classList.contains('v3-theme-dark')?'dark':'light';
     const startedAt=new Date().toISOString();
@@ -125,7 +126,7 @@
     const sorted=intervals.slice().sort((a,b)=>a-b);
     const sceneEnd=visibleScene();
     const sample={
-      recordedAt:startedAt,scene:sceneStart,sceneEnd,
+      recordedAt:startedAt,scene:sceneStart,sceneEnd,viewport,
       theme:startTheme,language:startLanguage,
       motion:startMode,requestedMs:durationMs,elapsedMs,
       validHold:!wasHidden&&sceneStart===sceneEnd&&

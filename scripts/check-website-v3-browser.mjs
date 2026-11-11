@@ -791,7 +791,8 @@ try{
     const sample=await perfPage.evaluate(()=>window.__v3PerfProbe.record(350));
     assert(sample?.scene==='overview'&&sample?.motion==='reduce'&&
       sample?.elapsedMs>=250&&sample?.rafScheduling?.intervals>=1&&
-      sample?.validHold===true&&
+      sample?.validHold===true&&sample?.viewport?.width===390&&
+      sample?.viewport?.height===844&&
       await perfPage.locator('#v3-perf-export').isEnabled(),
       'Opt-in device probe failed to produce a valid stable sample: '+JSON.stringify(sample));
     const interrupted=await perfPage.evaluate(async()=>{
@@ -825,6 +826,7 @@ try{
     assert(exported.schema==='fresnica-v3-device-probe-v1'&&
       exported.samples?.length===2&&
       exported.samples[0].validHold===true&&
+      exported.samples[0].viewport?.width===390&&
       exported.samples[1].validHold===false&&
       exported.samples[1].changedDuringSample?.scrolled===true,
       'Downloaded device report lost the raw stable/interrupted results');

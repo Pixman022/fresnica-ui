@@ -18,7 +18,7 @@
 2. 打开上述 `?debug=perf` 链接，完成页面加载。选择本轮目标的语言（英文/中文）、深浅主题与系统动态设置（正常/减少动态），不再在同一记录中切换设置。
 3. 使用右上角页面导航进入指定章节，等待 10 秒使页面与 GPU 状态稳定；在不滚动、不切换窗口的情况下点击 **Record 15 s**。
 4. 记录结束后再次点击 **Record 15 s**，同一章节、同一设置至少完成三轮。若浏览器切后台、发生滚动/缩放或中途切换章节、主题、语言、系统动态偏好，采样将标为 `validHold=false`，应重新录制；即使最后返回原始设置也不算有效。
-5. 点击 **Export JSON**，保存并命名设备信息；同一页面内记录的多次采样会合并在一个 JSON 文件。对每个目标章节重复第 3—5 步。
+5. 点击 **Export JSON**，保存并命名设备信息；同一页面内记录的多次采样会合并在一个 JSON 文件。每轮样本均记录开始时的视口宽高和 DPR，避免中途在两轮之间改变窗口大小后混入同一组。对每个目标章节重复第 3—5 步。
 6. 切换 `prefers-reduced-motion: reduce` 后重新载入采样页，重复同样流程；不要用网站内的暂停按钮替代系统减少动态设置。
 7. 附上真实浏览器开发者工具的 Performance/Timelines 记录与手动视觉观察，按 [真实设备验收模板](v3-device-performance-acceptance-2026-11-09.md) 整理，负责人审阅后才可确认验收。
 
@@ -38,6 +38,7 @@
 | 字段 | 含义 | 限制 |
 | --- | --- | --- |
 | `scene`, `sceneEnd`, `validHold` | 章节、前后台及主题/语言/动态偏好是否稳定，期间是否触发滚动或视口尺寸变化 | `validHold=true` 仅表明这些检查未发现干扰，并不等于性能达标 |
+| `viewport`（单条样本） | 本次采样开始时的视口宽高及 DPR | 不以导出时的最终视口替代所有记录 |
 | `changedDuringSample` | 标明期间是否出现滚动、视口尺寸变化、深浅主题、中英文或动态偏好切换 | 任意字段为 `true` 时该轮数据不应用于稳定驻留对比 |
 | `rafScheduling.meanIntervalMs`, `p95IntervalMs`, `maxIntervalMs` | 调试采样循环在主线程获得 rAF 回调的间隔 | **不是 WebGL 实际 FPS，不是实际显示帧率**；记录循环本身会增加少量负载 |
 | `gapsAbove33Ms`, `gapsAbove50Ms` | 该采样循环在观察期内出现较长 rAF 间隔的次数 | 不能直接当“掉帧数”，需结合设备刷新率与原生 trace |
@@ -58,3 +59,17 @@
 - `scripts/audit-website-v3.mjs` 校验该调试入口仍是手动启用、脚本保持无网络上传接口。
 - `scripts/check-website-v3-browser.mjs` 核对普通访问没有调试面板；调试模式可生成短样本并执行本地 JSON 导出。CI 用短样本只检验功能，**不是设备性能验收**。
 - 正式物理设备测试与设计签收仍记录到 [主验收模板](v3-device-performance-acceptance-2026-11-09.md)，在所有设备实际采样完成前继续维持“待验收”。
+
+## 五、离线整理多轮 JSON（不会上传采样文件）
+
+将仓库更新到包含 `scripts/summarize-website-v3-device-performance.mjs` 的 V3 分支。在 Windows PowerShell 项目根目录运行：
+
+```powershell
+node scripts/summarize-website-v3-device-performance.mjs "C:\测试数据\我的设备记录.json" > v3-device-summary.md
+```
+
+若有多份记录，可在命令末尾继续加入其他 JSON 路径。生成的 Markdown **按文件分别汇总，不跨文件合并未知硬件**；同一文件内进一步按章节、正常/减少动态、主题、语言、每轮实际视口及 DPR 分组。
+
+脚本只将 `validHold=true`、中途无变化、每轮至少 14 秒、逐轮视口数据齐全、存在有效 rAF p95 的样本计入中位数。只有同组至少 **三次合格记录**才标注“够三轮”；这仍不是性能通过或正式真机签收。不支持的长任务/JS 堆数据记为 `—`，不会错误解释为零。
+
+脚本不联网、不修改输入 JSON。自带合成数据回归，可用 `node scripts/test-website-v3-device-summary.mjs` 运行。对比结果须结合设备信息、真实 Performance/Timelines 记录与设计验收。

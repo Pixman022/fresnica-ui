@@ -13,6 +13,8 @@ on:
       - scripts/check-website-v3-motion.mjs
       - scripts/check-website-v3-carousel-idle.mjs
       - scripts/check-website-v3-performance.mjs
+      - scripts/summarize-website-v3-device-performance.mjs
+      - scripts/test-website-v3-device-summary.mjs
       - scripts/check-website-v3-webgl-recovery.mjs
       - scripts/check-website-v3-transitions.mjs
       - scripts/check-website-v3-engines.mjs
@@ -40,6 +42,8 @@ jobs:
       - run: npm ci
       - name: Check V3 static design contract
         run: npm run audit:website-v3
+      - name: Check local device sample summaries
+        run: node scripts/test-website-v3-device-summary.mjs
       - name: Prepare isolated browser and preview fonts
         run: |
           # Install browser tooling outside the project to avoid npm's peer graph
