@@ -97,4 +97,12 @@
 - **发现的实际工程缺陷**：此前 V3 Pages overlay 使用逐文件复制清单。源码存在 `v3-perf-probe.js`（`?debug=perf` 动态脚本）和 `third-party-notices.html`（页脚第三方声明），但两者未列在 Pages 发布副本里；CI 的成功不代表它们已进入发布物。因此，调试功能和页脚声明链接有潜在失效风险。
 - [修复提交 `e359642`](https://github.com/Pixman022/fresnica-ui/commit/e35964275b4e10128ca0ca4d1fa729b08d3e22b1)：Pages overlay 补齐两文件的源文件检查、复制和 `cmp`，并新增根目录所有 V3 源文件与待发布文件逐一比对。后续忘记登记新静态资源时，部署将因缺文件而失败，而不是返回绿色成功。
 - [Pages 工作流 #42975732804](https://github.com/Pixman022/fresnica-ui/actions/runs/42975732804) **success**；日志明确打印 `V3 root asset parity verified`，并对冻结 V2 路由进行原始文件 SHA-256 核对。此批仅修改 Pages 工作流，无视觉/交易逻辑改动。
-- **验证边界**：CI 证明 Pages 构建产物含这两个文件且部署动作成功；此环境无法完成公网 HTTP 200 独立复核（DNS 不可用），不声明已经通过公网下载实测。正式上线资料与真实 GPU/设备性能仍待外部证据。
+- **验证状态更新（第七批）**：现在已补上部署后 GitHub Runner 的 HTTP 内容检查，公开首页、第三方声明与性能采样脚本均成功下载且与发布产物一致；详见下一节。真实 GPU/设备性能与正式上线资料仍待外部证据。
+
+## 2026-11-11 · P2 第七批：公开页面 HTTP 验收
+
+- [`3258026`](https://github.com/Pixman022/fresnica-ui/commit/3258026da4a7b17da8224e6cc77978843ac1b49d)：在 Pages 部署成功后新增基于实际公开 URL 的三个资源检查，用 `curl` 下载 `index.html`、`third-party-notices.html` 与 `v3-perf-probe.js`，逐文件与部署产物 `cmp` 校验。后续只要公网资源缺失、404 或内容不一致，工作流就不应绿色结束。
+- 首轮工作流 [#42976242359](https://github.com/Pixman022/fresnica-ui/actions/runs/42976242359) 遇到 GitHub Actions 产物索引短暂不可见而未能创建部署；在同一个运行内重试，又因两份同名 `github-pages` 产物导致重复而被拒绝。**属于 Pages 部署阶段故障，未进入 HTTP 检查；不应记录为已通过。**
+- [`980ad29`](https://github.com/Pixman022/fresnica-ui/commit/980ad29af8206db9104afa7f4c6dea43083c3431) 加入上传后短暂产物索引缓冲，并由新提交启动全新部署运行，避免沿用存在两份产物的失败运行。
+- [**Pages #42976671768**](https://github.com/Pixman022/fresnica-ui/actions/runs/42976671768) **success**：GitHub Pages 部署、V3 全部根目录文件产物校验、冻结 V2 文件 SHA-256 检查、以及三个公开 URL 的 HTTP 下载和文件内容一致性核对，均通过；日志明确包含 `Public V3 route verified: index.html`、`third-party-notices.html`、`v3-perf-probe.js`。
+- **验收边界**：这证明 GitHub Actions 所在网络从公开地址实际获得相同资源，不代表全球每个地区可访问，也不等于进行了手机端手动交互或真实 GPU 性能验收。本批只调整部署流水线，未修改网站视觉、V2、钱包 App、禁用下载按钮及 `noindex`。

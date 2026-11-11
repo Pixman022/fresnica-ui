@@ -76,5 +76,12 @@
 
 - 已在 [提交 `e359642`](https://github.com/Pixman022/fresnica-ui/commit/e35964275b4e10128ca0ca4d1fa729b08d3e22b1) 补齐发布文件；部署前强制检查源文件及 V3 根目录全部文件的产物校验。
 - [Pages #42975732804](https://github.com/Pixman022/fresnica-ui/actions/runs/42975732804) 显示 `V3 root asset parity verified` 和部署成功，V2 原有首页继续保持冻结的 SHA-256 校验。
-- 注意：静态文件进入 Pages 构建产物不等于对公网从任意设备完成 HTTP 可访问性验收；此处尚无独立 HTTP 探测证据，不应声称已完成所有公网可访问性签收。
+- 状态更新：现已在新部署流程中进行**实际公开 URL 的 HTTP 下载与逐字节一致性检查**。参见 [成功的 Pages #42976671768](https://github.com/Pixman022/fresnica-ui/actions/runs/42976671768)，首页、第三方声明页与可选性能采样脚本三项均通过。该结论仅覆盖 GitHub Actions Runner 的网络与这三个资源，不代表全球可用性或手机端逐屏签收。
 - 官方下载 URL、隐私/条款、安全能力和最终设计验收仍按原 P3 阶段处理，未修改禁用按钮、`noindex` 或未经批准的营销承诺。
+
+### 2026-11-11 · Pages 公网资源检查落地
+
+- [`3258026`](https://github.com/Pixman022/fresnica-ui/commit/3258026da4a7b17da8224e6cc77978843ac1b49d) 在 Pages 成功部署后增加公开 URL 下载与文件一致性检查。
+- 初次新增检查的工作流 [#42976242359](https://github.com/Pixman022/fresnica-ui/actions/runs/42976242359) 因 GitHub Artifact 索引/重跑重名限制未能部署；并非文件内容错误，也**未到实际 HTTP 检查步骤**。
+- [`980ad29`](https://github.com/Pixman022/fresnica-ui/commit/980ad29af8206db9104afa7f4c6dea43083c3431) 处理上传后索引延迟，新工作流 [#42976671768](https://github.com/Pixman022/fresnica-ui/actions/runs/42976671768) 成功部署，且公网 `index.html`、`third-party-notices.html`、`v3-perf-probe.js` 三项内容均与产物完全匹配，原冻结 V2 仍保持文件 SHA-256 校验。
+- 其余 P3 的官方发行渠道、法律及安全声明、SEO 发布批准与四类物理设备最终签收尚未完成。
