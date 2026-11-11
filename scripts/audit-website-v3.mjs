@@ -142,6 +142,12 @@ check(notices.includes('name="robots" content="noindex,nofollow,noarchive"'),
 // Keep new visible strings and accessible names covered by the Chinese dictionary.
 // The orb tuner uses explicit bilingual <span lang="..."> pairs instead.
 const localeScript=fs.readFileSync(path.join(preview,'m12-experience.js'),'utf8');
+const scrollScript=fs.readFileSync(path.join(preview,'m13-revisions.js'),'utf8');
+// Keep a single desktop wheel controller instead of two animation state machines.
+check(!localeScript.includes("frame.addEventListener('wheel'")&&
+  (scrollScript.match(/frame\.addEventListener\('wheel'/g)||[]).length===1&&
+  scrollScript.includes("{capture:true,passive:false}"),
+  'M13 must be the sole desktop wheel-snap controller');
 const translationKeys=new Set([...localeScript.matchAll(/("(?:\\.|[^"\\])*")\s*:\s*("(?:\\.|[^"\\])*")/g)]
   .map(match=>JSON.parse(match[1])));
 const normalizeText=value=>value.replace(/&nbsp;|\u00a0/g,' ').replace(/&amp;/g,'&')
