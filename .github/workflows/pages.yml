@@ -78,7 +78,11 @@ jobs:
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m50-desktop-preview.css
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m29-security-particles.js
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/security-shape.svg
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/third-party-notices.html
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/v3-perf-probe.js
                   grep -Fq 'src="./security-shape.svg"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
+                  grep -Fq 'href="./third-party-notices.html"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
+                  grep -Fq "probe.src='./v3-perf-probe.js'" .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'href="./m15-typography.css"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'href="./m29-polish.css"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   grep -Fq 'href="./m50-desktop-preview.css"' .v3-preview-source/public/fresnica-v3-motion-preview/index.html
@@ -143,6 +147,8 @@ jobs:
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m50-desktop-preview.css demo-dist/fresnica-v3-motion-preview/m50-desktop-preview.css
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m29-security-particles.js demo-dist/fresnica-v3-motion-preview/m29-security-particles.js
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/security-shape.svg demo-dist/fresnica-v3-motion-preview/security-shape.svg
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/third-party-notices.html demo-dist/fresnica-v3-motion-preview/third-party-notices.html
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/v3-perf-probe.js demo-dist/fresnica-v3-motion-preview/v3-perf-probe.js
                   # Reuse the exact Roboto and Noto Sans SC families already sourced by frozen V2.
                   # Keep the font files inside the isolated V3 route only.
                   mkdir -p demo-dist/fresnica-v3-motion-preview/fonts
@@ -180,7 +186,17 @@ jobs:
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m50-desktop-preview.css demo-dist/fresnica-v3-motion-preview/m50-desktop-preview.css
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m29-security-particles.js demo-dist/fresnica-v3-motion-preview/m29-security-particles.js
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/security-shape.svg demo-dist/fresnica-v3-motion-preview/security-shape.svg
-                  echo 'V3 logo, M25 tabs, M29 styles, M50 desktop preview styles, sampled symbol particles, SVG source and fonts checked'
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/third-party-notices.html demo-dist/fresnica-v3-motion-preview/third-party-notices.html
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/v3-perf-probe.js demo-dist/fresnica-v3-motion-preview/v3-perf-probe.js
+                  # A green deploy must never hide an omitted new V3 root asset.
+                  # Frozen V2 routes and separately packaged fonts are unchanged.
+                  while IFS= read -r -d '' source; do
+                      name="${source##*/}"
+                      target="demo-dist/fresnica-v3-motion-preview/${name}"
+                      test -s "${target}" || { echo "Missing deployed V3 asset: ${name}" >&2; exit 1; }
+                      cmp "${source}" "${target}"
+                  done < <(find .v3-preview-source/public/fresnica-v3-motion-preview -maxdepth 1 -type f -print0)
+                  echo 'V3 root asset parity verified, including notices, optional performance probe, preview typography and fonts'
                   cmp .v3-preview-source/public/fresnica-v3-orb-demo/index.html demo-dist/fresnica-v3-orb-demo/index.html
                   # Recheck the legacy route immediately before uploading Pages.
                   cmp public/fresnica-website-preview/index.html demo-dist/fresnica-website-preview/index.html
