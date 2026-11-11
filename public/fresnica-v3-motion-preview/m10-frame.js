@@ -142,10 +142,21 @@
     scroller.style.scrollBehavior=behavior;
   };
   resetUnaddressedEntry();
-  // Some browsers restore nested scroll positions after DOMContentLoaded.
-  window.addEventListener('pageshow',()=>{
-    requestAnimationFrame(resetUnaddressedEntry);
-  },{once:true});
+  // Browser scroll restoration and late fonts can move a nested scroller
+  // after our DOM reparenting. Only correct an untouched, hash-free entry.
+  let userNavigated=false;
+  const markUserNavigation=()=>{userNavigated=true;};
+  for(const type of ['wheel','touchstart','pointerdown','keydown'])
+    viewport.addEventListener(type,markUserNavigation,{passive:true,once:true});
+  const settleCleanEntry=()=>{
+    if(userNavigated)return;
+    resetUnaddressedEntry();
+    requestAnimationFrame(()=>{
+      if(!userNavigated)resetUnaddressedEntry();
+    });
+  };
+  window.addEventListener('load',settleCleanEntry,{once:true});
+  window.addEventListener('pageshow',settleCleanEntry,{once:true});
   mode();
   window.dispatchEvent(new Event('resize'));
   window.dispatchEvent(new Event('scroll'));

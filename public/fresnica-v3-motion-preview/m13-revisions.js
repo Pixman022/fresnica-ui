@@ -50,17 +50,27 @@
     window.dispatchEvent(new Event('scroll'));
   }
   if(initialAnchor){
-    requestAnimationFrame(alignInitialAnchor);
-    window.addEventListener('pageshow',()=>{
-      requestAnimationFrame(()=>{
-        alignInitialAnchor();
-        // replaceState preserves the deep link without retriggering native
-        // anchor scrolling, which otherwise hides the second-screen text.
-        if(window.__v3InitialAnchor){
-          history.replaceState(history.state,'',
-            location.pathname+location.search+'#'+encodeURIComponent(initialAnchor));
-        }
+    // Re-align after layout/font settlement. The first RAF can otherwise land
+    // inside the second scene before its scroll-driven text is fully revealed.
+    let userNavigated=false;
+    for(const type of ['wheel','touchstart','pointerdown','keydown'])
+      frame.addEventListener(type,()=>{userNavigated=true;},{once:true,passive:true});
+    const settleInitialAnchor=()=>{
+      if(!userNavigated)requestAnimationFrame(()=>{
+        if(!userNavigated)alignInitialAnchor();
       });
+    };
+    settleInitialAnchor();
+    window.addEventListener('load',settleInitialAnchor,{once:true});
+    document.fonts?.ready.then(settleInitialAnchor);
+    window.addEventListener('pageshow',()=>{
+      settleInitialAnchor();
+      // Preserve a requested deep link without allowing native fragment
+      // scrolling to stop at the hidden beginning of a sticky scene.
+      if(window.__v3InitialAnchor){
+        history.replaceState(history.state,'',
+          location.pathname+location.search+'#'+encodeURIComponent(initialAnchor));
+      }
     },{once:true});
   }
   function cancel(){

@@ -120,6 +120,13 @@ try{
           getButton.icon&&!getButton.chevron,
           `Top-right Get Fresnica button failed: ${name}/${theme} ${JSON.stringify(getButton)}`);
         await page.waitForTimeout(300);
+        const freshEntry=await page.evaluate(()=>({
+          hash:location.hash,
+          scrollTop:document.getElementById('v3-page-scroll')?.scrollTop,
+          active:document.documentElement.dataset.m14Active
+        }));
+        assert(freshEntry.hash===''&&freshEntry.scrollTop<2,
+          `Fresh entry should stay on the overview, not scroll to scene two: ${name}/${theme} ${JSON.stringify(freshEntry)}`);
         if(theme==='dark'){
           await page.locator('#theme-toggle').click();
           await page.waitForFunction(()=>document.querySelector('.site-header')?.classList.contains('on-dark'));
@@ -730,6 +737,32 @@ try{
       }
     }
   }
+  // Explicit scene-two deep links are different from fresh homepage entries.
+  // They must resolve to the completed hold frame after assets/fonts settle.
+  const deepLink=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
+  try{
+    await deepLink.goto(new URL('#v3-ecosystem',base).href,{waitUntil:'load',timeout:45000});
+    await deepLink.evaluate(()=>document.fonts.ready);
+    await deepLink.waitForTimeout(700);
+    const sceneTwo=await deepLink.evaluate(()=>{
+      const scroller=document.getElementById('v3-page-scroll');
+      const section=document.getElementById('v3-ecosystem');
+      const upper=section.querySelector('.orbital-intro');
+      const lower=section.querySelector('.bottom-intro');
+      const rect=e=>{const r=e.getBoundingClientRect();return {top:r.top,bottom:r.bottom};};
+      return {hash:location.hash,scrollTop:scroller.scrollTop,
+        topAlpha:Number(getComputedStyle(section).getPropertyValue('--m5-top-alpha')),
+        bottomAlpha:Number(getComputedStyle(section).getPropertyValue('--m5-bottom-alpha')),
+        top:rect(upper),bottom:rect(lower),view:rect(scroller)};
+    });
+    assert(sceneTwo.hash==='#v3-ecosystem'&&sceneTwo.scrollTop>0&&
+      sceneTwo.topAlpha>.98&&sceneTwo.bottomAlpha>.98&&
+      sceneTwo.top.top>=sceneTwo.view.top-2&&sceneTwo.top.bottom<=sceneTwo.view.bottom+2&&
+      sceneTwo.bottom.top>=sceneTwo.view.top-2&&sceneTwo.bottom.bottom<=sceneTwo.view.bottom+2,
+      'Scene two deep link did not settle on a fully visible hold frame: '+JSON.stringify(sceneTwo));
+  }catch(error){
+    failures.push('scene-two initial load: '+String(error.message||error).slice(0,600));
+  }finally{await deepLink.close();}
 }finally{
   await browser.close();
 }
