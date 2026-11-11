@@ -114,3 +114,11 @@
 - 新增的浏览器回归检查：中文深色访问声明页、跳转回来保持深色和中文；随后切换浅色，声明页应明确按浅色展示。
 - **全量验收通过**：[V3 Visual QA #42979076051](https://github.com/Pixman022/fresnica-ui/actions/runs/42979076051) Chromium 14 组视口/主题、97 张截图、0 项异常，11 项动态观察与 Firefox/WebKit 双引擎作业通过；[Windows/macOS #42979076260](https://github.com/Pixman022/fresnica-ui/actions/runs/42979076260)、[Edge 200% #42979076059](https://github.com/Pixman022/fresnica-ui/actions/runs/42979076059)、[Pages + 公网关键资源检查 #42979076355](https://github.com/Pixman022/fresnica-ui/actions/runs/42979076355) 全部通过。
 - 当前 P2 可由现有工具独立完成的已确认体验和工程问题均已回归保护。未获取物理设备 GPU、Safari/iOS/Android 签收时，不继续猜测性能瓶颈；P3 官方渠道与法律安全声明仍待决策。
+
+## 2026-11-11 · P2 第九批：动画中变更章节的旧动效覆盖修复
+
+- **复现路径**：在桌面普通动效模式启动从首页到桌面端的长距离切屏；动画进行中将 URL 片段改为安全性章节。M10 会尝试对齐新章节，但 M13 原动画 RAF 仍持续更新旧目标滚动位置，最终画面留在桌面端，即使 URL 已是安全性章节。
+- [专项回归 `9903c5e`](https://github.com/Pixman022/fresnica-ui/commit/9903c5e7e439511a3f49f7f198725d6c5cfd1f19)：新增 `hashchange-during-active-snap-keeps-new-chapter`。修复前 [V3 QA #42980647894](https://github.com/Pixman022/fresnica-ui/actions/runs/42980647894) **预期失败**：`actual=6663`（旧桌面端），新安全性章节应为 `expected≈9279.72`；原有 97 张视觉截图与 11 项动态观察未报错。
+- [修复 `4a248de`](https://github.com/Pixman022/fresnica-ui/commit/4a248de8a1432d20eabbec4b9e1eb52306379527)：M13 监听有效新片段，在旧切屏仍处于锁定/动画状态时取消旧 RAF，并由 M10 原有的 `hashchange` 布局对齐完成新导航。不修改动画缓动曲线、时长、切屏层级或粒子绘制。
+- [**V3 全量 QA #42981043025**](https://github.com/Pixman022/fresnica-ui/actions/runs/42981043025) **success**：Chromium 14 组视口/主题、97 张截图、0 项异常；12 项动态观察 0 失败（包括新增专项用例），Firefox/WebKit 独立作业也成功。[Windows/macOS #42981043051](https://github.com/Pixman022/fresnica-ui/actions/runs/42981043051)、[Edge 200% #42981043068](https://github.com/Pixman022/fresnica-ui/actions/runs/42981043068)、[Pages + 公开资源检查 #42981043151](https://github.com/Pixman022/fresnica-ui/actions/runs/42981043151) 均成功。
+- 后续未完成项仍是 **真实设备性能、最终视觉签收及 P3 正式发布资料**；这些没有因本次浏览器测试自动通过。冻结 V2 / `main`、钱包 App 和其它账号均未改动。

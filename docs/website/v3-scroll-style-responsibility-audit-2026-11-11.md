@@ -46,3 +46,11 @@
 - **修复后**：[V3 Visual QA #42971091576](https://github.com/Pixman022/fresnica-ui/actions/runs/42971091576) 双作业均 success，Chromium 14 组视口/双主题、97 张截图 0 项异常，动态测试共 11 项观察 0 失败，包含 `deep-link-then-new-chapter-without-rewind`。Firefox/WebKit 九屏回归成功。
 - [原生 Edge 200% #42971091507](https://github.com/Pixman022/fresnica-ui/actions/runs/42971091507)、[Windows/macOS #42971091546](https://github.com/Pixman022/fresnica-ui/actions/runs/42971091546)、[Pages #42971091551](https://github.com/Pixman022/fresnica-ui/actions/runs/42971091551)：均成功，冻结 V2 未变。
 - 本记录证明本批的技术回归和 CSS 规则职责分类；不声称物理设备 GPU 性能或设计最终批准。
+
+## 5. 动画切屏中的 URL 导航优先级（2026-11-11）
+
+M10 的 `hashchange` 已可以将新章节对齐到驻留位置，但当 M13 仍在执行上一轮 `animateTo` 时，下一帧会覆盖这个新坐标。这不同于第 4 节的“初始深链接校正覆盖用户新选择”。
+
+- [新增回归 `9903c5e`](https://github.com/Pixman022/fresnica-ui/commit/9903c5e7e439511a3f49f7f198725d6c5cfd1f19)：动画中 URL 切换为 `#v3-security`，修复前 [QA #42980647894](https://github.com/Pixman022/fresnica-ui/actions/runs/42980647894) 复现旧目标覆盖（`actual=6663`、新章节预期 `≈9279.72`）。
+- [修复 `4a248de`](https://github.com/Pixman022/fresnica-ui/commit/4a248de8a1432d20eabbec4b9e1eb52306379527)：M13 仅对**仍在进行中的旧动画**和有效新片段调用已有 `cancel()`；M10 继续作为实际新章节定位的唯一执行者。没有新建第三套滚动管理器。
+- [**回归 #42981043025**](https://github.com/Pixman022/fresnica-ui/actions/runs/42981043025) 新用例 PASS，Chromium 12 项动态观察/97 张截图/14 组视口主题成功，Firefox/WebKit 两引擎作业成功；原生 Edge、Windows/macOS、Pages 同轮通过。真实物理设备和最终设计签收仍未完成。
