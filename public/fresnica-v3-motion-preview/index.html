@@ -3458,5 +3458,15 @@ html.m10-framed #overview .orb-card.second{
   <script defer src="./m14-idle.js"></script>
   <script defer src="./m25-desktop-tabs.js"></script>
   <script defer src="./m29-security-particles.js"></script>
+  <!-- The performance probe loads only after an explicit local debug opt-in. -->
+  <script>
+    if(new URLSearchParams(location.search).get('debug')==='perf'){
+      window.addEventListener('load',()=>{
+        const probe=document.createElement('script');
+        probe.src='./v3-perf-probe.js';
+        document.body.append(probe);
+      },{once:true});
+    }
+  </script>
 </body>
 </html>

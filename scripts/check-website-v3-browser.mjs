@@ -129,6 +129,8 @@ try{
           `Fresh entry should stay on the overview, not scroll to scene two: ${name}/${theme} ${JSON.stringify(freshEntry)}`);
         assert(!await page.locator('#orb-tuner-toggle').isVisible(),
           `${name}/${theme}: engineering orb tuner is exposed in a normal preview`);
+        assert(await page.evaluate(()=>!window.__v3PerfProbe&&!document.getElementById('v3-perf-panel')),
+          `${name}/${theme}: device performance probe was loaded in normal preview`);
         if(width<=430){
           const mobileHero=await page.evaluate(()=>{
             const rect=el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};};
@@ -777,6 +779,29 @@ try{
   }catch(error){
     failures.push('orb debug URL: '+String(error.message||error).slice(0,500));
   }finally{await debugPage.close();}
+  // A short opt-in sample must export locally, without starting on normal pages.
+  const perfPage=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce',acceptDownloads:true});
+  try{
+    const perfUrl=new URL(base);
+    perfUrl.searchParams.set('debug','perf');
+    await perfPage.goto(perfUrl.href,{waitUntil:'load',timeout:45000});
+    await perfPage.waitForFunction(()=>Boolean(window.__v3PerfProbe),null,{timeout:8000});
+    assert(await perfPage.locator('#v3-perf-panel').isVisible(),
+      'The opt-in performance probe did not open');
+    const sample=await perfPage.evaluate(()=>window.__v3PerfProbe.record(350));
+    assert(sample?.scene==='overview'&&sample?.motion==='reduce'&&
+      sample?.elapsedMs>=250&&sample?.rafScheduling?.intervals>=1&&
+      typeof sample?.validHold==='boolean'&&
+      await perfPage.locator('#v3-perf-export').isEnabled(),
+      'Opt-in device probe failed to produce a valid sample: '+JSON.stringify(sample));
+    const downloadPromise=perfPage.waitForEvent('download',{timeout:5000});
+    await perfPage.locator('#v3-perf-export').click();
+    const download=await downloadPromise;
+    assert(/^fresnica-v3-device-perf-\d{4}-\d{2}-\d{2}\.json$/.test(download.suggestedFilename()),
+      'Unexpected device probe export name: '+download.suggestedFilename());
+  }catch(error){
+    failures.push('opt-in device probe: '+String(error.message||error).slice(0,600));
+  }finally{await perfPage.close();}
   // Explicit scene-two deep links are different from fresh homepage entries.
   // They must resolve to the completed hold frame after assets/fonts settle.
   const deepLink=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'no-preference'});

@@ -6,6 +6,8 @@ import path from 'node:path';
 const root=process.cwd();
 const preview=path.join(root,'public/fresnica-v3-motion-preview');
 const html=fs.readFileSync(path.join(preview,'index.html'),'utf8');
+const probePath=path.join(preview,'v3-perf-probe.js');
+const probe=fs.readFileSync(probePath,'utf8');
 const scripts=['m12-experience.js','m10-frame.js'];
 const errors=[];
 const check=(ok,message)=>{if(!ok)errors.push(message);};
@@ -14,6 +16,11 @@ const styleTagClose=(html.match(/<\/style>/g)||[]).length;
 const styleBlocks=[...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/g)];
 check(styleTagOpen===styleTagClose&&styleBlocks.length===styleTagOpen,'Unbalanced style tags');
 check(styleBlocks.every(block=>!/<style\b/.test(block[1])),'Nested style tags; CSS may be ignored by browser');
+check(html.includes("get('debug')==='perf'")&&
+  html.includes("probe.src='./v3-perf-probe.js'")&&
+  probe.includes('window.__v3PerfProbe=')&&
+  !/\b(?:fetch|sendBeacon|XMLHttpRequest|WebSocket)\s*\(/.test(probe),
+  'Real-device probe must remain opt-in, local-only and non-networked');
 
 // These font binaries are already included in the Pages and CI deployments.
 // Without @font-face, Chinese text becomes missing-glyph boxes on Linux.
