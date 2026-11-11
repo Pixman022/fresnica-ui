@@ -21,7 +21,7 @@
 | 正文与页脚导航 | 均指向本页既有章节 | 没有对外社区、邮箱或隐私政策链接被伪装成已核实 |
 | 官网能力范围 | 静态演示钱包界面和切屏动画 | 本网站不处理资产、私钥或实际交易 |
 | 品牌及网络 | 明确定位 Stellar 生态钱包；未声称多链支持 | 与现有产品定位一致 |
-| Android 标志 | 页脚包含 Google/Android robot 商标及 CC 3.0 署名说明 | 该声明存在，但品牌使用的法律最终审查仍需负责人进行 |
+| Android 标志 | 页脚保留 `Third-party notices` 链接，Android/Google 商标与 CC 3.0 声明集中放在 `third-party-notices.html` | 页面不再直接展示冗长署名；声明页仍需最终法律审核 |
 | 语言/字体 | 中文与英文切换；Noto Sans SC 本地字体 | 浏览器已验证中文显示，不代表所有设备设计签收 |
 
 ### 发布信息待核实
@@ -47,3 +47,25 @@
 **可继续执行：** 预览站的技术维护、可靠性/无障碍回归、中文与配色检查、九屏动效稳定性、数据记录。  
 **当前不能替负责人决策：** 放开正式下载、公开索引、添加隐私/条款与外部联系方式、承诺尚未核实的安全能力、签发真实设备/设计最终通过。  
 **发布准入结论：待决策与待证据；非失败，也非正式通过。**
+
+## 2026-11-11 追踪：面向最终发布的文案事实矩阵
+
+> 本轮仅逐项复核 V3 当前实际页面文案和可执行按钮，不推断钱包 App 已经实现对应能力。若负责人未给出证据，状态维持“待核实”；预览按钮仍禁用。技术实现/截图不会替代产品或法律批准。
+
+| 当前实际页面表述（英文） | 位置 | 需要提供的发布依据 | 当前判定 |
+| --- | --- | --- | --- |
+| “Fresnica is a Stellar wallet for XLM, issued assets, payments, swaps, and compatible apps.” | 页面 `meta description` | Stellar-only 定位及支持范围、交易和应用连接能力对应发布版本 | 定位已明确；能力上线状态待产品确认 |
+| “A focused mobile wallet experience for XLM, Stellar-issued assets, payments, swaps and compatible apps.” | 第三屏移动端介绍 | iOS/Android 版本功能清单、真实可用状态和实际官方发布渠道 | 待产品和发布负责人确认；两枚按钮仍禁用 |
+| “Manage Stellar assets, review payments, explore swaps and connect with compatible apps in a clear desktop experience.” | 第五屏桌面端介绍 | 桌面客户端是否真有交付计划、平台范围及具体功能是否已实现 | 仍为设计展示；不应当作现有桌面软件能力的证据 |
+| “Review transaction details before approving, understand connection requests, and stay in control of your wallet.” | 第七屏 Security | 密钥保管和签名模型、交易前核对、DApp 请求权限及实际测试 | 高优先级待安全与产品负责人审核 |
+| “Manage XLM and Stellar-issued assets together in one clear view.” | 第八屏 Q&A | 真实支持的资产类型、信任线/发行资产展示范围及实现状态 | 待功能验收，不以模拟资产余额验证 |
+| “Create, review and confirm wallet transactions in the Fresnica app.” | 第八屏 Q&A | App 实际发布状态、交易构建/签名/提交功能 | 文字是目标体验描述；发布前须核实是否需要未来式 |
+| “Download iOS / Download Android / DOWNLOAD” | 第三、五屏按钮 | 真实 App Store / Android / 桌面发行版 URL、下载链接归属、发布批准 | 当前禁用；不可为了测试或视觉而启用 |
+| “Get Fresnica” | 顶部下载菜单 | 仅页内跳转到第三与第五屏，不暗示已开放安装包 | 现阶段导航成立；正式发布时须核实目标 |
+| `noindex,nofollow,noarchive` | SEO | 域名、正式发布日期、收录策略及 canonical URL | 保留预览限制，未经批准不可删除 |
+
+**后续执行门槛**：由产品、安全、发布与法律负责人逐条提供证据或明确改写决策；涉及实际下载、隐私、服务条款、品牌许可的决定不可从 UI 演示推导。审核后同步更新中英双语及相关自动化断言。
+
+### 设备性能收集入口
+
+2026-11-11 增加了 [物理设备采样操作指南](v3-real-device-performance-capture-2026-11-11.md) 与 `?debug=perf` 本地探针。正常预览不会加载探针；只在用户明确请求时记录浏览器指标并手动导出 JSON。当前无来自物理设备的采样证据，因此**性能验收未完成**，不能作为正式发布放行依据。
