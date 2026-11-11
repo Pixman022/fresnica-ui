@@ -139,6 +139,38 @@ try{
     }finally{await landing.close();}
   });
 
+  // A fragment changed during a cinematic snap must win over the old
+  // animation. Otherwise its remaining frames can overwrite the new chapter.
+  await run('hashchange-during-active-snap-keeps-new-chapter',async()=>{
+    const landing=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
+    try{
+      await landing.goto(base,{waitUntil:'domcontentloaded'});
+      await landing.evaluate(()=>document.fonts.ready);
+      await landing.evaluate(()=>{
+        document.querySelector('#v3-about .footer-top a[href="#v3-workspace"]').click();
+      });
+      await landing.waitForTimeout(130);
+      await landing.evaluate(()=>{location.hash='#v3-security';});
+      await landing.waitForTimeout(1650);
+      const state=await landing.evaluate(()=>{
+        const scroll=document.getElementById('v3-page-scroll');
+        const chapter=document.getElementById('v3-security');
+        const runway=chapter.closest('.v3-screen-runway,.m5-runway,.feature-scroll');
+        const root=scroll.getBoundingClientRect();
+        const start=scroll.scrollTop+runway.getBoundingClientRect().top-root.top;
+        const room=Math.max(0,runway.offsetHeight-scroll.clientHeight);
+        const fraction=runway.classList.contains('m5-runway')?.73:.46;
+        const expected=Math.max(0,Math.min(scroll.scrollHeight-scroll.clientHeight,start+room*fraction));
+        return {actual:scroll.scrollTop,expected,hash:location.hash,
+          oldTransition:document.documentElement.classList.contains('m24-transitioning')};
+      });
+      observations.push({test:'fragmentChangedDuringSnap',...state});
+      check(state.hash==='#v3-security'&&Math.abs(state.actual-state.expected)<12&&
+        !state.oldTransition,
+        'Old snap overwrote the new fragment target: '+JSON.stringify(state));
+    }finally{await landing.close();}
+  });
+
   await run('trend-dot-path',async()=>{
     await showCard(1);
     await page.locator('#v3-features .feature-card:first-child').hover();
