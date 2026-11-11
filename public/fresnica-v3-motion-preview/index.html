@@ -2038,6 +2038,17 @@ html.m10-framed .back-to-top:is(:hover,:focus-visible){
     border-radius:var(--v3-radius-circle);
   }
 }
+/* M56: prevent the WALLET hero caption from crossing the orb's clipped edge. */
+html.m10-framed #overview .orb-card.second{
+  right:clamp(16px,4%,28px);
+  max-width:calc(100% - 32px);
+}
+@media(max-width:680px){
+  html.m10-framed #overview .orb-card.second{
+    right:clamp(10px,4%,18px);
+    max-width:calc(100% - 20px);
+  }
+}
 </style>
 </head>
 <body>

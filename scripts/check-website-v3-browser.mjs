@@ -190,6 +190,27 @@ try{
           };
         });
         const prefix=name+'/'+theme;
+        // The right-hand WALLET caption must stay entirely within the orb and
+        // remain readable even when the orb has its maximum 6px pointer parallax.
+        const walletCaption=await page.evaluate(()=>{
+          const card=document.querySelector('#overview .orb-card.second');
+          const field=document.getElementById('orb-field');
+          const art=document.querySelector('#overview .hero-art');
+          const rect=el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom};};
+          return {
+            card:rect(card),field:rect(field),art:rect(art),
+            text:card.textContent.trim(),
+            cssRight:getComputedStyle(card).right,
+            clippedContent:card.scrollWidth>card.clientWidth+1||card.scrollHeight>card.clientHeight+1
+          };
+        });
+        assert(walletCaption.text.includes('WALLET')&&walletCaption.text.includes('Assets, in one place.')&&
+          walletCaption.card.left>=walletCaption.field.left-1&&
+          walletCaption.card.right<=walletCaption.field.right+1&&
+          walletCaption.card.left>=walletCaption.art.left-1&&
+          walletCaption.card.right<=walletCaption.art.right+1&&
+          !walletCaption.clippedContent,
+          `${prefix}: WALLET hero caption is clipped (${JSON.stringify(walletCaption)})`);
         const actionIdentity=await page.evaluate(measureActionIdentity);
         const controlRadii=await page.evaluate(measureControlRadii);
         for(const kind of ['hero','header','mobile','desktop','send','swap','preview','desktopTabs','navSection','navTheme','tuner']){
