@@ -111,6 +111,34 @@ try{
     }finally{await landing.close();}
   });
 
+  // A new hash navigation may happen before the initial anchor's delayed
+  // pageshow correction finishes. It must not restore the previous chapter.
+  await run('deep-link-then-new-chapter-without-rewind',async()=>{
+    const landing=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
+    try{
+      const deep=new URL(base);
+      deep.hash='v3-ecosystem';
+      await landing.goto(deep.href,{waitUntil:'domcontentloaded'});
+      await landing.evaluate(()=>{location.hash='#v3-workspace';});
+      await landing.waitForTimeout(1150);
+      const moved=await landing.evaluate(()=>{
+        const scroller=document.getElementById('v3-page-scroll');
+        const section=document.getElementById('v3-workspace');
+        const runway=section.closest('.v3-screen-runway,.m5-runway,.feature-scroll');
+        const box=scroller.getBoundingClientRect();
+        const start=scroller.scrollTop+runway.getBoundingClientRect().top-box.top;
+        const room=Math.max(0,runway.offsetHeight-scroller.clientHeight);
+        const expected=Math.max(0,Math.min(scroller.scrollHeight-scroller.clientHeight,start+room*.77));
+        return {hash:location.hash,initial:window.__v3InitialAnchor,
+          actual:scroller.scrollTop,expected};
+      });
+      observations.push({test:'deepLinkReplacedDuringStartup',...moved});
+      check(moved.initial==='v3-ecosystem'&&moved.hash==='#v3-workspace'&&
+        Math.abs(moved.actual-moved.expected)<12,
+        'Late initial-anchor correction reverted a new chapter: '+JSON.stringify(moved));
+    }finally{await landing.close();}
+  });
+
   await run('trend-dot-path',async()=>{
     await showCard(1);
     await page.locator('#v3-features .feature-card:first-child').hover();
