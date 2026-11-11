@@ -170,37 +170,44 @@
   // fragment to the start of a sticky M5 runway, where scene-two copy is
   // intentionally invisible. Correct it here rather than relying on a later
   // scene-navigation script being ready during the first page load.
+  function alignChapterHold(id){
+    const section=document.getElementById(id);
+    const runway=section?.closest('.v3-screen-runway,.m5-runway,.feature-scroll');
+    if(!runway)return;
+    if(compact.matches || reduced.matches){jump(section,true);return;}
+    const frame=scroller.getBoundingClientRect();
+    const start=scroller.scrollTop+runway.getBoundingClientRect().top-frame.top;
+    const room=Math.max(0,runway.offsetHeight-scroller.clientHeight);
+    const fraction=id==='v3-ecosystem'?.76:
+      id==='v3-workspace'?.77:
+      id==='v3-features'?.47:
+      runway.classList.contains('m5-runway')?.73:.46;
+    const max=Math.max(0,scroller.scrollHeight-scroller.clientHeight);
+    const destination=id==='overview'?0:Math.max(0,Math.min(max,start+room*fraction));
+    const saved=scroller.style.scrollBehavior;
+    scroller.style.scrollBehavior='auto';
+    scroller.scrollTop=destination;
+    scroller.style.scrollBehavior=saved;
+    (window.__v3FrameAnchorTrace ||= []).push({
+      expected:Math.round(destination),actual:Math.round(scroller.scrollTop),
+      room:Math.round(room),section:id
+    });
+    window.dispatchEvent(new Event('scroll'));
+  }
   if(initialSection && !compact.matches && !reduced.matches){
-    const settleFragment=()=>{
-      if(userNavigated)return;
-      const section=document.getElementById(initialSection);
-      const runway=section?.closest('.v3-screen-runway,.m5-runway,.feature-scroll');
-      if(!runway)return;
-      const frame=scroller.getBoundingClientRect();
-      const start=scroller.scrollTop+runway.getBoundingClientRect().top-frame.top;
-      const room=Math.max(0,runway.offsetHeight-scroller.clientHeight);
-      const fraction=initialSection==='v3-ecosystem'?.76:
-        initialSection==='v3-workspace'?.77:
-        initialSection==='v3-features'?.47:
-        runway.classList.contains('m5-runway')?.73:.46;
-      const max=Math.max(0,scroller.scrollHeight-scroller.clientHeight);
-      const destination=initialSection==='overview'?0:
-        Math.max(0,Math.min(max,start+room*fraction));
-      const saved=scroller.style.scrollBehavior;
-      scroller.style.scrollBehavior='auto';
-      scroller.scrollTop=destination;
-      scroller.style.scrollBehavior=saved;
-      (window.__v3FrameAnchorTrace ||= []).push({
-        expected:Math.round(destination),actual:Math.round(scroller.scrollTop),
-        room:Math.round(room),section:initialSection
-      });
-      window.dispatchEvent(new Event('scroll'));
-    };
-    // Recheck only during startup; never override a real wheel/touch/click.
+    const settleFragment=()=>{if(!userNavigated)alignChapterHold(initialSection);};
     requestAnimationFrame(settleFragment);
     window.addEventListener('pageshow',()=>{
       requestAnimationFrame(settleFragment);
       for(const delay of [90,240,520])setTimeout(settleFragment,delay);
     },{once:true});
   }
+  // A fragment-only navigation does NOT reload the document, so startup code
+  // never runs. Browser-native anchoring lands at progress=0 (hidden copy).
+  window.addEventListener('hashchange',()=>{
+    const id=decodeURIComponent(location.hash.slice(1));
+    if(!id||!document.getElementById(id))return;
+    userNavigated=true; // prevent stale startup corrections from overriding it
+    requestAnimationFrame(()=>alignChapterHold(id));
+  });
 })();
