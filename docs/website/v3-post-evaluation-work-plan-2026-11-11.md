@@ -106,3 +106,11 @@
 - [`980ad29`](https://github.com/Pixman022/fresnica-ui/commit/980ad29af8206db9104afa7f4c6dea43083c3431) 加入上传后短暂产物索引缓冲，并由新提交启动全新部署运行，避免沿用存在两份产物的失败运行。
 - [**Pages #42976671768**](https://github.com/Pixman022/fresnica-ui/actions/runs/42976671768) **success**：GitHub Pages 部署、V3 全部根目录文件产物校验、冻结 V2 文件 SHA-256 检查、以及三个公开 URL 的 HTTP 下载和文件内容一致性核对，均通过；日志明确包含 `Public V3 route verified: index.html`、`third-party-notices.html`、`v3-perf-probe.js`。
 - **验收边界**：这证明 GitHub Actions 所在网络从公开地址实际获得相同资源，不代表全球每个地区可访问，也不等于进行了手机端手动交互或真实 GPU 性能验收。本批只调整部署流水线，未修改网站视觉、V2、钱包 App、禁用下载按钮及 `noindex`。
+
+## 2026-11-11 · P2 第八批：第三方声明页主题往返一致性
+
+- **确认的体验缺口**：此前官网语言选择已可以经第三方声明页往返保留，但站点深浅主题仅存在当前页运行状态；进入声明页面会改用系统 `prefers-color-scheme`，返回首页后所选主题无法恢复。
+- [`1b7f0e9`](https://github.com/Pixman022/fresnica-ui/commit/1b7f0e931dbcfe7fbb6a09e21d2893f7f9112171)：仅在第三方声明链接附带明确的语言/主题 URL 参数；声明页按该参数显示深浅模式，返回站点时恢复主题按钮状态和页脚深浅配色。没有新增 localStorage、没有改变球体/粒子、九屏滚轮逻辑或可用下载状态。
+- 新增的浏览器回归检查：中文深色访问声明页、跳转回来保持深色和中文；随后切换浅色，声明页应明确按浅色展示。
+- **全量验收通过**：[V3 Visual QA #42979076051](https://github.com/Pixman022/fresnica-ui/actions/runs/42979076051) Chromium 14 组视口/主题、97 张截图、0 项异常，11 项动态观察与 Firefox/WebKit 双引擎作业通过；[Windows/macOS #42979076260](https://github.com/Pixman022/fresnica-ui/actions/runs/42979076260)、[Edge 200% #42979076059](https://github.com/Pixman022/fresnica-ui/actions/runs/42979076059)、[Pages + 公网关键资源检查 #42979076355](https://github.com/Pixman022/fresnica-ui/actions/runs/42979076355) 全部通过。
+- 当前 P2 可由现有工具独立完成的已确认体验和工程问题均已回归保护。未获取物理设备 GPU、Safari/iOS/Android 签收时，不继续猜测性能瓶颈；P3 官方渠道与法律安全声明仍待决策。

@@ -85,3 +85,9 @@
 - 初次新增检查的工作流 [#42976242359](https://github.com/Pixman022/fresnica-ui/actions/runs/42976242359) 因 GitHub Artifact 索引/重跑重名限制未能部署；并非文件内容错误，也**未到实际 HTTP 检查步骤**。
 - [`980ad29`](https://github.com/Pixman022/fresnica-ui/commit/980ad29af8206db9104afa7f4c6dea43083c3431) 处理上传后索引延迟，新工作流 [#42976671768](https://github.com/Pixman022/fresnica-ui/actions/runs/42976671768) 成功部署，且公网 `index.html`、`third-party-notices.html`、`v3-perf-probe.js` 三项内容均与产物完全匹配，原冻结 V2 仍保持文件 SHA-256 校验。
 - 其余 P3 的官方发行渠道、法律及安全声明、SEO 发布批准与四类物理设备最终签收尚未完成。
+
+### 2026-11-11 · 第三方声明页主题和语言往返
+
+- 曾经仅保留中文语言：当用户在官网切换深色主题后前往 `third-party-notices.html`，该页面会按操作系统主题选择颜色；返回时也会丢失原先的站点主题偏好。
+- [`1b7f0e9`](https://github.com/Pixman022/fresnica-ui/commit/1b7f0e931dbcfe7fbb6a09e21d2893f7f9112171) 通过链接查询参数显式传递 `lang` 和 `theme`，第三方声明页匹配展示，返回官网恢复；不使用跨会话持久化存储或未授权外部服务。
+- [QA #42979076051](https://github.com/Pixman022/fresnica-ui/actions/runs/42979076051) 已验证主题/语言来回跳转；[Pages #42979076355](https://github.com/Pixman022/fresnica-ui/actions/runs/42979076355) 部署及关键公网资源检查成功。本次未启用官方下载、没有移除预览 `noindex`，声明内容及法律最终签收仍需负责人审核。
