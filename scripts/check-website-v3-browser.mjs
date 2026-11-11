@@ -134,11 +134,14 @@ try{
             const rect=el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};};
             const view=rect(document.getElementById('v3-page-scroll'));
             const field=rect(document.getElementById('orb-field'));
-            const fallback=rect(document.getElementById('fallback-orb'));
+            // The CSS fallback is intentionally display:none while WebGL runs,
+            // so measure the sphere's nominal 61% footprint in the live field.
+            const diameter=field.bottom-field.top;
+            const sphere={top:field.top+diameter*.195,bottom:field.top+diameter*.805};
             const art=rect(document.querySelector('#overview .hero-art'));
             const actions=[...document.querySelectorAll('#overview .actions .cta')].map(rect);
             const visible=(r)=>Math.max(0,Math.min(view.bottom,r.bottom)-Math.max(view.top,r.top));
-            return {fieldVisible:visible(field),sphereVisible:visible(fallback),
+            return {fieldVisible:visible(field),sphereVisible:visible(sphere),
               artTop:art.top,viewBottom:view.bottom,actions};
           });
           assert(mobileHero.fieldVisible>=155&&mobileHero.sphereVisible>=110,
