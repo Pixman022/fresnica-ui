@@ -59,7 +59,8 @@ try{
         upperOpacity:Number(getComputedStyle(upper).opacity),
         lowerOpacity:Number(getComputedStyle(lower).opacity),
         upper:bounds(upper),lower:bounds(lower),view:bounds(scroller),
-        hash:location.hash
+        hash:location.hash,
+        anchorTrace:window.__v3InitialAnchorTrace||[]
       };
     });
     const fullSecond=(s,label)=>{

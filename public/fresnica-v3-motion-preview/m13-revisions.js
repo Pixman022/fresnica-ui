@@ -47,6 +47,11 @@
     scroller.style.scrollBehavior='auto';
     scroller.scrollTop=initialAnchor==='overview'?0:target.top;
     scroller.style.scrollBehavior=behavior;
+    // Keep a small diagnostic trail for browser-only fragment restoration.
+    (window.__v3InitialAnchorTrace ||= []).push({
+      at:Math.round(performance.now()),expected:Math.round(target.top),
+      actual:Math.round(scroller.scrollTop),hash:location.hash
+    });
     window.dispatchEvent(new Event('scroll'));
   }
   if(initialAnchor){
@@ -65,11 +70,23 @@
     document.fonts?.ready.then(settleInitialAnchor);
     window.addEventListener('pageshow',()=>{
       settleInitialAnchor();
-      // Preserve a requested deep link without allowing native fragment
-      // scrolling to stop at the hidden beginning of a sticky scene.
-      if(window.__v3InitialAnchor){
-        history.replaceState(history.state,'',
-          location.pathname+location.search+'#'+encodeURIComponent(initialAnchor));
+      // A hash can trigger the browser's own delayed fragment navigation.
+      // Restore it after layout, then explicitly correct the scene position.
+      requestAnimationFrame(()=>{
+        if(userNavigated)return;
+        if(window.__v3InitialAnchor){
+          history.replaceState(history.state,'',
+            location.pathname+location.search+'#'+encodeURIComponent(initialAnchor));
+        }
+        alignInitialAnchor();
+      });
+      // Chromium may apply its native fragment scroll after pageshow. Recheck
+      // during this short entry-only window; cancel on any user interaction.
+      for(const delay of [100,300,520,850]){
+        setTimeout(()=>{
+          if(userNavigated)return;
+          alignInitialAnchor();
+        },delay);
       }
     },{once:true});
   }
