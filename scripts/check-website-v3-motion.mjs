@@ -98,6 +98,8 @@ try{
       const anchored=await read();
       observations.push({test:'directSecondHold',...anchored});
       fullSecond(anchored,'Direct deep link');
+      check(anchored.hash==='#v3-ecosystem',
+        'Direct deep link did not retain its URL fragment: '+JSON.stringify(anchored));
       await landing.screenshot({path:path.join(dest,'motion-second-screen-hold.png'),animations:'disabled'});
     }finally{await landing.close();}
   });
