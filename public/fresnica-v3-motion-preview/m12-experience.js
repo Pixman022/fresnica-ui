@@ -240,6 +240,7 @@
     "Fresnica — A Clearer Way to Move": "Fresnica — 让每一步更清晰",
     "Fresnica is a wallet built for Stellar. Manage assets, send and receive payments, explore swaps, and connect to compatible apps across mobile and desktop.": "Fresnica 是面向 Stellar 生态的数字资产钱包，提供资产管理、收发、兑换及兼容应用连接体验，覆盖移动端与桌面端。",
     "Fresnica.": "Fresnica，",
+    "A clearer": "让每一步",
     "way to move.": "更清晰。",
     "A thoughtfully designed wallet for your assets, payments, swaps, and app connections. Everything essential, brought into focus.": "精心设计的数字资产钱包。资产管理、收发、兑换与应用连接，一切核心功能，清晰呈现。",
     "Explore Features": "探索功能",
