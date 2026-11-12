@@ -36,7 +36,7 @@ html.m10-framed .header-action[disabled],html.m10-framed .site-header.on-dark .h
     display:flex;
     flex-direction:column;
     justify-content:safe center;
-    padding-bottom:clamp(125px,17vh,210px);
+    padding-bottom:clamp(155px,20.5vh,240px);
   }
 }
 /* Five centred cards still fit at 1280px+, with larger art and legible previews. */
