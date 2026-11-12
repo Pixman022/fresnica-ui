@@ -396,6 +396,23 @@ try{
               balance.firstLeft>=-1&&balance.lastRight<=width+1,
               `${prefix}: five-card feature group is not vertically balanced or clipped (${JSON.stringify(balance)})`);
           }
+          if(id==='v3-for-you'&&name==='desktop-1440'){
+            const balance=await page.evaluate(()=>{
+              const scene=document.getElementById('v3-for-you');
+              const heading=scene.querySelector('.audience-title').getBoundingClientRect();
+              const card=scene.querySelector('.audience-card').getBoundingClientRect();
+              const frame=scene.getBoundingClientRect();
+              return {
+                centerRatio:((heading.top+card.bottom)/2-frame.top)/frame.height,
+                headingTop:heading.top-frame.top,
+                cardBottom:card.bottom-frame.top,
+                frameHeight:frame.height
+              };
+            });
+            assert(balance.centerRatio>=.44&&balance.centerRatio<=.54&&
+              balance.headingTop>=90&&balance.cardBottom<=balance.frameHeight-90,
+              `${prefix}: experience reel is vertically off-balance or clipped (${JSON.stringify(balance)})`);
+          }
           const target=path.join(dest,`${prefix}-${id}.png`);
           fs.mkdirSync(path.dirname(target),{recursive:true});
           await page.screenshot({path:target,animations:'disabled',timeout:20000});
@@ -765,9 +782,28 @@ try{
         for(const title of data.titles){
           assert(title.excess<=4,`zh/${name}/${theme}: ${title.selector} text overflows by ${title.excess}px`);
         }
-        for(const id of ['overview','v3-availability','v3-features','v3-workspace','v3-clarity']){
+        for(const id of (name==='desktop-1440'?
+          ['overview','v3-availability','v3-features','v3-workspace','v3-for-you','v3-clarity']:
+          ['overview','v3-availability','v3-features','v3-workspace','v3-clarity'])){
           await page.evaluate(id=>{document.getElementById(id)?.scrollIntoView({block:'start',behavior:'instant'});},id);
           await page.waitForTimeout(140);
+          if(id==='v3-for-you'&&name==='desktop-1440'){
+            const balance=await page.evaluate(()=>{
+              const scene=document.getElementById('v3-for-you');
+              const heading=scene.querySelector('.audience-title').getBoundingClientRect();
+              const card=scene.querySelector('.audience-card').getBoundingClientRect();
+              const frame=scene.getBoundingClientRect();
+              return {
+                centerRatio:((heading.top+card.bottom)/2-frame.top)/frame.height,
+                headingTop:heading.top-frame.top,
+                cardBottom:card.bottom-frame.top,
+                frameHeight:frame.height
+              };
+            });
+            assert(balance.centerRatio>=.44&&balance.centerRatio<=.54&&
+              balance.headingTop>=90&&balance.cardBottom<=balance.frameHeight-90,
+              `zh/${name}/${theme}: experience reel is vertically off-balance or clipped (${JSON.stringify(balance)})`);
+          }
           const filename=`zh-${name}-${theme}-${id}.png`;
           await page.screenshot({path:path.join(dest,filename),animations:'disabled'});
           captures.push(filename);

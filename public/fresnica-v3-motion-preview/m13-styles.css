@@ -39,6 +39,13 @@ html.m10-framed .header-action[disabled],html.m10-framed .site-header.on-dark .h
     padding-bottom:clamp(155px,20.5vh,240px);
   }
 }
+/* Scene 06: its heading/reel was top-heavy at desktop heights. Move both
+   together without altering carousel sizing, transforms or autoplay. */
+@media(min-width:991px) and (min-height:760px){
+  html.m10-framed #v3-for-you.audience-scene{
+    padding-top:max(115px,calc(50dvh - 320px));
+  }
+}
 /* Five centred cards still fit at 1280px+, with larger art and legible previews. */
 @media(min-width:1280px){
   html.m10-framed #v3-features .feature-window{
