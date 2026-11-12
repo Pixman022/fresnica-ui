@@ -49,6 +49,15 @@ const checkMobileDownloads=(actions,prefix,lang)=>{
   }
 };
 // Validate actual browser-computed button text/icon identity (not just CSS strings).
+const measureMobileHeroCaptions=()=>{
+  const third=document.querySelector('#overview .orb-card.third').getBoundingClientRect();
+  const status=document.querySelector('#overview .orb-status').getBoundingClientRect();
+  return {
+    horizontalOverlap:Math.max(0,Math.min(third.right,status.right)-Math.max(third.left,status.left)),
+    verticalGap:status.top-third.bottom,
+    thirdBottom:third.bottom,statusTop:status.top
+  };
+};
 const measureActionIdentity=()=>{
   const read=(selector,iconSelector,labelSelector)=>{
     const button=document.querySelector(selector);
@@ -243,6 +252,11 @@ try{
           walletCaption.card.right<=walletCaption.art.right+1&&
           !walletCaption.clippedContent,
           `${prefix}: WALLET hero caption is clipped (${JSON.stringify(walletCaption)})`);
+        if(width<=480){
+          const captions=await page.evaluate(measureMobileHeroCaptions);
+          assert(captions.horizontalOverlap<=1||captions.verticalGap>=8,
+            `${prefix}: mobile hero caption overlaps status (${JSON.stringify(captions)})`);
+        }
         const actionIdentity=await page.evaluate(measureActionIdentity);
         const controlRadii=await page.evaluate(measureControlRadii);
         for(const kind of ['hero','header','mobile','desktop','send','swap','preview','desktopTabs','navSection','navTheme','tuner']){
@@ -720,6 +734,11 @@ try{
         assert(Math.abs(zhNavWidth-presetNavWidth)<=1,
           `zh/${name}/${theme}: navigation capsule changed width after localization (${zhNavWidth}px vs ${presetNavWidth}px)`);
         assert(data.overflow<=8,`zh/${name}/${theme}: horizontal document overflow ${data.overflow}px`);
+        if(width<=480){
+          const captions=await page.evaluate(measureMobileHeroCaptions);
+          assert(captions.horizontalOverlap<=1||captions.verticalGap>=8,
+            `zh/${name}/${theme}: mobile hero caption overlaps status (${JSON.stringify(captions)})`);
+        }
         const zhMobileActions=await page.evaluate(measureMobileDownloads);
         checkMobileDownloads(zhMobileActions,`zh/${name}/${theme}`,'zh-CN');
         mobileDownloadObservations.push({viewport:name,theme,locale:'zh-CN',actions:zhMobileActions});

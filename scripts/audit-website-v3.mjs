@@ -80,6 +80,18 @@ for(const key of ['Your wallet,','wherever you go.','Know before',
   'What is Fresnica?','Where can I use Fresnica?']){
   check(i18nCopy.includes(JSON.stringify(key)+':'),'V3 Chinese translation missing: '+key);
 }
+check(!html.includes('FRESNICA / CONNECTED BY DESIGN')&&
+  !html.includes('<span><em></em>BUILT FOR STELLAR</span>')&&
+  html.includes('FRESNICA / MOVE WITH CLARITY')&&html.includes('DESIGNED AROUND YOU'),
+  'V3 secondary brand copy regressed to old version');
+check((html.match(/<article class="audience-card/g)||[]).length===6,
+  'V3 experience carousel must preserve six cards');
+check(['Review addresses, amounts, and memos before sending.',
+  'Review available quotes and swap details before exchanging.',
+  'Explore compatible apps and review requests before connecting.',
+  'A clear record of recent transactions and account activity.']
+    .every(copy=>html.includes(copy)),
+  'V3 feature card descriptions are incomplete');
 const cards=(html.match(/<article class="feature-card">/g)||[]).length;
 check(cards===5,`Expected five feature cards, got ${cards}`);
 const foot=html.slice(html.indexOf('<footer class='),html.indexOf('</footer>')+9);
@@ -203,8 +215,8 @@ const missingTranslation=[...new Set([...siteText,...accessibleNames,...demoText
   .filter(token=>/[A-Za-z]/.test(token)&&!isBrandOrData(token)&&!translationKeys.has(token)))];
 check(missingTranslation.length===0,
   'V3 untranslated visible strings or accessible labels: '+missingTranslation.join(' | '));
-check(translationKeys.has('Fresnica — Your Stellar Wallet')&&
-  translationKeys.has('Fresnica is a Stellar wallet for XLM, issued assets, payments, swaps, and compatible apps.'),
+check(translationKeys.has('Fresnica — A Clearer Way to Move')&&
+  translationKeys.has('Fresnica is a wallet built for Stellar. Manage assets, send and receive payments, explore swaps, and connect to compatible apps across mobile and desktop.'),
   'V3 localized title and SEO description are missing');
 
 const report={

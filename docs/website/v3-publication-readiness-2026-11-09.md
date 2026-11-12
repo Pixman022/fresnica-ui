@@ -48,21 +48,25 @@
 **当前不能替负责人决策：** 放开正式下载、公开索引、添加隐私/条款与外部联系方式、承诺尚未核实的安全能力、签发真实设备/设计最终通过。  
 **发布准入结论：待决策与待证据；非失败，也非正式通过。**
 
-## 2026-11-11 追踪：面向最终发布的文案事实矩阵
+## 2026-11-12 复核：对应 V3 新版文案的发布事实矩阵
 
-> 本轮仅逐项复核 V3 当前实际页面文案和可执行按钮，不推断钱包 App 已经实现对应能力。若负责人未给出证据，状态维持“待核实”；预览按钮仍禁用。技术实现/截图不会替代产品或法律批准。
+> 本轮已按 2026-11-12 实际站点的最新文案更新矩阵（功能卡、辅助标题、FAQ 与 SEO）；不推断钱包 App 已经实现对应能力。若负责人未给出证据，状态维持“待核实”；预览按钮仍禁用。技术实现/截图不会替代产品或法律批准。
 
-| 当前实际页面表述（英文） | 位置 | 需要提供的发布依据 | 当前判定 |
+| 当前 V3 实际页面表述（英文） | 位置 | 正式发布需核实的事实 | 状态 |
 | --- | --- | --- | --- |
-| “Fresnica is a Stellar wallet for XLM, issued assets, payments, swaps, and compatible apps.” | 页面 `meta description` | Stellar-only 定位及支持范围、交易和应用连接能力对应发布版本 | 定位已明确；能力上线状态待产品确认 |
-| “A focused mobile wallet experience for XLM, Stellar-issued assets, payments, swaps and compatible apps.” | 第三屏移动端介绍 | iOS/Android 版本功能清单、真实可用状态和实际官方发布渠道 | 待产品和发布负责人确认；两枚按钮仍禁用 |
-| “Manage Stellar assets, review payments, explore swaps and connect with compatible apps in a clear desktop experience.” | 第五屏桌面端介绍 | 桌面客户端是否真有交付计划、平台范围及具体功能是否已实现 | 仍为设计展示；不应当作现有桌面软件能力的证据 |
-| “Review transaction details before approving, understand connection requests, and stay in control of your wallet.” | 第七屏 Security | 密钥保管和签名模型、交易前核对、DApp 请求权限及实际测试 | 高优先级待安全与产品负责人审核 |
-| “Manage XLM and Stellar-issued assets together in one clear view.” | 第八屏 Q&A | 真实支持的资产类型、信任线/发行资产展示范围及实现状态 | 待功能验收，不以模拟资产余额验证 |
-| “Create, review and confirm wallet transactions in the Fresnica app.” | 第八屏 Q&A | App 实际发布状态、交易构建/签名/提交功能 | 文字是目标体验描述；发布前须核实是否需要未来式 |
-| “Download iOS / Download Android / DOWNLOAD” | 第三、五屏按钮 | 真实 App Store / Android / 桌面发行版 URL、下载链接归属、发布批准 | 当前禁用；不可为了测试或视觉而启用 |
-| “Get Fresnica” | 顶部下载菜单 | 仅页内跳转到第三与第五屏，不暗示已开放安装包 | 现阶段导航成立；正式发布时须核实目标 |
-| `noindex,nofollow,noarchive` | SEO | 域名、正式发布日期、收录策略及 canonical URL | 保留预览限制，未经批准不可删除 |
+| “Fresnica is a wallet built for Stellar. Manage assets, send and receive payments, explore swaps, and connect to compatible apps across mobile and desktop.” | SEO description | Stellar-only 网络定位，相关功能实现与桌面发行支持 | 网络定位明确；能力与平台待产品证明 |
+| “A thoughtfully designed wallet for your assets, payments, swaps, and app connections.” | 首页介绍 | 资产、收发、兑换与 DApp 连接是否在实际发版可用 | 待产品验收 |
+| “From checking your assets to sending payments and swapping” | 第三屏移动端 | iOS / Android 真实构建版本、功能清单与官方分发入口 | 待核实；下载仍禁用 |
+| “Review addresses, amounts, and memos before sending.” | 第四屏收发卡 | 发送前地址、金额、memo 展示及交易确认流程 | 待功能验收 |
+| “Review available quotes and swap details before exchanging.” | 第四屏兑换卡 | Swap 报价是否实际提供、费用/滑点/交易确认流程 | 待功能与产品审核 |
+| “Explore compatible apps and review requests before connecting.” | 第四屏应用连接卡 | DApp 兼容范围、请求字段与实际授权机制 | 待功能与安全审核 |
+| “A focused workspace for managing assets, reviewing payments and swaps, and connecting with apps.” | 第五屏桌面端 | 桌面客户端平台、可用程度、功能范围与安装包 | 待产品及发布负责人核实 |
+| “Know before you approve.” / “Signing Review” | 第七屏安全 | 签名可读性、连接授权、密钥保管与交易核对等真实能力 | 高优先级待安全负责人审核 |
+| “Fresnica is built specifically for Stellar. It is not a multichain wallet.” | FAQ 网络问题 | 发布网络与资产实际支持范围 | Stellar-only 定位已明确；细节待产品签收 |
+| “Fresnica is designed for iOS, Android, and desktop” | FAQ 设备问题 | 所提平台的交付计划与可公开宣称的支持范围 | 待发行确认；仅设计定位 |
+| “Download iOS” / “Download Android” / “Download” | 第三、第五屏按钮 | App Store、Android、桌面端正式发布链接与归属 | 全部按钮继续禁用 |
+| “Get Fresnica” | 顶部/首页 CTA | 当前仅跳转本页下载区域，不代表可安装 | 预览可用；正式发布时重新审定 |
+| `noindex,nofollow,noarchive` | SEO robots | 正式域名、canonical、收录时机与法律审核 | 维持预览限制 |
 
 **后续执行门槛**：由产品、安全、发布与法律负责人逐条提供证据或明确改写决策；涉及实际下载、隐私、服务条款、品牌许可的决定不可从 UI 演示推导。审核后同步更新中英双语及相关自动化断言。
 
