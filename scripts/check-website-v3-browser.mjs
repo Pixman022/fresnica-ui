@@ -376,6 +376,26 @@ try{
             assert(footerNav.background==='rgb(42, 42, 48)',
               `${prefix}: footer navigation reverted to light surface (${footerNav.background})`);
           }
+          if(id==='v3-features'&&name==='desktop-1440'){
+            const balance=await page.evaluate(()=>{
+              const scene=document.querySelector('#v3-features .feature-chapter');
+              const heading=scene.querySelector('.feature-heading').getBoundingClientRect();
+              const cards=[...scene.querySelectorAll('.feature-card')].map(card=>card.getBoundingClientRect());
+              const frame=scene.getBoundingClientRect();
+              const bottom=Math.max(...cards.map(rect=>rect.bottom));
+              return {
+                centerRatio:((heading.top+bottom)/2-frame.top)/frame.height,
+                headingTop:heading.top-frame.top,
+                contentBottom:bottom-frame.top,
+                firstLeft:cards[0].left,lastRight:cards.at(-1).right,
+                frameHeight:frame.height
+              };
+            });
+            assert(balance.centerRatio>=.42&&balance.centerRatio<=.55&&
+              balance.headingTop>=75&&balance.contentBottom<=balance.frameHeight-40&&
+              balance.firstLeft>=-1&&balance.lastRight<=width+1,
+              `${prefix}: five-card feature group is not vertically balanced or clipped (${JSON.stringify(balance)})`);
+          }
           const target=path.join(dest,`${prefix}-${id}.png`);
           fs.mkdirSync(path.dirname(target),{recursive:true});
           await page.screenshot({path:target,animations:'disabled',timeout:20000});
