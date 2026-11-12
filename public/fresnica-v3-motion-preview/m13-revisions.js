@@ -277,7 +277,7 @@
   if(!audience)return;
   const originals=[...audience.querySelectorAll('.audience-card')];
   if(!originals.length)return;
-  let pausedUntil=0,focused=false,visible=false,lastFrame=0,frameId=0,restartTimer=0;
+  let pausedUntil=0,focused=false,visible=false,lastFrame=0,frameId=0,restartTimer=0,pointerFocusUntil=0;
   const eligible=()=>!reduced.matches&&!compact.matches&&!document.hidden&&visible&&!focused;
   const activate=()=>eligible()&&performance.now()>=pausedUntil;
   function stop(){
@@ -310,9 +310,23 @@
     audience.append(clone);
   });
   audience.classList.add('m13-auto');
-  audience.addEventListener('focusin',()=>{focused=true;refresh();});
-  audience.addEventListener('focusout',()=>{focused=false;pause();});
-  audience.addEventListener('pointerdown',pause,{passive:true});
+  // Some browsers focus scrollable containers after a pointer press. That
+  // focus must not turn a short interaction pause into a permanent stop.
+  audience.addEventListener('focusin',()=>{
+    if(performance.now()<pointerFocusUntil)return;
+    focused=true;refresh();
+  });
+  audience.addEventListener('focusout',()=>{
+    const hadKeyboardFocus=focused;
+    focused=false;
+    if(hadKeyboardFocus)pause();
+  });
+  audience.addEventListener('pointerdown',()=>{
+    pointerFocusUntil=performance.now()+650;
+    focused=false;
+    pause();
+  },{passive:true});
+  audience.addEventListener('keydown',()=>{focused=true;refresh();});
   reduced.addEventListener('change',refresh);
   compact.addEventListener('change',refresh);
   document.addEventListener('visibilitychange',refresh);

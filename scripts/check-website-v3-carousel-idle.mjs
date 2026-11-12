@@ -67,6 +67,19 @@ try{
   const unpaused=await read();await sleep(300);
   check((await read()).frames-unpaused.frames>4,'Carousel did not resume after the 4.5s pause');
 
+  // A real pointer interaction can focus a native scroll container in some
+  // browsers; it should resume after the timed pause, without a focusout.
+  await page.evaluate(()=>{
+    const reel=document.getElementById('audience-track');
+    reel.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}));
+    reel.dispatchEvent(new FocusEvent('focusin',{bubbles:true}));
+  });
+  await inactive('Pointer-focused carousel');
+  await sleep(4150);
+  const pointerResumed=await read();await sleep(320);
+  check((await read()).frames-pointerResumed.frames>4,
+    'Pointer-focused carousel remained paused after the 4.5s delay');
+
   await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,get:()=>true});
     document.dispatchEvent(new Event('visibilitychange'));});
   await inactive('Hidden-tab carousel');
@@ -122,6 +135,19 @@ try{
   check(wrapped.left<near.left-100&&continuing.left>wrapped.left+14,
     'Real scene carousel did not wrap and keep advancing: '+
       JSON.stringify({near,wrapped,continuing}));
+  await previewPage.evaluate(()=>{
+    const reel=document.getElementById('audience-track');
+    reel.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}));
+    reel.dispatchEvent(new FocusEvent('focusin',{bubbles:true}));
+  });
+  await previewPage.waitForTimeout(4850);
+  const pointerRest=await measure();
+  await previewPage.waitForTimeout(850);
+  const pointerAdvance=await measure();
+  observations.push({state:'real-pointer-resume',before:pointerRest,after:pointerAdvance});
+  check(pointerAdvance.left>pointerRest.left+12,
+    'Real carousel did not resume after pointer-induced focus: '+
+      JSON.stringify({pointerRest,pointerAdvance}));
 }catch(error){failures.push('Real preview carousel: '+String(error.message||error));}
 finally{await previewPage.close();await browser.close();}
 const report={status:failures.length?'FAIL':'PASS',date:new Date().toISOString(),
