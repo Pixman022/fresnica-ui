@@ -20,6 +20,8 @@
 
 ## 发布前仍需外部资料（本轮不替代）
 
+> 后续工作已创建为可独立填写证据的任务：[#72 真实设备与视觉签收](https://github.com/Pixman022/fresnica-ui/issues/72)、[#73 正式发布渠道/安全/法务资料](https://github.com/Pixman022/fresnica-ui/issues/73)。两个 Issue **均为 Open / 待验收**，不能因创建任务而勾选下面的待办。
+
 - [ ] 实际 Windows GPU、macOS Safari、iOS Safari 和 Android Chrome 上的交互、热量/功耗与性能样本及设计签收。
 - [ ] 产品负责人确认资产/收发/Swap 报价/DApp 连接/签名核对等实际能力，提供官方下载 URL、隐私/条款与联系方式及 SEO 上线授权。
 
@@ -31,3 +33,4 @@
 - **Visual QA**：[成功 #43148896598](https://github.com/Pixman022/fresnica-ui/actions/runs/43148896598)：14 组视口/主题、97 张截图、0 项发现、20 个桌面模块/12 项动画观察/九屏双向切换均通过；Firefox/WebKit 引擎作业也成功。
 - **跨平台**：[Windows/macOS #43148896672](https://github.com/Pixman022/fresnica-ui/actions/runs/43148896672) 成功；[Windows Edge 真正 200% 缩放 #43148896723](https://github.com/Pixman022/fresnica-ui/actions/runs/43148896723) 成功；[Pages #43148896698](https://github.com/Pixman022/fresnica-ui/actions/runs/43148896698) 成功，冻结 V2 路由仍按构建校验保护。
 - **状态边界**：自动化测试、代码更新、页面发布已完成，但物理设备性能测量、产品功能、安全与法律声明、正式平台下载及人工视觉签收仍**未验收**。不把 CI 中的 rAF 样本当真实硬件 GPU FPS，不开放下载、不取消 `noindex`。
+- **下一阶段跟进（2026-11-12）**：当前分支 `17fff8f` 尚无产品功能、官方下载或真实设备证据；将外部依赖分拆为 GitHub [#72](https://github.com/Pixman022/fresnica-ui/issues/72)（四类物理设备、九屏交互、正常/减少动态、三轮有效采样与设计签收）和 [#73](https://github.com/Pixman022/fresnica-ui/issues/73)（产品能力、官方安装渠道、安全/法务批准及 SEO 发布决策）。既有四组 CI 全部成功，本次仅做跟踪与交接，不调整动画和站点发布状态。
