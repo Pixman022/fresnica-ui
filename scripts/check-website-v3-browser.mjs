@@ -558,7 +558,7 @@ try{
           await page.locator('#locale-toggle').click();
           await page.locator('[data-language="zh-CN"]').click();
           await page.waitForFunction(()=>document.documentElement.lang==='zh-CN'&&
-            document.querySelector('.footer-top > div:first-child > p:not(.chapter-kicker)')?.textContent?.includes('Fresnica 是面向'),null,{timeout:5000}).catch(()=>{});
+            document.querySelector('.footer-top > div:first-child > p:not(.chapter-kicker)')?.textContent?.includes('你的资产、收发与连接'),null,{timeout:5000}).catch(()=>{});
           const locale=await page.evaluate(()=>({lang:document.documentElement.lang,footer:document.querySelector('.footer-top > div:first-child > p:not(.chapter-kicker)')?.textContent||''}));
           assert(locale.lang==='zh-CN','Language picker did not switch to Chinese');
           const zhGetButton=await page.locator('#download-menu-button').evaluate(el=>({
@@ -575,7 +575,7 @@ try{
           const chineseNavWidth=await page.locator('.site-header .top-nav').evaluate(el=>el.getBoundingClientRect().width);
           assert(Math.abs(chineseNavWidth-state.navigation.width)<=1,
             `Changing the navigation language resized its capsule: ${chineseNavWidth}px vs ${state.navigation.width}px`);
-          assert(locale.footer.includes('Fresnica 是面向'),`Chinese footer translation missing; got: ${locale.footer.slice(0,120)}`);
+          assert(locale.footer.includes('你的资产、收发与连接'),`Chinese footer translation missing; got: ${locale.footer.slice(0,120)}`);
           // The compact footer link must preserve Chinese when navigating to
           // third-party notices and back, while keeping the original license text.
           const noticeLink=page.locator('#v3-about .platform-credit');
@@ -625,10 +625,10 @@ try{
             };
           });
           for(const [key,expected] of Object.entries({
-            title:'你的 Stellar 钱包',
-            description:'专注 Stellar 生态',
+            title:'让每一步更清晰',
+            description:'面向 Stellar 生态',
             sendPreview:'发送 / 核对',
-            activity:'查看活动记录',
+            activity:'每笔交易，清楚可查',
             payments:'确认前核对交易信息',
             swap:'预估兑换',
             connect:'请先核对权限',
@@ -650,7 +650,7 @@ try{
           await page.screenshot({path:path.join(dest,'desktop-1440-zh.png'),animations:'disabled'});
           await page.locator('#locale-toggle').click();
           await page.locator('[data-language="en"]').click();
-          assert((await page.title())==='Fresnica — Your Stellar Wallet',
+          assert((await page.title())==='Fresnica — A Clearer Way to Move',
             'Switching back to English did not restore document title');
           assert((await page.locator('#orb-tuner-close').getAttribute('aria-label'))==='Close gradient panel',
             'Switching back to English did not restore gradient controls');
