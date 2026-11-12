@@ -789,6 +789,9 @@ try{
       'Notice page lost dark preference: '+JSON.stringify(noticeState));
     await noticeTrip.locator('.back').click();
     await noticeTrip.waitForURL(url=>url.pathname.endsWith('/index.html'),{timeout:15000});
+    // The preview defers fragment restoration until pageshow + a layout frame.
+    // Observe the restored hash, not the moment the document URL first changes.
+    await noticeTrip.waitForFunction(()=>location.hash==='#v3-about',null,{timeout:4000});
     const restored=await noticeTrip.evaluate(()=>({
       lang:document.documentElement.lang,
       dark:document.documentElement.classList.contains('v3-theme-dark'),
