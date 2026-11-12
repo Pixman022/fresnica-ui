@@ -65,6 +65,21 @@ const assets=[...html.matchAll(/(?:src|href)="\.\/([^"#?]+)"/g)].map(m=>m[1]);
 const missing=[...new Set(assets)].filter(asset=>!fs.existsSync(path.join(preview,asset)));
 check(missing.length===0,`Referenced local assets missing: ${missing.join(', ')}`);
 
+// Copy smoke tests: preserve all nine headings and the expanded FAQ.
+const revisedCopy=['Fresnica.<br>A clearer<br>way to move.',
+  'Your wallet,<br>wherever you go.','Everything essential.<br>In one place.',
+  'More room<br>to focus.','Thoughtful in<br>every detail.',
+  'Know before<br>you approve.','Questions,<br>clearly answered.',
+  'id="footer-title">Make it yours.'];
+check(revisedCopy.every(value=>html.includes(value)),'V3 revised brand copy missing');
+check((html.match(/id="faq-answer-[1-5]"/g)||[]).length===5,
+  'V3 FAQ must contain five questions and answers');
+const i18nCopy=fs.readFileSync(path.join(preview,'m12-experience.js'),'utf8');
+for(const key of ['Your wallet,','wherever you go.','Know before',
+  'you approve.','Questions,','clearly answered.',
+  'What is Fresnica?','Where can I use Fresnica?']){
+  check(i18nCopy.includes(JSON.stringify(key)+':'),'V3 Chinese translation missing: '+key);
+}
 const cards=(html.match(/<article class="feature-card">/g)||[]).length;
 check(cards===5,`Expected five feature cards, got ${cards}`);
 const foot=html.slice(html.indexOf('<footer class='),html.indexOf('</footer>')+9);
@@ -117,7 +132,7 @@ const hrefs=new Set(footerAnchors);
 check(hrefs.has('#v3-security')&&hrefs.has('#v3-clarity'),'Footer must include Security and Questions');
 check(html.includes('aria-label="Preview send animation, no payment is made"'),'Send preview must not imply a real transaction');
 const desktopDownload=html.match(/<button\b[^>]*class="desktop-download"[^>]*>[\s\S]*?<\/button>/)?.[0]||'';
-check(desktopDownload.includes('<span>DOWNLOAD</span>')&&!desktopDownload.includes('<small>'),
+check(desktopDownload.includes('<span>Download</span>')&&!desktopDownload.includes('<small>'),
   'Desktop CTA must have one short label without redundant subtitle');
 check(/\bdisabled\b/.test(desktopDownload),'Unreleased desktop download must remain disabled');
 check(!/<(?:form|iframe)\b/i.test(html),
