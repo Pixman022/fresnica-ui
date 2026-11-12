@@ -97,7 +97,7 @@ for(const [name,engine] of Object.entries({firefox,webkit})){
           const zh=await page.evaluate(()=>({lang:document.documentElement.lang,
             title:document.getElementById('feature-title')?.textContent||'',
             overflow:document.documentElement.scrollWidth-innerWidth}));
-          check(zh.lang==='zh-CN'&&zh.title.includes('核心能力'),tag+' Chinese translation missing');
+          check(zh.lang==='zh-CN'&&zh.title.includes('核心所需'),tag+' Chinese translation missing');
           check(zh.overflow<=8,tag+' Chinese overflow '+zh.overflow+'px');
           if(config.name==='mobile'&&theme==='dark'){
             await page.evaluate(()=>document.getElementById('v3-features')?.scrollIntoView({block:'start',behavior:'instant'}));

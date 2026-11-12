@@ -684,7 +684,7 @@ try{
         await page.locator('#locale-toggle').click();
         await page.locator('[data-language="zh-CN"]').click();
         await page.waitForFunction(()=>document.documentElement.lang==='zh-CN'&&
-          document.getElementById('feature-title')?.textContent?.includes('核心能力'),null,{timeout:5000});
+          document.getElementById('feature-title')?.textContent?.includes('核心所需'),null,{timeout:5000});
         // Font fallback can render Chinese as empty squares without causing
         // text overflow or a browser script error. Require the bundled CJK
         // font to load, not merely the presence of translated strings.

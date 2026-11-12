@@ -149,7 +149,7 @@ try{
               const zh=await page.evaluate(()=>({lang:document.documentElement.lang,
                 title:document.getElementById('feature-title')?.textContent,
                 overflow:document.documentElement.scrollWidth-innerWidth}));
-              check(zh.lang==='zh-CN'&&zh.title?.includes('核心能力')&&zh.overflow<=8,tag+' Chinese layout');
+              check(zh.lang==='zh-CN'&&zh.title?.includes('核心所需')&&zh.overflow<=8,tag+' Chinese layout');
               const cjkLoaded=await page.evaluate(async()=>{
                 const faces=await document.fonts.load('500 24px "Noto Sans SC"','中文钱包下载');
                 return faces.some(face=>face.family.replace(/["']/g,'')==='Noto Sans SC'&&face.status==='loaded');
