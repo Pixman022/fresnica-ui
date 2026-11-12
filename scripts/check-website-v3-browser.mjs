@@ -886,16 +886,25 @@ try{
     const downloadPromise=perfPage.waitForEvent('download',{timeout:5000});
     await perfPage.locator('#v3-perf-export').click();
     const download=await downloadPromise;
-    assert(/^fresnica-v3-device-perf-\d{4}-\d{2}-\d{2}\.json$/.test(download.suggestedFilename()),
+    assert(/^fresnica-v3-device-perf-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z-1\.json$/.test(download.suggestedFilename()),
       'Unexpected device probe export name: '+download.suggestedFilename());
     const exported=JSON.parse(await fs.promises.readFile(await download.path(),'utf8'));
     assert(exported.schema==='fresnica-v3-device-probe-v1'&&
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(exported.exportedAt)&&
+      download.suggestedFilename().includes(exported.exportedAt.replace(/[:.]/g,'-'))&&
       exported.samples?.length===2&&
       exported.samples[0].validHold===true&&
       exported.samples[0].viewport?.width===390&&
       exported.samples[1].validHold===false&&
       exported.samples[1].changedDuringSample?.scrolled===true,
       'Downloaded device report lost the raw stable/interrupted results');
+    // Consecutive exports must not reuse a name or silently overwrite an earlier capture.
+    const secondPromise=perfPage.waitForEvent('download',{timeout:5000});
+    await perfPage.locator('#v3-perf-export').click();
+    const second=await secondPromise;
+    assert(second.suggestedFilename()!==download.suggestedFilename()&&
+      /^fresnica-v3-device-perf-.*-2\.json$/.test(second.suggestedFilename()),
+      'Two same-session device exports reused a filename');
   }catch(error){
     failures.push('opt-in device probe: '+String(error.message||error).slice(0,600));
   }finally{await perfPage.close();}

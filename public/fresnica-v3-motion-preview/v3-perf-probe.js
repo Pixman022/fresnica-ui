@@ -34,6 +34,7 @@
   const status=panel.querySelector('#v3-perf-status');
   const samples=[];
   let recording=false;
+  let exportSerial=0;
 
   const round=value=>Number(value.toFixed(2));
   const percent=(sorted,fraction)=>sorted.length?round(sorted[Math.ceil(sorted.length*fraction)-1]):null;
@@ -163,8 +164,10 @@
   }
   function exportJson(){
     if(!samples.length)return;
+    const exportedAt=new Date().toISOString();
     const result={
       schema:'fresnica-v3-device-probe-v1',
+      exportedAt,
       caveat:'rAF scheduling is not GPU FPS; use browser/native profilers for final performance acceptance.',
       privacy:'Created locally by an opt-in debug control; not uploaded by Fresnica.',
       page:location.origin+location.pathname,
@@ -179,7 +182,9 @@
     const url=URL.createObjectURL(blob);
     const a=document.createElement('a');
     a.href=url;
-    a.download='fresnica-v3-device-perf-'+new Date().toISOString().slice(0,10)+'.json';
+    // A full timestamp and session serial avoid mixing same-day device exports.
+    a.download='fresnica-v3-device-perf-'+
+      exportedAt.replace(/[:.]/g,'-')+'-'+(++exportSerial)+'.json';
     document.body.append(a);
     a.click();
     a.remove();
