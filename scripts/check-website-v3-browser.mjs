@@ -815,6 +815,17 @@ try{
           assert(zhWraps[kind]?.lines===expected&&zhWraps[kind]?.scrollExcess<=3,
             `zh/${name}/${theme}: Chinese ${kind} heading unexpectedly wraps (${JSON.stringify(zhWraps[kind])})`);
         }
+        const securityLabels=await page.evaluate(()=>[
+          '#v3-security .security-visual > span:last-child',
+          '#v3-security .security-principle > span',
+          '#v3-security .security-disclaimer'
+        ].map(selector=>{
+          const el=document.querySelector(selector);
+          return {selector,font:getComputedStyle(el).fontFamily,text:el.textContent.trim()};
+        }));
+        assert(securityLabels.every(label=>label.font.includes('Noto Sans SC')&&
+          /[\u4e00-\u9fff]/.test(label.text)),
+          `zh/${name}/${theme}: Chinese security micro-labels lack a CJK font (${JSON.stringify(securityLabels)})`);
         const zhMobileActions=await page.evaluate(measureMobileDownloads);
         checkMobileDownloads(zhMobileActions,`zh/${name}/${theme}`,'zh-CN');
         mobileDownloadObservations.push({viewport:name,theme,locale:'zh-CN',actions:zhMobileActions});
