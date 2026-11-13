@@ -200,13 +200,17 @@ try{
             `${name}/${theme}: compact hero CTA overlaps the orb (${JSON.stringify(mobileHero)})`);
         }
         if(theme==='dark'){
-          await page.locator('#theme-toggle').click();
+          if(width<=680){
+            await page.locator('#m60-menu-toggle').click();
+            await page.locator('[data-m60-theme]').click();
+            await page.keyboard.press('Escape');
+          }else await page.locator('#theme-toggle').click();
           await page.waitForFunction(()=>document.querySelector('.site-header')?.classList.contains('on-dark'));
           // Wait for the 0.18-0.2s button color transitions before sampling computed colors.
           await page.waitForTimeout(320);
         }
         const state=await page.evaluate(()=>{
-          const selector='#scene-menu-button,#locale-toggle,#theme-toggle,#download-menu-button';
+          const selector=innerWidth<=680?'#m60-menu-toggle':'#scene-menu-button,#locale-toggle,#theme-toggle,#download-menu-button';
           const controls=[...document.querySelectorAll(selector)].map(el=>{
             const r=el.getBoundingClientRect();
             return {id:el.id,width:r.width,height:r.height,left:r.left,right:r.right,top:r.top,bottom:r.bottom};
@@ -333,12 +337,33 @@ try{
         }
         const expectedNavWidth=width<=375?Math.min(184,width-172):
           width<=680?Math.min(210,width-172):340;
-        assert(Math.abs(state.navigation.width-expectedNavWidth)<=1,
-          `${prefix}: navigation capsule width changed from the viewport preset ${expectedNavWidth}px (${state.navigation.width}px)`);
-        assert(state.navigation.left>=-1&&state.navigation.right<=width+1&&
-          state.navigation.left>=state.navigation.brandRight-1&&
-          state.navigation.right<=state.navigation.downloadLeft+1,
-          `${prefix}: fixed navigation overlaps brand/download or viewport (${JSON.stringify(state.navigation)})`);
+        if(width>680){
+          assert(Math.abs(state.navigation.width-expectedNavWidth)<=1,
+            `${prefix}: navigation capsule width changed from the viewport preset ${expectedNavWidth}px (${state.navigation.width}px)`);
+          assert(state.navigation.left>=-1&&state.navigation.right<=width+1&&
+            state.navigation.left>=state.navigation.brandRight-1&&
+            state.navigation.right<=state.navigation.downloadLeft+1,
+            `${prefix}: fixed navigation overlaps brand/download or viewport (${JSON.stringify(state.navigation)})`);
+        }else{
+          assert(state.controls.length===1&&state.controls[0].id==='m60-menu-toggle'&&
+            state.navigation.width===0,
+            `${prefix}: compact navigation has not become one drawer control`);
+          await page.locator('#m60-menu-toggle').click();
+          const mobileMenu=await page.evaluate(()=>({
+            expanded:document.getElementById('m60-menu-toggle').getAttribute('aria-expanded'),
+            sections:document.querySelectorAll('.m60-section-links a').length,
+            downloads:document.querySelectorAll('.m60-download-links a').length,
+            locked:document.documentElement.classList.contains('m60-menu-open'),
+            backgroundInert:document.getElementById('v3-page-frame')?.inert
+          }));
+          assert(mobileMenu.expanded==='true'&&mobileMenu.sections===9&&mobileMenu.downloads===2&&
+            mobileMenu.locked&&mobileMenu.backgroundInert,
+            `${prefix}: mobile navigation drawer contract failed ${JSON.stringify(mobileMenu)}`);
+          await page.keyboard.press('Escape');
+          assert(await page.evaluate(()=>document.activeElement?.id==='m60-menu-toggle'&&
+            !document.documentElement.classList.contains('m60-menu-open')),
+            `${prefix}: closing mobile drawer did not restore trigger focus`);
+        }
         const mobileActions=await page.evaluate(measureMobileDownloads);
         checkMobileDownloads(mobileActions,prefix,'en');
         mobileDownloadObservations.push({viewport:name,theme,locale:'en',actions:mobileActions});
@@ -363,7 +388,7 @@ try{
           `${prefix}: mobile download controls should be neutral and disabled (${JSON.stringify(palette.disabledMobile)})`);
         assert(palette.disabledDesktop.disabled&&palette.disabledDesktop.background===(theme==='dark'?'rgb(52, 52, 60)':'rgb(243, 243, 245)'),
           `${prefix}: desktop download should be neutral and disabled (${JSON.stringify(palette.disabledDesktop)})`);
-        if(theme==='dark'){
+        if(theme==='dark'&&width>680){
           assert(state.navigation.background==='rgb(42, 42, 48)',
             `${prefix}: dark navigation background differs from Fresnica raised surface (${state.navigation.background})`);
           assert(state.navigation.border==='rgb(72, 72, 80)',
@@ -781,9 +806,16 @@ try{
       try{
         await page.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
         await page.evaluate(()=>document.fonts.ready);
-        if(theme==='dark')await page.locator('#theme-toggle').click();
-        await page.locator('#locale-toggle').click();
-        await page.locator('[data-language="zh-CN"]').click();
+        if(width<=680){
+          await page.locator('#m60-menu-toggle').click();
+          if(theme==='dark')await page.locator('[data-m60-theme]').click();
+          await page.locator('[data-m60-language="zh-CN"]').click();
+          await page.keyboard.press('Escape');
+        }else{
+          if(theme==='dark')await page.locator('#theme-toggle').click();
+          await page.locator('#locale-toggle').click();
+          await page.locator('[data-language="zh-CN"]').click();
+        }
         await page.waitForFunction(()=>document.documentElement.lang==='zh-CN'&&
           document.getElementById('feature-title')?.textContent?.includes('核心所需'),null,{timeout:5000});
         // Font fallback can render Chinese as empty squares without causing
@@ -818,8 +850,10 @@ try{
         assert(data.lang==='zh-CN'&&data.theme===theme,`zh/${name}/${theme}: language/theme mismatch`);
         const zhNavWidth=await page.locator('.site-header .top-nav').evaluate(el=>el.getBoundingClientRect().width);
         const presetNavWidth=width<=375?Math.min(184,width-172):width<=680?Math.min(210,width-172):340;
-        assert(Math.abs(zhNavWidth-presetNavWidth)<=1,
+        if(width>680)assert(Math.abs(zhNavWidth-presetNavWidth)<=1,
           `zh/${name}/${theme}: navigation capsule changed width after localization (${zhNavWidth}px vs ${presetNavWidth}px)`);
+        else assert(await page.locator('#m60-menu-toggle').isVisible(),
+          `zh/${name}/${theme}: mobile menu trigger missing after language change`);
         assert(data.overflow<=8,`zh/${name}/${theme}: horizontal document overflow ${data.overflow}px`);
         if(width<=480){
           const captions=await page.evaluate(measureMobileHeroCaptions);
