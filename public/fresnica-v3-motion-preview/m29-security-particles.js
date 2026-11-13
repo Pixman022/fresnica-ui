@@ -163,13 +163,13 @@
     frameId = 0;
   }
   function start() {
-    if (!ready || !visible || reduced.matches || document.hidden || running) return;
+    if (!ready || !visible || reduced.matches || document.hidden || document.documentElement.classList.contains('m60-menu-open') || running) return;
     running = true;
     lastDraw = 0;
     frameId = requestAnimationFrame(frame);
   }
   function refreshMotion() {
-    if (reduced.matches || document.hidden || !visible) stop();
+    if (reduced.matches || document.hidden || !visible || document.documentElement.classList.contains('m60-menu-open')) stop();
     else start();
     if (ready && !running) draw(performance.now(), 0);
   }
@@ -196,6 +196,7 @@
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
       visible = entries[0].isIntersecting;
+      if (visible && !ready && artwork.complete) init();
       refreshMotion();
     }, {threshold:0.05}).observe(visual);
   } else visible = true;
@@ -203,14 +204,16 @@
   else window.addEventListener('resize', resize, {passive:true});
   compact.addEventListener('change', () => {
     if (ready) buildParticles();
+    else if (!compact.matches || visible) init();
   });
   reduced.addEventListener('change', refreshMotion);
   document.addEventListener('visibilitychange', refreshMotion);
+  window.addEventListener('v3-mobile-menu-change', refreshMotion);
   if ('MutationObserver' in window) {
     new MutationObserver(() => {
       if (ready && !running) draw(performance.now(), 0);
     }).observe(document.documentElement, {attributes:true, attributeFilter:['class']});
   }
-  if (artwork.complete) init();
-  else artwork.addEventListener('load', init, {once:true});
+  if (artwork.complete && (!compact.matches || visible)) init();
+  else artwork.addEventListener('load', () => { if (!compact.matches || visible) init(); }, {once:true});
 })();
