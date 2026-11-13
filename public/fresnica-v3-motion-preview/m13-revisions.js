@@ -277,21 +277,24 @@
   if(!audience)return;
   const originals=[...audience.querySelectorAll('.audience-card')];
   if(!originals.length)return;
-  let pausedUntil=0,focused=false,visible=false,lastFrame=0,frameId=0,restartTimer=0,pointerFocusUntil=0;
+  let pausedUntil=0,focused=false,visible=false,frameId=0,restartTimer=0,pointerFocusUntil=0;
+  let stepStarted=0,stepFrom=0,stepTo=0,holdUntil=0;
+  const moveDuration=850,holdDuration=1500;
   const eligible=()=>!reduced.matches&&!compact.matches&&!document.hidden&&visible&&!focused;
   const activate=()=>eligible()&&performance.now()>=pausedUntil;
   function stop(){
     if(frameId)cancelAnimationFrame(frameId);
     if(restartTimer)clearTimeout(restartTimer);
-    frameId=0;restartTimer=0;lastFrame=0;
+    frameId=0;restartTimer=0;stepStarted=0;holdUntil=0;
   }
   function refresh(){
     if(!eligible()){stop();return;}
-    if(performance.now()<pausedUntil){
+    const remaining=Math.max(pausedUntil,holdUntil)-performance.now();
+    if(remaining>0){
       if(frameId)cancelAnimationFrame(frameId);
-      frameId=0;lastFrame=0;
+      frameId=0;stepStarted=0;
       if(restartTimer)clearTimeout(restartTimer);
-      restartTimer=setTimeout(()=>{restartTimer=0;refresh();},Math.ceil(pausedUntil-performance.now()));
+      restartTimer=setTimeout(()=>{restartTimer=0;refresh();},Math.ceil(remaining));
       return;
     }
     if(restartTimer){clearTimeout(restartTimer);restartTimer=0;}
@@ -333,14 +336,24 @@
   function loop(now){
     frameId=0;
     if(!activate()){refresh();return;}
-    const dt=lastFrame?Math.min(50,now-lastFrame):0;lastFrame=now;
-    const gap=parseFloat(getComputedStyle(audience).gap)||16;
-    const unit=originals[0].getBoundingClientRect().width+gap;
-    const period=unit*originals.length;
-    if(period>0){
-      audience.scrollLeft+=dt*.037;
-      if(audience.scrollLeft>=period)audience.scrollLeft-=period;
+    if(!stepStarted){
+      const gap=parseFloat(getComputedStyle(audience).gap)||16;
+      const unit=originals[0].getBoundingClientRect().width+gap;
+      const period=unit*originals.length;
+      if(period<=0)return;
+      // The clone starts at the same visual position as the first card.
+      // Rewind only between steps so the wrap is never seen moving backward.
+      if(audience.scrollLeft>=period-.5)audience.scrollLeft%=period;
+      stepFrom=audience.scrollLeft;
+      stepTo=Math.min(period,(Math.floor((stepFrom+.5)/unit)+1)*unit);
+      stepStarted=now;
     }
-    frameId=requestAnimationFrame(loop);
+    const progress=Math.min(1,(now-stepStarted)/moveDuration);
+    const eased=progress*progress*(3-2*progress);
+    audience.scrollLeft=stepFrom+(stepTo-stepFrom)*eased;
+    if(progress<1){frameId=requestAnimationFrame(loop);return;}
+    stepStarted=0;
+    holdUntil=now+holdDuration;
+    refresh();
   }
 })();
