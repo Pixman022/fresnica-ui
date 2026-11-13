@@ -91,6 +91,20 @@ html.m10-framed .qa-list p{color:#aab8ae;font-size:14px;line-height:1.65;padding
   html.m10-framed .word-wrap{top:clamp(310px,42vh,410px);bottom:auto;}
 }
 html.m10-framed .audience-track.m13-auto{scroll-snap-type:none;scroll-behavior:auto;}
+/* Scene 06: reveal each card before stepped autoplay. The separate translate
+   property keeps M14's subtle transform-based card float undisturbed. */
+@media(min-width:681px) and (prefers-reduced-motion:no-preference){
+  html.m10-framed #v3-for-you.m13-entry-pending .audience-card{
+    opacity:0;
+    translate:0 18px;
+  }
+  html.m10-framed #v3-for-you.m13-entry-pending.m13-entry-reveal .audience-card{
+    opacity:1;
+    translate:0 0;
+    transition:opacity 620ms cubic-bezier(.22,.72,.25,1) var(--m13-entry-delay,0ms),
+      translate 620ms cubic-bezier(.22,.72,.25,1) var(--m13-entry-delay,0ms);
+  }
+}
 @media(min-width:681px) and (prefers-reduced-motion:no-preference){
  html.m10-framed .reveal{transition-duration:.34s!important;}
  html.m10-framed .reveal.delay-1{transition-delay:.05s!important;}

@@ -277,18 +277,21 @@
   if(!audience)return;
   const originals=[...audience.querySelectorAll('.audience-card')];
   if(!originals.length)return;
+  const scene=audience.closest('.chapter');
   let pausedUntil=0,focused=false,visible=false,frameId=0,restartTimer=0,pointerFocusUntil=0;
+  let entryReady=false,entryTimer=0,entryFrame=0;
   let stepStarted=0,stepFrom=0,stepTo=0,holdUntil=0;
-  const moveDuration=850,holdDuration=1500;
-  const eligible=()=>!reduced.matches&&!compact.matches&&!document.hidden&&visible&&!focused;
-  const activate=()=>eligible()&&performance.now()>=pausedUntil;
+  const moveDuration=850,holdDuration=1500,entryDuration=620,entryStagger=85;
+  const canEnter=()=>!reduced.matches&&!compact.matches;
+  const eligible=()=>canEnter()&&!document.hidden&&visible&&!focused;
+  const activate=()=>eligible()&&entryReady&&performance.now()>=pausedUntil;
   function stop(){
     if(frameId)cancelAnimationFrame(frameId);
     if(restartTimer)clearTimeout(restartTimer);
     frameId=0;restartTimer=0;stepStarted=0;holdUntil=0;
   }
   function refresh(){
-    if(!eligible()){stop();return;}
+    if(!eligible()||!entryReady){stop();return;}
     const remaining=Math.max(pausedUntil,holdUntil)-performance.now();
     if(remaining>0){
       if(frameId)cancelAnimationFrame(frameId);
@@ -301,18 +304,54 @@
     if(!frameId)frameId=requestAnimationFrame(loop);
   }
   const pause=()=>{pausedUntil=performance.now()+4500;refresh();};
+  const cancelEntry=()=>{
+    if(entryTimer)clearTimeout(entryTimer);
+    if(entryFrame)cancelAnimationFrame(entryFrame);
+    entryTimer=0;entryFrame=0;entryReady=false;
+    scene.classList.remove('m13-entry-pending','m13-entry-reveal');
+  };
+  const prepareEntry=()=>{
+    cancelEntry();
+    if(canEnter())scene.classList.add('m13-entry-pending');
+    else entryReady=true;
+  };
+  const beginEntry=()=>{
+    prepareEntry();
+    if(!canEnter()){refresh();return;}
+    audience.scrollLeft=0;
+    entryFrame=requestAnimationFrame(()=>{
+      entryFrame=0;
+      if(!visible||document.hidden||!canEnter())return;
+      scene.classList.add('m13-entry-reveal');
+      entryTimer=setTimeout(()=>{
+        entryTimer=0;entryReady=true;
+        scene.classList.remove('m13-entry-pending','m13-entry-reveal');
+        refresh();
+      },entryDuration+entryStagger*(originals.length-1)+120);
+    });
+    refresh();
+  };
   const observer=new IntersectionObserver(entries=>{
-    visible=entries[0].isIntersecting&&entries[0].intersectionRatio>=.48;
+    const next=entries[0].isIntersecting&&entries[0].intersectionRatio>=.48;
+    if(next!==visible){
+      visible=next;
+      if(visible)beginEntry();
+      else prepareEntry();
+    }
     refresh();
   },{root:scroller,threshold:[0,.48,.75]});
-  observer.observe(audience.closest('.chapter')||audience);
   originals.forEach(card=>{
     const clone=card.cloneNode(true);
     clone.setAttribute('aria-hidden','true');
     clone.classList.add('m13-clone');
     audience.append(clone);
   });
+  audience.querySelectorAll('.audience-card').forEach((card,i)=>{
+    card.style.setProperty('--m13-entry-delay',((i%originals.length)*entryStagger)+'ms');
+  });
   audience.classList.add('m13-auto');
+  prepareEntry();
+  observer.observe(scene);
   // Some browsers focus scrollable containers after a pointer press. That
   // focus must not turn a short interaction pause into a permanent stop.
   audience.addEventListener('focusin',()=>{
@@ -330,9 +369,14 @@
     pause();
   },{passive:true});
   audience.addEventListener('keydown',()=>{focused=true;refresh();});
-  reduced.addEventListener('change',refresh);
-  compact.addEventListener('change',refresh);
-  document.addEventListener('visibilitychange',refresh);
+  const motionChange=()=>{if(visible)beginEntry();else prepareEntry();refresh();};
+  reduced.addEventListener('change',motionChange);
+  compact.addEventListener('change',motionChange);
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden&&!entryReady)prepareEntry();
+    else if(!document.hidden&&visible&&!entryReady)beginEntry();
+    refresh();
+  });
   function loop(now){
     frameId=0;
     if(!activate()){refresh();return;}

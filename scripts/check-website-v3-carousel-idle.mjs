@@ -47,24 +47,39 @@ try{
   check(first.frames===0,'Carousel schedules frames on the Hero screen');
   check(first.cards===10,'Carousel must preserve five originals and five clones');
 
-  await scroll(900);await sleep(1150);
-  const settled=await read();await sleep(400);
+  await scroll(900);await sleep(350);
+  const loading=await read();await sleep(450);
+  const loadingLater=await read();
+  observations.push({state:'staggered-card-load',loading,loadingLater});
+  check(loading.left===0&&loadingLater.left===0&&
+    await page.locator('#v3-for-you').evaluate(el=>el.classList.contains('m13-entry-pending')),
+    'Carousel moved before the card entrance completed');
+  await page.waitForFunction(()=>Math.abs(document.getElementById('audience-track').scrollLeft-256)<=2,
+    null,{timeout:4300});
+  const settled=await read();await sleep(350);
   const held=await read();
   observations.push({state:'first-card-hold',settled,held});
   check(Math.abs(settled.left-256)<=2&&Math.abs(held.left-settled.left)<=1,
     'Carousel did not move one whole card then hold: '+JSON.stringify({settled,held}));
-  await sleep(1400);
+  await page.waitForFunction(left=>document.getElementById('audience-track').scrollLeft>left+80,
+    held.left,{timeout:3300});
   const active=await read();observations.push({state:'second-card-move',...active});
-  check(active.frames>8&&active.left>held.left+80,
-    'Carousel did not advance to the next card after a hold');
+  check(active.frames>8,'Carousel did not advance to the next card after a hold');
 
   await scroll(1800);await inactive('Offscreen carousel');
   await scroll(900);await sleep(300);
   await page.emulateMedia({reducedMotion:'reduce'});
   await inactive('Reduced-motion carousel');
-  await page.emulateMedia({reducedMotion:'no-preference'});await sleep(250);
-  const restored=await read();await sleep(300);
-  check((await read()).frames-restored.frames>4,'Carousel did not resume after reduced-motion');
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  const restart=await read();
+  await sleep(450);
+  check((await read()).left===restart.left,
+    'Carousel moved before its restart entrance finished');
+  await page.waitForFunction(()=>document.getElementById('audience-track').scrollLeft>20,
+    null,{timeout:3700});
+  const restored=await read();
+  observations.push({state:'motion-restored',...restored});
+  check(restored.frames>4,'Carousel did not resume after reduced-motion');
 
   await page.locator('.audience-card').first().focus();
   await inactive('Keyboard-focused carousel');
@@ -120,6 +135,38 @@ try{
       clones:reel.querySelectorAll('.m13-clone').length
     };
   });
+  // Re-enter the real sticky chapter and observe card opacity before any
+  // movement; this catches CSS/JS timing mismatches hidden by the fixture.
+  const parked=(await measure()).scrollTop;
+  await previewPage.evaluate(()=>{document.getElementById('v3-page-scroll').scrollTop=0;});
+  await previewPage.waitForFunction(()=>
+    document.getElementById('v3-for-you').classList.contains('m13-entry-pending')&&
+    !document.getElementById('v3-for-you').classList.contains('m13-entry-reveal'),
+    null,{timeout:6000});
+  await previewPage.evaluate(y=>{document.getElementById('v3-page-scroll').scrollTop=y;},parked);
+  await previewPage.waitForFunction(()=>
+    document.getElementById('v3-for-you').classList.contains('m13-entry-reveal'),
+    null,{timeout:4000});
+  const intro=await previewPage.evaluate(()=>{
+    const scene=document.getElementById('v3-for-you');
+    const reel=document.getElementById('audience-track');
+    return {left:reel.scrollLeft,
+      lastOpacity:getComputedStyle(reel.querySelectorAll('.audience-card')[5]).opacity,
+      pending:scene.classList.contains('m13-entry-pending')};
+  });
+  await previewPage.waitForTimeout(420);
+  const introLater=await measure();
+  observations.push({state:'real-card-entrance',intro,introLater});
+  check(intro.pending&&intro.left===0&&introLater.left===0&&
+    Number(intro.lastOpacity)<.9,
+    'Real cards did not reveal before the reel started: '+JSON.stringify({intro,introLater}));
+  await previewPage.waitForFunction(()=>
+    !document.getElementById('v3-for-you').classList.contains('m13-entry-pending'),
+    null,{timeout:3500});
+  const entryComplete=await measure();
+  check(entryComplete.left<3,
+    'Carousel began sliding before all entrance transitions finished: '+JSON.stringify(entryComplete));
+  await previewPage.waitForTimeout(1100);
   const history=[];
   for(let n=0;n<25;n++){
     history.push(await measure());
