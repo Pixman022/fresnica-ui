@@ -1354,6 +1354,12 @@ html[lang="zh-CN"] #v3-security .security-disclaimer{
   font-family:var(--Fresnica-font-family,"Noto Sans SC",sans-serif);
   letter-spacing:.025em;
 }
+/* Keep the footer's Chinese headline balanced on narrow devices; its comma
+   is a natural phrase boundary, not a cue to strand the final two glyphs. */
+html[lang="zh-CN"] #v3-about .footer-top h2{
+  text-wrap:balance;
+  line-break:strict;
+}
 /* Functional whole-site palette change, while preserving the intentionally dark app/Q&A scenes. */
 html.v3-theme-dark .stage,
 html.v3-theme-dark :is(#v3-ecosystem,#v3-features,#v3-workspace,#v3-for-you,#v3-security) {background:#131b18!important;color:#edf4ef!important;}
@@ -2429,7 +2435,7 @@ html.m10-framed #overview .orb-card.second{
   </div>
   <span class="page-count">08 / 09</span>
 </section>
-<footer class="chapter footer-scene dark day" id="v3-about" data-chapter="About Fresnica" data-theme="dark" aria-labelledby="footer-title">
+<footer class="chapter footer-scene dark day" id="v3-about" data-chapter="About" data-theme="dark" aria-labelledby="footer-title">
   <div class="footer-top reveal"><div><p class="chapter-kicker">FRESNICA / YOUR WAY FORWARD</p><h2 id="footer-title">Make it yours.</h2><p>Your assets. Your payments. Your connections. All together in Fresnica.</p><a href="./third-party-notices.html" class="platform-credit">Third-party notices</a></div><div><h3>PRODUCT</h3><a href="#overview">Overview</a><a href="#v3-features">Features</a><a href="#v3-workspace">Desktop</a><a href="#v3-availability">Get Fresnica</a></div><div><h3>EXPLORE</h3><a href="#v3-ecosystem">Experience</a><a href="#v3-security">Security</a><a href="#v3-clarity">Questions</a></div></div>
   <div class="word-wrap reveal" aria-label="FRESNICA"><p class="dot-word" aria-hidden="true">FRESNICA</p><canvas class="footer-particles" id="footer-particles" aria-hidden="true"></canvas></div>
   <span class="page-count">09 / 09</span><span class="scene-mini-note">FRESNICA / BUILT FOR STELLAR</span>
