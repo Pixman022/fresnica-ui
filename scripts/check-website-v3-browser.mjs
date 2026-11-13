@@ -58,6 +58,28 @@ const measureMobileHeroCaptions=()=>{
     thirdBottom:third.bottom,statusTop:status.top
   };
 };
+// Count painted text lines, not scrollWidth: a Chinese phrase can wrap into
+// an unnatural extra line without producing horizontal overflow.
+const measureHeadlineWrap=()=>{
+  const selectors={
+    hero:'#overview .hero h1',
+    availability:'#availability-title',
+    features:'#feature-title',
+    workspace:'#workspace-title',
+    experience:'#audience-title',
+    security:'#security-title',
+    faq:'#clarity-title'
+  };
+  return Object.fromEntries(Object.entries(selectors).map(([name,selector])=>{
+    const el=document.querySelector(selector);
+    if(!el)return [name,{missing:true}];
+    const style=getComputedStyle(el),height=el.getBoundingClientRect().height;
+    const lineHeight=parseFloat(style.lineHeight);
+    return [name,{lines:lineHeight?Math.round(height/lineHeight):0,
+      height,lineHeight,scrollExcess:el.scrollWidth-el.clientWidth,
+      text:el.textContent.trim().slice(0,70)}];
+  }));
+};
 const measureActionIdentity=()=>{
   const read=(selector,iconSelector,labelSelector)=>{
     const button=document.querySelector(selector);
@@ -231,6 +253,15 @@ try{
           };
         });
         const prefix=name+'/'+theme;
+        if(width>=1280){
+          const wraps=await page.evaluate(measureHeadlineWrap);
+          for(const [kind,expected] of Object.entries({
+            hero:3,availability:2,features:2,workspace:2,experience:2,security:2,faq:2
+          })){
+            assert(wraps[kind]?.lines===expected&&wraps[kind]?.scrollExcess<=3,
+              `${prefix}: English ${kind} heading unexpectedly wraps (${JSON.stringify(wraps[kind])})`);
+          }
+        }
         // The right-hand WALLET caption must stay entirely within the orb and
         // remain readable even when the orb has its maximum 6px pointer parallax.
         const walletCaption=await page.evaluate(()=>{
@@ -722,6 +753,7 @@ try{
   // above remains reduced-motion to keep screenshots deterministic).
   for(const {name,width,height} of [
     {name:'desktop-1440',width:1440,height:900},
+    {name:'desktop-1280',width:1280,height:800},
     {name:'mobile-430',width:430,height:932},
     {name:'mobile-320',width:320,height:720}
   ]){
@@ -776,15 +808,27 @@ try{
           assert(captions.horizontalOverlap<=1||captions.verticalGap>=8,
             `zh/${name}/${theme}: mobile hero caption overlaps status (${JSON.stringify(captions)})`);
         }
+        const zhWraps=await page.evaluate(measureHeadlineWrap);
+        for(const [kind,expected] of Object.entries({
+          hero:3,availability:2,features:2,workspace:2,experience:2,security:2,faq:2
+        })){
+          assert(zhWraps[kind]?.lines===expected&&zhWraps[kind]?.scrollExcess<=3,
+            `zh/${name}/${theme}: Chinese ${kind} heading unexpectedly wraps (${JSON.stringify(zhWraps[kind])})`);
+        }
         const zhMobileActions=await page.evaluate(measureMobileDownloads);
         checkMobileDownloads(zhMobileActions,`zh/${name}/${theme}`,'zh-CN');
         mobileDownloadObservations.push({viewport:name,theme,locale:'zh-CN',actions:zhMobileActions});
         for(const title of data.titles){
           assert(title.excess<=4,`zh/${name}/${theme}: ${title.selector} text overflows by ${title.excess}px`);
         }
-        for(const id of (name==='desktop-1440'?
-          ['overview','v3-availability','v3-features','v3-workspace','v3-for-you','v3-clarity']:
-          ['overview','v3-availability','v3-features','v3-workspace','v3-clarity'])){
+        // Capture every scene in Chinese at 1440px, plus all text-bearing
+        // chapters in compact layouts; 1280px checks the desktop breakpoint.
+        const zhScenes=name==='desktop-1440'?sceneIds:
+          name==='desktop-1280'?
+            ['overview','v3-workspace','v3-security','v3-clarity','v3-about']:
+            ['overview','v3-availability','v3-features','v3-workspace',
+              'v3-for-you','v3-security','v3-clarity','v3-about'];
+        for(const id of zhScenes){
           await page.evaluate(id=>{document.getElementById(id)?.scrollIntoView({block:'start',behavior:'instant'});},id);
           await page.waitForTimeout(140);
           if(id==='v3-for-you'&&name==='desktop-1440'){
