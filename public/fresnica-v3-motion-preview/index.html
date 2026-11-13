@@ -1346,6 +1346,14 @@ html[lang="zh-CN"] .chapter p {overflow-wrap:break-word;text-wrap:pretty;}
     word-break:keep-all;
   }
 }
+/* These small security labels inherit a Latin-only monospace font; restore
+   the bundled CJK font in Chinese without affecting English labels. */
+html[lang="zh-CN"] #v3-security .security-visual > span:last-child,
+html[lang="zh-CN"] #v3-security .security-principle > span,
+html[lang="zh-CN"] #v3-security .security-disclaimer{
+  font-family:var(--Fresnica-font-family,"Noto Sans SC",sans-serif);
+  letter-spacing:.025em;
+}
 /* Functional whole-site palette change, while preserving the intentionally dark app/Q&A scenes. */
 html.v3-theme-dark .stage,
 html.v3-theme-dark :is(#v3-ecosystem,#v3-features,#v3-workspace,#v3-for-you,#v3-security) {background:#131b18!important;color:#edf4ef!important;}
