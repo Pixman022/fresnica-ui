@@ -162,10 +162,12 @@ try{
           icon:!!el.querySelector('.download-mark'),
           chevron:!!el.querySelector('.download-chevron')
         }));
-        assert(getButton.label===(width<=480?'Get':'Get Fresnica')&&
-          getButton.accessible==='Get Fresnica download options'&&
+        const compactHeader=width<=680;
+        const topControl=compactHeader ? await page.locator('#m60-menu-toggle').isVisible()&&
+          await page.locator('#download-menu-button').isHidden() : getButton.label==='Get Fresnica';
+        assert(topControl&&getButton.accessible==='Get Fresnica download options'&&
           getButton.icon&&!getButton.chevron,
-          `Top-right Get Fresnica button failed: ${name}/${theme} ${JSON.stringify(getButton)}`);
+          `Mobile/desktop header contract failed: ${name}/${theme} ${JSON.stringify(getButton)}`);
         await page.waitForTimeout(300);
         const freshEntry=await page.evaluate(()=>({
           hash:location.hash,
