@@ -140,16 +140,19 @@ try{
   check(history[0].max>=history[0].period+30,
     'Real carousel cannot reach its wrap point: '+JSON.stringify(history[0]));
 
-  // Jump near the loop edge only while Reduced Motion disables automatic
-  // movement, then check a complete final-card step and an invisible rewind.
-  await previewPage.emulateMedia({reducedMotion:'reduce'});
+  // Position near the loop edge during a normal pointer pause. Switching
+  // Reduced Motion here would reflow the whole scene, losing its parked state.
   await previewPage.evaluate(({period,unit})=>{
-    document.getElementById('audience-track').scrollLeft=period-unit;
+    const reel=document.getElementById('audience-track');
+    reel.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}));
+    reel.scrollLeft=period-unit;
   },{period:history[0].period,unit});
-  await previewPage.emulateMedia({reducedMotion:'no-preference'});
+  const reset=await measure();
+  observations.push({state:'real-wrap-setup',...reset});
+  await previewPage.waitForTimeout(4600);
   await previewPage.waitForFunction(period=>
     document.getElementById('audience-track').scrollLeft>=period-2,
-    history[0].period,{timeout:5000});
+    history[0].period,{timeout:4000});
   const finalCard=await measure();
   await previewPage.waitForFunction(unit=>
     document.getElementById('audience-track').scrollLeft<unit*.5,
