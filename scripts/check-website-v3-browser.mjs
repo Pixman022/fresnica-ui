@@ -80,6 +80,22 @@ const measureHeadlineWrap=()=>{
       text:el.textContent.trim().slice(0,70)}];
   }));
 };
+const measureFooterLines=()=>{
+  const title=document.querySelector('#footer-title');
+  const node=[...title.childNodes].find(child=>child.nodeType===Node.TEXT_NODE);
+  const rows=[];
+  if(!node)return rows;
+  const range=document.createRange();
+  for(let i=0;i<node.length;i++){
+    range.setStart(node,i);range.setEnd(node,i+1);
+    const rect=range.getBoundingClientRect();
+    if(rect.width<.5)continue;
+    let row=rows.find(item=>Math.abs(item.top-rect.top)<2);
+    if(!row){row={top:rect.top,text:''};rows.push(row);}
+    row.text+=node.textContent[i];
+  }
+  return rows.sort((a,b)=>a.top-b.top).map(row=>row.text.trim());
+};
 const measureActionIdentity=()=>{
   const read=(selector,iconSelector,labelSelector)=>{
     const button=document.querySelector(selector);
@@ -253,6 +269,8 @@ try{
           };
         });
         const prefix=name+'/'+theme;
+        assert((await page.locator('#v3-about').getAttribute('data-chapter'))==='About',
+          `${prefix}: English About chapter label is too long for fixed navigation`);
         if(width>=1280){
           const wraps=await page.evaluate(measureHeadlineWrap);
           for(const [kind,expected] of Object.entries({
@@ -808,6 +826,12 @@ try{
           assert(captions.horizontalOverlap<=1||captions.verticalGap>=8,
             `zh/${name}/${theme}: mobile hero caption overlaps status (${JSON.stringify(captions)})`);
         }
+        assert((await page.locator('#v3-about').getAttribute('data-chapter'))==='关于',
+          `zh/${name}/${theme}: About chapter label is not compact`);
+        const footerLines=await page.evaluate(measureFooterLines);
+        assert(footerLines.length>0&&footerLines.length<=(width<=430?2:1)&&
+          footerLines.at(-1).length>=4,
+          `zh/${name}/${theme}: footer headline leaves an orphan line (${JSON.stringify(footerLines)})`);
         const zhWraps=await page.evaluate(measureHeadlineWrap);
         for(const [kind,expected] of Object.entries({
           hero:3,availability:2,features:2,workspace:2,experience:2,security:2,faq:2
@@ -858,6 +882,11 @@ try{
             assert(balance.centerRatio>=.44&&balance.centerRatio<=.54&&
               balance.headingTop>=90&&balance.cardBottom<=balance.frameHeight-90,
               `zh/${name}/${theme}: experience reel is vertically off-balance or clipped (${JSON.stringify(balance)})`);
+          }
+          if(id==='v3-about'){
+            const navLabel=await page.locator('#scene-menu-button').innerText();
+            assert(navLabel.trim()==='关于',
+              `zh/${name}/${theme}: footer navigation label is truncated (${navLabel})`);
           }
           const filename=`zh-${name}-${theme}-${id}.png`;
           await page.screenshot({path:path.join(dest,filename),animations:'disabled'});
