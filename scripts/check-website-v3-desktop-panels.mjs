@@ -42,10 +42,22 @@ for(const name of names){
         await page.evaluate(()=>document.fonts.ready);
         await page.waitForFunction(()=>document.documentElement.classList.contains('m10-framed')&&
           document.getElementById('v3-workspace')?.dataset.desktopTab==='desktop-tab-assets',null,{timeout:15000});
-        if(cfg.theme==='dark')await page.locator('#theme-toggle').click();
-        if(cfg.locale==='zh-CN'){
-          await page.locator('#locale-toggle').click();
-          await page.locator('[data-language="zh-CN"]').click();
+        if(cfg.width<=680){
+          await page.locator('#m60-menu-toggle').click();
+          check(await page.locator('.m60-section-links a').count()===9&&
+            await page.locator('.m60-download-links a').count()===2,
+            name+'/'+cfg.name+' compact drawer missing destinations');
+          if(cfg.theme==='dark')await page.locator('[data-m60-theme]').click();
+          if(cfg.locale==='zh-CN')await page.locator('[data-m60-language="zh-CN"]').click();
+          await page.keyboard.press('Escape');
+          check(await page.evaluate(()=>!document.documentElement.classList.contains('m60-menu-open')),
+            name+'/'+cfg.name+' drawer remained open after locale/theme selection');
+        }else{
+          if(cfg.theme==='dark')await page.locator('#theme-toggle').click();
+          if(cfg.locale==='zh-CN'){
+            await page.locator('#locale-toggle').click();
+            await page.locator('[data-language="zh-CN"]').click();
+          }
         }
         await page.evaluate(()=>document.getElementById('v3-workspace')?.scrollIntoView({block:'start',behavior:'instant'}));
         for(const m of modules){
