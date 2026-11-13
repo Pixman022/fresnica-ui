@@ -45,7 +45,8 @@ const knownIds=new Set(ids);
 check(ids.length===knownIds.size,'Duplicate HTML id detected');
 const rawLinks=[html,...scripts.map(s=>fs.readFileSync(path.join(preview,s),'utf8'))];
 const anchors=[...new Set(rawLinks.flatMap(s=>[...s.matchAll(/href="#([^"]+)"/g)].map(m=>m[1])))];
-const broken=anchors.filter(anchor=>!knownIds.has(anchor));
+// Template-generated menu links are checked against real DOM anchors by browser QA.
+const broken=anchors.filter(anchor=>!anchor.includes('${')&&!knownIds.has(anchor));
 check(broken.length===0,`Unresolved in-page anchors: ${broken.join(', ')}`);
 
 // V3 remains an informational preview until official release destinations,
