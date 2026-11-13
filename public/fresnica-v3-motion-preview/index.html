@@ -3732,7 +3732,11 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
     button.focus({preventScroll:true});
     requestAnimationFrame(syncLabels);
   }));
-  themeButton.addEventListener('click', () => { document.getElementById('theme-toggle')?.click(); syncLabels(); });
+  themeButton.addEventListener('click', () => {
+    document.getElementById('theme-toggle')?.click();
+    themeButton.focus({preventScroll:true});
+    syncLabels();
+  });
   compact.addEventListener('change', () => { if (!compact.matches) hide(false); });
   window.addEventListener('v3-theme-change', syncLabels);
   window.addEventListener('hashchange', syncCurrent);
