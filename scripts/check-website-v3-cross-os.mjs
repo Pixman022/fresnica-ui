@@ -82,9 +82,16 @@ try{
               await page.goto(base,{waitUntil:'domcontentloaded',timeout:40000});
               await page.evaluate(()=>document.fonts.ready);
               await page.waitForFunction(()=>document.documentElement.classList.contains('m10-framed'),null,{timeout:12000});
-              if(theme==='dark')await page.locator('#theme-toggle').click();
+              if(theme==='dark'){
+                  if(config.width<=680){
+                    await page.locator('#m60-menu-toggle').click();
+                    await page.locator('[data-m60-theme]').click();
+                    await page.keyboard.press('Escape');
+                  }else await page.locator('#theme-toggle').click();
+                }
               const data=await page.evaluate(()=>{
-                const controls=['scene-menu-button','locale-toggle','theme-toggle','download-menu-button']
+                const controls=(innerWidth<=680?['m60-menu-toggle']:
+                  ['scene-menu-button','locale-toggle','theme-toggle','download-menu-button'])
                   .map(id=>{const r=document.getElementById(id)?.getBoundingClientRect();
                     return {id,width:r?.width,height:r?.height,left:r?.left,right:r?.right};});
                 const quickIcons=[...document.querySelectorAll('#v3-availability .phone-quick > span')].map(card=>{
@@ -144,8 +151,24 @@ try{
                 await page.evaluate(()=>document.getElementById('v3-security')?.scrollIntoView({block:'start',behavior:'instant'}));
                 await page.screenshot({path:path.join(out,name+'-desktop-light-security.png'),animations:'disabled'});
               }
-              await page.locator('#locale-toggle').click();
-              await page.locator('[data-language="zh-CN"]').click();
+              if(config.width<=680){
+                  await page.locator('#m60-menu-toggle').click();
+                  const drawer=await page.evaluate(()=>({
+                    sections:document.querySelectorAll('.m60-section-links a').length,
+                    downloads:document.querySelectorAll('.m60-download-links a').length,
+                    active:document.documentElement.classList.contains('m60-menu-open'),
+                    inert:document.getElementById('v3-page-frame')?.inert
+                  }));
+                  check(drawer.sections===9&&drawer.downloads===2&&drawer.active&&drawer.inert,
+                    tag+' mobile drawer contract '+JSON.stringify(drawer));
+                  await page.locator('[data-m60-language="zh-CN"]').click();
+                  await page.keyboard.press('Escape');
+                  check(await page.evaluate(()=>document.activeElement?.id==='m60-menu-toggle'),
+                    tag+' mobile drawer focus restoration');
+                }else{
+                  await page.locator('#locale-toggle').click();
+                  await page.locator('[data-language="zh-CN"]').click();
+                }
               const zh=await page.evaluate(()=>({lang:document.documentElement.lang,
                 title:document.getElementById('feature-title')?.textContent,
                 overflow:document.documentElement.scrollWidth-innerWidth}));
