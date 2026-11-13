@@ -3728,6 +3728,8 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
   });
   languageButtons.forEach(button => button.addEventListener('click', () => {
     document.querySelector(`#language-menu [data-language="${button.dataset.m60Language}"]`)?.click();
+    // The desktop locale handler focuses its hidden trigger; keep focus inside this dialog.
+    button.focus({preventScroll:true});
     requestAnimationFrame(syncLabels);
   }));
   themeButton.addEventListener('click', () => { document.getElementById('theme-toggle')?.click(); syncLabels(); });
