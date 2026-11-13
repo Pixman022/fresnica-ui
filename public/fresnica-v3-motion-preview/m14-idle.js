@@ -29,7 +29,7 @@
     });
   }
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-  const eligible=()=>!reduced.matches&&!document.hidden;
+  const eligible=()=>!reduced.matches&&!document.hidden&&!document.documentElement.classList.contains('m60-menu-open');
   const root=document.documentElement;
   let current=null, pending=false, signalFrame=0;
   const svg=document.querySelector('#v3-workspace .network svg');
@@ -138,5 +138,6 @@
   window.addEventListener('resize',request,{passive:true});
   reduced.addEventListener('change',request);
   document.addEventListener('visibilitychange',request);
+  window.addEventListener('v3-mobile-menu-change',request);
   request();
 })();
