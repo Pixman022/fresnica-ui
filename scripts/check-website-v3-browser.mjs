@@ -1218,6 +1218,83 @@ try{
   }catch(error){
     failures.push('scene-two initial load: '+String(error.message||error).slice(0,600));
   }finally{await deepLink.close();}
+  // Mobile particle upgrade: verify real no-preference operation (not only reduced-motion screenshots).
+  const staticPage=await browser.newPage({viewport:{width:393,height:852},
+    reducedMotion:'no-preference',deviceScaleFactor:1});
+  try{
+    await staticPage.goto(base,{waitUntil:'load',timeout:45000});
+    await staticPage.evaluate(()=>document.fonts.ready);
+    await staticPage.waitForFunction(()=>
+      document.documentElement.classList.contains('m10-framed')&&
+      document.getElementById('orb-center-logo')?.naturalWidth>0);
+    const state=await staticPage.evaluate(()=>{
+      const dot=document.querySelector('#v3-ecosystem .stream-dot');
+      const core=document.querySelector('#v3-ecosystem .ecosystem-core');
+      return {
+        heroDots:Number(document.getElementById('orb-particles').dataset.dotCount),
+        mobileNoWebGL:document.getElementById('orb-canvas').style.display==='none',
+        fallbackShown:document.getElementById('fallback-orb').style.display==='block',
+        ecosystemDots:document.querySelectorAll('#v3-ecosystem .stream-dot').length,
+        ecosystemStill:getComputedStyle(dot).animationName==='none'&&
+          getComputedStyle(core,'::before').animationName==='none'
+      };
+    });
+    assert(state.mobileNoWebGL&&state.fallbackShown&&state.heroDots===980&&
+      state.ecosystemDots===136&&state.ecosystemStill,
+      'Mobile particle density/static rendering contract failed: '+JSON.stringify(state));
+    async function checkStaticCanvas(scene,selector,ready,minDots){
+      await staticPage.evaluate(id=>document.getElementById(id)?.scrollIntoView({
+        block:'center',behavior:'instant'}),scene);
+      await staticPage.waitForFunction(({selector,ready})=>{
+        const element=document.querySelector(selector);
+        return element&&Number(element.dataset.dotCount)>0&&
+          (!ready||document.querySelector(ready));
+      },{selector,ready},{timeout:12000});
+      await staticPage.waitForTimeout(280);
+      const before=await staticPage.locator(selector).evaluate(el=>({
+        fingerprint:el.toDataURL('image/png'),dots:Number(el.dataset.dotCount)
+      }));
+      await staticPage.waitForTimeout(680);
+      const after=await staticPage.locator(selector).evaluate(el=>el.toDataURL('image/png'));
+      assert(before.dots>=minDots&&before.fingerprint===after,
+        `Mobile static ${scene} Canvas changed while idle or lost density: `+
+        JSON.stringify({dots:before.dots,stable:before.fingerprint===after}));
+      const image=path.join(dest,`mobile-static-${scene}.png`);
+      await staticPage.screenshot({path:image,animations:'disabled'});
+      captures.push(path.relative(dest,image));
+    }
+    await checkStaticCanvas('overview','#orb-particles',null,980);
+    await checkStaticCanvas('v3-security','#v3-security .security-particle-canvas',
+      '#v3-security .has-particle-shape',1200);
+    await checkStaticCanvas('v3-about','#footer-particles',
+      '#v3-about .particles-ready',80);
+    const footerBefore=await staticPage.locator('#footer-particles')
+      .evaluate(el=>el.toDataURL('image/png'));
+    await staticPage.locator('#m60-menu-toggle').click();
+    await staticPage.locator('[data-m60-theme]').click();
+    await staticPage.keyboard.press('Escape');
+    const footerAfter=await staticPage.locator('#footer-particles')
+      .evaluate(el=>el.toDataURL('image/png'));
+    assert(footerBefore!==footerAfter,
+      'Static mobile footer failed to recolor when the theme changed');
+  }catch(error){
+    failures.push('mobile static particle QA: '+String(error.message||error).slice(0,700));
+  }finally{await staticPage.close();}
+  const dynamicPage=await browser.newPage({viewport:{width:1440,height:900},
+    reducedMotion:'no-preference',deviceScaleFactor:1});
+  try{
+    await dynamicPage.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
+    const desktopParticles=await dynamicPage.evaluate(()=>{
+      const dot=document.querySelector('#v3-ecosystem .stream-dot');
+      return {count:document.querySelectorAll('#v3-ecosystem .stream-dot').length,
+        animation:getComputedStyle(dot).animationName};
+    });
+    assert(desktopParticles.count===96&&desktopParticles.animation==='ecosystem-stream-in',
+      'Desktop ecosystem particle animation unexpectedly changed: '+
+      JSON.stringify(desktopParticles));
+  }catch(error){
+    failures.push('desktop particle motion regression: '+String(error.message||error).slice(0,550));
+  }finally{await dynamicPage.close();}
 }finally{
   await browser.close();
 }
