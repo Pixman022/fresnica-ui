@@ -51,5 +51,8 @@
 - [x] **实测数据记录（仅 CI 模拟）**：393×852 @ DPR 2，136 CSS 点，取样窗均为约 1.6 秒。正常动效 TaskDuration 为 `182.2 / 0.7 / 0.9ms`，减少动态模式为 `0.6 / 0.1 / 0.3ms`，中位数分别 `0.9ms`、`0.3ms`。首轮正常动效明显偏高，可能包含首帧启动或其他任务；无原生 trace 不能归因于粒子，不能据此得出真实设备不卡顿或已改善的结论。两种模式的 ScriptDuration 和 LayoutDuration 记录均为 0ms，JS 堆读数分别约 3.2MB 与 2.6MB；不同浏览器上下文不应用这组堆读数断言内存节省。
 - [x] **不调整已确认视觉**：此次仅新增 QA 脚本、工作流入口和记录，无生产 CSS/JS 修改。
 - [x] **320px / 680px 的移动粒子复入测试已提交**：补充正常动效下边界宽度检查，验证 136 点尺寸、运动期间的版面避让、动效位移、离屏暂停和重新进入恢复，并各保存一张动态截图；变更仅限 [浏览器测试脚本](https://github.com/Pixman022/fresnica-ui/commit/d97d614997869416abebfff1daab18a233aacb2b)，生产页面不修改。
-- [ ] **新增边界宽度测试待验收**：[V3 Visual QA #43826621297](https://github.com/Pixman022/fresnica-ui/actions/runs/43826621297)；若失败需区分真实布局与断言问题，不降低通过标准。
+- [x] **320px / 680px 动画边界回归通过**：[V3 Visual QA #43826621297](https://github.com/Pixman022/fresnica-ui/actions/runs/43826621297) 全部成功；日志明确为 `mobile-320 particle animation/reentry PASS`、`mobile-680 particle animation/reentry PASS`；粒子不与上下标题重叠，离屏暂停与回屏恢复正确。
+- [x] **完整驻留截图复核通过**：[最终 V3 Visual QA #43827117747](https://github.com/Pixman022/fresnica-ui/actions/runs/43827117747) 双作业成功、18 组视口/主题、165 张截图、0 findings。首次提交的几何断言误将动画缩放后的 `getBoundingClientRect().width` 当成原始点径，在 [#43826575849](https://github.com/Pixman022/fresnica-ui/actions/runs/43826575849) 报两项假失败；改为从原始 `style.width` 验证点径后通过。后续还发现截图拍在文字入场动画中间，已在 [d8ff033](https://github.com/Pixman022/fresnica-ui/commit/d8ff033117185fb7d35773e397668441c5f3d1c3) 等待三处下方文案入场完毕再拍。已人工查看最终 320px 与 680px 截图：两组标题完整、粒子轮廓清晰、上下无重叠。
+- [x] **性能复采完成（仅 CI）**：最终 #43827117747 的 393×852 @2x、136 CSS 粒子，正常动效三轮 TaskDuration 为 `92.7 / 0.7 / 0.9ms`，减少动态 `0.5 / 0.1 / 0.3ms`；上一轮首次样本为 182.2ms，说明首次任务时间随 CI 环境/采样时机有波动，不能归因为粒子或解释为 FPS 变化。未修改生产动画。
+
 - [ ] **真实 Android/iOS 设备签收**：需实际确认流畅度、耗电、设备温度及视觉体验；浏览器模拟和 CI 不构成真实设备性能验收。
