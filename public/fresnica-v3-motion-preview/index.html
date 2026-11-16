@@ -3633,7 +3633,7 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
             <button type="button" data-m60-language="zh-CN" lang="zh-CN">简体中文</button>
           </div>
           <button type="button" class="m60-theme" data-m60-theme aria-label="${label('Switch light / dark', '切换深浅主题')}">
-            <span>${label('Theme', '主题')}</span><span class="m60-theme-glyph" aria-hidden="true">◐</span>
+            <span class="m60-theme-label">${label('Theme', '主题')}</span><span class="m60-theme-glyph" aria-hidden="true">◐</span>
           </button>
         </div>
       </div>
@@ -3652,6 +3652,9 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
     trigger.setAttribute('aria-label', chinese ? '打开菜单' : 'Open menu');
     trigger.title = chinese ? '打开菜单' : 'Open menu';
     closeButton.setAttribute('aria-label', chinese ? '关闭菜单' : 'Close menu');
+    drawer.querySelector('.m60-language').setAttribute('aria-label', chinese ? '语言' : 'Language');
+    themeButton.querySelector('.m60-theme-label').textContent = chinese ? '主题' : 'Theme';
+    themeButton.setAttribute('aria-label', chinese ? '切换深浅主题' : 'Switch light / dark');
     languageButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.m60Language === (chinese ? 'zh-CN' : 'en'))));
     themeButton.setAttribute('aria-pressed', String(document.documentElement.classList.contains('v3-theme-dark')));
   }
