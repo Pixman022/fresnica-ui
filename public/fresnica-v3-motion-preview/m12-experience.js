@@ -334,6 +334,10 @@
     "Mobile": "移动端",
     "Desktop": "桌面端"
   });
+  Object.assign(map,{
+    "Five wallet capabilities, scroll horizontally to explore":"五项钱包核心能力，可左右滑动浏览",
+    "Wallet experience cards, scroll horizontally to explore":"产品体验卡片，可左右滑动浏览"
+  });
   let locale = new URLSearchParams(location.search).get('lang')==='zh-CN'?'zh-CN':'en';
   const nodeOriginal = new WeakMap();
   const nodeLastApplied = new WeakMap();
