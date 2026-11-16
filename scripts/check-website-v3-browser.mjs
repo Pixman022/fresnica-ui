@@ -168,6 +168,28 @@ try{
         assert(topControl&&getButton.accessible==='Get Fresnica download options'&&
           getButton.icon&&!getButton.chevron,
           `Mobile/desktop header contract failed: ${name}/${theme} ${JSON.stringify(getButton)}`);
+        if(compactHeader){
+          const mobileBrand=await page.locator('.site-header .brand').evaluate(el=>{
+            const logo=el.querySelector('.brand-logo');
+            const label=el.querySelector('.brand-label');
+            const menu=document.getElementById('m60-menu-toggle');
+            const brandBox=el.getBoundingClientRect(),logoBox=logo.getBoundingClientRect();
+            const labelBox=label.getBoundingClientRect(),menuBox=menu.getBoundingClientRect();
+            return {
+              text:label.textContent.trim(),
+              labelVisible:getComputedStyle(label).display!=='none'&&labelBox.width>0,
+              logoWidth:logoBox.width,logoHeight:logoBox.height,
+              centered:Math.abs((brandBox.top+brandBox.height/2)-(logoBox.top+logoBox.height/2))<2,
+              menuGap:menuBox.left-brandBox.right,
+              height:brandBox.height
+            };
+          });
+          assert(mobileBrand.text==='Fresnica'&&mobileBrand.labelVisible&&
+            mobileBrand.logoWidth>=29&&mobileBrand.logoWidth<=31&&
+            mobileBrand.logoHeight>=29&&mobileBrand.logoHeight<=31&&
+            mobileBrand.centered&&mobileBrand.menuGap>=8&&mobileBrand.height>=44,
+            `Mobile brand alignment/legibility failed: ${name}/${theme} ${JSON.stringify(mobileBrand)}`);
+        }
         await page.waitForTimeout(300);
         const freshEntry=await page.evaluate(()=>({
           hash:location.hash,
