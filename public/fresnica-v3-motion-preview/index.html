@@ -2147,14 +2147,16 @@ html.m10-framed #overview .orb-card.second{
 .m60-download-links a { justify-content: space-between; background: #292b30; margin-bottom: 5px; border: 1px solid #3c3e44; }
 .m60-download-links a > span:last-child { color: #a3eec6; font-size: 16px; margin-left: auto; }
 .m60-preferences { border-top: 1px solid #3b3d43; margin-top: 15px; padding-top: 3px; }
-.m60-language { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 4px; background: #292b30; border-radius: 12px; }
+.m60-preference-row { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 8px; align-items: stretch; }
+.m60-language { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 4px; min-width: 0; background: #292b30; border-radius: 12px; }
+.m60-language button { padding: 0 3px; white-space: nowrap; }
 .m60-language button, .m60-theme {
   min-height: 44px; border: 0; border-radius: 9px; color: #e9e9ed;
   background: transparent; cursor: pointer;
   font: 600 12px var(--Fresnica-font-family,Roboto,sans-serif);
 }
 .m60-language button[aria-pressed="true"] { color: #b7f2d5; background: #3a4141; }
-.m60-theme { display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; padding: 0 14px; width: 100%; margin-top: 7px; background: #292b30; }
+.m60-theme { display: flex; align-items: center; justify-content: space-between; gap: 6px; box-sizing: border-box; min-width: 0; padding: 0 10px; width: 100%; background: #292b30; }
 .m60-theme-glyph { font-size: 19px; color: #9de9c0; }
 .m60-mobile-drawer :is(a,button):focus-visible, .m60-menu-toggle:focus-visible { outline: 2px solid #71e5b3; outline-offset: 2px; }
 html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !important; }
@@ -3625,13 +3627,15 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
       </nav>
       <div class="m60-preferences">
         <p class="m60-group-label">${label('PREFERENCES', '显示设置')}</p>
-        <div class="m60-language" role="group" aria-label="Language">
-          <button type="button" data-m60-language="en" lang="en">English</button>
-          <button type="button" data-m60-language="zh-CN" lang="zh-CN">简体中文</button>
+        <div class="m60-preference-row">
+          <div class="m60-language" role="group" aria-label="Language">
+            <button type="button" data-m60-language="en" lang="en">English</button>
+            <button type="button" data-m60-language="zh-CN" lang="zh-CN">简体中文</button>
+          </div>
+          <button type="button" class="m60-theme" data-m60-theme aria-label="${label('Switch light / dark', '切换深浅主题')}">
+            <span>${label('Theme', '主题')}</span><span class="m60-theme-glyph" aria-hidden="true">◐</span>
+          </button>
         </div>
-        <button type="button" class="m60-theme" data-m60-theme>
-          <span>${label('Switch light / dark', '切换深浅主题')}</span><span class="m60-theme-glyph" aria-hidden="true">◐</span>
-        </button>
       </div>
     </div>`;
   document.body.append(backdrop, drawer);
