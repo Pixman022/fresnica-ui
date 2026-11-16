@@ -2266,14 +2266,9 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
 </style>
 
 <style id="m62-mobile-static-particles">
-/* Mobile: denser particle scenes remain fully static; desktop motion is unchanged. */
+/* Mobile: restore only screen-two dot inflow; other particle effects remain static. */
 @media(max-width:680px){
   html.m10-framed #overview .fallback-orb{animation:none!important;transform:none!important;}
-  html.m10-framed #v3-ecosystem .particle-cloud .stream-dot{
-    animation:none!important;opacity:var(--dot-alpha,.82)!important;
-    transform:translate3d(var(--fallback-x),var(--fallback-y),0)!important;
-    will-change:auto!important;
-  }
   html.m10-framed #v3-ecosystem .ecosystem-core::before,
   html.m10-framed #v3-ecosystem .ecosystem-core::after{
     animation:none!important;transform:none!important;opacity:.68;
@@ -2281,6 +2276,27 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
   html.m10-framed #v3-ecosystem .particle-spine.m21-flowing::before,
   html.m10-framed #v3-ecosystem .particle-spine.m21-flowing::after{
     animation:none!important;opacity:0!important;
+  }
+}
+@media(max-width:680px) and (prefers-reduced-motion:no-preference){
+  html.m10-framed #v3-ecosystem .particle-cloud .stream-dot{
+    animation-name:ecosystem-mobile-stream-in;
+    transform:translate3d(var(--fallback-x),var(--fallback-y),0);
+    will-change:auto!important;
+  }
+}
+/* The same mobile spread becomes each dot's starting position, not a wider orbit. */
+@keyframes ecosystem-mobile-stream-in{
+  0%{opacity:0;transform:translate3d(var(--fallback-x),var(--fallback-y),0) scale(.9)}
+  9%{opacity:var(--dot-alpha,.82)}
+  85%{opacity:var(--dot-alpha,.82)}
+  100%{opacity:0;transform:translate3d(0,0,0) scale(.16)}
+}
+@media(max-width:680px) and (prefers-reduced-motion:reduce){
+  html.m10-framed #v3-ecosystem .particle-cloud .stream-dot{
+    animation:none!important;opacity:var(--dot-alpha,.82)!important;
+    transform:translate3d(var(--fallback-x),var(--fallback-y),0)!important;
+    will-change:auto!important;
   }
 }
 </style>
