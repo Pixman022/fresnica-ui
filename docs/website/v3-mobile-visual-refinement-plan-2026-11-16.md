@@ -32,7 +32,11 @@
 - [x] 补充自动化断言：屏宽、桌面缩略窗、粒子分布、Logo 与滑动提示的检查条件。
 - [x] 静态代码核对：仅添加 ≤680px/≤480px CSS，核对粒子数量、移动端静止状态、桌面动效分支未变。
 - [x] GitHub Actions：最新源码提交 `1a869b6` 的 [GitHub Pages 部署](https://github.com/Pixman022/fresnica-ui/actions/runs/43819837638)、[Windows Edge 实际页面缩放检查](https://github.com/Pixman022/fresnica-ui/actions/runs/43819837658)及[Windows/macOS 原生浏览器检查](https://github.com/Pixman022/fresnica-ui/actions/runs/43819837662)均成功。
-- [ ] **完整视觉 QA/真机比对待完成**：当前 [V3 Website Visual QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43819837630) 仍在执行；继续关注 320/360/393/430/680px、双语/双主题、四面板切换与截图主观检查。自动化通过不等于视觉正式批准。
+- [x] **完整视觉 QA 已通过**：对源码 `1a869b6` 的 [V3 Website Visual QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43819837630) 已完成且为 success；可用测试产物中的 `results.json`、`desktop-panels-results.json`、`motion-results.json`、`transition-results.json`、`native-zoom-results.json` 等均为 `PASS`、无失败项。
+- [x] **自动截图人工复核（首屏与第五屏）**：检查 320px、430px 亮/暗主题自动截图，确认顶部品牌与菜单无遮挡、桌面预览可见；320px 需向下滚动才能完整看见页面内容，为移动端纵向滚动设计。
+- [x] **扩大覆盖面**：新提交 [47de621](https://github.com/Pixman022/fresnica-ui/commit/47de62190bbf9a0e7f7edf845b4d567996c46bb6) 增加 480px、680px 断点测试，单独捕获第二屏移动端粒子画面并检查其不超出视口、不与文字相撞。
+- [ ] **新覆盖的第二屏截图及 480/680px 结果待核对**：[本轮扩展 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43820677175)。
+- [ ] **真实手机视觉签收待完成**：自动化不能替代具体设备的最终视觉、触摸滚动和字重验收；不影响本轮已通过的代码回归结论。
 
 ### 本轮提交
 - 工作计划：[18000d9](https://github.com/Pixman022/fresnica-ui/commit/18000d991ff57d5f391ae2d6908d281829621222)
