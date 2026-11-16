@@ -415,6 +415,10 @@ try{
             const controls=tabs.getBoundingClientRect(),track=q('#v3-for-you .audience-track');
             const cards=track.querySelectorAll('.audience-card');
             const first=cards[0].getBoundingClientRect(),second=cards[1].getBoundingClientRect();
+            const featureCards=q('#v3-features .feature-track').querySelectorAll('.feature-card');
+            const featureFirst=featureCards[0].getBoundingClientRect();
+            const featureSecond=featureCards[1].getBoundingClientRect();
+            const finalAsset=q('#v3-workspace .dp-panel-assets .dp-asset-row:last-child').getBoundingClientRect();
             return {
               workspaceStack:intro.bottom+8<=demo.top&&demo.bottom+8<=controls.top,
               workspaceWidth:demo.left>=-1&&demo.right<=innerWidth+1&&
@@ -426,14 +430,21 @@ try{
               featureScrollable:q('#v3-features .feature-window').scrollWidth>
                 q('#v3-features .feature-window').clientWidth+100,
               experienceSnap:getComputedStyle(track).scrollSnapType.includes('x'),
-              experiencePeek:first.left>=-1&&first.right<=innerWidth+1&&
-                second.left<innerWidth-12&&second.right>innerWidth+12
+              experiencePeek:innerWidth<=480 ?
+                first.left>=10&&first.right<=innerWidth-10&&second.left>=innerWidth-16&&
+                  second.left<innerWidth&&second.right>innerWidth :
+                first.left>=-1&&first.right<=innerWidth+1&&second.left<innerWidth-8,
+              featureFull:innerWidth>480||
+                (featureFirst.left>=10&&featureFirst.right<=innerWidth-10&&
+                 featureSecond.left>=innerWidth-16),
+              previewAssetsVisible:innerWidth>480||finalAsset.bottom<=demo.bottom-3
             };
           });
           assert(compactLayout.workspaceStack&&compactLayout.workspaceWidth&&
             compactLayout.workspaceMin<=970&&compactLayout.faqMin<=770&&
             compactLayout.swipeHints&&compactLayout.featureScrollable&&
-            compactLayout.experienceSnap&&compactLayout.experiencePeek,
+            compactLayout.experienceSnap&&compactLayout.experiencePeek&&
+            compactLayout.featureFull&&compactLayout.previewAssetsVisible,
             `${prefix}: mobile scenes must stack naturally and expose swipable cards ${JSON.stringify(compactLayout)}`);
         }
         const mobileActions=await page.evaluate(measureMobileDownloads);
