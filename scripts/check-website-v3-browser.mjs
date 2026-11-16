@@ -406,6 +406,35 @@ try{
           assert(await page.evaluate(()=>document.activeElement?.id==='m60-menu-toggle'&&
             !document.documentElement.classList.contains('m60-menu-open')),
             `${prefix}: closing mobile drawer did not restore trigger focus`);
+          const compactLayout=await page.evaluate(()=>{
+            const q=selector=>document.querySelector(selector);
+            const workspace=q('#v3-workspace'),copy=q('#v3-workspace .workspace-copy');
+            const preview=q('#v3-workspace .workspace-mini');
+            const tabs=q('#v3-workspace .desktop-tabs');
+            const intro=copy.getBoundingClientRect(),demo=preview.getBoundingClientRect();
+            const controls=tabs.getBoundingClientRect(),track=q('#v3-for-you .audience-track');
+            const cards=track.querySelectorAll('.audience-card');
+            const first=cards[0].getBoundingClientRect(),second=cards[1].getBoundingClientRect();
+            return {
+              workspaceStack:intro.bottom+8<=demo.top&&demo.bottom+8<=controls.top,
+              workspaceWidth:demo.left>=-1&&demo.right<=innerWidth+1&&
+                controls.left>=-1&&controls.right<=innerWidth+1,
+              workspaceMin:parseFloat(getComputedStyle(workspace).minHeight),
+              faqMin:parseFloat(getComputedStyle(q('#v3-clarity')).minHeight),
+              swipeHints:[...document.querySelectorAll('.m61-swipe-hint')].length===2&&
+                [...document.querySelectorAll('.m61-swipe-hint')].every(el=>getComputedStyle(el).display!=='none'),
+              featureScrollable:q('#v3-features .feature-window').scrollWidth>
+                q('#v3-features .feature-window').clientWidth+100,
+              experienceSnap:getComputedStyle(track).scrollSnapType.includes('x'),
+              experiencePeek:first.left>=-1&&first.right<=innerWidth+1&&
+                second.left<innerWidth-12&&second.right>innerWidth+12
+            };
+          });
+          assert(compactLayout.workspaceStack&&compactLayout.workspaceWidth&&
+            compactLayout.workspaceMin<=970&&compactLayout.faqMin<=770&&
+            compactLayout.swipeHints&&compactLayout.featureScrollable&&
+            compactLayout.experienceSnap&&compactLayout.experiencePeek,
+            `${prefix}: mobile scenes must stack naturally and expose swipable cards ${JSON.stringify(compactLayout)}`);
         }
         const mobileActions=await page.evaluate(measureMobileDownloads);
         checkMobileDownloads(mobileActions,prefix,'en');
