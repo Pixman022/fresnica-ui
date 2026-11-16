@@ -43,6 +43,9 @@ check((typography.match(/@font-face\s*\{/g)||[]).length===7,
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
 const knownIds=new Set(ids);
 check(ids.length===knownIds.size,'Duplicate HTML id detected');
+// The language helper renders spans; inserting it inside an attribute breaks HTML parsing.
+check(!/aria-label="\$\{label\(/.test(html),
+  'Do not interpolate bilingual HTML markup into accessible-name attributes');
 const rawLinks=[html,...scripts.map(s=>fs.readFileSync(path.join(preview,s),'utf8'))];
 const anchors=[...new Set(rawLinks.flatMap(s=>[...s.matchAll(/href="#([^"]+)"/g)].map(m=>m[1])))];
 // Template-generated menu links are checked against real DOM anchors by browser QA.
