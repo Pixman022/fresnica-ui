@@ -2440,6 +2440,12 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
   html.m10-framed #v3-features .feature-ui{scale:.70;}
 }
 </style>
+<style id="m66-wide-mobile-particle-field">
+/* Mobile screen two: full-width visual field, without widening the vertical particle paths. */
+@media(max-width:680px){
+  html.m10-framed #v3-ecosystem .particle-cloud{left:12px;right:12px;width:auto;}
+}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
@@ -3350,7 +3356,8 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
   let seed = 217;
   const rand = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
   const fragment = document.createDocumentFragment();
-  for (let i=0; i<(matchMedia('(max-width:680px)').matches?136:96); i++) {
+  const compactParticles=matchMedia('(max-width:680px)').matches;
+  for (let i=0; i<(compactParticles?136:96); i++) {
     const dot=document.createElement('span');
     dot.className='stream-dot';
     const angle=rand()*Math.PI*2;
@@ -3359,11 +3366,11 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     const startY=Math.sin(angle)*(6+radius*13);
     dot.style.setProperty('--from-x',startX.toFixed(2)+'vw');
     dot.style.setProperty('--from-y',startY.toFixed(2)+'vh');
-    const staticSpread=matchMedia('(max-width:680px)').matches ? .50 : .42;
-    dot.style.setProperty('--fallback-x',(startX*staticSpread).toFixed(2)+'vw');
+    const staticSpread=compactParticles?.50:.42;
+    dot.style.setProperty('--fallback-x',(startX*(compactParticles?1.5:staticSpread)).toFixed(2)+'vw');
     dot.style.setProperty('--fallback-y',(startY*staticSpread).toFixed(2)+'vh');
     dot.style.setProperty('--dot-alpha',(.68+rand()*.3).toFixed(2));
-    const size=(matchMedia('(max-width:680px)').matches?2.2+rand()*2.4:2.8+rand()*3.0).toFixed(1)+'px';
+    const size=(compactParticles?2.2+rand()*2.4:2.8+rand()*3.0).toFixed(1)+'px';
     dot.style.width=size;dot.style.height=size;
     const gray=Math.round(58+rand()*90);
     dot.style.background='rgb('+gray+','+gray+','+gray+')';
