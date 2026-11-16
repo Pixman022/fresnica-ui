@@ -40,6 +40,7 @@
 ## 执行记录
 
 - [x] 读取 V3 最新源码与此前移动端计划，确认动效被 `m62-mobile-static-particles` 屏蔽。
-- [ ] 修改第二屏移动端粒子 CSS，保留静态降级。
-- [ ] 更新移动端无减少动态的自动化断言，检查动画可见/不可见切换。
-- [ ] 查看 QA/部署工作流结果并记录结论。
+- [x] 修改第二屏移动端粒子 CSS：提交 [f908931](https://github.com/Pixman022/fresnica-ui/commit/f908931fdd14372161b7bf1498272f12d1f6b8c2)，将原静止样式限定为 `reduce`，在 `no-preference` 仅为第二屏灰点恢复向中心流动的关键帧；保留 136 点/原尺寸/原分布及中心光晕、电流静止行为。
+- [x] 更新浏览器回归：提交 [0084eb3](https://github.com/Pixman022/fresnica-ui/commit/0084eb3979f26b4719ed04ce11b32bbd7d9bebad)，验证进屏运行、真实位移、菜单暂停、离屏暂停和 `reduce` 静态降级，以及桌面原有动画。
+- [x] [GitHub Pages 部署](https://github.com/Pixman022/fresnica-ui/actions/runs/43824140851) 已成功，预览地址不变。
+- [ ] **最终 QA 结果待确认**：[更新测试后的完整视觉 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43824200669)、[Windows/macOS](https://github.com/Pixman022/fresnica-ui/actions/runs/43824140955)、[Edge 缩放](https://github.com/Pixman022/fresnica-ui/actions/runs/43824140902)。
