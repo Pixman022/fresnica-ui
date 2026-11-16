@@ -476,8 +476,8 @@ try{
                 Math.min(340,innerWidth-58):Math.min(480,innerWidth-80))+2&&
                 Math.abs(demo.width-controls.width)<=2,
               previewAssetsVisible:innerWidth>480||finalAsset.bottom<=demo.bottom-3,
+              previewLandscape:Math.abs(demo.width/demo.height-16/9)<=.025,
               previewReadable:innerWidth>480||(
-                demo.height>=demo.width*.78&&
                 q('#v3-workspace .ws-sidebar').getBoundingClientRect().width<=67&&
                 parseFloat(getComputedStyle(q('#v3-workspace .dp-quick-action')).fontSize)>=10&&
                 parseFloat(getComputedStyle(q('#v3-workspace .dp-heading h3')).fontSize)>=14),
@@ -490,7 +490,8 @@ try{
             compactLayout.experienceSnap&&compactLayout.experiencePeek&&
             compactLayout.featureFull&&compactLayout.featureCompact&&
             compactLayout.phoneCompact&&compactLayout.demoCompact&&
-            compactLayout.previewAssetsVisible&&compactLayout.previewReadable&&
+            compactLayout.previewLandscape&&compactLayout.previewAssetsVisible&&
+            compactLayout.previewReadable&&
             compactLayout.swipeHintReadable,
             `${prefix}: mobile scenes must stack naturally and expose swipable cards ${JSON.stringify(compactLayout)}`);
         }
