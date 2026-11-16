@@ -39,8 +39,9 @@
 - [x] **320px 修复回归通过**：[V3 完整视觉 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107323) 结果 success，9 组视口、双主题，共 163 张测试截图；视觉 QA、桌面四面板、过渡、动效、走马灯、原生缩放报告均为 `PASS`、失败数 0。
 - [x] **原生浏览器与部署复核通过**：[Windows/macOS QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107412)、[Windows Edge 缩放 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107097)、[GitHub Pages 部署](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107333) 均成功。
 - [x] **人工审核新截图**：已对比修复前后 320px 第二屏，原本上方分类文字与粒子重叠的问题已消除；360/393/430/480/680px 的第二屏移动端亮色截图也已查看，未发现同类问题。
-- [ ] **真实手机视觉签收**：尚须在 Android/iOS 真机确认字体实际渲染、触摸滚动、滚动性能及浏览器状态栏占位；不将 CI 验收等同于实机设计批准。
-- [ ] **真实手机视觉签收待完成**：自动化不能替代具体设备的最终视觉、触摸滚动和字重验收；不影响本轮已通过的代码回归结论。
+- [x] **新增移动触摸模拟测试**：在 390px、DPR 2、`isMobile=true`/`hasTouch=true` 的 Chromium 模拟设备中，发送原生触摸事件，检查纵向滚动、菜单背景滚动锁定、第四/六屏卡片横滑及第五屏示例切换。实现提交：[8fb2849](https://github.com/Pixman022/fresnica-ui/commit/8fb28490eff2fa27bb5efd7e0c80bd39f0eff5f9)。
+- [ ] **触摸模拟自动化结果复核**：[V3 Visual QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43822226606) 执行中；如失败优先核对页面实际触摸行为与测试输入是否匹配，不通过跳过断言掩盖问题。
+- [ ] **真实手机视觉及性能签收**：尚须在 Android/iOS 真机确认字体实际渲染、触摸滚动、状态栏占位、卡片横滑与运行性能。真实采样步骤见 [2026-11-11 设备采样说明](v3-real-device-performance-capture-2026-11-11.md) 和 [验收记录模板](v3-device-performance-acceptance-2026-11-09.md)；不将模拟触摸或 CI 结果等同于实机设计批准。
 
 ### 本轮提交
 - 工作计划：[18000d9](https://github.com/Pixman022/fresnica-ui/commit/18000d991ff57d5f391ae2d6908d281829621222)
