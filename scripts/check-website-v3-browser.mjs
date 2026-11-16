@@ -204,9 +204,9 @@ try{
           `${name}/${theme}: engineering orb tuner is exposed in a normal preview`);
         assert(await page.evaluate(()=>!window.__v3PerfProbe&&!document.getElementById('v3-perf-panel')),
           `${name}/${theme}: device performance probe was loaded in normal preview`);
-        if(width<=430){
+        if(width<=680){
           const mobileHero=await page.evaluate(()=>{
-            const rect=el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};};
+            const rect=el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width};};
             const view=rect(document.getElementById('v3-page-scroll'));
             const field=rect(document.getElementById('orb-field'));
             // The CSS fallback is intentionally display:none while WebGL runs,
@@ -214,16 +214,33 @@ try{
             const diameter=field.bottom-field.top;
             const sphere={top:field.top+diameter*.195,bottom:field.top+diameter*.805};
             const art=rect(document.querySelector('#overview .hero-art'));
+            const ticker=rect(document.querySelector('#overview .ticker'));
             const actions=[...document.querySelectorAll('#overview .actions .cta')].map(rect);
+            const labels=[...document.querySelectorAll('#overview .orb-card')].map(el=>({
+              rect:rect(el),radius:parseFloat(getComputedStyle(el).borderTopLeftRadius),
+              pointer:getComputedStyle(el).pointerEvents
+            }));
+            const status=rect(document.querySelector('#overview .orb-status'));
+            const title=rect(document.querySelector('#overview h1'));
             const visible=(r)=>Math.max(0,Math.min(view.bottom,r.bottom)-Math.max(view.top,r.top));
             return {fieldVisible:visible(field),sphereVisible:visible(sphere),
-              artTop:art.top,viewBottom:view.bottom,actions};
+              fieldDiameter:diameter,artTop:art.top,artBottom:art.bottom,
+              viewBottom:view.bottom,tickerTop:ticker.top,status,labels,title,actions};
           });
-          assert(mobileHero.fieldVisible>=155&&mobileHero.sphereVisible>=110,
-            `${name}/${theme}: hero orb is almost invisible on first load (${JSON.stringify(mobileHero)})`);
-          assert(mobileHero.actions.length===2&&mobileHero.actions.every(r=>r.top>=0&&r.bottom<=mobileHero.viewBottom)&&
-            mobileHero.actions.every(r=>r.bottom<=mobileHero.artTop-7),
+          assert(mobileHero.fieldVisible>=185&&mobileHero.sphereVisible>=112&&
+            mobileHero.fieldDiameter<=285,
+            `${name}/${theme}: mobile hero sphere size/visibility failed (${JSON.stringify(mobileHero)})`);
+          assert(mobileHero.actions.length===2&&
+            mobileHero.actions.every(r=>r.top>=0&&r.bottom<=mobileHero.viewBottom)&&
+            mobileHero.actions.every(r=>r.bottom<=mobileHero.artTop-5),
             `${name}/${theme}: compact hero CTA overlaps the orb (${JSON.stringify(mobileHero)})`);
+          assert(mobileHero.title.top>=54&&mobileHero.artBottom<=mobileHero.tickerTop-5&&
+            mobileHero.status.bottom<=mobileHero.tickerTop-6&&
+            mobileHero.labels.length===3&&mobileHero.labels.every(l=>
+              l.rect.left>=-1&&l.rect.right<=width+1&&
+              l.rect.top>=0&&l.rect.bottom<=mobileHero.tickerTop-5&&
+              l.radius<=4&&l.pointer==='none'),
+            `${name}/${theme}: mobile first fold is incomplete or labels look clickable (${JSON.stringify(mobileHero)})`);
         }
         if(theme==='dark'){
           if(width<=680){
