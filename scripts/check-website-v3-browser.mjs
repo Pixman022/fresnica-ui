@@ -356,11 +356,24 @@ try{
             sections:document.querySelectorAll('.m60-section-links a').length,
             downloads:document.querySelectorAll('.m60-download-links a').length,
             locked:document.documentElement.classList.contains('m60-menu-open'),
-            backgroundInert:document.getElementById('v3-page-frame')?.inert
+            backgroundInert:document.getElementById('v3-page-frame')?.inert,
+            preferences:(()=>{
+              const language=document.querySelector('.m60-language');
+              const theme=document.querySelector('.m60-theme');
+              const a=language.getBoundingClientRect(),b=theme.getBoundingClientRect();
+              return {
+                sameRow:Math.abs(a.top-b.top)<=1&&Math.abs(a.bottom-b.bottom)<=1&&a.right+4<=b.left,
+                targetHeight:Math.min(b.height,...[...language.querySelectorAll('button')].map(el=>el.getBoundingClientRect().height)),
+                noClipping:[theme,...language.querySelectorAll('button')].every(el=>el.scrollWidth<=el.clientWidth+1)
+              };
+            })()
           }));
           assert(mobileMenu.expanded==='true'&&mobileMenu.sections===9&&mobileMenu.downloads===2&&
             mobileMenu.locked&&mobileMenu.backgroundInert,
             `${prefix}: mobile navigation drawer contract failed ${JSON.stringify(mobileMenu)}`);
+          assert(mobileMenu.preferences.sameRow&&mobileMenu.preferences.targetHeight>=44&&
+            mobileMenu.preferences.noClipping,
+            `${prefix}: language and theme preferences must fit in one row ${JSON.stringify(mobileMenu.preferences)}`);
           await page.keyboard.press('Escape');
           assert(await page.evaluate(()=>document.activeElement?.id==='m60-menu-toggle'&&
             !document.documentElement.classList.contains('m60-menu-open')),
@@ -854,8 +867,15 @@ try{
         const presetNavWidth=width<=375?Math.min(184,width-172):width<=680?Math.min(210,width-172):340;
         if(width>680)assert(Math.abs(zhNavWidth-presetNavWidth)<=1,
           `zh/${name}/${theme}: navigation capsule changed width after localization (${zhNavWidth}px vs ${presetNavWidth}px)`);
-        else assert(await page.locator('#m60-menu-toggle').isVisible(),
-          `zh/${name}/${theme}: mobile menu trigger missing after language change`);
+        else {
+          assert(await page.locator('#m60-menu-toggle').isVisible(),
+            `zh/${name}/${theme}: mobile menu trigger missing after language change`);
+          await page.locator('#m60-menu-toggle').click();
+          await page.waitForFunction(()=>document.querySelector('.m60-theme-label')?.textContent==='主题');
+          assert((await page.locator('.m60-theme').getAttribute('aria-label'))==='切换深浅主题',
+            `zh/${name}/${theme}: compact theme button accessibility label is not localized`);
+          await page.keyboard.press('Escape');
+        }
         assert(data.overflow<=8,`zh/${name}/${theme}: horizontal document overflow ${data.overflow}px`);
         if(width<=480){
           const captions=await page.evaluate(measureMobileHeroCaptions);
