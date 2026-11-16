@@ -50,7 +50,7 @@
     seed = 291017;
     // Place uniform, lightly jittered samples across the filled silhouette.
     // No dedicated perimeter points, outlines, strokes, or edge-specific colors.
-    const target = compact.matches ? 1050 : 1650;
+    const target = compact.matches ? 1470 : 1650; // +40% mobile dots; no continuous frames
     const spacing = Math.sqrt(filledCount / target);
     const points = [];
     for (let row = 0, y = spacing * 0.5; y < rasterSize; row++, y += spacing) {
@@ -111,7 +111,7 @@
     if (!width || !height) return;
     ctx.clearRect(0, 0, width, height);
     const dark = document.documentElement.classList.contains('v3-theme-dark');
-    const still = reduced.matches;
+    const still = reduced.matches || compact.matches;
     const t = still ? 0 : now / 1000;
     const breath = still ? 1 : 1 + Math.sin(t * 0.70) * 0.006;
     for (const p of particles) {
@@ -165,13 +165,13 @@
     frameId = 0;
   }
   function start() {
-    if (!ready || !visible || reduced.matches || document.hidden || document.documentElement.classList.contains('m60-menu-open') || running) return;
+    if (!ready || !visible || reduced.matches || compact.matches || document.hidden || document.documentElement.classList.contains('m60-menu-open') || running) return;
     running = true;
     lastDraw = 0;
     frameId = requestAnimationFrame(frame);
   }
   function refreshMotion() {
-    if (reduced.matches || document.hidden || !visible || document.documentElement.classList.contains('m60-menu-open')) stop();
+    if (reduced.matches || compact.matches || document.hidden || !visible || document.documentElement.classList.contains('m60-menu-open')) stop();
     else start();
     if (ready && !running) draw(performance.now(), 0);
   }
@@ -207,6 +207,7 @@
   compact.addEventListener('change', () => {
     if (ready) buildParticles();
     else if (!compact.matches || visible) init();
+    refreshMotion();
   });
   reduced.addEventListener('change', refreshMotion);
   document.addEventListener('visibilitychange', refreshMotion);
