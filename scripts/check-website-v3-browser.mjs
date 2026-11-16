@@ -1484,6 +1484,13 @@ try{
       const next=await movingPage.locator('#v3-ecosystem .stream-dot').first()
         .evaluate(el=>getComputedStyle(el).transform);
       assert(first!==next,`Particle motion did not advance at ${width}px`);
+      // Screenshot the settled chapter, not its staggered text entrance frames.
+      await movingPage.waitForFunction(()=>{
+        const copy=document.querySelectorAll('#v3-ecosystem .bottom-intro .reveal');
+        return copy.length===3&&[...copy].every(el=>
+          Number(getComputedStyle(el).opacity)>=.99&&
+          !el.getAnimations().some(animation=>animation.playState==='running'));
+      },null,{timeout:6000});
       const image=path.join(dest,`mobile-ecosystem-motion-${width}.png`);
       await movingPage.screenshot({path:image});
       captures.push(path.relative(dest,image));
