@@ -29,6 +29,7 @@
     });
   }
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  const compact=matchMedia('(max-width:680px)');
   const eligible=()=>!reduced.matches&&!document.hidden&&!document.documentElement.classList.contains('m60-menu-open');
   const root=document.documentElement;
   let current=null, pending=false, signalFrame=0;
@@ -99,7 +100,7 @@
     ecosystemSpine?.classList.remove('m21-flowing');
   }
   function scheduleCurrent(){
-    if(!ecosystemSpine||currentTimer||current?.id!=='v3-ecosystem'||!eligible())return;
+    if(!ecosystemSpine||compact.matches||currentTimer||current?.id!=='v3-ecosystem'||!eligible())return;
     currentTimer=setTimeout(()=>{
       currentTimer=0;
       if(current?.id!=='v3-ecosystem'||!eligible())return;
@@ -124,7 +125,7 @@
     }
     root.classList.toggle('m14-motion',eligible());
     root.dataset.m14Active=current?.id||'';
-    if(current?.id==='v3-ecosystem'&&eligible())scheduleCurrent();
+    if(current?.id==='v3-ecosystem'&&eligible()&&!compact.matches)scheduleCurrent();
     else if(currentTimer||ecosystemSpine?.classList.contains('m21-flowing'))stopCurrent();
     if(current?.id==='v3-workspace'&&eligible()){
       if(!signalFrame)signalFrame=requestAnimationFrame(packet);
@@ -137,6 +138,7 @@
   scroller.addEventListener('scroll',request,{passive:true});
   window.addEventListener('resize',request,{passive:true});
   reduced.addEventListener('change',request);
+  compact.addEventListener('change',request);
   document.addEventListener('visibilitychange',request);
   window.addEventListener('v3-mobile-menu-change',request);
   request();
