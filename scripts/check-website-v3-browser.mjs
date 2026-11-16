@@ -1445,6 +1445,60 @@ try{
   }catch(error){
     failures.push('mobile static particle QA: '+String(error.message||error).slice(0,700));
   }finally{await staticPage.close();}
+  // Check the two compact breakpoints with animation enabled, not only static screenshots.
+  for(const [width,height] of [[320,720],[680,900]]){
+    const movingPage=await browser.newPage({viewport:{width,height},
+      reducedMotion:'no-preference',deviceScaleFactor:1});
+    try{
+      await movingPage.goto(base,{waitUntil:'load',timeout:45000});
+      await movingPage.evaluate(()=>document.fonts.ready);
+      await movingPage.evaluate(()=>document.getElementById('v3-ecosystem')
+        .scrollIntoView({block:'center',behavior:'instant'}));
+      await movingPage.waitForFunction(()=>
+        document.documentElement.dataset.m14Active==='v3-ecosystem'&&
+        getComputedStyle(document.querySelector('#v3-ecosystem .stream-dot')).animationPlayState==='running');
+      const state=await movingPage.evaluate(()=>{
+        const scene=document.getElementById('v3-ecosystem');
+        const top=scene.querySelector('.orbital-intro').getBoundingClientRect();
+        const bottom=scene.querySelector('.bottom-intro').getBoundingClientRect();
+        const dots=[...scene.querySelectorAll('.stream-dot')];
+        const rects=dots.map(el=>el.getBoundingClientRect());
+        const styles=dots.map(el=>getComputedStyle(el));
+        return {
+          count:dots.length,
+          sizes:[Math.min(...rects.map(r=>r.width)),Math.max(...rects.map(r=>r.width))],
+          animation:styles[0].animationName,
+          topGap:Math.min(...rects.map(r=>r.top))-top.bottom,
+          bottomGap:bottom.top-Math.max(...rects.map(r=>r.bottom)),
+          left:Math.min(...rects.map(r=>r.left)),right:Math.max(...rects.map(r=>r.right))
+        };
+      });
+      assert(state.count===136&&state.animation==='ecosystem-mobile-stream-in'&&
+        state.sizes[0]>=2.1&&state.sizes[1]<=4.6&&
+        state.topGap>=-2&&state.bottomGap>=-2&&state.left>=-2&&state.right<=width+2,
+        `Mobile animated particle geometry is clipped or overlaps text at ${width}px: ${JSON.stringify(state)}`);
+      const first=await movingPage.locator('#v3-ecosystem .stream-dot').first()
+        .evaluate(el=>getComputedStyle(el).transform);
+      await movingPage.waitForTimeout(240);
+      const next=await movingPage.locator('#v3-ecosystem .stream-dot').first()
+        .evaluate(el=>getComputedStyle(el).transform);
+      assert(first!==next,`Particle motion did not advance at ${width}px`);
+      const image=path.join(dest,`mobile-ecosystem-motion-${width}.png`);
+      await movingPage.screenshot({path:image});
+      captures.push(path.relative(dest,image));
+      await movingPage.evaluate(()=>document.getElementById('v3-availability')
+        .scrollIntoView({block:'center',behavior:'instant'}));
+      await movingPage.waitForFunction(()=>document.documentElement.dataset.m14Active!=='v3-ecosystem'&&
+        getComputedStyle(document.querySelector('#v3-ecosystem .stream-dot')).animationPlayState==='paused');
+      await movingPage.evaluate(()=>document.getElementById('v3-ecosystem')
+        .scrollIntoView({block:'center',behavior:'instant'}));
+      await movingPage.waitForFunction(()=>document.documentElement.dataset.m14Active==='v3-ecosystem'&&
+        getComputedStyle(document.querySelector('#v3-ecosystem .stream-dot')).animationPlayState==='running');
+      console.log(`[V3 browser] mobile-${width} particle animation/reentry PASS`);
+    }catch(error){
+      failures.push(`mobile particle animation ${width}px: ${String(error.message||error).slice(0,650)}`);
+    }finally{await movingPage.close();}
+  }
   const dynamicPage=await browser.newPage({viewport:{width:1440,height:900},
     reducedMotion:'no-preference',deviceScaleFactor:1});
   try{
