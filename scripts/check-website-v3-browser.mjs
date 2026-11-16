@@ -1270,6 +1270,74 @@ try{
   }catch(error){
     failures.push('scene-two initial load: '+String(error.message||error).slice(0,600));
   }finally{await deepLink.close();}
+  // Emulated touch input complements viewport-only QA; this is not physical-device approval.
+  const touchPage=await browser.newPage({viewport:{width:390,height:844},
+    deviceScaleFactor:2,isMobile:true,hasTouch:true,reducedMotion:'reduce'});
+  try{
+    await touchPage.goto(base,{waitUntil:'load',timeout:45000});
+    await touchPage.evaluate(()=>document.fonts.ready);
+    await touchPage.waitForFunction(()=>
+      document.documentElement.classList.contains('m10-framed')&&
+      document.getElementById('m60-menu-toggle'));
+    const cdp=await touchPage.context().newCDPSession(touchPage);
+    const swipe=async(x1,y1,x2,y2)=>{
+      await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',
+        touchPoints:[{x:x1,y:y1,id:0}]});
+      for(let step=1;step<=12;step++){
+        const t=step/12;
+        await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{
+          x:x1+(x2-x1)*t,y:y1+(y2-y1)*t,id:0
+        }]});
+        await touchPage.waitForTimeout(18);
+      }
+      await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+      await touchPage.waitForTimeout(360);
+    };
+    const before=await touchPage.evaluate(()=>({
+      width:innerWidth,scroll:document.getElementById('v3-page-scroll').scrollTop,
+      touch:matchMedia('(pointer:coarse)').matches
+    }));
+    assert(before.width===390&&before.touch,'Mobile touch emulation not active: '+JSON.stringify(before));
+    await touchPage.locator('#m60-menu-toggle').tap();
+    const modalScroll=await touchPage.evaluate(()=>document.getElementById('v3-page-scroll').scrollTop);
+    await swipe(330,675,330,275);
+    const locked=await touchPage.evaluate(()=>({
+      scroll:document.getElementById('v3-page-scroll').scrollTop,
+      open:document.documentElement.classList.contains('m60-menu-open'),
+      inert:document.getElementById('v3-page-frame').inert
+    }));
+    assert(locked.open&&locked.inert&&Math.abs(locked.scroll-modalScroll)<=2,
+      'Mobile drawer did not lock background during touch scroll: '+JSON.stringify(locked));
+    await touchPage.locator('.m60-drawer-close').tap();
+    await swipe(190,715,190,250);
+    const afterScroll=await touchPage.evaluate(()=>document.getElementById('v3-page-scroll').scrollTop);
+    assert(afterScroll>=before.scroll+45,
+      'Touch swipe did not scroll the mobile page: '+JSON.stringify({before,afterScroll}));
+
+    async function checkTouchRail(selector){
+      const info=await touchPage.evaluate(selector=>{
+        const node=document.querySelector(selector);
+        node.scrollIntoView({block:'center',behavior:'instant'});
+        node.scrollLeft=0;
+        const r=node.getBoundingClientRect();
+        return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,
+          extent:node.scrollWidth-node.clientWidth};
+      },selector);
+      const y=Math.max(100,Math.min(740,(info.top+info.bottom)/2));
+      await swipe(info.right-45,y,info.left+45,y);
+      const moved=await touchPage.locator(selector).evaluate(el=>el.scrollLeft);
+      assert(info.extent>100&&moved>=30,
+        'Horizontal touch swipe failed for '+selector+': '+JSON.stringify({info,moved}));
+    }
+    await checkTouchRail('#feature-window');
+    await checkTouchRail('#v3-for-you .audience-track');
+    await touchPage.locator('#desktop-tab-swap').tap();
+    assert(await touchPage.locator('#desktop-tab-swap').getAttribute('aria-selected')==='true',
+      'Mobile tap did not switch desktop preview to Swap');
+    console.log('[V3 browser] touch-mobile-390 PASS (scroll, drawer, two rails, preview tab)');
+  }catch(error){
+    failures.push('mobile touch emulation: '+String(error.message||error).slice(0,700));
+  }finally{await touchPage.close();}
   // Mobile particle upgrade: verify real no-preference operation (not only reduced-motion screenshots).
   const staticPage=await browser.newPage({viewport:{width:393,height:852},
     reducedMotion:'no-preference',deviceScaleFactor:1});
