@@ -50,4 +50,6 @@
 - [x] **性能观测及回归通过**：[V3 Website Visual QA #43825130246](https://github.com/Pixman022/fresnica-ui/actions/runs/43825130246) 两个作业均 success；新增的 `mobile-particle-load.json` 报告为 `PASS`，6 组样本、0 failures。原有 Chromium 18 组视口/主题、163 张截图 0 异常，Firefox/WebKit 也通过。
 - [x] **实测数据记录（仅 CI 模拟）**：393×852 @ DPR 2，136 CSS 点，取样窗均为约 1.6 秒。正常动效 TaskDuration 为 `182.2 / 0.7 / 0.9ms`，减少动态模式为 `0.6 / 0.1 / 0.3ms`，中位数分别 `0.9ms`、`0.3ms`。首轮正常动效明显偏高，可能包含首帧启动或其他任务；无原生 trace 不能归因于粒子，不能据此得出真实设备不卡顿或已改善的结论。两种模式的 ScriptDuration 和 LayoutDuration 记录均为 0ms，JS 堆读数分别约 3.2MB 与 2.6MB；不同浏览器上下文不应用这组堆读数断言内存节省。
 - [x] **不调整已确认视觉**：此次仅新增 QA 脚本、工作流入口和记录，无生产 CSS/JS 修改。
+- [x] **320px / 680px 的移动粒子复入测试已提交**：补充正常动效下边界宽度检查，验证 136 点尺寸、运动期间的版面避让、动效位移、离屏暂停和重新进入恢复，并各保存一张动态截图；变更仅限 [浏览器测试脚本](https://github.com/Pixman022/fresnica-ui/commit/d97d614997869416abebfff1daab18a233aacb2b)，生产页面不修改。
+- [ ] **新增边界宽度测试待验收**：[V3 Visual QA #43826621297](https://github.com/Pixman022/fresnica-ui/actions/runs/43826621297)；若失败需区分真实布局与断言问题，不降低通过标准。
 - [ ] **真实 Android/iOS 设备签收**：需实际确认流畅度、耗电、设备温度及视觉体验；浏览器模拟和 CI 不构成真实设备性能验收。
