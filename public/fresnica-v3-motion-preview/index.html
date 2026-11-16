@@ -3285,7 +3285,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     const startY=Math.sin(angle)*(6+radius*13);
     dot.style.setProperty('--from-x',startX.toFixed(2)+'vw');
     dot.style.setProperty('--from-y',startY.toFixed(2)+'vh');
-    const staticSpread=matchMedia('(max-width:680px)').matches?.50:.42;
+    const staticSpread=matchMedia('(max-width:680px)').matches ? .50 : .42;
     dot.style.setProperty('--fallback-x',(startX*staticSpread).toFixed(2)+'vw');
     dot.style.setProperty('--fallback-y',(startY*staticSpread).toFixed(2)+'vh');
     dot.style.setProperty('--dot-alpha',(.68+rand()*.3).toFixed(2));
