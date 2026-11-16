@@ -3517,6 +3517,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     const canvas = document.getElementById('footer-particles');
     const context = canvas.getContext('2d', {alpha:true});
     if (!context) return () => {};
+    const compactFooter=matchMedia('(max-width:680px)');
     const samples = [];
     let width=0, height=0, visible=false, running=false, lastFrame=0;
     let progress=0, themePulseStart=-Infinity;
@@ -3524,7 +3525,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     const pointer={x:0,y:0,targetX:0,targetY:0,power:0,targetPower:0};
     const hash = n => { const v=Math.sin(n*78.233+16.37)*43758.5453; return v-Math.floor(v); };
     function syncInteractivity() {
-      const active=samples.length>50&&!reduced.matches;
+      const active=samples.length>50&&!reduced.matches&&!compactFooter.matches;
       wrap.classList.toggle('particle-interactive',active);
       if(active){
         wrap.setAttribute('role','button');
@@ -3557,11 +3558,12 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
       samples.length=0;
       burstActive=false;
       let pointIndex=0;
-      const step=width<650?5:7;
+      // 4px grid with modest thinning: about 40% more mobile dots than 5px/.07.
+      const step=compactFooter.matches?4:width<650?5:7;
       for(let y=2;y<height-2;y+=step)for(let x=2;x<width-2;x+=step){
         if(data[(y*width+x)*4+3]<145)continue;
         const n=pointIndex++;
-        if(hash(n+91)<.07)continue;
+        if(hash(n+91)<(compactFooter.matches?.16:.07))continue;
         samples.push({x:x+(hash(n+1)-.5)*1.8,y:y+(hash(n+2)-.5)*1.8,
           dx:(hash(n+3)-.5)*Math.min(275,width*.29),
           dy:(hash(n+4)-.5)*Math.min(160,height*1.8),
@@ -3595,12 +3597,12 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
         }
       }
       const burstFlash=burstActive?Math.max(0,1-(now-burstStarted)/520):0;
-      const assembled=smooth((progress-.07)/.65);
+      const assembled=compactFooter.matches?1:smooth((progress-.07)/.65);
       // Retain the scrolling plume, but use only neutral shades until cursor hover.
       // The brand green is reserved for particles near the pointer.
       const pulseAge=(now-themePulseStart)/1650;
-      const themePulse=pulseAge>=0&&pulseAge<1&&!reduced.matches?Math.sin(pulseAge*Math.PI):0;
-      const scrollPlume=!reduced.matches?Math.exp(-Math.pow((progress-.59)/.16,2))*.8:0;
+      const themePulse=pulseAge>=0&&pulseAge<1&&!reduced.matches&&!compactFooter.matches?Math.sin(pulseAge*Math.PI):0;
+      const scrollPlume=!reduced.matches&&!compactFooter.matches?Math.exp(-Math.pow((progress-.59)/.16,2))*.8:0;
       const swell=Math.max(themePulse,scrollPlume);
       const plumeX=width*(.55+.045*Math.sin(now*.00065));
       const light=footerScene.classList.contains('day');
@@ -3611,7 +3613,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
       const hoverRadiusSq=hoverRadius*hoverRadius;
       for(let i=0;i<samples.length;i++){
         const dot=samples[i];
-        const float=(1-assembled*.58)*Math.sin(now*.00078+dot.phase)*3.1;
+        const float=compactFooter.matches?0:(1-assembled*.58)*Math.sin(now*.00078+dot.phase)*3.1;
         const near=Math.exp(-Math.pow((dot.x-plumeX)/(width*.105),2));
         const localBurst=near*swell;
         const driftX=(hash(i+71)-.5)*Math.min(100,width*.10)*localBurst;
@@ -3653,15 +3655,15 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     function update() {
       const rect=footerScene.getBoundingClientRect();
       progress=clamp01((window.innerHeight*.83-rect.top)/(window.innerHeight*.8));
-      if(visible&&!reduced.matches)render(performance.now());
+      if(visible&&!reduced.matches&&!compactFooter.matches)render(performance.now());
     }
     function frame(now) {
-      if(!visible||reduced.matches||document.hidden||document.documentElement.classList.contains('m60-menu-open')){running=false;return;}
+      if(!visible||reduced.matches||compactFooter.matches||document.hidden||document.documentElement.classList.contains('m60-menu-open')){running=false;return;}
       if(now-lastFrame>=33){render(now);lastFrame=now;}
       requestAnimationFrame(frame);
     }
     function start() {
-      if(visible&&!reduced.matches&&!document.hidden&&!document.documentElement.classList.contains('m60-menu-open')&&!running){running=true;requestAnimationFrame(frame);}
+      if(visible&&!reduced.matches&&!compactFooter.matches&&!document.hidden&&!document.documentElement.classList.contains('m60-menu-open')&&!running){running=true;requestAnimationFrame(frame);}
     }
     if ('IntersectionObserver' in window){
       const observer=new IntersectionObserver(entries=>{
@@ -3671,10 +3673,14 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     } else visible=true;
     window.addEventListener('resize',()=>{if(width || visible){measure();update();start();}},{passive:true});
     reduced.addEventListener('change',()=>{update();start();});
+    compactFooter.addEventListener('change',()=>{
+      pointer.targetPower=0;pointer.power=0;
+      if(width||visible){measure();update();start();}
+    });
     document.addEventListener('visibilitychange',()=>{if(document.hidden)pointer.targetPower=0;start();});
     window.addEventListener('v3-mobile-menu-change',start);
     function explode(cx,cy){
-      if(reduced.matches||!visible||samples.length<50)return;
+      if(reduced.matches||compactFooter.matches||!visible||samples.length<50)return;
       const now=performance.now();
       const maxVelocity=Math.min(1850,Math.max(850,width*1.35));
       const reach=Math.max(115,width*.33);
@@ -3707,7 +3713,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     });
     const finePointer=matchMedia('(hover:hover) and (pointer:fine)');
     wrap.addEventListener('pointermove',event=>{
-      if(reduced.matches||!finePointer.matches)return;
+      if(reduced.matches||compactFooter.matches||!finePointer.matches)return;
       const bounds=wrap.getBoundingClientRect();
       pointer.targetX=event.clientX-bounds.left;
       pointer.targetY=event.clientY-bounds.top;
@@ -3725,7 +3731,8 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     if(document.fonts)document.fonts.ready.then(()=>{if(width || visible){measure();update();}});
     if(!matchMedia('(max-width:680px)').matches){measure();update();start();}
     return { update, pulse() {
-      themePulseStart=reduced.matches?-Infinity:performance.now();
+      themePulseStart=reduced.matches||compactFooter.matches?-Infinity:performance.now();
+      if(compactFooter.matches){if(width)render(performance.now());return;}
       update();start();
     } };
   }
