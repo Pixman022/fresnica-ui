@@ -17,7 +17,7 @@
 | SEO | `<meta name="robots" content="noindex,nofollow,noarchive" />` | 预览阶段继续限制索引；是否开放收录需另行批准 |
 | iOS / Android 下载 | 第三屏两枚独立平台图标、单行按钮文字；原生 `disabled` | 不存在可执行安装/下载动作，需官方渠道 URL |
 | 桌面端下载 | 第五屏 `.desktop-download:disabled` | 未公布正式安装包或发布渠道 |
-| 顶部下载菜单 | 仅锚点跳转到第三屏或第五屏 | 导航入口**不是**有效 App Store / Google Play 下载按钮 |
+| 顶部与移动端下载菜单 | iOS、Android、桌面端三个独立入口；取消跳转第三屏或第五屏。`index.html` 的 `officialDownloadUrls` 目前均为空，入口保持 `aria-disabled`，移动端/桌面端分组使用不同的中性灰背景 | 只有取得真实、审核通过的官方 HTTPS URL 后才启用对应直达链接；不得把演示章节当安装地址 |
 | 正文与页脚导航 | 均指向本页既有章节 | 没有对外社区、邮箱或隐私政策链接被伪装成已核实 |
 | 官网能力范围 | 静态演示钱包界面和切屏动画 | 本网站不处理资产、私钥或实际交易 |
 | 品牌及网络 | 明确定位 Stellar 生态钱包；未声称多链支持 | 与现有产品定位一致 |
