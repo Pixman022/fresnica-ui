@@ -2448,6 +2448,40 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
   html.m10-framed #v3-ecosystem .particle-cloud{left:12px;right:12px;width:auto;}
 }
 </style>
+<style id="m67-mobile-desktop-preview-16x9">
+/* Preserve the compact preview width; scale only the example UI into a 16:9 landscape frame. */
+@media(max-width:680px){
+  html.m10-framed #v3-workspace .workspace-mini{
+    aspect-ratio:16/9;
+    min-height:0;
+  }
+  html.m10-framed #v3-workspace .workspace-mini .ws-sidebar{
+    min-height:0;overflow:hidden;padding:19px 3px 3px;
+  }
+  html.m10-framed #v3-workspace .ws-sidebar strong{margin:0 0 6px;}
+  html.m10-framed #v3-workspace .ws-sidebar [data-desktop-nav]{
+    padding:3px 0;margin:1px 0;
+  }
+  html.m10-framed #v3-workspace .ws-sidebar [data-desktop-nav] svg{
+    width:14px;height:14px;
+  }
+  html.m10-framed #v3-workspace .ws-content{
+    --preview-content-scale:.84;
+    box-sizing:border-box;width:calc(100% / var(--preview-content-scale));
+    height:calc(100% / var(--preview-content-scale));
+    transform:scale(var(--preview-content-scale));
+    transform-origin:top left;
+  }
+}
+@media(max-width:480px){
+  html.m10-framed #v3-workspace .workspace-mini{aspect-ratio:16/9;}
+  html.m10-framed #v3-workspace .ws-content{--preview-content-scale:.70;}
+}
+@media(max-width:360px){
+  html.m10-framed #v3-workspace .workspace-mini{aspect-ratio:16/9;}
+  html.m10-framed #v3-workspace .ws-content{--preview-content-scale:.60;}
+}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
