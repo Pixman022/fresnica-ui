@@ -443,6 +443,10 @@ try{
             const featureFirst=featureCards[0].getBoundingClientRect();
             const featureSecond=featureCards[1].getBoundingClientRect();
             const finalAsset=q('#v3-workspace .dp-panel-assets .dp-asset-row:last-child').getBoundingClientRect();
+            const phone=q('#v3-availability .download-phone').getBoundingClientRect();
+            const phoneArt=q('#v3-availability .download-art').getBoundingClientRect();
+            const cardArt=q('#v3-features .feature-card .feature-art').getBoundingClientRect();
+            const innerCard=q('#v3-features .feature-card .feature-ui').getBoundingClientRect();
             return {
               workspaceStack:intro.bottom+8<=demo.top&&demo.bottom+8<=controls.top,
               workspaceWidth:demo.left>=-1&&demo.right<=innerWidth+1&&
@@ -458,9 +462,19 @@ try{
                 first.left>=10&&first.right<=innerWidth-10&&second.left>=innerWidth-16&&
                   second.left<innerWidth&&second.right>innerWidth :
                 first.left>=-1&&first.right<=innerWidth+1&&second.left<innerWidth-8,
-              featureFull:innerWidth>480||
-                (featureFirst.left>=10&&featureFirst.right<=innerWidth-10&&
-                 featureSecond.left>=innerWidth-16),
+              featureFull:featureFirst.left>=10&&featureFirst.right<=innerWidth-10&&
+                (innerWidth>480||featureSecond.left>=featureFirst.right+8&&
+                  featureSecond.left<innerWidth-8),
+              featureCompact:featureFirst.width<=Math.min(300,innerWidth-88)+2&&
+                cardArt.height<=247&&innerCard.left>=cardArt.left-2&&
+                innerCard.right<=cardArt.right+2&&
+                innerCard.top>=cardArt.top-2&&innerCard.bottom<=cardArt.bottom+2,
+              phoneCompact:phone.width<=235&&phoneArt.height<=491&&
+                phone.left>=phoneArt.left-2&&phone.right<=phoneArt.right+2&&
+                phone.top>=phoneArt.top-2&&phone.bottom<=phoneArt.bottom-12,
+              demoCompact:demo.width<=(innerWidth<=480?
+                Math.min(340,innerWidth-58):Math.min(480,innerWidth-80))+2&&
+                Math.abs(demo.width-controls.width)<=2,
               previewAssetsVisible:innerWidth>480||finalAsset.bottom<=demo.bottom-3,
               previewReadable:innerWidth>480||(
                 demo.height>=demo.width*.78&&
@@ -474,8 +488,10 @@ try{
             compactLayout.workspaceMin<=970&&compactLayout.faqMin<=770&&
             compactLayout.swipeHints&&compactLayout.featureScrollable&&
             compactLayout.experienceSnap&&compactLayout.experiencePeek&&
-            compactLayout.featureFull&&compactLayout.previewAssetsVisible&&
-            compactLayout.previewReadable&&compactLayout.swipeHintReadable,
+            compactLayout.featureFull&&compactLayout.featureCompact&&
+            compactLayout.phoneCompact&&compactLayout.demoCompact&&
+            compactLayout.previewAssetsVisible&&compactLayout.previewReadable&&
+            compactLayout.swipeHintReadable,
             `${prefix}: mobile scenes must stack naturally and expose swipable cards ${JSON.stringify(compactLayout)}`);
         }
         const mobileActions=await page.evaluate(measureMobileDownloads);
