@@ -2301,6 +2301,71 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
   }
 }
 </style>
+<style id="m64-mobile-visual-refinement">
+/* Screenshot-guided mobile adjustments; desktop visuals and particle counts unchanged. */
+@media(max-width:680px){
+  /* Readable static particle field: maintain its centre and the 136 existing dots. */
+  html.m10-framed #v3-ecosystem .orbital-intro{top:clamp(110px,17%,145px);}
+  html.m10-framed #v3-ecosystem .bottom-intro{bottom:clamp(84px,13%,115px);}
+  html.m10-framed #v3-ecosystem .ecosystem-core{
+    width:10px;height:10px;
+    box-shadow:0 0 15px rgba(8,180,113,.95),0 0 38px rgba(8,174,111,.62),0 0 72px rgba(8,174,111,.28);
+  }
+  html.m10-framed #v3-ecosystem .ecosystem-core::before,
+  html.m10-framed #v3-ecosystem .ecosystem-core::after{opacity:.82;}
+  /* Subtle improvement to the mobile fallback shell, not to point size/count. */
+  html.m10-framed:not(.v3-theme-dark) #overview .fallback-orb::before{opacity:.62;}
+  /* Make the existing hint visible without sacrificing the full-card swipe. */
+  html.m10-framed #v3-features .m61-swipe-hint{
+    margin-top:clamp(20px,3vh,28px);font-size:12px;line-height:1.45;
+  }
+  html.m10-framed:not(.v3-theme-dark) #v3-features .m61-swipe-hint{color:#405b4c;}
+  /* Small typography adjustment to the previously restored full wordmark. */
+  html.m10-framed .site-header .brand,
+  html.m10-framed .site-header .brand-label{font-size:15px;}
+}
+@media(max-width:480px){
+  /* Widen the usable app area instead of shrinking the whole desktop window. */
+  html.m10-framed #v3-workspace .workspace-mini{
+    aspect-ratio:5/4;
+    grid-template-columns:clamp(52px,16vw,64px) minmax(0,1fr);
+  }
+  #v3-workspace .ws-sidebar{padding:30px 4px 6px;}
+  #v3-workspace .ws-sidebar strong{
+    justify-content:center;margin:4px 0 11px;font-size:0;
+  }
+  #v3-workspace .ws-sidebar strong::before{width:15px;height:15px;}
+  #v3-workspace .ws-sidebar [data-desktop-nav]{
+    justify-content:center;gap:0;margin:3px 0;padding:8px 0;font-size:0;
+  }
+  #v3-workspace .ws-sidebar [data-desktop-nav] svg{width:17px;height:17px;}
+  html.m10-framed #v3-workspace .ws-content{padding:29px 10px 8px;}
+  #v3-workspace .dp-heading h3{font-size:clamp(14px,3.7vw,16px);}
+  #v3-workspace .dp-panel-assets .dp-heading{margin:2px 0 7px;}
+  #v3-workspace .dp-panel-assets .dp-balance{height:80px;min-height:0;padding:9px;gap:5px;}
+  #v3-workspace .dp-panel-assets .dp-balance strong{font-size:clamp(18px,4.6vw,21px);margin:3px 0 0;}
+  #v3-workspace .dp-balance-change{margin-top:5px;gap:4px;}
+  #v3-workspace .dp-balance-change b{font-size:8px;padding:3px 5px;}
+  #v3-workspace .dp-balance-change small{display:none;}
+  #v3-workspace .dp-panel-assets .dp-balance .dp-portfolio-chart{
+    flex:0 1 44%;width:44%;aspect-ratio:3/2;
+  }
+  #v3-workspace .dp-quick-actions{gap:5px;margin-top:8px;}
+  #v3-workspace .dp-quick-action{height:33px;padding:0 3px;gap:4px;font-size:10px;}
+  #v3-workspace .dp-quick-action svg{width:13px;height:13px;}
+  #v3-workspace .dp-assets-list{margin-top:5px;}
+  #v3-workspace .dp-asset-row{min-height:28px;padding:3px 0;gap:5px;}
+  #v3-workspace .dp-asset-row b,
+  #v3-workspace .dp-asset-row > strong,
+  #v3-workspace .dp-asset-values strong{font-size:10px;}
+  #v3-workspace .dp-asset-row small{display:none;}
+  /* Other preview tabs retain their layout but gain a more usable type size. */
+  #v3-workspace .dp-card-eyebrow,
+  #v3-workspace .dp-payment-card .dp-field>span,
+  #v3-workspace .dp-payment-card .dp-field strong,
+  #v3-workspace .dp-connect-shell .dp-permissions>div{font-size:9px;}
+}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
@@ -2875,6 +2940,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
       g.setTransform(scale,0,0,scale,0,0);
       g.clearRect(0,0,width,height);
       const lightShell=!document.documentElement.classList.contains('v3-theme-dark');
+      const mobileLightShell=lightShell&&compactOrb.matches;
       const shellAlpha=lightShell?1:.70;
       const spin=t*.10+smoothX*.17;
       const tilt=-.12+smoothY*.13+Math.sin(t*.19)*.055;
@@ -2903,12 +2969,16 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
         const localOpacity=green
           ? opacity*.70*(.46+.54*clearance)
           : opacity*(.22+.78*clearance);
-        g.fillStyle=lightShell
-          ?green?'rgba(106,186,150,'+(localOpacity*.76).toFixed(3)+')'
+        g.fillStyle=mobileLightShell
+          ?green?'rgba(69,153,113,'+(localOpacity*.95).toFixed(3)+')'
             :dot.tone<.16?'rgba(255,255,255,'+(localOpacity*.94).toFixed(3)+')'
-              :'rgba(238,247,241,'+(localOpacity*.90).toFixed(3)+')'
-          :green?'rgba(92,181,148,'+localOpacity.toFixed(3)+')'
-            :'rgba(252,255,253,'+localOpacity.toFixed(3)+')';
+              :'rgba(122,174,144,'+(localOpacity*.84).toFixed(3)+')'
+          :lightShell
+            ?green?'rgba(106,186,150,'+(localOpacity*.76).toFixed(3)+')'
+              :dot.tone<.16?'rgba(255,255,255,'+(localOpacity*.94).toFixed(3)+')'
+                :'rgba(238,247,241,'+(localOpacity*.90).toFixed(3)+')'
+            :green?'rgba(92,181,148,'+localOpacity.toFixed(3)+')'
+              :'rgba(252,255,253,'+localOpacity.toFixed(3)+')';
         const size=dot.size*(.75+.52*front);
         g.beginPath();g.arc(p.x,p.y,size*.5,0,Math.PI*2);g.fill();
       }
@@ -3215,8 +3285,9 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     const startY=Math.sin(angle)*(6+radius*13);
     dot.style.setProperty('--from-x',startX.toFixed(2)+'vw');
     dot.style.setProperty('--from-y',startY.toFixed(2)+'vh');
-    dot.style.setProperty('--fallback-x',(startX*.42).toFixed(2)+'vw');
-    dot.style.setProperty('--fallback-y',(startY*.42).toFixed(2)+'vh');
+    const staticSpread=matchMedia('(max-width:680px)').matches?.50:.42;
+    dot.style.setProperty('--fallback-x',(startX*staticSpread).toFixed(2)+'vw');
+    dot.style.setProperty('--fallback-y',(startY*staticSpread).toFixed(2)+'vh');
     dot.style.setProperty('--dot-alpha',(.68+rand()*.3).toFixed(2));
     const size=(matchMedia('(max-width:680px)').matches?2.2+rand()*2.4:2.8+rand()*3.0).toFixed(1)+'px';
     dot.style.width=size;dot.style.height=size;
