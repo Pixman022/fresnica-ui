@@ -2174,12 +2174,12 @@ html.m10-framed #overview .orb-card.second{
 }
 .m60-language button[aria-pressed="true"] { color: #b7f2d5; background: #3a4141; }
 .m60-theme { display: flex; align-items: center; justify-content: center; box-sizing: border-box; padding: 0; width: 100%; background: #292b30; }
-.m60-theme-glyph { font-size: 19px; color: #9de9c0; }
+.m60-theme-glyph { display:block; width:19px; height:19px; flex:none; color:#9de9c0; }
 @media(max-width:350px){
   .m60-preference-row{grid-template-columns:minmax(0,1fr) 52px;gap:6px;}
   .m60-language{gap:2px;padding:3px;}
   .m60-language button{min-width:0;padding-inline:1px;font-size:11px;}
-  .m60-theme-glyph{font-size:19px;}
+  .m60-theme-glyph{width:19px;height:19px;}
 }
 .m60-mobile-drawer :is(a,button):focus-visible, .m60-menu-toggle:focus-visible { outline: 2px solid #71e5b3; outline-offset: 2px; }
 html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !important; }
@@ -3683,14 +3683,16 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
         </div>
       </nav>
       <div class="m60-preferences">
-        <p class="m60-group-label">${label('PREFERENCES', '显示设置')}</p>
         <div class="m60-preference-row">
           <div class="m60-language" role="group" aria-label="Language">
             <button type="button" data-m60-language="en" lang="en">English</button>
             <button type="button" data-m60-language="zh-CN" lang="zh-CN">简体中文</button>
           </div>
           <button type="button" class="m60-theme" data-m60-theme aria-label="${label('Switch light / dark', '切换深浅主题')}">
-            <span class="m60-theme-glyph" aria-hidden="true">◐</span>
+            <svg class="m60-theme-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 3v18a9 9 0 0 0 0-18Z" fill="currentColor" stroke="none"/>
+            </svg>
           </button>
         </div>
       </div>
