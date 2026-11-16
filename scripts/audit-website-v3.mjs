@@ -152,7 +152,7 @@ const hrefs=new Set(footerAnchors);
 check(hrefs.has('#v3-security')&&hrefs.has('#v3-clarity'),'Footer must include Security and Questions');
 check(html.includes('aria-label="Preview send animation, no payment is made"'),'Send preview must not imply a real transaction');
 const desktopDownload=html.match(/<button\b[^>]*class="desktop-download"[^>]*>[\s\S]*?<\/button>/)?.[0]||'';
-check(desktopDownload.includes('<span>Download</span>')&&!desktopDownload.includes('<small>'),
+check(desktopDownload.includes('<span>Download for Desktop</span>')&&!desktopDownload.includes('<small>'),
   'Desktop CTA must have one short label without redundant subtitle');
 check(/\bdisabled\b/.test(desktopDownload),'Unreleased desktop download must remain disabled');
 check(!/<(?:form|iframe)\b/i.test(html),
