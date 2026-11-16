@@ -2390,6 +2390,56 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
   html.m10-framed #v3-ecosystem .particle-spine{top:calc(49.5% + 12px);}
 }
 </style>
+<style id="m65-compact-mobile-product-previews">
+/* The product interfaces support the story on phones; keep all detail and interactions intact. */
+@media(max-width:680px){
+  html.m10-framed #v3-availability.download-scene{
+    min-height:max(850px,100dvh)!important;gap:clamp(18px,3vh,25px);
+    padding-bottom:64px!important;
+  }
+  html.m10-framed #v3-availability .download-art{
+    position:relative;min-height:clamp(450px,120vw,490px);height:clamp(450px,120vw,490px);
+  }
+  html.m10-framed #v3-availability .download-phone{
+    position:absolute;left:50%;top:50%;
+    transform:translate(-50%,-50%) scale(.80);transform-origin:center center;
+  }
+  html.m10-framed #v3-features .feature-chapter{
+    min-height:max(620px,73dvh)!important;
+  }
+  html.m10-framed #v3-features .feature-card{
+    width:min(300px,calc(100vw - 88px));
+  }
+  html.m10-framed #v3-features .feature-art{
+    height:clamp(190px,27vh,245px);
+    padding:clamp(10px,3vw,18px);
+    grid-template-columns:minmax(0,1fr);
+  }
+  html.m10-framed #v3-features .feature-ui{
+    justify-self:center;scale:.76;
+  }
+  html.m10-framed #v3-workspace.workspace-scene{
+    min-height:max(665px,78dvh)!important;
+  }
+  html.m10-framed #v3-workspace .workspace-mini{
+    width:min(480px,calc(100vw - 80px));
+    margin:0 auto;
+  }
+  html.m10-framed #v3-workspace .desktop-tabs{
+    width:min(480px,calc(100vw - 80px));
+    margin:0 auto;
+  }
+}
+@media(max-width:480px){
+  html.m10-framed #v3-workspace .workspace-mini,
+  html.m10-framed #v3-workspace .desktop-tabs{
+    width:min(340px,calc(100vw - 58px));
+  }
+}
+@media(max-width:360px){
+  html.m10-framed #v3-features .feature-ui{scale:.70;}
+}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
