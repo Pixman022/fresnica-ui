@@ -2809,7 +2809,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
       if(!logoPath||logoPathKey!==key){
         const diameter=Math.min(width,height)*(mobile ? .308 : .301);
         const centreX=width*.5,centreY=height*.5;
-        const radius=mobile?.82:1.10;
+        const radius=mobile?.66:1.10;
         const points=new Path2D();
         for(const p of logoFlecks){
           const x=centreX+p.u*diameter,y=centreY+p.v*diameter;
@@ -2833,7 +2833,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
         points.push({
           x:Math.cos(around)*ringRadius*layer,y:z*layer,
           z:Math.sin(around)*ringRadius*layer,
-          size:(.62+seeded(i+713)*1.5)*(compactOrb.matches?1.4:1.872),
+          size:(.62+seeded(i+713)*1.5)*(compactOrb.matches?1.12:1.872),
           tone:seeded(i+407),phase:seeded(i+633)*6.283
         });
       }
@@ -3201,7 +3201,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     dot.style.setProperty('--fallback-x',(startX*.42).toFixed(2)+'vw');
     dot.style.setProperty('--fallback-y',(startY*.42).toFixed(2)+'vh');
     dot.style.setProperty('--dot-alpha',(.68+rand()*.3).toFixed(2));
-    const size=(2.8+rand()*3.0).toFixed(1)+'px';
+    const size=(matchMedia('(max-width:680px)').matches?2.2+rand()*2.4:2.8+rand()*3.0).toFixed(1)+'px';
     dot.style.width=size;dot.style.height=size;
     const gray=Math.round(58+rand()*90);
     dot.style.background='rgb('+gray+','+gray+','+gray+')';
@@ -3570,7 +3570,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
         samples.push({x:x+(hash(n+1)-.5)*1.8,y:y+(hash(n+2)-.5)*1.8,
           dx:(hash(n+3)-.5)*Math.min(275,width*.29),
           dy:(hash(n+4)-.5)*Math.min(160,height*1.8),
-          phase:hash(n+5)*6.283,size:(width<650?2.15:2.55)+hash(n+6)*(width<650?1.45:1.85),
+          phase:hash(n+5)*6.283,size:compactFooter.matches?(1.72+hash(n+6)*1.16):(width<650?2.15:2.55)+hash(n+6)*(width<650?1.45:1.85),
           tone:hash(n+9),opacity:hash(n+14),
           burstX:0,burstY:0,burstVx:0,burstVy:0,burstHeat:0});
       }
