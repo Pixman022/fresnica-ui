@@ -374,8 +374,10 @@ try{
                 sameRow:Math.abs(a.top-b.top)<=1&&Math.abs(a.bottom-b.bottom)<=1&&a.right+4<=b.left,
                 targetHeight:Math.min(b.height,...[...language.querySelectorAll('button')].map(el=>el.getBoundingClientRect().height)),
                 noClipping:[theme,...language.querySelectorAll('button')].every(el=>el.scrollWidth<=el.clientWidth+1),
-                iconOnly:theme.textContent.trim()==='◐'&&theme.querySelectorAll('span').length===1&&
-                  !theme.querySelector('.m60-theme-label')&&b.width>=44&&b.width<=56
+                iconOnly:theme.textContent.trim()===''&&
+                  theme.querySelectorAll('svg.m60-theme-glyph').length===1&&
+                  !document.querySelector('.m60-preferences .m60-group-label')&&
+                  b.width>=44&&b.width<=56
               };
             })()
           }));
