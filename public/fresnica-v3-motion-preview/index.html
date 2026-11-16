@@ -2264,6 +2264,26 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
   html.m10-framed #v3-workspace .workspace-mini{aspect-ratio:3/2;}
 }
 </style>
+
+<style id="m62-mobile-static-particles">
+/* Mobile: denser particle scenes remain fully static; desktop motion is unchanged. */
+@media(max-width:680px){
+  html.m10-framed #overview .fallback-orb{animation:none!important;transform:none!important;}
+  html.m10-framed #v3-ecosystem .particle-cloud .stream-dot{
+    animation:none!important;opacity:var(--dot-alpha,.82)!important;
+    transform:translate3d(var(--fallback-x),var(--fallback-y),0)!important;
+    will-change:auto!important;
+  }
+  html.m10-framed #v3-ecosystem .ecosystem-core::before,
+  html.m10-framed #v3-ecosystem .ecosystem-core::after{
+    animation:none!important;transform:none!important;opacity:.68;
+  }
+  html.m10-framed #v3-ecosystem .particle-spine.m21-flowing::before,
+  html.m10-framed #v3-ecosystem .particle-spine.m21-flowing::after{
+    animation:none!important;opacity:0!important;
+  }
+}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
@@ -2639,7 +2659,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
       const c=document.createElementNS(ns,'circle');c.setAttribute('r',String(n.size));c.setAttribute('fill','#059d76');
       c.setAttribute('stroke','#f8f9f8');c.setAttribute('stroke-width','2');nodes.appendChild(c);return {...n,node:c};
     });
-    let playing=!reduced.matches;
+    let playing=!reduced.matches&&!compactOrb.matches;
     let visible=true;
     let t=0,last=0,renderedFieldX,renderedFieldY;
     let pointX=0,pointY=0;
@@ -2821,7 +2841,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     }
     function drawFlecks(){
       if(!particleContext)return;
-      const targetCount=compactOrb.matches?700:1400;
+      const targetCount=compactOrb.matches?980:1400; // +40% mobile static detail
       if(flecks.length!==targetCount)flecks=makeFlecks(targetCount);
       const r=particleCanvas.getBoundingClientRect();
       if(r.width<2||r.height<2)return;
@@ -2879,10 +2899,12 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
       gl=null;program=null;mesh=null;
       canvas.style.display='none';fallback.style.display='block';
     };
-    try { if(!startGL())showOrbFallback(); }
+    // Mobile uses CSS shell + Canvas dots: do not allocate a WebGL context.
+    try { if(compactOrb.matches || !startGL())showOrbFallback(); }
     catch(err){console.warn('Orb shader unavailable, showing static fallback.',err);showOrbFallback();}
     canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();showOrbFallback();});
     canvas.addEventListener('webglcontextrestored',()=>{
+      if(compactOrb.matches){showOrbFallback();return;}
       // The old shaders, VAO and buffers are invalid after a context reset.
       // Make the canvas measurable before reconstructing its drawing surface.
       canvas.style.display='';
@@ -2973,7 +2995,21 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     function reflect(){if(btn){btn.setAttribute('aria-pressed',String(!playing));btn.setAttribute('aria-label',playing?'Pause the animation':'Play the animation');btn.title=playing?'Pause the animation':'Play the animation';eye(playing?pauseIcon:playIcon);}field.style.transition=playing?'transform .22s ease-out':'none';}
     btn?.addEventListener('click',()=>{playing=!playing;reflect();refreshFrame();});
     replayBtns.forEach(b=>b.addEventListener('click',()=>{t=0;playing=true;reflect();refreshFrame();document.querySelectorAll('.orb-card').forEach(c=>{c.style.animation='none';c.offsetHeight;c.style.animation='';});}));
-    reduced.addEventListener('change',()=>{playing=!reduced.matches;reflect();refreshFrame();});
+    reduced.addEventListener('change',()=>{playing=!reduced.matches&&!compactOrb.matches;reflect();refreshFrame();});
+    compactOrb.addEventListener('change',()=>{
+      flecks=[];logoPath=null;logoPathKey='';
+      if(compactOrb.matches){
+        canvas.style.display='none';fallback.style.display='block';
+      }else if(gl){
+        canvas.style.display='';fallback.style.display='none';resizeGL?.();
+      }else{
+        canvas.style.display='';
+        try { if(!startGL())showOrbFallback(); }
+        catch(error){console.warn('Orb shader unavailable after resize.',error);showOrbFallback();}
+      }
+      playing=!reduced.matches&&!compactOrb.matches;
+      reflect();refreshFrame();
+    });
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshFrame();});
     const observer=new IntersectionObserver(entries=>{
       visible=entries[0].isIntersecting;
@@ -3003,7 +3039,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     function frame(stamp){
       frameHandle=0;
       if(!visible||document.hidden||document.documentElement.classList.contains('m60-menu-open'))return;
-      const moving=playing&&!reduced.matches;
+      const moving=playing&&!reduced.matches&&!compactOrb.matches;
       // Throttle the entire WebGL + Canvas + SVG frame to about 30 FPS.
       // Pausing, resuming and resizing still draw immediately, even at low motion.
       if(moving&&last&&stamp-last<30){scheduleFrame();return;}
@@ -3150,7 +3186,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
   let seed = 217;
   const rand = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
   const fragment = document.createDocumentFragment();
-  for (let i=0; i<96; i++) {
+  for (let i=0; i<(matchMedia('(max-width:680px)').matches?136:96); i++) {
     const dot=document.createElement('span');
     dot.className='stream-dot';
     const angle=rand()*Math.PI*2;
@@ -3159,8 +3195,8 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
     const startY=Math.sin(angle)*(6+radius*13);
     dot.style.setProperty('--from-x',startX.toFixed(2)+'vw');
     dot.style.setProperty('--from-y',startY.toFixed(2)+'vh');
-    dot.style.setProperty('--fallback-x',(startX*.25).toFixed(2)+'vw');
-    dot.style.setProperty('--fallback-y',(startY*.25).toFixed(2)+'vh');
+    dot.style.setProperty('--fallback-x',(startX*.42).toFixed(2)+'vw');
+    dot.style.setProperty('--fallback-y',(startY*.42).toFixed(2)+'vh');
     dot.style.setProperty('--dot-alpha',(.68+rand()*.3).toFixed(2));
     const size=(2.8+rand()*3.0).toFixed(1)+'px';
     dot.style.width=size;dot.style.height=size;
