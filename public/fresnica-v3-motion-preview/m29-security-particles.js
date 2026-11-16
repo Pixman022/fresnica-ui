@@ -74,7 +74,9 @@
       return {
         u: point[0] / rasterSize - 0.5,
         v: point[1] / rasterSize - 0.5,
-        size: 1.25 + random() * 0.72,
+        // A slightly larger dot keeps the brand silhouette legible on narrow screens
+        // without creating more particles or additional animation work.
+        size: (compact.matches ? 1.48 : 1.25) + random() * 0.72,
         phase: random() * Math.PI * 2,
         speed: 0.65 + random() * 0.6,
         light, dark, x:0, y:0, vx:0, vy:0
