@@ -355,6 +355,15 @@ try{
             expanded:document.getElementById('m60-menu-toggle').getAttribute('aria-expanded'),
             sections:document.querySelectorAll('.m60-section-links a').length,
             downloads:document.querySelectorAll('.m60-download-links a').length,
+            channels:[...document.querySelectorAll('.m60-download-links [data-download-platform]')].map(el=>({
+              platform:el.dataset.downloadPlatform,
+              disabled:el.getAttribute('aria-disabled')==='true',
+              href:el.getAttribute('href')
+            })),
+            downloadSurfaces:[
+              getComputedStyle(document.querySelector('.m60-download-mobile')).backgroundColor,
+              getComputedStyle(document.querySelector('.m60-download-desktop')).backgroundColor
+            ],
             locked:document.documentElement.classList.contains('m60-menu-open'),
             backgroundInert:document.getElementById('v3-page-frame')?.inert,
             preferences:(()=>{
@@ -368,8 +377,11 @@ try{
               };
             })()
           }));
-          assert(mobileMenu.expanded==='true'&&mobileMenu.sections===9&&mobileMenu.downloads===2&&
-            mobileMenu.locked&&mobileMenu.backgroundInert,
+          assert(mobileMenu.expanded==='true'&&mobileMenu.sections===9&&mobileMenu.downloads===3&&
+            mobileMenu.locked&&mobileMenu.backgroundInert&&
+            mobileMenu.channels.map(entry=>entry.platform).join(',')==='ios,android,desktop'&&
+            mobileMenu.channels.every(entry=>entry.disabled&&entry.href===null)&&
+            mobileMenu.downloadSurfaces[0]!==mobileMenu.downloadSurfaces[1],
             `${prefix}: mobile navigation drawer contract failed ${JSON.stringify(mobileMenu)}`);
           assert(mobileMenu.preferences.sameRow&&mobileMenu.preferences.targetHeight>=44&&
             mobileMenu.preferences.noClipping,
@@ -605,14 +617,32 @@ try{
           await page.locator('#download-menu-button').focus();
           await page.keyboard.press('Enter');
           assert(await page.locator('#download-menu').evaluate(e=>e.classList.contains('is-open')),'Keyboard Enter did not open download menu');
-          const platformOptions=await page.locator('#download-menu a').evaluateAll(links=>
-            links.map(link=>({label:link.textContent.trim(),href:link.getAttribute('href')})));
-          assert(platformOptions.length===2&&
-            platformOptions[0].label==='Mobile · iOS & Android'&&
-            platformOptions[0].href==='#v3-availability'&&
-            platformOptions[1].label==='Desktop'&&
-            platformOptions[1].href==='#v3-workspace',
-            'Download menu repeats labels or targets: '+JSON.stringify(platformOptions));
+          const platformOptions=await page.locator('#download-menu [data-download-platform]').evaluateAll(links=>
+            links.map(link=>({
+              platform:link.dataset.downloadPlatform,
+              label:link.textContent.trim(),
+              href:link.getAttribute('href'),
+              disabled:link.getAttribute('aria-disabled')==='true',
+              group:getComputedStyle(link.closest('.download-platform-group')).backgroundColor
+            })));
+          assert(platformOptions.length===3&&
+            platformOptions.map(option=>option.platform).join(',')==='ios,android,desktop'&&
+            platformOptions.map(option=>option.label).join(',')==='iOS,Android,Desktop'&&
+            platformOptions.every(option=>option.href===null&&option.disabled)&&
+            platformOptions[0].group===platformOptions[1].group&&
+            platformOptions[0].group!==platformOptions[2].group,
+            'Download options must be distinct, direct-link-ready, and safely unavailable: '+
+              JSON.stringify(platformOptions));
+          const initialHash=await page.evaluate(()=>location.hash);
+          await page.locator('#download-menu [data-download-platform="ios"]').click();
+          assert(await page.evaluate(()=>location.hash)===initialHash&&
+            await page.locator('#download-menu').evaluate(el=>el.classList.contains('is-open')),
+            'Unavailable download option must not scroll to a page section');
+          if(name==='desktop-1440'&&theme==='light'){
+            const image=path.join(dest,'download-menu-desktop-1440.png');
+            await page.screenshot({path:image,animations:'disabled'});
+            captures.push(path.relative(dest,image));
+          }
           await page.keyboard.press('Escape');
           assert(!await page.locator('#download-menu').evaluate(e=>e.classList.contains('is-open')),'Escape did not close download menu');
           assert(await page.evaluate(()=>document.activeElement?.id==='download-menu-button'),'Escape did not return focus to download button');
@@ -707,11 +737,10 @@ try{
           assert(zhGetButton.label===(width<=480?'获取':'获取 Fresnica')&&
             zhGetButton.accessible==='获取 Fresnica 下载选项',
             'Top-right Get Fresnica Chinese label failed: '+JSON.stringify(zhGetButton));
-          const zhPlatformOptions=await page.locator('#download-menu a').allTextContents();
-          assert(zhPlatformOptions.length===2&&
-            zhPlatformOptions[0].trim()==='移动端 · iOS / Android'&&
-            zhPlatformOptions[1].trim()==='桌面端',
-            'Chinese download menu labels are redundant or untranslated: '+JSON.stringify(zhPlatformOptions));
+          const zhPlatformOptions=await page.locator('#download-menu [data-download-platform]').allTextContents();
+          assert(zhPlatformOptions.length===3&&
+            zhPlatformOptions.map(label=>label.trim()).join(',')==='iOS,Android,桌面端',
+            'Chinese download channels are untranslated or merged: '+JSON.stringify(zhPlatformOptions));
           const chineseNavWidth=await page.locator('.site-header .top-nav').evaluate(el=>el.getBoundingClientRect().width);
           assert(Math.abs(chineseNavWidth-state.navigation.width)<=1,
             `Changing the navigation language resized its capsule: ${chineseNavWidth}px vs ${state.navigation.width}px`);
