@@ -43,4 +43,7 @@
 - [x] 修改第二屏移动端粒子 CSS：提交 [f908931](https://github.com/Pixman022/fresnica-ui/commit/f908931fdd14372161b7bf1498272f12d1f6b8c2)，将原静止样式限定为 `reduce`，在 `no-preference` 仅为第二屏灰点恢复向中心流动的关键帧；保留 136 点/原尺寸/原分布及中心光晕、电流静止行为。
 - [x] 更新浏览器回归：提交 [0084eb3](https://github.com/Pixman022/fresnica-ui/commit/0084eb3979f26b4719ed04ce11b32bbd7d9bebad)，验证进屏运行、真实位移、菜单暂停、离屏暂停和 `reduce` 静态降级，以及桌面原有动画。
 - [x] [GitHub Pages 部署](https://github.com/Pixman022/fresnica-ui/actions/runs/43824140851) 已成功，预览地址不变。
-- [ ] **最终 QA 结果待确认**：[更新测试后的完整视觉 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43824200669)、[Windows/macOS](https://github.com/Pixman022/fresnica-ui/actions/runs/43824140955)、[Edge 缩放](https://github.com/Pixman022/fresnica-ui/actions/runs/43824140902)。
+- [x] **最终 V3 浏览器 QA 已通过**：[更新测试后的完整视觉 QA #43824200669](https://github.com/Pixman022/fresnica-ui/actions/runs/43824200669) 双作业 success；日志为 `mobile-393 screen-two particle motion PASS (visible, menu, offscreen, reduce)`，18 组视口/主题、163 张截图，`0 findings`。四模块桌面演示（20 项）、九屏双向切换、动效、走马灯空闲与 WebGL 恢复等检查均通过。
+- [x] **跨系统和部署通过**：[Windows/macOS QA #43824140955](https://github.com/Pixman022/fresnica-ui/actions/runs/43824140955)、[Windows Edge 缩放 #43824140902](https://github.com/Pixman022/fresnica-ui/actions/runs/43824140902)、[GitHub Pages #43824140851](https://github.com/Pixman022/fresnica-ui/actions/runs/43824140851) 均 success。
+- [x] **解释中间版本失败**：较早的 [#43824140824](https://github.com/Pixman022/fresnica-ui/actions/runs/43824140824) 使用旧版“移动端必须静止”断言，在恢复动效后因 `ecosystemStill=false` 失败；随后明确更新断言，并由最新 QA 验证动态/静态两种行为通过。
+- [ ] **真实 Android/iOS 设备签收**：需实际确认流畅度、耗电、设备温度及视觉体验；浏览器模拟和 CI 不构成真实设备性能验收。
