@@ -3674,11 +3674,11 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
       </nav>
       <p class="m60-group-label">${label('GET FRESNICA', '获取 FRESNICA')}</p>
       <nav class="m60-download-links" aria-label="Download options">
-        <div class="m60-download-group m60-download-mobile" role="group" aria-label="${label('Mobile apps', '移动端应用')}">
+        <div class="m60-download-group m60-download-mobile" role="group" aria-label="Mobile apps">
           <a data-download-platform="ios">iOS<span aria-hidden="true">↗</span></a>
           <a data-download-platform="android">Android<span aria-hidden="true">↗</span></a>
         </div>
-        <div class="m60-download-group m60-download-desktop" role="group" aria-label="${label('Desktop', '桌面端')}">
+        <div class="m60-download-group m60-download-desktop" role="group" aria-label="Desktop">
           <a data-download-platform="desktop"><span class="m60-en">Desktop</span><span class="m60-zh">桌面端</span><span aria-hidden="true">↗</span></a>
         </div>
       </nav>
@@ -3688,7 +3688,7 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
             <button type="button" data-m60-language="en" lang="en">English</button>
             <button type="button" data-m60-language="zh-CN" lang="zh-CN">简体中文</button>
           </div>
-          <button type="button" class="m60-theme" data-m60-theme aria-label="${label('Switch light / dark', '切换深浅主题')}">
+          <button type="button" class="m60-theme" data-m60-theme aria-label="Switch light / dark">
             <svg class="m60-theme-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false">
               <circle cx="12" cy="12" r="9"/>
               <path d="M12 3v18a9 9 0 0 0 0-18Z" fill="currentColor" stroke="none"/>
@@ -3713,6 +3713,8 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
     trigger.title = chinese ? '打开菜单' : 'Open menu';
     closeButton.setAttribute('aria-label', chinese ? '关闭菜单' : 'Close menu');
     drawer.querySelector('.m60-language').setAttribute('aria-label', chinese ? '语言' : 'Language');
+    drawer.querySelector('.m60-download-mobile').setAttribute('aria-label', chinese ? '移动端应用' : 'Mobile apps');
+    drawer.querySelector('.m60-download-desktop').setAttribute('aria-label', chinese ? '桌面端' : 'Desktop');
     themeButton.setAttribute('aria-label', chinese ? '切换深浅主题' : 'Switch light / dark');
     languageButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.m60Language === (chinese ? 'zh-CN' : 'en'))));
     themeButton.setAttribute('aria-pressed', String(document.documentElement.classList.contains('v3-theme-dark')));
