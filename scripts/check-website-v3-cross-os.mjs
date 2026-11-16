@@ -159,7 +159,7 @@ try{
                     active:document.documentElement.classList.contains('m60-menu-open'),
                     inert:document.getElementById('v3-page-frame')?.inert
                   }));
-                  check(drawer.sections===9&&drawer.downloads===2&&drawer.active&&drawer.inert,
+                  check(drawer.sections===9&&drawer.downloads===3&&drawer.active&&drawer.inert,
                     tag+' mobile drawer contract '+JSON.stringify(drawer));
                   await page.locator('[data-m60-language="zh-CN"]').click();
                   await page.keyboard.press('Escape');
