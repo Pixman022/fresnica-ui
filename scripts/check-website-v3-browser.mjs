@@ -370,14 +370,23 @@ try{
               const language=document.querySelector('.m60-language');
               const theme=document.querySelector('.m60-theme');
               const a=language.getBoundingClientRect(),b=theme.getBoundingClientRect();
+              const measured=[theme,...language.querySelectorAll('button')].map(el=>({
+                tag:el.tagName,
+                text:el.textContent.trim(),
+                client:el.clientWidth,
+                scroll:el.scrollWidth,
+                width:el.getBoundingClientRect().width
+              }));
               return {
                 sameRow:Math.abs(a.top-b.top)<=1&&Math.abs(a.bottom-b.bottom)<=1&&a.right+4<=b.left,
                 targetHeight:Math.min(b.height,...[...language.querySelectorAll('button')].map(el=>el.getBoundingClientRect().height)),
-                noClipping:[theme,...language.querySelectorAll('button')].every(el=>el.scrollWidth<=el.clientWidth+1),
+                noClipping:measured.every(el=>el.scroll<=el.client+1),
                 iconOnly:theme.textContent.trim()===''&&
                   theme.querySelectorAll('svg.m60-theme-glyph').length===1&&
                   !document.querySelector('.m60-preferences .m60-group-label')&&
-                  b.width>=44&&b.width<=56
+                  b.width>=44&&b.width<=56,
+                measured,svgCount:theme.querySelectorAll('svg.m60-theme-glyph').length,
+                themeHtml:theme.outerHTML.slice(0,360)
               };
             })()
           }));
