@@ -1907,6 +1907,16 @@ html.m10-framed .site-header :is(.nav-dropdown,.download-dropdown,.locale-dropdo
 html.m10-framed .site-header :is(.nav-dropdown,.download-dropdown,.locale-dropdown) :is(a,button):focus-visible{
   background:#34343C;color:#F5F5F7;
 }
+/* Distinct, neutral mobile and desktop download group surfaces. */
+html.m10-framed .site-header .download-dropdown{padding:8px;}
+html.m10-framed .site-header .download-dropdown .download-platform-group{
+  display:grid;gap:2px;padding:5px;border-radius:11px;border:1px solid #3b3b43;
+}
+html.m10-framed .site-header .download-dropdown .download-platform-mobile{background:#29292f;}
+html.m10-framed .site-header .download-dropdown .download-platform-desktop{background:#34343b;border-color:#494950;margin-top:7px;}
+html.m10-framed .site-header .download-dropdown .download-option{display:flex;align-items:center;min-height:44px;padding:0 12px;border-radius:8px;}
+html.m10-framed .site-header .download-dropdown .download-option[aria-disabled="true"]{color:#b6b6bd;cursor:default;}
+html.m10-framed .site-header .download-dropdown .download-option[aria-disabled="true"]:is(:hover,:focus-visible){background:transparent;color:#b6b6bd;}
 html.m10-framed .site-header .locale-dropdown button[aria-checked="true"]{
   background:#34343C;color:#F5F5F7;
 }
@@ -2145,7 +2155,14 @@ html.m10-framed #overview .orb-card.second{
 .m60-section-links a[aria-current="location"] { background: #30343a; color: #fff; }
 .m60-section-links a[aria-current="location"] small { color: #75dfac; }
 .m60-download-links a { justify-content: space-between; background: #292b30; margin-bottom: 5px; border: 1px solid #3c3e44; }
+.m60-download-links .m60-download-group{display:grid;gap:2px;padding:5px;border-radius:12px;border:1px solid #3c3e44;}
+.m60-download-links .m60-download-mobile{background:#292b30;}
+.m60-download-links .m60-download-desktop{margin-top:7px;background:#34343c;border-color:#494a52;}
+.m60-download-links .m60-download-group a{background:transparent;border:0;margin:0;}
 .m60-download-links a > span:last-child { color: #a3eec6; font-size: 16px; margin-left: auto; }
+.m60-download-links a[aria-disabled="true"]{color:#b6b7bc;cursor:default;}
+.m60-download-links a[aria-disabled="true"] > span:last-child{color:#9698a0;}
+.m60-download-links a[aria-disabled="true"]:is(:hover,:focus-visible){background:transparent;color:#b6b7bc;}
 .m60-preferences { border-top: 1px solid #3b3d43; margin-top: 15px; padding-top: 3px; }
 .m60-preference-row { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 8px; align-items: stretch; }
 .m60-language { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 4px; min-width: 0; background: #292b30; border-radius: 12px; }
@@ -2958,10 +2975,39 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
   downloadMenu.className = 'nav-dropdown download-dropdown';
   downloadMenu.id = 'download-menu';
   downloadMenu.setAttribute('aria-label','Download options');
-  // Group by destination: the mobile section already offers both iOS and Android.
-  downloadMenu.innerHTML = '<a href="#v3-availability">Mobile · iOS &amp; Android</a><a href="#v3-workspace">Desktop</a>';
+  // Add release-approved HTTPS URLs here; empty entries never navigate to preview sections.
+  const officialDownloadUrls = Object.freeze({ios:'',android:'',desktop:''});
+  window.__v3WireDownloadLinks = root => {
+    root.querySelectorAll('[data-download-platform]').forEach(link => {
+      const raw = officialDownloadUrls[link.dataset.downloadPlatform];
+      let destination = null;
+      try { if(raw) destination = new URL(raw); } catch {}
+      if(destination?.protocol === 'https:' && destination.hostname) {
+        link.href = destination.href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.removeAttribute('aria-disabled');
+        link.removeAttribute('tabindex');
+      } else {
+        link.removeAttribute('href');
+        link.removeAttribute('target');
+        link.removeAttribute('rel');
+        link.setAttribute('aria-disabled', 'true');
+        link.setAttribute('tabindex', '0');
+      }
+    });
+  };
+  downloadMenu.innerHTML = `
+    <div class="download-platform-group download-platform-mobile" role="group" aria-label="Mobile apps">
+      <a class="download-option" data-download-platform="ios">iOS</a>
+      <a class="download-option" data-download-platform="android">Android</a>
+    </div>
+    <div class="download-platform-group download-platform-desktop" role="group" aria-label="Desktop">
+      <a class="download-option" data-download-platform="desktop">Desktop</a>
+    </div>`;
   header.append(menu);
   header.querySelector('.header-tools').append(downloadMenu);
+  window.__v3WireDownloadLinks(downloadMenu);
   function openMenu(which,show){
     // Keyboard activation does not emit pointerdown, so explicitly dismiss
     // the separately controlled language disclosure before opening another.
@@ -2980,7 +3026,7 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
   menuButton.addEventListener('click',()=>openMenu('scene',!menu.classList.contains('is-open')));
   downloadButton.addEventListener('click',()=>openMenu('download',!downloadMenu.classList.contains('is-open')));
   for(const popup of [menu,downloadMenu]){
-    popup.addEventListener('click',e=>{if(e.target.closest('a'))openMenu('',false);});
+    popup.addEventListener('click',e=>{if(e.target.closest('a[href]'))openMenu('',false);});
   }
   document.addEventListener('keydown',e=>{
     if(e.key!=='Escape')return;
@@ -3622,8 +3668,13 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
       </nav>
       <p class="m60-group-label">${label('GET FRESNICA', '获取 FRESNICA')}</p>
       <nav class="m60-download-links" aria-label="Download options">
-        <a href="#v3-availability">${label('Mobile · iOS & Android', '移动端 · iOS / Android')}<span aria-hidden="true">↗</span></a>
-        <a href="#v3-workspace">${label('Desktop', '桌面端')}<span aria-hidden="true">↗</span></a>
+        <div class="m60-download-group m60-download-mobile" role="group" aria-label="${label('Mobile apps', '移动端应用')}">
+          <a data-download-platform="ios">iOS<span aria-hidden="true">↗</span></a>
+          <a data-download-platform="android">Android<span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="m60-download-group m60-download-desktop" role="group" aria-label="${label('Desktop', '桌面端')}">
+          <a data-download-platform="desktop"><span class="m60-en">Desktop</span><span class="m60-zh">桌面端</span><span aria-hidden="true">↗</span></a>
+        </div>
       </nav>
       <div class="m60-preferences">
         <p class="m60-group-label">${label('PREFERENCES', '显示设置')}</p>
@@ -3639,6 +3690,7 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
       </div>
     </div>`;
   document.body.append(backdrop, drawer);
+  window.__v3WireDownloadLinks?.(drawer);
 
   let open = false;
   let hideTimer = 0;
@@ -3724,7 +3776,9 @@ html[lang="zh-CN"] .m60-en, html:not([lang="zh-CN"]) .m60-zh { display: none !im
   trigger.addEventListener('click', () => open ? hide() : show());
   closeButton.addEventListener('click', () => hide());
   backdrop.addEventListener('click', () => hide());
-  drawer.querySelectorAll('nav a').forEach(link => link.addEventListener('click', () => hide(false)));
+  drawer.querySelectorAll('nav a').forEach(link => link.addEventListener('click', () => {
+    if(link.hasAttribute('href')) hide(false);
+  }));
   drawer.addEventListener('keydown', event => {
     if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); hide(); return; }
     if (!open || event.key !== 'Tab') return;
