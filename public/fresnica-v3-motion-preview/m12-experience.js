@@ -103,6 +103,7 @@
     "WALLET / ACTIVITY": "钱包 / 交易活动",
     "FRESNICA / DESKTOP WALLET": "FRESNICA / 桌面钱包",
     "Manage Stellar assets, review payments, explore swaps and connect with compatible apps in a clear desktop experience.": "在桌面端清晰管理 Stellar 资产、核对付款、探索兑换并连接兼容应用。",
+    "Download for Desktop": "桌面端下载",
     "Download Fresnica desktop client": "下载 Fresnica 桌面客户端",
     "Fresnica desktop wallet with four interface sections": "Fresnica 桌面钱包，包含四个可切换的功能界面",
     "DESKTOP / OVERVIEW": "桌面端 / 概览",
