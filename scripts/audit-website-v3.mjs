@@ -180,6 +180,17 @@ check(notices.includes('Android is a trademark of Google LLC.')&&
   'Third-party notices must retain Android trademark and CC 3.0 attribution');
 check(notices.includes('name="robots" content="noindex,nofollow,noarchive"'),
   'Third-party notices must remain excluded from search indexing in preview');
+check(['notice-header','section-toggle','language-toggle','theme-toggle','download-toggle',
+  'mobile-menu-toggle','mobile-drawer','original-copy'].every(id=>
+  notices.includes(id)),
+  'Third-party notices must provide a full navigation header and mobile controls');
+check(notices.includes("Android 是 Google LLC 的商标。")&&
+  notices.includes('Android 机器人图标由 Google 创建并共享的作品复制或修改而成')&&
+  notices.includes('英文原文（用于授权署名核对）'),
+  'Third-party notices must translate the full attribution while retaining original English');
+check(notices.includes("linkFor(target)")&&notices.includes("query.set('theme',state.theme)")&&
+  notices.includes("query.set('lang','zh-CN')"),
+  'Third-party notice links must preserve locale and theme');
 
 // Keep new visible strings and accessible names covered by the Chinese dictionary.
 // The orb tuner uses explicit bilingual <span lang="..."> pairs instead.
