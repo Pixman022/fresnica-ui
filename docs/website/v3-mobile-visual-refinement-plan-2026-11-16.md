@@ -31,7 +31,8 @@
 - [x] P2 顶部品牌：保留 30px 圆形 Logo，Fresnica 文字调整为 15px。
 - [x] 补充自动化断言：屏宽、桌面缩略窗、粒子分布、Logo 与滑动提示的检查条件。
 - [x] 静态代码核对：仅添加 ≤680px/≤480px CSS，核对粒子数量、移动端静止状态、桌面动效分支未变。
-- [ ] **待浏览器/真机视觉回归**：320/360/393/430/680px，双语、双主题、四面板交互、网页截图；本轮无法从工作环境运行完整站点，不将断言存在等同于测试通过。
+- [x] GitHub Actions：最新源码提交 `1a869b6` 的 [GitHub Pages 部署](https://github.com/Pixman022/fresnica-ui/actions/runs/43819837638)、[Windows Edge 实际页面缩放检查](https://github.com/Pixman022/fresnica-ui/actions/runs/43819837658)及[Windows/macOS 原生浏览器检查](https://github.com/Pixman022/fresnica-ui/actions/runs/43819837662)均成功。
+- [ ] **完整视觉 QA/真机比对待完成**：当前 [V3 Website Visual QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43819837630) 仍在执行；继续关注 320/360/393/430/680px、双语/双主题、四面板切换与截图主观检查。自动化通过不等于视觉正式批准。
 
 ### 本轮提交
 - 工作计划：[18000d9](https://github.com/Pixman022/fresnica-ui/commit/18000d991ff57d5f391ae2d6908d281829621222)
