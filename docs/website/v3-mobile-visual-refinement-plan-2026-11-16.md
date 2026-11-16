@@ -36,7 +36,10 @@
 - [x] **自动截图人工复核（首屏与第五屏）**：检查 320px、430px 亮/暗主题自动截图，确认顶部品牌与菜单无遮挡、桌面预览可见；320px 需向下滚动才能完整看见页面内容，为移动端纵向滚动设计。
 - [x] **扩大覆盖面**：新提交 [47de621](https://github.com/Pixman022/fresnica-ui/commit/47de62190bbf9a0e7f7edf845b4d567996c46bb6) 增加 480px、680px 断点测试，单独捕获第二屏移动端粒子画面并检查其不超出视口、不与文字相撞。
 - [x] **扩展 QA 发现并定位 320px 布局问题**：[初次扩展测试](https://github.com/Pixman022/fresnica-ui/actions/runs/43820677175) 在 320px 亮色/暗色下发现粒子顶部与两行标题下方区域重叠约 14px；430、480、680px 未报告同项问题。截图与布局数据一致。已通过 [7bd9f62](https://github.com/Pixman022/fresnica-ui/commit/7bd9f629da076693cb9e67f69a5b87ddc54ba773) 在 ≤360px 下将上方标题上移 12px，粒子与连接线整体下移 12px。
-- [ ] **320px 修复回归**：[最新视觉 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107323)、[Windows/macOS 兼容 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107412)、[Edge 缩放 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107097) 尚需结果与新截图复核。
+- [x] **320px 修复回归通过**：[V3 完整视觉 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107323) 结果 success，9 组视口、双主题，共 163 张测试截图；视觉 QA、桌面四面板、过渡、动效、走马灯、原生缩放报告均为 `PASS`、失败数 0。
+- [x] **原生浏览器与部署复核通过**：[Windows/macOS QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107412)、[Windows Edge 缩放 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107097)、[GitHub Pages 部署](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107333) 均成功。
+- [x] **人工审核新截图**：已对比修复前后 320px 第二屏，原本上方分类文字与粒子重叠的问题已消除；360/393/430/480/680px 的第二屏移动端亮色截图也已查看，未发现同类问题。
+- [ ] **真实手机视觉签收**：尚须在 Android/iOS 真机确认字体实际渲染、触摸滚动、滚动性能及浏览器状态栏占位；不将 CI 验收等同于实机设计批准。
 - [ ] **真实手机视觉签收待完成**：自动化不能替代具体设备的最终视觉、触摸滚动和字重验收；不影响本轮已通过的代码回归结论。
 
 ### 本轮提交
@@ -46,3 +49,6 @@
 - 窄屏回归断言：[d33c063](https://github.com/Pixman022/fresnica-ui/commit/d33c063f9f426829ba0b7afad0d11708ae398e0d)
 
 > 本轮为实现和静态核对完成，非最终视觉验收。
+
+### 2026-11-16 · 结论
+自动化回归、截屏复核、Windows/macOS/Edge 兼容检查与部署均已完成；本轮移动端视觉调整代码收尾。冻结旧版主分支保持不变；仅真实设备的最终视觉签收仍待产品/设计复核。
