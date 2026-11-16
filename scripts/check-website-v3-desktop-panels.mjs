@@ -45,7 +45,7 @@ for(const name of names){
         if(cfg.width<=680){
           await page.locator('#m60-menu-toggle').click();
           check(await page.locator('.m60-section-links a').count()===9&&
-            await page.locator('.m60-download-links a').count()===2,
+            await page.locator('.m60-download-links a').count()===3,
             name+'/'+cfg.name+' compact drawer missing destinations');
           if(cfg.theme==='dark')await page.locator('[data-m60-theme]').click();
           if(cfg.locale==='zh-CN')await page.locator('[data-m60-language="zh-CN"]').click();
