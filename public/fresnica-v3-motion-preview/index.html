@@ -3566,7 +3566,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
       for(let y=2;y<height-2;y+=step)for(let x=2;x<width-2;x+=step){
         if(data[(y*width+x)*4+3]<145)continue;
         const n=pointIndex++;
-        if(hash(n+91)<(compactFooter.matches?.16:.07))continue;
+        if(hash(n+91)<(compactFooter.matches ? 0.16 : 0.07))continue;
         samples.push({x:x+(hash(n+1)-.5)*1.8,y:y+(hash(n+2)-.5)*1.8,
           dx:(hash(n+3)-.5)*Math.min(275,width*.29),
           dy:(hash(n+4)-.5)*Math.min(160,height*1.8),
