@@ -7,57 +7,387 @@
   <title>Third-party notices | Fresnica</title>
   <link rel="stylesheet" href="./m15-typography.css">
   <style>
-    :root{font-family:Roboto,"Noto Sans SC",Arial,sans-serif;color-scheme:light dark;}
-    *{box-sizing:border-box;}
-    body{margin:0;min-height:100vh;background:#f7f8f7;color:#1a1c1d;}
-    main{width:min(680px,calc(100% - 48px));margin:0 auto;padding:clamp(40px,8vh,96px) 0 96px;}
-    a{color:inherit;text-underline-offset:4px;}
-    a:focus-visible{outline:3px solid #0ca477;outline-offset:4px;}
-    .back{display:inline-block;margin-bottom:64px;font-size:14px;text-decoration:none;}
-    .eyebrow{font-size:11px;letter-spacing:.12em;color:#4b6959;font-weight:600;}
-    h1{margin:12px 0 46px;font-size:clamp(34px,5vw,54px);letter-spacing:-.04em;}
-    h2{margin:0 0 20px;font-size:21px;}
-    p{max-width:640px;font-size:15px;line-height:1.8;}
-    .license{margin-top:28px;font-size:13px;}
-    @media(prefers-color-scheme:dark){
-      body{background:#17181b;color:#f5f5f7;}
-      .eyebrow{color:#9ad5b8;}
+    :root{
+      font-family:var(--Fresnica-font-family,Roboto,"Noto Sans SC",Arial,sans-serif);
+      color-scheme:light;
+      --page:#f7f8f7;--ink:#1a1c1d;--muted:#5b6962;--line:#dce3de;
+      --surface:#fff;--nav:#191c1b;--nav-ink:#f7faf8;--accent:#0a8761;
     }
-    html[data-theme="dark"] body{background:#17181b;color:#f5f5f7;}
-    html[data-theme="dark"] .eyebrow{color:#9ad5b8;}
-    html[data-theme="light"] body{background:#f7f8f7;color:#1a1c1d;}
-    html[data-theme="light"] .eyebrow{color:#4b6959;}
+    html[data-theme="dark"]{
+      color-scheme:dark;
+      --page:#17181b;--ink:#f5f5f7;--muted:#b3bfb8;--line:#393e3b;
+      --surface:#232529;--nav:#252b28;--nav-ink:#f7faf8;--accent:#90e2b6;
+    }
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{margin:0;min-height:100vh;background:var(--page);color:var(--ink);}
+    [hidden]{display:none!important;}
+    a{color:inherit;text-underline-offset:4px;}
+    button{font:inherit;cursor:pointer;}
+    :is(button,a):focus-visible{outline:2px solid #0ca477;outline-offset:3px;}
+    .notice-header{
+      position:sticky;top:0;z-index:30;display:grid;
+      grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+      align-items:start;gap:16px;
+      width:min(1440px,100%);margin:0 auto;
+      padding:clamp(14px,2.5vw,25px) clamp(18px,3vw,40px);
+    }
+    .brand{
+      display:inline-flex;align-items:center;gap:9px;justify-self:start;
+      height:46px;max-width:100%;padding:6px 15px 6px 6px;
+      background:var(--surface);border:1px solid var(--line);
+      border-radius:100px;text-decoration:none;white-space:nowrap;
+      font-size:15px;font-weight:700;letter-spacing:-.025em;
+    }
+    .brand img{display:block;width:32px;height:32px;flex:none;border-radius:50%;}
+    .center-nav{
+      display:flex;align-items:center;gap:4px;min-height:46px;
+      padding:4px 5px;border-radius:100px;
+      background:var(--nav);color:var(--nav-ink);
+    }
+    .popover{position:relative;display:flex;align-items:center;}
+    .nav-button{
+      display:inline-flex;align-items:center;justify-content:center;
+      gap:6px;min-height:38px;border:0;background:transparent;
+      border-radius:100px;color:inherit;font-size:12px;font-weight:600;
+    }
+    .nav-button:hover,.nav-button[aria-expanded="true"]{background:rgba(255,255,255,.12);}
+    #section-toggle{padding:0 12px;white-space:nowrap;}
+    #section-toggle .chevron{opacity:.75;font-size:14px;}
+    #language-toggle,#theme-toggle{width:38px;min-width:38px;padding:0;}
+    #language-toggle svg{width:19px;height:19px;}
+    #theme-toggle{font-size:19px;}
+    .nav-divider{height:20px;width:1px;background:rgba(255,255,255,.16);}
+    .header-tools{justify-self:end;}
+    .download-toggle{
+      display:inline-flex;align-items:center;gap:10px;min-height:46px;
+      padding:0 18px;background:var(--nav);color:var(--nav-ink);
+      border:1px solid var(--line);border-radius:100px;
+      font-size:12px;font-weight:700;white-space:nowrap;
+    }
+    .download-toggle:hover,.download-toggle[aria-expanded="true"]{background:#343c37;}
+    .download-toggle svg{width:17px;height:17px;flex:none;}
+    .menu-popover{
+      position:absolute;top:calc(100% + 10px);left:0;
+      width:205px;padding:7px;border:1px solid var(--line);
+      background:var(--surface);color:var(--ink);border-radius:15px;
+      box-shadow:0 16px 40px rgba(0,0,0,.14);
+    }
+    .menu-popover a,.menu-popover button{
+      display:flex;align-items:center;width:100%;min-height:42px;
+      padding:10px 12px;border:0;border-radius:9px;
+      background:transparent;color:inherit;text-decoration:none;
+      text-align:left;font-size:13px;font-weight:550;
+    }
+    .menu-popover a:hover,.menu-popover button:hover{background:var(--line);}
+    .menu-popover button[aria-checked="true"]{color:var(--accent);font-weight:700;}
+    .menu-popover button[aria-checked="true"]::after{content:'✓';margin-left:auto;}
+    #language-menu{left:50%;transform:translateX(-50%);width:160px;}
+    .header-tools .menu-popover{left:auto;right:0;width:225px;}
+    .menu-caption{
+      margin:5px 10px 4px;color:var(--muted);
+      font-size:10px;font-weight:650;letter-spacing:.05em;
+    }
+    .mobile-toggle{
+      display:none;align-items:center;justify-content:center;
+      width:46px;height:46px;border:1px solid var(--line);
+      background:var(--nav);color:var(--nav-ink);border-radius:12px;
+    }
+    .mobile-toggle svg{width:22px;height:22px;}
+    .mobile-backdrop{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.5);}
+    .mobile-drawer{
+      position:fixed;z-index:41;top:10px;right:10px;bottom:10px;
+      width:min(340px,calc(100vw - 20px));overflow-y:auto;
+      padding:19px;background:#222429;color:#f9faf9;
+      border:1px solid #484b4b;border-radius:18px;
+      box-shadow:0 18px 50px rgba(0,0,0,.28);
+    }
+    .drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+    .drawer-head strong{font-size:17px;}
+    .drawer-close{
+      min-width:44px;height:44px;border:1px solid #555b59;
+      border-radius:12px;background:#303339;color:#fff;font-size:25px;
+    }
+    .drawer-heading{margin:17px 0 9px;color:#a6b1aa;font-size:11px;letter-spacing:.09em;}
+    .mobile-drawer nav a{
+      display:flex;align-items:center;min-height:44px;padding:10px 13px;
+      border-radius:10px;color:#f5f6f5;text-decoration:none;font-size:14px;
+    }
+    .mobile-drawer nav a:hover{background:#363b3a;}
+    .mobile-prefs{display:flex;align-items:center;gap:8px;margin-top:20px;}
+    .mobile-prefs button{
+      min-height:44px;padding:0 11px;border:1px solid #4b5550;
+      border-radius:10px;background:#30343a;color:#f6f7f6;font-size:12px;
+    }
+    .mobile-prefs button[aria-pressed="true"]{border-color:#79b79a;color:#b5f0ce;}
+    .mobile-prefs #mobile-theme{margin-left:auto;min-width:46px;font-size:18px;}
+    main{width:min(760px,calc(100% - 48px));margin:0 auto;padding:45px 0 105px;}
+    .back{display:inline-flex;margin:0 0 52px;color:var(--muted);font-size:13px;text-decoration:none;}
+    .back:hover{color:var(--accent);}
+    .eyebrow{margin:0;color:var(--accent);font-size:11px;font-weight:650;letter-spacing:.12em;}
+    h1{font-size:clamp(36px,5vw,56px);line-height:1.1;letter-spacing:-.04em;margin:13px 0 38px;}
+    .notice-section{border-top:1px solid var(--line);padding-top:28px;}
+    h2{font-size:22px;margin:0 0 21px;letter-spacing:-.015em;}
+    .notice-section p{max-width:670px;font-size:15px;line-height:1.8;margin:0 0 15px;}
+    .license{margin-top:28px!important;font-size:13px!important;}
+    .license a{color:var(--accent);}
+    .original-copy{margin-top:32px;padding:21px 23px;border-radius:12px;background:var(--surface);border:1px solid var(--line);}
+    .original-copy h3{font-size:12px;color:var(--muted);margin:0 0 12px;letter-spacing:.04em;}
+    .original-copy p{font-size:13px;line-height:1.7;color:var(--muted);margin-bottom:9px;}
+    @media(max-width:680px){
+      .notice-header{padding:12px 16px;grid-template-columns:minmax(0,1fr) auto;gap:12px;}
+      .center-nav,.header-tools{display:none;}
+      .mobile-toggle{display:flex;justify-self:end;}
+      .brand{max-width:calc(100vw - 104px);}
+      main{padding:45px 0 80px;}
+      .back{margin-bottom:43px;}
+      h1{margin-bottom:29px;}
+      .original-copy{padding:17px;}
+    }
   </style>
 </head>
 <body>
-  <main>
-    <a class="back" href="./index.html#v3-about">← Fresnica</a>
-    <p class="eyebrow">FRESNICA / ATTRIBUTIONS</p>
-    <h1>Third-party notices</h1>
-    <h2>Android</h2>
-    <p>Android is a trademark of Google LLC.</p>
-    <p>The Android robot is reproduced or modified from work created and shared by Google and used according to terms described in the Creative Commons 3.0 Attribution License.</p>
-    <p class="license"><a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a></p>
+  <header class="notice-header">
+    <a class="brand site-link" data-target="overview" href="./index.html#overview" aria-label="Fresnica home">
+      <img src="./Fresnica-logo.svg" alt="" width="32" height="32">
+      <span>Fresnica</span>
+    </a>
+    <nav class="center-nav" aria-label="Page navigation and display options">
+      <div class="popover">
+        <button type="button" class="nav-button" id="section-toggle" aria-controls="section-menu" aria-expanded="false" aria-haspopup="true">
+          <span data-i18n="current">Notices</span><span class="chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="menu-popover" id="section-menu" hidden>
+          <a class="site-link" data-target="overview" href="./index.html#overview" data-i18n="overview">Overview</a>
+          <a class="site-link" data-target="v3-features" href="./index.html#v3-features" data-i18n="features">Features</a>
+          <a class="site-link" data-target="v3-workspace" href="./index.html#v3-workspace" data-i18n="desktop">Desktop</a>
+          <a class="site-link" data-target="v3-security" href="./index.html#v3-security" data-i18n="security">Security</a>
+          <a class="site-link" data-target="v3-clarity" href="./index.html#v3-clarity" data-i18n="questions">Questions</a>
+        </div>
+      </div>
+      <span class="nav-divider" aria-hidden="true"></span>
+      <div class="popover">
+        <button type="button" class="nav-button" id="language-toggle" aria-controls="language-menu" aria-expanded="false" aria-haspopup="true" aria-label="Choose language">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.7 2.45 4.1 5.45 4.1 9S14.7 18.55 12 21M12 3c-2.7 2.45-4.1 5.45-4.1 9S9.3 18.55 12 21"/></svg>
+        </button>
+        <div class="menu-popover" id="language-menu" hidden>
+          <button type="button" data-language="en" lang="en" aria-checked="true">English</button>
+          <button type="button" data-language="zh-CN" lang="zh-CN" aria-checked="false">简体中文</button>
+        </div>
+      </div>
+      <button type="button" class="nav-button" id="theme-toggle" aria-pressed="false" aria-label="Switch to dark theme">
+        <span class="theme-symbol" aria-hidden="true">☾</span>
+      </button>
+    </nav>
+    <div class="header-tools popover">
+      <button type="button" class="download-toggle" id="download-toggle" aria-expanded="false" aria-controls="download-menu" aria-haspopup="true">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 2.5v10m-4-4 4 4 4-4M4 16.5h12"/></svg>
+        <span data-i18n="get">Get Fresnica</span>
+      </button>
+      <div class="menu-popover" id="download-menu" hidden>
+        <p class="menu-caption" data-i18n="downloadCaption">View download options</p>
+        <a class="site-link" data-target="v3-availability" href="./index.html#v3-availability" data-i18n="mobileDownloads">iOS &amp; Android</a>
+        <a class="site-link" data-target="v3-workspace" href="./index.html#v3-workspace" data-i18n="desktopDownloads">Desktop</a>
+      </div>
+    </div>
+    <button type="button" class="mobile-toggle" id="mobile-menu-toggle" aria-controls="mobile-drawer" aria-expanded="false" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </header>
+  <div class="mobile-backdrop" id="mobile-backdrop" hidden></div>
+  <aside class="mobile-drawer" id="mobile-drawer" role="dialog" aria-modal="true" aria-label="Navigation" hidden>
+    <div class="drawer-head"><strong>Fresnica</strong><button type="button" class="drawer-close" id="mobile-menu-close" aria-label="Close menu">×</button></div>
+    <p class="drawer-heading" data-i18n="explore">EXPLORE</p>
+    <nav aria-label="Page sections">
+      <a class="site-link" data-target="overview" href="./index.html#overview" data-i18n="overview">Overview</a>
+      <a class="site-link" data-target="v3-features" href="./index.html#v3-features" data-i18n="features">Features</a>
+      <a class="site-link" data-target="v3-workspace" href="./index.html#v3-workspace" data-i18n="desktop">Desktop</a>
+      <a class="site-link" data-target="v3-security" href="./index.html#v3-security" data-i18n="security">Security</a>
+      <a class="site-link" data-target="v3-clarity" href="./index.html#v3-clarity" data-i18n="questions">Questions</a>
+    </nav>
+    <p class="drawer-heading" data-i18n="get">Get Fresnica</p>
+    <nav aria-label="Download options">
+      <a class="site-link" data-target="v3-availability" href="./index.html#v3-availability" data-i18n="mobileDownloads">iOS &amp; Android</a>
+      <a class="site-link" data-target="v3-workspace" href="./index.html#v3-workspace" data-i18n="desktopDownloads">Desktop</a>
+    </nav>
+    <p class="drawer-heading" data-i18n="preferences">PREFERENCES</p>
+    <div class="mobile-prefs">
+      <button type="button" data-language="en" lang="en" aria-pressed="true">English</button>
+      <button type="button" data-language="zh-CN" lang="zh-CN" aria-pressed="false">简体中文</button>
+      <button type="button" id="mobile-theme" aria-pressed="false" aria-label="Switch to dark theme">☾</button>
+    </div>
+  </aside>
+  <main id="notice-content">
+    <a class="back site-link" href="./index.html#v3-about" data-target="v3-about">← <span data-i18n="back">Back to Fresnica</span></a>
+    <p class="eyebrow" data-i18n="eyebrow">FRESNICA / ATTRIBUTIONS</p>
+    <h1 data-i18n="title">Third-party notices</h1>
+    <section class="notice-section" aria-labelledby="android-heading">
+      <h2 id="android-heading">Android</h2>
+      <p data-i18n="trademark">Android is a trademark of Google LLC.</p>
+      <p data-i18n="robot">The Android robot is reproduced or modified from work created and shared by Google and used according to terms described in the Creative Commons 3.0 Attribution License.</p>
+      <p class="license"><a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer"><span data-i18n="license">Creative Commons Attribution 3.0 License</span> ↗</a></p>
+      <div class="original-copy" id="original-copy" hidden>
+        <h3 data-i18n="original">Original English attribution</h3>
+        <p lang="en">Android is a trademark of Google LLC.</p>
+        <p lang="en">The Android robot is reproduced or modified from work created and shared by Google and used according to terms described in the Creative Commons 3.0 Attribution License.</p>
+      </div>
+    </section>
   </main>
   <script>
-    // Keep the legal attribution in its original English wording.
-    // Only the surrounding navigation and heading follow the chosen locale.
-    const params=new URLSearchParams(location.search);
-    const theme=params.get('theme');
-    if(theme==='light'||theme==='dark')document.documentElement.dataset.theme=theme;
-    const returnParams=new URLSearchParams();
-    if(params.get('lang')==='zh-CN'){
-      document.documentElement.lang='zh-CN';
-      document.title='第三方声明 | Fresnica';
-      document.querySelector('.back').textContent='← 返回 Fresnica';
-      document.querySelector('.eyebrow').textContent='FRESNICA / 第三方署名';
-      document.querySelector('h1').textContent='第三方声明';
-      returnParams.set('lang','zh-CN');
-    }
-    if(theme==='light'||theme==='dark')returnParams.set('theme',theme);
-    const suffix=returnParams.toString();
-    document.querySelector('.back').setAttribute('href',
-      './index.html'+(suffix?'?'+suffix:'')+'#v3-about');
+    (() => {
+      'use strict';
+      const translations={
+        current:['Notices','声明'],
+        overview:['Overview','概览'],
+        features:['Features','功能特性'],
+        desktop:['Desktop','桌面端'],
+        security:['Security','安全性'],
+        questions:['Questions','常见问题'],
+        get:['Get Fresnica','获取 Fresnica'],
+        downloadCaption:['View download options','查看下载方式'],
+        mobileDownloads:['iOS & Android','iOS 与 Android'],
+        desktopDownloads:['Desktop','桌面端'],
+        explore:['EXPLORE','页面导航'],
+        preferences:['PREFERENCES','显示设置'],
+        back:['Back to Fresnica','返回 Fresnica'],
+        eyebrow:['FRESNICA / ATTRIBUTIONS','FRESNICA / 第三方署名'],
+        title:['Third-party notices','第三方声明'],
+        trademark:['Android is a trademark of Google LLC.','Android 是 Google LLC 的商标。'],
+        robot:[
+          'The Android robot is reproduced or modified from work created and shared by Google and used according to terms described in the Creative Commons 3.0 Attribution License.',
+          'Android 机器人图标由 Google 创建并共享的作品复制或修改而成，使用时遵循《知识共享 署名 3.0 许可协议》（Creative Commons Attribution 3.0 License）的相关条款。'
+        ],
+        license:['Creative Commons Attribution 3.0 License','知识共享 署名 3.0 许可协议'],
+        original:['Original English attribution','英文原文（用于授权署名核对）']
+      };
+      const params=new URLSearchParams(location.search);
+      const state={
+        lang:params.get('lang')==='zh-CN'?'zh-CN':'en',
+        theme:['light','dark'].includes(params.get('theme'))?params.get('theme'):
+          (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')
+      };
+      const byId=id=>document.getElementById(id);
+      const isChinese=()=>state.lang==='zh-CN';
+      const label=(en,zh)=>isChinese()?zh:en;
+      const toggleIds=['section-toggle','language-toggle','download-toggle'];
+      function closeDropdowns(focus){
+        let current=null;
+        for(const id of toggleIds){
+          const button=byId(id);
+          if(button.getAttribute('aria-expanded')==='true')current=button;
+          button.setAttribute('aria-expanded','false');
+          byId(button.getAttribute('aria-controls')).hidden=true;
+        }
+        if(focus&&current)current.focus();
+      }
+      function toggleDropdown(id){
+        const button=byId(id),menu=byId(button.getAttribute('aria-controls'));
+        const opening=menu.hidden;
+        closeDropdowns(false);
+        menu.hidden=!opening;
+        button.setAttribute('aria-expanded',String(opening));
+        if(opening)menu.querySelector('a,button')?.focus();
+      }
+      function linkFor(target){
+        const query=new URLSearchParams();
+        if(isChinese())query.set('lang','zh-CN');
+        query.set('theme',state.theme);
+        return './index.html?'+query.toString()+'#'+target;
+      }
+      function updateLinks(){
+        document.querySelectorAll('.site-link[data-target]').forEach(link=>{
+          link.href=linkFor(link.dataset.target);
+        });
+      }
+      function syncUrl(){
+        const url=new URL(location.href);
+        if(isChinese())url.searchParams.set('lang','zh-CN');
+        else url.searchParams.delete('lang');
+        url.searchParams.set('theme',state.theme);
+        history.replaceState(null,'',url.pathname+url.search+url.hash);
+      }
+      function render(){
+        document.documentElement.lang=state.lang;
+        document.documentElement.dataset.theme=state.theme;
+        document.title=label('Third-party notices | Fresnica','第三方声明 | Fresnica');
+        const n=isChinese()?1:0;
+        document.querySelectorAll('[data-i18n]').forEach(el=>{
+          const translation=translations[el.dataset.i18n];
+          if(translation)el.textContent=translation[n];
+        });
+        byId('original-copy').hidden=!isChinese();
+        document.querySelectorAll('#language-menu [data-language]').forEach(btn=>{
+          btn.setAttribute('aria-checked',String(btn.dataset.language===state.lang));
+        });
+        document.querySelectorAll('#mobile-drawer [data-language]').forEach(btn=>{
+          btn.setAttribute('aria-pressed',String(btn.dataset.language===state.lang));
+        });
+        const themeLabel=label(state.theme==='dark'?'Switch to light theme':'Switch to dark theme',
+          state.theme==='dark'?'切换为浅色模式':'切换为深色模式');
+        for(const id of ['theme-toggle','mobile-theme']){
+          const el=byId(id);
+          el.setAttribute('aria-label',themeLabel);
+          el.setAttribute('aria-pressed',String(state.theme==='dark'));
+          el.textContent=state.theme==='dark'?'☀':'☾';
+        }
+        byId('language-toggle').setAttribute('aria-label',label('Choose language','选择语言'));
+        byId('section-toggle').setAttribute('aria-label',label('Jump to a section','跳转章节'));
+        byId('download-toggle').setAttribute('aria-label',label('Get Fresnica download options','查看 Fresnica 下载方式'));
+        byId('mobile-menu-toggle').setAttribute('aria-label',label('Open menu','打开菜单'));
+        byId('mobile-menu-close').setAttribute('aria-label',label('Close menu','关闭菜单'));
+        byId('mobile-drawer').setAttribute('aria-label',label('Navigation','导航菜单'));
+        document.querySelector('.brand').setAttribute('aria-label',label('Fresnica home','Fresnica 首页'));
+        updateLinks();
+      }
+      const drawer=byId('mobile-drawer'),backdrop=byId('mobile-backdrop');
+      const mobileTrigger=byId('mobile-menu-toggle');
+      function closeDrawer(){
+        if(drawer.hidden)return;
+        drawer.hidden=true;backdrop.hidden=true;
+        document.body.style.overflow='';
+        mobileTrigger.setAttribute('aria-expanded','false');
+        mobileTrigger.focus();
+      }
+      function openDrawer(){
+        closeDropdowns(false);
+        drawer.hidden=false;backdrop.hidden=false;
+        document.body.style.overflow='hidden';
+        mobileTrigger.setAttribute('aria-expanded','true');
+        byId('mobile-menu-close').focus();
+      }
+      for(const id of toggleIds)byId(id).addEventListener('click',()=>toggleDropdown(id));
+      for(const button of document.querySelectorAll('[data-language]')){
+        button.addEventListener('click',()=>{
+          state.lang=button.dataset.language;
+          render();syncUrl();
+          if(!drawer.hidden)closeDrawer();
+          else{closeDropdowns(false);byId('language-toggle').focus();}
+        });
+      }
+      for(const id of ['theme-toggle','mobile-theme'])byId(id).addEventListener('click',()=>{
+        state.theme=state.theme==='dark'?'light':'dark';
+        render();syncUrl();
+      });
+      mobileTrigger.addEventListener('click',()=>drawer.hidden?openDrawer():closeDrawer());
+      byId('mobile-menu-close').addEventListener('click',closeDrawer);
+      backdrop.addEventListener('click',closeDrawer);
+      document.addEventListener('click',event=>{
+        if(!event.target.closest('.popover'))closeDropdowns(false);
+      });
+      document.addEventListener('keydown',event=>{
+        if(event.key==='Escape'){
+          if(!drawer.hidden)closeDrawer();
+          else closeDropdowns(true);
+        }
+        if(event.key==='Tab'&&!drawer.hidden){
+          const controls=[...drawer.querySelectorAll('a[href],button:not([disabled])')];
+          const first=controls[0],last=controls.at(-1);
+          if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+          else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+        }
+      });
+      render();
+    })();
   </script>
 </body>
 </html>
