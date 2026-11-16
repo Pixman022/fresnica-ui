@@ -332,8 +332,8 @@ try{
               `${prefix}: English ${kind} heading unexpectedly wraps (${JSON.stringify(wraps[kind])})`);
           }
         }
-        // The right-hand WALLET caption must stay entirely within the orb and
-        // remain readable even when the orb has its maximum 6px pointer parallax.
+        // Desktop labels stay in the sphere field; mobile labels deliberately
+        // extend beyond it, but must remain fully visible inside the viewport.
         const walletCaption=await page.evaluate(()=>{
           const card=document.querySelector('#overview .orb-card.second');
           const field=document.getElementById('orb-field');
@@ -347,10 +347,12 @@ try{
           };
         });
         assert(walletCaption.text.includes('WALLET')&&walletCaption.text.includes('Assets, in one place.')&&
-          walletCaption.card.left>=walletCaption.field.left-1&&
-          walletCaption.card.right<=walletCaption.field.right+1&&
-          walletCaption.card.left>=walletCaption.art.left-1&&
-          walletCaption.card.right<=walletCaption.art.right+1&&
+          (width<=680?
+            (walletCaption.card.left>=4&&walletCaption.card.right<=width-4):
+            (walletCaption.card.left>=walletCaption.field.left-1&&
+             walletCaption.card.right<=walletCaption.field.right+1&&
+             walletCaption.card.left>=walletCaption.art.left-1&&
+             walletCaption.card.right<=walletCaption.art.right+1))&&
           !walletCaption.clippedContent,
           `${prefix}: WALLET hero caption is clipped (${JSON.stringify(walletCaption)})`);
         if(width<=480){
