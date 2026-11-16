@@ -1466,7 +1466,8 @@ try{
         const styles=dots.map(el=>getComputedStyle(el));
         return {
           count:dots.length,
-          sizes:[Math.min(...rects.map(r=>r.width)),Math.max(...rects.map(r=>r.width))],
+          sizes:[Math.min(...dots.map(el=>parseFloat(el.style.width))),
+            Math.max(...dots.map(el=>parseFloat(el.style.width)))],
           animation:styles[0].animationName,
           topGap:Math.min(...rects.map(r=>r.top))-top.bottom,
           bottomGap:bottom.top-Math.max(...rects.map(r=>r.bottom)),
