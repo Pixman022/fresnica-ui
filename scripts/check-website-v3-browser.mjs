@@ -459,14 +459,21 @@ try{
               featureFull:innerWidth>480||
                 (featureFirst.left>=10&&featureFirst.right<=innerWidth-10&&
                  featureSecond.left>=innerWidth-16),
-              previewAssetsVisible:innerWidth>480||finalAsset.bottom<=demo.bottom-3
+              previewAssetsVisible:innerWidth>480||finalAsset.bottom<=demo.bottom-3,
+              previewReadable:innerWidth>480||(
+                demo.height>=demo.width*.78&&
+                q('#v3-workspace .ws-sidebar').getBoundingClientRect().width<=67&&
+                parseFloat(getComputedStyle(q('#v3-workspace .dp-quick-action')).fontSize)>=10&&
+                parseFloat(getComputedStyle(q('#v3-workspace .dp-heading h3')).fontSize)>=14),
+              swipeHintReadable:parseFloat(getComputedStyle(q('#v3-features .m61-swipe-hint')).fontSize)>=12
             };
           });
           assert(compactLayout.workspaceStack&&compactLayout.workspaceWidth&&
             compactLayout.workspaceMin<=970&&compactLayout.faqMin<=770&&
             compactLayout.swipeHints&&compactLayout.featureScrollable&&
             compactLayout.experienceSnap&&compactLayout.experiencePeek&&
-            compactLayout.featureFull&&compactLayout.previewAssetsVisible,
+            compactLayout.featureFull&&compactLayout.previewAssetsVisible&&
+            compactLayout.previewReadable&&compactLayout.swipeHintReadable,
             `${prefix}: mobile scenes must stack naturally and expose swipable cards ${JSON.stringify(compactLayout)}`);
         }
         const mobileActions=await page.evaluate(measureMobileDownloads);
@@ -1263,13 +1270,21 @@ try{
             .map(el=>parseFloat(el.style.width));
           return [Math.min(...widths),Math.max(...widths)];
         })(),
+        ecosystemStaticSpread:(()=>{
+          const dot=[...document.querySelectorAll('#v3-ecosystem .stream-dot')]
+            .find(el=>Math.abs(parseFloat(el.style.getPropertyValue('--from-x')))>5);
+          if(!dot)return null;
+          return Math.abs(parseFloat(dot.style.getPropertyValue('--fallback-x'))/
+            parseFloat(dot.style.getPropertyValue('--from-x')));
+        })(),
         ecosystemStill:getComputedStyle(dot).animationName==='none'&&
           getComputedStyle(core,'::before').animationName==='none'
       };
     });
     assert(state.mobileNoWebGL&&state.fallbackShown&&state.heroDots===980&&
       state.ecosystemDots===136&&state.ecosystemStill&&
-      state.ecosystemDotRange[0]>=2.1&&state.ecosystemDotRange[1]<=4.6,
+      state.ecosystemDotRange[0]>=2.1&&state.ecosystemDotRange[1]<=4.6&&
+      Math.abs(state.ecosystemStaticSpread-.50)<.02,
       'Mobile particle density/static rendering contract failed: '+JSON.stringify(state));
     async function checkStaticCanvas(scene,selector,ready,minDots){
       await staticPage.evaluate(id=>document.getElementById(id)?.scrollIntoView({
