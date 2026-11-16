@@ -62,7 +62,8 @@ for(const [name,engine] of Object.entries({firefox,webkit})){
           check(state.cards===5&&state.reduced&&state.disabled,tag+' cards/motion/download contract broken');
           check(state.quickIcons.length===3&&state.quickIcons.every(icon=>
             parseFloat(icon.padding)===0&&parseFloat(icon.border)===0&&
-            Math.abs(icon.width-22)<=1&&Math.abs(icon.height-22)<=1&&icon.centered),
+            Math.abs(icon.width-(config.width<=680?17.6:22))<=1&&
+            Math.abs(icon.height-(config.width<=680?17.6:22))<=1&&icon.centered),
             tag+' Send/Receive/Swap icon misaligned '+JSON.stringify(state.quickIcons));
           check(state.overflow<=8,tag+' horizontal overflow '+state.overflow+'px');
           for(const c of state.controls){
