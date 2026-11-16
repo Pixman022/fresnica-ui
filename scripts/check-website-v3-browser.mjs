@@ -373,7 +373,9 @@ try{
               return {
                 sameRow:Math.abs(a.top-b.top)<=1&&Math.abs(a.bottom-b.bottom)<=1&&a.right+4<=b.left,
                 targetHeight:Math.min(b.height,...[...language.querySelectorAll('button')].map(el=>el.getBoundingClientRect().height)),
-                noClipping:[theme,...language.querySelectorAll('button')].every(el=>el.scrollWidth<=el.clientWidth+1)
+                noClipping:[theme,...language.querySelectorAll('button')].every(el=>el.scrollWidth<=el.clientWidth+1),
+                iconOnly:theme.textContent.trim()==='◐'&&theme.querySelectorAll('span').length===1&&
+                  !theme.querySelector('.m60-theme-label')&&b.width>=44&&b.width<=56
               };
             })()
           }));
@@ -384,7 +386,7 @@ try{
             mobileMenu.downloadSurfaces[0]!==mobileMenu.downloadSurfaces[1],
             `${prefix}: mobile navigation drawer contract failed ${JSON.stringify(mobileMenu)}`);
           assert(mobileMenu.preferences.sameRow&&mobileMenu.preferences.targetHeight>=44&&
-            mobileMenu.preferences.noClipping,
+            mobileMenu.preferences.noClipping&&mobileMenu.preferences.iconOnly,
             `${prefix}: language and theme preferences must fit in one row ${JSON.stringify(mobileMenu.preferences)}`);
           await page.keyboard.press('Escape');
           assert(await page.evaluate(()=>document.activeElement?.id==='m60-menu-toggle'&&
@@ -900,7 +902,7 @@ try{
           assert(await page.locator('#m60-menu-toggle').isVisible(),
             `zh/${name}/${theme}: mobile menu trigger missing after language change`);
           await page.locator('#m60-menu-toggle').click();
-          await page.waitForFunction(()=>document.querySelector('.m60-theme-label')?.textContent==='主题');
+          await page.waitForFunction(()=>document.querySelector('.m60-theme')?.getAttribute('aria-label')==='切换深浅主题');
           assert((await page.locator('.m60-theme').getAttribute('aria-label'))==='切换深浅主题',
             `zh/${name}/${theme}: compact theme button accessibility label is not localized`);
           await page.keyboard.press('Escape');
