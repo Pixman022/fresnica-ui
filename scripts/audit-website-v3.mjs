@@ -105,16 +105,20 @@ check(/id="download-menu-button"[^>]*aria-label="Get Fresnica download options"[
   html.includes('class="download-label-compact" aria-hidden="true">Get</span>')&&
   html.includes('class="download-mark"')&&!html.includes('download-chevron'),
   'Top-right Get Fresnica button must keep its download icon and labels without a chevron');
-const platformMenu=html.match(/downloadMenu\.innerHTML\s*=\s*'([^']*)';/)?.[1]||'';
-const platformOptions=[...platformMenu.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)]
-  .map(match=>({href:match[1],label:match[2]}));
-check(platformOptions.length===2&&
-  platformOptions[0].href==='#v3-availability'&&
-  platformOptions[0].label==='Mobile · iOS &amp; Android'&&
-  platformOptions[1].href==='#v3-workspace'&&
-  platformOptions[1].label==='Desktop'&&
-  !/<small\b|download-menu-heading/.test(platformMenu),
-  'Download menu must offer two distinct, non-redundant platform destinations');
+const platformMenu=html.match(/downloadMenu\.innerHTML\s*=\s*`([\s\S]*?)`;/)?.[1]||'';
+const platformOptions=[...platformMenu.matchAll(/<a\b[^>]*data-download-platform="([^"]+)"[^>]*>([^<]+)<\/a>/g)]
+  .map(match=>({platform:match[1],label:match[2]}));
+const mobileDrawer=html.match(/<nav class="m60-download-links"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+const mobileChannels=[...mobileDrawer.matchAll(/data-download-platform="([^"]+)"/g)].map(match=>match[1]);
+check(platformOptions.map(option=>option.platform).join(',')==='ios,android,desktop'&&
+  platformOptions.map(option=>option.label).join(',')==='iOS,Android,Desktop'&&
+  mobileChannels.join(',')==='ios,android,desktop'&&
+  !/href="#v3-(availability|workspace)"/.test(platformMenu+mobileDrawer)&&
+  html.includes("Object.freeze({ios:'',android:'',desktop:''})")&&
+  html.includes("window.__v3WireDownloadLinks(downloadMenu)")&&
+  html.includes("window.__v3WireDownloadLinks?.(drawer)")&&
+  platformMenu.includes('download-platform-mobile')&&platformMenu.includes('download-platform-desktop'),
+  'Download menus must provide three independent official-link channels without preview anchors');
 check(html.includes('prefers-reduced-motion:reduce'),'Reduced-motion CSS missing');
 for(const keyframe of ['m33-send-press','m37-success-draw','m44-hub-hide','m43-activity-shift','m45-trend-dot-visibility']){
   check(html.includes(keyframe),`Approved card animation missing: ${keyframe}`);
