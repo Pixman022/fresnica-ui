@@ -2250,6 +2250,19 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
   }
   html.m10-framed #v3-clarity.qa-scene{min-height:max(650px,78dvh)!important;padding:92px 24px 66px;}
 }
+/* A complete card per swipe at phone widths; tablets retain their multi-card rail. */
+@media(max-width:480px){
+  html.m10-framed #v3-features .feature-window{
+    width:100%;margin-inline:0;scroll-padding-inline:0;
+  }
+  html.m10-framed #v3-features .feature-track{padding-inline:0!important;gap:14px;}
+  html.m10-framed #v3-features .feature-card{width:calc(100vw - 48px);}
+  html.m10-framed #v3-for-you .audience-track{
+    width:100%;margin:clamp(26px,4vh,38px) 0 0;padding:0;scroll-padding-inline:0;
+  }
+  html.m10-framed #v3-for-you .audience-card{flex-basis:calc(100vw - 48px);}
+  html.m10-framed #v3-workspace .workspace-mini{aspect-ratio:3/2;}
+}
 </style>
 </head>
 <body>
