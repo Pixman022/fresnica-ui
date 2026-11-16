@@ -1368,15 +1368,45 @@ try{
           return Math.abs(parseFloat(dot.style.getPropertyValue('--fallback-x'))/
             parseFloat(dot.style.getPropertyValue('--from-x')));
         })(),
-        ecosystemStill:getComputedStyle(dot).animationName==='none'&&
-          getComputedStyle(core,'::before').animationName==='none'
+        ecosystemPaused:getComputedStyle(dot).animationName==='ecosystem-mobile-stream-in'&&
+          getComputedStyle(dot).animationPlayState==='paused',
+        ecosystemCoreStill:getComputedStyle(core,'::before').animationName==='none'
       };
     });
     assert(state.mobileNoWebGL&&state.fallbackShown&&state.heroDots===980&&
-      state.ecosystemDots===136&&state.ecosystemStill&&
+      state.ecosystemDots===136&&state.ecosystemPaused&&state.ecosystemCoreStill&&
       state.ecosystemDotRange[0]>=2.1&&state.ecosystemDotRange[1]<=4.6&&
       Math.abs(state.ecosystemStaticSpread-.50)<.02,
-      'Mobile particle density/static rendering contract failed: '+JSON.stringify(state));
+      'Mobile particle size/density/idle contract failed: '+JSON.stringify(state));
+    const motionDot=staticPage.locator('#v3-ecosystem .stream-dot').first();
+    await staticPage.evaluate(()=>document.getElementById('v3-ecosystem')
+      .scrollIntoView({block:'center',behavior:'instant'}));
+    await staticPage.waitForFunction(()=>document.documentElement.dataset.m14Active==='v3-ecosystem'&&
+      getComputedStyle(document.querySelector('#v3-ecosystem .stream-dot')).animationPlayState==='running');
+    const beforeMove=await motionDot.evaluate(el=>getComputedStyle(el).transform);
+    await staticPage.waitForTimeout(250);
+    const afterMove=await motionDot.evaluate(el=>getComputedStyle(el).transform);
+    assert(beforeMove!==afterMove,
+      'Mobile screen-two dots did not move inward during the active scene');
+    await staticPage.locator('#m60-menu-toggle').click();
+    await staticPage.waitForFunction(()=>getComputedStyle(document.querySelector(
+      '#v3-ecosystem .stream-dot')).animationPlayState==='paused');
+    await staticPage.keyboard.press('Escape');
+    await staticPage.waitForFunction(()=>getComputedStyle(document.querySelector(
+      '#v3-ecosystem .stream-dot')).animationPlayState==='running');
+    await staticPage.evaluate(()=>document.getElementById('v3-availability')
+      .scrollIntoView({block:'center',behavior:'instant'}));
+    await staticPage.waitForFunction(()=>document.documentElement.dataset.m14Active!=='v3-ecosystem'&&
+      getComputedStyle(document.querySelector('#v3-ecosystem .stream-dot')).animationPlayState==='paused');
+    await staticPage.emulateMedia({reducedMotion:'reduce'});
+    const reducedDot=await motionDot.evaluate(el=>({
+      animation:getComputedStyle(el).animationName,
+      opacity:Number(getComputedStyle(el).opacity)
+    }));
+    assert(reducedDot.animation==='none'&&reducedDot.opacity>=.68,
+      'Mobile reduce-motion fallback lost static dots: '+JSON.stringify(reducedDot));
+    await staticPage.emulateMedia({reducedMotion:'no-preference'});
+    console.log('[V3 browser] mobile-393 screen-two particle motion PASS (visible, menu, offscreen, reduce)');
     async function checkStaticCanvas(scene,selector,ready,minDots){
       await staticPage.evaluate(id=>document.getElementById(id)?.scrollIntoView({
         block:'center',behavior:'instant'}),scene);
