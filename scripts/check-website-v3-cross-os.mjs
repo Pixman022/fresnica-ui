@@ -119,7 +119,8 @@ try{
               check(data.theme===theme&&data.cards===5&&data.disabled&&data.reduced,tag+' base contract');
               check(data.quickIcons.length===3&&data.quickIcons.every(icon=>
                 parseFloat(icon.padding)===0&&parseFloat(icon.border)===0&&
-                Math.abs(icon.width-22)<=1&&Math.abs(icon.height-22)<=1&&icon.centered),
+                Math.abs(icon.width-(config.width<=680?17.6:22))<=1&&
+                 Math.abs(icon.height-(config.width<=680?17.6:22))<=1&&icon.centered),
                 tag+' Send/Receive/Swap icon misaligned '+JSON.stringify(data.quickIcons));
               check(data.overflow<=8,tag+' horizontal overflow '+data.overflow);
               for(const c of data.controls){
