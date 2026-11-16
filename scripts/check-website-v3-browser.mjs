@@ -10,6 +10,8 @@ const dest=path.resolve(process.env.V3_QA_OUTPUT||'artifacts/website-v3-browser'
 const setups=[
   {name:'desktop-1440',width:1440,height:900},
   {name:'tablet-768',width:768,height:1024},
+  {name:'mobile-680',width:680,height:900},
+  {name:'mobile-480',width:480,height:900},
   {name:'mobile-430',width:430,height:932},
   {name:'mobile-393',width:393,height:852},
   {name:'mobile-360',width:360,height:780},
@@ -526,7 +528,7 @@ try{
           assert(c.left>=-2&&c.right<=width+2,`${prefix}: ${c.id} clipped at viewport edge`);
         }
         const files=[];
-        for(const id of name==='desktop-1440'?sceneIds:['overview','v3-availability','v3-features','v3-workspace']){
+        for(const id of name==='desktop-1440'?sceneIds:['overview','v3-ecosystem','v3-availability','v3-features','v3-workspace']){
           await page.evaluate(id=>{document.getElementById(id)?.scrollIntoView({block:'start',behavior:'instant'});if(id==='v3-features'){const reel=document.getElementById('feature-window');if(reel)reel.scrollLeft=0;}},id);
           await page.waitForTimeout(160);
           const navWidth=await page.locator('.site-header .top-nav').evaluate(el=>el.getBoundingClientRect().width);
@@ -561,6 +563,27 @@ try{
             assert(footerNav.isFooter,`${prefix}: footer navigation state was not activated`);
             assert(footerNav.background==='rgb(42, 42, 48)',
               `${prefix}: footer navigation reverted to light surface (${footerNav.background})`);
+          }
+          if(id==='v3-ecosystem'&&width<=680){
+            const particles=await page.evaluate(()=>{
+              const scene=document.getElementById('v3-ecosystem').getBoundingClientRect();
+              const intro=document.querySelector('#v3-ecosystem .orbital-intro').getBoundingClientRect();
+              const bottom=document.querySelector('#v3-ecosystem .bottom-intro').getBoundingClientRect();
+              const cloud=document.querySelector('#v3-ecosystem .particle-cloud').getBoundingClientRect();
+              const rects=[...document.querySelectorAll('#v3-ecosystem .stream-dot')]
+                .map(dot=>dot.getBoundingClientRect());
+              const minX=Math.min(...rects.map(r=>r.left));
+              const maxX=Math.max(...rects.map(r=>r.right));
+              const minY=Math.min(...rects.map(r=>r.top));
+              const maxY=Math.max(...rects.map(r=>r.bottom));
+              return {count:rects.length,centerX:cloud.left+cloud.width/2,
+                minX,maxX,topGap:minY-intro.bottom,bottomGap:bottom.top-maxY,
+                sceneTop:scene.top,sceneBottom:scene.bottom};
+            });
+            assert(particles.count===136&&Math.abs(particles.centerX-width/2)<2&&
+              particles.minX>=-2&&particles.maxX<=width+2&&
+              particles.topGap>=5&&particles.bottomGap>=5,
+              `${prefix}: mobile particle composition is clipped or overlaps copy (${JSON.stringify(particles)})`);
           }
           if(id==='v3-features'&&name==='desktop-1440'){
             const balance=await page.evaluate(()=>{
