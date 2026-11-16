@@ -1236,12 +1236,18 @@ try{
         mobileNoWebGL:document.getElementById('orb-canvas').style.display==='none',
         fallbackShown:document.getElementById('fallback-orb').style.display==='block',
         ecosystemDots:document.querySelectorAll('#v3-ecosystem .stream-dot').length,
+        ecosystemDotRange:(()=>{
+          const widths=[...document.querySelectorAll('#v3-ecosystem .stream-dot')]
+            .map(el=>parseFloat(el.style.width));
+          return [Math.min(...widths),Math.max(...widths)];
+        })(),
         ecosystemStill:getComputedStyle(dot).animationName==='none'&&
           getComputedStyle(core,'::before').animationName==='none'
       };
     });
     assert(state.mobileNoWebGL&&state.fallbackShown&&state.heroDots===980&&
-      state.ecosystemDots===136&&state.ecosystemStill,
+      state.ecosystemDots===136&&state.ecosystemStill&&
+      state.ecosystemDotRange[0]>=2.1&&state.ecosystemDotRange[1]<=4.6,
       'Mobile particle density/static rendering contract failed: '+JSON.stringify(state));
     async function checkStaticCanvas(scene,selector,ready,minDots){
       await staticPage.evaluate(id=>document.getElementById(id)?.scrollIntoView({
@@ -1288,9 +1294,12 @@ try{
     const desktopParticles=await dynamicPage.evaluate(()=>{
       const dot=document.querySelector('#v3-ecosystem .stream-dot');
       return {count:document.querySelectorAll('#v3-ecosystem .stream-dot').length,
-        animation:getComputedStyle(dot).animationName};
+        animation:getComputedStyle(dot).animationName,
+        maxDotSize:Math.max(...[...document.querySelectorAll('#v3-ecosystem .stream-dot')]
+          .map(el=>parseFloat(el.style.width)))};
     });
-    assert(desktopParticles.count===96&&desktopParticles.animation==='ecosystem-stream-in',
+    assert(desktopParticles.count===96&&desktopParticles.animation==='ecosystem-stream-in'&&
+      desktopParticles.maxDotSize>=5.5,
       'Desktop ecosystem particle animation unexpectedly changed: '+
       JSON.stringify(desktopParticles));
   }catch(error){
