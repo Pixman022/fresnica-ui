@@ -1226,7 +1226,8 @@ try{
     await staticPage.evaluate(()=>document.fonts.ready);
     await staticPage.waitForFunction(()=>
       document.documentElement.classList.contains('m10-framed')&&
-      document.getElementById('orb-center-logo')?.naturalWidth>0);
+      document.getElementById('orb-center-logo')?.naturalWidth>0&&
+      document.getElementById('orb-particles')?.dataset.dotCount==='980');
     const state=await staticPage.evaluate(()=>{
       const dot=document.querySelector('#v3-ecosystem .stream-dot');
       const core=document.querySelector('#v3-ecosystem .ecosystem-core');
