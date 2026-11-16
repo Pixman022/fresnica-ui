@@ -593,10 +593,13 @@ try{
               const minY=Math.min(...rects.map(r=>r.top));
               const maxY=Math.max(...rects.map(r=>r.bottom));
               return {count:rects.length,centerX:cloud.left+cloud.width/2,
-                minX,maxX,topGap:minY-intro.bottom,bottomGap:bottom.top-maxY,
+                cloudWidth:cloud.width,sceneWidth:scene.width,minX,maxX,
+                topGap:minY-intro.bottom,bottomGap:bottom.top-maxY,
                 sceneTop:scene.top,sceneBottom:scene.bottom};
             });
             assert(particles.count===136&&Math.abs(particles.centerX-width/2)<2&&
+              particles.cloudWidth>=particles.sceneWidth*.9&&
+              particles.maxX-particles.minX>=width*.78&&
               particles.minX>=-2&&particles.maxX<=width+2&&
               particles.topGap>=5&&particles.bottomGap>=5,
               `${prefix}: mobile particle composition is clipped or overlaps copy (${JSON.stringify(particles)})`);
@@ -1377,12 +1380,17 @@ try{
             .map(el=>parseFloat(el.style.width));
           return [Math.min(...widths),Math.max(...widths)];
         })(),
-        ecosystemStaticSpread:(()=>{
+        ecosystemSpreads:(()=>{
           const dot=[...document.querySelectorAll('#v3-ecosystem .stream-dot')]
-            .find(el=>Math.abs(parseFloat(el.style.getPropertyValue('--from-x')))>5);
+            .find(el=>Math.abs(parseFloat(el.style.getPropertyValue('--from-x')))>5&&
+              Math.abs(parseFloat(el.style.getPropertyValue('--from-y')))>5);
           if(!dot)return null;
-          return Math.abs(parseFloat(dot.style.getPropertyValue('--fallback-x'))/
-            parseFloat(dot.style.getPropertyValue('--from-x')));
+          return {
+            horizontal:Math.abs(parseFloat(dot.style.getPropertyValue('--fallback-x'))/
+              parseFloat(dot.style.getPropertyValue('--from-x'))),
+            vertical:Math.abs(parseFloat(dot.style.getPropertyValue('--fallback-y'))/
+              parseFloat(dot.style.getPropertyValue('--from-y')))
+          };
         })(),
         ecosystemPaused:getComputedStyle(dot).animationName==='ecosystem-mobile-stream-in'&&
           getComputedStyle(dot).animationPlayState==='paused',
@@ -1392,7 +1400,8 @@ try{
     assert(state.mobileNoWebGL&&state.fallbackShown&&state.heroDots===980&&
       state.ecosystemDots===136&&state.ecosystemPaused&&state.ecosystemCoreStill&&
       state.ecosystemDotRange[0]>=2.1&&state.ecosystemDotRange[1]<=4.6&&
-      Math.abs(state.ecosystemStaticSpread-.50)<.02,
+      Math.abs(state.ecosystemSpreads.horizontal-1.50)<.02&&
+      Math.abs(state.ecosystemSpreads.vertical-.50)<.02,
       'Mobile particle size/density/idle contract failed: '+JSON.stringify(state));
     const motionDot=staticPage.locator('#v3-ecosystem .stream-dot').first();
     await staticPage.evaluate(()=>document.getElementById('v3-ecosystem')
@@ -1485,6 +1494,8 @@ try{
           sizes:[Math.min(...dots.map(el=>parseFloat(el.style.width))),
             Math.max(...dots.map(el=>parseFloat(el.style.width)))],
           animation:styles[0].animationName,
+          cloudWidth:scene.querySelector('.particle-cloud').getBoundingClientRect().width,
+          sceneWidth:scene.getBoundingClientRect().width,
           topGap:Math.min(...rects.map(r=>r.top))-top.bottom,
           bottomGap:bottom.top-Math.max(...rects.map(r=>r.bottom)),
           left:Math.min(...rects.map(r=>r.left)),right:Math.max(...rects.map(r=>r.right))
@@ -1492,6 +1503,7 @@ try{
       });
       assert(state.count===136&&state.animation==='ecosystem-mobile-stream-in'&&
         state.sizes[0]>=2.1&&state.sizes[1]<=4.6&&
+        state.cloudWidth>=state.sceneWidth*.9&&
         state.topGap>=-2&&state.bottomGap>=-2&&state.left>=-2&&state.right<=width+2,
         `Mobile animated particle geometry is clipped or overlaps text at ${width}px: ${JSON.stringify(state)}`);
       const first=await movingPage.locator('#v3-ecosystem .stream-dot').first()
