@@ -72,6 +72,7 @@
       width:205px;padding:7px;border:1px solid var(--line);
       background:var(--surface);color:var(--ink);border-radius:15px;
       box-shadow:0 16px 40px rgba(0,0,0,.14);
+      max-height:min(70dvh,430px);overflow-y:auto;
     }
     .menu-popover a,.menu-popover button{
       display:flex;align-items:center;width:100%;min-height:42px;
@@ -159,10 +160,14 @@
         </button>
         <div class="menu-popover" id="section-menu" hidden>
           <a class="site-link" data-target="overview" href="./index.html#overview" data-i18n="overview">Overview</a>
-          <a class="site-link" data-target="v3-features" href="./index.html#v3-features" data-i18n="features">Features</a>
+          <a class="site-link" data-target="v3-ecosystem" href="./index.html#v3-ecosystem" data-i18n="nextMove">Your next move</a>
+          <a class="site-link" data-target="v3-availability" href="./index.html#v3-availability" data-i18n="mobileApp">Mobile app</a>
+          <a class="site-link" data-target="v3-features" href="./index.html#v3-features" data-i18n="features">Essentials</a>
           <a class="site-link" data-target="v3-workspace" href="./index.html#v3-workspace" data-i18n="desktop">Desktop</a>
+          <a class="site-link" data-target="v3-for-you" href="./index.html#v3-for-you" data-i18n="experience">Experience</a>
           <a class="site-link" data-target="v3-security" href="./index.html#v3-security" data-i18n="security">Security</a>
           <a class="site-link" data-target="v3-clarity" href="./index.html#v3-clarity" data-i18n="questions">Questions</a>
+          <a class="site-link" data-target="v3-about" href="./index.html#v3-about" data-i18n="about">About Fresnica</a>
         </div>
       </div>
       <span class="nav-divider" aria-hidden="true"></span>
@@ -200,10 +205,14 @@
     <p class="drawer-heading" data-i18n="explore">EXPLORE</p>
     <nav aria-label="Page sections">
       <a class="site-link" data-target="overview" href="./index.html#overview" data-i18n="overview">Overview</a>
-      <a class="site-link" data-target="v3-features" href="./index.html#v3-features" data-i18n="features">Features</a>
+      <a class="site-link" data-target="v3-ecosystem" href="./index.html#v3-ecosystem" data-i18n="nextMove">Your next move</a>
+      <a class="site-link" data-target="v3-availability" href="./index.html#v3-availability" data-i18n="mobileApp">Mobile app</a>
+      <a class="site-link" data-target="v3-features" href="./index.html#v3-features" data-i18n="features">Essentials</a>
       <a class="site-link" data-target="v3-workspace" href="./index.html#v3-workspace" data-i18n="desktop">Desktop</a>
+      <a class="site-link" data-target="v3-for-you" href="./index.html#v3-for-you" data-i18n="experience">Experience</a>
       <a class="site-link" data-target="v3-security" href="./index.html#v3-security" data-i18n="security">Security</a>
       <a class="site-link" data-target="v3-clarity" href="./index.html#v3-clarity" data-i18n="questions">Questions</a>
+      <a class="site-link" data-target="v3-about" href="./index.html#v3-about" data-i18n="about">About Fresnica</a>
     </nav>
     <p class="drawer-heading" data-i18n="get">Get Fresnica</p>
     <nav aria-label="Download options">
@@ -238,11 +247,15 @@
       'use strict';
       const translations={
         current:['Notices','声明'],
-        overview:['Overview','概览'],
-        features:['Features','功能特性'],
+        overview:['Overview','首页'],
+        nextMove:['Your next move','你的下一步'],
+        mobileApp:['Mobile app','移动端应用'],
+        features:['Essentials','核心功能'],
         desktop:['Desktop','桌面端'],
-        security:['Security','安全性'],
+        experience:['Experience','产品体验'],
+        security:['Security','安全'],
         questions:['Questions','常见问题'],
+        about:['About Fresnica','关于 Fresnica'],
         get:['Get Fresnica','获取 Fresnica'],
         downloadCaption:['View download options','查看下载方式'],
         mobileDownloads:['iOS & Android','iOS 与 Android'],
@@ -336,6 +349,9 @@
         byId('mobile-menu-toggle').setAttribute('aria-label',label('Open menu','打开菜单'));
         byId('mobile-menu-close').setAttribute('aria-label',label('Close menu','关闭菜单'));
         byId('mobile-drawer').setAttribute('aria-label',label('Navigation','导航菜单'));
+        document.querySelector('.center-nav').setAttribute('aria-label',label('Page navigation and display options','页面导航与显示选项'));
+        document.querySelector('#mobile-drawer nav:first-of-type').setAttribute('aria-label',label('Page sections','页面章节'));
+        document.querySelector('#mobile-drawer nav:last-of-type').setAttribute('aria-label',label('Download options','下载方式'));
         document.querySelector('.brand').setAttribute('aria-label',label('Fresnica home','Fresnica 首页'));
         updateLinks();
       }
