@@ -1173,12 +1173,21 @@ try{
       lang:document.documentElement.lang,
       theme:document.documentElement.dataset.theme,
       background:getComputedStyle(document.body).backgroundColor,
-      returnHref:document.querySelector('.back')?.getAttribute('href')
+      returnHref:document.querySelector('.back')?.getAttribute('href'),
+      title:document.querySelector('h1')?.textContent?.trim(),
+      chineseAttribution:document.querySelector('[data-i18n="robot"]')?.textContent?.includes('Android 机器人图标'),
+      licenseTranslated:document.querySelector('[data-i18n="license"]')?.textContent?.includes('知识共享'),
+      originalVisible:!document.querySelector('#original-copy')?.hidden,
+      navigation:!!document.querySelector('.notice-header .brand img')&&
+        !!document.querySelector('#section-toggle')&&
+        !!document.querySelector('#download-toggle')
     }));
     assert(noticeState.lang==='zh-CN'&&noticeState.theme==='dark'&&
       noticeState.background==='rgb(23, 24, 27)'&&
-      noticeState.returnHref?.includes('theme=dark'),
-      'Notice page lost dark preference: '+JSON.stringify(noticeState));
+      noticeState.returnHref?.includes('theme=dark')&&
+      noticeState.title==='第三方声明'&&noticeState.chineseAttribution&&
+      noticeState.licenseTranslated&&noticeState.originalVisible&&noticeState.navigation,
+      'Notice page lost dark preference, navigation or Chinese legal copy: '+JSON.stringify(noticeState));
     await noticeTrip.locator('.back').click();
     await noticeTrip.waitForURL(url=>url.pathname.endsWith('/index.html'),{timeout:15000});
     // The preview defers fragment restoration until pageshow + a layout frame.
@@ -1203,6 +1212,104 @@ try{
   }catch(error){
     failures.push('notice language/theme roundtrip: '+String(error.message||error).slice(0,650));
   }finally{await noticeTrip.close();}
+  // The secondary page has its own fully functional desktop and mobile header.
+  for(const width of [320,393,1440]){
+    const mobile=width<=680;
+    const noticePage=await browser.newPage({
+      viewport:{width,height:mobile?780:900},reducedMotion:'reduce',colorScheme:'light'
+    });
+    try{
+      const url=new URL('third-party-notices.html?lang=zh-CN&theme=dark',base);
+      await noticePage.goto(url.href,{waitUntil:'load',timeout:30000});
+      const initial=await noticePage.evaluate(()=>{
+        const rect=el=>el.getBoundingClientRect();
+        const brand=rect(document.querySelector('.notice-header .brand'));
+        const menu=rect(document.querySelector('#mobile-menu-toggle'));
+        return {
+          lang:document.documentElement.lang,theme:document.documentElement.dataset.theme,
+          heading:document.querySelector('h1').textContent,
+          chinese:document.querySelector('[data-i18n="trademark"]').textContent,
+          robot:document.querySelector('[data-i18n="robot"]').textContent,
+          originalVisible:!document.getElementById('original-copy').hidden,
+          originalCredit:document.getElementById('original-copy').textContent.includes(
+            'The Android robot is reproduced or modified from work created and shared by Google'),
+          logoReady:document.querySelector('.brand img').naturalWidth>0,
+          overflow:document.documentElement.scrollWidth-innerWidth,
+          brandRight:brand.right,menuLeft:menu.left,
+          menuShown:getComputedStyle(document.getElementById('mobile-menu-toggle')).display!=='none',
+          desktopShown:getComputedStyle(document.querySelector('.center-nav')).display!=='none'
+        };
+      });
+      assert(initial.lang==='zh-CN'&&initial.theme==='dark'&&initial.heading==='第三方声明'&&
+        initial.chinese.includes('Google LLC')&&initial.robot.includes('Android 机器人图标')&&
+        initial.originalVisible&&initial.originalCredit&&initial.logoReady&&initial.overflow<=1&&
+        (mobile?(initial.menuShown&&initial.menuLeft-initial.brandRight>=8):initial.desktopShown),
+        'Notice header/attribution failed '+width+': '+JSON.stringify(initial));
+      if(mobile){
+        await noticePage.locator('#mobile-menu-toggle').click();
+        assert(!await noticePage.locator('#mobile-drawer').evaluate(el=>el.hidden)&&
+          await noticePage.locator('#mobile-menu-toggle').getAttribute('aria-expanded')==='true',
+          'Notice mobile drawer did not open '+width);
+        await noticePage.locator('#mobile-drawer [data-language="en"]').click();
+        const english=await noticePage.evaluate(()=>({
+          lang:document.documentElement.lang,
+          title:document.querySelector('h1').textContent,
+          copy:document.querySelector('[data-i18n="robot"]').textContent,
+          originalHidden:document.getElementById('original-copy').hidden,
+          closed:document.getElementById('mobile-drawer').hidden
+        }));
+        assert(english.lang==='en'&&english.title==='Third-party notices'&&
+          english.copy.startsWith('The Android robot is reproduced')&&
+          english.originalHidden&&english.closed,
+          'Notice mobile language switch failed '+width+': '+JSON.stringify(english));
+        await noticePage.locator('#mobile-menu-toggle').click();
+        await noticePage.locator('#mobile-drawer [data-language="zh-CN"]').click();
+        await noticePage.locator('#mobile-menu-toggle').click();
+        await noticePage.locator('#mobile-theme').click();
+        const prefs=await noticePage.evaluate(()=>({
+          lang:document.documentElement.lang,theme:document.documentElement.dataset.theme,
+          href:document.querySelector('#mobile-drawer [data-target="v3-workspace"]').getAttribute('href')
+        }));
+        assert(prefs.lang==='zh-CN'&&prefs.theme==='light'&&
+          prefs.href.includes('lang=zh-CN')&&prefs.href.includes('theme=light')&&
+          prefs.href.includes('#v3-workspace'),
+          'Notice mobile state not preserved in page links '+width+': '+JSON.stringify(prefs));
+        await noticePage.keyboard.press('Escape');
+        assert(await noticePage.locator('#mobile-drawer').evaluate(el=>el.hidden),
+          'Notice mobile Escape did not close drawer');
+      }else{
+        await noticePage.locator('#section-toggle').click();
+        assert(!await noticePage.locator('#section-menu').evaluate(el=>el.hidden),
+          'Notice section navigation did not open');
+        await noticePage.keyboard.press('Escape');
+        assert(await noticePage.locator('#section-menu').evaluate(el=>el.hidden),
+          'Notice section navigation did not close with Escape');
+        await noticePage.locator('#download-toggle').click();
+        assert(!await noticePage.locator('#download-menu').evaluate(el=>el.hidden)&&
+          (await noticePage.locator('#download-menu [data-target="v3-availability"]').getAttribute('href')).includes('lang=zh-CN'),
+          'Notice download navigation did not retain locale');
+        await noticePage.keyboard.press('Escape');
+        await noticePage.locator('#language-toggle').click();
+        await noticePage.locator('#language-menu [data-language="en"]').click();
+        await noticePage.locator('#theme-toggle').click();
+        const prefs=await noticePage.evaluate(()=>({
+          lang:document.documentElement.lang,theme:document.documentElement.dataset.theme,
+          text:document.querySelector('[data-i18n="trademark"]').textContent,
+          href:document.querySelector('.back').getAttribute('href')
+        }));
+        assert(prefs.lang==='en'&&prefs.theme==='light'&&
+          prefs.text==='Android is a trademark of Google LLC.'&&
+          prefs.href.includes('theme=light')&&!prefs.href.includes('lang=zh-CN'),
+          'Notice desktop locale/theme controls failed: '+JSON.stringify(prefs));
+      }
+      const image=path.join(dest,'notice-header-'+width+'.png');
+      await noticePage.screenshot({path:image});
+      captures.push(path.relative(dest,image));
+      console.log('[V3 browser] notice-header-'+width+' PASS');
+    }catch(error){
+      failures.push('notice header '+width+': '+String(error.message||error).slice(0,700));
+    }finally{await noticePage.close();}
+  }
   // Confirm the documented URL opt-in opens the existing developer controls.
   const debugPage=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
   try{
