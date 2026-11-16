@@ -358,7 +358,9 @@ try{
             channels:[...document.querySelectorAll('.m60-download-links [data-download-platform]')].map(el=>({
               platform:el.dataset.downloadPlatform,
               disabled:el.getAttribute('aria-disabled')==='true',
-              href:el.getAttribute('href')
+              href:el.getAttribute('href'),
+              iconCount:el.querySelectorAll('svg.download-platform-icon').length,
+              iconDecorative:el.querySelector('svg.download-platform-icon')?.getAttribute('aria-hidden')==='true'
             })),
             downloadSurfaces:[
               getComputedStyle(document.querySelector('.m60-download-mobile')).backgroundColor,
@@ -393,7 +395,8 @@ try{
           assert(mobileMenu.expanded==='true'&&mobileMenu.sections===9&&mobileMenu.downloads===3&&
             mobileMenu.locked&&mobileMenu.backgroundInert&&
             mobileMenu.channels.map(entry=>entry.platform).join(',')==='ios,android,desktop'&&
-            mobileMenu.channels.every(entry=>entry.disabled&&entry.href===null)&&
+            mobileMenu.channels.every(entry=>entry.disabled&&entry.href===null&&
+              entry.iconCount===1&&entry.iconDecorative)&&
             mobileMenu.downloadSurfaces[0]!==mobileMenu.downloadSurfaces[1],
             `${prefix}: mobile navigation drawer contract failed ${JSON.stringify(mobileMenu)}`);
           assert(mobileMenu.preferences.sameRow&&mobileMenu.preferences.targetHeight>=44&&
@@ -636,12 +639,15 @@ try{
               label:link.textContent.trim(),
               href:link.getAttribute('href'),
               disabled:link.getAttribute('aria-disabled')==='true',
+              iconCount:link.querySelectorAll('svg.download-platform-icon').length,
+              iconDecorative:link.querySelector('svg.download-platform-icon')?.getAttribute('aria-hidden')==='true',
               group:getComputedStyle(link.closest('.download-platform-group')).backgroundColor
             })));
           assert(platformOptions.length===3&&
             platformOptions.map(option=>option.platform).join(',')==='ios,android,desktop'&&
             platformOptions.map(option=>option.label).join(',')==='iOS,Android,Desktop'&&
-            platformOptions.every(option=>option.href===null&&option.disabled)&&
+            platformOptions.every(option=>option.href===null&&option.disabled&&
+              option.iconCount===1&&option.iconDecorative)&&
             platformOptions[0].group===platformOptions[1].group&&
             platformOptions[0].group!==platformOptions[2].group,
             'Download options must be distinct, direct-link-ready, and safely unavailable: '+
