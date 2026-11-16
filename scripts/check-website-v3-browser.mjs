@@ -216,10 +216,14 @@ try{
             const art=rect(document.querySelector('#overview .hero-art'));
             const ticker=rect(document.querySelector('#overview .ticker'));
             const actions=[...document.querySelectorAll('#overview .actions .cta')].map(rect);
-            const labels=[...document.querySelectorAll('#overview .orb-card')].map(el=>({
-              rect:rect(el),radius:parseFloat(getComputedStyle(el).borderTopLeftRadius),
-              pointer:getComputedStyle(el).pointerEvents
-            }));
+            const labels=[...document.querySelectorAll('#overview .orb-card')].map(el=>{
+              const r=rect(el),cx=field.left+diameter/2,cy=field.top+diameter/2;
+              const dx=Math.max(r.left-cx,0,cx-r.right);
+              const dy=Math.max(r.top-cy,0,cy-r.bottom);
+              return {rect:r,radius:parseFloat(getComputedStyle(el).borderTopLeftRadius),
+                pointer:getComputedStyle(el).pointerEvents,
+                sphereIntrusion:Math.max(0,diameter*.305-Math.hypot(dx,dy))};
+            });
             const status=rect(document.querySelector('#overview .orb-status'));
             const title=rect(document.querySelector('#overview h1'));
             const visible=(r)=>Math.max(0,Math.min(view.bottom,r.bottom)-Math.max(view.top,r.top));
@@ -239,8 +243,9 @@ try{
             mobileHero.labels.length===3&&mobileHero.labels.every(l=>
               l.rect.left>=-1&&l.rect.right<=width+1&&
               l.rect.top>=0&&l.rect.bottom<=mobileHero.tickerTop-5&&
+              l.sphereIntrusion<=8&&
               l.radius<=4&&l.pointer==='none'),
-            `${name}/${theme}: mobile first fold is incomplete or labels look clickable (${JSON.stringify(mobileHero)})`);
+            `${name}/${theme}: mobile first fold, non-interactive labels or sphere clearance failed (${JSON.stringify(mobileHero)})`);
         }
         if(theme==='dark'){
           if(width<=680){
