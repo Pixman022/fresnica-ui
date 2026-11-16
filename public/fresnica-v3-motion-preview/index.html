@@ -2284,6 +2284,23 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
   }
 }
 </style>
+<style id="m63-mobile-header-logo">
+/* Keep the full Fresnica mark readable beside the mobile menu control. */
+@media(max-width:680px){
+  html.m10-framed .site-header .brand{
+    display:inline-flex;align-items:center;gap:8px;height:44px;
+    padding:5px 12px 5px 7px;max-width:calc(100vw - 100px);
+    font-size:14px;line-height:1;
+  }
+  html.m10-framed .site-header .brand-logo{
+    width:30px;height:30px;min-width:30px;border-radius:50%;
+  }
+  html.m10-framed .site-header .brand-label{
+    display:inline-flex;align-items:center;
+    font-size:14px;line-height:1;letter-spacing:-.015em;
+  }
+}
+</style>
 </head>
 <body>
   <main class="stage" id="overview" aria-label="Fresnica V3 video-aligned hero">
