@@ -2487,13 +2487,16 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
 @media(max-width:680px){
   html.m10-framed #overview.stage{
     --mobile-hero-orb:clamp(202px,30.5dvh,284px);
+    --mobile-hero-top:clamp(68px,8.6dvh,81px);
     box-sizing:border-box;
     min-height:100dvh!important;
-    padding:clamp(68px,8.6dvh,81px) 0 46px!important;
+    padding:var(--mobile-hero-top) 0 46px!important;
   }
   html.m10-framed #overview.stage .hero{
+    min-height:calc(100dvh - var(--mobile-hero-top) - 46px);
     padding-inline:clamp(15px,5vw,24px);
-    gap:clamp(5px,.85dvh,9px);
+    justify-content:space-around;
+    gap:clamp(8px,1.2dvh,11px);
   }
   html.m10-framed #overview .hero-copy .eyebrow{
     font-size:9px;line-height:1.35;margin:0 0 11px;
@@ -2551,7 +2554,7 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
 @media(max-width:360px){
   html.m10-framed #overview.stage{
     --mobile-hero-orb:clamp(190px,29dvh,220px);
-    padding-top:66px!important;
+    --mobile-hero-top:66px;
   }
   html.m10-framed #overview .hero-copy h1{font-size:35px;line-height:1.035;}
   html.m10-framed #overview .hero-copy .eyebrow{margin-bottom:9px;}
