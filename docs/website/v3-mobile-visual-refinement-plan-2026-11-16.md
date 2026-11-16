@@ -35,7 +35,8 @@
 - [x] **完整视觉 QA 已通过**：对源码 `1a869b6` 的 [V3 Website Visual QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43819837630) 已完成且为 success；可用测试产物中的 `results.json`、`desktop-panels-results.json`、`motion-results.json`、`transition-results.json`、`native-zoom-results.json` 等均为 `PASS`、无失败项。
 - [x] **自动截图人工复核（首屏与第五屏）**：检查 320px、430px 亮/暗主题自动截图，确认顶部品牌与菜单无遮挡、桌面预览可见；320px 需向下滚动才能完整看见页面内容，为移动端纵向滚动设计。
 - [x] **扩大覆盖面**：新提交 [47de621](https://github.com/Pixman022/fresnica-ui/commit/47de62190bbf9a0e7f7edf845b4d567996c46bb6) 增加 480px、680px 断点测试，单独捕获第二屏移动端粒子画面并检查其不超出视口、不与文字相撞。
-- [ ] **新覆盖的第二屏截图及 480/680px 结果待核对**：[本轮扩展 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43820677175)。
+- [x] **扩展 QA 发现并定位 320px 布局问题**：[初次扩展测试](https://github.com/Pixman022/fresnica-ui/actions/runs/43820677175) 在 320px 亮色/暗色下发现粒子顶部与两行标题下方区域重叠约 14px；430、480、680px 未报告同项问题。截图与布局数据一致。已通过 [7bd9f62](https://github.com/Pixman022/fresnica-ui/commit/7bd9f629da076693cb9e67f69a5b87ddc54ba773) 在 ≤360px 下将上方标题上移 12px，粒子与连接线整体下移 12px。
+- [ ] **320px 修复回归**：[最新视觉 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107323)、[Windows/macOS 兼容 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107412)、[Edge 缩放 QA](https://github.com/Pixman022/fresnica-ui/actions/runs/43821107097) 尚需结果与新截图复核。
 - [ ] **真实手机视觉签收待完成**：自动化不能替代具体设备的最终视觉、触摸滚动和字重验收；不影响本轮已通过的代码回归结论。
 
 ### 本轮提交
