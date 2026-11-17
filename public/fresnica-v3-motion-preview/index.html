@@ -2248,7 +2248,8 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
   html.m10-framed #v3-workspace .desktop-tabs button{
     min-height:44px;padding-inline:3px;font-size:clamp(9px,2.6vw,11px);
   }
-  html.m10-framed #v3-clarity.qa-scene{min-height:max(650px,78dvh)!important;padding:92px 24px 66px;}
+  /* Keep the next chapter out of view while the compact FAQ occupies its own screen. */
+  html.m10-framed #v3-clarity.qa-scene{min-height:max(650px,100dvh)!important;padding:92px 24px 66px;}
 }
 /* A complete card per swipe at phone widths; tablets retain their multi-card rail. */
 @media(max-width:480px){
