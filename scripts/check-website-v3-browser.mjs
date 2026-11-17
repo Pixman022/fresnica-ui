@@ -484,6 +484,11 @@ try{
               fullViewportChapters:['v3-features','v3-workspace','v3-for-you',
                 'v3-clarity','v3-about'].every(id=>
                 q('#'+id).getBoundingClientRect().height>=innerHeight-1),
+              footerTouchTargets:[...q('#v3-about .footer-top').querySelectorAll('a')]
+                .every(el=>{
+                  const rect=el.getBoundingClientRect();
+                  return rect.width>=44&&rect.height>=43.5;
+                })&&parseFloat(getComputedStyle(q('#v3-about .platform-credit')).fontSize)>=12,
               swipeHints:[...document.querySelectorAll('.m61-swipe-hint')].length===2&&
                 [...document.querySelectorAll('.m61-swipe-hint')].every(el=>getComputedStyle(el).display!=='none'),
               featureScrollable:q('#v3-features .feature-window').scrollWidth>
@@ -528,6 +533,7 @@ try{
           });
           assert(compactLayout.workspaceStack&&compactLayout.workspaceWidth&&
             compactLayout.workspaceMin<=970&&compactLayout.fullViewportChapters&&
+            compactLayout.footerTouchTargets&&
             compactLayout.swipeHints&&compactLayout.featureScrollable&&
             compactLayout.experienceSnap&&compactLayout.experiencePeek&&
             compactLayout.featureFull&&compactLayout.featureNoPartialTitle&&
