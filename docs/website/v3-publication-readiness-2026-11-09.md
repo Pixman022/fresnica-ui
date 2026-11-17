@@ -100,7 +100,7 @@
 
 - 复核发现：V3 主页面 `Get Fresnica` 已提供 iOS / Android / Desktop 三个**独立且未开放**的下载渠道，但 `third-party-notices.html` 顶部与手机菜单仍把“iOS & Android / Desktop”链接到 V3 介绍章节。这是下载入口语义不一致，不代表官方地址已存在。
 - 已在 `9e40c06` 将声明页桌面下拉与移动端导航改为三个独立渠道，均显式带有 `aria-disabled="true"`、不含 `href`，不会以介绍页跳转冒充正式下载；增加中英文“官方下载渠道尚未开放”提示，保留章节导航与语言、主题往返。
-- `630d9e0` 将此结构加入预览静态审计；`7a0ac72` 新增 320px、393px 和桌面宽度的浏览器非跳转检查。浏览器回归运行：<https://github.com/Pixman022/fresnica-ui/actions/runs/44034256168>，最终结论以 CI 实际结果为准。
+- `630d9e0` 将此结构加入预览静态审计；`7a0ac72` 新增 320px、393px 和桌面宽度的浏览器非跳转检查，`b66aa2e` 覆盖屏幕阅读器下载分组的中英文名称。旧测试误用 Playwright 普通点击操作已禁用的链接，`ead2d32` 改为先验证不可操作，再合成点击确认不跳转。最新回归：<https://github.com/Pixman022/fresnica-ui/actions/runs/44034861131>，最终结论以 CI 实际结果为准。
 - 保持未变：主页面 `officialDownloadUrls` 仍为空，下载按钮禁用；主站和声明页均保留 `noindex,nofollow,noarchive`；Android 商标、CC BY 3.0 原文及外部许可链接保留。**不会据此宣称已通过发行、法律或真机验收。**
 
 ### 后续发布批准需提供的证据
