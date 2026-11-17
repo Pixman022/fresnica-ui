@@ -192,6 +192,27 @@ check(notices.includes("linkFor(target)")&&notices.includes("query.set('theme',s
   notices.includes("query.set('lang','zh-CN')"),
   'Third-party notice links must preserve locale and theme');
 
+// The secondary notice page must not silently turn unreleased download channels
+// back into jumps to the product-description chapters.
+const noticeDownloadStart=notices.indexOf('id="download-menu" hidden>');
+const noticeDownloadEnd=notices.indexOf('id="mobile-menu-toggle"',noticeDownloadStart);
+const noticeDrawerStart=notices.indexOf('<nav aria-label="Download options">');
+const noticeDrawerEnd=notices.indexOf('data-i18n="preferences"',noticeDrawerStart);
+const noticeDownloadBlocks=[
+  notices.slice(noticeDownloadStart,noticeDownloadEnd),
+  notices.slice(noticeDrawerStart,noticeDrawerEnd)
+];
+for(const block of noticeDownloadBlocks){
+  const channels=[...block.matchAll(/<a\b([^>]*data-download-platform="([^"]+)"[^>]*)>/g)];
+  check(channels.map(match=>match[2]).join(',')==='ios,android,desktop'&&
+    channels.every(match=>match[1].includes('aria-disabled="true"')&&
+      match[1].includes('tabindex="0"')&&!/\bhref=/.test(match[1]))&&
+    !/\bdata-target=/.test(block),
+    'Notice page downloads must remain three disabled independent channels');
+}
+check(notices.includes("downloadCaption:['Official downloads are not available yet','官方下载渠道尚未开放']"),
+  'Notice page must explain the unavailable channels in both languages');
+
 // Keep new visible strings and accessible names covered by the Chinese dictionary.
 // The orb tuner uses explicit bilingual <span lang="..."> pairs instead.
 const localeScript=fs.readFileSync(path.join(preview,'m12-experience.js'),'utf8');
