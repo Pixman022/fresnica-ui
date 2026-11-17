@@ -95,3 +95,20 @@
 - 曾经仅保留中文语言：当用户在官网切换深色主题后前往 `third-party-notices.html`，该页面会按操作系统主题选择颜色；返回时也会丢失原先的站点主题偏好。
 - [`1b7f0e9`](https://github.com/Pixman022/fresnica-ui/commit/1b7f0e931dbcfe7fbb6a09e21d2893f7f9112171) 通过链接查询参数显式传递 `lang` 和 `theme`，第三方声明页匹配展示，返回官网恢复；不使用跨会话持久化存储或未授权外部服务。
 - [QA #42979076051](https://github.com/Pixman022/fresnica-ui/actions/runs/42979076051) 已验证主题/语言来回跳转；[Pages #42979076355](https://github.com/Pixman022/fresnica-ui/actions/runs/42979076355) 部署及关键公网资源检查成功。本次未启用官方下载、没有移除预览 `noindex`，声明内容及法律最终签收仍需负责人审核。
+
+## 2026-11-17 · 第三方声明页的下载语义与发布前一致性
+
+- 复核发现：V3 主页面 `Get Fresnica` 已提供 iOS / Android / Desktop 三个**独立且未开放**的下载渠道，但 `third-party-notices.html` 顶部与手机菜单仍把“iOS & Android / Desktop”链接到 V3 介绍章节。这是下载入口语义不一致，不代表官方地址已存在。
+- 已在 `9e40c06` 将声明页桌面下拉与移动端导航改为三个独立渠道，均显式带有 `aria-disabled="true"`、不含 `href`，不会以介绍页跳转冒充正式下载；增加中英文“官方下载渠道尚未开放”提示，保留章节导航与语言、主题往返。
+- `630d9e0` 将此结构加入预览静态审计；`7a0ac72` 新增 320px、393px 和桌面宽度的浏览器非跳转检查。浏览器回归运行：<https://github.com/Pixman022/fresnica-ui/actions/runs/44034256168>，最终结论以 CI 实际结果为准。
+- 保持未变：主页面 `officialDownloadUrls` 仍为空，下载按钮禁用；主站和声明页均保留 `noindex,nofollow,noarchive`；Android 商标、CC BY 3.0 原文及外部许可链接保留。**不会据此宣称已通过发行、法律或真机验收。**
+
+### 后续发布批准需提供的证据
+
+| 决策对象 | 需要的具体材料 | 本轮状态 |
+| --- | --- | --- |
+| iOS / Android / Desktop 分发 | 每个平台正式 HTTPS 地址、发行范围、归属及已上线证明 | 待发布负责人提供 |
+| 法律披露 | 第三方声明、隐私/条款、商标与许可证最终批准 | 待法律/产品审核 |
+| 安全及产品事实 | 发布版本功能清单、安全与签名表述核准 | 待产品/安全审核 |
+| 真机设计与性能 | iOS Safari、Android Chrome 及桌面物理设备截图/性能证据和审核人 | 待真机执行 |
+| SEO 与上线 | 正式域名、是否允许索引及切换时间 | 待批准，预览仍禁止索引 |
