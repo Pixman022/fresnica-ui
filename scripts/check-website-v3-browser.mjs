@@ -518,6 +518,9 @@ try{
                 q('#v3-workspace .ws-sidebar').getBoundingClientRect().width<=67&&
                 parseFloat(getComputedStyle(q('#v3-workspace .dp-quick-action')).fontSize)>=10&&
                 parseFloat(getComputedStyle(q('#v3-workspace .dp-heading h3')).fontSize)>=14),
+              securityCopyReadable:
+                parseFloat(getComputedStyle(q('#v3-security .security-principle p')).fontSize)>=13&&
+                parseFloat(getComputedStyle(q('#v3-security .security-disclaimer')).fontSize)>=10,
               swipeHintReadable:parseFloat(getComputedStyle(q('#v3-features .m61-swipe-hint')).fontSize)>=12
             };
           });
@@ -530,7 +533,7 @@ try{
             compactLayout.demoCompact&&compactLayout.previewLandscape&&
             compactLayout.previewAssetsVisible&&compactLayout.previewAssetCount&&
             compactLayout.previewScale&&compactLayout.previewReadable&&
-            compactLayout.swipeHintReadable,
+            compactLayout.securityCopyReadable&&compactLayout.swipeHintReadable,
             `${prefix}: mobile scenes must stack naturally and expose swipable cards ${JSON.stringify(compactLayout)}`);
         }
         const mobileActions=await page.evaluate(measureMobileDownloads);
