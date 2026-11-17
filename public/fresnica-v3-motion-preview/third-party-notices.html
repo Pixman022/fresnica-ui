@@ -52,7 +52,9 @@
       border-radius:100px;color:inherit;font-size:12px;font-weight:600;
     }
     .nav-button:hover,.nav-button[aria-expanded="true"]{background:rgba(255,255,255,.12);}
-    #section-toggle{padding:0 12px;white-space:nowrap;}
+    #section-toggle{padding:0 12px;white-space:nowrap;appearance:none;-webkit-appearance:none;}
+    #section-toggle::before,#section-toggle::after{content:none!important;display:none!important;}
+    #section-toggle .chevron{display:none!important;}
     #language-toggle,#theme-toggle{width:38px;min-width:38px;padding:0;}
     #language-toggle svg{width:19px;height:19px;}
     #theme-toggle{font-size:19px;}
