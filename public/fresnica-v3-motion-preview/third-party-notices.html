@@ -90,6 +90,14 @@
       margin:5px 10px 4px;color:var(--muted);
       font-size:10px;font-weight:650;letter-spacing:.05em;
     }
+    .download-channel-group{
+      display:grid;gap:2px;padding:4px;margin-top:6px;
+      background:var(--page);border:1px solid var(--line);border-radius:11px;
+    }
+    .menu-popover .download-channel[aria-disabled="true"]{
+      color:var(--muted);cursor:default;
+    }
+    .menu-popover .download-channel[aria-disabled="true"]:hover{background:transparent;}
     .mobile-toggle{
       display:none;align-items:center;justify-content:center;
       width:46px;height:46px;border:1px solid var(--line);
@@ -116,6 +124,14 @@
       border-radius:10px;color:#f5f6f5;text-decoration:none;font-size:14px;
     }
     .mobile-drawer nav a:hover{background:#363b3a;}
+    .mobile-drawer .drawer-download-group{
+      margin:5px 0;padding:4px;border:1px solid #4b5051;border-radius:12px;
+      background:#2c3033;
+    }
+    .mobile-drawer .drawer-download-group a[aria-disabled="true"]{
+      color:#b7c2bb;cursor:default;
+    }
+    .mobile-drawer .drawer-download-group a[aria-disabled="true"]:hover{background:transparent;}
     .mobile-prefs{display:flex;align-items:center;gap:8px;margin-top:20px;}
     .mobile-prefs button{
       min-height:44px;padding:0 11px;border:1px solid #4b5550;
@@ -191,9 +207,14 @@
         <span data-i18n="get">Get Fresnica</span>
       </button>
       <div class="menu-popover" id="download-menu" hidden>
-        <p class="menu-caption" data-i18n="downloadCaption">View download options</p>
-        <a class="site-link" data-target="v3-availability" href="./index.html#v3-availability" data-i18n="mobileDownloads">iOS &amp; Android</a>
-        <a class="site-link" data-target="v3-workspace" href="./index.html#v3-workspace" data-i18n="desktopDownloads">Desktop</a>
+        <p class="menu-caption" data-i18n="downloadCaption">Official downloads are not available yet</p>
+        <div class="download-channel-group" role="group" aria-label="Mobile apps">
+          <a class="download-channel" data-download-platform="ios" role="link" aria-disabled="true" tabindex="0">iOS</a>
+          <a class="download-channel" data-download-platform="android" role="link" aria-disabled="true" tabindex="0">Android</a>
+        </div>
+        <div class="download-channel-group" role="group" aria-label="Desktop">
+          <a class="download-channel" data-download-platform="desktop" role="link" aria-disabled="true" tabindex="0" data-i18n="desktopDownloads">Desktop</a>
+        </div>
       </div>
     </div>
     <button type="button" class="mobile-toggle" id="mobile-menu-toggle" aria-controls="mobile-drawer" aria-expanded="false" aria-label="Open menu">
@@ -217,8 +238,13 @@
     </nav>
     <p class="drawer-heading" data-i18n="get">Get Fresnica</p>
     <nav aria-label="Download options">
-      <a class="site-link" data-target="v3-availability" href="./index.html#v3-availability" data-i18n="mobileDownloads">iOS &amp; Android</a>
-      <a class="site-link" data-target="v3-workspace" href="./index.html#v3-workspace" data-i18n="desktopDownloads">Desktop</a>
+      <div class="drawer-download-group">
+        <a data-download-platform="ios" role="link" aria-disabled="true" tabindex="0">iOS</a>
+        <a data-download-platform="android" role="link" aria-disabled="true" tabindex="0">Android</a>
+      </div>
+      <div class="drawer-download-group">
+        <a data-download-platform="desktop" role="link" aria-disabled="true" tabindex="0" data-i18n="desktopDownloads">Desktop</a>
+      </div>
     </nav>
     <p class="drawer-heading" data-i18n="preferences">PREFERENCES</p>
     <div class="mobile-prefs">
@@ -258,7 +284,7 @@
         questions:['Questions','常见问题'],
         about:['About Fresnica','关于 Fresnica'],
         get:['Get Fresnica','获取 Fresnica'],
-        downloadCaption:['View download options','查看下载方式'],
+        downloadCaption:['Official downloads are not available yet','官方下载渠道尚未开放'],
         mobileDownloads:['iOS & Android','iOS 与 Android'],
         desktopDownloads:['Desktop','桌面端'],
         explore:['EXPLORE','页面导航'],
@@ -397,7 +423,7 @@
           else closeDropdowns(true);
         }
         if(event.key==='Tab'&&!drawer.hidden){
-          const controls=[...drawer.querySelectorAll('a[href],button:not([disabled])')];
+          const controls=[...drawer.querySelectorAll('a[href],a[tabindex="0"],button:not([disabled])')];
           const first=controls[0],last=controls.at(-1);
           if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
           else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
