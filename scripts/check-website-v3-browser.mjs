@@ -1243,6 +1243,12 @@ try{
           logoReady:document.querySelector('.brand img').naturalWidth>0,
           overflow:document.documentElement.scrollWidth-innerWidth,
           brandRight:brand.right,menuLeft:menu.left,
+          dropdownArrowHidden:(()=>{
+            const button=document.getElementById('section-toggle');
+            return !button.querySelector('.chevron')&&
+              getComputedStyle(button,'::before').display==='none'&&
+              getComputedStyle(button,'::after').display==='none';
+          })(),
           menuShown:getComputedStyle(document.getElementById('mobile-menu-toggle')).display!=='none',
           desktopShown:getComputedStyle(document.querySelector('.center-nav')).display!=='none'
         };
@@ -1250,6 +1256,7 @@ try{
       assert(initial.lang==='zh-CN'&&initial.theme==='dark'&&initial.heading==='第三方声明'&&
         initial.chinese.includes('Google LLC')&&initial.robot.includes('Android 机器人图标')&&
         initial.originalVisible&&initial.originalCredit&&initial.logoReady&&initial.overflow<=1&&
+        initial.dropdownArrowHidden&&
         (mobile?(initial.menuShown&&initial.menuLeft-initial.brandRight>=8):initial.desktopShown),
         'Notice header/attribution failed '+width+': '+JSON.stringify(initial));
       if(mobile){
