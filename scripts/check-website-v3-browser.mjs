@@ -482,8 +482,11 @@ try{
                 controls.left>=-1&&controls.right<=innerWidth+1,
               workspaceMin:parseFloat(getComputedStyle(workspace).minHeight),
               fullViewportChapters:['v3-features','v3-workspace','v3-for-you',
-                'v3-clarity','v3-about'].every(id=>
-                q('#'+id).getBoundingClientRect().height>=innerHeight-1),
+                'v3-clarity','v3-about'].map(id=>{
+                  const el=q('#'+id);
+                  return {id,height:el.getBoundingClientRect().height,
+                    computedMin:getComputedStyle(el).minHeight};
+                }),
               footerTouchTargets:[...q('#v3-about .footer-top').querySelectorAll('a')]
                 .every(el=>{
                   const rect=el.getBoundingClientRect();
@@ -532,7 +535,8 @@ try{
             };
           });
           assert(compactLayout.workspaceStack&&compactLayout.workspaceWidth&&
-            compactLayout.workspaceMin<=970&&compactLayout.fullViewportChapters&&
+            compactLayout.workspaceMin<=970&&
+            compactLayout.fullViewportChapters.every(item=>item.height>=height-1)&&
             compactLayout.footerTouchTargets&&
             compactLayout.swipeHints&&compactLayout.featureScrollable&&
             compactLayout.experienceSnap&&compactLayout.experiencePeek&&
@@ -1150,10 +1154,14 @@ try{
           }
           if(id==='v3-about'){
             if(width<=680){
-              const footerTop=await page.locator('#v3-about').evaluate(el=>
-                el.getBoundingClientRect().top);
-              assert(Math.abs(footerTop)<=2,
-                `zh/${name}/${theme}: footer cannot start at viewport top (${footerTop}px)`);
+              const footerGeometry=await page.locator('#v3-about').evaluate(el=>({
+                top:el.getBoundingClientRect().top,
+                height:el.getBoundingClientRect().height,
+                computedMin:getComputedStyle(el).minHeight,
+                scrollTop:document.getElementById('v3-page-scroll').scrollTop
+              }));
+              assert(Math.abs(footerGeometry.top)<=2,
+                `zh/${name}/${theme}: footer cannot start at viewport top ${JSON.stringify(footerGeometry)}`);
             }
             const navLabel=await page.locator('#scene-menu-button').innerText();
             assert(navLabel.trim()==='关于',
