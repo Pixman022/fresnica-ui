@@ -1506,7 +1506,39 @@ try{
     await touchPage.locator('#desktop-tab-swap').tap();
     assert(await touchPage.locator('#desktop-tab-swap').getAttribute('aria-selected')==='true',
       'Mobile tap did not switch desktop preview to Swap');
-    console.log('[V3 browser] touch-mobile-390 PASS (scroll, drawer, two rails, preview tab)');
+    // The long security chapter remains scrollable; the following FAQ occupies its own
+    // viewport without exposing the prior security content or the next footer.
+    const securityTop=await touchPage.evaluate(()=>{
+      const chapter=document.getElementById('v3-security');
+      chapter.scrollIntoView({block:'start',behavior:'instant'});
+      return document.getElementById('v3-page-scroll').scrollTop;
+    });
+    await swipe(190,700,190,255);
+    const securityScrolled=await touchPage.evaluate(()=>
+      document.getElementById('v3-page-scroll').scrollTop);
+    assert(securityScrolled>=securityTop+45,
+      'Security chapter did not accept vertical touch scrolling');
+    const faqBoundary=await touchPage.evaluate(()=>{
+      const faq=document.getElementById('v3-clarity');
+      faq.scrollIntoView({block:'start',behavior:'instant'});
+      const root=document.getElementById('v3-page-scroll').getBoundingClientRect();
+      const previous=document.getElementById('v3-security').getBoundingClientRect();
+      const current=faq.getBoundingClientRect();
+      const next=document.getElementById('v3-about').getBoundingClientRect();
+      return {rootTop:root.top,rootBottom:root.bottom,previousBottom:previous.bottom,
+        faqTop:current.top,faqHeight:current.height,nextTop:next.top,viewport:innerHeight};
+    });
+    assert(Math.abs(faqBoundary.faqTop-faqBoundary.rootTop)<=2&&
+      faqBoundary.previousBottom<=faqBoundary.rootTop+2&&
+      faqBoundary.faqHeight>=faqBoundary.viewport-1&&
+      faqBoundary.nextTop>=faqBoundary.rootBottom-2,
+      'Mobile security/FAQ boundary exposed adjacent chapters: '+
+        JSON.stringify(faqBoundary));
+    await touchPage.locator('#v3-clarity .faq-line button').first().tap();
+    assert(await touchPage.locator('#v3-clarity .faq-line button').first()
+      .getAttribute('aria-expanded')==='true',
+      'Mobile FAQ did not expand via touch');
+    console.log('[V3 browser] touch-mobile-390 PASS (scroll, drawer, rails, tabs, security/FAQ)');
   }catch(error){
     failures.push('mobile touch emulation: '+String(error.message||error).slice(0,700));
   }finally{await touchPage.close();}
