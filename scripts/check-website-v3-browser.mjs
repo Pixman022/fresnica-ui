@@ -1308,6 +1308,8 @@ try{
         }));
         return {desktop:inspect('#download-menu [data-download-platform]'),
           mobile:inspect('#mobile-drawer [data-download-platform]'),
+          groups:[...document.querySelectorAll('#download-menu [role="group"]')]
+            .map(group=>group.getAttribute('aria-label')),
           caption:document.querySelector('[data-i18n="downloadCaption"]').textContent.trim()};
       });
       assert(noticeChannels.desktop.length===3&&noticeChannels.mobile.length===3&&
@@ -1315,7 +1317,8 @@ try{
           el.platform===['ios','android','desktop'][index%3]&&
           el.disabled==='true'&&el.href===null&&
           el.tabindex==='0'&&el.role==='link')&&
-        noticeChannels.caption==='官方下载渠道尚未开放',
+        noticeChannels.caption==='官方下载渠道尚未开放'&&
+        noticeChannels.groups.join(',')==='移动端应用,桌面端',
         'Notice download menus must be bilingual and unavailable: '+JSON.stringify(noticeChannels));
       if(mobile){
         await noticePage.locator('#mobile-menu-toggle').click();
