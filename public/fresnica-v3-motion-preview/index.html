@@ -2253,7 +2253,8 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
 /* A complete card per swipe at phone widths; tablets retain their multi-card rail. */
 @media(max-width:480px){
   html.m10-framed #v3-features .feature-window{
-    width:100%;margin-inline:0;scroll-padding-inline:0;
+    /* Match the compact card width: no clipped title from the next card. */
+    width:min(300px,calc(100vw - 88px));margin-inline:auto;scroll-padding-inline:0;
   }
   html.m10-framed #v3-features .feature-track{padding-inline:0!important;gap:14px;}
   html.m10-framed #v3-features .feature-card{width:calc(100vw - 48px);}
@@ -2475,11 +2476,21 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
 }
 @media(max-width:480px){
   html.m10-framed #v3-workspace .workspace-mini{aspect-ratio:16/9;}
-  html.m10-framed #v3-workspace .ws-content{--preview-content-scale:.70;}
+  html.m10-framed #v3-workspace .ws-content{
+    --preview-content-scale:.80;
+    padding:22px 8px 4px;
+  }
+  /* Retain the balance, actions and both assets while making the compact preview legible. */
+  html.m10-framed #v3-workspace .dp-panel-assets .dp-balance{height:70px;}
+  html.m10-framed #v3-workspace .dp-quick-action{height:30px;}
+  html.m10-framed #v3-workspace .dp-panel-assets .dp-assets-list{margin-top:4px;}
+  html.m10-framed #v3-workspace .dp-panel-assets .dp-asset-row{min-height:24px;padding:2px 1px;}
 }
 @media(max-width:360px){
   html.m10-framed #v3-workspace .workspace-mini{aspect-ratio:16/9;}
-  html.m10-framed #v3-workspace .ws-content{--preview-content-scale:.60;}
+  html.m10-framed #v3-workspace .ws-content{--preview-content-scale:.72;}
+  /* At narrow phone widths show one representative asset instead of tiny clipped rows. */
+  html.m10-framed #v3-workspace .dp-panel-assets .dp-asset-row:last-child{display:none;}
 }
 </style>
 <style id="m68-mobile-hero-first-fold">
