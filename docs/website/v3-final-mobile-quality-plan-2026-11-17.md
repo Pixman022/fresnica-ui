@@ -56,5 +56,5 @@
 
 - The main V3 preview already exposes three disabled iOS, Android and Desktop channels. The third-party notice page incorrectly routed its download options to product-description scenes.
 - Changed both notice menus to three independent, explicitly unavailable channels with no navigation target and a bilingual status caption. The ordinary section navigation still links back with the selected language/theme.
-- Added static release-audit coverage and 320px/393px/desktop browser checks for non-navigation. Commits: `9e40c06`, `630d9e0`, `7a0ac72`; [visual QA run](https://github.com/Pixman022/fresnica-ui/actions/runs/44034256168) is the verification gate.
+- Added static release-audit coverage, localized download-group accessible names and 320px/393px/desktop checks. The test now asserts disabled status before a synthetic click, rather than asking Playwright to activate a disabled link. Commits: `9e40c06`, `630d9e0`, `7a0ac72`, `74d9b18`, `b66aa2e`, `ead2d32`; [latest visual QA run](https://github.com/Pixman022/fresnica-ui/actions/runs/44034861131) is the verification gate.
 - Official HTTPS destinations, real device acceptance and publication approval remain pending; noindex and main-page download controls are unchanged.
