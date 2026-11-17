@@ -379,6 +379,9 @@
         document.querySelector('.center-nav').setAttribute('aria-label',label('Page navigation and display options','页面导航与显示选项'));
         document.querySelector('#mobile-drawer nav:first-of-type').setAttribute('aria-label',label('Page sections','页面章节'));
         document.querySelector('#mobile-drawer nav:last-of-type').setAttribute('aria-label',label('Download options','下载方式'));
+        document.querySelectorAll('#download-menu [role="group"]').forEach((group,index)=>{
+          group.setAttribute('aria-label',index===0?label('Mobile apps','移动端应用'):label('Desktop','桌面端'));
+        });
         document.querySelector('.brand').setAttribute('aria-label',label('Fresnica home','Fresnica 首页'));
         updateLinks();
       }
