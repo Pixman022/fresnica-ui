@@ -2248,6 +2248,14 @@ html[lang="zh-CN"] .m61-en,html:not([lang="zh-CN"]) .m61-zh{display:none!importa
   html.m10-framed #v3-workspace .desktop-tabs button{
     min-height:44px;padding-inline:3px;font-size:clamp(9px,2.6vw,11px);
   }
+  /* Footer navigation is tappable content; unlike metadata, its hit area must be 44px. */
+  html.m10-framed #v3-about .footer-top a{
+    box-sizing:border-box;display:flex;align-items:center;min-height:44px;padding:7px 0;
+  }
+  html.m10-framed #v3-about .footer-top .platform-credit{
+    font-size:12px;line-height:1.5;opacity:.8;margin-top:6px;
+  }
+  html.m10-framed #v3-about .footer-top h3{margin-bottom:10px;}
   /* Keep the next chapter out of view while the compact FAQ occupies its own screen. */
   html.m10-framed #v3-clarity.qa-scene{min-height:max(650px,100dvh)!important;padding:92px 24px 66px;}
 }
