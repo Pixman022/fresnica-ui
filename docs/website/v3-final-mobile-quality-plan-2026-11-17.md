@@ -43,7 +43,7 @@
 - Changed mobile minimum height for screens 4, 5, 6 and the About footer to at least `100dvh`, retaining natural scrolling for any overflowing content. The screen-8 FAQ fix remains intact.
 - Increased the mobile footer navigation and third-party notice link hit areas to 44px; the notice link is now 12px (was 10px) with improved contrast. Desktop styling is unchanged.
 - Added mobile browser checks for all affected scene heights, footer top alignment and footer link geometry, across compact viewport/theme cases.
-- Commits: `1e8c8ab`, `de26d59`, `98528f0`, `860f32e`. Automated validation of the final changes is pending; physical Android/iOS acceptance remains open.
+- Commits: `1e8c8ab`, `de26d59`, `98528f0`, `860f32e`, `d21df78`, `6a068ad`. The earlier mobile About rule with higher ID specificity retained `80dvh`; `6a068ad` corrected this actual override to `100dvh` without altering the deliberately shorter desktop ending. Final visual QA is running; real-device acceptance remains open.
 
 ## Verification gate
 
