@@ -51,3 +51,10 @@
 2. Inspect screenshots for the feature rail, four desktop tabs, and security-to-FAQ transition; programmatic passing does not alone constitute visual approval.
 3. Check that disabled download destinations remain disabled; get official publication destinations separately.
 4. Leave real-device performance and the decision to remove `noindex` open until release verification.
+
+## 2026-11-17 · secondary-page download semantics
+
+- The main V3 preview already exposes three disabled iOS, Android and Desktop channels. The third-party notice page incorrectly routed its download options to product-description scenes.
+- Changed both notice menus to three independent, explicitly unavailable channels with no navigation target and a bilingual status caption. The ordinary section navigation still links back with the selected language/theme.
+- Added static release-audit coverage and 320px/393px/desktop browser checks for non-navigation. Commits: `9e40c06`, `630d9e0`, `7a0ac72`; [visual QA run](https://github.com/Pixman022/fresnica-ui/actions/runs/44034256168) is the verification gate.
+- Official HTTPS destinations, real device acceptance and publication approval remain pending; noindex and main-page download controls are unchanged.
