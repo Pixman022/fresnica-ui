@@ -481,7 +481,9 @@ try{
               workspaceWidth:demo.left>=-1&&demo.right<=innerWidth+1&&
                 controls.left>=-1&&controls.right<=innerWidth+1,
               workspaceMin:parseFloat(getComputedStyle(workspace).minHeight),
-              faqFullViewport:q('#v3-clarity').getBoundingClientRect().height>=innerHeight-1,
+              fullViewportChapters:['v3-features','v3-workspace','v3-for-you',
+                'v3-clarity','v3-about'].every(id=>
+                q('#'+id).getBoundingClientRect().height>=innerHeight-1),
               swipeHints:[...document.querySelectorAll('.m61-swipe-hint')].length===2&&
                 [...document.querySelectorAll('.m61-swipe-hint')].every(el=>getComputedStyle(el).display!=='none'),
               featureScrollable:q('#v3-features .feature-window').scrollWidth>
@@ -525,7 +527,7 @@ try{
             };
           });
           assert(compactLayout.workspaceStack&&compactLayout.workspaceWidth&&
-            compactLayout.workspaceMin<=970&&compactLayout.faqFullViewport&&
+            compactLayout.workspaceMin<=970&&compactLayout.fullViewportChapters&&
             compactLayout.swipeHints&&compactLayout.featureScrollable&&
             compactLayout.experienceSnap&&compactLayout.experiencePeek&&
             compactLayout.featureFull&&compactLayout.featureNoPartialTitle&&
@@ -1141,6 +1143,12 @@ try{
               `zh/${name}/${theme}: experience reel is vertically off-balance or clipped (${JSON.stringify(balance)})`);
           }
           if(id==='v3-about'){
+            if(width<=680){
+              const footerTop=await page.locator('#v3-about').evaluate(el=>
+                el.getBoundingClientRect().top);
+              assert(Math.abs(footerTop)<=2,
+                `zh/${name}/${theme}: footer cannot start at viewport top (${footerTop}px)`);
+            }
             const navLabel=await page.locator('#scene-menu-button').innerText();
             assert(navLabel.trim()==='关于',
               `zh/${name}/${theme}: footer navigation label is truncated (${navLabel})`);
