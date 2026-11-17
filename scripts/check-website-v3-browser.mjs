@@ -1326,7 +1326,9 @@ try{
           await noticePage.locator('#mobile-menu-toggle').getAttribute('aria-expanded')==='true',
           'Notice mobile drawer did not open '+width);
         const noticeUrlBefore=noticePage.url();
-        await noticePage.locator('#mobile-drawer [data-download-platform="ios"]').click();
+        const mobileUnavailable=noticePage.locator('#mobile-drawer [data-download-platform="ios"]');
+        assert(!await mobileUnavailable.isEnabled(),'Notice mobile download should be disabled');
+        await mobileUnavailable.dispatchEvent('click');
         assert(noticePage.url()===noticeUrlBefore&&
           !await noticePage.locator('#mobile-drawer').evaluate(el=>el.hidden),
           'Unavailable notice mobile download must not navigate or close drawer');
@@ -1369,7 +1371,9 @@ try{
           await noticePage.locator('#download-menu [data-download-platform]').count()===3,
           'Notice desktop download menu did not show separate channels');
         const noticeUrlBefore=noticePage.url();
-        await noticePage.locator('#download-menu [data-download-platform="ios"]').click();
+        const desktopUnavailable=noticePage.locator('#download-menu [data-download-platform="ios"]');
+        assert(!await desktopUnavailable.isEnabled(),'Notice desktop download should be disabled');
+        await desktopUnavailable.dispatchEvent('click');
         assert(noticePage.url()===noticeUrlBefore&&
           !await noticePage.locator('#download-menu').evaluate(el=>el.hidden),
           'Unavailable notice desktop download must not navigate or close menu');
