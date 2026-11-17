@@ -1298,11 +1298,35 @@ try{
         initial.dropdownArrowHidden&&
         (mobile?(initial.menuShown&&initial.menuLeft-initial.brandRight>=8):initial.desktopShown),
         'Notice header/attribution failed '+width+': '+JSON.stringify(initial));
+      const noticeChannels=await noticePage.evaluate(()=>{
+        const inspect=selector=>[...document.querySelectorAll(selector)].map(el=>({
+          platform:el.dataset.downloadPlatform,
+          disabled:el.getAttribute('aria-disabled'),
+          href:el.getAttribute('href'),
+          tabindex:el.getAttribute('tabindex'),
+          role:el.getAttribute('role')
+        }));
+        return {desktop:inspect('#download-menu [data-download-platform]'),
+          mobile:inspect('#mobile-drawer [data-download-platform]'),
+          caption:document.querySelector('[data-i18n="downloadCaption"]').textContent.trim()};
+      });
+      assert(noticeChannels.desktop.length===3&&noticeChannels.mobile.length===3&&
+        [...noticeChannels.desktop,...noticeChannels.mobile].every((el,index)=>
+          el.platform===['ios','android','desktop'][index%3]&&
+          el.disabled==='true'&&el.href===null&&
+          el.tabindex==='0'&&el.role==='link')&&
+        noticeChannels.caption==='官方下载渠道尚未开放',
+        'Notice download menus must be bilingual and unavailable: '+JSON.stringify(noticeChannels));
       if(mobile){
         await noticePage.locator('#mobile-menu-toggle').click();
         assert(!await noticePage.locator('#mobile-drawer').evaluate(el=>el.hidden)&&
           await noticePage.locator('#mobile-menu-toggle').getAttribute('aria-expanded')==='true',
           'Notice mobile drawer did not open '+width);
+        const noticeUrlBefore=noticePage.url();
+        await noticePage.locator('#mobile-drawer [data-download-platform="ios"]').click();
+        assert(noticePage.url()===noticeUrlBefore&&
+          !await noticePage.locator('#mobile-drawer').evaluate(el=>el.hidden),
+          'Unavailable notice mobile download must not navigate or close drawer');
         await noticePage.locator('#mobile-drawer [data-language="en"]').click();
         const english=await noticePage.evaluate(()=>({
           lang:document.documentElement.lang,
@@ -1339,8 +1363,13 @@ try{
           'Notice section navigation did not close with Escape');
         await noticePage.locator('#download-toggle').click();
         assert(!await noticePage.locator('#download-menu').evaluate(el=>el.hidden)&&
-          (await noticePage.locator('#download-menu [data-target="v3-availability"]').getAttribute('href')).includes('lang=zh-CN'),
-          'Notice download navigation did not retain locale');
+          await noticePage.locator('#download-menu [data-download-platform]').count()===3,
+          'Notice desktop download menu did not show separate channels');
+        const noticeUrlBefore=noticePage.url();
+        await noticePage.locator('#download-menu [data-download-platform="ios"]').click();
+        assert(noticePage.url()===noticeUrlBefore&&
+          !await noticePage.locator('#download-menu').evaluate(el=>el.hidden),
+          'Unavailable notice desktop download must not navigate or close menu');
         await noticePage.keyboard.press('Escape');
         await noticePage.locator('#language-toggle').click();
         await noticePage.locator('#language-menu [data-language="en"]').click();
