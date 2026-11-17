@@ -569,7 +569,7 @@ html.m10-framed .footer-top h2{margin:clamp(8px,1.5vh,16px) 0}
  html.m10-framed .workspace-scene{min-height:940px!important}
  html.m10-framed .workspace-mini{top:44%;height:43%}
  html.m10-framed .compare-scene{min-height:720px!important}
- html.m10-framed .footer-scene{min-height:max(690px,100dvh)!important}
+ html.m10-framed .footer-scene{min-height:690px!important}
  html.m10-framed .trust-panel{inset:8% 4%;padding:35px 23px}
  html.m10-framed .audience-track{margin-top:40px}
  html.m10-framed .planned-platforms{margin-top:24px}
@@ -802,7 +802,8 @@ html[lang="zh-CN"] .feature-card .label-row h3 {font-size:21px}
 }
 @media (max-width:680px) {
   html.m10-framed #v3-about {
-    min-height:max(600px,80dvh)!important;
+    /* Override the older short mobile ending without changing desktop's deliberate shorter ending. */
+    min-height:max(600px,100dvh)!important;
     padding-top:88px;padding-bottom:50px;gap:18px;
   }
 }
