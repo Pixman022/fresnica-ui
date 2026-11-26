@@ -47,7 +47,7 @@
     "View preferences from the gallery menu.": "可在左侧示例菜单中调整语言与主题。",
     "Illustrative transactions": "示例交易记录",
     "Preview only": "仅界面预览",
-    "Recently used dApps": "最近使用的应用", "Official shortcuts": "官方快捷功能",
+    "Recently used dApps": "最近使用的应用", "Official shortcuts": "官方快捷功能", "History": "交易记录",
     "Scan QR Code": "扫描二维码", "Example apps": "应用示例", "Not selected": "未选择",
     "Wallet address": "钱包地址", "Connect": "连接", "Connect a dApp": "连接应用",
     "WALLET / ACTIVITY": "钱包 / 活动", "STELLAR / APPS": "STELLAR / 应用", "WALLET / SETTINGS": "钱包 / 设置",
@@ -97,7 +97,7 @@
       '<div class="gallery-app-grid">' + recentApps + '</div></div>' +
       '<div class="gallery-action-group"><h3>Official shortcuts</h3><div class="gallery-shortcut-grid">' +
       '<button type="button" data-gallery-preview-action="Swap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/></svg><span>Swap</span></button>' +
-      '<a href="./mobile-activity.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.8 9.8 0 0 0-6.7 2.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></svg><span>Activity</span></a>' +
+      '<a href="./mobile-activity.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.8 9.8 0 0 0-6.7 2.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></svg><span>History</span></a>' +
       '<button type="button" data-gallery-preview-action="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg><span>Send</span></button>' +
       '<button type="button" data-gallery-preview-action="Receive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7 7 17M17 17H7V7"/></svg><span>Receive</span></button>' +
       '</div></div>' +
