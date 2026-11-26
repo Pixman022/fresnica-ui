@@ -90,7 +90,7 @@
   const recentApps = demoApps.map((app) =>
     '<a class="gallery-app-card" href="./mobile-dapps.html" aria-label="' + app.name + ' dApp">' +
     appMark(app) + '<span>' + app.name + '</span></a>').join("");
-  const actionPanel = document.querySelector(".home11-phone .home11-action-sheet");
+  const actionPanel = document.querySelector(".home11-phone #home11-action-panel");
   const actionChoices = actionPanel?.querySelector(".home11-action-choices");
   if (actionChoices) {
     actionPanel.querySelector(".home11-action-heading h2").textContent = "Actions";
