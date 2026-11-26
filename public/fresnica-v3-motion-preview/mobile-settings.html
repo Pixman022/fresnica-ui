@@ -603,11 +603,10 @@ html.preview-immersive .home11-phone .home11-action-sheet{
       </g>
     </g>
   </g>
-</svg></span>Fresnica</span><span class="phone-network"><span class="phone-network-dot" aria-hidden="true"></span>Stellar Mainnet</span></div>
+</svg></span>Fresnica</span></div>
       <div class="home11-scroll">
 <section aria-label="Wallet settings"><h1 class="gallery-screen-title">Settings</h1></section>
 
-<section class="gallery-panel gallery-settings-list" aria-label="Network settings"><div class="gallery-row"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c6 6 6 12 0 18M12 3c-6 6-6 12 0 18"/></svg></span><span class="gallery-row-copy"><b>Network</b></span><span class="gallery-row-right"><strong><span class="gallery-pill"><i class="gallery-pill-dot" aria-hidden="true"></i>Stellar Mainnet</span></strong></span></div></section>
 <h2 class="gallery-section-title">PREFERENCES</h2>
 <section class="gallery-panel gallery-settings-list" aria-label="Preferences">
 <div class="gallery-row"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c6 6 6 12 0 18M12 3c-6 6-6 12 0 18"/></svg></span><span class="gallery-row-copy"><b>Language</b></span><span class="gallery-row-right"><strong data-gallery-value="language">English</strong></span></div>
@@ -721,8 +720,15 @@ html.preview-immersive .home11-phone .home11-action-sheet{
       event.stopPropagation();
       hide();
     } else if (event.key === "Tab") {
-      event.preventDefault();
-      close.focus();
+      const focusable = [...overlay.querySelectorAll("a[href], button:not([disabled])")];
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
   });
 })();
