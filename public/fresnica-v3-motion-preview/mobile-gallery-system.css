@@ -77,7 +77,16 @@ html[data-demo-theme="dark"] .wallet-phone{
   background:var(--wallet-bg);color:var(--wallet-text)
 }
 html[data-demo-theme="dark"] .wallet-network{color:#c4d4c9}
-html[data-demo-theme="dark"] #v3-availability .download-phone{background:#131a17;color:#f3f7f4}
+html[data-demo-theme="dark"] .wallet-asset{border-color:#344139}
+html[data-demo-theme="dark"] .wallet-asset-amount{color:#f3f7f4}
+html[data-demo-theme="dark"] .wallet-asset-label small{color:#b4c5ba}
+html[data-demo-theme="dark"] .wallet-bottom-item{color:#bdcfc3}
+html[data-demo-theme="dark"] #v3-availability .download-phone{
+  --preview-canvas:#131a17;--preview-surface:#202a25;
+  --preview-primary:#77e6ad;--preview-on-primary:#102118;--preview-primary-soft:#263a30;
+  --preview-text:#f3f7f4;--preview-text-secondary:#b4c5ba;--preview-border:#344139;
+  background:var(--preview-canvas);color:var(--preview-text)
+}
 html[data-demo-theme="dark"] #v3-availability .phone-header,
 html[data-demo-theme="dark"] #v3-availability .phone-tabs{background:#202a25;color:#f3f7f4}
 html[data-demo-theme="dark"] #v3-availability .phone-scroll{background:#131a17}
