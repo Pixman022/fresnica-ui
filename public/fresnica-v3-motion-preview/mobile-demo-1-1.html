@@ -447,6 +447,74 @@ html.preview-immersive .preview-fullscreen-toggle .preview-enter-icon,
 html.preview-immersive .preview-fullscreen-toggle .preview-enter-label{display:none}
 html.preview-immersive .preview-fullscreen-toggle .preview-exit-icon{display:block}
 </style>
+<style id="home11-product-navigation">
+/* Product architecture: Home / Activity / Actions / dApps / Settings.
+   This screen is a standalone visual prototype; destination routes are not faked. */
+.home11-phone .phone-tabs{
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  align-items:center;
+  gap:2px;
+  min-height:78px;
+  padding:7px 5px 11px;
+}
+.home11-phone .phone-tabs > .home11-nav-item,
+.home11-phone .phone-tabs > .home11-action-trigger{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:0;min-height:44px;gap:5px;
+  margin:0;padding:0;border:0;border-radius:12px;background:transparent;
+  color:var(--native-content-secondary);font:500 var(--home11-type-navigation)/1.15 inherit;
+  text-align:center;white-space:nowrap;
+}
+.home11-phone .phone-tabs > .home11-nav-item.is-current{
+  color:var(--native-primary);font-weight:600;
+}
+.home11-phone .phone-tabs > .home11-action-trigger{
+  min-height:62px;gap:4px;color:var(--native-content-primary);
+  font-family:inherit;font-size:var(--home11-type-navigation);font-weight:600;cursor:pointer;
+}
+.home11-phone .phone-tabs > .home11-action-trigger:focus-visible,
+.home11-phone .home11-sheet-close:focus-visible{
+  outline:2px solid var(--native-primary);outline-offset:2px;
+}
+.home11-phone .phone-tabs > .home11-action-trigger .home11-action-circle{
+  display:grid;place-items:center;flex:none;width:40px;height:40px;
+  background:var(--native-primary);color:var(--native-on-primary);
+  border-radius:50%;font-size:inherit;
+}
+.home11-phone .phone-tabs .home11-action-circle svg{width:21px;height:21px;color:inherit}
+.home11-phone .phone-tabs > .home11-action-trigger .home11-action-label{
+  display:block;color:var(--native-content-primary);font-size:inherit;font-weight:600;
+}
+.home11-phone .home11-action-overlay{
+  position:absolute;z-index:12;inset:0;display:flex;align-items:flex-end;
+}
+.home11-phone .home11-action-overlay[hidden]{display:none!important}
+.home11-phone .home11-action-backdrop{position:absolute;inset:0;background:rgba(15,18,16,.42)}
+.home11-phone .home11-action-sheet{
+  position:relative;z-index:1;width:100%;padding:8px 16px 26px;
+  border-radius:22px 22px 0 0;background:var(--native-surface);color:var(--native-content-primary);
+  box-shadow:0 -8px 28px rgba(0,0,0,.10);
+}
+.home11-phone .home11-action-handle{display:block;width:34px;height:4px;margin:0 auto 12px;background:var(--native-border);border-radius:999px}
+.home11-phone .home11-action-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.home11-phone .home11-action-heading h2{margin:0;font-size:18px;font-weight:600}
+.home11-phone .home11-sheet-close{
+  display:grid;place-items:center;flex:none;width:44px;height:44px;
+  padding:0;border:0;border-radius:50%;background:var(--native-background);
+  color:var(--native-content-secondary);cursor:pointer;
+}
+.home11-phone .home11-sheet-close svg{width:20px;height:20px}
+.home11-phone .home11-action-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.home11-phone .home11-action-choices > span{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  min-height:74px;border:1px solid var(--native-separator);border-radius:16px;
+  color:var(--native-content-primary);font-size:13px;font-weight:600;
+}
+.home11-phone .home11-action-choices svg{width:20px;height:20px;color:var(--native-primary)}
+html.preview-immersive .home11-phone .home11-action-sheet{
+  padding-bottom:max(26px,calc(env(safe-area-inset-bottom) + 16px));
+}
+</style>
 </head>
 <body>
 <div class="preview-shell">
@@ -531,7 +599,25 @@ html.preview-immersive .preview-fullscreen-toggle .preview-exit-icon{display:blo
         <div class="phone-asset"><span class="phone-asset-icon"><svg class="lucide lucide-waves-horizontal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12q2.5 2 5 0t5 0 5 0 5 0" /><path d="M2 19q2.5 2 5 0t5 0 5 0 5 0" /><path d="M2 5q2.5 2 5 0t5 0 5 0 5 0" /></svg></span><div><b>AQUA</b><small>GBZA...T4WN</small></div><strong>860.00</strong></div>
       </div>
       </div>
-      <div class="phone-tabs"><span><svg class="lucide lucide-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>Home</span><span><svg class="lucide lucide-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg>Assets</span><span><svg class="lucide lucide-rotate-ccw-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /><path d="M12 7v5l4 2" /></svg>Activity</span><span><svg class="lucide lucide-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /></svg>Explore</span></div>
+      <nav class="phone-tabs" aria-label="Wallet main navigation">
+  <span class="home11-nav-item is-current" aria-current="page"><svg class="lucide lucide-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</span>
+  <span class="home11-nav-item"><svg class="lucide lucide-history" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>Activity</span>
+  <button type="button" class="home11-action-trigger" aria-haspopup="dialog" aria-controls="home11-action-panel" aria-expanded="false"><span class="home11-action-circle"><svg class="lucide lucide-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><span class="home11-action-label">Actions</span></button>
+  <span class="home11-nav-item"><svg class="lucide lucide-grid-2x2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>dApps</span>
+  <span class="home11-nav-item"><svg class="lucide lucide-sliders-horizontal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><path d="M13 4v6M7 14v6"/></svg>Settings</span>
+</nav>
+<div class="home11-action-overlay" hidden>
+  <div class="home11-action-backdrop" data-home11-dismiss="true"></div>
+  <section id="home11-action-panel" class="home11-action-sheet" role="dialog" aria-modal="true" aria-labelledby="home11-action-title">
+    <span class="home11-action-handle" aria-hidden="true"></span>
+    <div class="home11-action-heading"><h2 id="home11-action-title">Quick Actions</h2><button type="button" class="home11-sheet-close" aria-label="Close actions" data-home11-dismiss="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="home11-action-choices">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg>Send</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/></svg>Swap</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7 7 17M17 17H7V7"/></svg>Receive</span>
+    </div>
+  </section>
+</div>
     </div>
 
 <div class="home11-caption">FRESNICA / STELLAR WALLET</div>
@@ -584,6 +670,40 @@ html.preview-immersive .preview-fullscreen-toggle .preview-exit-icon{display:blo
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && root.classList.contains("preview-immersive")) leave();
+  });
+})();
+</script>
+<script id="home11-product-navigation-script">
+(() => {
+  const phone = document.querySelector(".home11-phone");
+  const trigger = phone?.querySelector(".home11-action-trigger");
+  const overlay = phone?.querySelector(".home11-action-overlay");
+  const close = overlay?.querySelector(".home11-sheet-close");
+  if (!trigger || !overlay || !close) return;
+  const hide = () => {
+    if (overlay.hidden) return;
+    overlay.hidden = true;
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.focus();
+  };
+  trigger.addEventListener("click", () => {
+    overlay.hidden = false;
+    trigger.setAttribute("aria-expanded", "true");
+    close.focus();
+  });
+  overlay.addEventListener("click", event => {
+    if (event.target.closest("[data-home11-dismiss]")) hide();
+  });
+  phone.addEventListener("keydown", event => {
+    if (overlay.hidden) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      event.stopPropagation();
+      hide();
+    } else if (event.key === "Tab") {
+      event.preventDefault();
+      close.focus();
+    }
   });
 })();
 </script>
