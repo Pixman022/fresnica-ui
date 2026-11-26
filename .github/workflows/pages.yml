@@ -90,6 +90,7 @@ jobs:
                   grep -Fq 'className = "gallery-menu-toggle"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   grep -Fq 'className = "gallery-menu-backdrop"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   grep -Fq 'html.gallery-menu-open .preview-sidebar' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
+                  grep -Fq 'visibility 0s linear 0s' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   grep -Fq 'html.preview-immersive .gallery-menu-toggle' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   test -s "$source/fresnica-v3-orb-demo/index.html"
                   mkdir -p demo-dist/fresnica-v3-motion-preview demo-dist/fresnica-v3-orb-demo
@@ -167,7 +168,12 @@ jobs:
                   </script></body></html>
                   HTML
                   "$chrome" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --window-size=460,850 --virtual-time-budget=7000 --dump-dom "http://127.0.0.1:4178/gallery-drawer-smoke.html" 2>/tmp/gallery-drawer-chrome.log >/tmp/gallery-drawer-result.html
-                  grep -Fq '<div id="result">GALLERY_DRAWER_PASS</div>' /tmp/gallery-drawer-result.html
+                  if ! grep -Fq '<div id="result">GALLERY_DRAWER_PASS</div>' /tmp/gallery-drawer-result.html; then
+                      grep -oE '<div id="result">[^<]*</div>' /tmp/gallery-drawer-result.html | tail -n 1 || true
+                      tail -n 15 /tmp/gallery-drawer-chrome.log || true
+                      exit 1
+                  fi
+                  echo "Mobile gallery drawer interaction smoke: PASS"
                   rm demo-dist/gallery-drawer-smoke.html
 
             - name: Configure Pages
