@@ -469,19 +469,19 @@ html.preview-immersive .preview-fullscreen-toggle .preview-exit-icon{display:blo
   color:var(--native-primary);font-weight:600;
 }
 .home11-phone .phone-tabs > .home11-action-trigger{
-  min-height:62px;gap:4px;color:var(--native-content-primary);
+  min-height:44px;gap:5px;color:var(--native-content-primary);
   font-family:inherit;font-size:var(--home11-type-navigation);font-weight:600;cursor:pointer;
 }
 .home11-phone .phone-tabs > .home11-action-trigger:focus-visible,
 .home11-phone .home11-sheet-close:focus-visible{
   outline:2px solid var(--native-primary);outline-offset:2px;
 }
-.home11-phone .phone-tabs > .home11-action-trigger .home11-action-circle{
-  display:grid;place-items:center;flex:none;width:40px;height:40px;
-  background:var(--native-primary);color:var(--native-on-primary);
-  border-radius:50%;font-size:inherit;
+.home11-phone .phone-tabs > .home11-action-trigger .home11-action-icon{
+  display:block;flex:none;width:20px;height:20px;
 }
-.home11-phone .phone-tabs .home11-action-circle svg{width:21px;height:21px;color:inherit}
+.home11-phone .phone-tabs .home11-action-icon img{
+  display:block;width:20px;height:20px;object-fit:contain;
+}
 .home11-phone .phone-tabs > .home11-action-trigger .home11-action-label{
   display:block;color:var(--native-content-primary);font-size:inherit;font-weight:600;
 }
@@ -602,7 +602,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
       <nav class="phone-tabs" aria-label="Wallet main navigation">
   <span class="home11-nav-item is-current" aria-current="page"><svg class="lucide lucide-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</span>
   <span class="home11-nav-item"><svg class="lucide lucide-history" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>Activity</span>
-  <button type="button" class="home11-action-trigger" aria-haspopup="dialog" aria-controls="home11-action-panel" aria-expanded="false"><span class="home11-action-circle"><svg class="lucide lucide-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><span class="home11-action-label">Actions</span></button>
+  <button type="button" class="home11-action-trigger" aria-haspopup="dialog" aria-controls="home11-action-panel" aria-expanded="false"><span class="home11-action-icon"><img src="./Fresnica-logo-actions.svg" alt="" aria-hidden="true" width="20" height="20"></span><span class="home11-action-label">Actions</span></button>
   <span class="home11-nav-item"><svg class="lucide lucide-grid-2x2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>dApps</span>
   <span class="home11-nav-item"><svg class="lucide lucide-sliders-horizontal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><path d="M13 4v6M7 14v6"/></svg>Settings</span>
 </nav>
