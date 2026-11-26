@@ -167,11 +167,11 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
   --native-row-height: 64px;
   --native-tap-target: 44px;
   /* Home 1.1 compact-screen overrides, without changing shared Native tokens. */
-  --home11-type-balance: 40px;
-  --home11-type-brand: 18px;
-  --home11-type-quick: 14px;
+  --home11-type-balance: 36px;
+  --home11-type-brand: 16px;
+  --home11-type-quick: 13px;
   --home11-type-asset-supporting: 12px;
-  --home11-type-navigation: 12px;
+  --home11-type-navigation: 11px;
   container: home11-device / inline-size;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", Arial, sans-serif;
   background: var(--native-background);
@@ -375,8 +375,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 .home11-phone .phone-tabs svg { width: 20px; height: 20px; }
 /* Adapt to the mock phone itself, not the surrounding browser window. */
 @container home11-device (max-width: 310px) {
-  .home11-phone .phone-overview strong { font-size: 36px; }
-  .home11-phone .phone-quick > span {
+  .phone-overview strong { font-size: 34px; }
+  .phone-quick > span {
     flex-direction: column;
     min-height: 64px;
     gap: 4px;
