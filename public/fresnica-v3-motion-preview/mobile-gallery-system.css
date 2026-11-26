@@ -1,5 +1,10 @@
 /* Gallery controls and additional wallet tabs use the Home 1.1 Native token scale. */
 .preview-sidebar{overflow-y:auto;scrollbar-width:none}
+.preview-sidebar-title{padding-bottom:16px}
+.preview-sidebar-title p,.preview-menu-label,.preview-nav-copy small,.preview-sidebar-foot{display:none}
+.preview-nav a{min-height:48px;padding:8px 10px;gap:9px}
+.home11-phone .gallery-panel[aria-label="Today"] .gallery-row,
+.home11-phone .gallery-panel[aria-label="Yesterday"] .gallery-row{min-height:60px}
 .preview-sidebar::-webkit-scrollbar{display:none}
 .gallery-preferences{margin-top:auto;padding:18px 8px 0;border-top:1px solid #2a352e}
 .gallery-preference{margin:0 0 13px}
