@@ -60,12 +60,17 @@ jobs:
                   test -s "$source/fresnica-v3-motion-preview/index.html"
                   test -s "$source/fresnica-v3-motion-preview/m58-brand-palette.css"
                   test -s "$source/fresnica-v3-motion-preview/wallet-home.html"
+                  test -s "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  test -s "$source/fresnica-v3-motion-preview/Fresnica-logo-actions.svg"
+                  grep -Fq 'src="./Fresnica-logo-actions.svg"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   test -s "$source/fresnica-v3-orb-demo/index.html"
                   mkdir -p demo-dist/fresnica-v3-motion-preview demo-dist/fresnica-v3-orb-demo
                   cp -a "$source/fresnica-v3-motion-preview/." demo-dist/fresnica-v3-motion-preview/
                   cp -a "$source/fresnica-v3-orb-demo/." demo-dist/fresnica-v3-orb-demo/
                   cmp "$source/fresnica-v3-motion-preview/index.html" demo-dist/fresnica-v3-motion-preview/index.html
                   cmp "$source/fresnica-v3-motion-preview/m58-brand-palette.css" demo-dist/fresnica-v3-motion-preview/m58-brand-palette.css
+                  cmp "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html" demo-dist/fresnica-v3-motion-preview/mobile-demo-1-1.html
+                  cmp "$source/fresnica-v3-motion-preview/Fresnica-logo-actions.svg" demo-dist/fresnica-v3-motion-preview/Fresnica-logo-actions.svg
                   cmp public/fresnica-website-preview/index.html demo-dist/fresnica-website-preview/index.html
 
             - name: Configure Pages
