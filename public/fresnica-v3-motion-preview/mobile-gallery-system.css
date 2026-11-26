@@ -316,3 +316,8 @@ html.preview-immersive .wallet-header{padding-right:16px!important}
 .home11-phone .gallery-activity-option:focus-visible,.home11-phone .gallery-activity-filter-trigger:focus-visible{outline:2px solid var(--native-primary);outline-offset:2px}
 .home11-phone .gallery-activity-filter-trigger.is-filtered{background:var(--native-primary-color-bg,var(--Fresnica-primary-color-bg));border-color:var(--native-primary);color:var(--native-primary)}
 .home11-phone .gallery-row[hidden],.home11-phone .gallery-panel[hidden],.home11-phone .gallery-section-title[hidden]{display:none!important}
+
+/* Keep the floating preview control out of active wallet dialogs. */
+html:has(.home11-phone .home11-action-overlay:not([hidden]),.home11-phone .gallery-dialog-overlay:not([hidden])) .preview-fullscreen-toggle{
+  visibility:hidden;pointer-events:none;
+}
