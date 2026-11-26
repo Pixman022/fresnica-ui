@@ -170,6 +170,31 @@
 }
 @media(prefers-reduced-motion:reduce){.preview-nav a{transition:none;}}
 </style>
+<style>
+/* Fixed size for the three Fresnica example screens; scroll remains usable without visible bars. */
+:root{--example-device-width:340px;--example-device-height:740px}
+html,body{scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
+
+#v3-availability .download-phone{
+  width:min(var(--example-device-width),calc(100vw - 32px));
+  height:var(--example-device-height);min-height:0;aspect-ratio:auto;
+  padding:0;transform:none;flex:none
+}
+#v3-availability .phone-header{
+  flex:none;padding:37px 18px 12px
+}
+#v3-availability .phone-scroll{
+  min-height:0;flex:1;overflow-y:auto;overflow-x:hidden;
+  overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
+  padding:0 18px 18px;scrollbar-width:none;-ms-overflow-style:none
+}
+#v3-availability .phone-scroll::-webkit-scrollbar{display:none;width:0;height:0}
+#v3-availability .phone-tabs{
+  flex:none;min-height:66px;margin-top:0;padding:12px 18px 15px;
+  background:var(--preview-canvas);border-top:1px solid var(--preview-border)
+}
+</style>
 </head>
 <body>
 <div class="preview-shell">
@@ -238,6 +263,7 @@
     </g>
   </g>
 </svg></span>Fresnica</span><span class="phone-network">STELLAR / WALLET</span></div>
+      <div class="phone-scroll">
       <div class="phone-overview"><span class="phone-label">WALLET / OVERVIEW</span><strong>546,213.02 <small>XLM</small></strong><p>Stellar assets, all in view.</p></div>
       <div class="phone-quick"><span><span class="phone-quick-icon"><svg class="lucide lucide-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" /><path d="M7 17 17 7" /></svg></span>Send</span><span><span class="phone-quick-icon"><svg class="lucide lucide-arrow-left-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4" /><path d="M4 7h16" /><path d="m16 21 4-4-4-4" /><path d="M20 17H4" /></svg></span>Swap</span><span><span class="phone-quick-icon"><svg class="lucide lucide-arrow-down-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7 7 17" /><path d="M17 17H7V7" /></svg></span>Receive</span></div>
       <div class="phone-list">
@@ -247,6 +273,7 @@
 </svg></span><div><b>XLM</b><small>Stellar native asset</small></div><strong class="phone-asset-amount">546,213.0231432</strong><span class="phone-asset-reserved"><span><svg class="lucide lucide-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Reserved</span><strong>12 XLM</strong></span></div>
         <div class="phone-asset"><span class="phone-asset-icon"><svg class="lucide lucide-circle-dollar-sign" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" /><path d="M12 18V6" /></svg></span><div><b>USDC</b><small>GCPQ...R7KM</small></div><strong>250.00</strong></div>
         <div class="phone-asset"><span class="phone-asset-icon"><svg class="lucide lucide-waves-horizontal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12q2.5 2 5 0t5 0 5 0 5 0" /><path d="M2 19q2.5 2 5 0t5 0 5 0 5 0" /><path d="M2 5q2.5 2 5 0t5 0 5 0 5 0" /></svg></span><div><b>AQUA</b><small>GBZA...T4WN</small></div><strong>860.00</strong></div>
+      </div>
       </div>
       <div class="phone-tabs"><span><svg class="lucide lucide-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>Home</span><span><svg class="lucide lucide-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg>Assets</span><span><svg class="lucide lucide-rotate-ccw-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /><path d="M12 7v5l4 2" /></svg>Activity</span><span><svg class="lucide lucide-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /></svg>Explore</span></div>
     </div>

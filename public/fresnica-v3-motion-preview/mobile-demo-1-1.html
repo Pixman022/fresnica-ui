@@ -108,6 +108,22 @@ body{background:#101312;color:#f4f7f5;font-family:var(--Fresnica-font-family)}
 @media(max-width:760px){.home11-display{min-height:calc(100dvh - 180px);padding:14px 12px 26px}.home11-phone{height:min(748px,max(670px,85dvh));width:min(362px,100%)}}
 @media(prefers-reduced-motion:reduce){.home11-phone *{transition:none!important;animation:none!important}}
 </style>
+<style>
+/* Fixed size for the three Fresnica example screens; scroll remains usable without visible bars. */
+:root{--example-device-width:340px;--example-device-height:740px}
+html,body{scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
+
+.home11-phone{
+  width:min(var(--example-device-width),calc(100vw - 32px));
+  height:var(--example-device-height);min-height:0;flex:none
+}
+.home11-scroll{
+  overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none
+}
+.home11-scroll::-webkit-scrollbar{display:none;width:0;height:0}
+</style>
 </head>
 <body>
 <div class="preview-shell">
