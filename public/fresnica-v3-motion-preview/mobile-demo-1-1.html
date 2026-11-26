@@ -559,12 +559,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
   <div class="home11-wallet-summary">
     <span class="home11-wallet-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 20c.5-4.2 3-6.4 6.5-6.4s6 2.2 6.5 6.4"/></svg></span>
     <span class="home11-wallet-identity"><strong class="home11-wallet-name">SuperWallet</strong><small class="home11-wallet-address">GB3U…EH3W</small></span>
-    <button type="button" class="home11-wallet-switch" aria-label="切换钱包 / Switch wallet" title="切换钱包 / Switch wallet" aria-expanded="false" aria-controls="home11-wallet-selector" aria-haspopup="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 9 4-4 4 4M8 15l4 4 4-4"/></svg></button>
-  </div>
-  <div id="home11-wallet-selector" class="home11-wallet-selector" hidden role="group" aria-label="Switch wallet">
-    <div class="home11-wallet-selector-title">Wallets</div>
-    <button type="button" class="home11-wallet-option is-selected" data-wallet-index="0" aria-pressed="true"><span class="home11-wallet-option-avatar">S</span><span class="home11-wallet-option-details"><strong>SuperWallet</strong><small>GB3U…EH3W</small></span><svg class="home11-wallet-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></button>
-    <button type="button" class="home11-wallet-option" data-wallet-index="1" aria-pressed="false"><span class="home11-wallet-option-avatar">W</span><span class="home11-wallet-option-details"><strong>Wallet 2</strong><small>GDEM…TEST</small></span><svg class="home11-wallet-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></button>
+    <button type="button" class="home11-wallet-switch" aria-label="切换钱包 / Switch wallet" title="切换钱包 / Switch wallet" aria-expanded="false" aria-controls="home11-wallet-selector" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h18"/><path d="m7 22-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg></button>
   </div>
 <span class="phone-network"><span class="phone-network-dot" aria-hidden="true"></span>Stellar Mainnet</span></div>
       <div class="home11-scroll">
@@ -586,6 +581,34 @@ html.preview-immersive .home11-phone .home11-action-sheet{
   <span class="home11-nav-item"><svg class="lucide lucide-grid-2x2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>dApps</span>
   <span class="home11-nav-item"><svg class="lucide lucide-sliders-horizontal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><path d="M13 4v6M7 14v6"/></svg>Settings</span>
 </nav>
+<div id="home11-wallet-selector" class="home11-wallet-selector" hidden>
+  <div class="home11-wallet-backdrop" data-wallet-dismiss="true"></div>
+  <section class="home11-wallet-sheet" role="dialog" aria-modal="true" aria-labelledby="home11-wallet-sheet-title">
+    <span class="home11-wallet-handle" aria-hidden="true"></span>
+    <div class="home11-wallet-list-view">
+      <div class="home11-wallet-sheet-heading">
+        <h2 id="home11-wallet-sheet-title">Wallets</h2>
+        <button type="button" class="home11-wallet-sheet-close" data-wallet-dismiss="true" aria-label="关闭钱包列表 / Close wallet selector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <div class="home11-wallet-options">
+        <button type="button" class="home11-wallet-option is-selected" data-wallet-index="0" aria-pressed="true"><span class="home11-wallet-option-avatar">S</span><span class="home11-wallet-option-details"><strong>SuperWallet</strong><small>GB3U…EH3W</small></span><svg class="home11-wallet-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></button>
+        <button type="button" class="home11-wallet-option" data-wallet-index="1" aria-pressed="false"><span class="home11-wallet-option-avatar">W</span><span class="home11-wallet-option-details"><strong>Wallet 2</strong><small>GDEM…TEST</small></span><svg class="home11-wallet-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></button>
+      </div>
+      <button type="button" class="home11-wallet-create-entry"><span class="home11-wallet-create-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><span>Create wallet</span><svg class="home11-wallet-create-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
+    <form class="home11-wallet-create-view" hidden>
+      <div class="home11-wallet-sheet-heading">
+        <button type="button" class="home11-wallet-back" aria-label="返回钱包列表 / Back to wallets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+        <h2 id="home11-wallet-create-title">Create wallet</h2>
+        <button type="button" class="home11-wallet-sheet-close" data-wallet-dismiss="true" aria-label="关闭钱包列表 / Close wallet selector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <label class="home11-wallet-create-label" for="home11-new-wallet-name">Wallet name</label>
+      <input id="home11-new-wallet-name" name="name" maxlength="36" autocomplete="off" placeholder="My wallet" required />
+      <p class="home11-wallet-create-note">Preview only — no wallet keys are created.</p>
+      <button type="submit" class="home11-wallet-create-submit">Create demo wallet</button>
+    </form>
+  </section>
+</div>
 <div class="home11-action-overlay" hidden>
   <div class="home11-action-backdrop" data-home11-dismiss="true"></div>
   <section id="home11-action-panel" class="home11-action-sheet" role="dialog" aria-modal="true" aria-labelledby="home11-action-title">
