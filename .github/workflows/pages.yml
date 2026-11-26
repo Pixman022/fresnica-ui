@@ -74,7 +74,9 @@ jobs:
                   done
                   test -s "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   test -s "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  test -s "$source/fresnica-v3-motion-preview/mobile-wallet-switch.js"
                   node --check "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  node --check "$source/fresnica-v3-motion-preview/mobile-wallet-switch.js"
                   grep -Fq 'class="gallery-screen-title">Activity</h1>' "$source/fresnica-v3-motion-preview/mobile-activity.html"
                   grep -Fq 'class="gallery-screen-title">dApps</h1>' "$source/fresnica-v3-motion-preview/mobile-dapps.html"
                   grep -Fq 'class="gallery-screen-title">Settings</h1>' "$source/fresnica-v3-motion-preview/mobile-settings.html"
@@ -100,11 +102,16 @@ jobs:
                   grep -Fq 'html.gallery-menu-open .preview-sidebar' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   grep -Fq 'visibility 0s linear 0s' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   grep -Fq 'html.preview-immersive .gallery-menu-toggle' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
-                  # Main pages keep a single home logo; reference previews have a separate menu group.
+                  # Main pages use a wallet identity in Home; reference previews remain grouped separately.
                   grep -Fq 'data-gallery-en="Main pages" data-gallery-zh="主要页面"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   grep -Fq 'data-gallery-en="Reference pages" data-gallery-zh="参考页面"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   grep -Fq '.gallery-nav-group-label.is-reference' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
-                  grep -Fq 'class="brand-icon"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  ! grep -Fq 'class="brand-icon"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-summary"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-name">SuperWallet' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-address">GB3U' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-switch"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'src="./mobile-wallet-switch.js"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   for page in mobile-activity.html mobile-dapps.html mobile-settings.html; do
                       ! grep -Fq 'class="brand-icon"' "$source/fresnica-v3-motion-preview/$page"
                   done
@@ -118,7 +125,7 @@ jobs:
                   cmp "$source/fresnica-v3-motion-preview/index.html" demo-dist/fresnica-v3-motion-preview/index.html
                   cmp "$source/fresnica-v3-motion-preview/m58-brand-palette.css" demo-dist/fresnica-v3-motion-preview/m58-brand-palette.css
                   cmp "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html" demo-dist/fresnica-v3-motion-preview/mobile-demo-1-1.html
-                  for file in mobile-activity.html mobile-dapps.html mobile-settings.html mobile-gallery-system.css mobile-gallery-system.js; do
+                  for file in mobile-activity.html mobile-dapps.html mobile-settings.html mobile-gallery-system.css mobile-gallery-system.js mobile-wallet-switch.js; do
                       cmp "$source/fresnica-v3-motion-preview/$file" "demo-dist/fresnica-v3-motion-preview/$file"
                   done
                   cmp "$source/fresnica-v3-motion-preview/Fresnica-logo-actions.svg" demo-dist/fresnica-v3-motion-preview/Fresnica-logo-actions.svg
@@ -181,6 +188,13 @@ jobs:
                       const desktopToggle = desktop.querySelector('.gallery-menu-toggle');
                       if (!desktopToggle || desktop.defaultView.getComputedStyle(desktopToggle).display !== 'none') throw Error('desktop toggle visible');
                       if (desktop.defaultView.getComputedStyle(desktop.querySelector('.preview-sidebar')).visibility !== 'visible') throw Error('desktop menu hidden');
+                      const walletToggle = mobile.querySelector('.home11-wallet-switch');
+                      const walletPopup = mobile.querySelector('#home11-wallet-selector');
+                      if (!walletToggle || !walletPopup || !walletPopup.hidden) throw Error('wallet switch missing');
+                      walletToggle.click();
+                      if (walletPopup.hidden || walletToggle.getAttribute('aria-expanded') !== 'true') throw Error('wallet switch cannot open');
+                      walletPopup.querySelector('[data-wallet-index="1"]').click();
+                      if (mobile.querySelector('.home11-wallet-name').textContent !== 'Wallet 2' || !walletPopup.hidden) throw Error('wallet selection failed');
                       output.textContent = 'GALLERY_DRAWER_PASS';
                     } catch (error) {
                       output.textContent = 'GALLERY_DRAWER_FAIL: ' + error.message;
