@@ -92,6 +92,17 @@ jobs:
                   grep -Fq 'html.gallery-menu-open .preview-sidebar' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   grep -Fq 'visibility 0s linear 0s' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   grep -Fq 'html.preview-immersive .gallery-menu-toggle' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
+                  # Main pages keep a single home logo; reference previews have a separate menu group.
+                  grep -Fq 'data-gallery-en="Main pages" data-gallery-zh="主要页面"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  grep -Fq 'data-gallery-en="Reference pages" data-gallery-zh="参考页面"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  grep -Fq '.gallery-nav-group-label.is-reference' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
+                  grep -Fq 'class="brand-icon"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  for page in mobile-activity.html mobile-dapps.html mobile-settings.html; do
+                      ! grep -Fq 'class="brand-icon"' "$source/fresnica-v3-motion-preview/$page"
+                  done
+                  grep -Fq 'Recently used dApps' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  grep -Fq 'Official shortcuts' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  grep -Fq 'data-gallery-website-input' "$source/fresnica-v3-motion-preview/mobile-dapps.html"
                   test -s "$source/fresnica-v3-orb-demo/index.html"
                   mkdir -p demo-dist/fresnica-v3-motion-preview demo-dist/fresnica-v3-orb-demo
                   cp -a "$source/fresnica-v3-motion-preview/." demo-dist/fresnica-v3-motion-preview/
@@ -124,6 +135,8 @@ jobs:
                       grep -Fq 'class="gallery-menu-toggle"' "/tmp/gallery-$page"
                       grep -Fq 'aria-controls="gallery-screen-menu"' "/tmp/gallery-$page"
                       grep -Fq 'class="gallery-menu-backdrop"' "/tmp/gallery-$page"
+                      grep -Fq 'class="gallery-nav-group-label"' "/tmp/gallery-$page"
+                      grep -Fq 'class="gallery-nav-group-label is-reference"' "/tmp/gallery-$page"
                   done
                   # Exercise the actual drawer in a 390px iframe and verify the desktop menu.
                   cat > demo-dist/gallery-drawer-smoke.html <<'HTML'
