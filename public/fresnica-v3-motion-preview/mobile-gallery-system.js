@@ -131,6 +131,7 @@
         document.documentElement.classList.toggle("gallery-menu-open", active);
         menuButton.setAttribute("aria-expanded", String(active));
         menuButton.setAttribute("aria-label", active ? "Close screen menu" : "Open screen menu");
+        menuButton.querySelector("path").setAttribute("d", active ? "M6 6l12 12M18 6 6 18" : "M4 7h16M4 12h16M4 17h16");
         backdrop.hidden = !active;
         if (active) {
           aside.setAttribute("role", "dialog");
