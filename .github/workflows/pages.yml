@@ -62,6 +62,12 @@ jobs:
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/index.html
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo.html
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/wallet-home.html
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype.html
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype.css
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype.js
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype-core.js
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype-extra.js
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype-check.mjs
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m5-story.js
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m6-states.js
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/m7-polish.js
@@ -111,6 +117,17 @@ jobs:
                   node-version: 22
                   cache: npm
 
+            - name: Validate Fresnica full wallet UI catalog
+              if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  base=.v3-preview-source/public/fresnica-v3-motion-preview
+                  node --check "$base/wallet-prototype.js"
+                  node --check "$base/wallet-prototype-core.js"
+                  node --check "$base/wallet-prototype-extra.js"
+                  node "$base/wallet-prototype-check.mjs"
+
             - run: npm ci
 
             - name: Audit production dependencies (manual/V3 gate)
@@ -134,6 +151,12 @@ jobs:
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/index.html demo-dist/fresnica-v3-motion-preview/index.html
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo.html demo-dist/fresnica-v3-motion-preview/mobile-demo.html
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-home.html demo-dist/fresnica-v3-motion-preview/wallet-home.html
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype.html demo-dist/fresnica-v3-motion-preview/wallet-prototype.html
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype.css demo-dist/fresnica-v3-motion-preview/wallet-prototype.css
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype.js demo-dist/fresnica-v3-motion-preview/wallet-prototype.js
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype-core.js demo-dist/fresnica-v3-motion-preview/wallet-prototype-core.js
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype-extra.js demo-dist/fresnica-v3-motion-preview/wallet-prototype-extra.js
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype-check.mjs demo-dist/fresnica-v3-motion-preview/wallet-prototype-check.mjs
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m5-story.js demo-dist/fresnica-v3-motion-preview/m5-story.js
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m6-states.js demo-dist/fresnica-v3-motion-preview/m6-states.js
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m7-polish.js demo-dist/fresnica-v3-motion-preview/m7-polish.js
@@ -176,6 +199,12 @@ jobs:
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/index.html demo-dist/fresnica-v3-motion-preview/index.html
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo.html demo-dist/fresnica-v3-motion-preview/mobile-demo.html
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-home.html demo-dist/fresnica-v3-motion-preview/wallet-home.html
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype.html demo-dist/fresnica-v3-motion-preview/wallet-prototype.html
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype.css demo-dist/fresnica-v3-motion-preview/wallet-prototype.css
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype.js demo-dist/fresnica-v3-motion-preview/wallet-prototype.js
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype-core.js demo-dist/fresnica-v3-motion-preview/wallet-prototype-core.js
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype-extra.js demo-dist/fresnica-v3-motion-preview/wallet-prototype-extra.js
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/wallet-prototype-check.mjs demo-dist/fresnica-v3-motion-preview/wallet-prototype-check.mjs
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m5-story.js demo-dist/fresnica-v3-motion-preview/m5-story.js
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m6-states.js demo-dist/fresnica-v3-motion-preview/m6-states.js
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m7-polish.js demo-dist/fresnica-v3-motion-preview/m7-polish.js
@@ -236,7 +265,7 @@ jobs:
               run: |
                   set -euo pipefail
                   base="${V3_PAGES_URL%/}/fresnica-v3-motion-preview"
-                  for asset in index.html mobile-demo.html wallet-home.html m58-brand-palette.css third-party-notices.html v3-perf-probe.js; do
+                  for asset in index.html mobile-demo.html wallet-home.html wallet-prototype.html wallet-prototype.css wallet-prototype.js wallet-prototype-core.js wallet-prototype-extra.js wallet-prototype-check.mjs m58-brand-palette.css third-party-notices.html v3-perf-probe.js; do
                       source="demo-dist/fresnica-v3-motion-preview/${asset}"
                       confirmed=false
                       for attempt in 1 2 3 4 5 6 7 8; do
