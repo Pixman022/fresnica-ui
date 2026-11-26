@@ -603,7 +603,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
       </g>
     </g>
   </g>
-</svg></span>Fresnica</span><span class="phone-network"><span class="phone-network-dot" aria-hidden="true"></span>Stellar Mainnet</span></div>
+</svg></span>Fresnica</span></div>
       <div class="home11-scroll">
 <section aria-label="Activity overview"><h1 class="gallery-screen-title">Activity</h1></section>
 <h2 class="gallery-section-title">Today <small>Nov 26</small></h2>
@@ -714,8 +714,15 @@ html.preview-immersive .home11-phone .home11-action-sheet{
       event.stopPropagation();
       hide();
     } else if (event.key === "Tab") {
-      event.preventDefault();
-      close.focus();
+      const focusable = [...overlay.querySelectorAll("a[href], button:not([disabled])")];
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
   });
 })();
