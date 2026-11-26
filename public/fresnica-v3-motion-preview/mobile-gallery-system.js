@@ -20,6 +20,8 @@
     "Tokens": "代币", "Available": "可用", "Balance": "余额",
     "Wallet Overview": "钱包总览", "SuperWallet": "SuperWallet",
     "My wallet": "我的钱包", "Wallets": "钱包列表", "Total balance": "总余额",
+    "Create wallet": "新建钱包", "Wallet name": "钱包名称", "Create demo wallet": "创建演示钱包",
+    "Preview only — no wallet keys are created.": "仅为界面预览，不会生成真实钱包密钥。",
     "Wallet main navigation": "钱包主导航",
     "FULLSCREEN": "全屏", "Fullscreen": "全屏", "Exit fullscreen": "退出全屏",
     "Activity history": "交易记录", "Transaction history": "交易记录",
