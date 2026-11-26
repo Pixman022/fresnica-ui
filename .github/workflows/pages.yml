@@ -112,6 +112,9 @@ jobs:
                   grep -Fq 'class="home11-wallet-address">GB3U' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   grep -Fq 'class="home11-wallet-switch"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   grep -Fq 'src="./mobile-wallet-switch.js"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-backdrop"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-create-entry"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-create-view" hidden' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   for page in mobile-activity.html mobile-dapps.html mobile-settings.html; do
                       ! grep -Fq 'class="brand-icon"' "$source/fresnica-v3-motion-preview/$page"
                   done
@@ -193,8 +196,23 @@ jobs:
                       if (!walletToggle || !walletPopup || !walletPopup.hidden) throw Error('wallet switch missing');
                       walletToggle.click();
                       if (walletPopup.hidden || walletToggle.getAttribute('aria-expanded') !== 'true') throw Error('wallet switch cannot open');
+                      const walletPhone = mobile.querySelector('.home11-phone');
+                      const walletRect = walletPhone.getBoundingClientRect();
+                      const toggleRect = walletToggle.getBoundingClientRect();
+                      if (toggleRect.right - walletRect.left > walletRect.width * 0.618 + 1) throw Error('wallet switch crosses golden-ratio boundary');
+                      if (style(mobile.querySelector('.home11-wallet-avatar')).backgroundColor !== 'rgb(32, 48, 41)') throw Error('wallet avatar background not dark');
+                      if (!walletPopup.querySelector('.home11-wallet-backdrop') || !walletPopup.querySelector('.home11-wallet-sheet')) throw Error('wallet bottom sheet absent');
+                      const popupRect = walletPopup.getBoundingClientRect();
+                      if (Math.abs(popupRect.bottom - walletRect.bottom) > 2) throw Error('wallet overlay not phone-aligned');
                       walletPopup.querySelector('[data-wallet-index="1"]').click();
                       if (mobile.querySelector('.home11-wallet-name').textContent !== 'Wallet 2' || !walletPopup.hidden) throw Error('wallet selection failed');
+                      walletToggle.click();
+                      walletPopup.querySelector('.home11-wallet-create-entry').click();
+                      const createView = walletPopup.querySelector('.home11-wallet-create-view');
+                      if (createView.hidden) throw Error('wallet create entry did not open');
+                      createView.querySelector('input').value = 'Test Wallet';
+                      createView.querySelector('.home11-wallet-create-submit').click();
+                      if (mobile.querySelector('.home11-wallet-name').textContent !== 'Test Wallet' || !walletPopup.hidden) throw Error('demo wallet create flow failed');
                       output.textContent = 'GALLERY_DRAWER_PASS';
                     } catch (error) {
                       output.textContent = 'GALLERY_DRAWER_FAIL: ' + error.message;
