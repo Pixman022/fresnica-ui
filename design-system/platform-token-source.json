@@ -1,9 +1,9 @@
 {
     "$schema": "https://design-tokens.github.io/community-group/format/",
     "name": "Fresnica UI platform token source",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "baseline-approved",
-    "description": "Platform-neutral handoff metadata for the approved Web token baseline and Android-first React Native adapter. Existing Web visual values are unchanged.",
+    "description": "Versioned Fresnica Web/Native dual-theme palette refresh; preserves semantic feedback color separation.",
     "source": {
         "tokens": "./tokens.json",
         "css": "./tokens.css",
@@ -25,12 +25,12 @@
         "responsivePresets": [320, 360, 393, 430, 768],
         "desktop": "fluid",
         "tokenValuesFrozen": true,
-        "visualChangeRequired": false
+        "visualChangeRequired": true
     },
     "native": {
         "status": "adapter-values-reviewed",
         "themePreferenceScope": "host-local",
-        "description": "Native theme values are generated from this reviewed adapter source. Theme preferences remain independent per platform and are not synchronized with Web.",
+        "description": "Reviewed Native palette values generated for the versioned Web 1.1.0 design token handoff; theme preferences remain host-local.",
         "semanticPolicy": {
             "genericSecondaryAction": "not-defined",
             "contentSecondary": "supporting-content-only",
@@ -44,6 +44,7 @@
             "primary": "action-primary",
             "primaryPressed": "action-primary-pressed",
             "onPrimary": "content-on-primary",
+            "onDanger": "content-on-error",
             "accentPurple": "accent-purple",
             "accentPurpleContainer": "accent-purple-container",
             "accentBlue": "accent-blue",
@@ -69,9 +70,10 @@
                 "background": "#f9f9fb",
                 "surface": "#ffffff",
                 "surfaceRaised": "#ffffff",
-                "primary": "#00a875",
-                "primaryPressed": "#008f65",
+                "primary": "#0f7954",
+                "primaryPressed": "#0c6748",
                 "onPrimary": "#ffffff",
+                "onDanger": "#ffffff",
                 "accentPurple": "#6956c8",
                 "accentPurpleContainer": "#eeeaff",
                 "accentBlue": "#356ae6",
@@ -98,7 +100,8 @@
                 "surfaceRaised": "#202623",
                 "primary": "#00ca8a",
                 "primaryPressed": "#00a875",
-                "onPrimary": "#ffffff",
+                "onPrimary": "#101312",
+                "onDanger": "#ffffff",
                 "accentPurple": "#b8a9ff",
                 "accentPurpleContainer": "#302b4d",
                 "accentBlue": "#8eaeff",
@@ -133,7 +136,7 @@
                     "separator",
                     "overlay"
                 ],
-                "reason": "Retain the existing Android-first adapter values until a native host provides a competing accessibility baseline; no Web visual values are changed."
+                "reason": "Reviewed Native light/dark surfaces and accessible primary label colors match the 1.1.0 dual-theme palette; platform-specific values remain explicit."
             },
             {
                 "roles": ["warning"],
@@ -166,7 +169,7 @@
     },
     "conflicts": {
         "status": "resolved-for-baseline",
-        "policy": "Keep the approved Web 1.0.0 values unchanged; use the reviewed Native adapter values for the Android-first package and revisit only after a product host supplies new evidence.",
+        "policy": "The approved 1.1.0 palette aligns brand-primary and core light/dark surfaces across Web/Native while retaining independent financial feedback colors; later overrides require documented accessibility review.",
         "dimensions": ["spacing", "radius", "typography", "elevation"]
     },
     "compatibility": {

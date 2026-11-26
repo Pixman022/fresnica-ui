@@ -32,7 +32,7 @@ Review these Demo routes in both themes at mobile width:
 For each route, verify:
 
 - The page title is plain semantic text with the default theme text color; no ribbon, illustration or decorative banner appears.
-- Primary actions use the correct theme primary (`#00A875` light, `#00CA8A` dark) and white text/icons on filled green surfaces.
+- Primary actions use the correct theme primary (`#0F7954` light, `#00CA8A` dark); filled controls use white labels/icons in light mode and `#101312` dark labels/icons in dark mode.
 - Each screen or action region has at most one large filled-primary emphasis. The wallet-home Send / Swap / Receive group is the approved exception.
 - Ordinary icons, asset-symbol fallbacks, copy and Max/All actions, direction switches, helper text and estimated values use neutral tokens.
 - The wallet-home balance card uses the neutral theme surface, no decorative outline or green gradient, and no address background fill.

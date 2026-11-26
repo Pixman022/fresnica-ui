@@ -20,22 +20,24 @@ describe('Fresnica custom theme tokens', () => {
         expect(normalizeThemeColor('#6BCB77')).toBe('#6BCB77');
         expect(light['primary-color']).not.toBe(DEFAULT_PRIMARY_COLOR);
         expect(light['on-primary-color']).toMatch(/^#(?:FFFFFF|111214)$/);
-        expect(dark['on-primary-color']).toBe('#FFFFFF');
+        expect(dark['on-primary-color']).toBe('#101312');
         expect(Object.keys(light)).not.toContain('success-color');
         expect(Object.keys(light)).not.toContain('failure-color');
     });
 
-    it.each(['#00A875', '#6BCB77'])(
-        'keeps custom green filled controls on pure white foreground in light and dark: %s',
+    it.each(['#0F7954', '#6BCB77'])(
+        'uses theme-appropriate contrasting text for custom green primary controls: %s',
         (green) => {
             (['light', 'dark'] as const).forEach((mode) => {
                 const tokens = deriveFresnicaThemeTokens(green, mode);
-                expect(tokens['on-primary-color']).toBe('#FFFFFF');
+                expect(tokens['on-primary-color']).toBe(mode === 'light' ? '#FFFFFF' : '#101312');
                 expect(tokens['primary-color']).toMatch(/^#[0-9A-F]{6}$/);
                 expect(tokens['primary-color-hover']).toMatch(/^#[0-9A-F]{6}$/);
                 expect(tokens['primary-color-active']).toMatch(/^#[0-9A-F]{6}$/);
                 expect(tokens['primary-color-hover']).not.toBe(tokens['primary-color']);
                 expect(tokens['primary-color-active']).not.toBe(tokens['primary-color']);
+                const current = getFresnicaThemeAdjustment(green, mode);
+                expect(current.contrastRatio).toBeGreaterThanOrEqual(4.5);
             });
         }
     );

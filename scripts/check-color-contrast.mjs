@@ -73,6 +73,9 @@ const contrast = (foreground, background) => {
 };
 
 const checks = [
+    ['on-primary/primary', '--Fresnica-on-primary-color', '--Fresnica-primary-color', 4.5],
+    ['on-primary/primary-hover', '--Fresnica-on-primary-color', '--Fresnica-primary-color-hover', 4.5],
+    ['on-primary/primary-pressed', '--Fresnica-on-primary-color', '--Fresnica-primary-color-active', 4.5],
     ['content-primary/background', '--Fresnica-text-color', '--Fresnica-bg-color', 4.5],
     ['content-secondary/background', '--Fresnica-text-color-secondary', '--Fresnica-bg-color', 4.5],
     ['content-primary/surface', '--Fresnica-text-color', '--Fresnica-surface', 4.5],

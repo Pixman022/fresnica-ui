@@ -13,7 +13,7 @@ import { FresnicaThemeProvider } from 'fresnica-ui';
 ## Behavior
 
 - `primaryColor` is one HEX color (`#RRGGBB`, with 3-digit input accepted).
-- Light and dark values are generated from the same color; dark mode is not configured separately.
+- For user-customized palettes, light and dark values are generated from the same selected color. The shipped default has separately reviewed values: light `#0F7954` with white foreground and dark `#00CA8A` with `#101312` foreground.
 - Generated foreground colors are adjusted to meet WCAG AA contrast for primary actions.
 - When adjustment is needed, the preview control explains that the selected color could reduce text and icon visibility and shows the effective HEX color used to keep content clear.
 - Settings persist in `localStorage` under `fresnica-theme-settings` and synchronize through the browser `storage` event.

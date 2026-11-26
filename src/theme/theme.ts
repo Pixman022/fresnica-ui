@@ -1,6 +1,6 @@
 export type FresnicaThemeMode = 'light' | 'dark';
 
-export const DEFAULT_PRIMARY_COLOR = '#00A875';
+export const DEFAULT_PRIMARY_COLOR = '#0F7954';
 export const FRESNICA_THEME_STORAGE_KEY = 'fresnica-theme-settings';
 
 export const getStoredFresnicaThemeMode = (storageKey = FRESNICA_THEME_STORAGE_KEY): FresnicaThemeMode => {
@@ -147,14 +147,20 @@ export const getFresnicaThemeAdjustment = (primaryColor: string, mode: FresnicaT
     const inputRgb = parseHex(inputColor)!;
     const base = rgbToOklch(inputRgb);
     const greenFilledControl = inputRgb.g > inputRgb.r && inputRgb.g > inputRgb.b;
-    const preferredForeground = greenFilledControl ? '#FFFFFF' : mode === 'light' ? '#FFFFFF' : '#111214';
+    const preferredForeground = greenFilledControl
+        ? mode === 'dark'
+            ? '#101312'
+            : '#FFFFFF'
+        : mode === 'light'
+          ? '#FFFFFF'
+          : '#111214';
     const effectivePrimaryColor = adjustForForeground(
         base,
         preferredForeground,
         4.5,
         preferredForeground === '#FFFFFF' ? -1 : 1
     );
-    const onPrimaryColor = greenFilledControl ? '#FFFFFF' : accessibleForeground(effectivePrimaryColor);
+    const onPrimaryColor = greenFilledControl ? preferredForeground : accessibleForeground(effectivePrimaryColor);
 
     return {
         inputColor,
@@ -172,7 +178,13 @@ export const deriveFresnicaThemeTokens = (primaryColor: string, mode: FresnicaTh
     const base = rgbToOklch(parseHex(normalized)!);
     const primaryBase = rgbToOklch(parseHex(primary)!);
     const hover = oklchColor(primaryBase, primaryBase.l + (mode === 'light' ? -0.045 : 0.045));
-    const active = oklchColor(primaryBase, primaryBase.l + (mode === 'light' ? -0.085 : -0.035));
+    const activeCandidate = oklchColor(primaryBase, primaryBase.l + (mode === 'light' ? -0.085 : -0.035));
+    const active = adjustForForeground(
+        rgbToOklch(parseHex(activeCandidate)!),
+        onPrimary,
+        4.5,
+        onPrimary === '#FFFFFF' ? -1 : 1
+    );
     const containerLightness = mode === 'light' ? 0.95 : 0.24;
     const container = oklchColor(base, containerLightness, Math.min(base.c * 0.48, 0.08));
     const onContainer = oklchColor(base, mode === 'light' ? 0.32 : 0.84, Math.min(base.c * 0.8, 0.14));
