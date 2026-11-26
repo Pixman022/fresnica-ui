@@ -138,7 +138,9 @@
     if (description) { description.dataset.galleryEn = "Mobile interface gallery"; description.dataset.galleryZh = "移动端界面预览"; }
     const nav = aside.querySelector(".preview-nav");
     if (nav) {
-      nav.innerHTML = pages.map((item) =>
+      nav.innerHTML = pages.map((item, index) =>
+        (index === 0 ? '<span class="gallery-nav-group-label" data-gallery-en="Main pages" data-gallery-zh="主要页面">Main pages</span>' :
+        index === 4 ? '<span class="gallery-nav-group-label is-reference" data-gallery-en="Reference pages" data-gallery-zh="参考页面">Reference pages</span>' : '') +
         '<a href="./' + item.file + '"' + (item.file === current.file ? ' class="is-current" aria-current="page"' : '') + '>' +
         '<span class="preview-nav-icon">' + icon(item.kind) + '</span>' +
         '<span class="preview-nav-copy"><strong data-gallery-en="' + item.en + '" data-gallery-zh="' + item.zh + '">' + item.en + '</strong>' +
