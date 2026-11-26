@@ -131,6 +131,7 @@ html[data-demo-theme="dark"] #v3-availability .phone-network{color:#c5cec8}
     transform:translateX(-105%);visibility:hidden;pointer-events:none;
     transition:transform .22s ease,visibility .22s
   }
+  .preview-sidebar .preview-nav{display:flex;flex-direction:column;gap:7px}
   html.gallery-menu-open .preview-sidebar{
     transform:translateX(0);visibility:visible;pointer-events:auto
   }
