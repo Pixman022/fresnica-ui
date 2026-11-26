@@ -277,3 +277,42 @@ html[data-demo-theme="dark"] #v3-availability .phone-network{color:#c5cec8}
   .home11-phone .home11-wallet-avatar{width:30px;height:30px}
   .home11-phone .phone-network{font-size:8px;gap:3px}
 }
+
+
+/* Gallery-only controls float outside the phone layout, never reserve header space. */
+.preview-fullscreen-toggle{
+  top:70dvh;right:max(10px,env(safe-area-inset-right));transform:translateY(-50%);
+}
+html.preview-immersive .home11-phone .phone-header{
+  padding-right:var(--native-space-lg,16px)!important;
+}
+html.preview-immersive .wallet-header{padding-right:16px!important}
+@media(max-width:760px){
+  .preview-fullscreen-toggle{
+    width:42px;height:42px;min-width:42px;min-height:42px;padding:0;
+    gap:0;background:rgba(247,252,249,.94);backdrop-filter:blur(6px);
+  }
+  .preview-fullscreen-toggle .preview-enter-label{display:none}
+  html.preview-immersive .preview-fullscreen-toggle{
+    width:42px;height:42px;min-width:42px;
+  }
+}
+
+/* Activity filter uses the same bottom-sheet geometry as Actions. */
+.home11-phone .gallery-activity-filter-overlay{z-index:15}
+.home11-phone .gallery-activity-filter-sheet{padding-bottom:26px}
+.home11-phone .gallery-activity-options{display:flex;flex-direction:column;gap:5px}
+.home11-phone .gallery-activity-option{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  width:100%;min-height:48px;padding:10px 13px;border:1px solid transparent;
+  border-radius:12px;background:var(--native-surface);color:var(--native-content-primary);
+  font-family:inherit;font-size:13px;font-weight:550;text-align:left;cursor:pointer;
+}
+.home11-phone .gallery-activity-option[aria-pressed="true"]{
+  border-color:var(--native-separator);background:var(--native-background);color:var(--native-primary);font-weight:650;
+}
+.home11-phone .gallery-activity-option svg{display:none;flex:none;width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.home11-phone .gallery-activity-option[aria-pressed="true"] svg{display:block}
+.home11-phone .gallery-activity-option:focus-visible,.home11-phone .gallery-activity-filter-trigger:focus-visible{outline:2px solid var(--native-primary);outline-offset:2px}
+.home11-phone .gallery-activity-filter-trigger.is-filtered{background:var(--native-primary-color-bg,var(--Fresnica-primary-color-bg));border-color:var(--native-primary);color:var(--native-primary)}
+.home11-phone .gallery-row[hidden],.home11-phone .gallery-panel[hidden],.home11-phone .gallery-section-title[hidden]{display:none!important}
