@@ -107,6 +107,63 @@
     if (foot) aside.insertBefore(preferences, foot);
     else aside.appendChild(preferences);
   }
+  // On narrow screens the gallery navigation becomes an accessible drawer.
+  if (aside) {
+    const shell = document.querySelector(".preview-shell");
+    if (shell) {
+      aside.id = "gallery-screen-menu";
+      const menuButton = document.createElement("button");
+      menuButton.type = "button";
+      menuButton.className = "gallery-menu-toggle";
+      menuButton.setAttribute("aria-controls", aside.id);
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Open screen menu");
+      menuButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+      const backdrop = document.createElement("div");
+      backdrop.className = "gallery-menu-backdrop";
+      backdrop.hidden = true;
+      backdrop.setAttribute("aria-hidden", "true");
+      shell.insertBefore(menuButton, aside);
+      shell.insertBefore(backdrop, aside);
+      const isMobile = () => window.matchMedia("(max-width: 760px)").matches;
+      const setMenuOpen = (open, restoreFocus = false) => {
+        const active = open && isMobile();
+        document.documentElement.classList.toggle("gallery-menu-open", active);
+        menuButton.setAttribute("aria-expanded", String(active));
+        menuButton.setAttribute("aria-label", active ? "Close screen menu" : "Open screen menu");
+        backdrop.hidden = !active;
+        if (active) {
+          aside.setAttribute("role", "dialog");
+          aside.setAttribute("aria-modal", "true");
+          aside.querySelector(".preview-nav a")?.focus();
+        } else {
+          aside.removeAttribute("role");
+          aside.removeAttribute("aria-modal");
+          if (restoreFocus && isMobile()) menuButton.focus();
+        }
+      };
+      menuButton.addEventListener("click", () => setMenuOpen(!document.documentElement.classList.contains("gallery-menu-open")));
+      backdrop.addEventListener("click", () => setMenuOpen(false, true));
+      aside.querySelectorAll(".preview-nav a").forEach((link) => link.addEventListener("click", () => setMenuOpen(false)));
+      document.addEventListener("keydown", (event) => {
+        if (!document.documentElement.classList.contains("gallery-menu-open")) return;
+        if (event.key === "Escape") {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          setMenuOpen(false, true);
+        }
+        if (event.key === "Tab") {
+          const controls = [menuButton, ...aside.querySelectorAll('a[href],button:not([disabled])')];
+          const first = controls[0], last = controls[controls.length - 1];
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
+      }, true);
+      window.addEventListener("resize", () => {
+        if (!isMobile() && document.documentElement.classList.contains("gallery-menu-open")) setMenuOpen(false);
+      });
+    }
+  }
   // Keep Actions a bottom sheet; only the four destination tabs are pages.
   const tabs = document.querySelector(".home11-phone .phone-tabs");
   if (tabs) {
