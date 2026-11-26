@@ -113,7 +113,7 @@ jobs:
                   trap 'kill "$server_pid" 2>/dev/null || true' EXIT
                   chrome="$(command -v google-chrome-stable || command -v google-chrome || command -v chromium-browser || command -v chromium || true)"
                   test -n "$chrome"
-                  for page in mobile-demo-1-1.html mobile-activity.html mobile-dapps.html mobile-settings.html; do
+                  for page in mobile-demo.html mobile-demo-1-1.html wallet-home.html mobile-activity.html mobile-dapps.html mobile-settings.html; do
                       url="http://127.0.0.1:4178/fresnica-v3-motion-preview/$page"
                       "$chrome" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=1800 --dump-dom "$url" 2>/tmp/gallery-chrome.log >"/tmp/gallery-$page"
                       grep -Fq 'class="gallery-preferences"' "/tmp/gallery-$page"
