@@ -124,6 +124,247 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 }
 .home11-scroll::-webkit-scrollbar{display:none;width:0;height:0}
 </style>
+<style id="home11-native-contract">
+/* Web-only visual mapping of @fresnica/ui-native main:
+ * generated-token-contract.ts; Button, Typography, ListRow, Screen, IconButton.
+ * Wallet assets and navigation remain feature-local. No copy/content changes.
+ */
+.home11-phone {
+  /* Primitive tokens: native 1.1 dimensions and typography. */
+  --native-space-xs: 4px;
+  --native-space-sm: 8px;
+  --native-space-md: 12px;
+  --native-space-lg: 16px;
+  --native-space-xl: 24px;
+  --native-radius-sm: 8px;
+  --native-radius-control: 12px;
+  --native-radius-base: 16px;
+  --native-radius-lg: 24px;
+  --native-type-body: 14px;
+  --native-type-supporting: 13px;
+  --native-type-action: 15px;
+  --native-type-section-title: 18px;
+  --native-type-screen-title: 20px;
+  --native-type-display: 48px;
+  --native-size-border: 1px;
+  --native-size-control-base: 48px;
+  --native-size-control-emphasis: 52px;
+  /* Semantic roles: native light AppTheme, aligned with the Web source. */
+  --native-background: #f9f9fb;
+  --native-surface: #ffffff;
+  --native-surface-raised: #ffffff;
+  --native-primary: #0f7954;
+  --native-primary-pressed: #0c6748;
+  --native-on-primary: #ffffff;
+  --native-content-primary: #1a1c1d;
+  --native-content-secondary: #3f4942;
+  --native-content-muted: #8a948e;
+  --native-border: #e3e3e5;
+  --native-separator: #edeef0;
+  /* Component roles, including the 44px minimum action target. */
+  --native-button-height: var(--native-size-control-emphasis);
+  --native-button-radius: var(--native-radius-base);
+  --native-row-height: 64px;
+  --native-tap-target: 44px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", Arial, sans-serif;
+  background: var(--native-background);
+  color: var(--native-content-primary);
+}
+.home11-phone .phone-header {
+  min-height: 80px;
+  padding: 36px var(--native-space-lg) var(--native-space-md);
+  background: var(--native-surface);
+  border-bottom: var(--native-size-border) solid var(--native-separator);
+}
+.home11-phone .phone-brand {
+  gap: var(--native-space-sm);
+  color: var(--native-content-primary);
+  font-size: var(--native-type-screen-title);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.home11-phone .phone-brand .brand-icon,
+.home11-phone .phone-brand .brand-icon svg {
+  width: 28px;
+  height: 28px;
+}
+.home11-phone .phone-network {
+  color: var(--native-content-secondary);
+  font-size: var(--native-type-supporting);
+  font-weight: 500;
+}
+.home11-phone .home11-scroll {
+  padding: var(--native-space-lg) var(--native-space-lg) var(--native-space-xl);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.home11-phone .home11-scroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.home11-phone .phone-overview { padding: var(--native-space-sm) 0 0; }
+.home11-phone .phone-label {
+  color: var(--native-content-secondary);
+  font-size: var(--native-type-supporting);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  line-height: 1.4;
+}
+.home11-phone .phone-overview strong {
+  font-size: var(--native-type-display);
+  font-weight: 700;
+  letter-spacing: -0.065em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  margin: var(--native-space-sm) 0;
+  white-space: nowrap;
+}
+.home11-phone .phone-overview strong small {
+  color: var(--native-content-secondary);
+  font-size: var(--native-type-supporting);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.home11-phone .phone-overview p {
+  color: var(--native-content-secondary);
+  font-size: var(--native-type-supporting);
+  line-height: 1.5;
+}
+.home11-phone .phone-quick {
+  gap: var(--native-space-sm);
+  margin: var(--native-space-xl) 0;
+}
+.home11-phone .phone-quick > span {
+  flex-direction: row;
+  gap: var(--native-space-xs);
+  min-height: var(--native-button-height);
+  padding: var(--native-space-sm) 5px;
+  border: var(--native-size-border) solid var(--native-primary);
+  border-radius: var(--native-button-radius);
+  background: transparent;
+  color: var(--native-primary);
+  font-size: var(--native-type-action);
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.home11-phone .phone-quick .phone-quick-icon {
+  width: 19px;
+  height: 19px;
+  margin: 0;
+  flex: none;
+  color: inherit;
+}
+.home11-phone .phone-quick .phone-quick-icon svg {
+  width: 18px;
+  height: 18px;
+}
+.home11-phone .phone-quick > span:nth-child(2) {
+  background: var(--native-primary);
+  border-color: var(--native-primary);
+  color: var(--native-on-primary);
+}
+.home11-phone .phone-list-header {
+  gap: var(--native-space-sm);
+  min-height: var(--native-tap-target);
+  margin-bottom: var(--native-space-sm);
+}
+.home11-phone .phone-list-header b {
+  color: var(--native-content-primary);
+  font-size: var(--native-type-section-title);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.home11-phone .phone-asset-add {
+  min-height: var(--native-tap-target);
+  padding: 0 var(--native-space-sm);
+  gap: var(--native-space-sm);
+  border: var(--native-size-border) solid transparent;
+  border-radius: var(--native-radius-base);
+  background: transparent;
+  color: var(--native-primary);
+  font-size: var(--native-type-action);
+  font-weight: 600;
+}
+.home11-phone .phone-asset-add svg { width: 18px; height: 18px; }
+.home11-phone .phone-asset {
+  min-height: var(--native-row-height);
+  gap: var(--native-space-md);
+  margin: 0;
+  padding: 10px var(--native-space-md);
+  background: var(--native-surface);
+  border-bottom: var(--native-size-border) solid var(--native-separator);
+}
+.home11-phone .phone-asset:nth-child(2) { border-radius: var(--native-radius-base) var(--native-radius-base) 0 0; }
+.home11-phone .phone-asset:last-child { border: 0; border-radius: 0 0 var(--native-radius-base) var(--native-radius-base); }
+.home11-phone .phone-asset-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--native-radius-control);
+  background: var(--native-background);
+  color: var(--native-primary);
+}
+.home11-phone .phone-asset-icon svg { width: 20px; height: 20px; }
+.home11-phone .phone-asset-icon .stellar-xlm-logo { width: 28px; height: 28px; }
+.home11-phone .phone-asset b {
+  color: var(--native-content-primary);
+  font-size: var(--native-type-body);
+  font-weight: 600;
+  line-height: 1.35;
+}
+.home11-phone .phone-asset small {
+  margin-top: 3px;
+  color: var(--native-content-secondary);
+  font-size: var(--native-type-supporting);
+  line-height: 1.3;
+}
+.home11-phone .phone-asset > strong {
+  color: var(--native-content-primary);
+  font-size: var(--native-type-body);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+.home11-phone .phone-asset.is-xlm {
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  column-gap: var(--native-space-md);
+  row-gap: 0;
+}
+.home11-phone .phone-asset.is-xlm > .phone-asset-amount {
+  font-size: var(--native-type-supporting);
+  letter-spacing: -0.03em;
+}
+.home11-phone .phone-asset.is-xlm > .phone-asset-reserved {
+  padding-top: var(--native-space-sm);
+  gap: var(--native-space-sm);
+  color: var(--native-content-secondary);
+  font-size: var(--native-type-supporting);
+}
+.home11-phone .phone-asset-reserved strong {
+  font-size: var(--native-type-supporting);
+  font-weight: 600;
+}
+.home11-phone .phone-tabs {
+  min-height: 72px;
+  padding: var(--native-space-sm) var(--native-space-sm) var(--native-space-md);
+  gap: var(--native-space-xs);
+  background: var(--native-surface);
+  border-top: var(--native-size-border) solid var(--native-separator);
+}
+.home11-phone .phone-tabs span {
+  min-height: var(--native-tap-target);
+  gap: var(--native-space-xs);
+  font-size: var(--native-type-supporting);
+  font-weight: 500;
+  color: var(--native-content-secondary);
+}
+.home11-phone .phone-tabs span:first-child {
+  color: var(--native-primary);
+  font-weight: 600;
+}
+.home11-phone .phone-tabs svg { width: 20px; height: 20px; }
+@media (max-width: 370px) {
+  .home11-phone .phone-overview strong { font-size: 44px; }
+  .home11-phone .phone-quick > span { font-size: 14px; gap: 3px; }
+}
+</style>
 </head>
 <body>
 <div class="preview-shell">
