@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
     group: github-pages
-    cancel-in-progress: true
+    cancel-in-progress: false
 
 jobs:
     deploy:
@@ -43,6 +43,30 @@ jobs:
               run: npm audit --omit=dev --audit-level=moderate
 
             - run: npm run build:demo
+
+            # Package the active V3 marketing preview with the updated shared UI
+            # demo. The original V2 preview is an unchanged historical route.
+            - name: Checkout active V3 preview
+              uses: actions/checkout@v7
+              with:
+                  ref: design/website-vision-motion-concept-2026-10-27
+                  path: .v3-preview-source
+
+            - name: Overlay current V3 without modifying frozen V2
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  source=.v3-preview-source/public
+                  test -s "$source/fresnica-v3-motion-preview/index.html"
+                  test -s "$source/fresnica-v3-motion-preview/m58-brand-palette.css"
+                  test -s "$source/fresnica-v3-motion-preview/wallet-home.html"
+                  test -s "$source/fresnica-v3-orb-demo/index.html"
+                  mkdir -p demo-dist/fresnica-v3-motion-preview demo-dist/fresnica-v3-orb-demo
+                  cp -a "$source/fresnica-v3-motion-preview/." demo-dist/fresnica-v3-motion-preview/
+                  cp -a "$source/fresnica-v3-orb-demo/." demo-dist/fresnica-v3-orb-demo/
+                  cmp "$source/fresnica-v3-motion-preview/index.html" demo-dist/fresnica-v3-motion-preview/index.html
+                  cmp "$source/fresnica-v3-motion-preview/m58-brand-palette.css" demo-dist/fresnica-v3-motion-preview/m58-brand-palette.css
+                  cmp public/fresnica-website-preview/index.html demo-dist/fresnica-website-preview/index.html
 
             - name: Configure Pages
               uses: actions/configure-pages@v6
