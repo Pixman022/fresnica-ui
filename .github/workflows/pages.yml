@@ -86,6 +86,11 @@ jobs:
                   ! grep -Fq 'View preferences from the gallery menu.' "$source/fresnica-v3-motion-preview/mobile-settings.html"
                   grep -Fq 'Preview only — no live connection.' "$source/fresnica-v3-motion-preview/mobile-dapps.html"
                   grep -Fq '.preview-nav-copy small' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
+                  # A single responsive menu controls all six sample screens.
+                  grep -Fq 'className = "gallery-menu-toggle"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  grep -Fq 'className = "gallery-menu-backdrop"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  grep -Fq 'html.gallery-menu-open .preview-sidebar' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
+                  grep -Fq 'html.preview-immersive .gallery-menu-toggle' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   test -s "$source/fresnica-v3-orb-demo/index.html"
                   mkdir -p demo-dist/fresnica-v3-motion-preview demo-dist/fresnica-v3-orb-demo
                   cp -a "$source/fresnica-v3-motion-preview/." demo-dist/fresnica-v3-motion-preview/
@@ -115,6 +120,9 @@ jobs:
                       grep -Fq 'href="./mobile-activity.html"' "/tmp/gallery-$page"
                       grep -Fq 'href="./mobile-dapps.html"' "/tmp/gallery-$page"
                       grep -Fq 'href="./mobile-settings.html"' "/tmp/gallery-$page"
+                      grep -Fq 'class="gallery-menu-toggle"' "/tmp/gallery-$page"
+                      grep -Fq 'aria-controls="gallery-screen-menu"' "/tmp/gallery-$page"
+                      grep -Fq 'class="gallery-menu-backdrop"' "/tmp/gallery-$page"
                   done
 
             - name: Configure Pages
