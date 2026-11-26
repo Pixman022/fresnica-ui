@@ -19,7 +19,7 @@
     "Quick Actions": "快捷操作", "Close actions": "关闭操作面板",
     "Tokens": "代币", "Available": "可用", "Balance": "余额",
     "Wallet Overview": "钱包总览", "SuperWallet": "SuperWallet",
-    "My wallet": "我的钱包", "Total balance": "总余额",
+    "My wallet": "我的钱包", "Wallets": "钱包列表", "Total balance": "总余额",
     "Wallet main navigation": "钱包主导航",
     "FULLSCREEN": "全屏", "Fullscreen": "全屏", "Exit fullscreen": "退出全屏",
     "Activity history": "交易记录", "Transaction history": "交易记录",
