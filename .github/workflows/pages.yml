@@ -37,12 +37,12 @@ jobs:
             name: v3-preview
             url: ${{ steps.deployment.outputs.page_url }}
         steps:
-            # An explicit frozen commit is used whenever V3 is published, so
-            # every original Pages route continues to contain the V2 baseline.
-            - name: Checkout frozen V2 site
+            # Pin an immutable reviewed Web 1.1.0 commit for the design-system demos.
+            # The original V2 marketing route is byte-identical to the frozen baseline.
+            - name: Checkout versioned Web 1.1.0 demo (frozen V2 route unchanged)
               uses: actions/checkout@v7
               with:
-                  ref: f3e68515d90fe05a12a640db153f1b14004cad32
+                  ref: 4b8456d8523e3ee2cb4647686c69c33eab7d7c69
 
             # Read the new preview from the exact triggering commit. This checkout
             # is isolated from the frozen build and cannot change V2 source.
