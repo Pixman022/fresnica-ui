@@ -199,11 +199,17 @@ jobs:
                       const walletPhone = mobile.querySelector('.home11-phone');
                       const walletRect = walletPhone.getBoundingClientRect();
                       const toggleRect = walletToggle.getBoundingClientRect();
+                      const walletNameRect = mobile.querySelector('.home11-wallet-name').getBoundingClientRect();
+                      if (toggleRect.left - walletNameRect.right > 8) throw Error('wallet switch too far from wallet name');
                       if (toggleRect.right - walletRect.left > walletRect.width * 0.618 + 1) throw Error('wallet switch crosses golden-ratio boundary');
                       if (style(mobile.querySelector('.home11-wallet-avatar')).backgroundColor !== 'rgb(32, 48, 41)') throw Error('wallet avatar background not dark');
                       if (!walletPopup.querySelector('.home11-wallet-backdrop') || !walletPopup.querySelector('.home11-wallet-sheet')) throw Error('wallet bottom sheet absent');
                       const popupRect = walletPopup.getBoundingClientRect();
-                      if (Math.abs(popupRect.bottom - walletRect.bottom) > 2) throw Error('wallet overlay not phone-aligned');
+                      const walletSheet = walletPopup.querySelector('.home11-wallet-sheet');
+                      const actionSheet = mobile.querySelector('#home11-action-panel');
+                      if (!walletPopup.classList.contains('home11-action-overlay') || !walletSheet.classList.contains('home11-action-sheet')) throw Error('wallet sheet does not reuse Actions layout');
+                      if (style(walletSheet).borderTopLeftRadius !== style(actionSheet).borderTopLeftRadius) throw Error('wallet sheet and Actions style diverged');
+                      if (Math.abs(popupRect.bottom - walletRect.bottom) > 2 || Math.abs(walletSheet.getBoundingClientRect().bottom - walletRect.bottom) > 2) throw Error('wallet sheet not phone-bottom aligned');
                       walletPopup.querySelector('[data-wallet-index="1"]').click();
                       if (mobile.querySelector('.home11-wallet-name').textContent !== 'Wallet 2' || !walletPopup.hidden) throw Error('wallet selection failed');
                       walletToggle.click();
@@ -213,6 +219,11 @@ jobs:
                       createView.querySelector('input').value = 'Test Wallet';
                       createView.querySelector('.home11-wallet-create-submit').click();
                       if (mobile.querySelector('.home11-wallet-name').textContent !== 'Test Wallet' || !walletPopup.hidden) throw Error('demo wallet create flow failed');
+                      const actionOverlay = mobile.querySelector('.home11-action-overlay:not(.home11-wallet-selector)');
+                      mobile.querySelector('.home11-action-trigger').click();
+                      if (!actionOverlay || actionOverlay.hidden || !actionOverlay.querySelector('.gallery-app-grid')) throw Error('Actions sheet broke after wallet update');
+                      actionOverlay.querySelector('.home11-sheet-close').click();
+                      if (!actionOverlay.hidden) throw Error('Actions sheet cannot close');
                       output.textContent = 'GALLERY_DRAWER_PASS';
                     } catch (error) {
                       output.textContent = 'GALLERY_DRAWER_FAIL: ' + error.message;
