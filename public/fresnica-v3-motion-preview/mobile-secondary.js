@@ -96,6 +96,25 @@
       phone.querySelector("[data-asset-activity-title]")?.setAttribute("hidden", "");
       phone.querySelector("[data-asset-activity-list]")?.setAttribute("hidden", "");
     }
+    phone.querySelectorAll('.secondary-action[href*="mobile-send.html"],.secondary-action[href*="mobile-swap.html"]').forEach((link) => {
+      const url = new URL(link.href);
+      url.searchParams.set("asset", chosen.symbol.toLowerCase());
+      link.href = url.href;
+    });
+  }
+  if (phone.dataset.secondaryScreen === "send") {
+    const token = new URLSearchParams(location.search).get("asset")?.toUpperCase();
+    const asset = phone.querySelector("#secondary-send-asset");
+    if (asset && ["XLM", "USDC", "AQUA"].includes(token)) asset.value = token;
+  }
+  if (phone.dataset.secondaryScreen === "swap") {
+    const token = new URLSearchParams(location.search).get("asset")?.toUpperCase();
+    const from = phone.querySelector("#secondary-swap-from");
+    const to = phone.querySelector("#secondary-swap-to");
+    if (from && to && ["XLM", "USDC", "AQUA"].includes(token)) {
+      from.value = token;
+      if (to.value === token) to.value = token === "XLM" ? "USDC" : "XLM";
+    }
   }
   const transactions = {
     "received-usdc": { amount: "+250.00", asset: "USDC", description: "Received USDC", zh: "收到 USDC", kind: "Receive", date: "Nov 26, 2026" },
@@ -169,6 +188,9 @@
       }
       if (action === "review-swap") {
         const amount = phone.querySelector("#secondary-swap-amount");
+        const from = phone.querySelector("#secondary-swap-from");
+        const to = phone.querySelector("#secondary-swap-to");
+        if (from.value === to.value) { to.focus(); toast("Choose two different assets.", "请选择两种不同的资产。"); return; }
         if (!(Number(amount.value) > 0)) { amount.focus(); toast("Enter an amount greater than zero.", "请输入大于零的数量。"); return; }
         openSheet("Swap preview", "兑换预览", [
           ["From", "支付", phone.querySelector("#secondary-swap-from").value],
