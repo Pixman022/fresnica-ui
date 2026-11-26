@@ -166,6 +166,13 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
   --native-button-radius: var(--native-radius-base);
   --native-row-height: 64px;
   --native-tap-target: 44px;
+  /* Home 1.1 compact-screen overrides, without changing shared Native tokens. */
+  --home11-type-balance: 40px;
+  --home11-type-brand: 18px;
+  --home11-type-quick: 14px;
+  --home11-type-asset-supporting: 12px;
+  --home11-type-navigation: 12px;
+  container: home11-device / inline-size;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", Arial, sans-serif;
   background: var(--native-background);
   color: var(--native-content-primary);
@@ -179,7 +186,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 .home11-phone .phone-brand {
   gap: var(--native-space-sm);
   color: var(--native-content-primary);
-  font-size: var(--native-type-screen-title);
+  font-size: var(--home11-type-brand);
   font-weight: 700;
   letter-spacing: -0.03em;
 }
@@ -208,7 +215,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
   line-height: 1.4;
 }
 .home11-phone .phone-overview strong {
-  font-size: var(--native-type-display);
+  font-size: var(--home11-type-balance);
   font-weight: 700;
   letter-spacing: -0.065em;
   line-height: 1.1;
@@ -240,7 +247,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
   border-radius: var(--native-button-radius);
   background: transparent;
   color: var(--native-primary);
-  font-size: var(--native-type-action);
+  font-size: var(--home11-type-quick);
   font-weight: 600;
   line-height: 1.2;
   white-space: nowrap;
@@ -312,7 +319,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 .home11-phone .phone-asset small {
   margin-top: 3px;
   color: var(--native-content-secondary);
-  font-size: var(--native-type-supporting);
+  font-size: var(--home11-type-asset-supporting);
   line-height: 1.3;
 }
 .home11-phone .phone-asset > strong {
@@ -330,6 +337,12 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 .home11-phone .phone-asset.is-xlm > .phone-asset-amount {
   font-size: var(--native-type-supporting);
   letter-spacing: -0.03em;
+}
+/* Let the existing subtitle wrap rather than truncating next to the long XLM amount. */
+.home11-phone .phone-asset.is-xlm small {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
 }
 .home11-phone .phone-asset.is-xlm > .phone-asset-reserved {
   padding-top: var(--native-space-sm);
@@ -351,7 +364,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 .home11-phone .phone-tabs span {
   min-height: var(--native-tap-target);
   gap: var(--native-space-xs);
-  font-size: var(--native-type-supporting);
+  font-size: var(--home11-type-navigation);
   font-weight: 500;
   color: var(--native-content-secondary);
 }
@@ -360,9 +373,15 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
   font-weight: 600;
 }
 .home11-phone .phone-tabs svg { width: 20px; height: 20px; }
-@media (max-width: 370px) {
-  .home11-phone .phone-overview strong { font-size: 44px; }
-  .home11-phone .phone-quick > span { font-size: 14px; gap: 3px; }
+/* Adapt to the mock phone itself, not the surrounding browser window. */
+@container home11-device (max-width: 310px) {
+  .home11-phone .phone-overview strong { font-size: 36px; }
+  .home11-phone .phone-quick > span {
+    flex-direction: column;
+    min-height: 64px;
+    gap: 4px;
+    font-size: 13px;
+  }
 }
 </style>
 </head>
