@@ -146,7 +146,7 @@ jobs:
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.css demo-dist/fresnica-v3-motion-preview/m14-idle.css
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.js demo-dist/fresnica-v3-motion-preview/m14-idle.js
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/m15-typography.css demo-dist/fresnica-v3-motion-preview/m15-typography.css
-                  cp .v3-preview-source/public/fresnica-v3-motion-preview/m58-brand-palette.css demo-dist/fresnica-v3-motion-preview/m15-typography.css
+                  cp .v3-preview-source/public/fresnica-v3-motion-preview/m58-brand-palette.css demo-dist/fresnica-v3-motion-preview/m58-brand-palette.css
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo.svg demo-dist/fresnica-v3-motion-preview/Fresnica-logo.svg
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo-light.svg demo-dist/fresnica-v3-motion-preview/Fresnica-logo-light.svg
                   cp .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo-inverted.svg demo-dist/fresnica-v3-motion-preview/Fresnica-logo-inverted.svg
@@ -189,7 +189,7 @@ jobs:
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.css demo-dist/fresnica-v3-motion-preview/m14-idle.css
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m14-idle.js demo-dist/fresnica-v3-motion-preview/m14-idle.js
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/m15-typography.css demo-dist/fresnica-v3-motion-preview/m15-typography.css
-                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/m58-brand-palette.css demo-dist/fresnica-v3-motion-preview/m15-typography.css
+                  cmp .v3-preview-source/public/fresnica-v3-motion-preview/m58-brand-palette.css demo-dist/fresnica-v3-motion-preview/m58-brand-palette.css
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo.svg demo-dist/fresnica-v3-motion-preview/Fresnica-logo.svg
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo-light.svg demo-dist/fresnica-v3-motion-preview/Fresnica-logo-light.svg
                   cmp .v3-preview-source/public/fresnica-v3-motion-preview/Fresnica-logo-inverted.svg demo-dist/fresnica-v3-motion-preview/Fresnica-logo-inverted.svg
