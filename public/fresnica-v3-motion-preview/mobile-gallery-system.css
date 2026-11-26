@@ -106,3 +106,38 @@ html[data-demo-theme="dark"] #v3-availability .phone-network{color:#c5cec8}
 }
 @media(max-width:380px){.gallery-preferences{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.gallery-switch{transition:none!important}}
+
+/* On phones, the screen gallery stays out of the preview until requested. */
+.gallery-menu-toggle,.gallery-menu-backdrop{display:none}
+.gallery-menu-backdrop[hidden]{display:none!important}
+@media(max-width:760px){
+  .gallery-menu-toggle{
+    display:grid;place-items:center;position:fixed;z-index:1105;
+    top:max(12px,env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));
+    width:44px;height:44px;padding:0;border-radius:13px;
+    border:1px solid #42604a;background:#1b2921;color:#ecf8ef;
+    box-shadow:0 3px 15px #0004;cursor:pointer
+  }
+  .gallery-menu-toggle svg{width:21px;height:21px;display:block}
+  .gallery-menu-toggle:focus-visible{outline:2px solid #77e6ad;outline-offset:3px}
+  .gallery-menu-backdrop{display:block;position:fixed;inset:0;z-index:1101;background:rgba(8,13,10,.56)}
+  .preview-sidebar{
+    position:fixed!important;z-index:1103;inset:0 auto 0 0;
+    display:flex;width:min(86vw,300px);max-width:100%;height:100dvh!important;
+    max-height:100dvh;padding:calc(72px + env(safe-area-inset-top)) 16px max(18px,env(safe-area-inset-bottom));
+    overflow-y:auto!important;overscroll-behavior:contain;
+    border-right:1px solid #34473b;border-bottom:0;
+    background:#161c19;box-shadow:12px 0 32px #0004;
+    transform:translateX(-105%);visibility:hidden;pointer-events:none;
+    transition:transform .22s ease,visibility .22s
+  }
+  html.gallery-menu-open .preview-sidebar{
+    transform:translateX(0);visibility:visible;pointer-events:auto
+  }
+  html.gallery-menu-open,html.gallery-menu-open body{overflow:hidden}
+  .preview-stage{min-height:100dvh}
+  html.preview-immersive .gallery-menu-toggle{display:none!important}
+}
+@media(max-width:760px) and (prefers-reduced-motion:reduce){
+  .preview-sidebar{transition:none}
+}
