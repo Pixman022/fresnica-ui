@@ -1,12 +1,12 @@
 /* Shared controls for Fresnica's static mobile screen gallery (no wallet operations). */
 (() => {
   const pages = [
-    { file: "mobile-demo-1-1.html", en: "Home 1.1", zh: "首页示例 1.1", subtitle: "Wallet overview", kind: "home" },
-    { file: "mobile-activity.html", en: "Activity", zh: "交易活动", subtitle: "Transaction history", kind: "activity" },
-    { file: "mobile-dapps.html", en: "dApps", zh: "生态应用", subtitle: "App connections", kind: "dapps" },
-    { file: "mobile-settings.html", en: "Settings", zh: "设置", subtitle: "Wallet preferences", kind: "settings" },
-    { file: "mobile-demo.html", en: "Original Home", zh: "首页示例", subtitle: "Original sample", kind: "reference" },
-    { file: "wallet-home.html", en: "Wallet Home", zh: "钱包首页", subtitle: "Wallet reference", kind: "reference" },
+    { file: "mobile-demo-1-1.html", en: "Home 1.1", zh: "首页示例 1.1", subtitle: "Wallet overview", subtitleZh: "资产总览", kind: "home" },
+    { file: "mobile-activity.html", en: "Activity", zh: "交易活动", subtitle: "Transaction history", subtitleZh: "交易历史", kind: "activity" },
+    { file: "mobile-dapps.html", en: "dApps", zh: "生态应用", subtitle: "App connections", subtitleZh: "应用连接", kind: "dapps" },
+    { file: "mobile-settings.html", en: "Settings", zh: "设置", subtitle: "Wallet preferences", subtitleZh: "钱包偏好设置", kind: "settings" },
+    { file: "mobile-demo.html", en: "Original Home", zh: "首页示例", subtitle: "Original sample", subtitleZh: "原始示例", kind: "reference" },
+    { file: "wallet-home.html", en: "Wallet Home", zh: "钱包首页", subtitle: "Wallet reference", subtitleZh: "钱包参考页", kind: "reference" },
   ];
   const file = location.pathname.split("/").pop() || "mobile-demo-1-1.html";
   const current = pages.find((item) => item.file === file) || pages[0];
@@ -46,6 +46,13 @@
     "View preferences from the gallery menu.": "可在左侧示例菜单中调整语言与主题。",
     "Illustrative transactions": "示例交易记录",
     "Preview only": "仅界面预览",
+    "WALLET / ACTIVITY": "钱包 / 活动", "STELLAR / APPS": "STELLAR / 应用", "WALLET / SETTINGS": "钱包 / 设置",
+    "Mainnet": "主网", "Nov 26": "11月26日", "Nov 25": "11月25日",
+    "Received · USDC": "收到 · USDC", "Sent · XLM": "发送 · XLM",
+    "Swapped · XLM / USDC": "兑换 · XLM / USDC", "Received · XLM": "收到 · XLM",
+    "Illustrative transactions": "示例交易记录",
+    "Network status": "网络状态", "Wallet actions": "钱包操作", "Balance": "余额",
+    "My assets": "我的资产", "Recent transactions": "最近交易", "No transactions yet": "暂无交易",
   };
   const ico = {
     home: '<path d="M3 10 12 3l9 7v11h-7v-8h-4v8H3z"/>',
@@ -71,7 +78,7 @@
         '<a href="./' + item.file + '"' + (item.file === current.file ? ' class="is-current" aria-current="page"' : '') + '>' +
         '<span class="preview-nav-icon">' + icon(item.kind) + '</span>' +
         '<span class="preview-nav-copy"><strong data-gallery-en="' + item.en + '" data-gallery-zh="' + item.zh + '">' + item.en + '</strong>' +
-        '<small>' + item.subtitle + '</small></span></a>'
+        '<small data-gallery-en="' + item.subtitle + '" data-gallery-zh="' + item.subtitleZh + '">' + item.subtitle + '</small></span></a>'
       ).join("");
     }
     const preferences = document.createElement("section");
