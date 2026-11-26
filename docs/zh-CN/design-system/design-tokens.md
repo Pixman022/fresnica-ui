@@ -4,9 +4,11 @@
 
 ## 品牌与语义色
 
+2026-11-26 已确认 1.1.0 版本的双主题品牌配色；详见[配色迁移记录](brand-palette-2026-11-26.md)。
+
 | 角色 | 浅色 | 深色 | 浅色 hover | 深色 hover |
 | --- | --- | --- | --- | --- |
-| 主色 | `#00A875` | `#00CA8A` | `#00CA8A` | `#32DFA4` |
+| 主色 | `#0F7954` | `#00CA8A` | `#0D724F` | `#32DFA4` |
 | 成功（已完成状态） | `#00CA8A` | `#00CA8A` | `#19BD8A` | `#19BD8A` |
 | 失败（交易 / 请求） | `#C73945` | `#C73945` | `#DD5662` | `#DD5662` |
 | 警告 | `#9A6700` | `#F59E0B` | `#B47B00` | `#F7C35F` |
@@ -18,7 +20,7 @@
 | 下跌（资产变化） | `#B42318` | `#FF7A86` | `#D92D20` | `#FF9AA3` |
 | 高风险 | `#7A271A` | `#FF9B85` | `#9E2F20` | `#FFB5A3` |
 
-主色 active 在浅色模式为 `#008F65`，深色模式为 `#00A875`。所有主色实心控件使用 `--Fresnica-on-primary-color: #FFFFFF`。主色属于强调 Token，不是普通图标或信息的默认颜色；普通图标、元数据、辅助操作和预计数值使用中性表面/文字色阶。
+主色 active 在浅色模式为 `#0C6748`，深色模式为 `#00A875`。主色实心控件在浅色模式使用 `--Fresnica-on-primary-color: #FFFFFF`，在深色模式使用 `#101312` 深色文字，避免亮绿色按钮上的白字对比度不足。主色属于强调 Token，不是普通图标或信息的默认颜色；普通图标、元数据、辅助操作和预计数值使用中性表面/文字色阶。
 
 Inverse 操作在浅色模式使用 `#111214` 配白字，深色模式使用白色配 `#111214` 文字。仅用于 Swap 等少数核心操作。
 
@@ -41,15 +43,15 @@ Inverse 操作在浅色模式使用 `#111214` 配白字，深色模式使用白�
 
 | Token | 浅色 | 深色 |
 | --- | --- | --- |
-| `--Fresnica-bg-color` | `#F9F9FB` | `#222226` |
-| `--Fresnica-bg-color-secondary` | `#F3F3F5` | `#1A1A1E` |
-| `--Fresnica-surface-lowest` | `#FFFFFF` | `#0E0E10` |
-| `--Fresnica-surface` | `#FFFFFF` | `#222226` |
-| `--Fresnica-surface-high` | `#EDEEF0` | `#2A2A30` |
-| `--Fresnica-surface-highest` | `#E8E8EA` | `#34343C` |
-| `--Fresnica-text-color` | `#1A1C1D` | `#F5F5F7` |
-| `--Fresnica-text-color-secondary` | `#3F4942` | `#A0A0A5` |
-| `--Fresnica-border-color` | `#E3E3E5` | `#2E2E34` |
+| `--Fresnica-bg-color` | `#F9F9FB` | `#101312` |
+| `--Fresnica-bg-color-secondary` | `#F3F3F5` | `#171B19` |
+| `--Fresnica-surface-lowest` | `#FFFFFF` | `#101312` |
+| `--Fresnica-surface` | `#FFFFFF` | `#171B19` |
+| `--Fresnica-surface-high` | `#EDEEF0` | `#202623` |
+| `--Fresnica-surface-highest` | `#E8E8EA` | `#29332E` |
+| `--Fresnica-text-color` | `#1A1C1D` | `#F4F7F5` |
+| `--Fresnica-text-color-secondary` | `#3F4942` | `#C5CEC8` |
+| `--Fresnica-border-color` | `#E3E3E5` | `#303934` |
 
 `--Fresnica-surface-lowest` 是为应用外壳或全屏背景保留的公开画布 Token，当前没有组件库消费者是有意为之。组件应根据层级使用 `--Fresnica-surface`、`--Fresnica-surface-low`、`--Fresnica-surface-high` 或 `--Fresnica-surface-highest`，不能把 `surface-lowest` 当作通用白色/黑色替代值。
 

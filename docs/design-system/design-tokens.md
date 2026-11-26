@@ -4,9 +4,11 @@ The canonical implementation is `src/styles/variables.less` plus `src/styles/the
 
 ## Brand and semantic colors
 
+The 1.1.0 dual-theme brand palette was approved on 2026-11-26. See [the palette migration decision](brand-palette-2026-11-26.md).
+
 | Role | Light | Dark | Light hover | Dark hover |
 | --- | --- | --- | --- | --- |
-| Primary | `#00A875` | `#00CA8A` | `#00CA8A` | `#32DFA4` |
+| Primary | `#0F7954` | `#00CA8A` | `#0D724F` | `#32DFA4` |
 | Success (completed state) | `#00CA8A` | `#00CA8A` | `#19BD8A` | `#19BD8A` |
 | Failure (transaction/request) | `#C73945` | `#C73945` | `#DD5662` | `#DD5662` |
 | Warning | `#9A6700` | `#F59E0B` | `#B47B00` | `#F7C35F` |
@@ -18,7 +20,7 @@ The canonical implementation is `src/styles/variables.less` plus `src/styles/the
 | Loss (asset change) | `#B42318` | `#FF7A86` | `#D92D20` | `#FF9AA3` |
 | High risk | `#7A271A` | `#FF9B85` | `#9E2F20` | `#FFB5A3` |
 
-Primary active is `#008F65` in light mode and `#00A875` in dark mode. Every primary filled control uses `--Fresnica-on-primary-color: #FFFFFF`. Primary is an emphasis token, not a default icon or information color: ordinary icons, metadata, helper actions and estimated values use the neutral surface/text scale.
+Primary active is `#0C6748` in light mode and `#00A875` in dark mode. Filled primary controls use `--Fresnica-on-primary-color: #FFFFFF` in light mode and `#101312` in dark mode; do not use white text on the bright dark-mode green. Primary is an emphasis token, not a default icon or information color: ordinary icons, metadata, helper actions and estimated values use the neutral surface/text scale.
 
 Inverse actions use `#111214` with white text in light mode and white with `#111214` text in dark mode. Reserve this treatment for Swap and similarly rare core actions.
 
@@ -41,15 +43,15 @@ Compact status labels use a background plus an explicit `on-*-container` foregro
 
 | Token | Light | Dark |
 | --- | --- | --- |
-| `--Fresnica-bg-color` | `#F9F9FB` | `#222226` |
-| `--Fresnica-bg-color-secondary` | `#F3F3F5` | `#1A1A1E` |
-| `--Fresnica-surface-lowest` | `#FFFFFF` | `#0E0E10` |
-| `--Fresnica-surface` | `#FFFFFF` | `#222226` |
-| `--Fresnica-surface-high` | `#EDEEF0` | `#2A2A30` |
-| `--Fresnica-surface-highest` | `#E8E8EA` | `#34343C` |
-| `--Fresnica-text-color` | `#1A1C1D` | `#F5F5F7` |
-| `--Fresnica-text-color-secondary` | `#3F4942` | `#A0A0A5` |
-| `--Fresnica-border-color` | `#E3E3E5` | `#2E2E34` |
+| `--Fresnica-bg-color` | `#F9F9FB` | `#101312` |
+| `--Fresnica-bg-color-secondary` | `#F3F3F5` | `#171B19` |
+| `--Fresnica-surface-lowest` | `#FFFFFF` | `#101312` |
+| `--Fresnica-surface` | `#FFFFFF` | `#171B19` |
+| `--Fresnica-surface-high` | `#EDEEF0` | `#202623` |
+| `--Fresnica-surface-highest` | `#E8E8EA` | `#29332E` |
+| `--Fresnica-text-color` | `#1A1C1D` | `#F4F7F5` |
+| `--Fresnica-text-color-secondary` | `#3F4942` | `#C5CEC8` |
+| `--Fresnica-border-color` | `#E3E3E5` | `#303934` |
 
 `--Fresnica-surface-lowest` is the reserved public canvas token for an app shell or full-screen background. It intentionally has no component-library consumer yet. Components must use `--Fresnica-surface`, `--Fresnica-surface-low`, `--Fresnica-surface-high`, or `--Fresnica-surface-highest` according to their layer; do not use `surface-lowest` as a generic white/black replacement.
 
