@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive" />
   <meta name="referrer" content="no-referrer" />
   <meta name="description" content="A standalone copy of the Fresnica mobile wallet interface preview." />
-  <title>Fresnica — Mobile Wallet Preview</title>
+  <title>Fresnica — Home Screen Preview</title>
   <link rel="stylesheet" href="./m15-typography.css" />
   <style>
     /* Standalone mobile preview. Icon source: Lucide (https://lucide.dev), ISC License. */
@@ -52,7 +52,7 @@
 #v3-availability .phone-network{color:var(--preview-text-secondary);font-size:9px;font-weight:600;}
 #v3-availability .phone-overview{margin-top:clamp(25px,3.4vh,34px);}
 #v3-availability .phone-label{font-size:9px;color:var(--preview-text-secondary);letter-spacing:.105em;font-weight:650;}
-#v3-availability .phone-overview strong{display:block;font-size:clamp(31px,3vw,39px);font-weight:560;letter-spacing:-.065em;margin:9px 0 10px;}
+#v3-availability .phone-overview strong{display:block;font-size:clamp(27px,2.8vw,34px);font-weight:560;letter-spacing:-.065em;margin:9px 0 10px;}
 #v3-availability .phone-overview strong small{font-size:13px;color:var(--preview-text-secondary);font-weight:550;letter-spacing:0;}
 #v3-availability .phone-overview p{font-size:10px;color:var(--preview-text-secondary);margin:0;}
 #v3-availability .phone-quick{display:flex;gap:8px;margin-top:clamp(23px,3.4vh,34px);}
@@ -79,6 +79,18 @@
 #v3-availability .phone-asset b{display:block;font-size:11px;font-weight:650;}
 #v3-availability .phone-asset small{display:block;font-size:9px;color:var(--preview-text-secondary);margin-top:3px;}
 #v3-availability .phone-asset strong{font-size:12px;font-weight:600;}
+#v3-availability .phone-asset.is-xlm{flex-wrap:wrap;row-gap:7px;}
+#v3-availability .phone-asset.is-xlm > .phone-asset-amount{
+  flex:none;white-space:nowrap;font-size:10px;letter-spacing:-.045em;font-variant-numeric:tabular-nums;
+}
+#v3-availability .phone-asset.is-xlm .phone-asset-reserved{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;flex:1 0 100%;
+  padding-left:40px;color:var(--preview-text-secondary);font-size:9px;
+}
+#v3-availability .phone-asset-reserved span{display:inline-flex;align-items:center;gap:4px;}
+#v3-availability .phone-asset-reserved svg{display:block;width:11px;height:11px;flex:none;}
+#v3-availability .phone-asset-reserved strong{font-size:9px;font-weight:600;}
+
 #v3-availability .phone-tabs{
   display:flex;justify-content:space-around;gap:8px;margin-top:auto;
   padding-top:17px;font-size:9px;color:var(--preview-text-secondary);
@@ -159,15 +171,14 @@
   <div class="preview-sidebar-title"><span class="eyebrow">FRESNICA / UI</span><strong>界面示例</strong><p>Mobile interface gallery</p></div>
   <div class="preview-menu-label">PAGES</div>
   <nav class="preview-nav" aria-label="切换示例页面">
-    <a href="./mobile-demo.html" class="is-current" aria-current="page"><span class="preview-nav-icon"><svg class="lucide lucide-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span><span class="preview-nav-copy"><strong>原有示例</strong><small>Mobile wallet preview</small></span></a>
+    <a href="./mobile-demo.html" class="is-current" aria-current="page"><span class="preview-nav-icon"><svg class="lucide lucide-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span><span class="preview-nav-copy"><strong>首页示例</strong><small>Home screen preview</small></span></a>
     <a href="./wallet-home.html" class=""><span class="preview-nav-icon"><svg class="lucide lucide-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span class="preview-nav-copy"><strong>钱包首页</strong><small>SuperWallet / Tokens</small></span></a>
-    <a href="./mobile-demo-green.html" class=""><span class="preview-nav-icon"><svg class="lucide lucide-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 22a10 10 0 1 1 10-10c0 1.66-1.34 3-3 3h-2.4a2 2 0 0 0-2 2v2a3 3 0 0 1-3 3Z"/></svg></span><span class="preview-nav-copy"><strong>原有示例 · 深绿版</strong><small>#0F7954 / Green</small></span></a>
   </nav>
   <p class="preview-sidebar-foot">STELLAR / FRESNICA</p>
 </aside>
 <div class="preview-stage">
-  <main id="v3-availability" aria-label="Fresnica mobile wallet interface preview">
-    <h1 class="sr-only">Fresnica mobile wallet interface preview</h1>
+  <main id="v3-availability" aria-label="Fresnica home screen preview">
+    <h1 class="sr-only">Fresnica home screen preview</h1>
 <div class="download-art" aria-label="Fresnica mobile wallet interface">
     <div class="download-phone">
       <span class="phone-island" aria-hidden="true"></span>
@@ -220,13 +231,13 @@
     </g>
   </g>
 </svg></span>Fresnica</span><span class="phone-network">STELLAR / WALLET</span></div>
-      <div class="phone-overview"><span class="phone-label">WALLET / OVERVIEW</span><strong>1,248.50 <small>XLM</small></strong><p>Stellar assets, all in view.</p></div>
+      <div class="phone-overview"><span class="phone-label">WALLET / OVERVIEW</span><strong>546,213.02 <small>XLM</small></strong><p>Stellar assets, all in view.</p></div>
       <div class="phone-quick"><span><span class="phone-quick-icon"><svg class="lucide lucide-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" /><path d="M7 17 17 7" /></svg></span>Send</span><span><span class="phone-quick-icon"><svg class="lucide lucide-arrow-down-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7 7 17" /><path d="M17 17H7V7" /></svg></span>Receive</span><span><span class="phone-quick-icon"><svg class="lucide lucide-arrow-left-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4" /><path d="M4 7h16" /><path d="m16 21 4-4-4-4" /><path d="M20 17H4" /></svg></span>Swap</span></div>
       <div class="phone-list">
         <div class="phone-list-header"><b>Your assets</b><span>Portfolio</span></div>
-        <div class="phone-asset"><span class="phone-asset-icon"><svg class="stellar-xlm-logo" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="2449.41" height="2033.372" viewBox="0 0 2449.41 2033.372">
+        <div class="phone-asset is-xlm"><span class="phone-asset-icon"><svg class="stellar-xlm-logo" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="2449.41" height="2033.372" viewBox="0 0 2449.41 2033.372">
   <path id="路径_803" data-name="路径 803" d="M2103.7,266.085,1808.771,413.514l-1424.2,711.73A815.412,815.412,0,0,1,489.895,603.3c73.575-125.778,179.364-230.514,306.887-303.835a862.609,862.609,0,0,1,842.653-8.568l168.812-84.39,25.184-12.608C1678.783,83.77,1496.119,17.739,1305.619,3.1A1053.3,1053.3,0,0,0,753.966,110.95C583.732,196.113,440.814,325.8,341,485.669a1002.469,1002.469,0,0,0-152.6,531.189q0,38.832,3.006,77.375a182.071,182.071,0,0,1-23.636,104.561,186.985,186.985,0,0,1-78.751,74.184L0,1317.511v207.722l262.082-131.059,84.873-42.5,83.63-41.789,1501.4-750.569L2100.7,475.027,2449.41,300.654V93.034ZM2449.41,508.572,515.873,1474.49l-168.71,84.492L0,1732.542v207.519l344.779-172.34,294.932-147.429L2065.36,907.549a832.228,832.228,0,0,1,7.25,109.4,820.369,820.369,0,0,1-112.531,413.755c-73.652,125.929-179.582,230.771-307.294,304.118a862.621,862.621,0,0,1-843.537,7.68l-10.363,5.389L615.876,1839.4c154.609,110.122,337.243,176.172,527.712,190.844a1053.177,1053.177,0,0,0,551.6-107.705c170.236-85.1,313.175-214.722,413.028-374.54a1002.454,1002.454,0,0,0,152.794-531.049c0-26.131-1.04-52.261-3.011-78.087a182.182,182.182,0,0,1,23.612-104.538,187.037,187.037,0,0,1,78.673-74.211l89.122-44.534Z" transform="translate(0 0.003)" fill="#0f0f0f" fill-rule="evenodd"/>
-</svg></span><div><b>XLM</b><small>Stellar native asset</small></div><strong>1,248.50</strong></div>
+</svg></span><div><b>XLM</b><small>Stellar native asset</small></div><strong class="phone-asset-amount">546,213.0231432</strong><span class="phone-asset-reserved"><span><svg class="lucide lucide-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Reserved</span><strong>12 XLM</strong></span></div>
         <div class="phone-asset"><span class="phone-asset-icon"><svg class="lucide lucide-circle-dollar-sign" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" /><path d="M12 18V6" /></svg></span><div><b>USDC</b><small>Stellar-issued asset</small></div><strong>250.00</strong></div>
         <div class="phone-asset"><span class="phone-asset-icon"><svg class="lucide lucide-waves-horizontal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12q2.5 2 5 0t5 0 5 0 5 0" /><path d="M2 19q2.5 2 5 0t5 0 5 0 5 0" /><path d="M2 5q2.5 2 5 0t5 0 5 0 5 0" /></svg></span><div><b>AQUA</b><small>Stellar-issued asset</small></div><strong>860.00</strong></div>
       </div>
