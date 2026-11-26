@@ -124,6 +124,51 @@ jobs:
                       grep -Fq 'aria-controls="gallery-screen-menu"' "/tmp/gallery-$page"
                       grep -Fq 'class="gallery-menu-backdrop"' "/tmp/gallery-$page"
                   done
+                  # Exercise the actual drawer in a 390px iframe and verify the desktop menu.
+                  cat > demo-dist/gallery-drawer-smoke.html <<'HTML'
+                  <!doctype html><html lang="en"><head><meta charset="utf-8"></head><body>
+                  <div id="result">PENDING</div>
+                  <iframe id="phone" title="phone preview" src="./fresnica-v3-motion-preview/mobile-demo-1-1.html" style="width:390px;height:740px"></iframe>
+                  <iframe id="desktop" title="desktop preview" src="./fresnica-v3-motion-preview/mobile-demo-1-1.html" style="width:1100px;height:740px"></iframe>
+                  <script>
+                  window.addEventListener('load', () => {
+                    const output = document.getElementById('result');
+                    try {
+                      const mobile = document.getElementById('phone').contentDocument;
+                      const desktop = document.getElementById('desktop').contentDocument;
+                      const toggle = mobile.querySelector('.gallery-menu-toggle');
+                      const aside = mobile.querySelector('#gallery-screen-menu');
+                      const backdrop = mobile.querySelector('.gallery-menu-backdrop');
+                      const root = mobile.documentElement;
+                      const style = (element) => mobile.defaultView.getComputedStyle(element);
+                      if (!toggle || !aside || !backdrop) throw Error('missing drawer elements');
+                      if (!mobile.defaultView.matchMedia('(max-width: 760px)').matches) throw Error('mobile viewport mismatch');
+                      if (style(toggle).display === 'none' || style(aside).visibility !== 'hidden') throw Error('mobile menu not collapsed');
+                      if (aside.querySelectorAll('.gallery-switch').length !== 4) throw Error('gallery preferences missing');
+                      toggle.click();
+                      if (!root.classList.contains('gallery-menu-open') || toggle.getAttribute('aria-expanded') !== 'true') throw Error('cannot open drawer');
+                      if (style(aside).visibility !== 'visible' || backdrop.hidden) throw Error('drawer not visible');
+                      mobile.dispatchEvent(new mobile.defaultView.KeyboardEvent('keydown', {key: 'Escape', bubbles: true, cancelable: true}));
+                      if (root.classList.contains('gallery-menu-open')) throw Error('Escape did not close drawer');
+                      toggle.click();
+                      backdrop.click();
+                      if (root.classList.contains('gallery-menu-open') || toggle.getAttribute('aria-expanded') !== 'false') throw Error('backdrop did not close drawer');
+                      root.classList.add('preview-immersive');
+                      if (style(toggle).display !== 'none') throw Error('fullscreen control overlap');
+                      root.classList.remove('preview-immersive');
+                      const desktopToggle = desktop.querySelector('.gallery-menu-toggle');
+                      if (!desktopToggle || desktop.defaultView.getComputedStyle(desktopToggle).display !== 'none') throw Error('desktop toggle visible');
+                      if (desktop.defaultView.getComputedStyle(desktop.querySelector('.preview-sidebar')).visibility !== 'visible') throw Error('desktop menu hidden');
+                      output.textContent = 'GALLERY_DRAWER_PASS';
+                    } catch (error) {
+                      output.textContent = 'GALLERY_DRAWER_FAIL: ' + error.message;
+                    }
+                  });
+                  </script></body></html>
+                  HTML
+                  "$chrome" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --window-size=460,850 --virtual-time-budget=7000 --dump-dom "http://127.0.0.1:4178/gallery-drawer-smoke.html" 2>/tmp/gallery-drawer-chrome.log >/tmp/gallery-drawer-result.html
+                  grep -Fq 'GALLERY_DRAWER_PASS' /tmp/gallery-drawer-result.html
+                  rm demo-dist/gallery-drawer-smoke.html
 
             - name: Configure Pages
               uses: actions/configure-pages@v6
