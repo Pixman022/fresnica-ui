@@ -190,3 +190,34 @@ html[data-demo-theme="dark"] #v3-availability .phone-network{color:#c5cec8}
 .home11-phone .gallery-preview-notice{position:absolute;z-index:25;bottom:90px;left:50%;max-width:calc(100% - 30px);padding:9px 15px;border-radius:999px;background:var(--native-content-primary);color:var(--native-background);font-size:11px;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transform:translate(-50%,8px);transition:opacity .18s ease,transform .18s ease}
 .home11-phone .gallery-preview-notice.is-visible{opacity:1;transform:translate(-50%,0)}
 @media(prefers-reduced-motion:reduce){.home11-phone .gallery-preview-notice{transition:none}}
+
+/* Wallet identity occupies the Home 1.1 header without displacing Mainnet. */
+.home11-phone .home11-wallet-header{position:relative;gap:7px}
+.home11-phone .home11-wallet-summary{display:flex;align-items:center;gap:7px;flex:1;min-width:0}
+.home11-phone .home11-wallet-avatar{display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:50%;background:var(--native-background);color:var(--native-primary)}
+.home11-phone .home11-wallet-avatar svg{display:block;width:21px;height:21px}
+.home11-phone .home11-wallet-identity{display:flex;flex-direction:column;justify-content:center;gap:4px;flex:1;min-width:0}
+.home11-phone .home11-wallet-name{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:700;line-height:1.15}
+.home11-phone .home11-wallet-address{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;font-weight:500;line-height:1.1;color:var(--native-content-secondary)}
+.home11-phone .home11-wallet-switch{display:grid;place-items:center;flex:none;width:34px;height:36px;padding:0;border:0;border-radius:10px;background:transparent;color:var(--native-content-secondary);cursor:pointer}
+.home11-phone .home11-wallet-switch svg{display:block;width:18px;height:18px}
+.home11-phone .home11-wallet-switch:hover,.home11-phone .home11-wallet-switch[aria-expanded="true"]{background:var(--native-background);color:var(--native-primary)}
+.home11-phone .home11-wallet-switch:focus-visible,.home11-phone .home11-wallet-option:focus-visible{outline:2px solid var(--native-primary);outline-offset:2px}
+.home11-phone .home11-wallet-selector{position:absolute;z-index:10;top:calc(100% + 4px);left:var(--native-space-lg);width:min(255px,calc(100% - 32px));padding:10px;border:1px solid var(--native-separator);border-radius:16px;background:var(--native-surface);box-shadow:0 12px 30px #0002}
+.home11-phone .home11-wallet-selector[hidden]{display:none}
+.home11-phone .home11-wallet-selector-title{margin:2px 5px 7px;color:var(--native-content-secondary);font-size:11px;font-weight:600}
+.home11-phone .home11-wallet-option{display:flex;align-items:center;gap:9px;width:100%;min-height:51px;padding:7px;border:0;border-radius:11px;background:transparent;color:var(--native-content-primary);text-align:left;font:inherit;cursor:pointer}
+.home11-phone .home11-wallet-option.is-selected{background:var(--native-background)}
+.home11-phone .home11-wallet-option-avatar{display:grid;place-items:center;flex:none;width:32px;height:32px;border-radius:50%;background:var(--native-background);color:var(--native-primary);font-size:12px;font-weight:700}
+.home11-phone .home11-wallet-option-details{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.home11-phone .home11-wallet-option-details strong{font-size:12px;font-weight:650}
+.home11-phone .home11-wallet-option-details small{font-size:9px;color:var(--native-content-secondary)}
+.home11-phone .home11-wallet-check{display:none;flex:none;width:16px;height:16px;fill:none;stroke:var(--native-primary);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.home11-phone .home11-wallet-option.is-selected .home11-wallet-check{display:block}
+@container home11-device (max-width:340px){
+  .home11-phone .home11-wallet-header{gap:4px}
+  .home11-phone .home11-wallet-summary{gap:5px}
+  .home11-phone .home11-wallet-avatar{width:30px;height:30px}
+  .home11-phone .home11-wallet-switch{width:28px}
+  .home11-phone .phone-network{font-size:8px;gap:3px}
+}
