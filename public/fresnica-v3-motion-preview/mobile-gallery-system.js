@@ -25,6 +25,7 @@
     "Wallet main navigation": "钱包主导航",
     "FULLSCREEN": "全屏", "Fullscreen": "全屏", "Exit fullscreen": "退出全屏",
     "Activity history": "交易记录", "Transaction history": "交易记录",
+    "Filter activity": "筛选交易", "All activity": "全部记录", "Transaction type": "交易类型", "Close filter": "关闭筛选",
     "Your wallet activity": "钱包活动记录", "Recent activity": "最近活动",
     "Today": "今天", "Yesterday": "昨天", "Earlier": "更早",
     "Received USDC": "收到 USDC", "Sent XLM": "发送 XLM", "Swapped XLM to USDC": "XLM 兑换 USDC",
