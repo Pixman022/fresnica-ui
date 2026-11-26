@@ -209,7 +209,8 @@ jobs:
                       const actionSheet = mobile.querySelector('#home11-action-panel');
                       if (!walletPopup.classList.contains('home11-action-overlay') || !walletSheet.classList.contains('home11-action-sheet')) throw Error('wallet sheet does not reuse Actions layout');
                       if (style(walletSheet).borderTopLeftRadius !== style(actionSheet).borderTopLeftRadius) throw Error('wallet sheet and Actions style diverged');
-                      if (Math.abs(popupRect.bottom - walletRect.bottom) > 2 || Math.abs(walletSheet.getBoundingClientRect().bottom - walletRect.bottom) > 2) throw Error('wallet sheet not phone-bottom aligned');
+                      const walletBottom = walletRect.bottom - Number.parseFloat(style(walletPhone).borderBottomWidth);
+                      if (Math.abs(popupRect.bottom - walletBottom) > 2 || Math.abs(walletSheet.getBoundingClientRect().bottom - walletBottom) > 2) throw Error('wallet sheet not phone-bottom aligned');
                       walletPopup.querySelector('[data-wallet-index="1"]').click();
                       if (mobile.querySelector('.home11-wallet-name').textContent !== 'Wallet 2' || !walletPopup.hidden) throw Error('wallet selection failed');
                       walletToggle.click();
