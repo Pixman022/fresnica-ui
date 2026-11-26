@@ -65,6 +65,19 @@ jobs:
                   grep -Fq 'data-icon-source="Fresnica-logo(1).svg"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   grep -Fq 'data:image/svg+xml;charset=utf-8,' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   grep -Fq '<span class="phone-network"><span class="phone-network-dot" aria-hidden="true"></span>Stellar Mainnet</span>' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  # The gallery shares one preview menu and uses real links for
+                  # Home / Activity / dApps / Settings; Actions stays a bottom sheet.
+                  for page in mobile-demo.html mobile-demo-1-1.html wallet-home.html mobile-activity.html mobile-dapps.html mobile-settings.html; do
+                      test -s "$source/fresnica-v3-motion-preview/$page"
+                      grep -Fq 'mobile-gallery-system.css' "$source/fresnica-v3-motion-preview/$page"
+                      grep -Fq 'mobile-gallery-system.js' "$source/fresnica-v3-motion-preview/$page"
+                  done
+                  test -s "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
+                  test -s "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  node --check "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  grep -Fq 'class="gallery-screen-title">Activity</h1>' "$source/fresnica-v3-motion-preview/mobile-activity.html"
+                  grep -Fq 'class="gallery-screen-title">dApps</h1>' "$source/fresnica-v3-motion-preview/mobile-dapps.html"
+                  grep -Fq 'class="gallery-screen-title">Settings</h1>' "$source/fresnica-v3-motion-preview/mobile-settings.html"
                   test -s "$source/fresnica-v3-orb-demo/index.html"
                   mkdir -p demo-dist/fresnica-v3-motion-preview demo-dist/fresnica-v3-orb-demo
                   cp -a "$source/fresnica-v3-motion-preview/." demo-dist/fresnica-v3-motion-preview/
@@ -72,8 +85,29 @@ jobs:
                   cmp "$source/fresnica-v3-motion-preview/index.html" demo-dist/fresnica-v3-motion-preview/index.html
                   cmp "$source/fresnica-v3-motion-preview/m58-brand-palette.css" demo-dist/fresnica-v3-motion-preview/m58-brand-palette.css
                   cmp "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html" demo-dist/fresnica-v3-motion-preview/mobile-demo-1-1.html
+                  for file in mobile-activity.html mobile-dapps.html mobile-settings.html mobile-gallery-system.css mobile-gallery-system.js; do
+                      cmp "$source/fresnica-v3-motion-preview/$file" "demo-dist/fresnica-v3-motion-preview/$file"
+                  done
                   cmp "$source/fresnica-v3-motion-preview/Fresnica-logo-actions.svg" demo-dist/fresnica-v3-motion-preview/Fresnica-logo-actions.svg
                   cmp public/fresnica-website-preview/index.html demo-dist/fresnica-website-preview/index.html
+
+            - name: Verify mobile gallery navigation in Chromium
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  python3 -m http.server 4178 --bind 127.0.0.1 --directory demo-dist >/tmp/gallery-preview.log 2>&1 &
+                  server_pid=$!
+                  trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+                  chrome="$(command -v google-chrome-stable || command -v google-chrome || command -v chromium-browser || command -v chromium || true)"
+                  test -n "$chrome"
+                  for page in mobile-demo-1-1.html mobile-activity.html mobile-dapps.html mobile-settings.html; do
+                      url="http://127.0.0.1:4178/fresnica-v3-motion-preview/$page"
+                      "$chrome" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=1800 --dump-dom "$url" 2>/tmp/gallery-chrome.log >"/tmp/gallery-$page"
+                      grep -Fq 'class="gallery-preferences"' "/tmp/gallery-$page"
+                      grep -Fq 'href="./mobile-activity.html"' "/tmp/gallery-$page"
+                      grep -Fq 'href="./mobile-dapps.html"' "/tmp/gallery-$page"
+                      grep -Fq 'href="./mobile-settings.html"' "/tmp/gallery-$page"
+                  done
 
             - name: Configure Pages
               uses: actions/configure-pages@v6
