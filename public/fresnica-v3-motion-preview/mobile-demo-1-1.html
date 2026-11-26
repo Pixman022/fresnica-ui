@@ -461,7 +461,7 @@ html.preview-immersive .preview-fullscreen-toggle .preview-exit-icon{display:blo
 </style>
 <style id="home11-product-navigation">
 /* Product architecture: Home / Activity / Actions / dApps / Settings.
-   This screen is a standalone visual prototype; destination routes are not faked. */
+   The gallery script supplies routes for the four destination tabs; Actions is a sheet. */
 .home11-phone .phone-tabs{
   grid-template-columns:repeat(5,minmax(0,1fr));
   align-items:center;
@@ -531,6 +531,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
   padding-bottom:max(26px,calc(env(safe-area-inset-bottom) + 16px));
 }
 </style>
+<link rel="stylesheet" href="./mobile-gallery-system.css" />
 </head>
 <body>
 <div class="preview-shell">
@@ -723,5 +724,6 @@ html.preview-immersive .home11-phone .home11-action-sheet{
   });
 })();
 </script>
+<script src="./mobile-gallery-system.js" defer></script>
 </body>
 </html>
