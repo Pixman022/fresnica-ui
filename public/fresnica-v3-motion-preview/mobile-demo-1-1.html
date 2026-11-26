@@ -558,8 +558,9 @@ html.preview-immersive .home11-phone .home11-action-sheet{
       <div class="phone-header home11-wallet-header">
   <div class="home11-wallet-summary">
     <span class="home11-wallet-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 20c.5-4.2 3-6.4 6.5-6.4s6 2.2 6.5 6.4"/></svg></span>
-    <span class="home11-wallet-identity"><strong class="home11-wallet-name">SuperWallet</strong><small class="home11-wallet-address">GB3U…EH3W</small></span>
-    <button type="button" class="home11-wallet-switch" aria-label="切换钱包 / Switch wallet" title="切换钱包 / Switch wallet" aria-expanded="false" aria-controls="home11-wallet-selector" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h18"/><path d="m7 22-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg></button>
+    <span class="home11-wallet-identity"><span class="home11-wallet-name-row"><strong class="home11-wallet-name">SuperWallet</strong>
+    <button type="button" class="home11-wallet-switch" aria-label="切换钱包 / Switch wallet" title="切换钱包 / Switch wallet" aria-expanded="false" aria-controls="home11-wallet-selector" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h18"/><path d="m7 22-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg></button></span>
+    <small class="home11-wallet-address">GB3U…EH3W</small></span>
   </div>
 <span class="phone-network"><span class="phone-network-dot" aria-hidden="true"></span>Stellar Mainnet</span></div>
       <div class="home11-scroll">
@@ -581,10 +582,10 @@ html.preview-immersive .home11-phone .home11-action-sheet{
   <span class="home11-nav-item"><svg class="lucide lucide-grid-2x2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>dApps</span>
   <span class="home11-nav-item"><svg class="lucide lucide-sliders-horizontal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><path d="M13 4v6M7 14v6"/></svg>Settings</span>
 </nav>
-<div id="home11-wallet-selector" class="home11-wallet-selector" hidden>
-  <div class="home11-wallet-backdrop" data-wallet-dismiss="true"></div>
-  <section class="home11-wallet-sheet" role="dialog" aria-modal="true" aria-labelledby="home11-wallet-sheet-title">
-    <span class="home11-wallet-handle" aria-hidden="true"></span>
+<div id="home11-wallet-selector" class="home11-wallet-selector home11-action-overlay" hidden>
+  <div class="home11-wallet-backdrop home11-action-backdrop" data-wallet-dismiss="true"></div>
+  <section class="home11-wallet-sheet home11-action-sheet" role="dialog" aria-modal="true" aria-labelledby="home11-wallet-sheet-title">
+    <span class="home11-wallet-handle home11-action-handle" aria-hidden="true"></span>
     <div class="home11-wallet-list-view">
       <div class="home11-wallet-sheet-heading">
         <h2 id="home11-wallet-sheet-title">Wallets</h2>
@@ -680,7 +681,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 (() => {
   const phone = document.querySelector(".home11-phone");
   const trigger = phone?.querySelector(".home11-action-trigger");
-  const overlay = phone?.querySelector(".home11-action-overlay");
+  const overlay = phone?.querySelector(".home11-action-overlay:not(.home11-wallet-selector)");
   const close = overlay?.querySelector(".home11-sheet-close");
   if (!trigger || !overlay || !close) return;
   const hide = () => {
