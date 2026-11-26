@@ -239,10 +239,11 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
   margin: var(--native-space-xl) 0;
 }
 .home11-phone .phone-quick > span {
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
   gap: var(--native-space-xs);
-  min-height: var(--native-button-height);
-  padding: var(--native-space-sm) 5px;
+  min-height: 64px;
+  padding: var(--native-space-sm) 6px;
   border: var(--native-size-border) solid var(--native-primary);
   border-radius: var(--native-button-radius);
   background: transparent;
@@ -253,8 +254,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
   white-space: nowrap;
 }
 .home11-phone .phone-quick .phone-quick-icon {
-  width: 19px;
-  height: 19px;
+  width: 18px;
+  height: 18px;
   margin: 0;
   flex: none;
   color: inherit;
@@ -376,12 +377,6 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 /* Adapt to the mock phone itself, not the surrounding browser window. */
 @container home11-device (max-width: 310px) {
   .phone-overview strong { font-size: 34px; }
-  .phone-quick > span {
-    flex-direction: column;
-    min-height: 64px;
-    gap: 4px;
-    font-size: 13px;
-  }
 }
 </style>
 </head>
