@@ -277,6 +277,9 @@
       if (!trimmed || !Object.hasOwn(t, trimmed)) continue;
       node.nodeValue = source.replace(trimmed, lang === "zh" ? t[trimmed] : trimmed);
     }
+    document.querySelectorAll("[data-gallery-placeholder-en][data-gallery-placeholder-zh]").forEach((el) => {
+      el.placeholder = el.getAttribute("data-gallery-placeholder-" + lang);
+    });
     const newWalletName = document.querySelector("#home11-new-wallet-name");
     if (newWalletName) newWalletName.placeholder = lang === "zh" ? "我的钱包" : "My wallet";
     document.querySelectorAll('[data-gallery-value="language"]').forEach((el) => {
