@@ -283,7 +283,8 @@ html[data-demo-theme="dark"] #v3-availability .phone-network{color:#c5cec8}
 .preview-fullscreen-toggle{
   top:70dvh;right:max(10px,env(safe-area-inset-right));transform:translateY(-50%);
 }
-html.preview-immersive .home11-phone .phone-header{
+html.preview-immersive .home11-phone .phone-header,
+html.preview-immersive #v3-availability .phone-header{
   padding-right:var(--native-space-lg,16px)!important;
 }
 html.preview-immersive .wallet-header{padding-right:16px!important}
