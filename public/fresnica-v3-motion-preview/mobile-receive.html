@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="dark" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<meta name="referrer" content="no-referrer" />
+<meta name="description" content="Fresnica Home 1.1, identical information to original Home example with Fresnica UI 1.1 styling." />
+<title>Fresnica — Receive Preview</title>
+<link rel="stylesheet" href="./m15-typography.css" />
+<style>
+/* Sidebar navigation for standalone sample pages only. */
+.preview-shell{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100dvh;background:#101312;}
+.preview-sidebar{position:sticky;top:0;align-self:start;height:100dvh;display:flex;flex-direction:column;padding:33px 16px 22px;background:#161c19;border-right:1px solid #29342d;}
+.preview-sidebar-title{padding:3px 10px 30px;}
+.preview-sidebar-title .eyebrow{display:block;color:#78af92;font-size:9px;font-weight:750;letter-spacing:.18em;margin-bottom:10px;}
+.preview-sidebar-title strong{display:block;color:#f3f7f3;font-size:21px;font-weight:700;letter-spacing:-.035em;}
+.preview-sidebar-title p{margin:5px 0 0;color:#819389;font-size:11px;}
+.preview-menu-label{padding:0 10px 11px;color:#819086;font-size:10px;letter-spacing:.15em;font-weight:650;}
+.preview-nav{display:flex;flex-direction:column;gap:7px;}
+.preview-nav a{display:flex;align-items:center;gap:11px;min-height:64px;padding:11px 12px;border:1px solid transparent;border-radius:13px;text-decoration:none;color:#b4c3b9;transition:background .15s,border-color .15s,color .15s;}
+.preview-nav a:hover{background:#202c24;color:#eef7f1;}
+.preview-nav a:focus-visible{outline:2px solid #6ce0a0;outline-offset:2px;}
+.preview-nav a.is-current{background:#203b2c;border-color:#3d654c;color:#e1f5e7;}
+.preview-nav-icon{display:grid;place-items:center;flex:none;width:32px;height:32px;border-radius:9px;background:#27332c;color:#9bb5a5;}
+.preview-nav a.is-current .preview-nav-icon{background:#315b40;color:#75e1a0;}
+.preview-nav-icon svg{display:block;width:17px;height:17px;}
+.preview-nav-copy{display:block;min-width:0;}
+.preview-nav-copy strong{display:block;font-size:12px;font-weight:650;letter-spacing:0;white-space:nowrap;}
+.preview-nav-copy small{display:block;margin-top:4px;color:#809588;font-size:10px;white-space:nowrap;}
+.preview-sidebar-foot{margin:auto 10px 0;padding-top:20px;border-top:1px solid #2a352e;color:#6f8677;font-size:10px;letter-spacing:.08em;}
+.preview-stage{min-width:0;min-height:100dvh;display:grid;place-items:center;}
+@media(max-width:760px){
+  .preview-shell{display:block;}
+  .preview-sidebar{position:static;height:auto;min-height:0;padding:16px;border-right:0;border-bottom:1px solid #2a352e;}
+  .preview-sidebar-title{padding:0 3px 12px;}
+  .preview-sidebar-title .eyebrow{font-size:9px;margin-bottom:4px;}
+  .preview-sidebar-title strong{font-size:17px;}
+  .preview-sidebar-title p,.preview-menu-label,.preview-sidebar-foot{display:none;}
+  .preview-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  .preview-nav a{min-height:52px;padding:8px 10px;gap:8px;}
+  .preview-nav-icon{width:27px;height:27px;}
+  .preview-nav-copy strong{font-size:11px;}
+  .preview-nav-copy small{font-size:9px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;}
+  .preview-stage{min-height:calc(100dvh - 130px);}
+}
+@media(prefers-reduced-motion:reduce){.preview-nav a{transition:none;}}
+</style>
+<style>
+/* Home 1.1 uses Web 1.1 semantic tokens. All displayed content is copied from original Home. */
+:root{color-scheme:dark;--Fresnica-font-family:Roboto,'Noto Sans SC',Arial,sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:#101312;color:#f4f7f5;font-family:var(--Fresnica-font-family)}
+.home11-display{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;width:100%;min-height:100dvh;padding:24px 16px 28px}
+.home11-phone{
+ --Fresnica-bg-color:#f9f9fb;--Fresnica-surface:#ffffff;--Fresnica-primary-color:#0f7954;
+ --Fresnica-primary-color-bg:#e8f3ed;--Fresnica-on-primary-color:#ffffff;
+ --Fresnica-text-color:#1a1c1d;--Fresnica-text-color-secondary:#3f4942;
+ --Fresnica-border-color:#e3e3e5;--Fresnica-border-color-light:#edeef0;
+ position:relative;width:min(362px,100%);height:clamp(655px,83dvh,757px);
+ border:7px solid #29302e;border-radius:42px;background:var(--Fresnica-bg-color);
+ color:var(--Fresnica-text-color);display:flex;flex-direction:column;overflow:hidden;
+ box-shadow:0 25px 65px #0007,0 0 0 1px #64746966;
+}
+.home11-phone .phone-island{position:absolute;top:8px;left:50%;transform:translateX(-50%);background:#29302e;border-radius:20px;width:64px;height:13px;z-index:3}
+.home11-phone .phone-header{flex:none;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:37px 17px 12px;background:var(--Fresnica-surface)}
+.home11-phone .phone-brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;letter-spacing:-.025em}
+.home11-phone .phone-brand .brand-icon{display:grid;place-items:center;width:28px;height:28px;flex:none}
+.home11-phone .phone-brand .brand-icon svg{display:block;width:28px;height:28px}
+.home11-phone .phone-network{color:var(--Fresnica-text-color-secondary);font-size:11px;font-weight:600;white-space:nowrap}
+.home11-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:8px 17px 18px;scrollbar-width:thin;scrollbar-color:var(--Fresnica-border-color) transparent}
+.home11-phone .phone-overview{padding:22px 2px 0}
+.home11-phone .phone-label{display:block;color:var(--Fresnica-text-color-secondary);font-size:11px;font-weight:600;letter-spacing:.04em}
+.home11-phone .phone-overview strong{display:block;font-size:32px;line-height:1.2;font-weight:600;letter-spacing:-.046em;font-variant-numeric:tabular-nums;margin:8px 0 7px}
+.home11-phone .phone-overview strong small{font-size:13px;letter-spacing:0;color:var(--Fresnica-text-color-secondary);font-weight:600}
+.home11-phone .phone-overview p{color:var(--Fresnica-text-color-secondary);font-size:11px;line-height:1.5;margin:0}
+.home11-phone .phone-quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:24px 0}
+.home11-phone .phone-quick>span{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;min-height:74px;border:1px solid var(--Fresnica-border-color);border-radius:12px;background:var(--Fresnica-surface);color:var(--Fresnica-primary-color);font-size:12px;font-weight:600}
+.home11-phone .phone-quick-icon{width:22px;height:22px;display:grid;place-items:center}
+.home11-phone .phone-quick-icon svg{width:21px;height:21px;display:block}
+.home11-phone .phone-quick>span:nth-child(2){background:var(--Fresnica-primary-color);border-color:var(--Fresnica-primary-color);color:var(--Fresnica-on-primary-color)}
+.home11-phone .phone-list-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
+.home11-phone .phone-list-header b{font-size:18px;letter-spacing:-.035em;font-weight:700}
+.home11-phone .phone-asset-add{display:inline-flex;align-items:center;gap:4px;background:var(--Fresnica-primary-color-bg);color:var(--Fresnica-primary-color);border-radius:999px;padding:7px 11px;font-size:11px;font-weight:700}
+.home11-phone .phone-asset-add svg{display:block;width:13px;height:13px}
+.home11-phone .phone-asset{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--Fresnica-border-color-light);min-width:0}
+.home11-phone .phone-asset:last-child{border-bottom:0}
+.home11-phone .phone-asset-icon{display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:50%;background:var(--Fresnica-primary-color-bg);color:var(--Fresnica-primary-color)}
+.home11-phone .phone-asset-icon svg{display:block;width:18px;height:18px;stroke-width:1.9}
+.home11-phone .phone-asset-icon .stellar-xlm-logo{width:28px;height:28px}
+.home11-phone .phone-asset>div{flex:1;min-width:0}
+.home11-phone .phone-asset b{display:block;font-size:13px;font-weight:700}
+.home11-phone .phone-asset small{display:block;color:var(--Fresnica-text-color-secondary);font-size:11px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home11-phone .phone-asset>strong{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em;text-align:right;white-space:nowrap}
+.home11-phone .phone-asset.is-xlm{display:grid;grid-template-columns:34px minmax(0,1fr) auto;column-gap:10px;row-gap:0}
+.home11-phone .phone-asset.is-xlm>.phone-asset-amount{font-size:11px;letter-spacing:-.035em}
+.home11-phone .phone-asset.is-xlm>.phone-asset-reserved{grid-column:2 / 4;display:flex;justify-content:space-between;gap:8px;align-items:center;padding-top:7px;color:var(--Fresnica-text-color-secondary);font-size:11px}
+.home11-phone .phone-asset-reserved span{display:inline-flex;align-items:center;gap:4px}
+.home11-phone .phone-asset-reserved svg{display:block;width:12px;height:12px}
+.home11-phone .phone-asset-reserved strong{font-size:11px;font-weight:600;white-space:nowrap}
+.home11-phone .phone-tabs{flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;align-items:end;min-height:67px;padding:9px 5px 10px;border-top:1px solid var(--Fresnica-border-color-light);background:var(--Fresnica-surface)}
+.home11-phone .phone-tabs span{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-width:0;font-size:10px;font-weight:600;color:var(--Fresnica-text-color-secondary)}
+.home11-phone .phone-tabs span:first-child{color:var(--Fresnica-primary-color);font-weight:700}
+.home11-phone .phone-tabs svg{display:block;width:20px;height:20px;stroke-width:1.9}
+.home11-caption{font-size:11px;letter-spacing:.08em;color:#93a99a;text-align:center}
+@media(max-width:760px){.home11-display{min-height:calc(100dvh - 180px);padding:14px 12px 26px}.home11-phone{height:min(748px,max(670px,85dvh));width:min(362px,100%)}}
+@media(prefers-reduced-motion:reduce){.home11-phone *{transition:none!important;animation:none!important}}
+</style>
+<style>
+/* Fixed size for the three Fresnica example screens; scroll remains usable without visible bars. */
+:root{--example-device-width:340px;--example-device-height:740px}
+html,body{scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
+
+.home11-phone{
+  width:min(var(--example-device-width),calc(100vw - 32px));
+  height:var(--example-device-height);min-height:0;flex:none
+}
+.home11-scroll{
+  overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none
+}
+.home11-scroll::-webkit-scrollbar{display:none;width:0;height:0}
+</style>
+<style id="home11-native-contract">
+/* Web-only visual mapping of @fresnica/ui-native main:
+ * generated-token-contract.ts; Button, Typography, ListRow, Screen, IconButton.
+ * Wallet assets and navigation remain feature-local. No copy/content changes.
+ */
+.home11-phone {
+  /* Primitive tokens: native 1.1 dimensions and typography. */
+  --native-space-xs: 4px;
+  --native-space-sm: 8px;
+  --native-space-md: 12px;
+  --native-space-lg: 16px;
+  --native-space-xl: 24px;
+  --native-radius-sm: 8px;
+  --native-radius-control: 12px;
+  --native-radius-base: 16px;
+  --native-radius-lg: 24px;
+  --native-type-body: 14px;
+  --native-type-supporting: 13px;
+  --native-type-action: 15px;
+  --native-type-section-title: 18px;
+  --native-type-screen-title: 20px;
+  --native-type-display: 48px;
+  --native-size-border: 1px;
+  --native-size-control-base: 48px;
+  --native-size-control-emphasis: 52px;
+  /* Semantic roles: native light AppTheme, aligned with the Web source. */
+  --native-background: #f9f9fb;
+  --native-surface: #ffffff;
+  --native-surface-raised: #ffffff;
+  --native-primary: #0f7954;
+  --native-primary-pressed: #0c6748;
+  --native-on-primary: #ffffff;
+  --native-content-primary: #1a1c1d;
+  --native-content-secondary: #3f4942;
+  --native-content-muted: #8a948e;
+  --native-border: #e3e3e5;
+  --native-separator: #edeef0;
+  /* Component roles, including the 44px minimum action target. */
+  --native-button-height: var(--native-size-control-emphasis);
+  --native-button-radius: var(--native-radius-base);
+  --native-row-height: 64px;
+  --native-tap-target: 44px;
+  /* Home 1.1 compact-screen overrides, without changing shared Native tokens. */
+  --home11-type-balance: 36px;
+  --home11-type-brand: 16px;
+  --home11-type-quick: 13px;
+  --home11-type-asset-supporting: 12px;
+  --home11-type-navigation: 11px;
+  container: home11-device / inline-size;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", Arial, sans-serif;
+  background: var(--native-background);
+  color: var(--native-content-primary);
+}
+.home11-phone .phone-header {
+  min-height: 80px;
+  padding: 36px var(--native-space-lg) var(--native-space-md);
+  background: var(--native-surface);
+  border-bottom: var(--native-size-border) solid var(--native-separator);
+}
+.home11-phone .phone-brand {
+  gap: var(--native-space-sm);
+  color: var(--native-content-primary);
+  font-size: var(--home11-type-brand);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.home11-phone .phone-brand .brand-icon,
+.home11-phone .phone-brand .brand-icon svg {
+  width: 28px;
+  height: 28px;
+}
+.home11-phone .phone-network {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  color: #66776c;
+  font-size: 9px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.home11-phone .phone-network-dot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  background: #12a87a;
+  border-radius: 50%;
+}
+.home11-phone .home11-scroll {
+  padding: var(--native-space-lg) var(--native-space-lg) var(--native-space-xl);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.home11-phone .home11-scroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.home11-phone .phone-overview { padding: var(--native-space-sm) 0 0; }
+.home11-phone .phone-label {
+  color: var(--native-content-secondary);
+  font-size: var(--native-type-supporting);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  line-height: 1.4;
+}
+.home11-phone .phone-overview strong {
+  font-size: var(--home11-type-balance);
+  font-weight: 700;
+  letter-spacing: -0.065em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  margin: var(--native-space-sm) 0;
+  white-space: nowrap;
+}
+.home11-phone .phone-overview strong small {
+  color: var(--native-content-secondary);
+  font-size: var(--native-type-supporting);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.home11-phone .phone-overview p {
+  color: var(--native-content-secondary);
+  font-size: var(--native-type-supporting);
+  line-height: 1.5;
+}
+.home11-phone .phone-quick {
+  gap: var(--native-space-sm);
+  margin: var(--native-space-xl) 0;
+}
+.home11-phone .phone-quick > span {
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--native-space-xs);
+  min-height: 64px;
+  padding: var(--native-space-sm) 6px;
+  border: var(--native-size-border) solid var(--native-primary);
+  border-radius: var(--native-button-radius);
+  background: transparent;
+  color: var(--native-primary);
+  font-size: var(--home11-type-quick);
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.home11-phone .phone-quick .phone-quick-icon {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  flex: none;
+  color: inherit;
+}
+.home11-phone .phone-quick .phone-quick-icon svg {
+  width: 18px;
+  height: 18px;
+}
+.home11-phone .phone-quick > span:nth-child(2) {
+  background: var(--native-primary);
+  border-color: var(--native-primary);
+  color: var(--native-on-primary);
+}
+.home11-phone .phone-list-header {
+  gap: var(--native-space-sm);
+  min-height: var(--native-tap-target);
+  margin-bottom: var(--native-space-sm);
+}
+.home11-phone .phone-list-header b {
+  color: var(--native-content-primary);
+  font-size: var(--native-type-section-title);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.home11-phone .phone-asset-add {
+  min-height: var(--native-tap-target);
+  padding: 0 var(--native-space-sm);
+  gap: var(--native-space-sm);
+  border: var(--native-size-border) solid transparent;
+  border-radius: var(--native-radius-base);
+  background: transparent;
+  color: var(--native-primary);
+  font-size: var(--native-type-action);
+  font-weight: 600;
+}
+.home11-phone .phone-asset-add svg { width: 18px; height: 18px; }
+.home11-phone .phone-asset {
+  min-height: var(--native-row-height);
+  gap: var(--native-space-md);
+  margin: 0;
+  padding: 10px var(--native-space-md);
+  background: var(--native-surface);
+  border-bottom: var(--native-size-border) solid var(--native-separator);
+}
+.home11-phone .phone-asset:nth-child(2) { border-radius: var(--native-radius-base) var(--native-radius-base) 0 0; }
+.home11-phone .phone-asset:last-child { border: 0; border-radius: 0 0 var(--native-radius-base) var(--native-radius-base); }
+.home11-phone .phone-asset-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--native-radius-control);
+  background: var(--native-background);
+  color: var(--native-primary);
+}
+.home11-phone .phone-asset-icon svg { width: 20px; height: 20px; }
+.home11-phone .phone-asset-icon .stellar-xlm-logo { width: 28px; height: 28px; }
+.home11-phone .phone-asset b {
+  color: var(--native-content-primary);
+  font-size: var(--native-type-body);
+  font-weight: 600;
+  line-height: 1.35;
+}
+.home11-phone .phone-asset small {
+  margin-top: 3px;
+  color: var(--native-content-secondary);
+  font-size: var(--home11-type-asset-supporting);
+  line-height: 1.3;
+}
+.home11-phone .phone-asset > strong {
+  color: var(--native-content-primary);
+  font-size: var(--native-type-body);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+.home11-phone .phone-asset.is-xlm {
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  column-gap: var(--native-space-md);
+  row-gap: 0;
+}
+.home11-phone .phone-asset.is-xlm > .phone-asset-amount {
+  font-size: var(--native-type-supporting);
+  letter-spacing: -0.03em;
+}
+/* Let the existing subtitle wrap rather than truncating next to the long XLM amount. */
+.home11-phone .phone-asset.is-xlm small {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+.home11-phone .phone-asset.is-xlm > .phone-asset-reserved {
+  padding-top: var(--native-space-sm);
+  gap: var(--native-space-sm);
+  color: var(--native-content-secondary);
+  font-size: var(--native-type-supporting);
+}
+.home11-phone .phone-asset-reserved strong {
+  font-size: var(--native-type-supporting);
+  font-weight: 600;
+}
+.home11-phone .phone-tabs {
+  min-height: 72px;
+  padding: var(--native-space-sm) var(--native-space-sm) var(--native-space-md);
+  gap: var(--native-space-xs);
+  background: var(--native-surface);
+  border-top: var(--native-size-border) solid var(--native-separator);
+}
+.home11-phone .phone-tabs span {
+  min-height: var(--native-tap-target);
+  gap: var(--native-space-xs);
+  font-size: var(--home11-type-navigation);
+  font-weight: 500;
+  color: var(--native-content-secondary);
+}
+.home11-phone .phone-tabs span:first-child {
+  color: var(--native-primary);
+  font-weight: 600;
+}
+.home11-phone .phone-tabs svg { width: 20px; height: 20px; }
+/* Adapt to the mock phone itself, not the surrounding browser window. */
+@container home11-device (max-width: 310px) {
+  .phone-overview strong { font-size: 34px; }
+}
+</style>
+<style id="preview-fullscreen-styles">
+/* Opt-in immersive preview. The ordinary 340 x 740 device mode is untouched. */
+.preview-fullscreen-toggle{
+  position:fixed;z-index:1000;top:max(12px,env(safe-area-inset-top));
+  right:max(12px,env(safe-area-inset-right));display:inline-flex;align-items:center;justify-content:center;
+  gap:8px;min-height:44px;padding:0 14px;border:1px solid #cfe2d5;border-radius:999px;
+  background:#f7fcf9;color:#0f7954;font:600 13px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  box-shadow:0 4px 16px #1013122b;cursor:pointer;white-space:nowrap
+}
+.preview-fullscreen-toggle svg{width:18px;height:18px;display:block;flex:none}
+.preview-fullscreen-toggle .preview-exit-icon,.preview-fullscreen-toggle .preview-exit-label{display:none}
+.preview-fullscreen-toggle:focus-visible{outline:3px solid #0f7954;outline-offset:3px}
+html.preview-immersive,html.preview-immersive body{width:100%;height:100%;margin:0;overflow:hidden}
+html.preview-immersive .preview-shell{
+  position:fixed;inset:0;z-index:900;width:100%;height:100dvh;
+  min-height:0!important;display:block!important;overflow:hidden;background:#f9f9fb
+}
+html.preview-immersive .preview-sidebar,
+html.preview-immersive .download-art-caption,
+html.preview-immersive .home11-caption,
+html.preview-immersive .wallet-caption{display:none!important}
+html.preview-immersive .preview-stage,
+html.preview-immersive .preview-stage > main{
+  display:block!important;width:100%!important;height:100%!important;
+  min-width:0!important;min-height:0!important;margin:0!important;padding:0!important
+}
+html.preview-immersive #v3-availability .download-art,
+html.preview-immersive .home11-display,
+html.preview-immersive .wallet-display{
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  justify-content:stretch!important;width:100%!important;height:100%!important;min-height:0!important;
+  margin:0!important;padding:0!important;gap:0!important
+}
+html.preview-immersive #v3-availability .download-art::before,
+html.preview-immersive .wallet-display::before{display:none!important}
+html.preview-immersive #v3-availability .download-phone,
+html.preview-immersive .home11-phone,
+html.preview-immersive .wallet-phone{
+  flex:1 1 auto!important;width:100%!important;height:100%!important;max-width:none!important;
+  min-height:0!important;aspect-ratio:auto!important;margin:0!important;padding:0!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important
+}
+html.preview-immersive .phone-island,
+html.preview-immersive .home11-island,
+html.preview-immersive .wallet-island{display:none!important}
+/* Leave room for the exit button without covering account/network information. */
+html.preview-immersive #v3-availability .phone-header,
+html.preview-immersive .home11-phone .phone-header{
+  padding-top:max(16px,env(safe-area-inset-top))!important;
+  padding-right:62px!important;padding-left:16px!important;padding-bottom:12px!important
+}
+html.preview-immersive .wallet-scroll{
+  padding-top:max(16px,env(safe-area-inset-top))!important
+}
+html.preview-immersive .wallet-header{padding-right:54px}
+html.preview-immersive #v3-availability .phone-tabs,
+html.preview-immersive .home11-phone .phone-tabs,
+html.preview-immersive .wallet-bottom{
+  padding-bottom:max(12px,env(safe-area-inset-bottom))!important
+}
+html.preview-immersive .preview-fullscreen-toggle{
+  background:#fff;color:#0f7954;border-color:#e3e3e5;
+  width:44px;height:44px;min-width:44px;padding:0;border-radius:50%
+}
+html.preview-immersive .preview-fullscreen-toggle .preview-enter-icon,
+html.preview-immersive .preview-fullscreen-toggle .preview-enter-label{display:none}
+html.preview-immersive .preview-fullscreen-toggle .preview-exit-icon{display:block}
+</style>
+<style id="home11-product-navigation">
+/* Product architecture: Home / Activity / Actions / dApps / Settings.
+   The gallery script supplies routes for the four destination tabs; Actions is a sheet. */
+.home11-phone .phone-tabs{
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  align-items:center;
+  gap:2px;
+  min-height:78px;
+  padding:7px 5px 11px;
+}
+.home11-phone .phone-tabs > .home11-nav-item,
+.home11-phone .phone-tabs > .home11-action-trigger{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:0;min-height:44px;gap:5px;
+  margin:0;padding:0;border:0;border-radius:12px;background:transparent;
+  color:var(--native-content-secondary);font-size:var(--home11-type-navigation);font-family:inherit;font-weight:500;line-height:1.15;
+  text-align:center;white-space:nowrap;
+}
+.home11-phone .phone-tabs > .home11-nav-item.is-current{
+  color:var(--native-primary);font-weight:600;
+}
+.home11-phone .phone-tabs > .home11-action-trigger{
+  min-height:44px;gap:5px;color:var(--native-content-primary);
+  font-family:inherit;font-size:var(--home11-type-navigation);font-weight:600;cursor:pointer;
+}
+.home11-phone .phone-tabs > .home11-action-trigger:focus-visible,
+.home11-phone .home11-sheet-close:focus-visible{
+  outline:2px solid var(--native-primary);outline-offset:2px;
+}
+.home11-phone .phone-tabs > .home11-action-trigger .home11-action-icon{
+  display:block;flex:none;min-height:0;width:32px;height:32px;
+}
+.home11-phone .phone-tabs .home11-action-icon img{
+  display:block;width:32px;height:32px;object-fit:contain;
+}
+.home11-phone .phone-tabs > .home11-nav-item,
+.home11-phone .phone-tabs > .home11-action-trigger{
+  min-height:54px;justify-content:flex-end;
+}
+.home11-phone .phone-tabs > .home11-action-trigger .home11-action-label{
+  display:block;min-height:0;color:var(--native-content-primary);font-size:inherit;font-weight:600;
+}
+.home11-phone .home11-action-overlay{
+  position:absolute;z-index:12;inset:0;display:flex;align-items:flex-end;
+}
+.home11-phone .home11-action-overlay[hidden]{display:none!important}
+.home11-phone .home11-action-backdrop{position:absolute;inset:0;background:rgba(15,18,16,.42)}
+.home11-phone .home11-action-sheet{
+  position:relative;z-index:1;width:100%;padding:8px 16px 26px;
+  border-radius:22px 22px 0 0;background:var(--native-surface);color:var(--native-content-primary);
+  box-shadow:0 -8px 28px rgba(0,0,0,.10);
+}
+.home11-phone .home11-action-handle{display:block;width:34px;height:4px;margin:0 auto 12px;background:var(--native-border);border-radius:999px}
+.home11-phone .home11-action-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.home11-phone .home11-action-heading h2{margin:0;font-size:18px;font-weight:600}
+.home11-phone .home11-sheet-close{
+  display:grid;place-items:center;flex:none;width:44px;height:44px;
+  padding:0;border:0;border-radius:50%;background:var(--native-background);
+  color:var(--native-content-secondary);cursor:pointer;
+}
+.home11-phone .home11-sheet-close svg{width:20px;height:20px}
+.home11-phone .home11-action-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.home11-phone .home11-action-choices > span{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  min-height:74px;border:1px solid var(--native-separator);border-radius:16px;
+  color:var(--native-content-primary);font-size:13px;font-weight:600;
+}
+.home11-phone .home11-action-choices svg{width:20px;height:20px;color:var(--native-primary)}
+html.preview-immersive .home11-phone .home11-action-sheet{
+  padding-bottom:max(26px,calc(env(safe-area-inset-bottom) + 16px));
+}
+</style>
+<link rel="stylesheet" href="./mobile-gallery-system.css" />
+<link rel="stylesheet" href="./mobile-secondary.css" />
+</head>
+<body>
+<div class="preview-shell">
+<button type="button" class="preview-fullscreen-toggle" aria-label="全屏展示界面" title="全屏展示界面" aria-pressed="false">
+  <svg class="preview-enter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m13-5h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3m13-5v3a2 2 0 0 1-2 2h-3"/></svg>
+  <svg class="preview-exit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h5V3m8 0v5h5M8 21v-5H3m18 0h-5v5"/></svg>
+  <span class="preview-enter-label">全屏预览</span>
+</button>
+<aside class="preview-sidebar" aria-label="示例页面菜单">
+  <div class="preview-sidebar-title"><span class="eyebrow">FRESNICA / UI</span><strong>界面示例</strong><p>Mobile interface gallery</p></div>
+  <div class="preview-menu-label">PAGES</div>
+  <nav class="preview-nav" aria-label="切换示例页面">
+    <a href="./mobile-demo.html" class=""><span class="preview-nav-icon"><svg class="lucide lucide-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span><span class="preview-nav-copy"><strong>首页示例</strong><small>Home screen preview</small></span></a>
+    <a href="./mobile-demo-1-1.html" class="is-current" aria-current="page"><span class="preview-nav-icon"><svg class="lucide lucide-layout-dashboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span><span class="preview-nav-copy"><strong>首页示例 1.1</strong><small>Design system · 1.1</small></span></a>
+    <a href="./wallet-home.html" class=""><span class="preview-nav-icon"><svg class="lucide lucide-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span class="preview-nav-copy"><strong>钱包首页</strong><small>SuperWallet / Tokens</small></span></a>
+  </nav>
+  <p class="preview-sidebar-foot">STELLAR / FRESNICA</p>
+</aside>
+<div class="preview-stage">
+<main aria-label="Receive preview">
+<div class="home11-display">
+<div class="home11-phone secondary-phone" data-secondary-screen="receive.html" aria-label="Fresnica Receive sample">
+<span class="phone-island" aria-hidden="true"></span>
+<header class="phone-header secondary-header"><a class="secondary-back" href="./mobile-demo-1-1.html" aria-label="Back to Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></a><h1 class="secondary-title"><span data-gallery-en="Receive" data-gallery-zh="接收">Receive</span></h1><span class="secondary-header-end" aria-hidden="true"></span></header>
+<div class="home11-scroll secondary-scroll"><div class="secondary-detail-intro"><div class="secondary-asset-mark" style="margin:0 auto 13px">↙</div><strong><span data-gallery-en="Receive Stellar assets" data-gallery-zh="接收 Stellar 资产">Receive Stellar assets</span></strong><span class="secondary-muted"><span data-gallery-en="Share your public address with the sender." data-gallery-zh="向发送方提供你的公开地址。">Share your public address with the sender.</span></span></div>
+<div class="secondary-qr" role="img" aria-label="Decorative QR-style illustration only. Not scannable."><svg viewBox="0 0 140 140" aria-hidden="true">
+<rect x="7" y="7" width="38" height="38" rx="2" stroke-width="6"/><rect x="16" y="16" width="20" height="20" rx="2" stroke-width="4"/>
+<rect x="95" y="7" width="38" height="38" rx="2" stroke-width="6"/><rect x="104" y="16" width="20" height="20" rx="2" stroke-width="4"/>
+<rect x="7" y="95" width="38" height="38" rx="2" stroke-width="6"/><rect x="16" y="104" width="20" height="20" rx="2" stroke-width="4"/>
+<path d="M55 10h15v15h17M57 37h14v15H55v13h17M84 49h10v22h-8M10 57h19v15h15v14H13M55 85h17v15H58v28h30M99 80h16v19h18v14h-20v18H95M101 57h20M76 72h8M82 111h8" stroke-width="6" stroke-linejoin="miter"/></svg></div>
+<p class="secondary-help"><span data-gallery-en="Decorative QR illustration · Not scannable" data-gallery-zh="装饰性二维码示意 · 无法扫码使用">Decorative QR illustration · Not scannable</span></p>
+<div class="secondary-address-card"><strong><span data-gallery-en="Example wallet address" data-gallery-zh="示例钱包地址">Example wallet address</span></strong><code>GB3U…EH3W</code><p class="secondary-muted"><span data-gallery-en="Abbreviated address. Not valid for transfers." data-gallery-zh="地址已缩写，不能用于转账。">Abbreviated address. Not valid for transfers.</span></p></div>
+<h2 class="secondary-section-title"><span data-gallery-en="Network" data-gallery-zh="网络">Network</span></h2><div class="secondary-card"><div class="secondary-pair"><span><span data-gallery-en="Chain" data-gallery-zh="链">Chain</span></span><strong>Stellar</strong></div><div class="secondary-pair"><span><span data-gallery-en="Selected network" data-gallery-zh="已选网络">Selected network</span></span><strong>Mainnet</strong></div></div><p class="secondary-inline-note"><span data-gallery-en="Interface preview · No live wallet or network data." data-gallery-zh="界面示例 · 不包含实时钱包或网络数据。">Interface preview · No live wallet or network data.</span></p></div>
+<div class="secondary-footer"><button type="button" class="secondary-primary" data-secondary-action="preview-address"><span data-gallery-en="Copy address" data-gallery-zh="复制地址">Copy address</span></button><span class="secondary-footer-caption"><span data-gallery-en="Preview only · No on-chain transaction" data-gallery-zh="仅为界面预览 · 不会进行链上交易">Preview only · No on-chain transaction</span></span></div>
+<div class="home11-action-overlay secondary-review-overlay" hidden>
+  <div class="home11-action-backdrop" data-secondary-sheet-dismiss="true"></div>
+  <section class="home11-action-sheet secondary-sheet" role="dialog" aria-modal="true" aria-labelledby="secondary-sheet-title">
+    <span class="home11-action-handle" aria-hidden="true"></span>
+    <div class="secondary-sheet-heading"><h2 id="secondary-sheet-title" data-secondary-sheet-title>Review</h2><button type="button" class="secondary-sheet-close" data-secondary-sheet-dismiss="true" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div data-secondary-sheet-body></div>
+    <button type="button" class="secondary-primary" data-secondary-sheet-dismiss="true"><span data-gallery-en="Close preview" data-gallery-zh="关闭预览">Close preview</span></button>
+  </section>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+<script id="preview-fullscreen-behavior" src="./mobile-preview-fullscreen.js" defer></script>
+<script src="./mobile-secondary.js" defer></script>
+<script src="./mobile-gallery-system.js" defer></script>
+</body>
+</html>
