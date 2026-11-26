@@ -76,6 +76,10 @@
   const originalText = new WeakMap();
   const aside = document.querySelector(".preview-sidebar");
   if (aside) {
+    const heading = aside.querySelector(".preview-sidebar-title strong");
+    const description = aside.querySelector(".preview-sidebar-title p");
+    if (heading) { heading.dataset.galleryEn = "Screen Gallery"; heading.dataset.galleryZh = "界面示例"; }
+    if (description) { description.dataset.galleryEn = "Mobile interface gallery"; description.dataset.galleryZh = "移动端界面预览"; }
     const nav = aside.querySelector(".preview-nav");
     if (nav) {
       nav.innerHTML = pages.map((item) =>
@@ -125,6 +129,7 @@
   }
   const translatePage = () => {
     document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+    document.title = "Fresnica — " + (lang === "zh" ? current.zh : current.en);
     document.querySelectorAll("[data-gallery-en][data-gallery-zh]").forEach((el) => {
       el.textContent = el.getAttribute("data-gallery-" + lang);
     });
