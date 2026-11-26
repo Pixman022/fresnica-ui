@@ -14,7 +14,7 @@
 .home11-phone .phone-tabs>.home11-nav-item.is-current:visited{color:var(--native-primary)}
 .home11-phone .phone-tabs>.home11-nav-item svg{flex:none}
 .home11-phone .gallery-screen-eyebrow{margin:8px 0 6px;color:var(--native-content-secondary);font-size:11px;font-weight:600;letter-spacing:.035em}
-.home11-phone .gallery-screen-title{font-size:23px;line-height:1.2;letter-spacing:-.04em;font-weight:700;margin:0;color:var(--native-content-primary)}
+.home11-phone .gallery-screen-title{font-size:var(--native-type-screen-title);line-height:1.2;letter-spacing:-.04em;font-weight:700;margin:0;color:var(--native-content-primary)}
 .home11-phone .gallery-screen-description{font-size:12px;line-height:1.5;color:var(--native-content-secondary);margin:8px 0 21px}
 .home11-phone .gallery-section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--native-content-primary);font-size:15px;line-height:1.3;letter-spacing:-.02em;font-weight:700;margin:20px 0 9px}
 .home11-phone .gallery-section-title small{font-size:11px;font-weight:500;letter-spacing:0;color:var(--native-content-secondary)}
