@@ -379,9 +379,82 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
   .phone-overview strong { font-size: 34px; }
 }
 </style>
+<style id="preview-fullscreen-styles">
+/* Opt-in immersive preview. The ordinary 340 x 740 device mode is untouched. */
+.preview-fullscreen-toggle{
+  position:fixed;z-index:1000;top:max(12px,env(safe-area-inset-top));
+  right:max(12px,env(safe-area-inset-right));display:inline-flex;align-items:center;justify-content:center;
+  gap:8px;min-height:44px;padding:0 14px;border:1px solid #cfe2d5;border-radius:999px;
+  background:#f7fcf9;color:#0f7954;font:600 13px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  box-shadow:0 4px 16px #1013122b;cursor:pointer;white-space:nowrap
+}
+.preview-fullscreen-toggle svg{width:18px;height:18px;display:block;flex:none}
+.preview-fullscreen-toggle .preview-exit-icon,.preview-fullscreen-toggle .preview-exit-label{display:none}
+.preview-fullscreen-toggle:focus-visible{outline:3px solid #0f7954;outline-offset:3px}
+html.preview-immersive,html.preview-immersive body{width:100%;height:100%;margin:0;overflow:hidden}
+html.preview-immersive .preview-shell{
+  position:fixed;inset:0;z-index:900;width:100%;height:100dvh;
+  min-height:0!important;display:block!important;overflow:hidden;background:#f9f9fb
+}
+html.preview-immersive .preview-sidebar,
+html.preview-immersive .download-art-caption,
+html.preview-immersive .home11-caption,
+html.preview-immersive .wallet-caption{display:none!important}
+html.preview-immersive .preview-stage,
+html.preview-immersive .preview-stage > main{
+  display:block!important;width:100%!important;height:100%!important;
+  min-width:0!important;min-height:0!important;margin:0!important;padding:0!important
+}
+html.preview-immersive #v3-availability .download-art,
+html.preview-immersive .home11-display,
+html.preview-immersive .wallet-display{
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  justify-content:stretch!important;width:100%!important;height:100%!important;min-height:0!important;
+  margin:0!important;padding:0!important;gap:0!important
+}
+html.preview-immersive #v3-availability .download-art::before,
+html.preview-immersive .wallet-display::before{display:none!important}
+html.preview-immersive #v3-availability .download-phone,
+html.preview-immersive .home11-phone,
+html.preview-immersive .wallet-phone{
+  flex:1 1 auto!important;width:100%!important;height:100%!important;max-width:none!important;
+  min-height:0!important;aspect-ratio:auto!important;margin:0!important;padding:0!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important
+}
+html.preview-immersive .phone-island,
+html.preview-immersive .home11-island,
+html.preview-immersive .wallet-island{display:none!important}
+/* Leave room for the exit button without covering account/network information. */
+html.preview-immersive #v3-availability .phone-header,
+html.preview-immersive .home11-phone .phone-header{
+  padding-top:max(16px,env(safe-area-inset-top))!important;
+  padding-right:62px!important;padding-left:16px!important;padding-bottom:12px!important
+}
+html.preview-immersive .wallet-scroll{
+  padding-top:max(16px,env(safe-area-inset-top))!important
+}
+html.preview-immersive .wallet-header{padding-right:54px}
+html.preview-immersive #v3-availability .phone-tabs,
+html.preview-immersive .home11-phone .phone-tabs,
+html.preview-immersive .wallet-bottom{
+  padding-bottom:max(12px,env(safe-area-inset-bottom))!important
+}
+html.preview-immersive .preview-fullscreen-toggle{
+  background:#fff;color:#0f7954;border-color:#e3e3e5;
+  width:44px;height:44px;min-width:44px;padding:0;border-radius:50%
+}
+html.preview-immersive .preview-fullscreen-toggle .preview-enter-icon,
+html.preview-immersive .preview-fullscreen-toggle .preview-enter-label{display:none}
+html.preview-immersive .preview-fullscreen-toggle .preview-exit-icon{display:block}
+</style>
 </head>
 <body>
 <div class="preview-shell">
+<button type="button" class="preview-fullscreen-toggle" aria-label="全屏展示界面" title="全屏展示界面" aria-pressed="false">
+  <svg class="preview-enter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m13-5h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3m13-5v3a2 2 0 0 1-2 2h-3"/></svg>
+  <svg class="preview-exit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h5V3m8 0v5h5M8 21v-5H3m18 0h-5v5"/></svg>
+  <span class="preview-enter-label">全屏预览</span>
+</button>
 <aside class="preview-sidebar" aria-label="示例页面菜单">
   <div class="preview-sidebar-title"><span class="eyebrow">FRESNICA / UI</span><strong>界面示例</strong><p>Mobile interface gallery</p></div>
   <div class="preview-menu-label">PAGES</div>
@@ -466,5 +539,53 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 </main>
 </div>
 </div>
+<script id="preview-fullscreen-behavior">
+(() => {
+  const root = document.documentElement;
+  const shell = document.querySelector(".preview-shell");
+  const button = document.querySelector(".preview-fullscreen-toggle");
+  if (!shell || !button) return;
+  let nativeWasActive = false;
+  function setImmersive(active) {
+    root.classList.toggle("preview-immersive", active);
+    button.setAttribute("aria-pressed", String(active));
+    button.setAttribute("aria-label", active ? "退出全屏预览" : "全屏展示界面");
+    button.title = active ? "退出全屏预览" : "全屏展示界面";
+  }
+  function leave() {
+    setImmersive(false);
+    if (document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+  button.addEventListener("click", () => {
+    if (root.classList.contains("preview-immersive")) {
+      leave();
+      return;
+    }
+    setImmersive(true);
+    // Fullscreen API is optional (not available on all iPhone browsers).
+    // The same control always works via the immersive CSS fallback.
+    if (typeof shell.requestFullscreen === "function") {
+      try {
+        const request = shell.requestFullscreen({ navigationUI: "hide" });
+        if (request && typeof request.catch === "function") request.catch(() => {});
+      } catch (_) { /* CSS fallback stays enabled. */ }
+    }
+  });
+  document.addEventListener("fullscreenchange", () => {
+    if (document.fullscreenElement) {
+      nativeWasActive = true;
+      setImmersive(true);
+    } else if (nativeWasActive) {
+      nativeWasActive = false;
+      setImmersive(false);
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && root.classList.contains("preview-immersive")) leave();
+  });
+})();
+</script>
 </body>
 </html>
