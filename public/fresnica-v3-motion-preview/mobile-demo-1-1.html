@@ -77,10 +77,10 @@ body{background:#101312;color:#f4f7f5;font-family:var(--Fresnica-font-family)}
 .home11-phone .phone-overview strong small{font-size:13px;letter-spacing:0;color:var(--Fresnica-text-color-secondary);font-weight:600}
 .home11-phone .phone-overview p{color:var(--Fresnica-text-color-secondary);font-size:11px;line-height:1.5;margin:0}
 .home11-phone .phone-quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:24px 0}
-.home11-phone .phone-quick>span{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;min-height:74px;border:1px solid var(--Fresnica-border-color);border-radius:12px;background:var(--Fresnica-surface);color:var(--Fresnica-primary-color);font-size:12px;font-weight:600}
+.home11-phone .phone-quick > .gallery-quick-link{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;min-height:74px;border:1px solid var(--Fresnica-border-color);border-radius:12px;background:var(--Fresnica-surface);color:var(--Fresnica-primary-color);font-size:12px;font-weight:600}
 .home11-phone .phone-quick-icon{width:22px;height:22px;display:grid;place-items:center}
 .home11-phone .phone-quick-icon svg{width:21px;height:21px;display:block}
-.home11-phone .phone-quick>span:nth-child(2){background:var(--Fresnica-primary-color);border-color:var(--Fresnica-primary-color);color:var(--Fresnica-on-primary-color)}
+.home11-phone .phone-quick > .gallery-quick-link:nth-child(2){background:var(--Fresnica-primary-color);border-color:var(--Fresnica-primary-color);color:var(--Fresnica-on-primary-color)}
 .home11-phone .phone-list-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
 .home11-phone .phone-list-header b{font-size:18px;letter-spacing:-.035em;font-weight:700}
 .home11-phone .phone-asset-add{display:inline-flex;align-items:center;gap:4px;background:var(--Fresnica-primary-color-bg);color:var(--Fresnica-primary-color);border-radius:999px;padding:7px 11px;font-size:11px;font-weight:700}
@@ -250,7 +250,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
   gap: var(--native-space-sm);
   margin: var(--native-space-xl) 0;
 }
-.home11-phone .phone-quick > span {
+.home11-phone .phone-quick > .gallery-quick-link {
   flex-direction: column;
   justify-content: center;
   gap: var(--native-space-xs);
@@ -276,7 +276,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
   width: 18px;
   height: 18px;
 }
-.home11-phone .phone-quick > span:nth-child(2) {
+.home11-phone .phone-quick > .gallery-quick-link:nth-child(2) {
   background: var(--native-primary);
   border-color: var(--native-primary);
   color: var(--native-on-primary);
