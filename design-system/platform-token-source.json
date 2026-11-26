@@ -17,28 +17,12 @@
             "react": "19.2.3",
             "typescript": "6.0.3",
             "node": ">=22.13.0",
-            "android": {
-                "minSdk": 26,
-                "targetSdk": 36,
-                "compileSdk": 37,
-                "kotlin": "2.2.0",
-                "ndk": "27.1.12297006"
-            },
+            "android": { "minSdk": 26, "targetSdk": 36, "compileSdk": 37, "kotlin": "2.2.0", "ndk": "27.1.12297006" },
             "hermes": true,
             "newArchitecture": true
         },
-        "themeModes": [
-            "light",
-            "dark",
-            "custom"
-        ],
-        "responsivePresets": [
-            320,
-            360,
-            393,
-            430,
-            768
-        ],
+        "themeModes": ["light", "dark", "custom"],
+        "responsivePresets": [320, 360, 393, 430, 768],
         "desktop": "fluid",
         "tokenValuesFrozen": true,
         "visualChangeRequired": true
@@ -152,9 +136,7 @@
                 "reason": "Reviewed Native light/dark surfaces and accessible primary label colors match the 1.1.0 dual-theme palette; platform-specific values remain explicit."
             },
             {
-                "roles": [
-                    "warning"
-                ],
+                "roles": ["warning"],
                 "reason": "Retain the existing Native warning value for the Android-first adapter; verify contrast in the host acceptance pass."
             }
         ]
@@ -171,11 +153,7 @@
             "source": "./tokens.json",
             "runtime": "React Native AppTheme; no DOM, CSS or browser storage dependency",
             "priority": "android",
-            "themeModes": [
-                "light",
-                "dark",
-                "system"
-            ],
+            "themeModes": ["light", "dark", "system"],
             "dynamicAccent": false,
             "imageColorExtraction": "deferred"
         },
@@ -189,12 +167,7 @@
     "conflicts": {
         "status": "resolved-for-baseline",
         "policy": "The approved 1.1.0 palette aligns brand-primary and core light/dark surfaces across Web/Native while retaining independent financial feedback colors; later overrides require documented accessibility review.",
-        "dimensions": [
-            "spacing",
-            "radius",
-            "typography",
-            "elevation"
-        ]
+        "dimensions": ["spacing", "radius", "typography", "elevation"]
     },
     "compatibility": {
         "deleteExistingTokens": false,
