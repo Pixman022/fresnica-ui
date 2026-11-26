@@ -63,7 +63,7 @@ jobs:
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo.html
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/wallet-home.html
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo-1-1.html
-                  grep -Fq 'aria-label="Wallet main navigation"' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo-1-1.html
+                  grep -Fq 'class="phone-tabs"' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo-1-1.html
                   grep -Fq '546,213.0231432' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo-1-1.html
                   grep -Fq -- '--Fresnica-primary-color:#0f7954' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo-1-1.html
                   grep -Fq '首页示例 1.1' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo.html
