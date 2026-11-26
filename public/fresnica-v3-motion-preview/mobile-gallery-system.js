@@ -5,6 +5,12 @@
     { file: "mobile-activity.html", en: "Activity", zh: "交易活动", subtitle: "Transaction history", subtitleZh: "交易历史", kind: "activity" },
     { file: "mobile-dapps.html", en: "dApps", zh: "生态应用", subtitle: "App connections", subtitleZh: "应用连接", kind: "dapps" },
     { file: "mobile-settings.html", en: "Settings", zh: "设置", subtitle: "Wallet preferences", subtitleZh: "钱包偏好设置", kind: "settings" },
+    { file: "mobile-asset-details.html", en: "Asset details", zh: "资产详情", subtitle: "Stellar asset", subtitleZh: "Stellar 资产", kind: "asset" },
+    { file: "mobile-transaction-details.html", en: "Transaction details", zh: "交易详情", subtitle: "Activity record", subtitleZh: "交易记录", kind: "transaction" },
+    { file: "mobile-send.html", en: "Send", zh: "发送", subtitle: "Payment preview", subtitleZh: "付款示例", kind: "send" },
+    { file: "mobile-receive.html", en: "Receive", zh: "接收", subtitle: "Address preview", subtitleZh: "地址示例", kind: "receive" },
+    { file: "mobile-swap.html", en: "Swap", zh: "兑换", subtitle: "Exchange preview", subtitleZh: "兑换示例", kind: "swap" },
+    { file: "mobile-network-nodes.html", en: "Network & Nodes", zh: "网络与节点", subtitle: "Connection settings", subtitleZh: "连接设置", kind: "network" },
     { file: "mobile-demo.html", en: "Original Home", zh: "首页示例", subtitle: "Original sample", subtitleZh: "原始示例", kind: "reference" },
     { file: "wallet-home.html", en: "Wallet Home", zh: "钱包首页", subtitle: "Wallet reference", subtitleZh: "钱包参考页", kind: "reference" },
   ];
@@ -17,6 +23,8 @@
     "Your assets": "我的资产", "Add": "添加", "Stellar native asset": "Stellar 原生资产",
     "Reserved": "储备金额", "Send": "发送", "Swap": "兑换", "Receive": "接收",
     "Quick Actions": "快捷操作", "Close actions": "关闭操作面板",
+    "Native asset": "原生资产", "Issued asset": "发行资产", "Stellar-issued asset": "Stellar 发行资产",
+    "Transaction ID": "交易 ID", "From": "支付", "To": "获得",
     "Tokens": "代币", "Available": "可用", "Balance": "余额",
     "Wallet Overview": "钱包总览", "SuperWallet": "SuperWallet",
     "My wallet": "我的钱包", "Wallets": "钱包列表", "Total balance": "总余额",
@@ -70,6 +78,12 @@
     activity: '<path d="M3 12a9 9 0 1 0 9-9 9.8 9.8 0 0 0-6.7 2.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',
     dapps: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
     settings: '<path d="M4 7h9m4 0h3M4 17h3m4 0h9M13 4v6M7 14v6"/>',
+    asset: '<path d="m12 2 2.5 6.5L21 11l-6.5 2.6L12 20l-2.5-6.4L3 11l6.5-2.5L12 2z"/>',
+    transaction: '<path d="M3 3h18v18H3zM7 8h10M7 12h10M7 16h5"/>',
+    send: '<path d="M7 7h10v10M7 17 17 7"/>',
+    receive: '<path d="M17 17H7V7M17 7 7 17"/>',
+    swap: '<path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/>',
+    network: '<circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="19" r="2"/><path d="M7 7l4 10M17 7l-4 10M7 6h10"/>',
     reference: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/>',
   };
   const icon = (name) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ico[name] + '</svg>';
@@ -99,10 +113,10 @@
       '<div class="gallery-action-group"><h3>Recently used dApps</h3>' +
       '<div class="gallery-app-grid">' + recentApps + '</div></div>' +
       '<div class="gallery-action-group"><h3>Official shortcuts</h3><div class="gallery-shortcut-grid">' +
-      '<button type="button" data-gallery-preview-action="Swap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/></svg><span>Swap</span></button>' +
+      '<a href="./mobile-swap.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/></svg><span>Swap</span></a>' +
       '<a href="./mobile-activity.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.8 9.8 0 0 0-6.7 2.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></svg><span>History</span></a>' +
-      '<button type="button" data-gallery-preview-action="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg><span>Send</span></button>' +
-      '<button type="button" data-gallery-preview-action="Receive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7 7 17M17 17H7V7"/></svg><span>Receive</span></button>' +
+      '<a href="./mobile-send.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg><span>Send</span></a>' +
+      '<a href="./mobile-receive.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7 7 17M17 17H7V7"/></svg><span>Receive</span></a>' +
       '</div></div>' +
       '<button type="button" class="gallery-scan-button" data-gallery-preview-action="Scan QR Code">' +
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m13-5h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3m13-5v3a2 2 0 0 1-2 2h-3M7 12h10"/></svg>' +
@@ -143,7 +157,8 @@
     if (nav) {
       nav.innerHTML = pages.map((item, index) =>
         (index === 0 ? '<span class="gallery-nav-group-label" data-gallery-en="Main pages" data-gallery-zh="主要页面">Main pages</span>' :
-        index === 4 ? '<span class="gallery-nav-group-label is-reference" data-gallery-en="Reference pages" data-gallery-zh="参考页面">Reference pages</span>' : '') +
+        item.kind === "asset" ? '<span class="gallery-nav-group-label is-secondary" data-gallery-en="Secondary pages" data-gallery-zh="二级页面">Secondary pages</span>' :
+        item.kind === "reference" && pages[index - 1]?.kind !== "reference" ? '<span class="gallery-nav-group-label is-reference" data-gallery-en="Reference pages" data-gallery-zh="参考页面">Reference pages</span>' : '') +
         '<a href="./' + item.file + '"' + (item.file === current.file ? ' class="is-current" aria-current="page"' : '') + '>' +
         '<span class="preview-nav-icon">' + icon(item.kind) + '</span>' +
         '<span class="preview-nav-copy"><strong data-gallery-en="' + item.en + '" data-gallery-zh="' + item.zh + '">' + item.en + '</strong>' +
