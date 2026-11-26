@@ -167,7 +167,7 @@ jobs:
                   </script></body></html>
                   HTML
                   "$chrome" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --window-size=460,850 --virtual-time-budget=7000 --dump-dom "http://127.0.0.1:4178/gallery-drawer-smoke.html" 2>/tmp/gallery-drawer-chrome.log >/tmp/gallery-drawer-result.html
-                  grep -Fq 'GALLERY_DRAWER_PASS' /tmp/gallery-drawer-result.html
+                  grep -Fq '<div id="result">GALLERY_DRAWER_PASS</div>' /tmp/gallery-drawer-result.html
                   rm demo-dist/gallery-drawer-smoke.html
 
             - name: Configure Pages
