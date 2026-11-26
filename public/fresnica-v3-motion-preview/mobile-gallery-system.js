@@ -53,6 +53,10 @@
     "Illustrative transactions": "示例交易记录",
     "Network status": "网络状态", "Wallet actions": "钱包操作", "Balance": "余额",
     "My assets": "我的资产", "Recent transactions": "最近交易", "No transactions yet": "暂无交易",
+    "Assets": "资产", "Explore": "探索", "xApps": "应用", "Setting": "设置",
+    "FRESNICA / STELLAR WALLET": "FRESNICA / STELLAR 钱包",
+    "FRESNICA / WALLET HOME": "FRESNICA / 钱包首页",
+    "Fresnica home screen preview": "Fresnica 首页示例",
   };
   const ico = {
     home: '<path d="M3 10 12 3l9 7v11h-7v-8h-4v8H3z"/>',
