@@ -129,11 +129,12 @@ html[data-demo-theme="dark"] #v3-availability .phone-network{color:#c5cec8}
     border-right:1px solid #34473b;border-bottom:0;
     background:#161c19;box-shadow:12px 0 32px #0004;
     transform:translateX(-105%);visibility:hidden;pointer-events:none;
-    transition:transform .22s ease,visibility .22s
+    transition:transform .22s ease,visibility 0s linear .22s
   }
   .preview-sidebar .preview-nav{display:flex;flex-direction:column;gap:7px}
   html.gallery-menu-open .preview-sidebar{
-    transform:translateX(0);visibility:visible;pointer-events:auto
+    transform:translateX(0);visibility:visible;pointer-events:auto;
+    transition:transform .22s ease,visibility 0s linear 0s
   }
   html.gallery-menu-open,html.gallery-menu-open body{overflow:hidden}
   .preview-stage{min-height:100dvh}
