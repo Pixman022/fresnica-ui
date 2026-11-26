@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="./m15-typography.css" />
   <style>
     /* Standalone mobile preview. Icon source: Lucide (https://lucide.dev), ISC License. */
-    :root { color-scheme: dark; --Fresnica-font-family: Roboto, 'Noto Sans SC', Arial, sans-serif; }
+    :root { color-scheme: dark; --Fresnica-font-family: Roboto, 'Noto Sans SC', Arial, sans-serif; --preview-primary: #0F7954; --preview-on-primary: #FFFFFF; --preview-canvas: #F9F9FB; --preview-surface: #FFFFFF; --preview-primary-soft: #E8F3ED; --preview-text: #1A1C1D; --preview-text-secondary: #3F4942; --preview-border: #E3E3E5; }
     * { box-sizing: border-box; }
     html, body { min-height: 100%; margin: 0; }
     body { background: #101312; color: #f4f7f5; font-family: var(--Fresnica-font-family); }
@@ -29,14 +29,14 @@
 #v3-availability .download-art{position:relative;min-width:0;display:grid;place-items:center;align-self:stretch;}
 #v3-availability .download-art::before{
   content:'';position:absolute;inset:15% 6%;border-radius:50%;
-  background:radial-gradient(ellipse at 50% 50%,rgba(21,151,99,.14),rgba(11,37,28,.025) 50%,transparent 75%);
+  background:radial-gradient(ellipse at 50% 50%,rgba(15,121,84,.14),rgba(11,37,28,.025) 50%,transparent 75%);
   pointer-events:none;
 }
 #v3-availability .download-phone{
   position:relative;z-index:1;box-sizing:border-box;
   width:clamp(245px,24.5vw,325px);aspect-ratio:9/17;
   border:7px solid #29302e;border-radius:42px;
-  background:#f5f8f6;color:#18241e;overflow:hidden;
+  background:var(--preview-canvas);color:var(--preview-text);overflow:hidden;
   padding:clamp(18px,2.3vw,27px) clamp(16px,2vw,24px);
   box-shadow:0 30px 80px #0008,0 0 0 1px #64746988;
   display:flex;flex-direction:column;gap:0;
@@ -49,43 +49,46 @@
 #v3-availability .phone-brand{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.01em;}
 #v3-availability .phone-brand .brand-icon{width:20px;height:20px;display:grid;place-items:center;flex:none;}
 #v3-availability .phone-brand .brand-icon svg{display:block;width:20px;height:20px;}
-#v3-availability .phone-network{color:#66776c;font-size:9px;font-weight:600;}
+#v3-availability .phone-network{color:var(--preview-text-secondary);font-size:9px;font-weight:600;}
 #v3-availability .phone-overview{margin-top:clamp(25px,3.4vh,34px);}
-#v3-availability .phone-label{font-size:9px;color:#839188;letter-spacing:.105em;font-weight:650;}
+#v3-availability .phone-label{font-size:9px;color:var(--preview-text-secondary);letter-spacing:.105em;font-weight:650;}
 #v3-availability .phone-overview strong{display:block;font-size:clamp(31px,3vw,39px);font-weight:560;letter-spacing:-.065em;margin:9px 0 10px;}
-#v3-availability .phone-overview strong small{font-size:13px;color:#6b8173;font-weight:550;letter-spacing:0;}
-#v3-availability .phone-overview p{font-size:10px;color:#66816e;margin:0;}
+#v3-availability .phone-overview strong small{font-size:13px;color:var(--preview-text-secondary);font-weight:550;letter-spacing:0;}
+#v3-availability .phone-overview p{font-size:10px;color:var(--preview-text-secondary);margin:0;}
 #v3-availability .phone-quick{display:flex;gap:8px;margin-top:clamp(23px,3.4vh,34px);}
-#v3-availability .phone-quick > span{flex:1;text-align:center;border:1px solid #dce8df;border-radius:10px;background:#edf5ef;padding:13px 4px 11px;font-size:10px;font-weight:650;}
-#v3-availability .phone-quick .phone-quick-icon{display:grid;place-items:center;width:22px;height:22px;margin:0 auto 5px;color:#118c60}
+#v3-availability .phone-quick > span{flex:1;text-align:center;border:1px solid var(--preview-border);border-radius:10px;background:var(--preview-surface);padding:13px 4px 11px;font-size:10px;font-weight:650;}
+#v3-availability .phone-quick .phone-quick-icon{display:grid;place-items:center;width:22px;height:22px;margin:0 auto 5px;color:var(--preview-primary)}
 #v3-availability .phone-quick .phone-quick-icon svg{display:block;width:20px;height:20px}
+/* One clear primary action; secondary shortcuts stay on neutral surfaces. */
+#v3-availability .phone-quick > span:first-child{background:var(--preview-primary);border-color:var(--preview-primary);color:var(--preview-on-primary);}
+#v3-availability .phone-quick > span:first-child .phone-quick-icon{color:var(--preview-on-primary);}
 #v3-availability .phone-list{margin-top:clamp(25px,3.6vh,33px);}
 #v3-availability .phone-list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
 #v3-availability .phone-list-header b{font-size:12px;}
-#v3-availability .phone-list-header span{font-size:10px;color:#728478;}
+#v3-availability .phone-list-header span{font-size:10px;color:var(--preview-text-secondary);}
 #v3-availability .phone-asset{
   display:flex;align-items:center;gap:9px;padding:11px 0;
-  border-bottom:1px solid #e4ebe6;
+  border-bottom:1px solid var(--preview-border);
 }
 #v3-availability .phone-asset-icon{
   display:grid;place-items:center;width:31px;height:31px;flex:none;
-  border-radius:50%;background:#e0efe6;color:#237450;
+  border-radius:50%;background:var(--preview-primary-soft);color:var(--preview-primary);
 }
 #v3-availability .phone-asset-icon svg{display:block;width:17px;height:17px;stroke-width:1.85;}
 #v3-availability .phone-asset div{flex:1;min-width:0;}
 #v3-availability .phone-asset b{display:block;font-size:11px;font-weight:650;}
-#v3-availability .phone-asset small{display:block;font-size:9px;color:#90a196;margin-top:3px;}
+#v3-availability .phone-asset small{display:block;font-size:9px;color:var(--preview-text-secondary);margin-top:3px;}
 #v3-availability .phone-asset strong{font-size:12px;font-weight:600;}
 #v3-availability .phone-tabs{
   display:flex;justify-content:space-around;gap:8px;margin-top:auto;
-  padding-top:17px;font-size:9px;color:#839087;
+  padding-top:17px;font-size:9px;color:var(--preview-text-secondary);
 }
 #v3-availability .phone-tabs span{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0;}
 #v3-availability .phone-tabs svg{display:block;width:16px;height:16px;stroke-width:1.85;}
-#v3-availability .phone-tabs span:first-child{color:#0b8e60;font-weight:750;}
+#v3-availability .phone-tabs span:first-child{color:var(--preview-primary);font-weight:750;}
 #v3-availability .download-art-caption{
   position:absolute;z-index:2;bottom:clamp(14px,3vh,30px);right:0;
-  font-size:10px;letter-spacing:.1em;color:#748c7e;
+  font-size:10px;letter-spacing:.1em;color:#C5CEC8;
 }
     #v3-availability .download-art-caption {
       bottom: 14px;
