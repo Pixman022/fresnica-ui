@@ -555,12 +555,12 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 <div class="home11-display">
 <div class="home11-phone" aria-label="Fresnica Activity history preview">
       <span class="phone-island" aria-hidden="true"></span>
-      <div class="phone-header"><h1 class="gallery-screen-title">Activity</h1></div>
+      <div class="phone-header"><h1 class="gallery-screen-title">Activity</h1><button type="button" class="gallery-header-action gallery-activity-filter-trigger" aria-label="筛选交易 / Filter activity" title="Filter activity" aria-haspopup="dialog" aria-expanded="false" aria-controls="gallery-activity-filter-dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M7 12h10M10 17h4"/></svg></button></div>
       <div class="home11-scroll">
 <h2 class="gallery-section-title">Today <small>Nov 26</small></h2>
-<section class="gallery-panel" aria-label="Today"><div class="gallery-row"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg></span><span class="gallery-row-copy"><b>Received USDC</b></span><span class="gallery-row-right"><strong class="gallery-positive">+250.00</strong><small>USDC</small></span></div><div class="gallery-row"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17V7h10M7 7l10 10"/></svg></span><span class="gallery-row-copy"><b>Sent XLM</b></span><span class="gallery-row-right"><strong>-45.00</strong><small>XLM</small></span></div></section>
+<section class="gallery-panel" aria-label="Today"><div class="gallery-row" data-activity-kind="received"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg></span><span class="gallery-row-copy"><b>Received USDC</b></span><span class="gallery-row-right"><strong class="gallery-positive">+250.00</strong><small>USDC</small></span></div><div class="gallery-row" data-activity-kind="sent"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17V7h10M7 7l10 10"/></svg></span><span class="gallery-row-copy"><b>Sent XLM</b></span><span class="gallery-row-right"><strong>-45.00</strong><small>XLM</small></span></div></section>
 <h2 class="gallery-section-title">Yesterday <small>Nov 25</small></h2>
-<section class="gallery-panel" aria-label="Yesterday"><div class="gallery-row"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/></svg></span><span class="gallery-row-copy"><b>Swapped XLM to USDC</b></span><span class="gallery-row-right"><strong class="gallery-positive">+120.00</strong><small>USDC</small></span></div><div class="gallery-row"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg></span><span class="gallery-row-copy"><b>Received XLM</b></span><span class="gallery-row-right"><strong class="gallery-positive">+900.00</strong><small>XLM</small></span></div></section>
+<section class="gallery-panel" aria-label="Yesterday"><div class="gallery-row" data-activity-kind="swapped"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/></svg></span><span class="gallery-row-copy"><b>Swapped XLM to USDC</b></span><span class="gallery-row-right"><strong class="gallery-positive">+120.00</strong><small>USDC</small></span></div><div class="gallery-row" data-activity-kind="received"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg></span><span class="gallery-row-copy"><b>Received XLM</b></span><span class="gallery-row-right"><strong class="gallery-positive">+900.00</strong><small>XLM</small></span></div></section>
 <p class="gallery-muted" style="margin:12px 3px 0">Preview only</p>
 </div>
       <nav class="phone-tabs" aria-label="Wallet main navigation">
@@ -579,6 +579,19 @@ html.preview-immersive .home11-phone .home11-action-sheet{
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg>Send</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/></svg>Swap</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7 7 17M17 17H7V7"/></svg>Receive</span>
+    </div>
+  </section>
+</div>
+<div class="home11-action-overlay gallery-activity-filter-overlay" hidden>
+  <div class="home11-action-backdrop" data-activity-filter-dismiss="true"></div>
+  <section id="gallery-activity-filter-dialog" class="home11-action-sheet gallery-activity-filter-sheet" role="dialog" aria-modal="true" aria-labelledby="gallery-activity-filter-title">
+    <span class="home11-action-handle" aria-hidden="true"></span>
+    <div class="home11-action-heading"><h2 id="gallery-activity-filter-title">Filter activity</h2><button type="button" class="home11-sheet-close" data-activity-filter-dismiss="true" aria-label="Close filter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="gallery-activity-options" role="group" aria-label="Transaction type">
+      <button type="button" class="gallery-activity-option" data-activity-filter="all" aria-pressed="true">All activity<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg></button>
+      <button type="button" class="gallery-activity-option" data-activity-filter="received" aria-pressed="false">Received<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg></button>
+      <button type="button" class="gallery-activity-option" data-activity-filter="sent" aria-pressed="false">Sent<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg></button>
+      <button type="button" class="gallery-activity-option" data-activity-filter="swapped" aria-pressed="false">Swapped<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg></button>
     </div>
   </section>
 </div>
@@ -631,6 +644,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
   });
 })();
 </script>
+<script src="./mobile-activity-filter.js" defer></script>
 <script src="./mobile-gallery-system.js" defer></script>
 </body>
 </html>
