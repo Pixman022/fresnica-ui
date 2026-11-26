@@ -64,6 +64,7 @@ jobs:
                   test -s "$source/fresnica-v3-motion-preview/Fresnica-logo-actions.svg"
                   grep -Fq 'data-icon-source="Fresnica-logo(1).svg"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   grep -Fq 'data:image/svg+xml;charset=utf-8,' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq '<span class="phone-network"><span class="phone-network-dot" aria-hidden="true"></span>Stellar Mainnet</span>' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   test -s "$source/fresnica-v3-orb-demo/index.html"
                   mkdir -p demo-dist/fresnica-v3-motion-preview demo-dist/fresnica-v3-orb-demo
                   cp -a "$source/fresnica-v3-motion-preview/." demo-dist/fresnica-v3-motion-preview/
