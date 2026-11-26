@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="description" content="A standalone copy of the Fresnica mobile wallet interface preview." />
+  <title>Fresnica — Mobile Wallet Preview</title>
+  <link rel="stylesheet" href="./m15-typography.css" />
+  <style>
+    /* This page duplicates the third-screen phone artwork without modifying the website. */
+    :root { color-scheme: dark; --Fresnica-font-family: Roboto, 'Noto Sans SC', Arial, sans-serif; }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body { background: #101312; color: #f4f7f5; font-family: var(--Fresnica-font-family); }
+    #v3-availability {
+      display: grid;
+      place-items: center;
+      min-height: 100dvh;
+      padding: 24px 16px;
+    }
+    #v3-availability .download-art {
+      width: min(100%, 720px);
+      min-height: min(740px, calc(100dvh - 48px));
+      padding: 32px 0 58px;
+    }
+#v3-availability .download-art{position:relative;min-width:0;display:grid;place-items:center;align-self:stretch;}
+#v3-availability .download-art::before{
+  content:'';position:absolute;inset:15% 6%;border-radius:50%;
+  background:radial-gradient(ellipse at 50% 50%,rgba(21,151,99,.14),rgba(11,37,28,.025) 50%,transparent 75%);
+  pointer-events:none;
+}
+#v3-availability .download-phone{
+  position:relative;z-index:1;box-sizing:border-box;
+  width:clamp(245px,24.5vw,325px);aspect-ratio:9/17;
+  border:7px solid #29302e;border-radius:42px;
+  background:#f5f8f6;color:#18241e;overflow:hidden;
+  padding:clamp(18px,2.3vw,27px) clamp(16px,2vw,24px);
+  box-shadow:0 30px 80px #0008,0 0 0 1px #64746988;
+  display:flex;flex-direction:column;gap:0;
+}
+#v3-availability .phone-island{
+  position:absolute;top:8px;left:50%;transform:translateX(-50%);
+  background:#29302e;width:64px;height:13px;border-radius:12px;
+}
+#v3-availability .phone-header{display:flex;justify-content:space-between;align-items:center;padding-top:14px;}
+#v3-availability .phone-brand{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.01em;}
+#v3-availability .phone-brand i{width:14px;height:14px;background:#109b71;border-radius:50%;display:block;box-shadow:inset -4px -3px 6px #065e4788;}
+#v3-availability .phone-network{color:#66776c;font-size:9px;font-weight:600;}
+#v3-availability .phone-overview{margin-top:clamp(25px,3.4vh,34px);}
+#v3-availability .phone-label{font-size:9px;color:#839188;letter-spacing:.105em;font-weight:650;}
+#v3-availability .phone-overview strong{display:block;font-size:clamp(31px,3vw,39px);font-weight:560;letter-spacing:-.065em;margin:9px 0 10px;}
+#v3-availability .phone-overview strong small{font-size:13px;color:#6b8173;font-weight:550;letter-spacing:0;}
+#v3-availability .phone-overview p{font-size:10px;color:#66816e;margin:0;}
+#v3-availability .phone-quick{display:flex;gap:8px;margin-top:clamp(23px,3.4vh,34px);}
+#v3-availability .phone-quick > span{flex:1;text-align:center;border:1px solid #dce8df;border-radius:10px;background:#edf5ef;padding:13px 4px 11px;font-size:10px;font-weight:650;}
+#v3-availability .phone-quick .phone-quick-icon{display:grid;place-items:center;width:22px;height:22px;margin:0 auto 5px;color:#118c60}
+#v3-availability .phone-quick .phone-quick-icon svg{display:block;width:20px;height:20px}
+#v3-availability .phone-list{margin-top:clamp(25px,3.6vh,33px);}
+#v3-availability .phone-list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+#v3-availability .phone-list-header b{font-size:12px;}
+#v3-availability .phone-list-header span{font-size:10px;color:#728478;}
+#v3-availability .phone-asset{
+  display:flex;align-items:center;gap:9px;padding:11px 0;
+  border-bottom:1px solid #e4ebe6;
+}
+#v3-availability .phone-asset i{
+  display:grid;place-items:center;width:31px;height:31px;flex:none;
+  border-radius:50%;background:#e0efe6;color:#237450;font-size:11px;font-style:normal;font-weight:750;
+}
+#v3-availability .phone-asset div{flex:1;min-width:0;}
+#v3-availability .phone-asset b{display:block;font-size:11px;font-weight:650;}
+#v3-availability .phone-asset small{display:block;font-size:9px;color:#90a196;margin-top:3px;}
+#v3-availability .phone-asset strong{font-size:12px;font-weight:600;}
+#v3-availability .phone-tabs{
+  display:flex;justify-content:space-around;gap:8px;margin-top:auto;
+  padding-top:17px;font-size:9px;color:#839087;
+}
+#v3-availability .phone-tabs span:first-child{color:#0b8e60;font-weight:750;}
+#v3-availability .download-art-caption{
+  position:absolute;z-index:2;bottom:clamp(14px,3vh,30px);right:0;
+  font-size:10px;letter-spacing:.1em;color:#748c7e;
+}
+    #v3-availability .download-art-caption {
+      bottom: 14px;
+      right: 50%;
+      transform: translateX(50%);
+      white-space: nowrap;
+    }
+    @media (max-width: 680px) {
+      #v3-availability .download-art {
+        min-height: min(650px, calc(100dvh - 48px));
+        padding: 12px 0 46px;
+      }
+      #v3-availability .download-phone {
+        width: min(285px, 78vw);
+        transform: scale(.8);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+  </style>
+</head>
+<body>
+  <main id="v3-availability" aria-label="Fresnica mobile wallet interface preview">
+    <h1 class="sr-only">Fresnica mobile wallet interface preview</h1>
+<div class="download-art" aria-label="Fresnica mobile wallet interface">
+    <div class="download-phone">
+      <span class="phone-island" aria-hidden="true"></span>
+      <div class="phone-header"><span class="phone-brand"><i aria-hidden="true"></i>Fresnica</span><span class="phone-network">STELLAR / WALLET</span></div>
+      <div class="phone-overview"><span class="phone-label">WALLET / OVERVIEW</span><strong>1,248.50 <small>XLM</small></strong><p>Stellar assets, all in view.</p></div>
+      <div class="phone-quick"><span><span class="phone-quick-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>Send</span><span><span class="phone-quick-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M17 17H7V7"/></svg></span>Receive</span><span><span class="phone-quick-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m7 7-4 4 4 4M3 11h18m-4 6 4-4-4-4M21 13H3"/></svg></span>Swap</span></div>
+      <div class="phone-list">
+        <div class="phone-list-header"><b>Your assets</b><span>Portfolio</span></div>
+        <div class="phone-asset"><i aria-hidden="true">X</i><div><b>XLM</b><small>Stellar native asset</small></div><strong>1,248.50</strong></div>
+        <div class="phone-asset"><i aria-hidden="true">$</i><div><b>USDC</b><small>Stellar-issued asset</small></div><strong>250.00</strong></div>
+        <div class="phone-asset"><i aria-hidden="true">A</i><div><b>AQUA</b><small>Stellar-issued asset</small></div><strong>860.00</strong></div>
+      </div>
+      <div class="phone-tabs"><span>Home</span><span>Assets</span><span>Activity</span><span>Explore</span></div>
+    </div>
+    <span class="download-art-caption">FRESNICA / STELLAR WALLET</span>
+  </div>
+  </main>
+</body>
+</html>
