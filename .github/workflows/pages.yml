@@ -71,15 +71,23 @@ jobs:
                       test -s "$source/fresnica-v3-motion-preview/$page"
                       grep -Fq 'mobile-gallery-system.css' "$source/fresnica-v3-motion-preview/$page"
                       grep -Fq 'mobile-gallery-system.js' "$source/fresnica-v3-motion-preview/$page"
+                      grep -Fq 'mobile-preview-fullscreen.js' "$source/fresnica-v3-motion-preview/$page"
                   done
                   test -s "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   test -s "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  test -s "$source/fresnica-v3-motion-preview/mobile-wallet-switch.js"
+                  test -s "$source/fresnica-v3-motion-preview/mobile-preview-fullscreen.js"
+                  test -s "$source/fresnica-v3-motion-preview/mobile-activity-filter.js"
+                  node --check "$source/fresnica-v3-motion-preview/mobile-preview-fullscreen.js"
+                  node --check "$source/fresnica-v3-motion-preview/mobile-activity-filter.js"
                   node --check "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  node --check "$source/fresnica-v3-motion-preview/mobile-wallet-switch.js"
                   grep -Fq 'class="gallery-screen-title">Activity</h1>' "$source/fresnica-v3-motion-preview/mobile-activity.html"
                   grep -Fq 'class="gallery-screen-title">dApps</h1>' "$source/fresnica-v3-motion-preview/mobile-dapps.html"
                   grep -Fq 'class="gallery-screen-title">Settings</h1>' "$source/fresnica-v3-motion-preview/mobile-settings.html"
                   # Activity, dApps and Settings have one title in the top-left header.
-                  grep -Fq '<div class="phone-header"><h1 class="gallery-screen-title">Activity</h1></div>' "$source/fresnica-v3-motion-preview/mobile-activity.html"
+                  grep -Fq '<div class="phone-header"><h1 class="gallery-screen-title">Activity</h1><button' "$source/fresnica-v3-motion-preview/mobile-activity.html"
+                  grep -Fq 'class="home11-action-overlay gallery-activity-filter-overlay"' "$source/fresnica-v3-motion-preview/mobile-activity.html"
                   grep -Fq '<div class="phone-header"><h1 class="gallery-screen-title">dApps</h1><button' "$source/fresnica-v3-motion-preview/mobile-dapps.html"
                   grep -Fq '<div class="phone-header"><h1 class="gallery-screen-title">Settings</h1></div>' "$source/fresnica-v3-motion-preview/mobile-settings.html"
                   for page in mobile-activity.html mobile-dapps.html mobile-settings.html; do
@@ -100,11 +108,19 @@ jobs:
                   grep -Fq 'html.gallery-menu-open .preview-sidebar' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   grep -Fq 'visibility 0s linear 0s' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   grep -Fq 'html.preview-immersive .gallery-menu-toggle' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
-                  # Main pages keep a single home logo; reference previews have a separate menu group.
+                  # Main pages use a wallet identity in Home; reference previews remain grouped separately.
                   grep -Fq 'data-gallery-en="Main pages" data-gallery-zh="主要页面"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   grep -Fq 'data-gallery-en="Reference pages" data-gallery-zh="参考页面"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   grep -Fq '.gallery-nav-group-label.is-reference' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
-                  grep -Fq 'class="brand-icon"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  ! grep -Fq 'class="brand-icon"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-summary"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-name">SuperWallet' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-address">GB3U' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-switch"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'src="./mobile-wallet-switch.js"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-backdrop home11-action-backdrop"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-create-entry"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-create-view" hidden' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   for page in mobile-activity.html mobile-dapps.html mobile-settings.html; do
                       ! grep -Fq 'class="brand-icon"' "$source/fresnica-v3-motion-preview/$page"
                   done
@@ -118,7 +134,7 @@ jobs:
                   cmp "$source/fresnica-v3-motion-preview/index.html" demo-dist/fresnica-v3-motion-preview/index.html
                   cmp "$source/fresnica-v3-motion-preview/m58-brand-palette.css" demo-dist/fresnica-v3-motion-preview/m58-brand-palette.css
                   cmp "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html" demo-dist/fresnica-v3-motion-preview/mobile-demo-1-1.html
-                  for file in mobile-activity.html mobile-dapps.html mobile-settings.html mobile-gallery-system.css mobile-gallery-system.js; do
+                  for file in mobile-activity.html mobile-dapps.html mobile-settings.html mobile-gallery-system.css mobile-gallery-system.js mobile-wallet-switch.js mobile-preview-fullscreen.js mobile-activity-filter.js; do
                       cmp "$source/fresnica-v3-motion-preview/$file" "demo-dist/fresnica-v3-motion-preview/$file"
                   done
                   cmp "$source/fresnica-v3-motion-preview/Fresnica-logo-actions.svg" demo-dist/fresnica-v3-motion-preview/Fresnica-logo-actions.svg
@@ -152,6 +168,7 @@ jobs:
                   <div id="result">PENDING</div>
                   <iframe id="phone" title="phone preview" src="./fresnica-v3-motion-preview/mobile-demo-1-1.html" style="width:390px;height:740px"></iframe>
                   <iframe id="desktop" title="desktop preview" src="./fresnica-v3-motion-preview/mobile-demo-1-1.html" style="width:1100px;height:740px"></iframe>
+                  <iframe id="activity" title="activity preview" src="./fresnica-v3-motion-preview/mobile-activity.html" style="width:390px;height:740px"></iframe>
                   <script>
                   window.addEventListener('load', () => {
                     const output = document.getElementById('result');
@@ -181,6 +198,61 @@ jobs:
                       const desktopToggle = desktop.querySelector('.gallery-menu-toggle');
                       if (!desktopToggle || desktop.defaultView.getComputedStyle(desktopToggle).display !== 'none') throw Error('desktop toggle visible');
                       if (desktop.defaultView.getComputedStyle(desktop.querySelector('.preview-sidebar')).visibility !== 'visible') throw Error('desktop menu hidden');
+                      const walletToggle = mobile.querySelector('.home11-wallet-switch');
+                      const walletPopup = mobile.querySelector('#home11-wallet-selector');
+                      if (!walletToggle || !walletPopup || !walletPopup.hidden) throw Error('wallet switch missing');
+                      walletToggle.click();
+                      if (walletPopup.hidden || walletToggle.getAttribute('aria-expanded') !== 'true') throw Error('wallet switch cannot open');
+                      const walletPhone = mobile.querySelector('.home11-phone');
+                      const walletRect = walletPhone.getBoundingClientRect();
+                      const toggleRect = walletToggle.getBoundingClientRect();
+                      const walletNameRect = mobile.querySelector('.home11-wallet-name').getBoundingClientRect();
+                      const walletAvatarRect = mobile.querySelector('.home11-wallet-avatar').getBoundingClientRect();
+                      if (toggleRect.left - walletNameRect.right > 8) throw Error('wallet switch too far from wallet name');
+                      if (Math.abs((toggleRect.top + toggleRect.bottom) - (walletAvatarRect.top + walletAvatarRect.bottom)) > 2) throw Error('wallet switch vertically misaligned');
+                      if (toggleRect.right - walletRect.left > walletRect.width * 0.618 + 1) throw Error('wallet switch crosses golden-ratio boundary');
+                      if (style(mobile.querySelector('.home11-wallet-avatar')).backgroundColor !== 'rgb(32, 48, 41)') throw Error('wallet avatar background not dark');
+                      if (!walletPopup.querySelector('.home11-wallet-backdrop') || !walletPopup.querySelector('.home11-wallet-sheet')) throw Error('wallet bottom sheet absent');
+                      const popupRect = walletPopup.getBoundingClientRect();
+                      const walletSheet = walletPopup.querySelector('.home11-wallet-sheet');
+                      const actionSheet = mobile.querySelector('#home11-action-panel');
+                      if (!walletPopup.classList.contains('home11-action-overlay') || !walletSheet.classList.contains('home11-action-sheet')) throw Error('wallet sheet does not reuse Actions layout');
+                      if (style(walletSheet).borderTopLeftRadius !== style(actionSheet).borderTopLeftRadius) throw Error('wallet sheet and Actions style diverged');
+                      const walletBottom = walletRect.bottom - Number.parseFloat(style(walletPhone).borderBottomWidth);
+                      if (Math.abs(popupRect.bottom - walletBottom) > 2 || Math.abs(walletSheet.getBoundingClientRect().bottom - walletBottom) > 2) throw Error('wallet sheet not phone-bottom aligned');
+                      walletPopup.querySelector('[data-wallet-index="1"]').click();
+                      if (mobile.querySelector('.home11-wallet-name').textContent !== 'Wallet 2' || !walletPopup.hidden) throw Error('wallet selection failed');
+                      walletToggle.click();
+                      walletPopup.querySelector('.home11-wallet-create-entry').click();
+                      const createView = walletPopup.querySelector('.home11-wallet-create-view');
+                      if (createView.hidden) throw Error('wallet create entry did not open');
+                      createView.querySelector('input').value = 'Test Wallet';
+                      createView.querySelector('.home11-wallet-create-submit').click();
+                      if (mobile.querySelector('.home11-wallet-name').textContent !== 'Test Wallet' || !walletPopup.hidden) throw Error('demo wallet create flow failed');
+                      const actionOverlay = mobile.querySelector('.home11-action-overlay:not(.home11-wallet-selector)');
+                      mobile.querySelector('.home11-action-trigger').click();
+                      if (!actionOverlay || actionOverlay.hidden || !actionOverlay.querySelector('.gallery-app-grid')) throw Error('Actions sheet broke after wallet update');
+                      actionOverlay.querySelector('.home11-sheet-close').click();
+                      if (!actionOverlay.hidden) throw Error('Actions sheet cannot close');
+                      const activity = document.getElementById('activity').contentDocument;
+                      const filterToggle = activity.querySelector('.gallery-activity-filter-trigger');
+                      const filterOverlay = activity.querySelector('.gallery-activity-filter-overlay');
+                      if (!filterToggle || !filterOverlay || !filterOverlay.hidden) throw Error('activity filter missing');
+                      filterToggle.click();
+                      if (filterOverlay.hidden) throw Error('activity filter cannot open');
+                      filterOverlay.querySelector('[data-activity-filter="sent"]').click();
+                      if (activity.querySelectorAll('.gallery-row:not([hidden])').length !== 1) throw Error('activity filter results incorrect');
+                      const previewToggle = activity.querySelector('.preview-fullscreen-toggle');
+                      previewToggle.click();
+                      if (!activity.documentElement.classList.contains('preview-immersive') ||
+                          activity.defaultView.getComputedStyle(activity.querySelector('.phone-header')).paddingRight !== '16px') throw Error('immersive preview changes header layout');
+                      filterToggle.click();
+                      if (!activity.documentElement.classList.contains('preview-immersive')) throw Error('filter opens outside immersive preview');
+                      filterOverlay.querySelector('[data-activity-filter="all"]').click();
+                      if (!activity.documentElement.classList.contains('preview-immersive') ||
+                          activity.querySelectorAll('.gallery-row:not([hidden])').length !== 4) throw Error('filter dismisses immersive preview');
+                      previewToggle.click();
+                      if (activity.documentElement.classList.contains('preview-immersive')) throw Error('fullscreen exit failed');
                       output.textContent = 'GALLERY_DRAWER_PASS';
                     } catch (error) {
                       output.textContent = 'GALLERY_DRAWER_FAIL: ' + error.message;
