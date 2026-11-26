@@ -322,3 +322,16 @@ html.preview-immersive .wallet-header{padding-right:16px!important}
 html:has(.home11-phone .home11-action-overlay:not([hidden]),.home11-phone .gallery-dialog-overlay:not([hidden])) .preview-fullscreen-toggle{
   visibility:hidden;pointer-events:none;
 }
+
+/* Make former informational items into route links without changing the Native surface layout. */
+.gallery-nav-group-label.is-secondary{margin-top:9px;padding-top:15px;border-top:1px solid #2a352e}
+.home11-phone .gallery-quick-link{display:flex;align-items:center;text-align:center;justify-content:center;text-decoration:none;cursor:pointer}
+.home11-phone .gallery-quick-link:focus-visible{outline:2px solid var(--native-primary);outline-offset:2px}
+.home11-phone a.phone-asset{color:var(--native-content-primary);text-decoration:none;cursor:pointer}
+.home11-phone a.phone-asset:visited{color:var(--native-content-primary)}
+.home11-phone a.phone-asset:focus-visible,.home11-phone a.gallery-row:focus-visible{
+  outline:2px solid var(--native-primary);outline-offset:-2px;border-radius:12px
+}
+.home11-phone a.gallery-row{color:var(--native-content-primary);text-decoration:none;cursor:pointer}
+.home11-phone .gallery-settings-list a.gallery-row{color:var(--native-content-primary)}
+.home11-phone .gallery-activity-filter-overlay .gallery-activity-option{cursor:pointer}
