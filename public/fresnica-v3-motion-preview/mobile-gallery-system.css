@@ -194,7 +194,7 @@ html[data-demo-theme="dark"] #v3-availability .phone-network{color:#c5cec8}
 /* Keep the wallet switch at or before the 61.8% horizontal boundary. */
 .home11-phone .home11-wallet-header{position:relative;gap:7px}
 .home11-phone .home11-wallet-summary{
-  display:flex;align-items:center;gap:5px;flex:0 1 auto;min-width:0;
+  display:flex;align-items:center;gap:4px;flex:0 1 auto;min-width:0;
   width:max-content;max-width:61.8%;
 }
 .home11-phone .home11-wallet-avatar{
@@ -203,8 +203,6 @@ html[data-demo-theme="dark"] #v3-availability .phone-network{color:#c5cec8}
 }
 .home11-phone .home11-wallet-avatar svg{display:block;width:21px;height:21px}
 .home11-phone .home11-wallet-identity{display:flex;flex-direction:column;justify-content:center;gap:3px;flex:0 1 auto;min-width:0}
-.home11-phone .home11-wallet-name-row{display:flex;align-items:center;gap:3px;min-width:0}
-.home11-phone .home11-wallet-name-row .home11-wallet-name{flex:0 1 auto;min-width:0}
 .home11-phone .home11-wallet-name{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:700;line-height:1.15}
 .home11-phone .home11-wallet-address{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;font-weight:500;line-height:1.1;color:var(--native-content-secondary)}
 .home11-phone .home11-wallet-switch{
