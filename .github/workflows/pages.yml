@@ -200,7 +200,9 @@ jobs:
                       const walletRect = walletPhone.getBoundingClientRect();
                       const toggleRect = walletToggle.getBoundingClientRect();
                       const walletNameRect = mobile.querySelector('.home11-wallet-name').getBoundingClientRect();
+                      const walletAvatarRect = mobile.querySelector('.home11-wallet-avatar').getBoundingClientRect();
                       if (toggleRect.left - walletNameRect.right > 8) throw Error('wallet switch too far from wallet name');
+                      if (Math.abs((toggleRect.top + toggleRect.bottom) - (walletAvatarRect.top + walletAvatarRect.bottom)) > 2) throw Error('wallet switch vertically misaligned');
                       if (toggleRect.right - walletRect.left > walletRect.width * 0.618 + 1) throw Error('wallet switch crosses golden-ratio boundary');
                       if (style(mobile.querySelector('.home11-wallet-avatar')).backgroundColor !== 'rgb(32, 48, 41)') throw Error('wallet avatar background not dark');
                       if (!walletPopup.querySelector('.home11-wallet-backdrop') || !walletPopup.querySelector('.home11-wallet-sheet')) throw Error('wallet bottom sheet absent');
