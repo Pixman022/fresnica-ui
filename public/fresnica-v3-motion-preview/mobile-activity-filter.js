@@ -11,32 +11,18 @@
   if (!trigger || !overlay || !searchInput || !clearSearch || !noMatch ||
       !sections.length || !rows.length) return;
 
-  const defaults = () => ({
-    direction: "all", family: "all", asset: "all",
-    amountMode: "any", amount: "", hideDust: false, showMarked: false,
-    showFailed: false, hiddenAssets: [],
-  });
+  const defaults = () => ({type: "all", asset: "all", status: "all"});
   let applied = defaults();
   let draft = defaults();
   const zh = () => document.documentElement.lang.startsWith("zh");
   const labels = {
     "Search activity": "搜索交易", "Clear search": "清除搜索",
-    "Direction": "方向", "All": "全部", "Incoming": "收入", "Outgoing": "支出",
-    "Operation type": "操作类型", "Payments": "支付", "Swaps": "兑换", "Account": "账户",
-    "Trustline": "信任线", "Other": "其他", "Asset": "资产", "Search asset": "搜索资产",
-    "Search code or issuer": "搜索代码或发行方", "Amount": "金额",
-    "Amount comparison": "金额比较", "Amount value": "金额数值",
-    "Any": "不限", "Greater than": "大于", "Less than": "小于",
-    "Hide dust": "隐藏小额收款", "Hide incoming amounts under 1": "隐藏小于 1 的收入",
-    "Show marked": "显示已隐藏记录", "Include hidden sample records": "包括隐藏的示例记录",
-    "Show failed": "显示失败交易", "Include failed sample operations": "包括失败的示例操作",
-    "Manage hidden assets": "管理隐藏资产", "Hide assets from the list": "在列表中隐藏以下资产",
-    "Filters apply to loaded sample records only.": "筛选仅作用于已加载的示例记录。",
+    "Filter activity": "筛选交易", "Type": "类型", "Asset": "资产", "Status": "状态",
+    "All": "全部", "Received": "已收款", "Sent": "已发送", "Swapped": "已兑换",
+    "Completed": "已完成", "Failed": "失败", "Pending": "待处理",
     "Reset": "重置", "Apply": "应用", "No matching activity": "没有匹配的交易",
     "Try a different search or filter.": "尝试其他搜索内容或筛选条件。",
-    "Completed": "已完成", "Failed": "失败", "Pending": "待处理",
     "Failed XLM payment": "XLM 支付失败", "Today": "今天", "Yesterday": "昨天",
-    "Enter an amount of 0 or more.": "请输入大于或等于 0 的金额。",
   };
   const reverse = Object.fromEntries(Object.entries(labels).map(([en,cn]) => [cn,en]));
   const sources = new WeakMap();
@@ -74,11 +60,6 @@
     searchInput.setAttribute("aria-label", locale("Search activity"));
     clearSearch.setAttribute("aria-label", locale("Clear search"));
     clearSearch.title = locale("Clear search");
-    overlay.querySelector("[data-activity-asset-search]").placeholder = locale("Search code or issuer");
-    overlay.querySelector("[data-activity-asset-search]").setAttribute("aria-label", locale("Search asset"));
-    overlay.querySelector("[data-activity-amount-mode]").setAttribute("aria-label", locale("Amount comparison"));
-    overlay.querySelector("[data-activity-amount-value]").placeholder = locale("Amount");
-    overlay.querySelector("[data-activity-amount-value]").setAttribute("aria-label", locale("Amount value"));
     noMatch.querySelector("strong").textContent = locale("No matching activity");
     noMatch.querySelector("small").textContent = locale("Try a different search or filter.");
     rows.forEach(row => {
@@ -101,27 +82,16 @@
   const matches = row => {
     const type = row.dataset.activityKind || "";
     const asset = row.dataset.activityAsset || "";
-    const family = row.dataset.activityFamily || "other";
-    const direction = row.dataset.activityDirection || "";
-    const amount = row.dataset.activityAmount === "" ? null : Number(row.dataset.activityAmount);
-    if (applied.direction !== "all" && applied.direction !== direction) return false;
-    if (applied.family !== "all" && applied.family !== family) return false;
+    const status = row.dataset.activityStatus || "";
+    if (applied.type !== "all" && applied.type !== type) return false;
     if (applied.asset !== "all" && applied.asset !== asset) return false;
-    if (applied.hiddenAssets.includes(asset)) return false;
-    if (row.dataset.activityStatus === "failed" && !applied.showFailed) return false;
-    if (row.dataset.activityMarked === "true" && !applied.showMarked) return false;
-    if (applied.hideDust && direction === "incoming" && amount !== null && amount < 1) return false;
-    if (applied.amountMode !== "any") {
-      if (amount === null || !Number.isFinite(amount)) return false;
-      const threshold = Number(applied.amount);
-      if (applied.amountMode === "greater" ? amount <= threshold : amount >= threshold) return false;
-    }
+    if (applied.status !== "all" && applied.status !== status) return false;
     const query = searchInput.value.trim().toLocaleLowerCase();
     if (!query) return true;
     const title = row.querySelector(".gallery-row-copy b")?.textContent || "";
     const clockTime = row.querySelector("time")?.textContent || "";
-    const fields = [title,asset,type,family,direction,row.dataset.activityStatus,clockTime];
-    return fields.join(" ").toLocaleLowerCase().includes(query);
+    return [title,asset,type,row.dataset.activityFamily,row.dataset.activityDirection,
+      status,clockTime].join(" ").toLocaleLowerCase().includes(query);
   };
   const refreshRows = () => {
     let visibleCount = 0;
@@ -137,8 +107,7 @@
       if (heading?.matches(".gallery-section-title")) heading.hidden = !hasVisible;
     });
     noMatch.hidden = visibleCount !== 0;
-    const changed = Object.keys(applied).some(key => key === "hiddenAssets" ?
-      applied.hiddenAssets.length > 0 : applied[key] !== defaults()[key]);
+    const changed = Object.keys(applied).some(key => applied[key] !== defaults()[key]);
     trigger.classList.toggle("is-filtered", changed);
     const isSearching = searchInput.value.trim().length > 0;
     clearSearch.hidden = !isSearching;
@@ -158,46 +127,27 @@
   };
   const syncChoices = () => {
     overlay.querySelectorAll("[data-activity-choice-group]").forEach(group => {
-      const value = draft[group.dataset.activityChoiceGroup];
+      const selected = draft[group.dataset.activityChoiceGroup];
       group.querySelectorAll("[data-activity-choice]").forEach(button => {
-        button.setAttribute("aria-pressed",String(button.dataset.activityChoice === value));
+        button.setAttribute("aria-pressed",String(button.dataset.activityChoice === selected));
       });
     });
-    overlay.querySelectorAll("[data-activity-switch]").forEach(input => {
-      input.checked = Boolean(draft[input.dataset.activitySwitch]);
-    });
-    overlay.querySelectorAll("[data-activity-hide-asset]").forEach(input => {
-      input.checked = draft.hiddenAssets.includes(input.value);
-    });
-    const amountMode = overlay.querySelector("[data-activity-amount-mode]");
-    const amountValue = overlay.querySelector("[data-activity-amount-value]");
-    amountMode.value = draft.amountMode;
-    amountValue.value = draft.amount;
-    amountValue.disabled = draft.amountMode === "any";
-    overlay.querySelector(".gallery-activity-filter-error").hidden = true;
   };
   trigger.addEventListener("click", () => {
     if (!overlay.hidden) { close(true); return; }
-    draft = {...applied, hiddenAssets:[...applied.hiddenAssets]};
+    draft = {...applied};
     syncChoices();
-    overlay.querySelector(".gallery-activity-hidden-assets").hidden = true;
-    overlay.querySelector("[data-activity-asset-search]").value = "";
-    overlay.querySelectorAll("[data-activity-choice-group='asset'] button").forEach(button => button.hidden = false);
     overlay.hidden = false;
     trigger.setAttribute("aria-expanded","true");
-    overlay.querySelector('[data-activity-choice-group="direction"] [data-activity-choice="all"]')?.focus();
+    overlay.querySelector('[data-activity-choice-group="type"] [aria-pressed="true"]')?.focus();
   });
   overlay.addEventListener("click", (event) => {
     if (event.target.closest("[data-activity-filter-dismiss]")) { close(true); return; }
-    const chip = event.target.closest("[data-activity-choice]");
-    if (chip) {
-      draft[chip.closest("[data-activity-choice-group]").dataset.activityChoiceGroup] = chip.dataset.activityChoice;
+    const choice = event.target.closest("[data-activity-choice]");
+    if (choice) {
+      draft[choice.closest("[data-activity-choice-group]").dataset.activityChoiceGroup] =
+        choice.dataset.activityChoice;
       syncChoices();
-      return;
-    }
-    if (event.target.closest(".gallery-activity-manage-hidden")) {
-      const area = overlay.querySelector(".gallery-activity-hidden-assets");
-      area.hidden = !area.hidden;
       return;
     }
     if (event.target.closest(".gallery-activity-reset")) {
@@ -206,42 +156,11 @@
       return;
     }
     if (event.target.closest(".gallery-activity-apply")) {
-      if (draft.amountMode !== "any" &&
-          (draft.amount === "" || !Number.isFinite(Number(draft.amount)) || Number(draft.amount) < 0)) {
-        const error = overlay.querySelector(".gallery-activity-filter-error");
-        error.textContent = locale("Enter an amount of 0 or more.");
-        error.hidden = false;
-        overlay.querySelector("[data-activity-amount-value]").focus();
-        return;
-      }
-      applied = {...draft, hiddenAssets:[...draft.hiddenAssets]};
+      applied = {...draft};
       refreshRows();
       close(true);
     }
   });
-  overlay.querySelector("[data-activity-asset-search]").addEventListener("input", event => {
-    const query = event.target.value.trim().toLowerCase();
-    overlay.querySelectorAll("[data-activity-choice-group='asset'] button").forEach(button => {
-      button.hidden = query !== "" &&
-        !(button.dataset.activityChoice + " " + (button.dataset.activityAssetIssuer || "")).toLowerCase().includes(query);
-    });
-  });
-  overlay.querySelector("[data-activity-amount-mode]").addEventListener("change", event => {
-    draft.amountMode = event.target.value;
-    if (draft.amountMode === "any") draft.amount = "";
-    syncChoices();
-  });
-  overlay.querySelector("[data-activity-amount-value]").addEventListener("input", event => {
-    draft.amount = event.target.value;
-    overlay.querySelector(".gallery-activity-filter-error").hidden = true;
-  });
-  overlay.querySelectorAll("[data-activity-switch]").forEach(input => input.addEventListener("change", () => {
-    draft[input.dataset.activitySwitch] = input.checked;
-  }));
-  overlay.querySelectorAll("[data-activity-hide-asset]").forEach(input => input.addEventListener("change", () => {
-    if (input.checked && !draft.hiddenAssets.includes(input.value)) draft.hiddenAssets.push(input.value);
-    if (!input.checked) draft.hiddenAssets = draft.hiddenAssets.filter(asset => asset !== input.value);
-  }));
   phone.addEventListener("keydown", (event) => {
     if (overlay.hidden) return;
     if (event.key === "Escape") {
@@ -251,7 +170,7 @@
       return;
     }
     if (event.key !== "Tab") return;
-    const focusable = [...overlay.querySelectorAll("button:not(:disabled),input:not(:disabled),select:not(:disabled)")]
+    const focusable = [...overlay.querySelectorAll("button:not(:disabled)")]
       .filter(element => element.getClientRects().length && !element.closest("[hidden]"));
     if (!focusable.length) return;
     const first=focusable[0], last=focusable[focusable.length-1];

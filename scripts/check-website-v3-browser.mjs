@@ -1966,10 +1966,10 @@ try{
       await gallery.locator('.home11-phone').screenshot({path:homeImage,animations:'disabled'});
       captures.push(path.relative(dest,homeImage));
 
-      // A01/A02/A03/A06: Activity search, compound filters, row states and local dates.
+      // Activity: compact Type/Asset/Status filters, search, relative dates and row states.
       await gallery.goto(new URL('mobile-activity.html',base).href,{waitUntil:'load',timeout:45000});
       const visibleActivity=()=>gallery.locator('.home11-scroll [data-activity-kind]:visible').count();
-      assert(await visibleActivity()===4,'Activity default should retain four sample rows');
+      assert(await visibleActivity()===5,'Activity All status should include completed and failed samples');
       assert(await gallery.locator('[data-activity-day="0"] span').textContent()===
         (config.lang==='zh'?'今天':'Today'),'Activity relative day label not localized');
       const expectedToday=await gallery.evaluate(()=>new Intl.DateTimeFormat(
@@ -1977,87 +1977,69 @@ try{
         {month:'short',day:'numeric'}).format(new Date()));
       assert(await gallery.locator('[data-activity-day="0"] [data-activity-date]').textContent()===expectedToday,
         'Activity date does not follow viewer local day');
-      assert(await gallery.locator('.gallery-activity-row-meta').count()===6,
+      assert(await gallery.locator('.gallery-activity-row-meta').count()===5,
         'Activity records lack timestamp/status metadata');
       const activityImage=path.join(dest,'gallery-activity-'+config.theme+'-'+config.lang+'.png');
       await gallery.locator('.home11-phone').screenshot({path:activityImage,animations:'disabled'});
       captures.push(path.relative(dest,activityImage));
-      assert(await gallery.locator('.gallery-activity-search-input').isVisible()&&
-        await gallery.locator('.gallery-activity-search-trigger').count()===0&&
-        await gallery.evaluate(()=>{
-          const search=document.querySelector('.gallery-activity-search');
-          return search&&!search.hidden&&search.parentElement?.classList.contains('home11-scroll')&&search.nextElementSibling?.classList.contains('gallery-section-title');
-        }),
-        'Activity search should be a peer of transaction date groups within scroll');
-      const activitySearchLayout=await gallery.evaluate(()=>{
-        const field=document.querySelector('.gallery-activity-search-field').getBoundingClientRect();
-        const title=document.querySelector('[data-activity-day="0"]').getBoundingClientRect();
-        const phone=document.querySelector('.gallery-activity-page').getBoundingClientRect();
+      const searchLayout=await gallery.evaluate(()=>{
+        const search=document.querySelector('.gallery-activity-search');
+        const field=document.querySelector('.gallery-activity-search-field');
+        const title=document.querySelector('[data-activity-day="0"]');
+        const f=field.getBoundingClientRect(),t=title.getBoundingClientRect();
         return {
-          leftDiff:Math.abs(field.left-title.left),
-          rightDiff:Math.abs(field.right-title.right),
-          withinPhone:field.left>=phone.left&&field.right<=phone.right+1,
-          width:field.width,
-          font:getComputedStyle(document.querySelector('.gallery-activity-search-input')).fontSize,
-          redundantHintAbsent:!document.querySelector('.gallery-activity-search-hint'),
-          clearHidden:document.querySelector('.gallery-activity-search-clear').hidden,
-          sticky:getComputedStyle(document.querySelector('.gallery-activity-search')).position==='sticky',
-          spaceToTitle:Math.round(title.top-field.bottom)
+          inScroll:search.parentElement?.classList.contains('home11-scroll'),
+          sticky:getComputedStyle(search).position==='sticky',
+          aligned:Math.abs(f.left-t.left)<=1&&Math.abs(f.right-t.right)<=1,
+          transparent:getComputedStyle(field).backgroundColor==='rgba(0, 0, 0, 0)',
+          inputFont:getComputedStyle(document.querySelector('.gallery-activity-search-input')).fontSize,
+          noHint:!document.querySelector('.gallery-activity-search-hint')
         };
       });
-      assert(activitySearchLayout.leftDiff<=1&&activitySearchLayout.rightDiff<=1&&
-        activitySearchLayout.withinPhone&&activitySearchLayout.width>100&&
-        activitySearchLayout.font==='13px'&&
-        activitySearchLayout.redundantHintAbsent&&activitySearchLayout.clearHidden&&
-        activitySearchLayout.sticky&&activitySearchLayout.spaceToTitle>=12&&
-        activitySearchLayout.spaceToTitle<=20,
-        'Activity search spacing/typography/default copy failed: '+
-          JSON.stringify({config,activitySearchLayout}));
+      assert(Object.values(searchLayout).every(Boolean)&&searchLayout.inputFont==='13px',
+        'Activity search sizing/background failed: '+JSON.stringify({config,searchLayout}));
       await gallery.locator('.gallery-activity-search-input').fill('USDC');
-      assert(await gallery.locator('.gallery-activity-search-clear').isVisible()&&
-        await gallery.locator('.gallery-activity-search-hint').count()===0,
-        'Activity should show clear control without redundant search copy: '+JSON.stringify(config));
-      assert(await visibleActivity()===2,'Activity search should match loaded USDC operations');
-      await gallery.locator('.gallery-activity-search-input').fill('no-such-demo-operation');
+      assert(await visibleActivity()===2,'Activity search should match both USDC records');
+      await gallery.locator('.gallery-activity-search-input').fill('unmatched-demo-search');
       assert(await visibleActivity()===0&&await gallery.locator('.gallery-activity-no-match').isVisible(),
-        'Activity no-match search behavior failed');
+        'Activity search no-match state failed');
       await gallery.locator('.gallery-activity-search-clear').click();
-      assert(await visibleActivity()===4,'Clearing Activity search should restore four rows');
-      assert(!(await gallery.locator('.gallery-activity-search-clear').isVisible()),
-        'Activity clear control should not occupy space when idle');
+      assert(await visibleActivity()===5,'Activity clear search should restore all records');
       await gallery.locator('.gallery-activity-filter-trigger').click();
-      assert(await gallery.locator('[data-activity-tab]').count()===0&&
-        await gallery.locator('[data-activity-filter]').count()===0&&
-        await gallery.locator('.gallery-activity-filter-advanced').isVisible(),
-        'Activity filter should display advanced controls without a Basic/Advanced switch');
-      await gallery.locator('[data-activity-choice-group="direction"] [data-activity-choice="outgoing"]').click();
+      assert(await gallery.locator('.gallery-activity-filter-advanced').isVisible()&&
+        await gallery.locator('[data-activity-choice-group]').count()===3&&
+        await gallery.locator('[data-activity-choice-group="type"] button').count()===4&&
+        await gallery.locator('[data-activity-choice-group="asset"] button').count()===3&&
+        await gallery.locator('[data-activity-choice-group="status"] button').count()===3&&
+        await gallery.locator('[data-activity-switch],[data-activity-amount-mode],[data-activity-asset-search]').count()===0,
+        'Activity filter contains obsolete groups or misses new ones');
+      assert((await gallery.locator('.gallery-activity-filter-advanced').innerText()).includes(
+        config.lang==='zh'?'状态':'Status'),'Activity filter Status label missing');
+      await gallery.locator('[data-activity-choice-group="type"] [data-activity-choice="received"]').click();
       await gallery.locator('.gallery-activity-apply').click();
-      assert(await visibleActivity()===1,'Activity outgoing direction filter failed');
+      assert(await visibleActivity()===2,'Activity Received filter failed');
       await gallery.locator('.gallery-activity-filter-trigger').click();
-      await gallery.locator('[data-activity-choice-group="direction"] [data-activity-choice="all"]').click();
-      await gallery.locator('[data-activity-choice-group="family"] [data-activity-choice="payment"]').click();
       await gallery.locator('[data-activity-choice-group="asset"] [data-activity-choice="XLM"]').click();
-      await gallery.locator('[data-activity-amount-mode]').selectOption('greater');
-      await gallery.locator('[data-activity-amount-value]').fill('100');
       await gallery.locator('.gallery-activity-apply').click();
-      assert(await visibleActivity()===1,'Activity advanced combined filters failed');
+      assert(await visibleActivity()===1,'Activity Type+Asset filter failed');
       await gallery.locator('.gallery-activity-filter-trigger').click();
-      await gallery.locator('[data-activity-amount-mode]').selectOption('any');
-      await gallery.locator('[data-activity-switch="showFailed"]').check();
+      await gallery.locator('[data-activity-choice-group="type"] [data-activity-choice="all"]').click();
+      await gallery.locator('[data-activity-choice-group="status"] [data-activity-choice="failed"]').click();
       await gallery.locator('.gallery-activity-apply').click();
-      assert(await visibleActivity()===3&&
-        await gallery.locator('[data-activity-status="failed"]').isVisible(),
-        'Activity failed-record option failed');
+      assert(await visibleActivity()===1&&await gallery.locator('[data-activity-status="failed"]').isVisible(),
+        'Activity Failed status filter failed');
       await gallery.locator('.gallery-activity-filter-trigger').click();
-      await gallery.locator('.gallery-activity-reset').click();
-      await gallery.locator('[data-activity-switch="showMarked"]').check();
-      await gallery.locator('[data-activity-switch="hideDust"]').check();
+      await gallery.locator('[data-activity-choice-group="status"] [data-activity-choice="completed"]').click();
       await gallery.locator('.gallery-activity-apply').click();
-      assert(await visibleActivity()===4,'Activity dust and marked interaction failed');
+      assert(await visibleActivity()===2,'Activity Completed status filter failed');
       await gallery.locator('.gallery-activity-filter-trigger').click();
       await gallery.locator('.gallery-activity-reset').click();
       await gallery.locator('.gallery-activity-apply').click();
-      assert(await visibleActivity()===4,'Activity filter reset failed');
+      assert(await visibleActivity()===5,'Activity filter Reset did not restore All');
+      await gallery.locator('.gallery-activity-filter-trigger').click();
+      await gallery.locator('[data-activity-choice-group="type"] [data-activity-choice="sent"]').click();
+      await gallery.locator('[data-activity-filter-dismiss]').last().click();
+      assert(await visibleActivity()===5,'Activity dismiss should discard un-applied choices');
 
       // XLM retains just Reserve as its expandable information card.
       await gallery.goto(new URL('mobile-asset-details.html?asset=xlm',base).href,

@@ -53,10 +53,10 @@
 }
 .home11-phone.gallery-activity-page .gallery-activity-filter-scroll::-webkit-scrollbar{display:none}
 .home11-phone.gallery-activity-page .gallery-activity-filter-advanced fieldset{
-  margin:0 0 15px;padding:0;border:0;min-width:0
+  margin:0 0 var(--native-space-lg);padding:0;border:0;min-width:0
 }
-.home11-phone.gallery-activity-page .gallery-activity-filter-advanced legend,
-.home11-phone.gallery-activity-page .gallery-activity-control-label{
+.home11-phone.gallery-activity-page .gallery-activity-filter-advanced fieldset:last-child{margin-bottom:var(--native-space-sm)}
+.home11-phone.gallery-activity-page .gallery-activity-filter-advanced legend{
   display:block;margin:0 0 9px;color:var(--native-content-primary);font-size:12px;font-weight:650
 }
 .home11-phone.gallery-activity-page .gallery-activity-chips{display:flex;flex-wrap:wrap;gap:7px}
@@ -68,35 +68,6 @@
 .home11-phone.gallery-activity-page .gallery-activity-chips button[aria-pressed="true"]{
   border-color:var(--native-primary);background:var(--native-background);color:var(--native-primary);font-weight:650
 }
-.home11-phone.gallery-activity-page .gallery-activity-field{
-  min-width:0;width:100%;min-height:44px;padding:10px 11px;border:1px solid var(--native-separator);
-  border-radius:11px;background:var(--native-background);color:var(--native-content-primary);
-  font-family:inherit;font-size:12px
-}
-.home11-phone.gallery-activity-page .gallery-activity-field::placeholder{color:var(--native-content-secondary)}
-.home11-phone.gallery-activity-page .gallery-activity-advanced-search-caption{font-size:10px;color:var(--native-content-secondary)}
-.home11-phone.gallery-activity-page [data-activity-asset-search]{margin-bottom:9px}
-.home11-phone.gallery-activity-page .gallery-activity-amount{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.home11-phone.gallery-activity-page .gallery-activity-amount input:disabled{opacity:.55}
-.home11-phone.gallery-activity-page .gallery-activity-switches{display:flex;flex-direction:column;gap:3px;margin-bottom:12px}
-.home11-phone.gallery-activity-page .gallery-activity-switches label{
-  display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:47px;
-  border-bottom:1px solid var(--native-separator);font-size:12px;font-weight:600
-}
-.home11-phone.gallery-activity-page .gallery-activity-switches small{display:block;margin:4px 0 7px;color:var(--native-content-secondary);font-size:10px;font-weight:400}
-.home11-phone.gallery-activity-page .gallery-activity-switches input,
-.home11-phone.gallery-activity-page .gallery-activity-hidden-assets input{accent-color:var(--native-primary);width:18px;height:18px;flex:none}
-.home11-phone.gallery-activity-page .gallery-activity-manage-hidden{
-  display:flex;align-items:center;justify-content:space-between;width:100%;min-height:44px;
-  border:0;background:transparent;color:var(--native-content-primary);
-  font-family:inherit;font-size:12px;font-weight:600;text-align:left;cursor:pointer
-}
-.home11-phone.gallery-activity-page .gallery-activity-hidden-assets{padding:8px 11px 11px;border-radius:12px;background:var(--native-background)}
-.home11-phone.gallery-activity-page .gallery-activity-hidden-assets[hidden]{display:none}
-.home11-phone.gallery-activity-page .gallery-activity-hidden-assets label{
-  display:flex;gap:9px;align-items:center;min-height:40px;font-size:12px;color:var(--native-content-primary)
-}
-.home11-phone.gallery-activity-page .gallery-activity-loaded-note{margin:8px 0 12px;color:var(--native-content-secondary);font-size:10px;line-height:1.4}
 .home11-phone.gallery-activity-page .gallery-activity-filter-actions{
   display:flex;gap:9px;margin-top:9px;padding:8px 0 0;border-top:1px solid var(--native-separator)
 }
@@ -107,11 +78,7 @@
 .home11-phone.gallery-activity-page .gallery-activity-filter-actions .gallery-activity-apply{
   border-color:var(--native-primary);background:var(--native-primary);color:var(--native-on-primary)
 }
-.home11-phone.gallery-activity-page .gallery-activity-filter-error{margin:8px 0 0;font-size:11px;color:#af644e}
-.home11-phone.gallery-activity-page .gallery-activity-filter-error[hidden]{display:none}
 .home11-phone.gallery-activity-page .gallery-activity-search-clear:focus-visible,
-.home11-phone.gallery-activity-page .gallery-activity-filter-sheet button:focus-visible,
-.home11-phone.gallery-activity-page .gallery-activity-filter-sheet input:focus-visible,
-.home11-phone.gallery-activity-page .gallery-activity-filter-sheet select:focus-visible{
+.home11-phone.gallery-activity-page .gallery-activity-filter-sheet button:focus-visible{
   outline:2px solid var(--native-primary);outline-offset:2px
 }

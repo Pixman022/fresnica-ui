@@ -573,11 +573,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
   <span class="gallery-row-copy"><b>Failed XLM payment</b><small class="gallery-activity-row-meta"><time data-activity-clock="08:24">08:24</time><span class="gallery-activity-status" data-status="failed">Failed</span></small></span>
   <span class="gallery-row-right"><strong>—</strong><small>XLM</small></span>
 </div>
-<div class="gallery-row gallery-activity-sample-extra" data-activity-kind="received" data-activity-direction="incoming" data-activity-family="payment" data-activity-asset="XLM" data-activity-amount="0.02" data-activity-status="completed" data-activity-marked="true" hidden>
-  <span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg></span>
-  <span class="gallery-row-copy"><b>Received XLM</b><small class="gallery-activity-row-meta"><time data-activity-clock="07:32">07:32</time><span class="gallery-activity-status" data-status="completed">Completed</span></small></span>
-  <span class="gallery-row-right"><strong class="gallery-positive">+0.02</strong><small>XLM</small></span>
-</div></section>
+</section>
 <div class="gallery-activity-no-match" role="status" hidden><strong>No matching activity</strong><small>Try a different search or filter.</small></div>
 </div>
       <nav class="phone-tabs" aria-label="Wallet main navigation">
@@ -605,30 +601,31 @@ html.preview-immersive .home11-phone .home11-action-sheet{
     <span class="home11-action-handle" aria-hidden="true"></span>
     <div class="home11-action-heading"><h2 id="gallery-activity-filter-title">Filter activity</h2><button type="button" class="home11-sheet-close" data-activity-filter-dismiss="true" aria-label="Close filter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="gallery-activity-filter-scroll">
-      <div class="gallery-activity-filter-advanced">        <fieldset><legend>Direction</legend><div class="gallery-activity-chips" data-activity-choice-group="direction">
-          <button type="button" data-activity-choice="all">All</button><button type="button" data-activity-choice="incoming">Incoming</button><button type="button" data-activity-choice="outgoing">Outgoing</button>
-        </div></fieldset>
-        <fieldset><legend>Operation type</legend><div class="gallery-activity-chips" data-activity-choice-group="family">
-          <button type="button" data-activity-choice="all">All</button><button type="button" data-activity-choice="payment">Payments</button><button type="button" data-activity-choice="swap">Swaps</button><button type="button" data-activity-choice="account">Account</button><button type="button" data-activity-choice="trustline">Trustline</button><button type="button" data-activity-choice="other">Other</button>
-        </div></fieldset>
-        <fieldset><legend>Asset</legend><input type="search" class="gallery-activity-field" data-activity-asset-search placeholder="Search code or issuer" aria-label="Search asset">
-          <div class="gallery-activity-chips" data-activity-choice-group="asset"><button type="button" data-activity-choice="all">All</button><button type="button" data-activity-choice="XLM" data-activity-asset-issuer="Stellar native asset">XLM</button><button type="button" data-activity-choice="USDC" data-activity-asset-issuer="GCPQ...R7KM">USDC</button></div>
+      <div class="gallery-activity-filter-advanced">
+        <fieldset><legend>Type</legend>
+          <div class="gallery-activity-chips" data-activity-choice-group="type">
+            <button type="button" data-activity-choice="all" aria-pressed="true">All</button>
+            <button type="button" data-activity-choice="received" aria-pressed="false">Received</button>
+            <button type="button" data-activity-choice="sent" aria-pressed="false">Sent</button>
+            <button type="button" data-activity-choice="swapped" aria-pressed="false">Swapped</button>
+          </div>
         </fieldset>
-        <fieldset><legend>Amount</legend><div class="gallery-activity-amount"><select class="gallery-activity-field" data-activity-amount-mode aria-label="Amount comparison"><option value="any">Any</option><option value="greater">Greater than</option><option value="less">Less than</option></select><input type="number" min="0" step="any" inputmode="decimal" class="gallery-activity-field" data-activity-amount-value placeholder="Amount" aria-label="Amount value" disabled></div></fieldset>
-        <div class="gallery-activity-switches">
-          <label><span>Hide dust<small>Hide incoming amounts under 1</small></span><input type="checkbox" data-activity-switch="hideDust"></label>
-          <label><span>Show marked<small>Include hidden sample records</small></span><input type="checkbox" data-activity-switch="showMarked"></label>
-          <label><span>Show failed<small>Include failed sample operations</small></span><input type="checkbox" data-activity-switch="showFailed"></label>
-        </div>
-        <button type="button" class="gallery-activity-manage-hidden">Manage hidden assets <span>›</span></button>
-        <div class="gallery-activity-hidden-assets" hidden><span class="gallery-activity-control-label">Hide assets from the list</span>
-          <label><input type="checkbox" value="XLM" data-activity-hide-asset>XLM</label>
-          <label><input type="checkbox" value="USDC" data-activity-hide-asset>USDC</label>
-        </div>
-        <p class="gallery-activity-loaded-note">Filters apply to loaded sample records only.</p>
+        <fieldset><legend>Asset</legend>
+          <div class="gallery-activity-chips" data-activity-choice-group="asset">
+            <button type="button" data-activity-choice="all" aria-pressed="true">All</button>
+            <button type="button" data-activity-choice="XLM" aria-pressed="false">XLM</button>
+            <button type="button" data-activity-choice="USDC" aria-pressed="false">USDC</button>
+          </div>
+        </fieldset>
+        <fieldset><legend>Status</legend>
+          <div class="gallery-activity-chips" data-activity-choice-group="status">
+            <button type="button" data-activity-choice="all" aria-pressed="true">All</button>
+            <button type="button" data-activity-choice="completed" aria-pressed="false">Completed</button>
+            <button type="button" data-activity-choice="failed" aria-pressed="false">Failed</button>
+          </div>
+        </fieldset>
       </div>
     </div>
-    <p class="gallery-activity-filter-error" role="alert" hidden></p>
     <div class="gallery-activity-filter-actions">
       <button type="button" class="gallery-activity-reset">Reset</button>
       <button type="button" class="gallery-activity-apply">Apply</button>
