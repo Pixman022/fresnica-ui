@@ -12,8 +12,11 @@
   const setImmersive = (active) => {
     root.classList.toggle("preview-immersive", active);
     button.setAttribute("aria-pressed", String(active));
-    button.setAttribute("aria-label", active ? "退出全屏预览" : "全屏展示界面");
-    button.title = active ? "退出全屏预览" : "全屏展示界面";
+    const zh = document.documentElement.lang.startsWith("zh");
+    const label = active ? (zh ? "退出全屏预览" : "Exit fullscreen preview")
+      : (zh ? "全屏展示界面" : "Fullscreen preview");
+    button.setAttribute("aria-label", label);
+    button.title = label;
     remember(active);
   };
   const leave = () => {

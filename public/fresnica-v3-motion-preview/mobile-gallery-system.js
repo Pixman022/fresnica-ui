@@ -73,6 +73,65 @@
     "FRESNICA / WALLET HOME": "FRESNICA / 钱包首页",
     "Fresnica home screen preview": "Fresnica 首页示例",
   };
+  // Keep accessible labels and tooltips in the selected gallery language,
+  // including legacy bilingual attributes in the static reference markup.
+  const accessibleLabels = {
+    "Fullscreen preview":"全屏展示界面","Exit fullscreen preview":"退出全屏预览",
+    "Screen gallery menu":"示例页面菜单","Switch preview screen":"切换示例页面",
+    "Open screen menu":"打开页面菜单","Close screen menu":"关闭页面菜单",
+    "Switch wallet":"切换钱包","Close wallet selector":"关闭钱包列表",
+    "Back to wallets":"返回钱包列表","Add asset":"添加资产",
+    "Filter activity":"筛选交易","Close filter":"关闭筛选",
+    "Wallet main navigation":"钱包主导航","Close actions":"关闭操作面板",
+    "Connect a dApp":"连接应用","Close":"关闭","Network and nodes settings":"网络与节点设置",
+    "Back to Home":"返回首页","Back to Activity":"返回交易记录",
+    "Back to Settings":"返回设置","Swap asset direction":"切换兑换方向",
+    "Transaction type":"交易类型","Connected apps":"已连接应用",
+    "Example apps":"示例应用","Preferences":"偏好设置",
+    "Home screen 1.1":"首页示例 1.1","Fresnica home screen 1.1 preview":"Fresnica 首页 1.1 预览",
+    "Fresnica home screen preview":"Fresnica 首页预览",
+    "Fresnica mobile wallet interface":"Fresnica 移动钱包界面",
+    "Fresnica SuperWallet homepage sample":"Fresnica 钱包首页示例",
+    "Stellar wallet home screen":"Stellar 钱包首页",
+    "Wallet actions":"钱包操作","Wallet navigation preview":"钱包导航预览",
+    "Current wallet":"当前钱包","Token balances":"代币余额",
+    "Activity history":"交易记录","Fresnica Activity history preview":"Fresnica 交易记录预览",
+    "dApp connections":"应用连接","Fresnica dApp connections preview":"Fresnica 应用连接预览",
+    "Wallet preferences":"钱包偏好设置","Fresnica Wallet preferences preview":"Fresnica 钱包偏好设置预览",
+    "Swap preview":"兑换预览","Fresnica Swap sample":"Fresnica 兑换示例",
+    "Send preview":"发送预览","Fresnica Send sample":"Fresnica 发送示例",
+    "Receive preview":"接收预览","Fresnica Receive sample":"Fresnica 接收示例",
+    "Asset details preview":"资产详情预览","Fresnica Asset details sample":"Fresnica 资产详情示例",
+    "Transaction details preview":"交易详情预览","Fresnica Transaction details sample":"Fresnica 交易详情示例",
+    "Network & Nodes preview":"网络与节点预览","Fresnica Network & Nodes sample":"Fresnica 网络与节点示例",
+    "Decorative QR-style illustration only. Not scannable.":"二维码样式仅作示意，无法扫描。",
+    "Today":"今天","Yesterday":"昨天","Network":"网络",
+    "XLM details":"XLM 资产详情","USDC details":"USDC 资产详情","AQUA details":"AQUA 资产详情",
+    "received-usdc details":"USDC 收款详情","sent-xlm details":"XLM 发送详情",
+    "swapped-xlm details":"XLM 兑换详情","received-xlm details":"XLM 收款详情",
+    "sent-usdc details":"USDC 发送详情",
+  };
+  const legacyAccessibleLabels = {
+    "切换钱包 / Switch wallet":"Switch wallet",
+    "关闭钱包列表 / Close wallet selector":"Close wallet selector",
+    "返回钱包列表 / Back to wallets":"Back to wallets",
+    "筛选交易 / Filter activity":"Filter activity",
+  };
+  const localizedLabels = new Map();
+  for (const [en,zh] of Object.entries({...t,...accessibleLabels})) {
+    localizedLabels.set(en,{en,zh});
+    localizedLabels.set(zh,{en,zh});
+  }
+  for (const [legacy,en] of Object.entries(legacyAccessibleLabels)) {
+    localizedLabels.set(legacy,localizedLabels.get(en));
+  }
+  const localizeAccessibleLabel = (label) => {
+    const pair = localizedLabels.get(label);
+    if (pair) return pair[lang];
+    const dapp = label.match(/^(Nova|Orbit|Atlas) (?:dApp|应用)$/);
+    if (dapp) return dapp[1] + (lang === "zh" ? " 应用" : " dApp");
+    return label;
+  };
   const ico = {
     home: '<path d="M3 10 12 3l9 7v11h-7v-8h-4v8H3z"/>',
     activity: '<path d="M3 12a9 9 0 1 0 9-9 9.8 9.8 0 0 0-6.7 2.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',
@@ -205,7 +264,7 @@
         const active = open && isMobile();
         document.documentElement.classList.toggle("gallery-menu-open", active);
         menuButton.setAttribute("aria-expanded", String(active));
-        menuButton.setAttribute("aria-label", active ? "Close screen menu" : "Open screen menu");
+        menuButton.setAttribute("aria-label", localizeAccessibleLabel(active ? "Close screen menu" : "Open screen menu"));
         menuButton.querySelector("path").setAttribute("d", active ? "M6 6l12 12M18 6 6 18" : "M4 7h16M4 12h16M4 17h16");
         backdrop.hidden = !active;
         if (active) {
@@ -277,6 +336,14 @@
       if (!trimmed || !Object.hasOwn(t, trimmed)) continue;
       node.nodeValue = source.replace(trimmed, lang === "zh" ? t[trimmed] : trimmed);
     }
+    // Translate screen-reader labels separately from visible text nodes.
+    document.querySelectorAll("[aria-label], [title]").forEach((el) => {
+      for (const attr of ["aria-label", "title"]) {
+        if (el.hasAttribute(attr)) {
+          el.setAttribute(attr, localizeAccessibleLabel(el.getAttribute(attr)));
+        }
+      }
+    });
     document.querySelectorAll("[data-gallery-placeholder-en][data-gallery-placeholder-zh]").forEach((el) => {
       el.placeholder = el.getAttribute("data-gallery-placeholder-" + lang);
     });
