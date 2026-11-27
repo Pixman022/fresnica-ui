@@ -1847,10 +1847,28 @@ try{
       await gallery.locator('.home11-phone').screenshot({path:appImage,animations:'disabled'});
       captures.push(path.relative(dest,appImage));
 
-      // D01-D04: Home/Recent, filtered directory, app detail and reviewed manual URLs.
-      assert(await gallery.locator('[data-dapps-tab]').count()===2&&
-        await gallery.locator('[data-dapps-search]').isVisible(),
-        'dApps must provide Home/Recent and a visible catalog search');
+      // dApps: inline Popular / Recent / Connected sections, search and reviewed URLs.
+      const dappsSections=await gallery.evaluate(()=>{
+        const scroll=document.querySelector('.gallery-dapps-enhanced .home11-scroll');
+        const titles=[...scroll.children].filter(node=>node.matches('h2.gallery-section-title'));
+        const recent=scroll.querySelector('[data-dapps-recent-title]');
+        const popular=titles[0];
+        return {
+          titleCount:titles.length,
+          recentOrder:titles[1]===recent,
+          sameFont:getComputedStyle(popular).fontSize===getComputedStyle(recent).fontSize,
+          sameWeight:getComputedStyle(popular).fontWeight===getComputedStyle(recent).fontWeight,
+          sharedGrid:scroll.querySelector('[data-dapps-recent-list]')?.classList.contains('gallery-sample-grid'),
+          recentWithinPage:recent.parentElement===scroll
+        };
+      });
+      assert(await gallery.locator('[data-dapps-tab]').count()===0&&
+        await gallery.locator('[data-dapps-search]').isVisible()&&
+        dappsSections.titleCount===3&&dappsSections.recentOrder&&
+        dappsSections.sameFont&&dappsSections.sameWeight&&
+        dappsSections.sharedGrid&&dappsSections.recentWithinPage,
+        'dApps sections must be Popular, Recent, Connected with matching heading and grid styles: '+
+          JSON.stringify({config,dappsSections}));
       await gallery.locator('[data-dapps-search]').fill('nova');
       assert(await gallery.locator('.gallery-sample-grid .gallery-app-card:visible').count()===1,
         'dApps query should filter to Nova');
@@ -1861,10 +1879,8 @@ try{
       await gallery.locator('[data-dapps-clear]').click();
       assert(await gallery.locator('.gallery-sample-grid .gallery-app-card:visible').count()===3,
         'dApps clear search should restore three sample tiles');
-      await gallery.locator('[data-dapps-tab="recent"]').click();
       assert(await gallery.locator('[data-dapps-recent-empty]').isVisible(),
         'dApps Recent should start empty without claiming a live history');
-      await gallery.locator('[data-dapps-tab="home"]').click();
       await gallery.locator('[data-gallery-dialog-app="Nova"]').click();
       assert(await gallery.locator('[data-dapps-app-info]').isVisible()&&
         (await gallery.locator('[data-dapps-app-name]').textContent())==='Nova'&&
@@ -1883,15 +1899,14 @@ try{
       await gallery.locator('[data-dapps-confirm]').click();
       assert(await gallery.locator('.gallery-dialog-overlay').isHidden(),
         'dApps reviewed app preview should close its sheet');
-      await gallery.locator('[data-dapps-tab="recent"]').click();
       assert(await gallery.locator('.gallery-dapps-recent-item').count()===1&&
+        await gallery.locator('.gallery-dapps-recent-list').isVisible()&&
         !(await gallery.locator('[data-dapps-recent-empty]').isVisible()),
-        'dApps Recent should include only explicitly previewed apps');
+        'dApps Recent should show a shared-style grid of explicitly previewed apps');
       await gallery.locator('.gallery-dapps-recent-item').first().click();
       assert(await gallery.locator('[data-dapps-app-info]').isVisible(),
         'dApps Recent entry must reopen selected app details');
       await gallery.locator('[data-gallery-dialog-close]').click();
-      await gallery.locator('[data-dapps-tab="home"]').click();
       await gallery.locator('[data-gallery-dialog-open="connect"]').click();
       assert(await gallery.locator('[data-dapps-manual]').isVisible()&&
         await gallery.locator('[data-dapps-next]').isDisabled(),
@@ -1914,15 +1929,15 @@ try{
         'Manual review should show full origin and require acknowledgment');
       await gallery.locator('[data-dapps-ack]').check();
       await gallery.locator('[data-dapps-confirm]').click();
-      await gallery.locator('[data-dapps-tab="recent"]').click();
       assert(await gallery.locator('.gallery-dapps-recent-item').count()===2&&
-        (await gallery.locator('.gallery-section-title:visible').allTextContents()).some(x=>x.includes('Connected apps'))===false,
-        'dApps manual preview should be added only to Recent, not connections');
+        await gallery.locator('.gallery-dapps-recent-list .gallery-app-card').count()===2&&
+        (await gallery.locator('.gallery-section-title:visible').last().textContent()).includes(
+          config.lang==='zh'?'已连接的应用':'Connected apps')&&
+        (await gallery.locator('.gallery-section-title:visible').last().locator('small').textContent()).trim()==='0',
+        'dApps manual preview must show in Recent grid without authorizing a connection');
       await gallery.reload({waitUntil:'load'});
-      await gallery.locator('[data-dapps-tab="recent"]').click();
       assert(await gallery.locator('.gallery-dapps-recent-item').count()===2,
         'dApps Recent should persist within the current browser session');
-      await gallery.locator('[data-dapps-tab="home"]').click();
       assert((await gallery.locator('.gallery-section-title:visible').last().textContent()).includes(
         config.lang==='zh'?'已连接的应用':'Connected apps'),
         'dApps connected apps section should retain its original empty state');

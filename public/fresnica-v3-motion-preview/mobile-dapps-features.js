@@ -13,7 +13,7 @@
     Atlas: { url: "https://atlas.example/", description: "Sample Stellar dApp entry" },
   };
   const translations = {
-    "Home":"首页", "Recent":"最近", "dApps views":"应用视图",
+    "Recent":"最近",
     "Search dApps":"搜索应用", "Clear search":"清除搜索",
     "No matching apps":"没有匹配的应用", "No recent apps":"暂无最近访问",
     "Recent previews are not connected apps.":"最近预览不代表已连接或授权。",
@@ -42,8 +42,6 @@
   const search = select("[data-dapps-search]");
   const clear = select("[data-dapps-clear]");
   const noResults = select("[data-dapps-no-results]");
-  const tabs = [...phone.querySelectorAll("[data-dapps-tab]")];
-  const panels = [...phone.querySelectorAll("[data-dapps-panel]")];
   const recentList = select("[data-dapps-recent-list]");
   const recentEmpty = select("[data-dapps-recent-empty]");
   const manualOpener = select("[data-gallery-dialog-open='connect']");
@@ -63,10 +61,9 @@
   const acknowledge = dialog.querySelector("[data-dapps-ack]");
   const next = dialog.querySelector("[data-dapps-next]");
   const confirm = dialog.querySelector("[data-dapps-confirm]");
-  if (!search || !clear || !tabs.length || !manualOpener || !closeButton ||
+  if (!search || !clear || !recentList || !manualOpener || !closeButton ||
       !website || !review || !next || !confirm) return;
 
-  let currentTab = "home";
   const recentKey = "fresnica-gallery-recent-previews";
   let recent = [];  // Session-only prototype state; never wallet authorization data.
   try {
@@ -128,18 +125,13 @@
     noResults.hidden = shown !== 0;
     clear.hidden = search.value === "";
   };
-  const selectTab = name => {
-    currentTab = name;
-    tabs.forEach(tab => tab.setAttribute("aria-selected", String(tab.dataset.dappsTab === name)));
-    panels.forEach(panel => panel.hidden = panel.dataset.dappsPanel !== name);
-    if (name === "recent") renderRecent();
-  };
   const renderRecent = () => {
     recentList.replaceChildren();
     recent.forEach(item => {
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "gallery-dapps-recent-item";
+      button.className = "gallery-app-card gallery-dapps-recent-item";
+      button.title = item.url;
       const sample = item.kind === "sample" ?
         cards.find(card => card.dataset.galleryDialogApp === item.name) : null;
       const mark = sample?.querySelector(".gallery-app-mark")?.cloneNode(true) ||
@@ -150,17 +142,14 @@
       }
       mark.setAttribute("aria-hidden","true");
       button.appendChild(mark);
-      const copy = document.createElement("span");
-      copy.className = "gallery-dapps-recent-copy";
-      const name = document.createElement("b");
-      name.textContent = item.name;
-      const url = document.createElement("small");
-      url.textContent = item.url;
-      copy.append(name,url);
-      button.appendChild(copy);
+      const label = document.createElement("span");
+      label.className = "gallery-dapps-recent-name";
+      label.textContent = item.name;
+      button.appendChild(label);
       button.addEventListener("click", () => openDialog(item,button));
       recentList.appendChild(button);
     });
+    recentList.hidden = recent.length === 0;
     recentEmpty.hidden = recent.length !== 0;
   };
   const recordPreview = item => {
@@ -185,12 +174,11 @@
   };
   const updateConfirm = () => { confirm.disabled = !acknowledge.checked; };
   const localize = () => {
-    tabs.forEach(tab => {tab.textContent = locale(tab.dataset.dappsTab === "home" ? "Home" : "Recent");});
-    select(".gallery-dapps-tabs")?.setAttribute("aria-label",locale("dApps views"));
     search.placeholder = locale("Search dApps");
     search.setAttribute("aria-label",locale("Search dApps"));
     clear.setAttribute("aria-label",locale("Clear search"));
-    setText('[data-dapps-panel="recent"] .gallery-section-title',"Recent");
+    setText("[data-dapps-recent-title]","Recent");
+    recentList.setAttribute("aria-label",locale("Recent"));
     setText("[data-dapps-no-results]","No matching apps");
     setText("[data-dapps-recent-empty]","No recent apps");
     setText(".gallery-dapps-recent-note","Recent previews are not connected apps.");
@@ -278,15 +266,6 @@
     acknowledge.focus();
   };
 
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => selectTab(tab.dataset.dappsTab));
-    tab.addEventListener("keydown", event => {
-      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-      event.preventDefault();
-      const other = tabs.find(button => button !== tab);
-      if (other) {selectTab(other.dataset.dappsTab);other.focus();}
-    });
-  });
   search.addEventListener("input",updateSearch);
   clear.addEventListener("click", () => {search.value="";updateSearch();search.focus();});
   cards.forEach(card => card.addEventListener("click", () => {
@@ -322,6 +301,6 @@
     button.addEventListener("click",localize));
 
   localize();
-  selectTab("home");
+  renderRecent();
   updateSearch();
 })();
