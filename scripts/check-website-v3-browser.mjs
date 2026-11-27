@@ -1966,6 +1966,64 @@ try{
       await gallery.locator('.home11-phone').screenshot({path:homeImage,animations:'disabled'});
       captures.push(path.relative(dest,homeImage));
 
+      // A01/A02/A03/A06: Activity search, compound filters, row states and local dates.
+      await gallery.goto(new URL('mobile-activity.html',base).href,{waitUntil:'load',timeout:45000});
+      const visibleActivity=()=>gallery.locator('.home11-scroll [data-activity-kind]:visible').count();
+      assert(await visibleActivity()===4,'Activity default should retain four sample rows');
+      assert(await gallery.locator('[data-activity-day="0"] span').textContent()===
+        (config.lang==='zh'?'今天':'Today'),'Activity relative day label not localized');
+      const expectedToday=await gallery.evaluate(()=>new Intl.DateTimeFormat(
+        document.documentElement.lang.startsWith('zh')?'zh-CN':'en-US',
+        {month:'short',day:'numeric'}).format(new Date()));
+      assert(await gallery.locator('[data-activity-day="0"] [data-activity-date]').textContent()===expectedToday,
+        'Activity date does not follow viewer local day');
+      assert(await gallery.locator('.gallery-activity-row-meta').count()===6,
+        'Activity records lack timestamp/status metadata');
+      const activityImage=path.join(dest,'gallery-activity-'+config.theme+'-'+config.lang+'.png');
+      await gallery.locator('.home11-phone').screenshot({path:activityImage,animations:'disabled'});
+      captures.push(path.relative(dest,activityImage));
+      await gallery.locator('.gallery-activity-search-trigger').click();
+      await gallery.locator('.gallery-activity-search-input').fill('USDC');
+      assert(await visibleActivity()===2,'Activity search should match loaded USDC operations');
+      await gallery.locator('.gallery-activity-search-input').fill('no-such-demo-operation');
+      assert(await visibleActivity()===0&&await gallery.locator('.gallery-activity-no-match').isVisible(),
+        'Activity no-match search behavior failed');
+      await gallery.locator('.gallery-activity-search-clear').click();
+      assert(await visibleActivity()===4,'Clearing Activity search should restore four rows');
+      await gallery.locator('.gallery-activity-search-trigger').click();
+      await gallery.locator('.gallery-activity-filter-trigger').click();
+      await gallery.locator('[data-activity-filter="sent"]').click();
+      await gallery.locator('.gallery-activity-apply').click();
+      assert(await visibleActivity()===1,'Activity basic Sent filter failed');
+      await gallery.locator('.gallery-activity-filter-trigger').click();
+      await gallery.locator('[data-activity-filter="all"]').click();
+      await gallery.locator('[data-activity-tab="advanced"]').click();
+      await gallery.locator('[data-activity-choice-group="family"] [data-activity-choice="payment"]').click();
+      await gallery.locator('[data-activity-choice-group="asset"] [data-activity-choice="XLM"]').click();
+      await gallery.locator('[data-activity-amount-mode]').selectOption('greater');
+      await gallery.locator('[data-activity-amount-value]').fill('100');
+      await gallery.locator('.gallery-activity-apply').click();
+      assert(await visibleActivity()===1,'Activity advanced combined filters failed');
+      await gallery.locator('.gallery-activity-filter-trigger').click();
+      await gallery.locator('[data-activity-tab="advanced"]').click();
+      await gallery.locator('[data-activity-amount-mode]').selectOption('any');
+      await gallery.locator('[data-activity-switch="showFailed"]').check();
+      await gallery.locator('.gallery-activity-apply').click();
+      assert(await visibleActivity()===3&&
+        await gallery.locator('[data-activity-status="failed"]').isVisible(),
+        'Activity failed-record option failed');
+      await gallery.locator('.gallery-activity-filter-trigger').click();
+      await gallery.locator('.gallery-activity-reset').click();
+      await gallery.locator('[data-activity-tab="advanced"]').click();
+      await gallery.locator('[data-activity-switch="showMarked"]').check();
+      await gallery.locator('[data-activity-switch="hideDust"]').check();
+      await gallery.locator('.gallery-activity-apply').click();
+      assert(await visibleActivity()===4,'Activity dust and marked interaction failed');
+      await gallery.locator('.gallery-activity-filter-trigger').click();
+      await gallery.locator('.gallery-activity-reset').click();
+      await gallery.locator('.gallery-activity-apply').click();
+      assert(await visibleActivity()===4,'Activity filter reset failed');
+
       // XLM retains just Reserve as its expandable information card.
       await gallery.goto(new URL('mobile-asset-details.html?asset=xlm',base).href,
         {waitUntil:'load',timeout:45000});
