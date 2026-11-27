@@ -11,8 +11,7 @@
 .home11-phone .secondary-header-end svg{display:block;width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .home11-phone .secondary-back:focus-visible{outline:2px solid var(--native-primary);outline-offset:1px}
 .home11-phone .secondary-title{
-  min-width:0;max-width:100%;margin:0;text-align:center;color:var(--native-content-primary);
-  font-size:16px;font-weight:700;line-height:1.25;letter-spacing:-.025em;overflow-wrap:anywhere
+  min-width:0;max-width:100%;margin:0;text-align:center;color:var(--native-content-primary);font-size:20px;font-weight:700;line-height:1.25;letter-spacing:-.025em;overflow-wrap:anywhere
 }
 .home11-phone .secondary-header-end{width:44px;height:44px}
 .home11-phone .secondary-scroll{padding:15px 16px 24px;scrollbar-width:none;overflow-y:auto}
