@@ -2008,20 +2008,37 @@ try{
       await gallery.locator('.gallery-activity-filter-trigger').click();
       assert(await gallery.locator('.gallery-activity-filter-advanced').isVisible()&&
         await gallery.locator('[data-activity-choice-group]').count()===3&&
-        await gallery.locator('[data-activity-choice-group="type"] button').count()===4&&
+        await gallery.locator('[data-activity-choice-group="type"] button').count()===5&&
         await gallery.locator('[data-activity-choice-group="asset"] button').count()===3&&
         await gallery.locator('[data-activity-choice-group="status"] button').count()===3&&
         await gallery.locator('[data-activity-switch],[data-activity-amount-mode],[data-activity-asset-search]').count()===0,
         'Activity filter contains obsolete groups or misses new ones');
       assert((await gallery.locator('.gallery-activity-filter-advanced').innerText()).includes(
         config.lang==='zh'?'状态':'Status'),'Activity filter Status label missing');
-      await gallery.locator('[data-activity-choice-group="type"] [data-activity-choice="received"]').click();
+      const typeOptions=await gallery.locator('[data-activity-choice-group="type"] button').allTextContents();
+      assert(JSON.stringify(typeOptions.map(s=>s.trim()))===JSON.stringify(
+        config.lang==='zh'?['全部','支付','账户','信任线','其他']:
+          ['All','Payments','Account','Trustline','Other']),
+        'Activity type labels must follow the original R41 inventory');
+      await gallery.locator('[data-activity-choice-group="type"] [data-activity-choice="payment"]').click();
       await gallery.locator('.gallery-activity-apply').click();
-      assert(await visibleActivity()===2,'Activity Received filter failed');
+      assert(await visibleActivity()===4,'Activity Payments filter failed');
       await gallery.locator('.gallery-activity-filter-trigger').click();
       await gallery.locator('[data-activity-choice-group="asset"] [data-activity-choice="XLM"]').click();
       await gallery.locator('.gallery-activity-apply').click();
-      assert(await visibleActivity()===1,'Activity Type+Asset filter failed');
+      assert(await visibleActivity()===3,'Activity Payments+XLM filter failed');
+      await gallery.locator('.gallery-activity-filter-trigger').click();
+      await gallery.locator('[data-activity-choice-group="type"] [data-activity-choice="other"]').click();
+      await gallery.locator('[data-activity-choice-group="asset"] [data-activity-choice="all"]').click();
+      await gallery.locator('.gallery-activity-apply').click();
+      assert(await visibleActivity()===1,'Activity Other should include the Swap sample');
+      for (const family of ['account','trustline']) {
+        await gallery.locator('.gallery-activity-filter-trigger').click();
+        await gallery.locator('[data-activity-choice-group="type"] [data-activity-choice="'+family+'"]').click();
+        await gallery.locator('.gallery-activity-apply').click();
+        assert(await visibleActivity()===0&&await gallery.locator('.gallery-activity-no-match').isVisible(),
+          'Activity '+family+' category should show no sample matches');
+      }
       await gallery.locator('.gallery-activity-filter-trigger').click();
       await gallery.locator('[data-activity-choice-group="type"] [data-activity-choice="all"]').click();
       await gallery.locator('[data-activity-choice-group="status"] [data-activity-choice="failed"]').click();
@@ -2031,13 +2048,13 @@ try{
       await gallery.locator('.gallery-activity-filter-trigger').click();
       await gallery.locator('[data-activity-choice-group="status"] [data-activity-choice="completed"]').click();
       await gallery.locator('.gallery-activity-apply').click();
-      assert(await visibleActivity()===2,'Activity Completed status filter failed');
+      assert(await visibleActivity()===4,'Activity Completed status filter failed');
       await gallery.locator('.gallery-activity-filter-trigger').click();
       await gallery.locator('.gallery-activity-reset').click();
       await gallery.locator('.gallery-activity-apply').click();
       assert(await visibleActivity()===5,'Activity filter Reset did not restore All');
       await gallery.locator('.gallery-activity-filter-trigger').click();
-      await gallery.locator('[data-activity-choice-group="type"] [data-activity-choice="sent"]').click();
+      await gallery.locator('[data-activity-choice-group="type"] [data-activity-choice="payment"]').click();
       await gallery.locator('[data-activity-filter-dismiss]').last().click();
       assert(await visibleActivity()===5,'Activity dismiss should discard un-applied choices');
 

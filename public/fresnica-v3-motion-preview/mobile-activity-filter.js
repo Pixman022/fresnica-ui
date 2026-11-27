@@ -18,7 +18,8 @@
   const labels = {
     "Search activity": "搜索交易", "Clear search": "清除搜索",
     "Filter activity": "筛选交易", "Type": "类型", "Asset": "资产", "Status": "状态",
-    "All": "全部", "Received": "已收款", "Sent": "已发送", "Swapped": "已兑换",
+    "All": "全部", "Payments": "支付", "Account": "账户", "Trustline": "信任线", "Other": "其他",
+    "Received": "已收款", "Sent": "已发送", "Swapped": "已兑换",
     "Completed": "已完成", "Failed": "失败", "Pending": "待处理",
     "Reset": "重置", "Apply": "应用", "No matching activity": "没有匹配的交易",
     "Try a different search or filter.": "尝试其他搜索内容或筛选条件。",
@@ -80,7 +81,8 @@
   });
 
   const matches = row => {
-    const type = row.dataset.activityKind || "";
+    const family = row.dataset.activityFamily || "other";
+    const type = ["payment", "account", "trustline"].includes(family) ? family : "other";
     const asset = row.dataset.activityAsset || "";
     const status = row.dataset.activityStatus || "";
     if (applied.type !== "all" && applied.type !== type) return false;
