@@ -73,29 +73,70 @@
 
   const assetInfo = {
     xlm: { symbol: "XLM", balance: "546,213.0231432", label: "Stellar native asset", type: "Native asset", reserve: "12 XLM" },
-    usdc: { symbol: "USDC", balance: "250.00", label: "Stellar-issued asset", type: "Issued asset", reserve: "—" },
-    aqua: { symbol: "AQUA", balance: "860.00", label: "Stellar-issued asset", type: "Issued asset", reserve: "—" },
+    usdc: { symbol: "USDC", balance: "250.00", label: "Stellar-issued asset", type: "Issued asset", issuer: "GCPQ...R7KM" },
+    aqua: { symbol: "AQUA", balance: "860.00", label: "Stellar-issued asset", type: "Issued asset", issuer: "GBZA...T4WN" },
   };
   if (phone.dataset.secondaryScreen === "asset-details") {
     const asset = new URLSearchParams(location.search).get("asset")?.toLowerCase() || "xlm";
     const chosen = assetInfo[asset] || assetInfo.xlm;
+    const native = chosen.symbol === "XLM";
     const set = (selector, value) => { const element = phone.querySelector(selector); if (element) element.textContent = value; };
-    set("[data-asset-mark]", chosen.symbol === "XLM" ? "✦" : chosen.symbol[0]);
+    const mark = phone.querySelector("[data-asset-mark]");
+    if (mark) {
+      mark.classList.remove("is-usdc", "is-aqua");
+      if (native) mark.textContent = "✦";
+      else {
+        mark.classList.add(chosen.symbol === "USDC" ? "is-usdc" : "is-aqua");
+        mark.innerHTML = chosen.symbol === "USDC" ?
+          '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5c-1.1-1-2.2-1.5-3.5-1.5-2.1 0-3.5 1.1-3.5 2.6 0 3.7 7 1.5 7 5.1 0 1.6-1.5 2.7-3.5 2.7-1.4 0-2.8-.6-4-1.7M12 5.5v13"/></svg>' :
+          '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8c2.3-2 4.4-2 6.7 0s4.4 2 6.7 0 4.4-2 4.6-2M3 14c2.3-2 4.4-2 6.7 0s4.4 2 6.7 0 4.4-2 4.6-2M3 20c2.3-2 4.4-2 6.7 0s4.4 2 6.7 0 4.4-2 4.6-2"/></svg>';
+      }
+    }
     set("[data-asset-label]", chosen.symbol);
     set("[data-asset-balance]", chosen.balance);
     set("[data-asset-symbol]", chosen.symbol);
-    set("[data-asset-type]", chosen.type);
-    set("[data-asset-reserve]", chosen.reserve);
+    const reserveSection = phone.querySelector("[data-asset-reserve-section]");
+    const issuedSection = phone.querySelector("[data-asset-issued-section]");
+    if (reserveSection) reserveSection.hidden = !native;
+    if (issuedSection) issuedSection.hidden = native;
+    if (native) {
+      set("[data-asset-reserve]", chosen.reserve);
+      const toggle = phone.querySelector("[data-asset-reserve-toggle]");
+      const details = phone.querySelector("[data-asset-reserve-details]");
+      toggle?.addEventListener("click", () => {
+        if (!details) return;
+        const expanded = toggle.getAttribute("aria-expanded") === "true";
+        details.hidden = expanded;
+        toggle.setAttribute("aria-expanded", String(!expanded));
+      });
+    } else {
+      set("[data-asset-issuer]", chosen.issuer);
+      const type = phone.querySelector("[data-asset-type]");
+      if (type) {
+        type.dataset.galleryEn = chosen.type;
+        type.dataset.galleryZh = "发行资产";
+        type.textContent = say(type.dataset.galleryEn, type.dataset.galleryZh);
+      }
+    }
     const note = phone.querySelector("[data-asset-note]");
     if (note) {
       note.dataset.galleryEn = chosen.label;
-      note.dataset.galleryZh = chosen.symbol === "XLM" ? "Stellar 原生资产" : "Stellar 发行资产";
-      note.textContent = isZh() ? note.dataset.galleryZh : note.dataset.galleryEn;
+      note.dataset.galleryZh = native ? "Stellar 原生资产" : "Stellar 发行资产";
+      note.textContent = say(note.dataset.galleryEn, note.dataset.galleryZh);
     }
-    if (chosen.symbol !== "XLM") {
-      phone.querySelector("[data-asset-activity-title]")?.setAttribute("hidden", "");
-      phone.querySelector("[data-asset-activity-list]")?.setAttribute("hidden", "");
+    const activityTitle = phone.querySelector("[data-asset-activity-title]");
+    const activityList = phone.querySelector("[data-asset-activity-list]");
+    if (chosen.symbol === "USDC" && activityList) {
+      activityList.innerHTML =
+        '<a class="secondary-history-row" href="./mobile-transaction-details.html?tx=received-usdc">' +
+        '<span class="secondary-history-icon"><svg viewBox="0 0 24 24" aria-hidden="true">' +
+        '<path d="M17 17H7V7M17 7 7 17"/></svg></span>' +
+        '<span class="secondary-history-copy"><b><span data-gallery-en="Received USDC" data-gallery-zh="收到 USDC">Received USDC</span></b>' +
+        '<small>Nov 26</small></span><strong class="secondary-history-value secondary-positive">+250.00 USDC</strong></a>';
     }
+    const hasActivity = native || chosen.symbol === "USDC";
+    if (activityTitle) activityTitle.hidden = !hasActivity;
+    if (activityList) activityList.hidden = !hasActivity;
     phone.querySelectorAll('.secondary-action[href*="mobile-send.html"],.secondary-action[href*="mobile-swap.html"]').forEach((link) => {
       const url = new URL(link.href);
       url.searchParams.set("asset", chosen.symbol.toLowerCase());
