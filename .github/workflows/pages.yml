@@ -68,7 +68,8 @@ jobs:
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-dapps-features.css
                   node --check .v3-preview-source/public/fresnica-v3-motion-preview/mobile-dapps-features.js
                   node --check .v3-preview-source/public/fresnica-v3-motion-preview/mobile-gallery-system.js
-                  grep -Fq 'data-dapps-tab="recent"' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-dapps.html
+                  grep -Fq 'data-dapps-recent-title' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-dapps.html
+                  grep -Fq 'gallery-app-grid gallery-sample-grid gallery-dapps-recent-list' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-dapps.html
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-activity-enhancements.css
                   node --check .v3-preview-source/public/fresnica-v3-motion-preview/mobile-activity-filter.js
                   grep -Fq 'data-activity-day="0"' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-activity.html
