@@ -199,14 +199,30 @@
       (hidden.length ? '<div class="settings-detail-account"><strong>'+escape(tr("Hidden accounts","已隐藏账户"))+'</strong></div>'+
         hidden.map((a,i)=>format(a,i,false)).join("") : "");
   };
-  const contactList = () => !contacts.length ?
-    '<div class="settings-detail-empty"><b>'+escape(tr("No contacts yet","暂无联系人"))+'</b>'+
-    escape(tr("Add a contact to preview the address book.","添加联系人以预览通讯录。"))+'</div>' :
-    contacts.map(c=>'<div class="settings-detail-account"><div class="settings-detail-account-title"><b>'+
-    escape(c.name)+'</b></div><small class="settings-detail-address">'+escape(c.address)+'</small>'+
-    '<div class="settings-detail-inline"><button class="settings-detail-mini" data-action="edit-contact" data-id="'+c.id+'">'+
-    escape(tr("Edit","编辑"))+'</button><button class="settings-detail-mini danger" data-action="delete-contact" data-id="'+c.id+'">'+
-    escape(tr("Delete","删除"))+'</button></div></div>').join("");
+  const contactList = (query="") => {
+    const q=query.trim().toLowerCase();
+    const matches=contacts.filter(c=>[c.name,c.address,c.memo].some(v=>String(v||"").toLowerCase().includes(q)));
+    if(!matches.length)return '<div class="settings-detail-empty"><b>'+
+      escape(tr(q?"No matching contacts":"No contacts yet",q?"没有匹配的联系人":"暂无联系人"))+'</b>'+
+      escape(tr("Contact names are local labels, not verified identities.","联系人名称只是本地标签，并非已验证的身份。"))+'</div>';
+    return matches.map(c=>'<div class="settings-detail-account"><div class="settings-detail-account-title"><b>'+
+      escape(c.name)+'</b></div><small class="settings-detail-address">'+escape(c.address)+'</small>'+
+      (c.memo?'<small class="settings-detail-address">Memo: '+escape(c.memo)+'</small>':"")+
+      '<div class="settings-detail-inline"><button class="settings-detail-mini" data-action="edit-contact" data-id="'+escape(c.id)+'">'+
+      escape(tr("Edit","编辑"))+'</button><button class="settings-detail-mini danger" data-action="delete-contact" data-id="'+escape(c.id)+'">'+
+      escape(tr("Delete","删除"))+'</button></div></div>').join("");
+  };
+  const connectedList = () => {
+    const items=state.connections();
+    if(!items.length)return '<div class="settings-detail-empty"><b>'+
+      escape(tr("No preview connections","暂无示例连接"))+'</b>'+
+      escape(tr("Connections saved in the dApps preview will appear here.","在 dApps 预览中保存的连接将显示在此。"))+'</div>';
+    return items.map(c=>'<div class="settings-detail-account"><div class="settings-detail-account-title"><b>'+
+      escape(c.name)+'</b><span class="settings-detail-chip">'+escape(tr("Preview only","仅示例"))+'</span></div>'+
+      '<small class="settings-detail-address">'+escape(c.origin)+'</small>'+
+      '<div class="settings-detail-inline"><button type="button" class="settings-detail-mini danger" data-action="disconnect-app" data-origin="'+escape(c.origin)+'">'+
+      escape(tr("Disconnect preview","断开示例连接"))+'</button></div></div>').join("");
+  };
   const protectedField = (en,cn) => '<div class="settings-detail-field"><label>' + escape(tr(en,cn)) +
     '</label><input type="password" placeholder="' + escape(tr("Native app only","仅原生应用")) +
     '" autocomplete="off" disabled aria-disabled="true"></div>';
@@ -224,10 +240,13 @@
             "与首页的钱包切换使用同一示例账户列表。隐藏或移除本地记录不会改变链上账户。");
         break;
       case "contacts":
-        html=section("ADDRESS BOOK","通讯录",contactList())+
+        html='<div class="settings-detail-field"><label for="settings-contacts-search">'+
+          escape(tr("Search contacts","搜索联系人"))+'</label><input id="settings-contacts-search" type="search" autocomplete="off" placeholder="'+
+          escape(tr("Name, G address or Memo","名称、G 地址或 Memo"))+'"></div>'+
+          section("ADDRESS BOOK","通讯录",'<div data-contacts-results>'+contactList()+'</div>')+
           action("Add contact","添加联系人","add-contact")+
-          note("Contacts are kept for this browser session only. Do not enter private keys or passwords.",
-            "联系人仅在本浏览器会话中保存，请勿输入私钥或密码。");
+          note("Ordinary payment contacts use Stellar G addresses and optional Memo. C addresses are handled only in supported contract scenarios. Local labels are not identity verification.",
+            "普通收款联系人使用 Stellar G 地址和可选 Memo；C 地址仅用于支持的合约场景。本地标签并非身份验证。");
         break;
       case "general":
         html=section("DISPLAY","显示",
@@ -344,13 +363,10 @@
             "启用地址头像需要单独确认。此预览不会发出第三方请求。");
         break;
       case "connected":
-        html=section("CONNECTED APPS","已连接的应用",
-          '<div class="settings-detail-empty"><b>'+escape(tr("No connected apps","暂无已连接应用"))+'</b>'+
-          escape(tr("Only real authorized origins would appear here. This preview does not create wallet permissions.",
-          "只有真实授权过的网站才会显示在此。本预览不会创建钱包授权。"))+'</div>')+
+        html=section("PREVIEW CONNECTIONS","示例连接",connectedList())+
           '<a class="settings-detail-cta is-muted" href="./mobile-dapps.html">'+escape(tr("Explore dApps","浏览应用"))+'</a>'+
-          note("In the native wallet, a connected app can be disconnected from the authorization list for the current network.",
-            "原生钱包可以在当前网络的授权列表中断开已连接应用。");
+          note("This list shares the dApps preview state. Disconnecting a preview record never revokes real wallet permissions. Entries are Stellar Mainnet demos.",
+            "此列表与 dApps 预览共用数据；断开示例记录不会撤销真实钱包授权，仅针对 Stellar 主网演示。");
         break;
       case "lock":
         html=section("LOCK WALLET","锁定钱包",
@@ -450,6 +466,11 @@
     openSheet(kind,isCurrency?"Display currency":"Auto-lock timeout",
       isCurrency?"显示法币":"自动锁定时间",html,source);
   };
+  content.addEventListener("input",event=>{
+    if(event.target.id!=="settings-contacts-search")return;
+    const results=content.querySelector("[data-contacts-results]");
+    if(results)results.innerHTML=contactList(event.target.value);
+  });
   content.addEventListener("click",event => {
     const button=event.target.closest("button");
     if(!button)return;
