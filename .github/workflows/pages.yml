@@ -64,7 +64,7 @@ jobs:
                   test -s "$source/fresnica-v3-motion-preview/Fresnica-logo-actions.svg"
                   grep -Fq 'data-icon-source="Fresnica-logo(1).svg"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   grep -Fq 'data:image/svg+xml;charset=utf-8,' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
-                  grep -Fq '<span class="phone-network"><span class="phone-network-dot" aria-hidden="true"></span>Stellar Mainnet</span>' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="phone-network home11-network-trigger"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   # The gallery shares one preview menu and uses real links for
                   # Home / Activity / dApps / Settings; Actions stays a bottom sheet.
                   for page in mobile-demo.html mobile-demo-1-1.html wallet-home.html mobile-activity.html mobile-dapps.html mobile-settings.html; do
@@ -77,6 +77,8 @@ jobs:
                   node --check "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   node --check "$source/fresnica-v3-motion-preview/mobile-preview-fullscreen.js"
                   node --check "$source/fresnica-v3-motion-preview/mobile-wallet-switch.js"
+                  test -s "$source/fresnica-v3-motion-preview/mobile-home-features.css"
+                  node --check "$source/fresnica-v3-motion-preview/mobile-home-features.js"
                   node --check "$source/fresnica-v3-motion-preview/mobile-activity-filter.js"
                   grep -Fq 'class="phone-asset-add" aria-label="Add asset"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   grep -Fq -- '--native-gain-text:#075c43' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
@@ -93,7 +95,11 @@ jobs:
                       test "$(grep -o 'class="gallery-screen-title"' "$source/fresnica-v3-motion-preview/$page" | wc -l)" -eq 1
                   done
                   # Keep the gallery concise; protect essential content and the demo-only disclosure.
-                  grep -Fq '<span class="phone-label">Total balance</span>' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-account-overview" aria-label="Current wallet"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'src="./Fresnica-logo.svg"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  ! grep -Fq '<span class="phone-label">Total balance</span>' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  test -s "$source/fresnica-v3-motion-preview/mobile-demo-1-1-reference.html"
+                  grep -Fq 'file: "mobile-demo-1-1-reference.html"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   ! grep -Fq 'Stellar assets, all in view.' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   ! grep -Fq 'Wallet transactions on Stellar.' "$source/fresnica-v3-motion-preview/mobile-activity.html"
                   ! grep -Fq 'Open a compatible Stellar app and review its request before connecting.' "$source/fresnica-v3-motion-preview/mobile-dapps.html"
