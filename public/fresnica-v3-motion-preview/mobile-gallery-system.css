@@ -31,7 +31,7 @@
 .home11-phone .gallery-row-icon{display:grid;place-items:center;flex:none;width:39px;height:39px;border-radius:12px;background:var(--native-background);color:var(--native-content-secondary)}
 .home11-phone .gallery-row-icon svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .home11-phone .gallery-row-copy{min-width:0;flex:1}
-.home11-phone .gallery-row-copy b{display:block;color:var(--native-content-primary);font-weight:600;font-size:14px;line-height:1.3}
+.home11-phone .gallery-row-copy b{display:block;color:var(--native-content-body);font-weight:600;font-size:14px;line-height:1.3}
 .home11-phone .gallery-row-copy small{display:block;color:var(--native-content-secondary);font-size:12px;line-height:1.35;margin-top:4px;overflow:hidden;text-overflow:ellipsis}
 .home11-phone .gallery-row-right{flex:none;text-align:right;max-width:45%}
 .home11-phone .gallery-row-right strong{display:block;color:var(--native-content-primary);font-size:14px;font-weight:650;white-space:nowrap}
@@ -340,8 +340,8 @@ html:has(.home11-phone .home11-action-overlay:not([hidden]),.home11-phone .galle
  * border-based overlay hierarchy. Tokens mirror the published Web 1.1.0 palette;
  * gain text uses the contrasting on-gain role on plain surfaces.
  */
-.home11-phone{--native-gain-text:#075c43;--native-success:#00a875}
-html[data-demo-theme="dark"] .home11-phone{--native-gain-text:#b2f5dc;--native-success:#00ca8a}
+.home11-phone{--native-gain-text:#075c43;--native-success:#00a875;--native-content-body:var(--native-content-primary)}
+html[data-demo-theme="dark"] .home11-phone{--native-gain-text:#b2f5dc;--native-success:#00ca8a;--native-content-body:#e8efeb}
 .home11-phone .phone-network{font-size:12px}
 @container home11-device (max-width:340px){.home11-phone .phone-network{font-size:11px}}
 .home11-phone .phone-network-dot{background:var(--native-success)}
@@ -349,3 +349,17 @@ html[data-demo-theme="dark"] .home11-phone{--native-gain-text:#b2f5dc;--native-s
 .home11-phone .phone-asset-add:focus-visible{outline:2px solid var(--native-primary);outline-offset:2px}
 .home11-phone .phone-asset-icon{color:var(--native-content-secondary)}
 .home11-phone .home11-action-sheet,.home11-phone .gallery-dialog-panel{box-shadow:none;border-top:1px solid var(--native-separator)}
+
+/* Dark-mode body vs headline hierarchy and non-text white/near-white audit. */
+.home11-phone .phone-asset-label strong{color:var(--native-content-body)}
+.home11-phone .gallery-activity-option:not([aria-pressed="true"]){color:var(--native-content-body)}
+html[data-demo-theme="dark"] .home11-phone .phone-asset-icon{background:var(--native-surface-raised);color:var(--native-content-secondary)}
+html[data-demo-theme="dark"] .home11-phone .phone-asset-icon .stellar-xlm-logo{color:var(--native-content-primary)}
+html[data-demo-theme="dark"] .wallet-asset-icon{background:var(--wallet-surface)}
+html[data-demo-theme="dark"] .wallet-asset-icon.xlm{background:var(--native-surface-raised);color:var(--native-content-primary)}
+html[data-demo-theme="dark"] .home11-phone .gallery-preview-notice{
+  background:var(--native-surface-raised);color:var(--native-content-body);border:1px solid var(--native-border)
+}
+html[data-demo-theme="dark"] .preview-fullscreen-toggle{
+  background:var(--native-surface-raised,#202623);color:#e8efeb;border-color:var(--native-border,#303934)
+}
