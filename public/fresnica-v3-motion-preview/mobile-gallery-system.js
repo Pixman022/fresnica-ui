@@ -1,7 +1,7 @@
 /* Shared controls for Fresnica's static mobile screen gallery (no wallet operations). */
 (() => {
   const pages = [
-    { file: "mobile-demo-1-1.html", en: "Home 1.1", zh: "首页示例 1.1", subtitle: "Wallet overview", subtitleZh: "资产总览", kind: "home" },
+    { file: "mobile-demo-1-1.html", en: "Home", zh: "首页", subtitle: "Wallet overview", subtitleZh: "钱包总览", kind: "home" },
     { file: "mobile-activity.html", en: "Activity", zh: "交易活动", subtitle: "Transaction history", subtitleZh: "交易历史", kind: "activity" },
     { file: "mobile-dapps.html", en: "dApps", zh: "生态应用", subtitle: "App connections", subtitleZh: "应用连接", kind: "dapps" },
     { file: "mobile-settings.html", en: "Settings", zh: "设置", subtitle: "Wallet preferences", subtitleZh: "钱包偏好设置", kind: "settings" },
@@ -14,6 +14,7 @@
     { file: "mobile-network-nodes.html", en: "Network & Nodes", zh: "网络与节点", subtitle: "Connection settings", subtitleZh: "连接设置", kind: "network" },
     { file: "mobile-demo.html", en: "Original Home", zh: "首页示例", subtitle: "Original sample", subtitleZh: "原始示例", kind: "reference" },
     { file: "wallet-home.html", en: "Wallet Home", zh: "钱包首页", subtitle: "Wallet reference", subtitleZh: "钱包参考页", kind: "reference" },
+    { file: "mobile-demo-1-1-reference.html", en: "Home 1.1 (Reference)", zh: "首页 1.1（参考）", subtitle: "Saved original", subtitleZh: "调整前版本", kind: "reference" },
   ];
   const file = location.pathname.split("/").pop() || "mobile-demo-1-1.html";
   const assetParam = new URLSearchParams(location.search).get("asset")?.toLowerCase() || "xlm";
