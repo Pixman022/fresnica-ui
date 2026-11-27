@@ -2,9 +2,9 @@
 /* Activity-only search, richer filters and compact transaction metadata. */
 .home11-phone.gallery-activity-page .gallery-activity-filter-trigger.is-filtered{border-color:var(--native-primary);color:var(--native-primary);background:var(--native-background)}
 .home11-phone.gallery-activity-page .gallery-activity-search{
-  position:sticky;top:var(--native-space-lg);z-index:2;
+  position:sticky;top:0;z-index:2;
   width:100%;min-width:0;max-width:100%;
-  margin:0 0 var(--native-space-sm);padding:0 0 var(--native-space-sm);
+  margin:0 0 var(--native-space-md);padding:0 0 var(--native-space-md);
   background:var(--native-background)
 }
 .home11-phone.gallery-activity-page .gallery-activity-search + .gallery-section-title{margin-top:0}
