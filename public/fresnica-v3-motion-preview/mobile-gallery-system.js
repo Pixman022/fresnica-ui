@@ -20,7 +20,9 @@
   const assetParam = new URLSearchParams(location.search).get("asset")?.toLowerCase() || "xlm";
   const route = file === "mobile-asset-details.html" ? file + "?asset=" + assetParam : file;
   const current = pages.find((item) => item.file === route) ||
-    (file === "mobile-asset-details.html" ?
+    (file === "mobile-settings-detail.html" ?
+      {file:"mobile-settings.html",en:"Settings",zh:"设置",kind:"settings"} :
+     file === "mobile-asset-details.html" ?
       {file:route,en:"Asset details",zh:"资产详情",kind:"asset"} : pages[0]);
   const t = {
     "Home": "首页", "Activity": "活动", "Actions": "操作", "dApps": "应用", "Settings": "设置",
