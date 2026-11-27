@@ -1986,9 +1986,9 @@ try{
         await gallery.locator('.gallery-activity-search-trigger').count()===0&&
         await gallery.evaluate(()=>{
           const search=document.querySelector('.gallery-activity-search');
-          return search&&!search.hidden&&search.nextElementSibling?.classList.contains('home11-scroll');
+          return search&&!search.hidden&&search.parentElement?.classList.contains('home11-scroll')&&search.nextElementSibling?.classList.contains('gallery-section-title');
         }),
-        'Activity search must stay visible above the scrolling list');
+        'Activity search should be a peer of transaction date groups within scroll');
       const activitySearchLayout=await gallery.evaluate(()=>{
         const field=document.querySelector('.gallery-activity-search-field').getBoundingClientRect();
         const title=document.querySelector('[data-activity-day="0"]').getBoundingClientRect();
@@ -1999,31 +1999,32 @@ try{
           withinPhone:field.left>=phone.left&&field.right<=phone.right+1,
           width:field.width,
           font:getComputedStyle(document.querySelector('.gallery-activity-search-input')).fontSize,
-          hintHidden:document.querySelector('.gallery-activity-search-hint').hidden,
-          clearHidden:document.querySelector('.gallery-activity-search-clear').hidden
+          redundantHintAbsent:!document.querySelector('.gallery-activity-search-hint'),
+          clearHidden:document.querySelector('.gallery-activity-search-clear').hidden,
+          sticky:getComputedStyle(document.querySelector('.gallery-activity-search')).position==='sticky',
+          spaceToTitle:Math.round(title.top-field.bottom)
         };
       });
       assert(activitySearchLayout.leftDiff<=1&&activitySearchLayout.rightDiff<=1&&
         activitySearchLayout.withinPhone&&activitySearchLayout.width>100&&
         activitySearchLayout.font==='13px'&&
-        activitySearchLayout.hintHidden&&activitySearchLayout.clearHidden,
+        activitySearchLayout.redundantHintAbsent&&activitySearchLayout.clearHidden&&
+        activitySearchLayout.sticky&&activitySearchLayout.spaceToTitle>=12&&
+        activitySearchLayout.spaceToTitle<=20,
         'Activity search spacing/typography/default copy failed: '+
           JSON.stringify({config,activitySearchLayout}));
       await gallery.locator('.gallery-activity-search-input').fill('USDC');
-      assert(await gallery.locator('.gallery-activity-search-hint').isVisible()&&
-        await gallery.locator('.gallery-activity-search-clear').isVisible()&&
-        (await gallery.locator('.gallery-activity-search-hint').textContent()).trim()===
-          (config.lang==='zh'?'仅搜索已加载记录':'Loaded records only'),
-        'Activity contextual search copy failed: '+JSON.stringify(config));
+      assert(await gallery.locator('.gallery-activity-search-clear').isVisible()&&
+        await gallery.locator('.gallery-activity-search-hint').count()===0,
+        'Activity should show clear control without redundant search copy: '+JSON.stringify(config));
       assert(await visibleActivity()===2,'Activity search should match loaded USDC operations');
       await gallery.locator('.gallery-activity-search-input').fill('no-such-demo-operation');
       assert(await visibleActivity()===0&&await gallery.locator('.gallery-activity-no-match').isVisible(),
         'Activity no-match search behavior failed');
       await gallery.locator('.gallery-activity-search-clear').click();
       assert(await visibleActivity()===4,'Clearing Activity search should restore four rows');
-      assert(!(await gallery.locator('.gallery-activity-search-hint').isVisible())&&
-        !(await gallery.locator('.gallery-activity-search-clear').isVisible()),
-        'Activity search helper/clear should not occupy space when idle');
+      assert(!(await gallery.locator('.gallery-activity-search-clear').isVisible()),
+        'Activity clear control should not occupy space when idle');
       await gallery.locator('.gallery-activity-filter-trigger').click();
       assert(await gallery.locator('[data-activity-tab]').count()===0&&
         await gallery.locator('[data-activity-filter]').count()===0&&
