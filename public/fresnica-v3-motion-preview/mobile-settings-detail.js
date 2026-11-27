@@ -133,12 +133,13 @@
       phone.style.removeProperty("--settings-preview-palette");
     }
   };
+  let applyingTheme = false;
   const chooseTheme = mode => {
     settings.themeMode=mode;
     const resolved=mode==="system" && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" :
       mode==="dark"?"dark":"light";
     const sidebar=document.querySelector('[data-gallery-theme="'+resolved+'"]');
-    if(sidebar)sidebar.click();
+    if(sidebar){applyingTheme=true;sidebar.click();applyingTheme=false;}
     else {
       try {localStorage.setItem("fresnica-gallery-theme",resolved);} catch (_) {}
       document.documentElement.dataset.demoTheme=resolved;
@@ -552,8 +553,9 @@
   document.addEventListener("click",event=>{
     const chosen=event.target.closest("[data-gallery-language],[data-gallery-theme]");
     if(!chosen || chosen.closest(".settings-detail-phone"))return;
+    const manualThemeChange = !!chosen.dataset.galleryTheme && !applyingTheme;
     queueMicrotask(()=>{
-      if(chosen.dataset.galleryTheme) {settings.themeMode=chosen.dataset.galleryTheme;saveSettings();}
+      if(manualThemeChange) {settings.themeMode=chosen.dataset.galleryTheme;saveSettings();}
       render();
     });
   });
