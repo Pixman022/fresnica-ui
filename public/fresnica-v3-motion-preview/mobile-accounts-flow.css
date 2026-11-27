@@ -1,0 +1,44 @@
+/* Accounts UI flow only — visual states and navigation, no wallet mutations. */
+.home11-phone.accounts-flow-phone .accounts-top-actions{display:flex;align-items:center;gap:5px;margin-left:auto}
+.home11-phone.accounts-flow-phone .accounts-top-action{border:0;padding:7px 4px;min-height:38px;min-width:47px;background:transparent;color:var(--native-primary);font:600 12px/1.3 inherit;font-family:inherit;cursor:pointer}
+.home11-phone.accounts-flow-phone .accounts-row{display:flex;align-items:center;min-height:69px;gap:11px;padding:12px;border-bottom:1px solid var(--native-separator);color:var(--native-content-primary);text-decoration:none}
+.home11-phone.accounts-flow-phone .accounts-row:last-child{border-bottom:0}
+.home11-phone.accounts-flow-phone .accounts-avatar{display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:12px;background:var(--native-background);color:var(--native-primary)}
+.home11-phone.accounts-flow-phone .accounts-avatar svg{width:19px;height:19px;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.home11-phone.accounts-flow-phone .accounts-row-info{display:flex;flex-direction:column;flex:1;min-width:0;gap:5px}
+.home11-phone.accounts-flow-phone .accounts-row-name{font-size:12.5px;font-weight:620;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.home11-phone.accounts-flow-phone .accounts-row-subtitle{font-size:10.2px;color:var(--native-content-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home11-phone.accounts-flow-phone .accounts-row-tags{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.home11-phone.accounts-flow-phone .accounts-tag{display:inline-flex;align-items:center;gap:4px;border-radius:7px;background:var(--native-background);color:var(--native-content-secondary);font-size:9px;font-weight:600;padding:3px 6px}
+.home11-phone.accounts-flow-phone .accounts-tag.is-current{color:var(--native-primary);background:var(--Fresnica-primary-color-bg,var(--native-background))}
+.home11-phone.accounts-flow-phone .accounts-row-chevron{flex:none;width:16px;height:16px;stroke:var(--native-content-secondary);stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.home11-phone.accounts-flow-phone .accounts-row:focus-visible,.home11-phone.accounts-flow-phone .accounts-top-action:focus-visible{outline:2px solid var(--native-primary);outline-offset:-2px}
+.home11-phone.accounts-flow-phone .accounts-hero{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 16px;text-align:center;border:1px solid var(--native-separator);border-radius:16px;background:var(--native-surface)}
+.home11-phone.accounts-flow-phone .accounts-hero .accounts-avatar{width:49px;height:49px;border-radius:15px}
+.home11-phone.accounts-flow-phone .accounts-hero .accounts-avatar svg{width:25px;height:25px}
+.home11-phone.accounts-flow-phone .accounts-hero h2{margin:2px 0 0;font-size:17px;font-weight:650}
+.home11-phone.accounts-flow-phone .accounts-hero .accounts-row-subtitle{max-width:100%;font:500 10px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace}
+.home11-phone.accounts-flow-phone .accounts-pair{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-height:47px;padding:12px 13px;border-bottom:1px solid var(--native-separator);font-size:11.5px}
+.home11-phone.accounts-flow-phone .accounts-pair:last-child{border-bottom:0}
+.home11-phone.accounts-flow-phone .accounts-pair-label{color:var(--native-content-secondary);flex:none;font-size:11px}
+.home11-phone.accounts-flow-phone .accounts-pair-value{text-align:right;color:var(--native-content-primary);font-size:11px;font-weight:580;min-width:0;overflow-wrap:anywhere}
+.home11-phone.accounts-flow-phone .accounts-choice{display:flex;gap:11px;min-height:69px;align-items:center;padding:12px 13px;border-bottom:1px solid var(--native-separator);color:var(--native-content-primary);text-decoration:none}
+.home11-phone.accounts-flow-phone .accounts-choice:last-child{border-bottom:0}
+.home11-phone.accounts-flow-phone .accounts-choice-info{display:flex;flex:1;min-width:0;gap:4px;flex-direction:column}
+.home11-phone.accounts-flow-phone .accounts-choice-info b{font-size:12.5px;font-weight:620}
+.home11-phone.accounts-flow-phone .accounts-choice-info small{font-size:10.5px;color:var(--native-content-secondary)}
+.home11-phone.accounts-flow-phone .accounts-choice:focus-visible{outline:2px solid var(--native-primary);outline-offset:-2px}
+.home11-phone.accounts-flow-phone .accounts-sort-control{display:flex;align-items:center;gap:4px}
+.home11-phone.accounts-flow-phone .accounts-sort-control button{width:34px;height:36px;display:grid;place-items:center;border:1px solid var(--native-separator);border-radius:9px;background:var(--native-background);color:var(--native-content-primary);font:600 15px/1.3 inherit;cursor:pointer}
+.home11-phone.accounts-flow-phone .accounts-sort-control button:disabled{opacity:.35;cursor:default}
+.home11-phone.accounts-flow-phone .accounts-inline-link{display:block;margin:8px auto 0;max-width:max-content;text-align:center;text-decoration:none;color:var(--native-primary);font-size:11px}
+.home11-phone.accounts-flow-phone .accounts-error-sample{margin:12px 0 0;padding:11px 13px;background:var(--native-surface);border:1px solid var(--native-separator);border-radius:12px;color:var(--native-content-secondary);font-size:11px}
+.home11-phone.accounts-flow-phone .accounts-field-demo{padding:12px 13px}
+.home11-phone.accounts-flow-phone .accounts-field-demo .settings-detail-field:first-child{margin-top:0}
+.home11-phone.accounts-flow-phone .accounts-field-demo input:disabled{opacity:.63}
+.home11-phone.accounts-flow-phone .accounts-badge-inline{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--native-content-secondary)}
+.home11-phone.accounts-flow-phone .accounts-badge-inline::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--native-primary)}
+.home11-phone.accounts-flow-phone .accounts-sheet-section{margin:12px 0 6px;color:var(--native-content-secondary);font-size:11px;line-height:1.55}
+.home11-phone.accounts-flow-phone .accounts-flow-alert{padding:11px 12px;border-radius:11px;background:var(--native-background);color:var(--native-content-secondary);font-size:11px;line-height:1.5}
+.home11-phone.accounts-flow-phone .accounts-flow-alert b{display:block;color:var(--native-content-primary);margin-bottom:4px}
+@media(max-width:420px){.home11-phone.accounts-flow-phone .settings-detail-scroll{padding-left:13px;padding-right:13px}.home11-phone.accounts-flow-phone .accounts-row{padding:11px}}
