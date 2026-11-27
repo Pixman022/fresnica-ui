@@ -20,7 +20,6 @@
   });
   let applied = defaults();
   let draft = defaults();
-  let currentTab = "basic";
   const zh = () => document.documentElement.lang.startsWith("zh");
   const labels = {
     "Search activity": "搜索交易", "Clear search": "清除搜索",
@@ -180,7 +179,6 @@
   const tabButtons = [...overlay.querySelectorAll("[data-activity-tab]")];
   const panes = [...overlay.querySelectorAll("[data-activity-pane]")];
   const setTab = value => {
-    currentTab = value;
     tabButtons.forEach(button => {
       const active = button.dataset.activityTab === value;
       button.classList.toggle("is-current",active);
@@ -268,6 +266,7 @@
   });
   overlay.querySelector("[data-activity-amount-mode]").addEventListener("change", event => {
     draft.amountMode = event.target.value;
+    if (draft.amountMode === "any") draft.amount = "";
     syncChoices();
   });
   overlay.querySelector("[data-activity-amount-value]").addEventListener("input", event => {
