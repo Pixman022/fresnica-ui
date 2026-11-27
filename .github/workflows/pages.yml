@@ -75,6 +75,12 @@ jobs:
                   test -s "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   test -s "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   node --check "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
+                  node --check "$source/fresnica-v3-motion-preview/mobile-preview-fullscreen.js"
+                  node --check "$source/fresnica-v3-motion-preview/mobile-wallet-switch.js"
+                  node --check "$source/fresnica-v3-motion-preview/mobile-activity-filter.js"
+                  grep -Fq 'class="phone-asset-add" aria-label="Add asset"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq -- '--native-gain-text:#075c43' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
+                  grep -Fq 'localizeAccessibleLabel' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   grep -Fq 'class="gallery-screen-title">Activity</h1>' "$source/fresnica-v3-motion-preview/mobile-activity.html"
                   grep -Fq 'class="gallery-screen-title">dApps</h1>' "$source/fresnica-v3-motion-preview/mobile-dapps.html"
                   grep -Fq 'class="gallery-screen-title">Settings</h1>' "$source/fresnica-v3-motion-preview/mobile-settings.html"
@@ -152,12 +158,23 @@ jobs:
                   <div id="result">PENDING</div>
                   <iframe id="phone" title="phone preview" src="./fresnica-v3-motion-preview/mobile-demo-1-1.html" style="width:390px;height:740px"></iframe>
                   <iframe id="desktop" title="desktop preview" src="./fresnica-v3-motion-preview/mobile-demo-1-1.html" style="width:1100px;height:740px"></iframe>
+                  <iframe id="activity" title="activity preview" src="./fresnica-v3-motion-preview/mobile-activity.html" style="width:390px;height:740px"></iframe>
+                  <iframe id="dapps" title="dapps preview" src="./fresnica-v3-motion-preview/mobile-dapps.html" style="width:390px;height:740px"></iframe>
+                  <iframe id="secondary" title="secondary preview" src="./fresnica-v3-motion-preview/mobile-send.html" style="width:390px;height:740px"></iframe>
                   <script>
                   window.addEventListener('load', () => {
                     const output = document.getElementById('result');
                     try {
                       const mobile = document.getElementById('phone').contentDocument;
                       const desktop = document.getElementById('desktop').contentDocument;
+                      const activity = document.getElementById('activity').contentDocument;
+                      const dapps = document.getElementById('dapps').contentDocument;
+                      const secondary = document.getElementById('secondary').contentDocument;
+                      const cssHeight = (doc, selector) => {
+                        const element = doc.querySelector(selector);
+                        if (!element) throw Error('missing control: ' + selector);
+                        return parseFloat(doc.defaultView.getComputedStyle(element).height);
+                      };
                       const toggle = mobile.querySelector('.gallery-menu-toggle');
                       const aside = mobile.querySelector('#gallery-screen-menu');
                       const backdrop = mobile.querySelector('.gallery-menu-backdrop');
@@ -181,6 +198,35 @@ jobs:
                       const desktopToggle = desktop.querySelector('.gallery-menu-toggle');
                       if (!desktopToggle || desktop.defaultView.getComputedStyle(desktopToggle).display !== 'none') throw Error('desktop toggle visible');
                       if (desktop.defaultView.getComputedStyle(desktop.querySelector('.preview-sidebar')).visibility !== 'visible') throw Error('desktop menu hidden');
+                      // Design-system regression checks for the current V3 mobile gallery.
+                      const addAsset = mobile.querySelector('.phone-asset-add');
+                      if (!addAsset || addAsset.tagName !== 'BUTTON') throw Error('Add asset is not a button');
+                      addAsset.click();
+                      if (!mobile.querySelector('.gallery-preview-notice[role="status"]')) throw Error('Add asset has no feedback');
+                      const walletSwitch = mobile.querySelector('.home11-wallet-switch');
+                      walletSwitch.click();
+                      if (mobile.querySelector('.home11-wallet-selector').hidden) throw Error('wallet sheet did not open');
+                      mobile.querySelector('.home11-wallet-sheet-close').click();
+                      if (mobile.activeElement !== walletSwitch) throw Error('wallet sheet focus not restored');
+                      const filter = activity.querySelector('.gallery-activity-filter-trigger');
+                      if (cssHeight(activity, '.gallery-activity-filter-trigger') < 44) throw Error('Activity filter touch target');
+                      filter.click();
+                      if (activity.querySelector('.gallery-activity-filter-overlay').hidden) throw Error('Activity filter did not open');
+                      activity.querySelector('[data-activity-filter="sent"]').click();
+                      if (activity.querySelector('[data-activity-kind="sent"]').hidden) throw Error('Activity filter hides matching rows');
+                      const connect = dapps.querySelector('.gallery-header-action');
+                      if (cssHeight(dapps, '.gallery-header-action') < 44) throw Error('dApps connect touch target');
+                      connect.click();
+                      if (dapps.querySelector('.gallery-dialog-overlay').hidden) throw Error('dApps review did not open');
+                      if (cssHeight(dapps, '.gallery-dialog-close') < 44) throw Error('dialog close touch target');
+                      if (cssHeight(dapps, '.gallery-website-input') < 48) throw Error('website input height');
+                      dapps.querySelector('.gallery-dialog-close').click();
+                      if (parseFloat(secondary.defaultView.getComputedStyle(secondary.querySelector('.secondary-title')).fontSize) < 20) throw Error('secondary title size');
+                      mobile.querySelector('[data-gallery-language="zh"]').click();
+                      if (addAsset.getAttribute('aria-label') !== '添加资产') throw Error('Add asset aria localization');
+                      if (mobile.querySelector('.preview-fullscreen-toggle').getAttribute('aria-label') !== '全屏展示界面') throw Error('fullscreen aria localization');
+                      mobile.querySelector('[data-gallery-language="en"]').click();
+                      if (addAsset.getAttribute('aria-label') !== 'Add asset') throw Error('English aria restoration');
                       output.textContent = 'GALLERY_DRAWER_PASS';
                     } catch (error) {
                       output.textContent = 'GALLERY_DRAWER_FAIL: ' + error.message;

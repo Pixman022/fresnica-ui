@@ -9,7 +9,7 @@ This checklist is the manual baseline for Fresnica UI visual review. It compleme
 - Browser: latest Chromium or the product's supported browser matrix.
 - State: capture the default, hover/focus, selected, disabled, loading and error states where the component supports them.
 - Network: examples and wallet flows use Stellar terminology only.
-- Wallet examples: Fresnica wallet flows remain inside the fixed 390 × 844 mobile preview frame. Treat it as the mobile-large example, then repeat the responsive checks at the matrix widths; scroll inside the frame to inspect content below the fold.
+- Wallet examples: the React component demo uses a fixed 390 × 844 mobile preview frame, while the active V3 static gallery has its own compact device frame and optional immersive preview. Neither frame substitutes for checking the actual viewport matrix; scroll inside the frame to inspect content below the fold.
 - Layout composition: use the built-in width switcher to review the same generic composition at 320px, 360px, 393px, 430px, 768px and desktop width.
 
 At 200% browser zoom or an equivalent large-text setting, verify that headings, long addresses, amounts, dialogs, forms and navigation reflow without clipping or horizontal overflow. The design-system entry is evaluated as a web surface; the wallet entry remains a product example.
@@ -42,6 +42,17 @@ For each route, verify:
 - Surfaces use theme-aware tokens, visible borders and no elevation shadows.
 - Lucide icons have the intended semantic color and a minimum 44px interactive target where applicable.
 - Long Stellar addresses, balances and transaction states remain readable without clipping or horizontal overflow.
+
+## Active V3 mobile gallery acceptance
+
+The V3 file-based gallery is released from the `design/website-vision-motion-concept-2026-10-27` branch, not the main-branch React demo routes. Check `mobile-demo-1-1.html`, `mobile-activity.html`, `mobile-dapps.html`, `mobile-settings.html` and the secondary `mobile-*.html` flows independently.
+
+- Verify the Home **Add asset** control is a real button with localized accessibility text and feedback (the demo does not create assets).
+- Confirm Activity Filter, dApp Connect, dialog Close and immersive preview controls have at least 44 × 44 CSS-pixel hit targets; website input uses 48px.
+- Check active bottom navigation (Home / Activity / Actions sheet / dApps / Settings) and centered secondary titles in both themes.
+- Financial gain text uses a separate gain role; ordinary metadata, secondary icons and Add asset must not borrow the brand-action color.
+- Switch languages and assert visible content, screen-reader names, dialog labels and the fullscreen toggle are localized in both directions.
+- Check 320/360/390–393/430px and 200% zoom in both themes; do not treat source lint or the gallery smoke test as a full mobile-device accessibility certification.
 
 ## Component state pass
 
