@@ -1987,7 +1987,11 @@ try{
         const field=document.querySelector('.gallery-activity-search-field');
         const title=document.querySelector('[data-activity-day="0"]');
         const f=field.getBoundingClientRect(),t=title.getBoundingClientRect();
+        const header=document.querySelector('.gallery-activity-page .phone-header').getBoundingClientRect();
         return {
+          gapFromHeader:Math.round(f.top-header.bottom),
+          gapToTitle:Math.round(t.top-f.bottom),
+          stickyTop:getComputedStyle(search).top,
           inScroll:search.parentElement?.classList.contains('home11-scroll'),
           sticky:getComputedStyle(search).position==='sticky',
           aligned:Math.abs(f.left-t.left)<=1&&Math.abs(f.right-t.right)<=1,
@@ -1996,8 +2000,12 @@ try{
           noHint:!document.querySelector('.gallery-activity-search-hint')
         };
       });
-      assert(Object.values(searchLayout).every(Boolean)&&searchLayout.inputFont==='13px',
-        'Activity search sizing/background failed: '+JSON.stringify({config,searchLayout}));
+      assert(searchLayout.inScroll&&searchLayout.sticky&&searchLayout.aligned&&
+        searchLayout.transparent&&searchLayout.noHint&&searchLayout.inputFont==='13px'&&
+        searchLayout.stickyTop==='0px'&&
+        searchLayout.gapFromHeader>=6&&searchLayout.gapFromHeader<=30&&
+        searchLayout.gapToTitle>=12&&searchLayout.gapToTitle<=36,
+        'Activity search positioning/background failed: '+JSON.stringify({config,searchLayout}));
       await gallery.locator('.gallery-activity-search-input').fill('USDC');
       assert(await visibleActivity()===2,'Activity search should match both USDC records');
       await gallery.locator('.gallery-activity-search-input').fill('unmatched-demo-search');
