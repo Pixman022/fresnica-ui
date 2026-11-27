@@ -179,7 +179,7 @@
       '<div class="gallery-app-grid">' + recentApps + '</div></div>' +
       '<div class="gallery-action-group"><h3>Official shortcuts</h3><div class="gallery-shortcut-grid">' +
       '<a href="./mobile-swap.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/></svg><span>Swap</span></a>' +
-      '<a href="./mobile-activity.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.8 9.8 0 0 0-6.7 2.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></svg><span>History</span></a>' +
+      '<a href="./mobile-activity.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.8 9.8 0 0 0-6.7 2.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></svg><span>Activity</span></a>' +
       '<a href="./mobile-send.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg><span>Send</span></a>' +
       '<a href="./mobile-receive.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7 7 17M17 17H7V7"/></svg><span>Receive</span></a>' +
       '</div></div>' +
