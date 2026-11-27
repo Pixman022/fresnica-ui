@@ -1,120 +1,103 @@
-/* Home 1.1 wallet-switch and create-wallet flow are illustrative only. */
+/* Home wallet switch: uses the same sample accounts as Settings.
+   This UI never creates signer material or a funded wallet. */
 (() => {
-  const phone = document.querySelector(".home11-phone");
-  const trigger = phone?.querySelector(".home11-wallet-switch");
-  const popup = phone?.querySelector("#home11-wallet-selector");
-  const sheet = popup?.querySelector(".home11-wallet-sheet");
-  const listView = popup?.querySelector(".home11-wallet-list-view");
-  const createView = popup?.querySelector(".home11-wallet-create-view");
-  const optionList = popup?.querySelector(".home11-wallet-options");
-  const createEntry = popup?.querySelector(".home11-wallet-create-entry");
-  const newName = popup?.querySelector("#home11-new-wallet-name");
-  const name = phone?.querySelector(".home11-wallet-name");
-  const address = phone?.querySelector(".home11-wallet-address");
-  if (!trigger || !popup || !sheet || !listView || !createView || !optionList ||
-      !createEntry || !newName || !name || !address) return;
-
-  const examples = [
-    { name: "SuperWallet", address: "GB3U…EH3W" },
-    { name: "Wallet 2", address: "GDEM…TEST" },
-  ];
-  let selectedIndex = 0;
-
-  const showList = () => {
-    createView.hidden = true;
-    listView.hidden = false;
-    sheet.setAttribute("aria-labelledby", "home11-wallet-sheet-title");
+  const phone=document.querySelector(".home11-phone");
+  const state=window.FresnicaPreviewState;
+  const trigger=phone?.querySelector(".home11-wallet-switch");
+  const popup=phone?.querySelector("#home11-wallet-selector");
+  const sheet=popup?.querySelector(".home11-wallet-sheet");
+  const listView=popup?.querySelector(".home11-wallet-list-view");
+  const createView=popup?.querySelector(".home11-wallet-create-view");
+  const optionList=popup?.querySelector(".home11-wallet-options");
+  const createEntry=popup?.querySelector(".home11-wallet-create-entry");
+  const newName=popup?.querySelector("#home11-new-wallet-name");
+  const name=phone?.querySelector(".home11-wallet-name");
+  const address=phone?.querySelector(".home11-wallet-address");
+  if(!state || !trigger || !popup || !sheet || !listView || !createView || !optionList ||
+     !createEntry || !newName || !name || !address)return;
+  const isZh=()=>document.documentElement.lang.startsWith("zh");
+  const close=(restore=true)=>{
+    if(popup.hidden)return;
+    popup.hidden=true;trigger.setAttribute("aria-expanded","false");
+    createView.hidden=true;listView.hidden=false;createView.reset();
+    if(restore)trigger.focus();
   };
-  const close = (focusTrigger = false) => {
-    if (popup.hidden) return;
-    popup.hidden = true;
-    trigger.setAttribute("aria-expanded", "false");
-    showList();
-    createView.reset();
-    if (focusTrigger) trigger.focus();
-  };
-  const select = (index) => {
-    const selected = examples[index];
-    if (!selected) return;
-    selectedIndex = index;
-    name.textContent = selected.name;
-    address.textContent = selected.address;
-    optionList.querySelectorAll("[data-wallet-index]").forEach((button) => {
-      const active = Number(button.dataset.walletIndex) === index;
-      button.classList.toggle("is-selected", active);
-      button.setAttribute("aria-pressed", String(active));
+  const render=()=>{
+    const current=state.activeAccount();
+    if(!current)return;
+    name.textContent=current.name;
+    address.textContent=current.address==="—" ? (isZh()?"示例账户":"Sample account"):current.address;
+    optionList.replaceChildren();
+    state.accounts().filter(a=>!a.hidden).forEach(account=>{
+      const button=document.createElement("button");
+      button.type="button";button.className="home11-wallet-option";
+      button.dataset.walletId=account.id;
+      const isCurrent=account.id===current.id;
+      button.classList.toggle("is-selected",isCurrent);
+      button.setAttribute("aria-pressed",String(isCurrent));
+      const avatar=document.createElement("span");
+      avatar.className="home11-wallet-option-avatar";
+      avatar.textContent=account.name[0].toUpperCase();
+      const details=document.createElement("span");
+      details.className="home11-wallet-option-details";
+      const title=document.createElement("strong");title.textContent=account.name;
+      const subtitle=document.createElement("small");
+      subtitle.textContent=account.address==="—"?(isZh()?"示例账户":"Sample account"):account.address;
+      details.append(title,subtitle);
+      button.append(avatar,details);
+      button.insertAdjacentHTML("beforeend",'<svg class="home11-wallet-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>');
+      optionList.appendChild(button);
     });
-    close(true);
   };
-
-  trigger.addEventListener("click", () => {
-    if (!popup.hidden) {
-      close(true);
-      return;
-    }
-    showList();
-    popup.hidden = false;
-    trigger.setAttribute("aria-expanded", "true");
-    optionList.querySelector(".home11-wallet-option.is-selected")?.focus();
+  trigger.addEventListener("click",()=>{
+    if(!popup.hidden){close();return;}
+    render();popup.hidden=false;trigger.setAttribute("aria-expanded","true");
+    optionList.querySelector(".is-selected")?.focus();
   });
-  popup.addEventListener("click", (event) => {
-    if (event.target.closest("[data-wallet-dismiss]")) {
-      close(true);
-      return;
+  popup.addEventListener("click",event=>{
+    if(event.target.closest("[data-wallet-dismiss]")){close();return;}
+    const option=event.target.closest("[data-wallet-id]");
+    if(option && optionList.contains(option)){
+      if(state.setActiveAccount(option.dataset.walletId)){render();close();}
     }
-    const option = event.target.closest("[data-wallet-index]");
-    if (option && optionList.contains(option)) select(Number(option.dataset.walletIndex));
   });
-  createEntry.addEventListener("click", () => {
-    listView.hidden = true;
-    createView.hidden = false;
-    sheet.setAttribute("aria-labelledby", "home11-wallet-create-title");
+  createEntry.addEventListener("click",()=>{
+    listView.hidden=true;createView.hidden=false;
+    sheet.setAttribute("aria-labelledby","home11-wallet-create-title");
     newName.focus();
   });
-  popup.querySelector(".home11-wallet-back")?.addEventListener("click", () => {
-    showList();
+  popup.querySelector(".home11-wallet-back")?.addEventListener("click",()=>{
+    createView.hidden=true;listView.hidden=false;
+    sheet.setAttribute("aria-labelledby","home11-wallet-sheet-title");
     createEntry.focus();
   });
-
-  createView.addEventListener("submit", (event) => {
+  createView.addEventListener("submit",event=>{
     event.preventDefault();
-    const walletName = newName.value.trim();
-    if (!walletName) return;
-    const index = examples.push({ name: walletName, address: "GDEM…DEMO" }) - 1;
-    const option = document.createElement("button");
-    option.type = "button";
-    option.className = "home11-wallet-option";
-    option.dataset.walletIndex = String(index);
-    option.setAttribute("aria-pressed", "false");
-    option.innerHTML = '<span class="home11-wallet-option-avatar"></span>' +
-      '<span class="home11-wallet-option-details"><strong></strong><small></small></span>' +
-      '<svg class="home11-wallet-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>';
-    option.querySelector(".home11-wallet-option-avatar").textContent = walletName[0].toUpperCase();
-    option.querySelector("strong").textContent = walletName;
-    option.querySelector("small").textContent = "GDEM…DEMO";
-    optionList.append(option);
-    select(index);
+    const walletName=newName.value.trim();
+    if(!walletName)return;
+    const id="demo-"+Date.now();
+    const newAccount={id,name:walletName,address:"—",type:"sample",hidden:false};
+    if(!state.saveAccounts([...state.accounts(),newAccount]))return;
+    state.setActiveAccount(id);render();close();
   });
-
-  document.addEventListener("keydown", (event) => {
-    if (popup.hidden) return;
-    if (event.key === "Escape") {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      close(true);
-      return;
+  window.addEventListener("fresnica-preview-state",event=>{
+    if(event.detail?.type==="accounts")render();
+  });
+  window.addEventListener("storage",event=>{
+    if(event.key?.startsWith("fresnica-preview-"))render();
+  });
+  document.addEventListener("keydown",event=>{
+    if(popup.hidden)return;
+    if(event.key==="Escape"){
+      event.preventDefault();event.stopImmediatePropagation();close();return;
     }
-    if (event.key !== "Tab") return;
-    const activeView = createView.hidden ? listView : createView;
-    const focusables = [...activeView.querySelectorAll("button:not([disabled]), input:not([disabled])")];
-    if (!focusables.length) return;
-    const first = focusables[0], last = focusables[focusables.length - 1];
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  }, true);
+    if(event.key!=="Tab")return;
+    const active=createView.hidden?listView:createView;
+    const focusables=[...active.querySelectorAll("button:not([disabled]),input:not([disabled])")];
+    if(!focusables.length)return;
+    const first=focusables[0],last=focusables[focusables.length-1];
+    if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+  },true);
+  render();
 })();
