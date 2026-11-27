@@ -1881,9 +1881,7 @@ try{
             addressClipped:address.scrollWidth>address.clientWidth+1
           };
         });
-        const bluePalette=config.theme==='dark'?
-          {bg:'rgb(30, 45, 82)',ink:'rgb(142, 174, 255)'}:
-          {bg:'rgb(233, 239, 255)',ink:'rgb(53, 106, 230)'};
+        const bluePalette={bg:'rgb(233, 239, 255)',ink:'rgb(30, 45, 82)'};
         assert(wallet.walletIcon&&wallet.avatarBg===bluePalette.bg&&
           wallet.avatarColor===bluePalette.ink&&wallet.avatarSize>=30&&
           wallet.avatarIconSize>=18,
@@ -1901,6 +1899,70 @@ try{
       const homeImage=path.join(dest,'gallery-home-'+config.theme+'-'+config.lang+'.png');
       await gallery.locator('.home11-phone').screenshot({path:homeImage,animations:'disabled'});
       captures.push(path.relative(dest,homeImage));
+
+      // XLM retains just Reserve as its expandable information card.
+      await gallery.goto(new URL('mobile-asset-details.html?asset=xlm',base).href,
+        {waitUntil:'load',timeout:45000});
+      const nativeAsset=await gallery.evaluate(()=>({
+        symbol:document.querySelector('[data-asset-label]')?.textContent.trim(),
+        reserveHidden:document.querySelector('[data-asset-reserve-section]')?.hidden,
+        issuedHidden:document.querySelector('[data-asset-issued-section]')?.hidden,
+        reserve:document.querySelector('[data-asset-reserve]')?.textContent.trim(),
+        buttonHeight:document.querySelector('[data-asset-reserve-toggle]')?.getBoundingClientRect().height,
+        activeRoute:document.querySelector('.preview-nav a.is-current')?.getAttribute('href')
+      }));
+      assert(nativeAsset.symbol==='XLM'&&!nativeAsset.reserveHidden&&
+        nativeAsset.issuedHidden&&nativeAsset.reserve==='12 XLM'&&
+        nativeAsset.buttonHeight>=44&&nativeAsset.activeRoute?.includes('asset=xlm'),
+        'XLM asset-only Reserve contract failed: '+JSON.stringify({config,nativeAsset}));
+      const reserveToggle=gallery.locator('[data-asset-reserve-toggle]');
+      await reserveToggle.click();
+      const reserveExpanded=await gallery.evaluate(()=>({
+        expanded:document.querySelector('[data-asset-reserve-toggle]').getAttribute('aria-expanded'),
+        detailsVisible:!document.querySelector('[data-asset-reserve-details]').hidden,
+        pairs:[...document.querySelectorAll('[data-asset-reserve-details] .secondary-pair')]
+          .map(el=>el.textContent.trim()),
+        note:document.querySelector('.secondary-reserve-note')?.textContent.trim()
+      }));
+      assert(reserveExpanded.expanded==='true'&&reserveExpanded.detailsVisible&&
+        reserveExpanded.pairs.length===2&&reserveExpanded.pairs.some(x=>x.includes('1 XLM'))&&
+        reserveExpanded.pairs.some(x=>x.includes('11 XLM')),
+        'XLM Reserve breakdown disclosure failed: '+JSON.stringify({config,reserveExpanded}));
+      const xlmImage=path.join(dest,'gallery-asset-xlm-'+config.theme+'-'+config.lang+'.png');
+      await gallery.locator('.home11-phone').screenshot({path:xlmImage,animations:'disabled'});
+      captures.push(path.relative(dest,xlmImage));
+      await reserveToggle.click();
+      assert(await reserveToggle.getAttribute('aria-expanded')==='false'&&
+        await gallery.locator('[data-asset-reserve-details]').isHidden(),
+        'XLM Reserve disclosure failed to collapse');
+
+      // USDC is a separate issued-asset route with issuer and its own activity.
+      await gallery.goto(new URL('mobile-asset-details.html?asset=usdc',base).href,
+        {waitUntil:'load',timeout:45000});
+      const issuedAsset=await gallery.evaluate(()=>({
+        symbol:document.querySelector('[data-asset-label]')?.textContent.trim(),
+        balance:document.querySelector('[data-asset-balance]')?.textContent.trim(),
+        reserveHidden:document.querySelector('[data-asset-reserve-section]')?.hidden,
+        issuedHidden:document.querySelector('[data-asset-issued-section]')?.hidden,
+        issuer:document.querySelector('[data-asset-issuer]')?.textContent.trim(),
+        activity:[...document.querySelectorAll('[data-asset-activity-list] a')].map(x=>({
+          label:x.textContent.trim(),href:x.getAttribute('href')
+        })),
+        symbolIcon:!!document.querySelector('[data-asset-mark].is-usdc svg'),
+        activeRoute:document.querySelector('.preview-nav a.is-current')?.getAttribute('href')
+      }));
+      assert(issuedAsset.symbol==='USDC'&&issuedAsset.balance==='250.00'&&
+        issuedAsset.reserveHidden&&!issuedAsset.issuedHidden&&
+        issuedAsset.issuer==='GCPQ...R7KM'&&issuedAsset.symbolIcon&&
+        issuedAsset.activity.length===1&&
+        issuedAsset.activity[0].href?.includes('received-usdc')&&
+        issuedAsset.activeRoute?.includes('asset=usdc'),
+        'USDC issued-asset detail contract failed: '+JSON.stringify({config,issuedAsset}));
+      const usdcImage=path.join(dest,'gallery-asset-usdc-'+config.theme+'-'+config.lang+'.png');
+      await gallery.locator('.home11-phone').screenshot({path:usdcImage,animations:'disabled'});
+      captures.push(path.relative(dest,usdcImage));
+      console.log('[V3 gallery] '+config.lang+'/'+config.theme+' asset variants '+
+        JSON.stringify({nativeAsset,reserveExpanded,issuedAsset}));
     }catch(error){
       failures.push('gallery product visual '+config.lang+'/'+config.theme+': '+
         String(error.message||error).slice(0,900));
