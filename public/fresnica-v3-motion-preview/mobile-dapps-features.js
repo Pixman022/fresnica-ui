@@ -33,6 +33,7 @@
     "Disconnect preview":"断开示例连接",
     "Preview connection saved":"示例连接已保存",
     "Preview authorization only":"仅示例授权",
+    "No connected apps":"暂无已连接应用",
     "Unreviewed website — verify the full address before continuing.":"未经审核的网站，请在继续前核对完整地址。",
     "Sample directory entry — not verified by Fresnica.":"目录示例，未经 Fresnica 认证。",
     "I have checked the website address":"我已核对网站地址",
@@ -96,7 +97,7 @@
     const target = select(selector);
     if (target) target.textContent = locale(english);
   };
-  const displayNotice = () => {
+  const displayNotice = (message="Sample preview only") => {
     let toast = phone.querySelector(".gallery-preview-notice");
     if (!toast) {
       toast = document.createElement("div");
@@ -104,7 +105,7 @@
       toast.setAttribute("role", "status");
       phone.appendChild(toast);
     }
-    toast.textContent = locale("Sample preview only");
+    toast.textContent = locale(message);
     toast.classList.add("is-visible");
     clearTimeout(displayNotice.timer);
     displayNotice.timer = setTimeout(() => toast.classList.remove("is-visible"), 2200);
@@ -395,7 +396,7 @@
     recordPreview(active);
     closeDialog();
     renderConnected();
-    displayNotice();
+    displayNotice("Preview connection saved");
   });
   closeButton.addEventListener("click",closeDialog);
   dialog.addEventListener("click",event => {if(event.target===dialog)closeDialog();});
