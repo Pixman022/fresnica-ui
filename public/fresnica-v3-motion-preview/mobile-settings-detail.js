@@ -128,9 +128,14 @@
     if(settings.themeMode==="image"){
       phone.style.setProperty("--settings-preview-palette",settings.palette);
       phone.style.setProperty("--native-primary",settings.palette);
+      const rgb=[1,3,5].map(i=>parseInt(settings.palette.slice(i,i+2),16)/255);
+      const linear=rgb.map(c=>c<=.04045?c/12.92:((c+.055)/1.055)**2.4);
+      const lum=.2126*linear[0]+.7152*linear[1]+.0722*linear[2];
+      phone.style.setProperty("--native-on-primary",lum>.22?"#101312":"#ffffff");
     } else {
       phone.style.removeProperty("--native-primary");
       phone.style.removeProperty("--settings-preview-palette");
+      phone.style.removeProperty("--native-on-primary");
     }
   };
   let applyingTheme = false;
