@@ -16,7 +16,7 @@
     "Recent":"最近",
     "Search dApps":"搜索应用", "Clear search":"清除搜索",
     "No matching apps":"没有匹配的应用", "No recent apps":"暂无最近访问",
-    "Recent previews are not connected apps.":"最近预览不代表已连接或授权。",
+    "Recent examples are not real visits or connections.":"最近示例不代表真实访问或已连接。",
     "Open a dApp URL":"打开 dApp 网址", "Close":"关闭",
     "Sample Stellar dApp entry":"Stellar 应用示例",
     "Developer":"开发者", "Demo catalog":"演示目录",
@@ -66,6 +66,7 @@
 
   const recentKey = "fresnica-gallery-recent-previews";
   let recent = [];  // Session-only prototype state; never wallet authorization data.
+  const recentExamples = ["Orbit","Atlas","Nova"].map(name => ({name,url:samples[name].url,kind:"sample"}));
   try {
     const stored = JSON.parse(sessionStorage.getItem(recentKey) || "[]");
     if (Array.isArray(stored)) recent = stored.filter(item =>
@@ -127,7 +128,10 @@
   };
   const renderRecent = () => {
     recentList.replaceChildren();
-    recent.forEach(item => {
+    // Fill unused slots with visual samples without writing fake visits to session history.
+    const visibleRecent = [...recent,
+      ...recentExamples.filter(example => !recent.some(item => item.url === example.url))].slice(0,4);
+    visibleRecent.forEach(item => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "gallery-app-card gallery-dapps-recent-item";
@@ -149,8 +153,8 @@
       button.addEventListener("click", () => openDialog(item,button));
       recentList.appendChild(button);
     });
-    recentList.hidden = recent.length === 0;
-    recentEmpty.hidden = recent.length !== 0;
+    recentList.hidden = visibleRecent.length === 0;
+    recentEmpty.hidden = visibleRecent.length !== 0;
   };
   const recordPreview = item => {
     recent = [item,...recent.filter(entry => entry.url !== item.url)].slice(0,4);
@@ -181,7 +185,7 @@
     recentList.setAttribute("aria-label",locale("Recent"));
     setText("[data-dapps-no-results]","No matching apps");
     setText("[data-dapps-recent-empty]","No recent apps");
-    setText(".gallery-dapps-recent-note","Recent previews are not connected apps.");
+    setText(".gallery-dapps-recent-note","Recent examples are not real visits or connections.");
     manualOpener.setAttribute("aria-label",locale("Open a dApp URL"));
     manualOpener.title = locale("Open a dApp URL");
     closeButton.setAttribute("aria-label",locale("Close"));
