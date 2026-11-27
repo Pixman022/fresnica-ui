@@ -180,6 +180,7 @@
     search.placeholder = locale("Search dApps");
     search.setAttribute("aria-label",locale("Search dApps"));
     clear.setAttribute("aria-label",locale("Clear search"));
+    setText('[data-dapps-panel="recent"] .gallery-section-title',"Recent");
     setText("[data-dapps-no-results]","No matching apps");
     setText("[data-dapps-recent-empty]","No recent apps");
     setText(".gallery-dapps-recent-note","Recent previews are not connected apps.");
