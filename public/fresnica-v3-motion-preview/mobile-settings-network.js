@@ -7,6 +7,10 @@
   const add=phone.querySelector('[data-settings-node-save]');
   if(!list||!input||!add)return;
   const key='fresnica-preview-horizon-nodes';
+  const developerEnabled=()=>{
+    try{return JSON.parse(localStorage.getItem('fresnica-settings-demo-v2')||'{}').developer===true;}
+    catch(_){return false;}
+  };
   const isZh=()=>{try{return localStorage.getItem('fresnica-gallery-language')==='zh';}catch{return false;}};
   const tr=(en,zh)=>isZh()?zh:en;
   let nodes=[];let selected=null;
@@ -30,12 +34,17 @@
     clearTimeout(toast.timer);toast.timer=setTimeout(()=>n.hidden=true,2000);
   };
   const render=()=>{
+    const canManage=developerEnabled();
+    phone.querySelectorAll('[data-settings-developer-only]').forEach(el=>{el.hidden=!canManage;});
+    const hint=phone.querySelector('[data-settings-node-gate]');
+    if(hint)hint.hidden=canManage;
     list.replaceChildren();
     const current=document.createElement('div');
     current.className='secondary-pair';
     const caption=document.createElement('span');caption.textContent=tr('Default endpoint','默认节点');
-    const status=document.createElement('strong');status.textContent=!selected?tr('Selected (preview)','已选择（预览）'):tr('Available','可用');
+    const status=document.createElement('strong');status.textContent=!canManage||!selected?tr('Selected (preview)','已选择（预览）'):tr('Available','可用');
     current.append(caption,status);list.appendChild(current);
+    if(!canManage)return;
     nodes.forEach((node,i)=>{
       const wrap=document.createElement('div');wrap.className='secondary-pair';
       wrap.style.cssText='align-items:flex-start;flex-direction:column;gap:7px';
@@ -58,6 +67,7 @@
     }
   };
   add.addEventListener('click',()=>{
+    if(!developerEnabled()){toast('Enable Developer mode first','请先启用开发者模式');render();return;}
     const url=valid(input.value);
     if(!url){input.focus();toast('Enter a valid HTTPS endpoint','请输入有效的 HTTPS 节点地址');return;}
     if(!nodes.includes(url)){
@@ -67,5 +77,6 @@
     store();render();toast('Preview node added, not connected','示例节点已添加，尚未连接');
   });
   document.addEventListener('click',e=>{if(e.target.closest('[data-gallery-language]'))queueMicrotask(render);});
+  window.addEventListener('storage',e=>{if(e.key==='fresnica-settings-demo-v2')render();});
   render();
 })();
