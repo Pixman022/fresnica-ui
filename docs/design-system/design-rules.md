@@ -1,11 +1,11 @@
 # Fresnica Design Rules
 
-These rules are the current source of truth for Fresnica products.
+These rules describe the current Fresnica product design baseline. The approved [Web/Native 1.1.0 palette](brand-palette-2026-11-26.md) supersedes earlier palette values.
 
 ## Visual principles
 
 1. **Product character**: modern fintech and crypto wallet; corporate, precise, and softly rounded.
-2. **Primary color**: Light `#00A875`; Dark `#00CA8A`. Recommended hover colors are Light `#00CA8A` and Dark `#32DFA4`; active colors are Light `#008F65` and Dark `#00A875`. Reserve primary green for brand identity, the dominant action and necessary selection states; it is not the default color for ordinary information.
+2. **Primary color (1.1.0)**: Light `#0F7954`; Dark `#00CA8A`. Recommended hover colors are Light `#0D724F` and Dark `#32DFA4`; active colors are Light `#0C6748` and Dark `#00A875`. Reserve primary green for brand identity, the dominant action and necessary selection states; it is not the default color for ordinary information.
 3. **Secondary colors**: keep a four-color semantic accent palette—protocol purple (Light `#6956C8`, Dark `#B8A9FF`), network blue (Light `#356AE6`, Dark `#8EAEFF`), swap/liquidity orange (Light `#C96A16`, Dark `#FFB86B`), and pending/caution yellow (Light `#A87500`, Dark `#F6C65B`). Do not add hues without a new product state.
 4. **Surfaces**: use semantic surface levels and visible 1px borders. Components and floating layers do not use elevation shadows; hierarchy comes from surface contrast, borders and overlays.
 5. **Radius**: controls use 8–16px radii; cards and floating surfaces use 16–24px. Full pills are reserved for compact tags, switches, and segmented controls.
@@ -34,9 +34,9 @@ The current product scope is Stellar only. Network labels, nodes and examples mu
 
 ## Foreground contrast contract
 
-- Every green filled action or selected control uses pure white text: `#FFFFFF`.
-- This includes primary buttons, loading primary buttons, active Tabs, selected Pagination items, selected DatePicker/TimePicker items, and primary Modal actions.
-- Never use dark text on a green filled control, even in dark mode.
+- Filled-primary actions and selected controls use the mode-specific **on-primary** foreground: Light `#FFFFFF` on `#0F7954`, Dark `#101312` on `#00CA8A`.
+- This applies to primary buttons, loading primary buttons, active Tabs, selected Pagination and picker items, and primary Modal actions in every interactive state.
+- Do not apply a universal white-on-green rule in dark mode; maintain the reviewed WCAG AA contrast pairs (Light 5.41:1; Dark 8.73:1).
 - Purple filled controls must use a foreground that passes WCAG AA; soft purple containers use `--Fresnica-accent-purple-color-bg` and `--Fresnica-accent-purple-color`.
 - Disabled controls may reduce opacity but must remain legible.
 
@@ -51,7 +51,7 @@ The current product scope is Stellar only. Network labels, nodes and examples mu
 
 ## Component rules
 
-- **Button**: primary is green with white text and is reserved for the dominant action; default/dashed stay on neutral surfaces. Copy, Max/All, direction switching and other secondary actions remain neutral. `inverse` is reserved for Swap and similarly rare core actions that intentionally invert black/white across themes.
+- **Button**: primary uses the 1.1.0 green/on-primary pair for the active theme and is reserved for the dominant action; default/dashed stay on neutral surfaces. Copy, Max/All, direction switching and other secondary actions remain neutral. `inverse` is reserved for Swap and similarly rare core actions that intentionally invert black/white across themes.
 - **Tabs**: active tab is green with white text; inactive tabs use secondary text.
 - **Card**: use semantic surfaces and subtle borders; avoid ornamental game patterns in wallet flows.
 - **Input and Select**: 48px default touch height, neutral surface, visible green focus ring.
@@ -72,8 +72,8 @@ The current product scope is Stellar only. Network labels, nodes and examples mu
 - Light and dark themes both render correctly.
 - A screen does not use primary green for ordinary icons, metadata, estimated values or secondary actions.
 - Large primary-green emphasis is limited to one action region, except for the approved wallet-home quick-action group.
-- Green filled controls display white text in default, hover, active, and loading states.
+- Green filled controls display their mode-specific on-primary text in default, hover, active, and loading states.
 - Keyboard focus is visible and logical.
-- Touch targets are at least 40px, preferably 48px for primary actions.
+- Touch targets are at least 44×44 logical pixels for wallet flows; form controls default to 48px in the Web baseline.
 - Text and controls meet WCAG AA contrast.
 - Components use semantic tokens and retain their documented API behavior.
