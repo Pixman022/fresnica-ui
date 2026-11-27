@@ -71,6 +71,7 @@
   const account = accounts.find(a=>a.id===selectedId) || accounts.find(a=>!a.hidden) || accounts[0];
   let displayAccounts = accounts.map(a=>({...a})); // visual sort only
   let openedBy = null;
+  let initialDialogMarkup = "";
   let toastTimer;
   const linkFor = (view,options={}) => {
     const args = new URLSearchParams({view});
@@ -93,8 +94,9 @@
     icon(marks[mark]||marks.wallet)+'</span><span class="accounts-choice-info"><b>'+
     esc(tr(en,cn))+'</b>'+(detail?'<small>'+esc(tr(detail[0],detail[1]))+'</small>':"")+
     '</span>'+chevron+'</a>';
-  const buttonRow = (en,cn,mark,actionName,description) =>
-    '<button type="button" class="settings-detail-row" data-account-action="'+esc(actionName)+'">'+
+  const buttonRow = (en,cn,mark,actionName,description,disabled=false) =>
+    '<button type="button" class="settings-detail-row" data-account-action="'+esc(actionName)+'"'+
+    (disabled?' disabled aria-disabled="true"':'')+'>'+
     '<span class="settings-detail-row-icon">'+icon(marks[mark]||marks.wallet)+'</span>'+
     '<span class="settings-detail-row-copy"><b>'+esc(tr(en,cn))+'</b>'+
     (description?'<small>'+esc(tr(description[0],description[1]))+'</small>':"")+
@@ -188,8 +190,10 @@
             (account.type==="watch-only"?"":row("Recovery material","恢复材料","shield",
               linkFor("account-recovery",{account:account.id})))+
             buttonRow(account.hidden?"Show account":"Hide account",
-              account.hidden?"显示账户":"隐藏账户","hide","toggle-visibility")+
-            buttonRow("Remove local record","移除本地记录","trash","remove"))+
+              account.hidden?"显示账户":"隐藏账户","hide","toggle-visibility",
+              ["Keep at least one visible account","至少保留一个可见账户"],!account.hidden&&accounts.filter(a=>!a.hidden).length<=1)+
+            buttonRow("Remove local record","移除本地记录","trash","remove",
+              ["Removes local data only","仅移除本地记录"],!account.hidden&&accounts.filter(a=>!a.hidden).length<=1))+
           note("Account actions here preview only; no on-chain or local records are changed.",
             "此页面仅演示账户操作，不会修改链上账户或本地记录。");
         break;
@@ -288,6 +292,7 @@
   const openSheet = (en,cn,body,source) => {
     openedBy=source||document.activeElement;
     sheetTitle.textContent=tr(en,cn);
+    initialDialogMarkup=body;
     sheetBody.innerHTML=body;
     overlay.hidden=false;
     (sheetBody.querySelector("input:not([disabled])")||sheetBody.querySelector("button")||closeButton).focus();
@@ -300,7 +305,8 @@
   };
   const sheetButtons = () => '<div class="settings-detail-dialog-actions">'+
     '<button type="button" data-dialog-close class="secondary">'+esc(tr("Cancel","取消"))+'</button>'+
-    '<button type="button" data-dialog-preview>'+esc(tr("Preview confirmation","预览确认"))+'</button></div>';
+    '<button type="button" data-dialog-preview>'+esc(tr("Preview confirmation","预览确认"))+'</button></div>'+
+    '<button type="button" class="accounts-preview-error" data-dialog-error>'+esc(tr("Preview error state","查看错误状态"))+'</button>';
   const notice = (en,cn) => {
     toast.textContent=tr(en,cn);toast.hidden=false;
     clearTimeout(toastTimer);toastTimer=setTimeout(()=>{toast.hidden=true;},2300);
@@ -349,6 +355,22 @@
   });
   sheetBody.addEventListener("click",event=>{
     if(event.target.closest("[data-dialog-close]")){closeSheet();return;}
+    if(event.target.closest("[data-dialog-error]")){
+      sheetBody.innerHTML='<div class="accounts-flow-alert" role="alert"><b>'+
+        esc(tr("Unable to save changes","无法保存更改"))+'</b>'+
+        esc(tr("Original account information is retained. This is a sample error state.",
+          "原账户信息保持不变。这只是一个示例错误状态。"))+'</div>'+
+        '<div class="settings-detail-dialog-actions"><button type="button" class="secondary" data-dialog-close>'+
+        esc(tr("Close","关闭"))+'</button><button type="button" data-dialog-retry>'+
+        esc(tr("Retry","重试"))+'</button></div>';
+      sheetBody.querySelector("[data-dialog-retry]")?.focus();
+      return;
+    }
+    if(event.target.closest("[data-dialog-retry]")){
+      sheetBody.innerHTML=initialDialogMarkup;
+      (sheetBody.querySelector("input")||sheetBody.querySelector("button"))?.focus();
+      return;
+    }
     if(event.target.closest("[data-dialog-preview]")){
       sheetBody.innerHTML='<div class="accounts-flow-alert"><b>'+
         esc(tr("Preview only","仅界面预览"))+'</b>'+
