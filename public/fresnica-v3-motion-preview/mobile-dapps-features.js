@@ -2,6 +2,8 @@
 (() => {
   const phone = document.querySelector(".home11-phone.gallery-dapps-enhanced");
   if (!phone) return;
+  const state = window.FresnicaPreviewState;
+  if (!state) return;
   const grid = phone.querySelector("[data-gallery-demo-apps]");
   const dialog = phone.querySelector(".gallery-dialog-overlay");
   const cards = [...(grid?.querySelectorAll("[data-gallery-dialog-app]") || [])];
@@ -27,6 +29,10 @@
     "Preview only — no live connection.":"仅为界面预览，不会真实连接。",
     "Review site":"核对网站", "Review request":"审阅请求",
     "Open preview":"预览打开",
+    "Save preview connection":"保存示例连接",
+    "Disconnect preview":"断开示例连接",
+    "Preview connection saved":"示例连接已保存",
+    "Preview authorization only":"仅示例授权",
     "Unreviewed website — verify the full address before continuing.":"未经审核的网站，请在继续前核对完整地址。",
     "Sample directory entry — not verified by Fresnica.":"目录示例，未经 Fresnica 认证。",
     "I have checked the website address":"我已核对网站地址",
@@ -43,6 +49,8 @@
   const clear = select("[data-dapps-clear]");
   const noResults = select("[data-dapps-no-results]");
   const recentList = select("[data-dapps-recent-list]");
+  const connectedList = select("[data-dapps-connected-list]");
+  const connectedCount = select("[data-dapps-connected-count]");
   const recentEmpty = select("[data-dapps-recent-empty]");
   const manualOpener = select("[data-gallery-dialog-open='connect']");
   const closeButton = dialog.querySelector("[data-gallery-dialog-close]");
@@ -65,7 +73,7 @@
   const acknowledge = dialog.querySelector("[data-dapps-ack]");
   const next = dialog.querySelector("[data-dapps-next]");
   const confirm = dialog.querySelector("[data-dapps-confirm]");
-  if (!search || !clear || !recentList || !moreTrigger || !moreOverlay || !moreList ||
+  if (!search || !clear || !recentList || !connectedList || !connectedCount || !moreTrigger || !moreOverlay || !moreList ||
       !moreClose || !manualOpener || !closeButton ||
       !website || !review || !next || !confirm) return;
 
@@ -100,6 +108,46 @@
     toast.classList.add("is-visible");
     clearTimeout(displayNotice.timer);
     displayNotice.timer = setTimeout(() => toast.classList.remove("is-visible"), 2200);
+  };
+
+  const renderConnected = () => {
+    const items=state.connections();
+    connectedCount.textContent=String(items.length);
+    connectedList.replaceChildren();
+    if(!items.length){
+      const empty=document.createElement("div");
+      empty.className="gallery-empty";
+      const label=document.createElement("b");
+      label.textContent=locale("No connected apps");
+      empty.appendChild(label);
+      connectedList.appendChild(empty);
+      return;
+    }
+    items.forEach(item=>{
+      const row=document.createElement("div");
+      row.className="gallery-row gallery-dapps-connected-entry";
+      const icon=document.createElement("span");
+      icon.className="gallery-row-icon";
+      icon.textContent="↗";
+      icon.setAttribute("aria-hidden","true");
+      const copy=document.createElement("span");
+      copy.className="gallery-row-copy";
+      const name=document.createElement("b");name.textContent=item.name;
+      const origin=document.createElement("small");origin.textContent=item.origin;
+      const preview=document.createElement("small");preview.textContent=locale("Preview authorization only");
+      copy.append(name,origin,preview);
+      const remove=document.createElement("button");
+      remove.type="button";
+      remove.className="gallery-dapps-disconnect";
+      remove.textContent=locale("Disconnect preview");
+      remove.setAttribute("aria-label",locale("Disconnect preview")+" "+item.name);
+      remove.addEventListener("click",()=>{
+        if(!window.confirm(zh()?"移除这条示例连接？不会影响真实钱包授权。":"Remove this preview connection? Real wallet permissions are not affected."))return;
+        state.disconnect(item.origin);renderConnected();
+      });
+      row.append(icon,copy,remove);
+      connectedList.appendChild(row);
+    });
   };
 
   const validate = value => {
@@ -266,7 +314,8 @@
     acknowledge.nextElementSibling.textContent = locale("I have checked the website address");
     setText(".gallery-preview-copy","Preview only — no live connection.");
     next.textContent = locale(active?.kind === "sample" ? "Review request" : "Review site");
-    confirm.textContent = locale("Open preview");
+    confirm.textContent = locale("Save preview connection");
+    renderConnected();
     const parsed = validate(website.value);
     if (!manual.hidden) {
       error.textContent = parsed.reason ? locale(parsed.reason) : "";
@@ -342,8 +391,10 @@
   acknowledge.addEventListener("change",updateConfirm);
   confirm.addEventListener("click", () => {
     if (confirm.disabled || !active) return;
+    if(!state.saveConnection(active)){displayNotice();return;}
     recordPreview(active);
     closeDialog();
+    renderConnected();
     displayNotice();
   });
   closeButton.addEventListener("click",closeDialog);
@@ -382,9 +433,16 @@
   });
   document.querySelectorAll("[data-gallery-language]").forEach(button =>
     button.addEventListener("click",localize));
+  window.addEventListener("fresnica-preview-state",event=>{
+    if(event.detail?.type==="connections")renderConnected();
+  });
+  window.addEventListener("storage",event=>{
+    if(event.key==="fresnica-preview-dapp-connections-v1")renderConnected();
+  });
 
   localize();
   renderMore();
   renderRecent();
+  renderConnected();
   updateSearch();
 })();
