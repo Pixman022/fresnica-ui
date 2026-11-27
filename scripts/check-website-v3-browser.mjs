@@ -1856,6 +1856,8 @@ try{
           const name=document.querySelector('.home11-wallet-name');
           const address=document.querySelector('.home11-wallet-address');
           const switcher=document.querySelector('.home11-wallet-switch');
+          const avatar=document.querySelector('.home11-wallet-avatar');
+          const avatarStyle=getComputedStyle(avatar);
           const network=document.querySelector('.home11-wallet-header .phone-network');
           const headerStyle=getComputedStyle(header);
           const bounds=header.getBoundingClientRect(),group=summary.getBoundingClientRect();
@@ -1863,6 +1865,10 @@ try{
             parseFloat(headerStyle.paddingRight);
           return {
             walletName:name.textContent.trim(),
+            walletIcon:!!avatar.querySelector('svg rect')&&!avatar.querySelector('svg circle'),
+            avatarBg:avatarStyle.backgroundColor,avatarColor:avatarStyle.color,
+            avatarSize:avatar.getBoundingClientRect().width,
+            avatarIconSize:avatar.querySelector('svg').getBoundingClientRect().width,
             nameFont:parseFloat(getComputedStyle(name).fontSize),
             nameLineHeight:parseFloat(getComputedStyle(name).lineHeight),
             addressFont:parseFloat(getComputedStyle(address).fontSize),
@@ -1875,6 +1881,14 @@ try{
             addressClipped:address.scrollWidth>address.clientWidth+1
           };
         });
+        const bluePalette=config.theme==='dark'?
+          {bg:'rgb(30, 45, 82)',ink:'rgb(142, 174, 255)'}:
+          {bg:'rgb(233, 239, 255)',ink:'rgb(53, 106, 230)'};
+        assert(wallet.walletIcon&&wallet.avatarBg===bluePalette.bg&&
+          wallet.avatarColor===bluePalette.ink&&wallet.avatarSize>=30&&
+          wallet.avatarIconSize>=18,
+          'Wallet avatar icon/auxiliary palette violation at '+width+
+            'px: '+JSON.stringify({config,wallet}));
         assert(wallet.nameFont>=16&&wallet.nameLineHeight>=22&&
           wallet.addressFont>=12&&wallet.addressLineHeight>=16&&
           wallet.buttonWidth>=44&&wallet.buttonHeight>=44&&
