@@ -67,7 +67,15 @@
       !website || !review || !next || !confirm) return;
 
   let currentTab = "home";
+  const recentKey = "fresnica-gallery-recent-previews";
   let recent = [];  // Session-only prototype state; never wallet authorization data.
+  try {
+    const stored = JSON.parse(sessionStorage.getItem(recentKey) || "[]");
+    if (Array.isArray(stored)) recent = stored.filter(item =>
+      item && (item.kind === "sample" || item.kind === "manual") &&
+      typeof item.name === "string" && typeof item.url === "string" &&
+      item.url.startsWith("https://")).slice(0,4);
+  } catch (_) { /* Browsers may disable session storage. */ }
   let active = null;
   let stage = "entry";
   let lastOpener = null;
@@ -157,6 +165,8 @@
   };
   const recordPreview = item => {
     recent = [item,...recent.filter(entry => entry.url !== item.url)].slice(0,4);
+    try { sessionStorage.setItem(recentKey,JSON.stringify(recent)); }
+    catch (_) { /* Keep the in-memory list if storage is disabled. */ }
     renderRecent();
   };
   const closeDialog = () => {
