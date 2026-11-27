@@ -1,0 +1,93 @@
+
+/* Home-only product flows (H02/H04/H06/H07/H10). References are unaffected. */
+.home11-phone .home11-network-trigger{
+  appearance:none;display:flex;align-items:center;gap:5px;min-width:0;max-width:58%;
+  padding:7px 0 7px 7px;border:0;background:transparent;color:var(--native-content-secondary);
+  font-family:inherit;font-size:11px;font-weight:650;cursor:pointer;white-space:nowrap
+}
+.home11-phone .home11-network-trigger svg{flex:none;width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.home11-phone .home11-network-trigger .phone-network-dot{flex:none;width:7px;height:7px}
+.home11-phone .home11-network-trigger[data-status="offline"] .phone-network-dot,
+.home11-phone .home11-network-trigger[data-status="unavailable"] .phone-network-dot{background:#c87549}
+.home11-phone .home11-network-trigger[data-status="loading"] .phone-network-dot{background:#b79535}
+.home11-phone .home11-network-trigger:focus-visible,
+.home11-phone .home11-category-trigger:focus-visible,
+.home11-phone .home11-refresh:focus-visible,
+.home11-phone .home-feature-sheet button:focus-visible,
+.home11-phone .home-feature-sheet input:focus-visible,
+.home11-phone .home11-wallet-error button:focus-visible{outline:2px solid var(--native-primary);outline-offset:2px}
+.home11-phone .home11-category-trigger{
+  display:inline-flex;align-items:center;gap:5px;min-width:0;max-width:100%;
+  padding:5px 0;border:0;background:transparent;color:var(--native-content-primary);
+  font:700 17px/1.25 inherit;letter-spacing:-.025em;cursor:pointer;text-align:left
+}
+.home11-phone .home11-category-trigger svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--native-content-secondary);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.home11-phone .home11-asset-header-actions{display:flex;align-items:center;gap:5px;flex:none}
+.home11-phone .home11-refresh{
+  display:grid;place-items:center;width:36px;height:36px;flex:none;padding:0;border:0;
+  background:transparent;color:var(--native-content-secondary);border-radius:10px;cursor:pointer
+}
+.home11-phone .home11-refresh svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.home11-phone .home11-refresh.is-loading svg{animation:home11-spin .85s linear infinite}
+@keyframes home11-spin{to{transform:rotate(360deg)}}
+.home11-phone .phone-asset[hidden],.home11-phone .home-feature-state[hidden],.home11-phone .home-feature-empty[hidden],.home11-phone .phone-asset-add[hidden]{display:none!important}
+.home11-phone .home-feature-state,.home11-phone .home-feature-empty{
+  display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center;
+  padding:36px 12px;color:var(--native-content-secondary)
+}
+.home11-phone .home-feature-state strong,.home11-phone .home-feature-empty strong{
+  color:var(--native-content-primary);font-size:14px;font-weight:650
+}
+.home11-phone .home-feature-state p,.home11-phone .home-feature-empty p{
+  margin:0;font-size:11px;line-height:1.5
+}
+.home11-phone .home-feature-state button{
+  min-height:44px;margin-top:6px;padding:0 18px;border:1px solid var(--native-separator);
+  border-radius:12px;background:var(--native-surface);color:var(--native-primary);
+  font:650 12px inherit;cursor:pointer
+}
+.home11-phone .home-feature-overlay{z-index:18}
+.home11-phone .home-feature-sheet{
+  width:100%;max-height:min(85%,650px);display:flex;flex-direction:column;overflow:hidden;
+  padding:16px 17px max(23px,env(safe-area-inset-bottom));
+  border-top:1px solid var(--native-separator);
+  border-radius:22px 22px 0 0;background:var(--native-surface);color:var(--native-content-primary)
+}
+.home11-phone .home-feature-heading{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.home11-phone .home-feature-heading h2{flex:1;min-width:0;margin:0;font-size:17px;font-weight:650}
+.home11-phone .home-feature-close{display:grid;place-items:center;flex:none;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:var(--native-background);color:var(--native-content-primary);cursor:pointer}
+.home11-phone .home-feature-close svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.home11-phone .home-feature-body{min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+.home11-phone .home-feature-body::-webkit-scrollbar{display:none}
+.home11-phone .home-feature-option{display:flex;align-items:center;gap:11px;width:100%;min-height:58px;padding:12px 10px;margin:0 0 5px;border:1px solid var(--native-separator);border-radius:13px;background:transparent;color:var(--native-content-primary);font:inherit;text-align:left;cursor:pointer}
+.home11-phone .home-feature-option strong{font-size:13px;font-weight:650}
+.home11-phone .home-feature-option small{display:block;margin-top:4px;color:var(--native-content-secondary);font-size:11px;line-height:1.35}
+.home11-phone .home-feature-option > span:first-child{flex:1;min-width:0}
+.home11-phone .home-feature-option.is-selected{background:var(--native-background);border-color:var(--native-primary)}
+.home11-phone .home-feature-option .home-feature-check{color:var(--native-primary);font-size:14px;font-weight:700}
+.home11-phone .home-feature-subtitle{display:block;margin:14px 0 8px;color:var(--native-content-secondary);font-size:11px;font-weight:650}
+.home11-phone .home-feature-description{margin:6px 0 12px;color:var(--native-content-secondary);font-size:11px;line-height:1.6}
+.home11-phone .home-feature-modes{display:flex;gap:7px;margin:2px 0 14px}
+.home11-phone .home-feature-modes button{
+  flex:1;min-height:40px;border:1px solid var(--native-separator);border-radius:10px;
+  background:transparent;color:var(--native-content-secondary);font:600 12px inherit;cursor:pointer
+}
+.home11-phone .home-feature-modes button.is-selected{background:var(--native-background);color:var(--native-primary);border-color:var(--native-primary)}
+.home11-phone .home-feature-label{display:block;margin:10px 0 6px;font-size:12px;font-weight:650}
+.home11-phone .home-feature-input{display:block;width:100%;min-height:44px;min-width:0;padding:10px 12px;border:1px solid var(--native-border);border-radius:11px;background:var(--native-background);color:var(--native-content-primary);font:13px inherit}
+.home11-phone .home-feature-input::placeholder{color:var(--native-content-secondary)}
+.home11-phone .home-feature-actions{display:flex;gap:8px;margin-top:14px}
+.home11-phone .home-feature-button{display:grid;place-items:center;flex:1;min-height:44px;padding:9px 12px;border:1px solid var(--native-separator);border-radius:12px;background:var(--native-background);color:var(--native-content-primary);font:650 12px inherit;cursor:pointer}
+.home11-phone .home-feature-button.is-primary{background:var(--native-primary);color:var(--native-on-primary);border-color:var(--native-primary)}
+.home11-phone .home-feature-error{margin:9px 0;padding:10px;border-radius:10px;background:var(--native-background);color:#aa5837;font-size:11px;line-height:1.5}
+.home11-phone .home-feature-review{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:12px;margin:10px 0}
+.home11-phone .home-feature-review dt{font-size:11px;color:var(--native-content-secondary)}
+.home11-phone .home-feature-review dd{margin:0;overflow-wrap:anywhere;text-align:right;font-size:11px;font-weight:650}
+.home11-phone .home11-wallet-network-note{margin:8px 6px 5px;color:var(--native-content-secondary);font-size:11px;line-height:1.4}
+.home11-phone .home11-wallet-error{margin:9px 0;padding:10px;border:1px solid var(--native-separator);border-radius:11px;color:#aa5837;font-size:11px;line-height:1.5}
+.home11-phone .home11-wallet-error[hidden]{display:none}
+.home11-phone .home11-wallet-error button{display:inline-block;min-height:40px;margin-left:9px;padding:0 9px;border:0;border-radius:9px;background:var(--native-background);color:var(--native-primary);font:650 11px inherit;cursor:pointer}
+.home11-phone .home11-wallet-simulate{display:flex;align-items:center;gap:7px;margin:10px 5px;color:var(--native-content-secondary);font-size:11px}
+.home11-phone .home11-wallet-simulate input{accent-color:var(--native-primary)}
+.home11-phone .home11-wallet-add-entry{margin-top:8px}
+@media(prefers-reduced-motion:reduce){.home11-phone .home11-refresh.is-loading svg{animation:none}}
