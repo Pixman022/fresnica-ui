@@ -1886,9 +1886,8 @@ try{
             addressClipped:address.scrollWidth>address.clientWidth+1
           };
         });
-        const bluePalette=config.theme==='dark' ?
-          {bg:'rgb(30, 45, 82)',ink:'rgb(142, 174, 255)'} :
-          {bg:'rgb(233, 239, 255)',ink:'rgb(30, 45, 82)'};
+        // Wallet identity keeps the same pale accent on both themes.
+        const bluePalette={bg:'rgb(233, 239, 255)',ink:'rgb(30, 45, 82)'};
         assert(wallet.walletIcon&&wallet.avatarBg===bluePalette.bg&&
           wallet.avatarColor===bluePalette.ink&&wallet.avatarSize>=30&&
           wallet.avatarIconSize>=18,
