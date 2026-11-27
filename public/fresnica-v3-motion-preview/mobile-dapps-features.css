@@ -81,3 +81,34 @@
 .home11-phone.gallery-dapps-enhanced .gallery-dapps-acknowledge input:focus-visible{
   outline:2px solid var(--native-primary);outline-offset:2px
 }
+
+/* Popular apps > More: compact vertical sheet, using the existing phone overlay. */
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-more-trigger{
+  flex:none;min-height:44px;padding:0 2px 0 10px;border:0;background:transparent;
+  color:var(--native-primary);font-family:inherit;font-size:12px;font-weight:600;line-height:1.3;cursor:pointer
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-more-overlay[hidden]{display:none!important}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-more-sheet{max-height:82%}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-more-list{display:flex;flex-direction:column;gap:8px}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-more-sheet .gallery-dapps-more-item{
+  display:flex;align-items:center;justify-content:flex-start;gap:12px;width:100%;min-height:66px;
+  padding:9px 12px;border:1px solid var(--native-separator);border-radius:13px;
+  background:var(--native-background);color:var(--native-content-primary);
+  font-family:inherit;text-align:left;cursor:pointer
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-more-item .gallery-app-mark{
+  width:44px;height:44px;flex:none
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-more-copy{display:flex;flex:1;flex-direction:column;gap:4px;min-width:0}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-more-copy b{font-size:12px;font-weight:650}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-more-copy small{
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  color:var(--native-content-secondary);font-size:10px
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-more-chevron{
+  flex:none;color:var(--native-content-secondary);font-size:18px;font-weight:400
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-more-trigger:focus-visible,
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-more-item:focus-visible{
+  outline:2px solid var(--native-primary);outline-offset:2px
+}

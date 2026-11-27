@@ -563,7 +563,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
             <input type="search" data-dapps-search autocomplete="off" aria-label="Search dApps" placeholder="Search dApps">
             <button type="button" class="gallery-dapps-clear" data-dapps-clear aria-label="Clear search" hidden>×</button>
           </div>
-          <h2 class="gallery-section-title">Popular apps</h2>
+          <h2 class="gallery-section-title">Popular apps <button type="button" class="gallery-dapps-more-trigger" data-dapps-more-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="gallery-dapps-more-dialog">More</button></h2>
           <div class="gallery-app-grid gallery-sample-grid" data-gallery-demo-apps aria-label="Popular apps"></div>
           <p class="gallery-dapps-no-results" data-dapps-no-results role="status" hidden>No matching apps</p>
           <h2 class="gallery-section-title" data-dapps-recent-title>Recent</h2>
@@ -620,6 +620,17 @@ html.preview-immersive .home11-phone .home11-action-sheet{
     <button type="button" class="gallery-primary-action" data-dapps-confirm hidden disabled>Open preview</button>
   </section>
 </div>
+    <div class="gallery-dialog-overlay gallery-dapps-more-overlay" data-dapps-more-overlay hidden>
+      <section id="gallery-dapps-more-dialog" class="gallery-dialog-panel gallery-dapps-more-sheet" role="dialog" aria-modal="true" aria-labelledby="gallery-dapps-more-title">
+        <div class="gallery-dialog-heading">
+          <h2 id="gallery-dapps-more-title">Popular apps</h2>
+          <button type="button" class="gallery-dialog-close" data-dapps-more-close aria-label="Close">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="gallery-dapps-more-list" data-dapps-more-list></div>
+      </section>
+    </div>
     </div>
 
 

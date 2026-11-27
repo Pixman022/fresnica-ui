@@ -13,7 +13,7 @@
     Atlas: { url: "https://atlas.example/", description: "Sample Stellar dApp entry" },
   };
   const translations = {
-    "Recent":"最近",
+    "Recent":"最近", "More":"更多", "Popular apps":"热门应用",
     "Search dApps":"搜索应用", "Clear search":"清除搜索",
     "No matching apps":"没有匹配的应用", "No recent apps":"暂无最近访问",
     "Recent examples are not real visits or connections.":"最近示例不代表真实访问或已连接。",
@@ -46,6 +46,10 @@
   const recentEmpty = select("[data-dapps-recent-empty]");
   const manualOpener = select("[data-gallery-dialog-open='connect']");
   const closeButton = dialog.querySelector("[data-gallery-dialog-close]");
+  const moreTrigger = select("[data-dapps-more-trigger]");
+  const moreOverlay = select("[data-dapps-more-overlay]");
+  const moreList = select("[data-dapps-more-list]");
+  const moreClose = select("[data-dapps-more-close]");
   const title = dialog.querySelector("#gallery-connect-title");
   const info = dialog.querySelector("[data-dapps-app-info]");
   const infoIcon = dialog.querySelector("[data-dapps-app-icon]");
@@ -61,7 +65,8 @@
   const acknowledge = dialog.querySelector("[data-dapps-ack]");
   const next = dialog.querySelector("[data-dapps-next]");
   const confirm = dialog.querySelector("[data-dapps-confirm]");
-  if (!search || !clear || !recentList || !manualOpener || !closeButton ||
+  if (!search || !clear || !recentList || !moreTrigger || !moreOverlay || !moreList ||
+      !moreClose || !manualOpener || !closeButton ||
       !website || !review || !next || !confirm) return;
 
   const recentKey = "fresnica-gallery-recent-previews";
@@ -162,6 +167,53 @@
     catch (_) { /* Keep the in-memory list if storage is disabled. */ }
     renderRecent();
   };
+  const closeMore = (restoreFocus = true) => {
+    if (moreOverlay.hidden) return;
+    moreOverlay.hidden = true;
+    moreTrigger.setAttribute("aria-expanded","false");
+    if (restoreFocus) moreTrigger.focus();
+  };
+  const renderMore = () => {
+    moreList.replaceChildren();
+    cards.forEach(card => {
+      const name = card.dataset.galleryDialogApp || "";
+      const app = appFor(name);
+      if (!app) return;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "gallery-dapps-more-item";
+      const icon = card.querySelector(".gallery-app-mark")?.cloneNode(true);
+      if (icon) {
+        icon.setAttribute("aria-hidden","true");
+        button.appendChild(icon);
+      }
+      const copy = document.createElement("span");
+      copy.className = "gallery-dapps-more-copy";
+      const label = document.createElement("b");
+      label.textContent = name;
+      const url = document.createElement("small");
+      url.textContent = app.url;
+      copy.append(label,url);
+      button.appendChild(copy);
+      const chevron = document.createElement("span");
+      chevron.className = "gallery-dapps-more-chevron";
+      chevron.textContent = "›";
+      chevron.setAttribute("aria-hidden","true");
+      button.appendChild(chevron);
+      button.addEventListener("click", () => {
+        closeMore(false);
+        openDialog(app,moreTrigger);
+      });
+      moreList.appendChild(button);
+    });
+  };
+  const openMore = () => {
+    if (!moreOverlay.hidden) return;
+    moreOverlay.hidden = false;
+    moreTrigger.setAttribute("aria-expanded","true");
+    moreList.querySelector("button")?.focus();
+  };
+
   const closeDialog = () => {
     if (dialog.hidden) return;
     dialog.hidden = true;
@@ -178,6 +230,9 @@
   };
   const updateConfirm = () => { confirm.disabled = !acknowledge.checked; };
   const localize = () => {
+    moreTrigger.textContent = locale("More");
+    setText("#gallery-dapps-more-title","Popular apps");
+    moreClose.setAttribute("aria-label",locale("Close"));
     search.placeholder = locale("Search dApps");
     search.setAttribute("aria-label",locale("Search dApps"));
     clear.setAttribute("aria-label",locale("Clear search"));
@@ -270,6 +325,11 @@
     acknowledge.focus();
   };
 
+  moreTrigger.addEventListener("click",openMore);
+  moreClose.addEventListener("click",() => closeMore());
+  moreOverlay.addEventListener("click",event => {
+    if (event.target === moreOverlay) closeMore();
+  });
   search.addEventListener("input",updateSearch);
   clear.addEventListener("click", () => {search.value="";updateSearch();search.focus();});
   cards.forEach(card => card.addEventListener("click", () => {
@@ -289,6 +349,25 @@
   closeButton.addEventListener("click",closeDialog);
   dialog.addEventListener("click",event => {if(event.target===dialog)closeDialog();});
   phone.addEventListener("keydown",event => {
+    if (!moreOverlay.hidden) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopPropagation();
+        closeMore();
+        return;
+      }
+      if (event.key === "Tab") {
+        const focusable = [moreClose,...moreList.querySelectorAll("button")];
+        if (event.shiftKey && document.activeElement === focusable[0]) {
+          event.preventDefault();
+          focusable[focusable.length-1].focus();
+        } else if (!event.shiftKey && document.activeElement === focusable[focusable.length-1]) {
+          event.preventDefault();
+          focusable[0].focus();
+        }
+      }
+      return;
+    }
     if (dialog.hidden) return;
     if (event.key === "Escape") {event.preventDefault();event.stopPropagation();closeDialog();return;}
     if (event.key !== "Tab") return;
@@ -305,6 +384,7 @@
     button.addEventListener("click",localize));
 
   localize();
+  renderMore();
   renderRecent();
   updateSearch();
 })();

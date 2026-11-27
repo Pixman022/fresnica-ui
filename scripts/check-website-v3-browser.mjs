@@ -1819,7 +1819,7 @@ try{
         const style=getComputedStyle(grid);
         const cards=[...grid.querySelectorAll('.gallery-app-card')];
         return {
-          heading:document.querySelector('.gallery-section-title')?.textContent?.trim(),
+          heading:document.querySelector('.gallery-section-title')?.firstChild?.textContent?.trim(),
           accessible:grid.getAttribute('aria-label'),
           containerColor:style.backgroundColor,
           borderWidth:parseFloat(style.borderTopWidth),
@@ -1871,6 +1871,44 @@ try{
         dappsSections.sharedGrid&&dappsSections.recentWithinPage&&dappsSections.emptySurface,
         'dApps sections must be Popular, Recent, Connected with matching heading and grid styles: '+
           JSON.stringify({config,dappsSections}));
+      // Popular apps > More: vertically stacked list in one accessible bottom sheet.
+      const moreButton=gallery.locator('[data-dapps-more-trigger]');
+      assert(await moreButton.isVisible()&&
+        (await moreButton.textContent()).trim()===(config.lang==='zh'?'更多':'More'),
+        'dApps Popular apps More button is missing or untranslated');
+      await moreButton.click();
+      const moreRows=gallery.locator('[data-dapps-more-list] .gallery-dapps-more-item');
+      assert(await gallery.locator('[data-dapps-more-overlay]').isVisible()&&
+        (await moreRows.count())===3&&
+        JSON.stringify(await gallery.locator('[data-dapps-more-list] .gallery-dapps-more-copy b').allTextContents())===
+          JSON.stringify(['Nova','Orbit','Atlas']),
+        'dApps More must list all three sample applications vertically');
+      const morePositions=await moreRows.evaluateAll(nodes=>nodes.map(n=>{
+        const box=n.getBoundingClientRect();
+        return {top:box.top,left:box.left,width:box.width,mark:!!n.querySelector('.gallery-app-mark')};
+      }));
+      assert(morePositions.every(x=>x.mark&&x.width>180)&&
+        morePositions.every((x,i)=>i===0||
+          (x.top>morePositions[i-1].top+20&&Math.abs(x.left-morePositions[0].left)<1)),
+        'dApps More must use full-width vertically stacked app rows: '+JSON.stringify(morePositions));
+      const moreShot=path.join(dest,'gallery-dapps-more-'+config.theme+'-'+config.lang+'.png');
+      await gallery.locator('.home11-phone').screenshot({path:moreShot,animations:'disabled'});
+      captures.push(path.relative(dest,moreShot));
+      await moreRows.first().click();
+      assert(await gallery.locator('[data-dapps-more-overlay]').isHidden()&&
+        await gallery.locator('.gallery-dialog-overlay:not(.gallery-dapps-more-overlay)').isVisible()&&
+        (await gallery.locator('[data-dapps-app-name]').textContent())==='Nova',
+        'dApps More item should open existing app details and close its own sheet');
+      await gallery.locator('[data-gallery-dialog-close]').click();
+      await moreButton.click();
+      await gallery.keyboard.press('Escape');
+      assert(await gallery.locator('[data-dapps-more-overlay]').isHidden()&&
+        await moreButton.getAttribute('aria-expanded')==='false',
+        'dApps More should close on Escape and restore button state');
+      await moreButton.click();
+      await gallery.locator('[data-dapps-more-close]').click();
+      assert(await gallery.locator('[data-dapps-more-overlay]').isHidden(),
+        'dApps More close button failed');
       await gallery.locator('[data-dapps-search]').fill('nova');
       assert(await gallery.locator('[data-gallery-demo-apps] .gallery-app-card:visible').count()===1,
         'dApps query should filter to Nova');
