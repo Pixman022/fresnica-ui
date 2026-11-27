@@ -1903,9 +1903,10 @@ try{
       assert(await gallery.locator('.home11-wallet-switch').getAttribute('aria-expanded')==='true'&&
         await gallery.locator('#home11-wallet-selector').isVisible(),
         'Wallet chevron did not open wallet selector: '+JSON.stringify(config));
-      await gallery.locator('.home11-wallet-switch').click();
-      assert(await gallery.locator('.home11-wallet-switch').getAttribute('aria-expanded')==='false',
-        'Wallet chevron did not close wallet selector: '+JSON.stringify(config));
+      await gallery.keyboard.press('Escape');
+      assert(await gallery.locator('.home11-wallet-switch').getAttribute('aria-expanded')==='false'&&
+        await gallery.locator('#home11-wallet-selector').isHidden(),
+        'Wallet selector did not close on Escape: '+JSON.stringify(config));
       const homeImage=path.join(dest,'gallery-home-'+config.theme+'-'+config.lang+'.png');
       await gallery.locator('.home11-phone').screenshot({path:homeImage,animations:'disabled'});
       captures.push(path.relative(dest,homeImage));
