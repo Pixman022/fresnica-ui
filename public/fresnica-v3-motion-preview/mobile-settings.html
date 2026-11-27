@@ -532,35 +532,11 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 }
 </style>
 <link rel="stylesheet" href="./mobile-gallery-system.css" />
-<style id="gallery-settings-interactions">
-.home11-phone .gallery-settings-list .gallery-settings-trigger{
-  width:100%;border:0;border-bottom:1px solid var(--native-separator);background:transparent;
-  color:var(--native-content-primary);font:inherit;text-align:left;cursor:pointer
-}
-.home11-phone .gallery-settings-list .gallery-settings-trigger:last-child{border-bottom:0}
-.home11-phone .gallery-settings-list .gallery-settings-trigger:focus-visible,
-.home11-phone .gallery-settings-list a.gallery-row:focus-visible{outline:2px solid var(--native-primary);outline-offset:-2px}
-.home11-phone .gallery-settings-chevron{flex:none;width:16px;height:16px;color:var(--native-content-secondary)}
-.home11-phone .gallery-settings-sheet{max-height:82%;overscroll-behavior:contain}
-.home11-phone .gallery-settings-panel[hidden]{display:none!important}
-.home11-phone .gallery-settings-sheet .gallery-settings-option{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:54px;width:100%;
-  padding:12px;border:0;border-bottom:1px solid var(--native-separator);border-radius:0;
-  background:transparent;color:var(--native-content-primary);font:inherit;font-size:13px;font-weight:550;
-  text-align:left;cursor:pointer
-}
-.home11-phone .gallery-settings-sheet .gallery-settings-option:last-child{border-bottom:0}
-.home11-phone .gallery-settings-sheet .gallery-settings-option[aria-pressed="true"]{color:var(--native-primary)}
-.home11-phone .gallery-settings-sheet .gallery-settings-option[aria-pressed="true"]::after{content:"✓";font-size:17px}
-.home11-phone .gallery-settings-sheet .gallery-settings-option:focus-visible,
-.home11-phone .gallery-settings-sheet a:focus-visible{outline:2px solid var(--native-primary);outline-offset:-2px}
-.home11-phone .gallery-settings-about-description{margin:0 0 15px;font-size:12px;line-height:1.6;color:var(--native-content-secondary)}
-.home11-phone .gallery-settings-about-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:11px 0;border-top:1px solid var(--native-separator);font-size:12px}
-.home11-phone .gallery-settings-about-row span{color:var(--native-content-secondary)}
-.home11-phone .gallery-settings-about-row strong{font-weight:600;font-size:12px;color:var(--native-content-primary)}
-.home11-phone a.gallery-settings-about-row{text-decoration:none;color:var(--native-content-primary)}
-.home11-phone a.gallery-settings-about-row strong{color:var(--native-primary)}
-.home11-phone .gallery-settings-about-note{margin:13px 0 0;font-size:11px;line-height:1.5;color:var(--native-content-secondary)}
+<style id="gallery-settings-home">
+.home11-phone .gallery-settings-list .gallery-settings-destination{min-height:63px;cursor:pointer}
+.home11-phone .gallery-settings-list .gallery-settings-destination:focus-visible{outline:2px solid var(--native-primary);outline-offset:-2px}
+.home11-phone .gallery-settings-chevron{display:block;flex:none;width:17px;height:17px;stroke:var(--native-content-secondary);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.home11-phone .gallery-settings-footnote{margin:23px 0 8px;text-align:center;color:var(--native-content-secondary);font-size:10px;letter-spacing:.035em}
 </style>
 </head>
 <body>
@@ -588,33 +564,56 @@ html.preview-immersive .home11-phone .home11-action-sheet{
       <div class="phone-header"><h1 class="gallery-screen-title">Settings</h1></div>
       <div class="home11-scroll">
 
-<h2 class="gallery-section-title" data-gallery-en="PREFERENCES" data-gallery-zh="偏好设置">PREFERENCES</h2>
-<section class="gallery-panel gallery-settings-list" aria-label="Preferences">
-  <button type="button" class="gallery-row gallery-settings-trigger" data-settings-open="language" aria-haspopup="dialog" aria-controls="gallery-settings-dialog">
-    <span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c6 6 6 12 0 18M12 3c-6 6-6 12 0 18"/></svg></span>
-    <span class="gallery-row-copy"><b>Language</b></span><span class="gallery-row-right"><strong data-gallery-value="language">English</strong></span><svg class="gallery-settings-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-  </button>
-  <button type="button" class="gallery-row gallery-settings-trigger" data-settings-open="appearance" aria-haspopup="dialog" aria-controls="gallery-settings-dialog">
-    <span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
-    <span class="gallery-row-copy"><b>Appearance</b></span><span class="gallery-row-right"><strong data-gallery-value="appearance">Light</strong></span><svg class="gallery-settings-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-  </button>
-</section>
-
-<h2 class="gallery-section-title" data-gallery-en="NETWORK" data-gallery-zh="网络">NETWORK</h2>
-<section class="gallery-panel gallery-settings-list" aria-label="Network">
-  <a class="gallery-row" href="./mobile-network-nodes.html" aria-label="Network and nodes settings">
-    <span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c6 6 6 12 0 18M12 3c-6 6-6 12 0 18"/></svg></span>
-    <span class="gallery-row-copy"><b data-gallery-en="Network &amp; Nodes" data-gallery-zh="网络与节点">Network &amp; Nodes</b></span>
-    <span class="gallery-row-right"><strong>Stellar</strong></span><svg class="gallery-settings-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-  </a>
-</section>
-<h2 class="gallery-section-title" data-gallery-en="ABOUT" data-gallery-zh="关于">ABOUT</h2>
-<section class="gallery-panel gallery-settings-list">
-  <button type="button" class="gallery-row gallery-settings-trigger" data-settings-open="about" aria-haspopup="dialog" aria-controls="gallery-settings-dialog">
-    <span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg></span>
-    <span class="gallery-row-copy"><b data-gallery-en="About Fresnica" data-gallery-zh="关于 Fresnica">About Fresnica</b></span><svg class="gallery-settings-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-  </button>
-</section>
+<h2 class="gallery-section-title" data-gallery-en="ACCOUNTS" data-gallery-zh="账户">ACCOUNTS</h2>
+<section class="gallery-panel gallery-settings-list"><a class="gallery-row gallery-settings-destination" href="./mobile-settings-detail.html?view=accounts">
+<span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="15" rx="2"/><path d="M3 10h18M16 15h2"/></svg></span>
+<span class="gallery-row-copy"><b data-gallery-en="Accounts" data-gallery-zh="账户">Accounts</b></span>
+<svg class="gallery-settings-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+</a><a class="gallery-row gallery-settings-destination" href="./mobile-settings-detail.html?view=contacts">
+<span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 3v18M11 9h6"/></svg></span>
+<span class="gallery-row-copy"><b data-gallery-en="Address book" data-gallery-zh="通讯录">Address book</b></span>
+<svg class="gallery-settings-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+</a></section><h2 class="gallery-section-title" data-gallery-en="PREFERENCES" data-gallery-zh="偏好设置">PREFERENCES</h2>
+<section class="gallery-panel gallery-settings-list"><a class="gallery-row gallery-settings-destination" href="./mobile-settings-detail.html?view=general">
+<span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9M13 4v6M7 14v6"/></svg></span>
+<span class="gallery-row-copy"><b data-gallery-en="General" data-gallery-zh="通用">General</b></span>
+<svg class="gallery-settings-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+</a><a class="gallery-row gallery-settings-destination" href="./mobile-settings-detail.html?view=advanced">
+<span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M7 3v8M3 17h18M17 13v8"/></svg></span>
+<span class="gallery-row-copy"><b data-gallery-en="Advanced" data-gallery-zh="高级">Advanced</b></span>
+<svg class="gallery-settings-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+</a></section><h2 class="gallery-section-title" data-gallery-en="SECURITY" data-gallery-zh="安全">SECURITY</h2>
+<section class="gallery-panel gallery-settings-list"><a class="gallery-row gallery-settings-destination" href="./mobile-settings-detail.html?view=security">
+<span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+<span class="gallery-row-copy"><b data-gallery-en="Security" data-gallery-zh="安全设置">Security</b></span>
+<svg class="gallery-settings-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+</a><a class="gallery-row gallery-settings-destination" href="./mobile-settings-detail.html?view=privacy">
+<span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 6.1C11.1 6 11.5 6 12 6c6.5 0 10 6 10 6a18 18 0 0 1-3 3.5M6.5 6.7C3.6 8.5 2 12 2 12s3.5 6 10 6c1.6 0 3-.4 4.2-1M10 10a3 3 0 0 0 4 4"/></svg></span>
+<span class="gallery-row-copy"><b data-gallery-en="Privacy" data-gallery-zh="隐私">Privacy</b></span>
+<svg class="gallery-settings-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+</a><a class="gallery-row gallery-settings-destination" href="./mobile-settings-detail.html?view=connected">
+<span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.4l3-3a5 5 0 0 0-7-7l-2.2 2.2"/><path d="M14 11a5 5 0 0 0-7.5-.4l-3 3a5 5 0 0 0 7 7l2.2-2.2"/></svg></span>
+<span class="gallery-row-copy"><b data-gallery-en="Connected dApps" data-gallery-zh="已连接的应用">Connected dApps</b></span>
+<svg class="gallery-settings-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+</a><a class="gallery-row gallery-settings-destination" href="./mobile-settings-detail.html?view=lock">
+<span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+<span class="gallery-row-copy"><b data-gallery-en="Lock now" data-gallery-zh="立即锁定">Lock now</b></span>
+<svg class="gallery-settings-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+</a></section><h2 class="gallery-section-title" data-gallery-en="SUPPORT" data-gallery-zh="帮助与支持">SUPPORT</h2>
+<section class="gallery-panel gallery-settings-list"><a class="gallery-row gallery-settings-destination" href="./mobile-settings-detail.html?view=support">
+<span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4 2c-1.5 1-1.5 2-1.5 3M12 17h.01"/></svg></span>
+<span class="gallery-row-copy"><b data-gallery-en="Support" data-gallery-zh="问题与支持">Support</b></span>
+<svg class="gallery-settings-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+</a><a class="gallery-row gallery-settings-destination" href="./mobile-settings-detail.html?view=terms">
+<span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h6"/></svg></span>
+<span class="gallery-row-copy"><b data-gallery-en="Terms & Conditions" data-gallery-zh="条款与条件">Terms & Conditions</b></span>
+<svg class="gallery-settings-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+</a><a class="gallery-row gallery-settings-destination" href="./mobile-settings-detail.html?view=about">
+<span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg></span>
+<span class="gallery-row-copy"><b data-gallery-en="About Fresnica" data-gallery-zh="关于 Fresnica">About Fresnica</b></span>
+<svg class="gallery-settings-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+</a></section>
+<p class="gallery-settings-footnote">Fresnica · Stellar</p>
 </div>
       <nav class="phone-tabs" aria-label="Wallet main navigation">
   <span class="home11-nav-item is-current" aria-current="page"><svg class="lucide lucide-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</span>
@@ -632,34 +631,6 @@ html.preview-immersive .home11-phone .home11-action-sheet{
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg>Send</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/></svg>Swap</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7 7 17M17 17H7V7"/></svg>Receive</span>
-    </div>
-  </section>
-</div>
-<div class="gallery-dialog-overlay gallery-settings-overlay" hidden>
-  <section id="gallery-settings-dialog" class="gallery-dialog-panel gallery-settings-sheet" role="dialog" aria-modal="true" aria-labelledby="gallery-settings-title">
-    <div class="gallery-dialog-heading">
-      <h2 id="gallery-settings-title" data-gallery-en="Language" data-gallery-zh="语言">Language</h2>
-      <button type="button" class="gallery-dialog-close" data-settings-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-    </div>
-    <div class="gallery-settings-panel" data-settings-panel="language" hidden>
-      <button type="button" class="gallery-settings-option" data-gallery-language="en" aria-pressed="true">English</button>
-      <button type="button" class="gallery-settings-option" data-gallery-language="zh" aria-pressed="false">中文</button>
-    </div>
-    <div class="gallery-settings-panel" data-settings-panel="appearance" hidden>
-      <button type="button" class="gallery-settings-option" data-gallery-theme="light" aria-pressed="true"><span data-gallery-en="Light" data-gallery-zh="浅色">Light</span></button>
-      <button type="button" class="gallery-settings-option" data-gallery-theme="dark" aria-pressed="false"><span data-gallery-en="Dark" data-gallery-zh="深色">Dark</span></button>
-    </div>
-    <div class="gallery-settings-panel" data-settings-panel="about" hidden>
-      <p class="gallery-settings-about-description" data-gallery-en="Fresnica is a digital asset wallet designed for the Stellar ecosystem." data-gallery-zh="Fresnica 是专为 Stellar 生态设计的数字资产钱包。">Fresnica is a digital asset wallet designed for the Stellar ecosystem.</p>
-      <div class="gallery-settings-about-row">
-        <span data-gallery-en="UI preview version" data-gallery-zh="界面预览版本">UI preview version</span>
-        <strong>1.1</strong>
-      </div>
-      <a class="gallery-settings-about-row" href="./index.html#v3-clarity" target="_blank" rel="noopener noreferrer">
-        <span data-gallery-en="Help & FAQ" data-gallery-zh="帮助与常见问题">Help &amp; FAQ</span>
-        <strong data-gallery-en="View" data-gallery-zh="查看">View</strong>
-      </a>
-      <p class="gallery-settings-about-note" data-gallery-en="This is a UI preview, not a released wallet app." data-gallery-zh="这是界面预览，不代表已发布的钱包应用。">This is a UI preview, not a released wallet app.</p>
     </div>
   </section>
 </div>
@@ -712,54 +683,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
   });
 })();
 </script>
-<script id="gallery-settings-behavior">
-(() => {
-  const phone = document.querySelector(".home11-phone");
-  const overlay = phone?.querySelector(".gallery-settings-overlay");
-  const title = overlay?.querySelector("#gallery-settings-title");
-  const closeButton = overlay?.querySelector("[data-settings-close]");
-  if (!phone || !overlay || !title || !closeButton) return;
-  const panels = [...overlay.querySelectorAll("[data-settings-panel]")];
-  const names = {
-    language: ["Language", "语言"],
-    appearance: ["Appearance", "外观"],
-    about: ["About Fresnica", "关于 Fresnica"]
-  };
-  let opener = null;
-  const close = () => {
-    if (overlay.hidden) return;
-    overlay.hidden = true;
-    opener?.focus();
-  };
-  phone.querySelectorAll("[data-settings-open]").forEach(button => button.addEventListener("click", () => {
-    const name = button.dataset.settingsOpen;
-    if (!names[name]) return;
-    opener = button;
-    title.dataset.galleryEn = names[name][0];
-    title.dataset.galleryZh = names[name][1];
-    title.textContent = document.documentElement.lang.startsWith("zh") ? names[name][1] : names[name][0];
-    panels.forEach(panel => { panel.hidden = panel.dataset.settingsPanel !== name; });
-    overlay.hidden = false;
-    (overlay.querySelector('[data-settings-panel="' + name + '"] button') || closeButton).focus();
-  }));
-  closeButton.addEventListener("click", close);
-  overlay.addEventListener("click", event => { if (event.target === overlay) close(); });
-  overlay.querySelectorAll("[data-gallery-language],[data-gallery-theme]").forEach(option =>
-    option.addEventListener("click", close));
-  overlay.addEventListener("keydown", event => {
-    if (overlay.hidden) return;
-    if (event.key === "Escape") {
-      event.preventDefault();event.stopPropagation();close();return;
-    }
-    if (event.key !== "Tab") return;
-    const focusable = [...overlay.querySelectorAll('button:not([disabled]),a[href]')].filter(node => !node.closest("[hidden]"));
-    if (!focusable.length) return;
-    const first = focusable[0], last = focusable[focusable.length - 1];
-    if (event.shiftKey && document.activeElement === first) {event.preventDefault();last.focus();}
-    else if (!event.shiftKey && document.activeElement === last) {event.preventDefault();first.focus();}
-  });
-})();
-</script>
+
 <script src="./mobile-gallery-system.js" defer></script>
 </body>
 </html>
