@@ -1851,20 +1851,23 @@ try{
       for(const width of [320,390]){
         await gallery.setViewportSize({width,height:844});
         const wallet=await gallery.evaluate(()=>{
-          const header=document.querySelector('.home11-wallet-header');
+          const header=document.querySelector('.home11-phone .phone-header');
+          const overview=document.querySelector('.home11-account-overview');
+          const brand=header?.querySelector('.phone-brand');
           const summary=document.querySelector('.home11-wallet-summary');
           const name=document.querySelector('.home11-wallet-name');
           const address=document.querySelector('.home11-wallet-address');
           const switcher=document.querySelector('.home11-wallet-switch');
           const avatar=document.querySelector('.home11-wallet-avatar');
           const avatarStyle=getComputedStyle(avatar);
-          const network=document.querySelector('.home11-wallet-header .phone-network');
-          const headerStyle=getComputedStyle(header);
-          const bounds=header.getBoundingClientRect(),group=summary.getBoundingClientRect();
-          const usable=header.clientWidth-parseFloat(headerStyle.paddingLeft)-
-            parseFloat(headerStyle.paddingRight);
+          const network=header.querySelector('.home11-network-trigger');
+          const group=summary.getBoundingClientRect(),overviewBox=overview.getBoundingClientRect();
+          const usable=overview.clientWidth;
           return {
             walletName:name.textContent.trim(),
+            brandName:brand?.textContent.trim(),
+            brandLogo:!!brand?.querySelector('img[src="./Fresnica-logo.svg"]'),
+            networkLabel:network?.textContent.trim(),
             walletIcon:!!avatar.querySelector('svg rect')&&!avatar.querySelector('svg circle'),
             avatarBg:avatarStyle.backgroundColor,avatarColor:avatarStyle.color,
             avatarSize:avatar.getBoundingClientRect().width,
@@ -1878,7 +1881,7 @@ try{
             switchIconSize:switcher.querySelector('svg').getBoundingClientRect().width,
             switchIconPath:switcher.querySelector('svg path')?.getAttribute('d'),
             summaryWidth:group.width,allowedWidth:usable*.618,
-            summaryRight:group.right,networkLeft:network.getBoundingClientRect().left,
+            summaryRight:group.right,overviewLeft:overviewBox.left,
             nameClipped:name.scrollWidth>name.clientWidth+1,
             addressClipped:address.scrollWidth>address.clientWidth+1
           };
@@ -1889,13 +1892,15 @@ try{
           wallet.avatarIconSize>=18,
           'Wallet avatar icon/auxiliary palette violation at '+width+
             'px: '+JSON.stringify({config,wallet}));
-        assert(wallet.nameFont>=16&&wallet.nameLineHeight>=22&&
+        assert(wallet.brandName==='Fresnica'&&wallet.brandLogo&&
+          wallet.networkLabel.includes('Stellar')&&
+          wallet.nameFont>=16&&wallet.nameLineHeight>=22&&
           wallet.addressFont>=12&&wallet.addressLineHeight>=16&&
           wallet.buttonWidth>=44&&wallet.buttonHeight>=44&&
           wallet.switchIconSize===16&&wallet.switchIconPath==='m7 10 5 5 5-5'&&
           wallet.summaryWidth<=wallet.allowedWidth+2&&
-          wallet.summaryRight<=wallet.networkLeft+1,
-          'Wallet header typography/target/golden ratio violation at '+width+
+          wallet.summaryRight<=wallet.overviewLeft+wallet.allowedWidth+3,
+          'Home brand/account typography, target or golden ratio violation at '+width+
             'px: '+JSON.stringify({config,wallet}));
         console.log('[V3 gallery] '+config.lang+'/'+config.theme+' wallet-'+width+' '+JSON.stringify(wallet));
       }
