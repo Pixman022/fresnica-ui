@@ -1,0 +1,98 @@
+/* dApps directory: minimal Home/Recent switch, search and one review sheet. */
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-tabs{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;margin:7px 0 13px;
+  padding:4px;border-radius:12px;background:var(--native-surface);border:1px solid var(--native-separator)
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-tabs button{
+  min-height:40px;border:0;border-radius:9px;background:transparent;color:var(--native-content-secondary);
+  font-family:inherit;font-size:12px;font-weight:600;cursor:pointer
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-tabs button[aria-selected="true"]{
+  background:var(--native-background);color:var(--native-content-primary)
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-view[hidden],
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-clear[hidden],
+.home11-phone.gallery-dapps-enhanced .gallery-app-card[hidden],
+.home11-phone.gallery-dapps-enhanced [data-dapps-app-info][hidden],
+.home11-phone.gallery-dapps-enhanced [data-dapps-manual][hidden],
+.home11-phone.gallery-dapps-enhanced [data-dapps-review][hidden],
+.home11-phone.gallery-dapps-enhanced [data-dapps-next][hidden],
+.home11-phone.gallery-dapps-enhanced [data-dapps-confirm][hidden],
+.home11-phone.gallery-dapps-enhanced [data-dapps-url-error][hidden],
+.home11-phone.gallery-dapps-enhanced [data-dapps-no-results][hidden],
+.home11-phone.gallery-dapps-enhanced [data-dapps-recent-empty][hidden]{display:none!important}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-search{
+  display:flex;align-items:center;gap:9px;width:100%;min-width:0;min-height:44px;
+  padding:0 10px;border:1px solid var(--native-separator);border-radius:12px;
+  background:transparent;color:var(--native-content-secondary)
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-search svg{display:block;flex:none;width:18px;height:18px}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-search input{
+  flex:1;width:100%;min-width:0;min-height:44px;padding:0;background:transparent;border:0;outline:0;
+  font-family:inherit;font-size:13px;color:var(--native-content-primary)
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-search input::placeholder{color:var(--native-content-secondary)}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-search input::-webkit-search-cancel-button{display:none}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-search:focus-within{border-color:var(--native-primary)}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-clear{
+  display:grid;place-items:center;flex:none;width:44px;height:44px;padding:0;border:0;background:transparent;
+  font-family:inherit;font-size:21px;color:var(--native-content-secondary);cursor:pointer
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-view > .gallery-section-title:first-of-type{margin-top:14px}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-no-results,
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-recent-empty{
+  margin:0;padding:26px 12px;border:1px solid var(--native-separator);border-radius:14px;
+  font-size:12px;text-align:center;color:var(--native-content-secondary)
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-recent-list{display:flex;flex-direction:column;gap:8px}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-recent-item{
+  display:flex;align-items:center;gap:11px;width:100%;min-height:64px;
+  padding:9px 11px;border:1px solid var(--native-separator);border-radius:13px;
+  background:var(--native-surface);color:var(--native-content-primary);font-family:inherit;text-align:left;cursor:pointer
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-recent-item .gallery-app-mark{width:39px;height:39px;border-radius:12px}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-recent-item .gallery-app-mark svg{width:23px;height:23px}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-recent-copy{display:flex;flex-direction:column;gap:4px;min-width:0}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-recent-copy b{font-size:12px;font-weight:650}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-recent-copy small{font-size:10px;color:var(--native-content-secondary);overflow:hidden;text-overflow:ellipsis}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-recent-note{margin:12px 2px 0;font-size:10px;color:var(--native-content-secondary);line-height:1.45}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-dialog{max-height:86%;overscroll-behavior:contain}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-app-info{margin:0 0 14px}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-app-head{display:flex;align-items:center;gap:12px;padding-bottom:12px}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-app-icon .gallery-app-mark{width:45px;height:45px}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-app-copy{display:flex;flex-direction:column;gap:5px;min-width:0}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-app-copy b{font-size:14px;font-weight:650}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-app-copy small{font-size:11px;color:var(--native-content-secondary)}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-app-meta{
+  display:grid;grid-template-columns:82px minmax(0,1fr);gap:9px 7px;padding:12px;
+  border:1px solid var(--native-separator);border-radius:12px;line-height:1.45;font-size:11px
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-app-meta span{color:var(--native-content-secondary)}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-app-meta strong{min-width:0;overflow-wrap:anywhere;font-weight:600}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-review-origin{
+  white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;word-break:break-word;
+  max-width:65%;text-align:right
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dialog-panel .gallery-dapps-url-error{
+  margin:8px 1px 0;color:#b55c4a;font-size:11px;line-height:1.4
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dialog-panel .gallery-dapps-review-warning{
+  margin:12px 0;color:var(--native-content-secondary);font-size:11px;line-height:1.55
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-acknowledge{
+  display:flex;align-items:center;gap:10px;min-height:44px;margin:7px 0 2px;
+  font-size:11px;font-weight:550;color:var(--native-content-primary);cursor:pointer
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-acknowledge input{
+  flex:none;width:18px;height:18px;accent-color:var(--native-primary)
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-dialog button:disabled{
+  opacity:.5;cursor:not-allowed
+}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-tabs button:focus-visible,
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-search input:focus-visible,
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-clear:focus-visible,
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-recent-item:focus-visible,
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-acknowledge input:focus-visible{
+  outline:2px solid var(--native-primary);outline-offset:2px
+}

@@ -532,6 +532,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 }
 </style>
 <link rel="stylesheet" href="./mobile-gallery-system.css" />
+<link rel="stylesheet" href="./mobile-dapps-features.css" />
 </head>
 <body>
 <div class="preview-shell">
@@ -553,14 +554,32 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 <div class="preview-stage">
 <main aria-label="dApp connections">
 <div class="home11-display">
-<div class="home11-phone" aria-label="Fresnica dApp connections preview">
+<div class="home11-phone gallery-dapps-enhanced" aria-label="Fresnica dApp connections preview">
       <span class="phone-island" aria-hidden="true"></span>
       <div class="phone-header"><h1 class="gallery-screen-title">dApps</h1><button type="button" class="gallery-header-action" data-gallery-dialog-open="connect" aria-label="Connect a dApp" title="Connect a dApp"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="10" height="10" rx="2"/><path d="M14 10h7M17.5 6.5v7M8 18h13M8 22h13"/></svg></button></div>
       <div class="home11-scroll">
-<h2 class="gallery-section-title">Popular apps</h2>
-<div class="gallery-app-grid gallery-sample-grid" data-gallery-demo-apps aria-label="Popular apps"></div>
-<h2 class="gallery-section-title">Connected apps <small>0</small></h2>
-<section class="gallery-panel" aria-label="Connected apps"><div class="gallery-empty"><span class="gallery-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><b>No connected apps</b></div></section>
+        <div class="gallery-dapps-tabs" role="tablist" aria-label="dApps views">
+          <button type="button" id="gallery-dapps-tab-home" role="tab" data-dapps-tab="home" aria-selected="true" aria-controls="gallery-dapps-panel-home">Home</button>
+          <button type="button" id="gallery-dapps-tab-recent" role="tab" data-dapps-tab="recent" aria-selected="false" aria-controls="gallery-dapps-panel-recent">Recent</button>
+        </div>
+        <section id="gallery-dapps-panel-home" class="gallery-dapps-view" role="tabpanel" data-dapps-panel="home" aria-labelledby="gallery-dapps-tab-home">
+          <div class="gallery-dapps-search" role="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7"/><path d="m16 16 5 5"/></svg>
+            <input type="search" data-dapps-search autocomplete="off" aria-label="Search dApps" placeholder="Search dApps">
+            <button type="button" class="gallery-dapps-clear" data-dapps-clear aria-label="Clear search" hidden>×</button>
+          </div>
+          <h2 class="gallery-section-title">Popular apps</h2>
+          <div class="gallery-app-grid gallery-sample-grid" data-gallery-demo-apps aria-label="Popular apps"></div>
+          <p class="gallery-dapps-no-results" data-dapps-no-results role="status" hidden>No matching apps</p>
+          <h2 class="gallery-section-title">Connected apps <small>0</small></h2>
+          <section class="gallery-panel" aria-label="Connected apps"><div class="gallery-empty"><span class="gallery-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><b>No connected apps</b></div></section>
+        </section>
+        <section id="gallery-dapps-panel-recent" class="gallery-dapps-view" role="tabpanel" data-dapps-panel="recent" aria-labelledby="gallery-dapps-tab-recent" hidden>
+          <h2 class="gallery-section-title">Recent</h2>
+          <div class="gallery-dapps-recent-list" data-dapps-recent-list></div>
+          <p class="gallery-dapps-recent-empty" data-dapps-recent-empty role="status">No recent apps</p>
+          <p class="gallery-dapps-recent-note">Recent previews are not connected apps.</p>
+        </section>
 </div>
       <nav class="phone-tabs" aria-label="Wallet main navigation">
   <span class="home11-nav-item is-current" aria-current="page"><svg class="lucide lucide-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</span>
@@ -582,18 +601,30 @@ html.preview-immersive .home11-phone .home11-action-sheet{
   </section>
 </div>
 <div class="gallery-dialog-overlay" hidden>
-  <section class="gallery-dialog-panel" role="dialog" aria-modal="true" aria-labelledby="gallery-connect-title">
-    <div class="gallery-dialog-heading"><h2 id="gallery-connect-title">Connect a dApp</h2><button type="button" class="gallery-dialog-close" data-gallery-dialog-close="true" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
-    <label for="gallery-website" class="gallery-connection-label">Website</label>
-    <input id="gallery-website" class="gallery-website-input" type="url" inputmode="url" autocomplete="off" placeholder="https://example.app" data-gallery-website-input />
-    <h3 class="gallery-dialog-subtitle">Connection review</h3>
-    <div class="gallery-connection-review">
-      <div><span>Website</span><strong data-gallery-review-website>Not selected</strong></div>
-      <div><span>Network</span><strong>Stellar</strong></div>
-      <div><span>Permissions</span><strong>Wallet address</strong></div>
+  <section class="gallery-dialog-panel gallery-dapps-dialog" role="dialog" aria-modal="true" aria-labelledby="gallery-connect-title">
+    <div class="gallery-dialog-heading"><h2 id="gallery-connect-title">Open a dApp URL</h2><button type="button" class="gallery-dialog-close" data-gallery-dialog-close="true" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="gallery-dapps-app-info" data-dapps-app-info hidden>
+      <div class="gallery-dapps-app-head"><span class="gallery-dapps-app-icon" data-dapps-app-icon aria-hidden="true"></span><span class="gallery-dapps-app-copy"><b data-dapps-app-name></b><small data-dapps-app-description>Sample dApp entry</small></span></div>
+      <div class="gallery-dapps-app-meta"><span>Developer</span><strong>Demo catalog</strong><span>Website</span><strong data-dapps-app-url></strong></div>
+    </div>
+    <div data-dapps-manual>
+      <label for="gallery-website" class="gallery-connection-label">Website</label>
+      <input id="gallery-website" class="gallery-website-input" type="url" inputmode="url" autocomplete="off" placeholder="https://example.org" data-gallery-website-input aria-describedby="gallery-dapps-url-error" />
+      <p id="gallery-dapps-url-error" class="gallery-dapps-url-error" role="alert" data-dapps-url-error hidden></p>
+    </div>
+    <div data-dapps-review hidden>
+      <h3 class="gallery-dialog-subtitle">Connection review</h3>
+      <div class="gallery-connection-review">
+        <div><span>Website</span><strong class="gallery-dapps-review-origin" data-gallery-review-website>Not selected</strong></div>
+        <div><span>Network</span><strong>Stellar</strong></div>
+        <div><span>Permissions</span><strong>Wallet address (preview)</strong></div>
+      </div>
+      <p class="gallery-dapps-review-warning" data-dapps-review-warning>Unreviewed website — verify the full address before continuing.</p>
+      <label class="gallery-dapps-acknowledge"><input type="checkbox" data-dapps-ack><span>I have checked the website address</span></label>
     </div>
     <p class="gallery-preview-copy">Preview only — no live connection.</p>
-    <button type="button" class="gallery-primary-action" data-gallery-confirm-connect>Connect</button>
+    <button type="button" class="gallery-primary-action" data-dapps-next disabled>Review site</button>
+    <button type="button" class="gallery-primary-action" data-dapps-confirm hidden disabled>Open preview</button>
   </section>
 </div>
     </div>
@@ -646,5 +677,6 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 })();
 </script>
 <script src="./mobile-gallery-system.js" defer></script>
+<script src="./mobile-dapps-features.js" defer></script>
 </body>
 </html>

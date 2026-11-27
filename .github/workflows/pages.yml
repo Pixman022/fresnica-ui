@@ -64,6 +64,11 @@ jobs:
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/wallet-home.html
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo-1-1.html
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-activity.html
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-dapps.html
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-dapps-features.css
+                  node --check .v3-preview-source/public/fresnica-v3-motion-preview/mobile-dapps-features.js
+                  node --check .v3-preview-source/public/fresnica-v3-motion-preview/mobile-gallery-system.js
+                  grep -Fq 'data-dapps-tab="recent"' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-dapps.html
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-activity-enhancements.css
                   node --check .v3-preview-source/public/fresnica-v3-motion-preview/mobile-activity-filter.js
                   grep -Fq 'data-activity-day="0"' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-activity.html
@@ -230,7 +235,7 @@ jobs:
               run: |
                   set -euo pipefail
                   base="${V3_PAGES_URL%/}/fresnica-v3-motion-preview"
-                  for asset in index.html mobile-demo.html wallet-home.html mobile-demo-1-1.html mobile-activity.html mobile-activity-filter.js mobile-activity-enhancements.css m58-brand-palette.css third-party-notices.html v3-perf-probe.js; do
+                  for asset in index.html mobile-demo.html wallet-home.html mobile-demo-1-1.html mobile-activity.html mobile-activity-filter.js mobile-activity-enhancements.css mobile-dapps.html mobile-dapps-features.js mobile-dapps-features.css mobile-gallery-system.js m58-brand-palette.css third-party-notices.html v3-perf-probe.js; do
                       source="demo-dist/fresnica-v3-motion-preview/${asset}"
                       confirmed=false
                       for attempt in 1 2 3 4 5 6 7 8; do

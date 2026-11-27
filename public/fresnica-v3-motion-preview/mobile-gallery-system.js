@@ -382,7 +382,8 @@
   const overlay = document.querySelector(".gallery-dialog-overlay");
   const openerButtons = document.querySelectorAll("[data-gallery-dialog-open], [data-gallery-dialog-app]");
   const closer = overlay?.querySelector("[data-gallery-dialog-close]");
-  if (overlay && openerButtons.length && closer) {
+  if (overlay && openerButtons.length && closer &&
+      !document.querySelector('.home11-phone.gallery-dapps-enhanced')) {
     const websiteInput = overlay.querySelector("[data-gallery-website-input]");
     const reviewWebsite = overlay.querySelector("[data-gallery-review-website]");
     let focusedOpener;

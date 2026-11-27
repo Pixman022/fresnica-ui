@@ -1847,6 +1847,82 @@ try{
       await gallery.locator('.home11-phone').screenshot({path:appImage,animations:'disabled'});
       captures.push(path.relative(dest,appImage));
 
+      // D01-D04: Home/Recent, filtered directory, app detail and reviewed manual URLs.
+      assert(await gallery.locator('[data-dapps-tab]').count()===2&&
+        await gallery.locator('[data-dapps-search]').isVisible(),
+        'dApps must provide Home/Recent and a visible catalog search');
+      await gallery.locator('[data-dapps-search]').fill('nova');
+      assert(await gallery.locator('.gallery-sample-grid .gallery-app-card:visible').count()===1,
+        'dApps query should filter to Nova');
+      await gallery.locator('[data-dapps-search]').fill('not-an-app');
+      assert(await gallery.locator('.gallery-sample-grid .gallery-app-card:visible').count()===0&&
+        await gallery.locator('[data-dapps-no-results]').isVisible(),
+        'dApps unmatched search should show no-results state');
+      await gallery.locator('[data-dapps-clear]').click();
+      assert(await gallery.locator('.gallery-sample-grid .gallery-app-card:visible').count()===3,
+        'dApps clear search should restore three sample tiles');
+      await gallery.locator('[data-dapps-tab="recent"]').click();
+      assert(await gallery.locator('[data-dapps-recent-empty]').isVisible(),
+        'dApps Recent should start empty without claiming a live history');
+      await gallery.locator('[data-dapps-tab="home"]').click();
+      await gallery.locator('[data-gallery-dialog-app="Nova"]').click();
+      assert(await gallery.locator('[data-dapps-app-info]').isVisible()&&
+        (await gallery.locator('[data-dapps-app-name]').textContent())==='Nova'&&
+        (await gallery.locator('[data-dapps-app-url]').textContent())==='https://nova.example/'&&
+        await gallery.locator('[data-dapps-next]').isEnabled(),
+        'dApps app details should show sample identity and complete URL');
+      const dappsSheetCapture=path.join(dest,'gallery-dapps-detail-'+config.theme+'-'+config.lang+'.png');
+      await gallery.locator('.home11-phone').screenshot({path:dappsSheetCapture,animations:'disabled'});
+      captures.push(path.relative(dest,dappsSheetCapture));
+      await gallery.locator('[data-dapps-next]').click();
+      assert(await gallery.locator('[data-dapps-review]').isVisible()&&
+        (await gallery.locator('[data-gallery-review-website]').textContent())==='https://nova.example'&&
+        await gallery.locator('[data-dapps-confirm]').isDisabled(),
+        'dApps connection review must show origin and require confirmation');
+      await gallery.locator('[data-dapps-ack]').check();
+      await gallery.locator('[data-dapps-confirm]').click();
+      assert(await gallery.locator('.gallery-dialog-overlay').isHidden(),
+        'dApps reviewed app preview should close its sheet');
+      await gallery.locator('[data-dapps-tab="recent"]').click();
+      assert(await gallery.locator('.gallery-dapps-recent-item').count()===1&&
+        !(await gallery.locator('[data-dapps-recent-empty]').isVisible()),
+        'dApps Recent should include only explicitly previewed apps');
+      await gallery.locator('.gallery-dapps-recent-item').first().click();
+      assert(await gallery.locator('[data-dapps-app-info]').isVisible(),
+        'dApps Recent entry must reopen selected app details');
+      await gallery.locator('[data-gallery-dialog-close]').click();
+      await gallery.locator('[data-dapps-tab="home"]').click();
+      await gallery.locator('[data-gallery-dialog-open="connect"]').click();
+      assert(await gallery.locator('[data-dapps-manual]').isVisible()&&
+        await gallery.locator('[data-dapps-next]').isDisabled(),
+        'Manual dApp URL must wait for a valid address');
+      const siteInput=gallery.locator('[data-gallery-website-input]');
+      for(const bad of ['http://stellar.org','https://127.0.0.1','https://localhost','https://user:pass@stellar.org']){
+        await siteInput.fill(bad);
+        assert(await gallery.locator('[data-dapps-next]').isDisabled()&&
+          await gallery.locator('[data-dapps-url-error]').isVisible(),
+          'dApps manual URL should reject '+bad);
+      }
+      await siteInput.fill('https://stellar.org/learn?source=demo');
+      assert(await gallery.locator('[data-dapps-next]').isEnabled()&&
+        !(await gallery.locator('[data-dapps-url-error]').isVisible()),
+        'Valid HTTPS origin should proceed to site review');
+      await gallery.locator('[data-dapps-next]').click();
+      assert((await gallery.locator('[data-gallery-review-website]').textContent())==='https://stellar.org'&&
+        await gallery.locator('[data-dapps-review-warning]').isVisible()&&
+        await gallery.locator('[data-dapps-confirm]').isDisabled(),
+        'Manual review should show full origin and require acknowledgment');
+      await gallery.locator('[data-dapps-ack]').check();
+      await gallery.locator('[data-dapps-confirm]').click();
+      await gallery.locator('[data-dapps-tab="recent"]').click();
+      assert(await gallery.locator('.gallery-dapps-recent-item').count()===2&&
+        (await gallery.locator('.gallery-section-title:visible').allTextContents()).some(x=>x.includes('Connected apps'))===false,
+        'dApps manual preview should be added only to Recent, not connections');
+      await gallery.locator('[data-dapps-tab="home"]').click();
+      assert((await gallery.locator('.gallery-section-title:visible').last().textContent()).includes(
+        config.lang==='zh'?'已连接的应用':'Connected apps'),
+        'dApps connected apps section should retain its original empty state');
+
       await gallery.goto(new URL('mobile-demo-1-1.html',base).href,{waitUntil:'load',timeout:45000});
       for(const width of [320,390]){
         await gallery.setViewportSize({width,height:844});
