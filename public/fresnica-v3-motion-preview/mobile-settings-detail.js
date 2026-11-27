@@ -128,36 +128,11 @@
     catch { return "light"; }
   };
   if(!settings.themeMode)settings.themeMode=currentTheme();
-  const applyPalette = () => {
-    if(settings.themeMode==="image"){
-      phone.style.setProperty("--settings-preview-palette",settings.palette);
-      phone.style.setProperty("--native-primary",settings.palette);
-      const rgb=[1,3,5].map(i=>parseInt(settings.palette.slice(i,i+2),16)/255);
-      const linear=rgb.map(c=>c<=.04045?c/12.92:((c+.055)/1.055)**2.4);
-      const lum=.2126*linear[0]+.7152*linear[1]+.0722*linear[2];
-      phone.style.setProperty("--native-on-primary",lum>.22?"#101312":"#ffffff");
-    } else {
-      phone.style.removeProperty("--native-primary");
-      phone.style.removeProperty("--settings-preview-palette");
-      phone.style.removeProperty("--native-on-primary");
-    }
-  };
-  let applyingTheme = false;
   const chooseTheme = mode => {
     settings.themeMode=mode;
-    const resolved=mode==="system" && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" :
-      mode==="dark"?"dark":"light";
-    const sidebar=document.querySelector('[data-gallery-theme="'+resolved+'"]');
-    if(sidebar){applyingTheme=true;sidebar.click();applyingTheme=false;}
-    else {
-      try {localStorage.setItem("fresnica-gallery-theme",resolved);} catch (_) {}
-      document.documentElement.dataset.demoTheme=resolved;
-    }
-    saveSettings();applyPalette();
+    saveSettings();
+    window.dispatchEvent(new Event("fresnica-preview-theme-change"));
   };
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",() => {
-    if(settings.themeMode==="system"){chooseTheme("system");render();}
-  });
   const openSheet = (mode,titleEn,titleZh,html,source) => {
     dialog=mode;trigger=source || document.activeElement;
     sheetTitle.textContent=tr(titleEn,titleZh);
@@ -414,7 +389,6 @@
         break;
     }
     content.innerHTML=html;
-    applyPalette();
   };
   const openRecordDialog = (type,id,source) => {
     const isAccount=type.includes("account");
@@ -652,7 +626,8 @@
         if(c){
           const hex=x=>Math.max(0,Math.min(255,Math.round(x/c))).toString(16).padStart(2,"0");
           settings.palette="#"+hex(r)+hex(g)+hex(b);settings.themeMode="image";saveSettings();
-          applyPalette();render();displayToast("Local color sampled","已提取本地颜色");
+          window.dispatchEvent(new Event("fresnica-preview-theme-change"));
+          render();displayToast("Local color sampled","已提取本地颜色");
         }
       }catch(_){displayToast("Unable to read this image","无法读取图片");}
       URL.revokeObjectURL(url);
@@ -660,13 +635,14 @@
     img.onerror=()=>{URL.revokeObjectURL(url);displayToast("Unable to read this image","无法读取图片");};
     img.src=url;
   });
-  // Gallery language / theme selectors are the source of truth across preview pages.
+  // Gallery selectors and this detail page share one persisted theme mode.
   document.addEventListener("click",event=>{
     const chosen=event.target.closest("[data-gallery-language],[data-gallery-theme]");
     if(!chosen || chosen.closest(".settings-detail-phone"))return;
-    const manualThemeChange = !!chosen.dataset.galleryTheme && !applyingTheme;
     queueMicrotask(()=>{
-      if(manualThemeChange) {settings.themeMode=chosen.dataset.galleryTheme;saveSettings();}
+      const current=readPreference();
+      if(current.themeMode)settings.themeMode=current.themeMode;
+      if(current.palette)settings.palette=current.palette;
       render();
     });
   });
@@ -674,7 +650,6 @@
     if(event.detail?.type==="accounts"){accounts=state.accounts();if(view==="accounts")render();}
     if(event.detail?.type==="connections"&&view==="connected")render();
   });
-  if(settings.themeMode==="system")chooseTheme("system");
   render();
   window.addEventListener("load",()=>{document.title="Fresnica — "+heading.textContent;});
 })();
