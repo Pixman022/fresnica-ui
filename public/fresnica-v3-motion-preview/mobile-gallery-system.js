@@ -160,7 +160,20 @@
   };
   const storeSetting = (key, value) => { try { localStorage.setItem(key, value); } catch (_) {} };
   let lang = readSetting("fresnica-gallery-language", ["en", "zh"], "en");
-  let theme = readSetting("fresnica-gallery-theme", ["light", "dark"], "light");
+  const themeKey = "fresnica-settings-demo-v2";
+  const readThemePreference = () => {
+    try {
+      const pref = JSON.parse(localStorage.getItem(themeKey) || "{}");
+      const mode = ["light","dark","system","image"].includes(pref.themeMode) ? pref.themeMode :
+        readSetting("fresnica-gallery-theme",["light","dark"],"light");
+      const palette = /^#[0-9a-fA-F]{6}$/.test(pref.palette) ? pref.palette : "#0f7954";
+      return { mode, palette };
+    } catch (_) { return {mode:"light",palette:"#0f7954"}; }
+  };
+  const resolveTheme = mode =>
+    mode === "dark" || (mode === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  let mode = readThemePreference().mode;
+  let theme = resolveTheme(mode);
   // Shared placeholder apps across the Actions sheet and the dApps catalogue.
   const demoApps = [
     { name: "Nova", kind: "nova", symbol: '<path d="m12 2 2.9 6.9L22 12l-7.1 3.1L12 22l-3.1-6.9L2 12l6.9-3.1z"/>' },
@@ -361,26 +374,65 @@
       el.textContent = lang === "zh" ? "中文" : "English";
     });
     document.querySelectorAll('[data-gallery-value="appearance"]').forEach((el) => {
-      el.textContent = theme === "dark" ? (lang === "zh" ? "深色" : "Dark") : (lang === "zh" ? "浅色" : "Light");
+      const labels={light:["Light","浅色"],dark:["Dark","深色"],system:["System","跟随系统"],image:["Image","图片主题"]};
+      el.textContent = labels[mode][lang === "zh" ? 1 : 0];
     });
     document.querySelectorAll("[data-gallery-language]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.galleryLanguage === lang)));
     document.querySelectorAll("[data-gallery-theme]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.galleryTheme === theme)));
   };
   const applyTheme = () => {
-    document.documentElement.dataset.demoTheme = theme;
-    document.documentElement.style.colorScheme = theme;
+    const preference=readThemePreference();
+    mode=preference.mode;
+    theme=resolveTheme(mode);
+    document.documentElement.dataset.demoTheme=theme;
+    document.documentElement.dataset.previewThemeMode=mode;
+    document.documentElement.style.colorScheme=theme;
+    const palette=preference.palette;
+    const rgb=[1,3,5].map(i=>parseInt(palette.slice(i,i+2),16));
+    const linear=rgb.map(v=>{const x=v/255;return x<=.04045?x/12.92:((x+.055)/1.055)**2.4;});
+    const bright=.2126*linear[0]+.7152*linear[1]+.0722*linear[2]>.22;
+    document.querySelectorAll(".home11-phone,.wallet-phone").forEach(phone=>{
+      const css=phone.style;
+      const values=["--native-primary","--native-on-primary","--Fresnica-primary-color","--Fresnica-on-primary-color",
+        "--Fresnica-primary-color-bg","--native-primary-color-bg","--settings-preview-palette"];
+      values.forEach(key=>css.removeProperty(key));
+      if(mode!=="image")return;
+      css.setProperty("--native-primary",palette);
+      css.setProperty("--Fresnica-primary-color",palette);
+      css.setProperty("--native-on-primary",bright?"#101312":"#ffffff");
+      css.setProperty("--Fresnica-on-primary-color",bright?"#101312":"#ffffff");
+      css.setProperty("--Fresnica-primary-color-bg","rgba("+rgb.join(",")+",0.11)");
+      css.setProperty("--native-primary-color-bg","rgba("+rgb.join(",")+",0.11)");
+      css.setProperty("--settings-preview-palette",palette);
+    });
     translatePage();
   };
-  document.querySelectorAll("[data-gallery-language]").forEach((button) => button.addEventListener("click", () => {
-    lang = button.dataset.galleryLanguage;
-    storeSetting("fresnica-gallery-language", lang);
+  document.querySelectorAll("[data-gallery-language]").forEach(button=>button.addEventListener("click",()=>{
+    lang=button.dataset.galleryLanguage;
+    storeSetting("fresnica-gallery-language",lang);
     translatePage();
   }));
-  document.querySelectorAll("[data-gallery-theme]").forEach((button) => button.addEventListener("click", () => {
-    theme = button.dataset.galleryTheme;
-    storeSetting("fresnica-gallery-theme", theme);
+  document.querySelectorAll("[data-gallery-theme]").forEach(button=>button.addEventListener("click",()=>{
+    const selected=button.dataset.galleryTheme;
+    try {
+      const pref=JSON.parse(localStorage.getItem(themeKey)||"{}");
+      pref.themeMode=selected;
+      localStorage.setItem(themeKey,JSON.stringify(pref));
+    }catch(_){}
+    storeSetting("fresnica-gallery-theme",selected);
     applyTheme();
   }));
+  window.addEventListener("fresnica-preview-theme-change",applyTheme);
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>{
+    if(readThemePreference().mode==="system")applyTheme();
+  });
+  window.addEventListener("storage",event=>{
+    if(event.key===themeKey||event.key==="fresnica-gallery-theme")applyTheme();
+    if(event.key==="fresnica-gallery-language"){
+      lang=readSetting("fresnica-gallery-language",["en","zh"],"en");
+      translatePage();
+    }
+  });
   const overlay = document.querySelector(".gallery-dialog-overlay");
   const openerButtons = document.querySelectorAll("[data-gallery-dialog-open], [data-gallery-dialog-app]");
   const closer = overlay?.querySelector("[data-gallery-dialog-close]");
