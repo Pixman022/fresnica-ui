@@ -1801,6 +1801,97 @@ try{
   }catch(error){
     failures.push('desktop particle motion regression: '+String(error.message||error).slice(0,550));
   }finally{await dynamicPage.close();}
+
+  // Product-gallery regression: one shared dApps surface, approved accent roles,
+  // bilingual labels, and a real 44px wallet switch inside the 61.8% header boundary.
+  for(const config of [{theme:'light',lang:'en'},{theme:'dark',lang:'zh'}]){
+    const gallery=await browser.newPage({viewport:{width:390,height:844},
+      reducedMotion:'reduce',deviceScaleFactor:1});
+    try{
+      await gallery.addInitScript(({theme,lang})=>{
+        localStorage.setItem('fresnica-gallery-theme',theme);
+        localStorage.setItem('fresnica-gallery-language',lang);
+      },config);
+      await gallery.goto(new URL('mobile-dapps.html',base).href,{waitUntil:'load',timeout:45000});
+      await gallery.waitForSelector('.gallery-sample-grid .gallery-app-card');
+      const apps=await gallery.evaluate(()=>{
+        const grid=document.querySelector('.gallery-sample-grid');
+        const style=getComputedStyle(grid);
+        const cards=[...grid.querySelectorAll('.gallery-app-card')];
+        return {
+          heading:document.querySelector('.gallery-section-title')?.textContent?.trim(),
+          accessible:grid.getAttribute('aria-label'),
+          containerColor:style.backgroundColor,
+          borderWidth:parseFloat(style.borderTopWidth),
+          apps:cards.map(card=>{
+            const mark=card.querySelector('.gallery-app-mark');
+            return {
+              label:card.textContent.trim(),tileColor:getComputedStyle(card).backgroundColor,
+              markColor:getComputedStyle(mark).backgroundColor,
+              iconColor:getComputedStyle(mark).color,
+              targetHeight:card.getBoundingClientRect().height
+            };
+          })
+        };
+      });
+      const expected=config.lang==='zh'?'热门应用':'Popular apps';
+      assert(apps.heading===expected&&apps.accessible===expected,
+        'dApps localized section/accessible label mismatch: '+JSON.stringify({config,apps}));
+      assert(apps.borderWidth>=1&&apps.apps.length===3&&
+        new Set(apps.apps.map(app=>app.markColor)).size===3&&
+        apps.apps.every(app=>app.tileColor==='rgba(0, 0, 0, 0)'&&
+          app.markColor!==apps.containerColor&&app.targetHeight>=44),
+        'dApps shared surface / colorful app mark regression: '+JSON.stringify({config,apps}));
+      console.log('[V3 gallery] '+config.lang+'/'+config.theme+' dApps '+JSON.stringify(apps));
+      const appImage=path.join(dest,'gallery-dapps-'+config.theme+'-'+config.lang+'.png');
+      await gallery.locator('.home11-phone').screenshot({path:appImage,animations:'disabled'});
+      captures.push(path.relative(dest,appImage));
+
+      await gallery.goto(new URL('mobile-demo-1-1.html',base).href,{waitUntil:'load',timeout:45000});
+      for(const width of [320,390]){
+        await gallery.setViewportSize({width,height:844});
+        const wallet=await gallery.evaluate(()=>{
+          const header=document.querySelector('.home11-wallet-header');
+          const summary=document.querySelector('.home11-wallet-summary');
+          const name=document.querySelector('.home11-wallet-name');
+          const address=document.querySelector('.home11-wallet-address');
+          const switcher=document.querySelector('.home11-wallet-switch');
+          const network=document.querySelector('.home11-wallet-header .phone-network');
+          const headerStyle=getComputedStyle(header);
+          const bounds=header.getBoundingClientRect(),group=summary.getBoundingClientRect();
+          const usable=header.clientWidth-parseFloat(headerStyle.paddingLeft)-
+            parseFloat(headerStyle.paddingRight);
+          return {
+            walletName:name.textContent.trim(),
+            nameFont:parseFloat(getComputedStyle(name).fontSize),
+            nameLineHeight:parseFloat(getComputedStyle(name).lineHeight),
+            addressFont:parseFloat(getComputedStyle(address).fontSize),
+            addressLineHeight:parseFloat(getComputedStyle(address).lineHeight),
+            buttonWidth:switcher.getBoundingClientRect().width,
+            buttonHeight:switcher.getBoundingClientRect().height,
+            summaryWidth:group.width,allowedWidth:usable*.618,
+            summaryRight:group.right,networkLeft:network.getBoundingClientRect().left,
+            nameClipped:name.scrollWidth>name.clientWidth+1,
+            addressClipped:address.scrollWidth>address.clientWidth+1
+          };
+        });
+        assert(wallet.nameFont>=16&&wallet.nameLineHeight>=22&&
+          wallet.addressFont>=12&&wallet.addressLineHeight>=16&&
+          wallet.buttonWidth>=44&&wallet.buttonHeight>=44&&
+          wallet.summaryWidth<=wallet.allowedWidth+2&&
+          wallet.summaryRight<=wallet.networkLeft+1,
+          'Wallet header typography/target/golden ratio violation at '+width+
+            'px: '+JSON.stringify({config,wallet}));
+        console.log('[V3 gallery] '+config.lang+'/'+config.theme+' wallet-'+width+' '+JSON.stringify(wallet));
+      }
+      const homeImage=path.join(dest,'gallery-home-'+config.theme+'-'+config.lang+'.png');
+      await gallery.locator('.home11-phone').screenshot({path:homeImage,animations:'disabled'});
+      captures.push(path.relative(dest,homeImage));
+    }catch(error){
+      failures.push('gallery product visual '+config.lang+'/'+config.theme+': '+
+        String(error.message||error).slice(0,900));
+    }finally{await gallery.close();}
+  }
 }finally{
   await browser.close();
 }
