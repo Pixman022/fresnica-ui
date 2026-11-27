@@ -512,10 +512,16 @@
       openSheet("account-detail","Account details","账户详情",
         '<div class="settings-detail-row"><span class="settings-detail-row-copy"><b>' + escape(account.name) +
         '</b><small>' + escape(address(account.address)) + '</small></span></div>' +
+        '<div class="settings-detail-row"><span class="settings-detail-row-copy"><b>'+escape(tr("Account type","账户类型"))+
+        '</b></span><span class="settings-detail-row-value">'+escape(account.type==="watch-only"?
+          tr("Watch-only","只读"):tr("Sample","示例"))+'</span></div>' +
         '<div class="settings-detail-row"><span class="settings-detail-row-copy"><b>'+escape(tr("Network","网络"))+
-        '</b></span><span class="settings-detail-row-value">Stellar</span></div>' +
-        '<p class="settings-detail-sheet-copy">'+escape(tr("This is a sample identity without actual signer material. Recovery and key-management actions remain available only in the native application.",
-        "这只是没有真实签名材料的示例身份。恢复与密钥管理只能在原生应用中完成。"))+'</p>',button);
+        '</b></span><span class="settings-detail-row-value">Stellar Mainnet</span></div>' +
+        (/^[GC][A-Z2-7]{55}$/.test(account.address) ?
+          '<button type="button" class="settings-detail-cta is-muted" data-copy-public-address="'+escape(account.address)+'">'+
+          escape(tr("Copy public address","复制公开地址"))+'</button>' : '')+
+        '<p class="settings-detail-sheet-copy">'+escape(tr("This is a sample identity without signer material. Recovery and key management are native-app operations.",
+        "这只是没有签名材料的示例身份。恢复与密钥管理只能在原生应用中完成。"))+'</p>',button);
       return;
     }
     if(["add-account","edit-account","delete-account","add-contact","edit-contact","delete-contact"].includes(a)){
@@ -546,6 +552,12 @@
   sheetBody.addEventListener("click",event => {
     const button=event.target.closest("button");if(!button)return;
     if(button.hasAttribute("data-dismiss")){closeSheet();return;}
+    if(button.dataset.copyPublicAddress){
+      navigator.clipboard?.writeText(button.dataset.copyPublicAddress)
+        .then(()=>displayToast("Public address copied","公开地址已复制"))
+        .catch(()=>displayToast("Copy not available","无法复制"));
+      return;
+    }
     if(button.dataset.pick){
       const kind=button.dataset.pick,value=button.dataset.value;
       closeSheet();applyPick(kind,value,button);return;
