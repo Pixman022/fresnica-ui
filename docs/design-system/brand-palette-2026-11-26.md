@@ -29,3 +29,6 @@ Primary button state pairs are now gated by `npm run test:contrast`. The change 
 2. Platform theme source: `design-system/platform-token-source.json`. Native consumes a **pinned Web commit and two Git blob SHAs**, regenerates its contract, then runs Native CI.
 3. Custom-theme UI keeps the user's selected brand HEX but derives a mode-appropriate foreground color and preserves semantic financial colors.
 4. The archived/frozen V2 website remains available as a historical visual baseline. Active V3 marketing preview is adjusted separately; procedural visual effects and brand image assets are not treated as the same token as interactive button color.
+
+## Additive body-text refinement — 2026-11-27
+Token source revision **1.1.1** preserves every 1.1.0 brand, primary action, surface, headline and financial feedback value. New `content-body` = Light `#1A1C1D`, Dark `#E8EFEB` for ordinary body and list labels. Dark text contrast is 16.00:1 on canvas `#101312`, 14.89:1 on default surface `#171B19`, and 13.19:1 on raised surface `#202623` (WCAG AA). This is a visual comfort refinement, not a new accessibility maximum contrast target. Non-text whites are audited by role: deliberate inverse surfaces and white danger labels are preserved, while incidental near-white dark asset badges and notices should use neutral surface tokens.

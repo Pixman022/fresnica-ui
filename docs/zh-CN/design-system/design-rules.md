@@ -37,6 +37,8 @@
 - 绿色实心操作和选中控件应使用对应主题的 **on-primary** 前景：浅色模式 `#0F7954` 配 `#FFFFFF`；深色模式 `#00CA8A` 配 `#101312`。
 - 包括主按钮、加载中的主按钮、选中 Tabs、当前 Pagination、DatePicker/TimePicker 选中项，以及 Modal 主操作的各交互状态。
 - 深色模式不可继续套用“绿底统一白字”的旧规则；采用已审核的 WCAG AA 配色组合（浅色 5.41:1；深色 8.73:1）。
+- 深色文字分层：`content-primary`（`#F4F7F5`）用于标题、金额及关键数值；`content-body`（`#E8EFEB`）用于普通列表名称与正文；`content-secondary`（`#C5CEC8`）用于说明；`content-muted`（`#8E9A93`）用于弱化元数据。浅色 `content-body` 与 `content-primary` 同为 `#1A1C1D`；不能通过整体调暗金额和标题解决正文刺眼的问题。
+- 纯白及近白非文字表面仅用于有明确目的的反色操作、必要的单色 Logo/二维码或浅色模式示例。深色普通资产图标底板、卡片和临时提示使用中性表面与内容 Token，不应出现大面积高亮白块；重要图形边界对比度须达到 3:1。
 - 紫色实心控件的前景必须满足 WCAG AA；浅紫容器使用 `--Fresnica-accent-purple-color-bg` 与 `--Fresnica-accent-purple-color`。
 - 禁用态可以降低透明度，但文字仍须可辨识。
 

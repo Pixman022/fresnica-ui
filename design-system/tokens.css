@@ -19,6 +19,7 @@
     --Fresnica-primitive-color-accent-yellow: var(--Fresnica-accent-yellow-color);
     --Fresnica-primitive-color-accent-yellow-container: var(--Fresnica-accent-yellow-color-bg);
     --Fresnica-primitive-color-text-primary: var(--Fresnica-text-color);
+    --Fresnica-primitive-color-text-body: var(--Fresnica-text-color-body);
     --Fresnica-primitive-color-text-secondary: var(--Fresnica-text-color-secondary);
     --Fresnica-primitive-color-text-disabled: var(--Fresnica-text-color-disabled);
     --Fresnica-primitive-color-border-default: var(--Fresnica-border-color);
@@ -86,6 +87,7 @@
     --Fresnica-semantic-surface-inverse-hover: var(--Fresnica-inverse-color-hover);
     --Fresnica-semantic-surface-inverse-pressed: var(--Fresnica-inverse-color-active);
     --Fresnica-semantic-content-primary: var(--Fresnica-primitive-color-text-primary);
+    --Fresnica-semantic-content-body: var(--Fresnica-primitive-color-text-body);
     --Fresnica-semantic-content-secondary: var(--Fresnica-primitive-color-text-secondary);
     --Fresnica-semantic-content-muted: var(--Fresnica-text-color-muted);
     --Fresnica-semantic-content-disabled: var(--Fresnica-primitive-color-text-disabled);
