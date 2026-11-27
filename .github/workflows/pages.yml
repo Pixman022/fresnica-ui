@@ -85,7 +85,7 @@ jobs:
                   grep -Fq 'class="gallery-screen-title">dApps</h1>' "$source/fresnica-v3-motion-preview/mobile-dapps.html"
                   grep -Fq 'class="gallery-screen-title">Settings</h1>' "$source/fresnica-v3-motion-preview/mobile-settings.html"
                   # Activity, dApps and Settings have one title in the top-left header.
-                  grep -Fq '<div class="phone-header"><h1 class="gallery-screen-title">Activity</h1></div>' "$source/fresnica-v3-motion-preview/mobile-activity.html"
+                  grep -Fq '<div class="phone-header"><h1 class="gallery-screen-title">Activity</h1><button' "$source/fresnica-v3-motion-preview/mobile-activity.html"
                   grep -Fq '<div class="phone-header"><h1 class="gallery-screen-title">dApps</h1><button' "$source/fresnica-v3-motion-preview/mobile-dapps.html"
                   grep -Fq '<div class="phone-header"><h1 class="gallery-screen-title">Settings</h1></div>' "$source/fresnica-v3-motion-preview/mobile-settings.html"
                   for page in mobile-activity.html mobile-dapps.html mobile-settings.html; do
@@ -106,11 +106,11 @@ jobs:
                   grep -Fq 'html.gallery-menu-open .preview-sidebar' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   grep -Fq 'visibility 0s linear 0s' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
                   grep -Fq 'html.preview-immersive .gallery-menu-toggle' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
-                  # Main pages keep a single home logo; reference previews have a separate menu group.
+                  # Main Home 1.1 uses wallet identity/avatar; references retain a separate menu group.
                   grep -Fq 'data-gallery-en="Main pages" data-gallery-zh="主要页面"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   grep -Fq 'data-gallery-en="Reference pages" data-gallery-zh="参考页面"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   grep -Fq '.gallery-nav-group-label.is-reference' "$source/fresnica-v3-motion-preview/mobile-gallery-system.css"
-                  grep -Fq 'class="brand-icon"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-wallet-avatar"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   for page in mobile-activity.html mobile-dapps.html mobile-settings.html; do
                       ! grep -Fq 'class="brand-icon"' "$source/fresnica-v3-motion-preview/$page"
                   done
