@@ -178,7 +178,7 @@
       '<small class="settings-detail-address">'+escape(address(a.address))+'</small>'+
       '<div class="settings-detail-inline"><button class="settings-detail-mini" data-account-move="up" data-id="'+a.id+'" '+(i===0?'disabled':'')+' aria-label="'+escape(tr("Move up","上移"))+'">↑</button>'+
       '<button class="settings-detail-mini" data-account-move="down" data-id="'+a.id+'" '+(i===accounts.length-1?'disabled':'')+' aria-label="'+escape(tr("Move down","下移"))+'">↓</button>'+
-      '<button class="settings-detail-mini" data-action="edit-account" data-id="'+a.id+'">'+escape(tr("Rename","重命名"))+'</button>'+
+      '<button class="settings-detail-mini" data-action="account-detail" data-id="'+a.id+'">'+escape(tr("Details","详情"))+'</button>'+ '<button class="settings-detail-mini" data-action="edit-account" data-id="'+a.id+'">'+escape(tr("Rename","重命名"))+'</button>'+
       '<button class="settings-detail-mini danger" data-action="delete-account" data-id="'+a.id+'">'+escape(tr("Remove","移除"))+'</button></div></div>').join("");
   };
   const contactList = () => !contacts.length ?
@@ -189,6 +189,9 @@
     '<div class="settings-detail-inline"><button class="settings-detail-mini" data-action="edit-contact" data-id="'+c.id+'">'+
     escape(tr("Edit","编辑"))+'</button><button class="settings-detail-mini danger" data-action="delete-contact" data-id="'+c.id+'">'+
     escape(tr("Delete","删除"))+'</button></div></div>').join("");
+  const protectedField = (en,cn) => '<div class="settings-detail-field"><label>' + escape(tr(en,cn)) +
+    '</label><input type="password" placeholder="' + escape(tr("Native app only","仅原生应用")) +
+    '" autocomplete="off" disabled aria-disabled="true"></div>';
   const render = () => {
     const title=titles[view];heading.textContent=tr(title[0],title[1]);
     back.href=parents[view]?to(parents[view]):"./mobile-settings.html";
@@ -290,20 +293,29 @@
         break;
       case "recovery":
         html=section("PROTECTED RECOVERY","受保护的恢复流程",
-          '<div class="settings-detail-empty"><b>'+escape(tr("Recovery material is not available in this preview",
-          "本预览不提供恢复材料"))+'</b>'+
-          escape(tr("In the native app, fresh authentication is required before revealing sensitive recovery data.",
-          "原生应用需要重新认证后才能显示敏感恢复材料。"))+'</div>')+
-          note("Never enter a seed phrase or private key in a website preview. Native reveal is time limited and clipboard data is cleared after a short interval.",
-            "不要在网页预览中输入助记词或私钥。原生应用的展示具有时限，复制后的剪贴板也会自动清除。");
+          '<div style="padding:12px 13px"><p class="settings-detail-safe-copy">'+escape(tr(
+            "The native app requires fresh authentication before a time-limited reveal. Anyone holding the recovery material may control the funds.",
+            "原生应用要求重新认证后才能限时查看恢复材料。持有恢复材料的人可能控制账户资金。"))+'</p>'+
+          protectedField("Current app passphrase","当前应用口令")+
+          '<button type="button" class="settings-detail-cta" disabled>'+escape(tr("Reveal recovery material","显示恢复材料"))+'</button>'+
+          '<div class="settings-detail-inline"><button type="button" class="settings-detail-mini" disabled>'+
+          escape(tr("Copy","复制"))+'</button><button type="button" class="settings-detail-mini" disabled>'+
+          escape(tr("Hide and clear","隐藏并清除"))+'</button></div></div>')+
+          note("No sensitive material is loaded in this web preview. Never enter a seed phrase or private key here.",
+            "此网页预览不会载入任何敏感材料。请勿在此输入助记词或私钥。");
         break;
       case "passphrase":
         html=section("CHANGE PASSPHRASE","修改应用口令",
-          '<div class="settings-detail-empty"><b>'+escape(tr("Available in the native app","仅原生应用可用"))+'</b>'+
-          escape(tr("Changing the passphrase requires verifying the current password, entering a new one, and safely updating protected signers.",
-            "修改口令需要验证当前口令、输入新口令并安全更新受保护签名者。"))+'</div>')+
-          note("This prototype has no signer or protected storage. It does not request or accept real passphrases.",
-            "本原型没有签名者或安全存储，不会要求或接收真实口令。");
+          '<div style="padding:12px 13px"><p class="settings-detail-safe-copy">'+escape(tr(
+            "The native app verifies the current passphrase and re-protects all supported local signers. Use a new passphrase of at least 15 characters.",
+            "原生应用会验证当前口令并重新保护所有支持的本地签名者。新口令建议不少于 15 个字符。"))+'</p>'+
+          protectedField("Current app passphrase","当前应用口令")+
+          protectedField("New passphrase","新口令")+
+          protectedField("Confirm new passphrase","确认新口令")+
+          '<button type="button" class="settings-detail-cta" disabled>'+
+          escape(tr("Change passphrase","修改口令"))+'</button></div>')+
+          note("All inputs are disabled. This preview does not accept, store, or process real wallet credentials.",
+            "所有输入框均已禁用。本预览不会接收、保存或处理真实钱包凭据。");
         break;
       case "privacy":
         html=section("EXTERNAL MEDIA","外部媒体",
@@ -448,6 +460,18 @@
     const id=button.dataset.id;
     const a=button.dataset.action;
     if(!a)return;
+    if(a==="account-detail"){
+      const account=accounts.find(x=>String(x.id)===button.dataset.id);
+      if(!account)return;
+      openSheet("account-detail","Account details","账户详情",
+        '<div class="settings-detail-row"><span class="settings-detail-row-copy"><b>' + escape(account.name) +
+        '</b><small>' + escape(address(account.address)) + '</small></span></div>' +
+        '<div class="settings-detail-row"><span class="settings-detail-row-copy"><b>'+escape(tr("Network","网络"))+
+        '</b></span><span class="settings-detail-row-value">Stellar</span></div>' +
+        '<p class="settings-detail-sheet-copy">'+escape(tr("This is a sample identity without actual signer material. Recovery and key-management actions remain available only in the native application.",
+        "这只是没有真实签名材料的示例身份。恢复与密钥管理只能在原生应用中完成。"))+'</p>',button);
+      return;
+    }
     if(["add-account","edit-account","delete-account","add-contact","edit-contact","delete-contact"].includes(a)){
       openRecordDialog(a,id,button);return;
     }
@@ -559,5 +583,7 @@
       render();
     });
   });
+  if(settings.themeMode==="system")chooseTheme("system");
   render();
+  window.addEventListener("load",()=>{document.title="Fresnica — "+heading.textContent;});
 })();
