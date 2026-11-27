@@ -20,7 +20,6 @@
   const sheetTitle = phone.querySelector("#settings-detail-dialog-title");
   const sheetBody = phone.querySelector("#settings-detail-dialog-body");
   const closeButton = phone.querySelector(".settings-detail-sheet-close");
-  const toast = phone.querySelector(".settings-detail-toast");
   const fromHome = query.get("from")==="home";
   const selectedId = query.get("account") || "";
   const rawMethod = query.get("method") || "create";
@@ -72,7 +71,6 @@
   let displayAccounts = accounts.map(a=>({...a})); // visual sort only
   let openedBy = null;
   let initialDialogMarkup = "";
-  let toastTimer;
   const linkFor = (view,options={}) => {
     const args = new URLSearchParams({view});
     if (fromHome) args.set("from","home");
@@ -307,10 +305,6 @@
     '<button type="button" data-dialog-close class="secondary">'+esc(tr("Cancel","取消"))+'</button>'+
     '<button type="button" data-dialog-preview>'+esc(tr("Preview confirmation","预览确认"))+'</button></div>'+
     '<button type="button" class="accounts-preview-error" data-dialog-error>'+esc(tr("Preview error state","查看错误状态"))+'</button>';
-  const notice = (en,cn) => {
-    toast.textContent=tr(en,cn);toast.hidden=false;
-    clearTimeout(toastTimer);toastTimer=setTimeout(()=>{toast.hidden=true;},2300);
-  };
   content.addEventListener("click",event=>{
     const mover=event.target.closest("[data-visual-move]");
     if(mover){
