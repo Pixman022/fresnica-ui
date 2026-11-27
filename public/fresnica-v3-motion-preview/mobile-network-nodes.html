@@ -556,7 +556,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 <div class="home11-display">
 <div class="home11-phone secondary-phone" data-secondary-screen="network-nodes" aria-label="Fresnica Network & Nodes sample">
 <span class="phone-island" aria-hidden="true"></span>
-<header class="phone-header secondary-header"><a class="secondary-back" href="./mobile-settings.html" aria-label="Back to Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></a><h1 class="secondary-title"><span data-gallery-en="Network & Nodes" data-gallery-zh="网络与节点">Network & Nodes</span></h1><span class="secondary-header-end" aria-hidden="true"></span></header>
+<header class="phone-header secondary-header"><a class="secondary-back" href="./mobile-settings-detail.html?view=advanced" aria-label="Back to Advanced"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></a><h1 class="secondary-title"><span data-gallery-en="Network & Nodes" data-gallery-zh="网络与节点">Network & Nodes</span></h1><span class="secondary-header-end" aria-hidden="true"></span></header>
 <div class="home11-scroll secondary-scroll">
 <div class="secondary-network-card"><span class="secondary-network-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c6 6 6 12 0 18M12 3c-6 6-6 12 0 18"/></svg></span><span class="secondary-network-copy"><b>Stellar Mainnet</b></span><span class="secondary-status"><span data-gallery-en="Selected" data-gallery-zh="已选择">Selected</span></span></div>
 <h2 class="secondary-section-title"><span data-gallery-en="Horizon nodes" data-gallery-zh="Horizon 节点">Horizon nodes</span></h2>
@@ -566,8 +566,17 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 </div>
 <h2 class="secondary-section-title"><span data-gallery-en="Custom endpoint" data-gallery-zh="自定义端点">Custom endpoint</span></h2>
 <div class="secondary-field"><label for="secondary-node-url"><span data-gallery-en="Horizon URL" data-gallery-zh="Horizon 地址">Horizon URL</span></label><input id="secondary-node-url" type="url" inputmode="url" autocomplete="off" placeholder="https://..." /></div>
+<h2 class="secondary-section-title"><span data-gallery-en="Network details" data-gallery-zh="网络信息">Network details</span></h2>
+<div class="secondary-card">
+  <div class="secondary-pair"><span data-gallery-en="Network ID" data-gallery-zh="网络 ID">Network ID</span><strong>Stellar Public Network</strong></div>
+  <div class="secondary-pair"><span data-gallery-en="Connection health" data-gallery-zh="连接健康">Connection health</span><strong data-gallery-en="Not checked (preview)" data-gallery-zh="未检测（预览）">Not checked (preview)</strong></div>
 </div>
-<div class="secondary-footer"><button type="button" class="secondary-primary" data-secondary-action="preview-endpoint"><span data-gallery-en="Review endpoint" data-gallery-zh="查看端点设置">Review endpoint</span></button></div>
+<h2 class="secondary-section-title"><span data-gallery-en="Preview nodes" data-gallery-zh="示例节点">Preview nodes</span></h2>
+<div class="secondary-card" data-settings-node-list></div>
+<button type="button" class="secondary-secondary" data-settings-node-save style="width:100%;margin:11px 0 0"><span data-gallery-en="Add preview node" data-gallery-zh="添加示例节点">Add preview node</span></button>
+<p class="secondary-inline-note" data-gallery-en="Demo node entries are stored for this browser session only. No network requests or health checks are performed." data-gallery-zh="示例节点只保存在当前浏览器会话中，不会发起网络请求或实际健康检查。">Demo node entries are stored for this browser session only. No network requests or health checks are performed.</p>
+</div>
+<div class="secondary-footer"><button type="button" class="secondary-primary" data-secondary-action="review-endpoint"><span data-gallery-en="Review endpoint" data-gallery-zh="查看端点设置">Review endpoint</span></button></div>
 <div class="home11-action-overlay secondary-review-overlay" hidden>
   <div class="home11-action-backdrop" data-secondary-sheet-dismiss="true"></div>
   <section class="home11-action-sheet secondary-sheet" role="dialog" aria-modal="true" aria-labelledby="secondary-sheet-title">
@@ -584,6 +593,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 </div>
 <script id="preview-fullscreen-behavior" src="./mobile-preview-fullscreen.js" defer></script>
 <script src="./mobile-secondary.js" defer></script>
+<script src="./mobile-settings-network.js" defer></script>
 <script src="./mobile-gallery-system.js" defer></script>
 </body>
 </html>
