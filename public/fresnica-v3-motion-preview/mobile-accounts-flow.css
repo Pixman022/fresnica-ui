@@ -1,5 +1,4 @@
 /* Accounts UI flow only — visual states and navigation, no wallet mutations. */
-.home11-phone.accounts-flow-phone .accounts-top-actions{display:flex;align-items:center;gap:5px;margin-left:auto}
 .home11-phone.accounts-flow-phone .accounts-top-action{border:0;padding:7px 4px;min-height:38px;min-width:47px;background:transparent;color:var(--native-primary);font-weight:600;font-size:12px;line-height:1.3;font-family:inherit;cursor:pointer}
 .home11-phone.accounts-flow-phone .accounts-row{display:flex;align-items:center;min-height:69px;gap:11px;padding:12px;border-bottom:1px solid var(--native-separator);color:var(--native-content-primary);text-decoration:none}
 .home11-phone.accounts-flow-phone .accounts-row:last-child{border-bottom:0}
@@ -32,12 +31,9 @@
 .home11-phone.accounts-flow-phone .accounts-sort-control button{width:34px;height:36px;display:grid;place-items:center;border:1px solid var(--native-separator);border-radius:9px;background:var(--native-background);color:var(--native-content-primary);font-weight:600;font-size:15px;line-height:1.3;font-family:inherit;cursor:pointer}
 .home11-phone.accounts-flow-phone .accounts-sort-control button:disabled{opacity:.35;cursor:default}
 .home11-phone.accounts-flow-phone .accounts-inline-link{display:block;margin:8px auto 0;max-width:max-content;text-align:center;text-decoration:none;color:var(--native-primary);font-size:11px}
-.home11-phone.accounts-flow-phone .accounts-error-sample{margin:12px 0 0;padding:11px 13px;background:var(--native-surface);border:1px solid var(--native-separator);border-radius:12px;color:var(--native-content-secondary);font-size:11px}
 .home11-phone.accounts-flow-phone .accounts-field-demo{padding:12px 13px}
 .home11-phone.accounts-flow-phone .accounts-field-demo .settings-detail-field:first-child{margin-top:0}
 .home11-phone.accounts-flow-phone .accounts-field-demo input:disabled{opacity:.63}
-.home11-phone.accounts-flow-phone .accounts-badge-inline{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--native-content-secondary)}
-.home11-phone.accounts-flow-phone .accounts-badge-inline::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--native-primary)}
 .home11-phone.accounts-flow-phone .accounts-sheet-section{margin:12px 0 6px;color:var(--native-content-secondary);font-size:11px;line-height:1.55}
 .home11-phone.accounts-flow-phone .accounts-flow-alert{padding:11px 12px;border-radius:11px;background:var(--native-background);color:var(--native-content-secondary);font-size:11px;line-height:1.5}
 .home11-phone.accounts-flow-phone .accounts-flow-alert b{display:block;color:var(--native-content-primary);margin-bottom:4px}
