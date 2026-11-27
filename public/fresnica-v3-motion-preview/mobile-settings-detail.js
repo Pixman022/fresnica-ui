@@ -1,5 +1,6 @@
 /* Fresnica V3 Settings detail catalogue. No signer, permissions, or network writes. */
 (() => {
+  if (window.FresnicaAccountsFlowActive) return;
   const phone = document.querySelector(".settings-detail-phone");
   if (!phone) return;
   const state = window.FresnicaPreviewState;
