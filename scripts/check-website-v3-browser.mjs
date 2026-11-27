@@ -1989,13 +1989,41 @@ try{
           return search&&!search.hidden&&search.nextElementSibling?.classList.contains('home11-scroll');
         }),
         'Activity search must stay visible above the scrolling list');
+      const activitySearchLayout=await gallery.evaluate(()=>{
+        const field=document.querySelector('.gallery-activity-search-field').getBoundingClientRect();
+        const title=document.querySelector('[data-activity-day="0"]').getBoundingClientRect();
+        const phone=document.querySelector('.gallery-activity-page').getBoundingClientRect();
+        return {
+          leftDiff:Math.abs(field.left-title.left),
+          rightDiff:Math.abs(field.right-title.right),
+          withinPhone:field.left>=phone.left&&field.right<=phone.right+1,
+          width:field.width,
+          font:getComputedStyle(document.querySelector('.gallery-activity-search-input')).fontSize,
+          hintHidden:document.querySelector('.gallery-activity-search-hint').hidden,
+          clearHidden:document.querySelector('.gallery-activity-search-clear').hidden
+        };
+      });
+      assert(activitySearchLayout.leftDiff<=1&&activitySearchLayout.rightDiff<=1&&
+        activitySearchLayout.withinPhone&&activitySearchLayout.width>100&&
+        activitySearchLayout.font==='13px'&&
+        activitySearchLayout.hintHidden&&activitySearchLayout.clearHidden,
+        'Activity search spacing/typography/default copy failed: '+
+          JSON.stringify({config,activitySearchLayout}));
       await gallery.locator('.gallery-activity-search-input').fill('USDC');
+      assert(await gallery.locator('.gallery-activity-search-hint').isVisible()&&
+        await gallery.locator('.gallery-activity-search-clear').isVisible()&&
+        (await gallery.locator('.gallery-activity-search-hint').textContent()).trim()===
+          (config.lang==='zh'?'仅搜索已加载记录':'Loaded records only'),
+        'Activity contextual search copy failed: '+JSON.stringify(config));
       assert(await visibleActivity()===2,'Activity search should match loaded USDC operations');
       await gallery.locator('.gallery-activity-search-input').fill('no-such-demo-operation');
       assert(await visibleActivity()===0&&await gallery.locator('.gallery-activity-no-match').isVisible(),
         'Activity no-match search behavior failed');
       await gallery.locator('.gallery-activity-search-clear').click();
       assert(await visibleActivity()===4,'Clearing Activity search should restore four rows');
+      assert(!(await gallery.locator('.gallery-activity-search-hint').isVisible())&&
+        !(await gallery.locator('.gallery-activity-search-clear').isVisible()),
+        'Activity search helper/clear should not occupy space when idle');
       await gallery.locator('.gallery-activity-filter-trigger').click();
       assert(await gallery.locator('[data-activity-tab]').count()===0&&
         await gallery.locator('[data-activity-filter]').count()===0&&
