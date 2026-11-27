@@ -2,6 +2,8 @@
 (() => {
   const phone = document.querySelector(".settings-detail-phone");
   if (!phone) return;
+  const state = window.FresnicaPreviewState;
+  if (!state) return;
   const content = phone.querySelector("#settings-detail-content");
   const heading = phone.querySelector("#settings-detail-title");
   const back = phone.querySelector(".secondary-back");
@@ -45,9 +47,8 @@
     finger:'<path d="M8 13V9a4 4 0 0 1 8 0v5M5 11V9a7 7 0 0 1 14 0v3M12 9v8M9 16c0 2 1 4 3 5m3-5c0 2-1 4-3 5"/>'
   };
   const key = "fresnica-settings-demo-v2";
-  const init = {currency:"USD",haptics:true,separators:true,reserve:true,activityShortcut:false,
+  const init = {currency:"USD",haptics:true,separators:true,reserve:true,
     lockTimeout:"1 minute",tokenImages:true,avatars:false,developer:false,themeMode:null,palette:"#0f7954"};
-  const accountKey = "fresnica-settings-demo-accounts";
   const contactKey = "fresnica-settings-demo-contacts";
   const logKey = "fresnica-settings-demo-events";
   const read = (k, defaultValue) => {
@@ -59,6 +60,7 @@
     try { return JSON.parse(localStorage.getItem(key) || "{}"); } catch { return {}; }
   };
   const settings = {...init,...readPreference()};
+  delete settings.activityShortcut;
   const saveSettings = () => {
     try { localStorage.setItem(key,JSON.stringify(settings)); } catch (_) {}
   };
@@ -100,10 +102,12 @@
     '" aria-pressed="'+String(selected===value)+'"><span class="settings-detail-row-copy"><b>'+
     escape(tr(en,cn))+'</b></span><span class="settings-detail-check">'+
     (selected===value?'✓':'')+'</span></button>';
-  let accounts = read(accountKey,[
-    {id:1,name:"SuperWallet",address:"GB3U…EH3W"},
-    {id:2,name:"Wallet 2",address:"GDEM…TEST"}
-  ]);
+  let accounts = state.accounts();
+  const saveAccounts = () => {
+    if (!state.saveAccounts(accounts)) return false;
+    accounts = state.accounts();
+    return true;
+  };
   let contacts = read(contactKey,[]);
   let events = read(logKey,[]);
   let dialog = null;
@@ -175,16 +179,25 @@
     escape(tr(labelEn,labelZh))+'</label><input id="settings-field-'+escape(name)+'" name="'+escape(name)+
     '" type="'+escape(type)+'" autocomplete="off" maxlength="120" value="'+escape(value)+'"></div>';
   const accountList = () => {
-    if(!accounts.length)return '<div class="settings-detail-empty"><b>'+
-      escape(tr("No sample accounts","暂无示例账户"))+'</b></div>';
-    return accounts.map((a,i)=>'<div class="settings-detail-account">' +
+    const visible = accounts.filter(a => !a.hidden);
+    const hidden = accounts.filter(a => a.hidden);
+    const format = (a,i,canMove) => '<div class="settings-detail-account">' +
       '<div class="settings-detail-account-title"><b>'+escape(a.name)+'</b>'+
-      (i===0?'<span class="settings-detail-chip">'+escape(tr("Primary sample","主示例"))+'</span>':'')+'</div>'+
+      (state.activeAccount()?.id===a.id ? '<span class="settings-detail-chip">'+escape(tr("Current","当前"))+'</span>' : '')+
+      (a.type==="watch-only" ? '<span class="settings-detail-chip">'+escape(tr("Watch-only","只读"))+'</span>':'')+'</div>'+
       '<small class="settings-detail-address">'+escape(address(a.address))+'</small>'+
-      '<div class="settings-detail-inline"><button class="settings-detail-mini" data-account-move="up" data-id="'+a.id+'" '+(i===0?'disabled':'')+' aria-label="'+escape(tr("Move up","上移"))+'">↑</button>'+
-      '<button class="settings-detail-mini" data-account-move="down" data-id="'+a.id+'" '+(i===accounts.length-1?'disabled':'')+' aria-label="'+escape(tr("Move down","下移"))+'">↓</button>'+
-      '<button class="settings-detail-mini" data-action="account-detail" data-id="'+a.id+'">'+escape(tr("Details","详情"))+'</button>'+ '<button class="settings-detail-mini" data-action="edit-account" data-id="'+a.id+'">'+escape(tr("Rename","重命名"))+'</button>'+
-      '<button class="settings-detail-mini danger" data-action="delete-account" data-id="'+a.id+'">'+escape(tr("Remove","移除"))+'</button></div></div>').join("");
+      '<div class="settings-detail-inline">'+
+      (a.hidden ? '<button class="settings-detail-mini" data-action="restore-account" data-id="'+escape(a.id)+'">'+escape(tr("Restore","恢复"))+'</button>' :
+      '<button class="settings-detail-mini" data-action="select-account" data-id="'+escape(a.id)+'">'+escape(tr("Select","切换"))+'</button>'+
+      (canMove ? '<button class="settings-detail-mini" data-account-move="up" data-id="'+escape(a.id)+'" '+(i===0?'disabled':'')+' aria-label="'+escape(tr("Move up","上移"))+'">↑</button>'+
+      '<button class="settings-detail-mini" data-account-move="down" data-id="'+escape(a.id)+'" '+(i===visible.length-1?'disabled':'')+' aria-label="'+escape(tr("Move down","下移"))+'">↓</button>' : '')+
+      '<button class="settings-detail-mini" data-action="hide-account" data-id="'+escape(a.id)+'" '+(visible.length===1?'disabled':'')+'>'+escape(tr("Hide","隐藏"))+'</button>')+
+      '<button class="settings-detail-mini" data-action="account-detail" data-id="'+escape(a.id)+'">'+escape(tr("Details","详情"))+'</button>'+
+      '<button class="settings-detail-mini" data-action="edit-account" data-id="'+escape(a.id)+'">'+escape(tr("Rename","重命名"))+'</button>'+
+      '<button class="settings-detail-mini danger" data-action="delete-account" data-id="'+escape(a.id)+'" '+(!a.hidden&&visible.length===1?'disabled':'')+'>'+escape(tr("Remove","移除本地记录"))+'</button></div></div>';
+    return visible.map((a,i)=>format(a,i,true)).join("")+
+      (hidden.length ? '<div class="settings-detail-account"><strong>'+escape(tr("Hidden accounts","已隐藏账户"))+'</strong></div>'+
+        hidden.map((a,i)=>format(a,i,false)).join("") : "");
   };
   const contactList = () => !contacts.length ?
     '<div class="settings-detail-empty"><b>'+escape(tr("No contacts yet","暂无联系人"))+'</b>'+
@@ -206,9 +219,9 @@
     switch(view){
       case "accounts":
         html=section("ACCOUNTS","账户",accountList())+
-          action("Add sample account","添加示例账户","add-account")+
-          note("Sample identities only; this page never creates wallet keys or changes real accounts.",
-            "仅展示示例身份；不会生成钱包密钥或修改真实账户。");
+          action("Add account","添加账户","add-account")+
+          note("Shared sample accounts with the Home wallet switch. Hiding or removing a local preview record never changes an on-chain account.",
+            "与首页的钱包切换使用同一示例账户列表。隐藏或移除本地记录不会改变链上账户。");
         break;
       case "contacts":
         html=section("ADDRESS BOOK","通讯录",contactList())+
@@ -226,8 +239,7 @@
           section("PREFERENCES","偏好",
           toggleRow("Haptic feedback","触感反馈","haptics")+
           toggleRow("Number separators","数字分隔符","separators")+
-          toggleRow("Show reserve","显示储备金","reserve")+
-          toggleRow("FEX activity shortcut","FEX 活动快捷入口","activityShortcut"))+
+          toggleRow("Show reserve","显示储备金","reserve"))+
           note("Preview preferences only. Currency estimates in the native product currently apply to XLM.",
             "仅更改界面示例偏好。原生产品中的法币参考估值目前仅覆盖 XLM。");
         break;
@@ -402,7 +414,16 @@
         sheetActions("Remove","移除",type);
     }else{
       html=textField("name","Name","名称",record?.name||"")+
-        (!isAccount ? textField("address","Public Stellar address","Stellar 公开地址",record?.address||""):"")+
+        (isAccount && !editing ?
+          '<div class="settings-detail-field"><label for="settings-account-type">'+escape(tr("Account type","账户类型"))+'</label>'+
+          '<select id="settings-account-type" name="accountType"><option value="sample">'+escape(tr("Create sample account","创建示例账户"))+'</option>'+
+          '<option value="watch-only">'+escape(tr("Watch-only (G or C address)","只读账户（G 或 C 地址）"))+'</option>'+
+          '<option value="native" disabled>'+escape(tr("Import phrase / secret / HD — native only","导入助记词、私钥或 HD — 仅原生应用"))+'</option></select></div>'+
+          textField("address","Watch-only public address (optional for sample)","只读公开地址（示例账户可留空）")+
+          '<p class="settings-detail-sheet-copy">'+escape(tr("This preview does not create keys. Use the native app for imports and HD derivation.",
+            "此预览不会生成密钥；助记词、私钥导入和 HD 派生仅在原生应用中完成。"))+'</p>' :
+          isAccount ? "" : textField("address","Stellar G address","Stellar G 地址",record?.address||"")+
+            textField("memo","Optional memo (text or ID)","可选 Memo（文本或数字）",record?.memo||""))+
         sheetActions("Save","保存",type);
     }
     openSheet(type,isAccount?"Account":"Contact",isAccount?"账户":"联系人",html,source);
@@ -434,13 +455,27 @@
     if(!button)return;
     const move=button.dataset.accountMove;
     if(move){
-      const index=accounts.findIndex(x=>String(x.id)===button.dataset.id),offset=move==="up"?-1:1;
-      const other=index+offset;
-      if(index<0||other<0||other>=accounts.length)return;
-      [accounts[index],accounts[other]]=[accounts[other],accounts[index]];
-      store(accountKey,accounts);render();displayToast("Sample order updated","示例顺序已更新");return;
+      const active=accounts.filter(a=>!a.hidden);
+      const entry=active.findIndex(a=>a.id===button.dataset.id),next=entry+(move==="up"?-1:1);
+      if(entry<0||next<0||next>=active.length)return;
+      const from=accounts.findIndex(a=>a.id===active[entry].id),to=accounts.findIndex(a=>a.id===active[next].id);
+      [accounts[from],accounts[to]]=[accounts[to],accounts[from]];
+      if(saveAccounts()){render();displayToast("Sample order updated","示例顺序已更新");}
+      return;
     }
     if(button.dataset.pick){applyPick(button.dataset.pick,button.dataset.value,button);return;}
+    if(button.dataset.action==="select-account"){
+      if(state.setActiveAccount(button.dataset.id)){render();displayToast("Current sample account changed","已切换示例账户");}
+      return;
+    }
+    if(button.dataset.action==="hide-account"||button.dataset.action==="restore-account"){
+      const item=accounts.find(a=>a.id===button.dataset.id);
+      if(!item)return;
+      if(!item.hidden&&accounts.filter(a=>!a.hidden).length<=1)return;
+      item.hidden=button.dataset.action==="hide-account";
+      if(saveAccounts()){render();displayToast("Sample account list updated","示例账户列表已更新");}
+      return;
+    }
     if(button.dataset.toggle){
       const name=button.dataset.toggle;
       if(name==="avatars"&&!settings.avatars){
@@ -520,25 +555,33 @@
       const found=items.findIndex(x=>String(x.id)===id);
       if(kind.startsWith("delete")){
         if(found<0)return;
-        if(isAccount&&accounts.length===1){
-          displayToast("Keep at least one sample account","至少保留一个示例账户");return;
+        if(isAccount&&!items[found].hidden&&accounts.filter(a=>!a.hidden).length===1){
+          displayToast("Keep at least one visible sample account","至少保留一个可见的示例账户");return;
         }
         items.splice(found,1);
       }else{
         const name=modalInput("name"),publicAddress=modalInput("address");
+        const accountType=sheetBody.querySelector('[name="accountType"]')?.value||"sample";
         if(!name){displayToast("Enter a name","请输入名称");return;}
         if(!isAccount&&!/^[GC][A-Z2-7]{55}$/.test(publicAddress)){
           displayToast("Use a 56-character Stellar public address","请输入 56 位 Stellar 公开地址");return;
+        }
+        if(isAccount&&!kind.startsWith("edit")&&accountType==="watch-only"&&!/^[GC][A-Z2-7]{55}$/.test(publicAddress)){
+          displayToast("Enter a full G/C public address for watch-only","只读账户需填写完整 G/C 公开地址");return;
         }
         if(kind.startsWith("edit")){
           if(found<0)return;
           items[found].name=name;
           if(!isAccount)items[found].address=publicAddress;
         }else{
-          items.push({id:Date.now(),name,address:isAccount?"—":publicAddress});
+          items.push({id:String(Date.now()),name,
+            address:isAccount?(accountType==="watch-only"?publicAddress:"—"):publicAddress,
+            ...(isAccount?{type:accountType,hidden:false}:{})});
         }
       }
-      store(isAccount?accountKey:contactKey,items);logEvent(isAccount?"sample-accounts-updated":"sample-contacts-updated");
+      if(isAccount){if(!saveAccounts())return;}
+      else store(contactKey,items);
+      logEvent(isAccount?"sample-accounts-updated":"sample-contacts-updated");
       closeSheet();render();displayToast("Sample list updated","示例列表已更新");
     }
   });
@@ -587,6 +630,10 @@
       if(manualThemeChange) {settings.themeMode=chosen.dataset.galleryTheme;saveSettings();}
       render();
     });
+  });
+  window.addEventListener("fresnica-preview-state",event=>{
+    if(event.detail?.type==="accounts"){accounts=state.accounts();if(view==="accounts")render();}
+    if(event.detail?.type==="connections"&&view==="connected")render();
   });
   if(settings.themeMode==="system")chooseTheme("system");
   render();
