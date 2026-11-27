@@ -1886,7 +1886,9 @@ try{
             addressClipped:address.scrollWidth>address.clientWidth+1
           };
         });
-        const bluePalette={bg:'rgb(233, 239, 255)',ink:'rgb(30, 45, 82)'};
+        const bluePalette=config.theme==='dark' ?
+          {bg:'rgb(30, 45, 82)',ink:'rgb(142, 174, 255)'} :
+          {bg:'rgb(233, 239, 255)',ink:'rgb(30, 45, 82)'};
         assert(wallet.walletIcon&&wallet.avatarBg===bluePalette.bg&&
           wallet.avatarColor===bluePalette.ink&&wallet.avatarSize>=30&&
           wallet.avatarIconSize>=18,
@@ -1912,6 +1914,55 @@ try{
       assert(await gallery.locator('.home11-wallet-switch').getAttribute('aria-expanded')==='false'&&
         await gallery.locator('#home11-wallet-selector').isHidden(),
         'Wallet selector did not close on Escape: '+JSON.stringify(config));
+      // Home H02/H04/H06/H07/H10: real UI interactions, with no ledger actions.
+      await gallery.locator('.home11-category-trigger').click();
+      await gallery.locator('[data-home-category="claimable"]').click();
+      assert(await gallery.locator('.home-feature-empty').isVisible()&&
+        await gallery.locator('.phone-asset:not([hidden])').count()===0,
+        'Claimable category failed: '+JSON.stringify(config));
+      await gallery.locator('.home11-category-trigger').click();
+      await gallery.locator('[data-home-category="assets"]').click();
+      assert(await gallery.locator('.phone-asset:not([hidden])').count()===3,
+        'Assets category not restored: '+JSON.stringify(config));
+      await gallery.locator('.phone-asset-add').click();
+      assert(await gallery.locator('[data-home-catalog-asset="USDC"]').isDisabled(),
+        'Existing trustline should not be offered: '+JSON.stringify(config));
+      await gallery.locator('[data-home-catalog-asset="DEMO"]').click();
+      assert((await gallery.locator('[data-review-asset]').textContent()).trim()==='DEMO',
+        'Asset review missing: '+JSON.stringify(config));
+      await gallery.locator('.home-feature-close').click();
+      await gallery.locator('.home11-network-trigger').click();
+      await gallery.locator('[data-home-network="testnet"]').click();
+      assert(await gallery.locator('.home-feature-state').isVisible()&&
+        await gallery.locator('.phone-asset:not([hidden])').count()===0,
+        'Testnet incorrectly reused Mainnet balances: '+JSON.stringify(config));
+      await gallery.locator('[data-home-network="mainnet"]').click();
+      await gallery.locator('[data-home-state="offline"]').click();
+      await gallery.locator('.home-feature-close').click();
+      assert(await gallery.locator('.home-feature-state').isVisible()&&
+        await gallery.locator('.phone-asset:not([hidden])').count()===0,
+        'Offline balances still visible: '+JSON.stringify(config));
+      await gallery.locator('[data-home-retry]').click();
+      await gallery.locator('.phone-asset:not([hidden])').first().waitFor({state:'visible'});
+      await gallery.locator('.home11-wallet-switch').click();
+      await gallery.locator('.home11-wallet-add-entry').click();
+      await gallery.locator('[data-home-account="import"]').click();
+      assert(await gallery.locator('.home-feature-sheet').isVisible()&&
+        (await gallery.locator('.home-feature-body').textContent()).includes(
+          config.lang==='zh'?'私钥':'secret'),
+        'Account import preview missing: '+JSON.stringify(config));
+      await gallery.locator('.home-feature-close').click();
+      await gallery.locator('.home11-wallet-switch').click();
+      await gallery.locator('[data-home-switch-error]').check();
+      await gallery.locator('[data-wallet-index="1"]').click();
+      assert(await gallery.locator('.home11-wallet-error').isVisible()&&
+        (await gallery.locator('.home11-wallet-name').textContent()).trim()==='SuperWallet',
+        'Failed wallet switch changed selection: '+JSON.stringify(config));
+      await gallery.locator('[data-home-switch-retry]').click();
+      assert((await gallery.locator('.home11-wallet-name').textContent()).trim()==='Wallet 2',
+        'Wallet switch retry did not succeed: '+JSON.stringify(config));
+      await gallery.locator('.home11-wallet-switch').click();
+      await gallery.locator('[data-wallet-index="0"]').click();
       const homeImage=path.join(dest,'gallery-home-'+config.theme+'-'+config.lang+'.png');
       await gallery.locator('.home11-phone').screenshot({path:homeImage,animations:'disabled'});
       captures.push(path.relative(dest,homeImage));
