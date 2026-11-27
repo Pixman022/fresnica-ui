@@ -533,6 +533,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 </style>
 <link rel="stylesheet" href="./mobile-gallery-system.css" />
 <link rel="stylesheet" href="./mobile-secondary.css" />
+<style>.home11-phone [data-settings-developer-only][hidden]{display:none!important}.home11-phone [data-settings-node-gate][hidden]{display:none!important}</style>
 </head>
 <body>
 <div class="preview-shell">
@@ -564,19 +565,20 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 <div class="secondary-pair"><span><span data-gallery-en="Endpoint mode" data-gallery-zh="端点模式">Endpoint mode</span></span><strong><span data-gallery-en="Default" data-gallery-zh="默认">Default</span></strong></div>
 
 </div>
-<h2 class="secondary-section-title"><span data-gallery-en="Custom endpoint" data-gallery-zh="自定义端点">Custom endpoint</span></h2>
-<div class="secondary-field"><label for="secondary-node-url"><span data-gallery-en="Horizon URL" data-gallery-zh="Horizon 地址">Horizon URL</span></label><input id="secondary-node-url" type="url" inputmode="url" autocomplete="off" placeholder="https://..." /></div>
+<h2 class="secondary-section-title" data-settings-developer-only hidden><span data-gallery-en="Custom endpoint" data-gallery-zh="自定义端点">Custom endpoint</span></h2>
+<div class="secondary-field" data-settings-developer-only hidden><label for="secondary-node-url"><span data-gallery-en="Horizon URL" data-gallery-zh="Horizon 地址">Horizon URL</span></label><input id="secondary-node-url" type="url" inputmode="url" autocomplete="off" placeholder="https://..." /></div>
 <h2 class="secondary-section-title"><span data-gallery-en="Network details" data-gallery-zh="网络信息">Network details</span></h2>
 <div class="secondary-card">
   <div class="secondary-pair"><span data-gallery-en="Network ID" data-gallery-zh="网络 ID">Network ID</span><strong>Stellar Public Network</strong></div>
   <div class="secondary-pair"><span data-gallery-en="Connection health" data-gallery-zh="连接健康">Connection health</span><strong data-gallery-en="Not checked (preview)" data-gallery-zh="未检测（预览）">Not checked (preview)</strong></div>
 </div>
 <h2 class="secondary-section-title"><span data-gallery-en="Preview nodes" data-gallery-zh="示例节点">Preview nodes</span></h2>
+<p class="secondary-inline-note" data-settings-node-gate data-gallery-en="Default network is read-only. Enable Developer mode in Advanced to manage preview Horizon nodes." data-gallery-zh="默认网络为只读。请先在高级设置中启用开发者模式，才可管理示例 Horizon 节点。">Default network is read-only. Enable Developer mode in Advanced to manage preview Horizon nodes.</p>
 <div class="secondary-card" data-settings-node-list></div>
-<button type="button" class="secondary-secondary" data-settings-node-save style="width:100%;margin:11px 0 0"><span data-gallery-en="Add preview node" data-gallery-zh="添加示例节点">Add preview node</span></button>
+<button type="button" class="secondary-secondary" data-settings-node-save data-settings-developer-only hidden style="width:100%;margin:11px 0 0"><span data-gallery-en="Add preview node" data-gallery-zh="添加示例节点">Add preview node</span></button>
 <p class="secondary-inline-note" data-gallery-en="Demo node entries are stored for this browser session only. No network requests or health checks are performed." data-gallery-zh="示例节点只保存在当前浏览器会话中，不会发起网络请求或实际健康检查。">Demo node entries are stored for this browser session only. No network requests or health checks are performed.</p>
 </div>
-<div class="secondary-footer"><button type="button" class="secondary-primary" data-secondary-action="review-endpoint"><span data-gallery-en="Review endpoint" data-gallery-zh="查看端点设置">Review endpoint</span></button></div>
+<div class="secondary-footer" data-settings-developer-only hidden><button type="button" class="secondary-primary" data-secondary-action="review-endpoint"><span data-gallery-en="Review endpoint" data-gallery-zh="查看端点设置">Review endpoint</span></button></div>
 <div class="home11-action-overlay secondary-review-overlay" hidden>
   <div class="home11-action-backdrop" data-secondary-sheet-dismiss="true"></div>
   <section class="home11-action-sheet secondary-sheet" role="dialog" aria-modal="true" aria-labelledby="secondary-sheet-title">
