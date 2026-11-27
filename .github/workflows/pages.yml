@@ -63,6 +63,11 @@ jobs:
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo.html
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/wallet-home.html
                   test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo-1-1.html
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-home-features.js
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-home-features.css
+                  test -s .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo-1-1-reference.html
+                  node --check .v3-preview-source/public/fresnica-v3-motion-preview/mobile-home-features.js
+                  grep -Fq 'src="./mobile-home-features.js"' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo-1-1.html
                   grep -Fq 'class="phone-tabs"' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo-1-1.html
                   grep -Fq '546,213.0231432' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo-1-1.html
                   grep -Fq -- '--Fresnica-primary-color:#0f7954' .v3-preview-source/public/fresnica-v3-motion-preview/mobile-demo-1-1.html
