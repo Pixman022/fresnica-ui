@@ -554,10 +554,12 @@ try{
         assert(state.theme===theme,`${prefix}: theme switch mismatch`);
         assert(state.cards===5,`${prefix}: missing feature card`);
         const palette=state.buttonSystem;
-        const primary=theme==='dark'?'rgb(9, 118, 84)':'rgb(8, 120, 82)';
-        const secondary=theme==='dark'?'rgb(42, 42, 48)':'rgb(255, 255, 255)';
-        assert(palette.primary===primary&&palette.primaryInk==='rgb(255, 255, 255)',
-          `${prefix}: primary button no longer AA green/white (${palette.primary}, ${palette.primaryInk})`);
+        // Approved Web/Native 1.1.0 semantic action and raised-surface palette.
+        const primary=theme==='dark'?'rgb(0, 202, 138)':'rgb(15, 121, 84)';
+        const onPrimary=theme==='dark'?'rgb(16, 19, 18)':'rgb(255, 255, 255)';
+        const secondary=theme==='dark'?'rgb(32, 38, 35)':'rgb(255, 255, 255)';
+        assert(palette.primary===primary&&palette.primaryInk===onPrimary,
+          `${prefix}: primary button differs from approved 1.1.0 action/on-primary pair (${palette.primary}, ${palette.primaryInk})`);
         assert(state.sendBackground===primary,
           `${prefix}: Send example no longer uses primary surface (${state.sendBackground})`);
         assert(palette.secondary===secondary&&palette.topDownload===secondary,
@@ -566,16 +568,16 @@ try{
           `${prefix}: Swap example lost inverse action (${state.swapBackground})`);
         assert(palette.swapInk===(theme==='dark'?'rgb(17, 18, 20)':'rgb(255, 255, 255)'),
           `${prefix}: Swap inverse foreground is incorrect (${palette.swapInk})`);
-        assert(palette.selectedTab===primary&&palette.selectedTabInk==='rgb(255, 255, 255)',
-          `${prefix}: desktop selected tab should be green with white type (${palette.selectedTab}, ${palette.selectedTabInk})`);
+        assert(palette.selectedTab===primary&&palette.selectedTabInk===onPrimary,
+          `${prefix}: desktop selected tab must use the approved mode-specific on-primary text (${palette.selectedTab}, ${palette.selectedTabInk})`);
         assert(palette.disabledMobile.length===2&&palette.disabledMobile.every(x=>x.disabled&&x.background==='rgb(52, 52, 60)'),
           `${prefix}: mobile download controls should be neutral and disabled (${JSON.stringify(palette.disabledMobile)})`);
-        assert(palette.disabledDesktop.disabled&&palette.disabledDesktop.background===(theme==='dark'?'rgb(52, 52, 60)':'rgb(243, 243, 245)'),
+        assert(palette.disabledDesktop.disabled&&palette.disabledDesktop.background===(theme==='dark'?'rgb(41, 51, 46)':'rgb(243, 243, 245)'),
           `${prefix}: desktop download should be neutral and disabled (${JSON.stringify(palette.disabledDesktop)})`);
         if(theme==='dark'&&width>680){
-          assert(state.navigation.background==='rgb(42, 42, 48)',
+          assert(state.navigation.background==='rgb(32, 38, 35)',
             `${prefix}: dark navigation background differs from Fresnica raised surface (${state.navigation.background})`);
-          assert(state.navigation.border==='rgb(72, 72, 80)',
+          assert(state.navigation.border==='rgb(48, 57, 52)',
             `${prefix}: dark navigation border differs from neutral border (${state.navigation.border})`);
           for(const {selector,color} of state.cardSurfaces){
             const rgb=color.match(/[\d.]+/g)?.slice(0,3).map(Number)||[];
@@ -631,7 +633,7 @@ try{
               };
             });
             assert(footerNav.isFooter,`${prefix}: footer navigation state was not activated`);
-            assert(footerNav.background==='rgb(42, 42, 48)',
+            assert(footerNav.background==='rgb(32, 38, 35)',
               `${prefix}: footer navigation reverted to light surface (${footerNav.background})`);
           }
           if(id==='v3-ecosystem'&&width<=680){
