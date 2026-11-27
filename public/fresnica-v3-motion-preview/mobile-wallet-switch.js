@@ -7,19 +7,16 @@
   const popup=phone?.querySelector("#home11-wallet-selector");
   const sheet=popup?.querySelector(".home11-wallet-sheet");
   const listView=popup?.querySelector(".home11-wallet-list-view");
-  const createView=popup?.querySelector(".home11-wallet-create-view");
   const optionList=popup?.querySelector(".home11-wallet-options");
   const createEntry=popup?.querySelector(".home11-wallet-create-entry");
-  const newName=popup?.querySelector("#home11-new-wallet-name");
   const name=phone?.querySelector(".home11-wallet-name");
   const address=phone?.querySelector(".home11-wallet-address");
-  if(!state || !trigger || !popup || !sheet || !listView || !createView || !optionList ||
-     !createEntry || !newName || !name || !address)return;
+  if(!state || !trigger || !popup || !sheet || !listView || !optionList ||
+     !createEntry || !name || !address)return;
   const isZh=()=>document.documentElement.lang.startsWith("zh");
   const close=(restore=true)=>{
     if(popup.hidden)return;
     popup.hidden=true;trigger.setAttribute("aria-expanded","false");
-    createView.hidden=true;listView.hidden=false;createView.reset();
     if(restore)trigger.focus();
   };
   const render=()=>{
@@ -62,23 +59,7 @@
     }
   });
   createEntry.addEventListener("click",()=>{
-    listView.hidden=true;createView.hidden=false;
-    sheet.setAttribute("aria-labelledby","home11-wallet-create-title");
-    newName.focus();
-  });
-  popup.querySelector(".home11-wallet-back")?.addEventListener("click",()=>{
-    createView.hidden=true;listView.hidden=false;
-    sheet.setAttribute("aria-labelledby","home11-wallet-sheet-title");
-    createEntry.focus();
-  });
-  createView.addEventListener("submit",event=>{
-    event.preventDefault();
-    const walletName=newName.value.trim();
-    if(!walletName)return;
-    const id="demo-"+Date.now();
-    const newAccount={id,name:walletName,address:"—",type:"sample",hidden:false};
-    if(!state.saveAccounts([...state.accounts(),newAccount]))return;
-    state.setActiveAccount(id);render();close();
+    window.location.href="./mobile-settings-detail.html?view=add-account&from=home";
   });
   window.addEventListener("fresnica-preview-state",event=>{
     if(event.detail?.type==="accounts")render();
@@ -92,8 +73,7 @@
       event.preventDefault();event.stopImmediatePropagation();close();return;
     }
     if(event.key!=="Tab")return;
-    const active=createView.hidden?listView:createView;
-    const focusables=[...active.querySelectorAll("button:not([disabled]),input:not([disabled])")];
+    const focusables=[...listView.querySelectorAll("button:not([disabled])")];
     if(!focusables.length)return;
     const first=focusables[0],last=focusables[focusables.length-1];
     if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
