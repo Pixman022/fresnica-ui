@@ -560,11 +560,27 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 <div class="home11-scroll secondary-scroll"><div class="secondary-hero"><span class="secondary-asset-mark" data-asset-mark>✦</span><div><div class="secondary-hero-title" data-asset-label>XLM</div><div class="secondary-muted" data-asset-note><span data-gallery-en="Stellar native asset" data-gallery-zh="Stellar 原生资产">Stellar native asset</span></div></div></div>
 <div class="secondary-balance"><span class="secondary-muted"><span data-gallery-en="Total balance" data-gallery-zh="总余额">Total balance</span></span><strong><span data-asset-balance>546,213.0231432</span> <small data-asset-symbol>XLM</small></strong></div>
 <div class="secondary-actions"><a class="secondary-action" href="./mobile-send.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg><span data-gallery-en="Send" data-gallery-zh="发送">Send</span></a><a class="secondary-action" href="./mobile-receive.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 17H7V7M17 7 7 17"/></svg><span data-gallery-en="Receive" data-gallery-zh="接收">Receive</span></a><a class="secondary-action" href="./mobile-swap.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/></svg><span data-gallery-en="Swap" data-gallery-zh="兑换">Swap</span></a></div>
-<h2 class="secondary-section-title"><span data-gallery-en="Asset information" data-gallery-zh="资产信息">Asset information</span></h2><div class="secondary-card">
-<div class="secondary-pair"><span><span data-gallery-en="Network" data-gallery-zh="网络">Network</span></span><strong>Stellar Mainnet</strong></div>
-<div class="secondary-pair"><span><span data-gallery-en="Type" data-gallery-zh="类型">Type</span></span><strong><span data-asset-type>Native asset</span></strong></div>
-<div class="secondary-pair"><span><span data-gallery-en="Reserve" data-gallery-zh="储备金">Reserve</span></span><strong><span data-asset-reserve>12 XLM</span></strong></div>
+<!-- XLM: reserve is the only information card; expanding reveals its example breakdown. -->
+<div class="secondary-card secondary-reserve-card" data-asset-reserve-section>
+  <button type="button" class="secondary-reserve-toggle" data-asset-reserve-toggle
+    aria-expanded="false" aria-controls="secondary-reserve-details">
+    <span data-gallery-en="Reserve" data-gallery-zh="储备金">Reserve</span>
+    <span class="secondary-reserve-right"><strong data-asset-reserve>12 XLM</strong><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></span>
+  </button>
+  <div id="secondary-reserve-details" class="secondary-reserve-details" data-asset-reserve-details hidden>
+    <div class="secondary-pair"><span data-gallery-en="Base reserve" data-gallery-zh="基础储备金">Base reserve</span><strong>1 XLM</strong></div>
+    <div class="secondary-pair"><span data-gallery-en="Additional entries" data-gallery-zh="额外账本条目">Additional entries</span><strong>11 XLM</strong></div>
+    <p class="secondary-reserve-note" data-gallery-en="Illustrative breakdown" data-gallery-zh="示例明细，非实时数据">Illustrative breakdown</p>
+  </div>
 </div>
+<!-- Issued assets show issuer information instead of an XLM reserve. -->
+<section data-asset-issued-section hidden>
+  <h2 class="secondary-section-title"><span data-gallery-en="Asset information" data-gallery-zh="资产信息">Asset information</span></h2>
+  <div class="secondary-card">
+    <div class="secondary-pair"><span data-gallery-en="Asset type" data-gallery-zh="资产类型">Asset type</span><strong data-asset-type>Issued asset</strong></div>
+    <div class="secondary-pair"><span data-gallery-en="Issuer" data-gallery-zh="发行方">Issuer</span><strong data-asset-issuer>GCPQ...R7KM</strong></div>
+  </div>
+</section>
 <h2 class="secondary-section-title" data-asset-activity-title><span data-gallery-en="Recent activity" data-gallery-zh="最近活动">Recent activity</span></h2>
 <div class="secondary-card" data-asset-activity-list>
 <a class="secondary-history-row" href="./mobile-transaction-details.html?tx=received-xlm"><span class="secondary-history-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 17H7V7M17 7 7 17"/></svg></span><span class="secondary-history-copy"><b><span data-gallery-en="Received XLM" data-gallery-zh="收到 XLM">Received XLM</span></b><small>Nov 25</small></span><strong class="secondary-history-value secondary-positive">+900.00 XLM</strong></a>
