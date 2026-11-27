@@ -21,6 +21,7 @@ html.v3-theme-dark {
   --Fresnica-on-primary-color:#101312;
   --Fresnica-focus-color:#00CA8A;
   --Fresnica-text-color:#F4F7F5;
+  --Fresnica-text-color-body:#E8EFEB;
   --Fresnica-text-color-secondary:#C5CEC8;
   --Fresnica-surface:#171B19;
   --Fresnica-surface-high:#202623;
@@ -69,3 +70,7 @@ html.v3-theme-dark.m10-framed .site-header.on-dark {
   --v3-button-neutral-fg:var(--Fresnica-text-color);
   --v3-button-neutral-border:var(--Fresnica-border-color);
 }
+
+/* Kept for V3 body-copy consumers; site headings and financial amounts retain content-primary.
+   Pure-white logo/QR imagery, inverse controls and purpose-built particles remain exceptions. */
+html.v3-theme-dark #v3-workspace .dp-asset-row .dp-asset-name{color:var(--Fresnica-text-color-body)}
