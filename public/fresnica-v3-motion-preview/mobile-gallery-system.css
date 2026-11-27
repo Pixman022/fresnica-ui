@@ -177,13 +177,15 @@ html[data-demo-theme="dark"] #v3-availability .phone-network{color:#c5cec8}
 }
 .home11-phone .gallery-sample-grid .gallery-app-card:hover{background:var(--native-background)}
 .home11-phone{
+  --gallery-accent-blue-bg:#e9efff;--gallery-accent-blue-ink:#356ae6;
   --gallery-app-nova-bg:#eeeaff;--gallery-app-nova-ink:#6956c8;
-  --gallery-app-orbit-bg:#e9efff;--gallery-app-orbit-ink:#356ae6;
+  --gallery-app-orbit-bg:var(--gallery-accent-blue-bg);--gallery-app-orbit-ink:var(--gallery-accent-blue-ink);
   --gallery-app-atlas-bg:#fff0df;--gallery-app-atlas-ink:#c96a16;
 }
 html[data-demo-theme="dark"] .home11-phone{
+  --gallery-accent-blue-bg:#1e2d52;--gallery-accent-blue-ink:#8eaeff;
   --gallery-app-nova-bg:#302b4d;--gallery-app-nova-ink:#b8a9ff;
-  --gallery-app-orbit-bg:#1e2d52;--gallery-app-orbit-ink:#8eaeff;
+  --gallery-app-orbit-bg:var(--gallery-accent-blue-bg);--gallery-app-orbit-ink:var(--gallery-accent-blue-ink);
   --gallery-app-atlas-bg:#4a2f1a;--gallery-app-atlas-ink:#ffb86b;
 }
 .home11-phone .gallery-app-nova{
@@ -222,11 +224,13 @@ html[data-demo-theme="dark"] .home11-phone{
   display:flex;align-items:center;gap:4px;flex:0 1 auto;min-width:0;
   width:max-content;max-width:61.8%;
 }
+/* Wallet identity shares the subdued blue accent with the dApps examples. */
 .home11-phone .home11-wallet-avatar{
   display:grid;place-items:center;flex:none;width:34px;height:34px;
-  border-radius:50%;background:#203029;color:#e9f9ef;
+  border-radius:11px;
+  background:var(--gallery-accent-blue-bg);color:var(--gallery-accent-blue-ink);
 }
-.home11-phone .home11-wallet-avatar svg{display:block;width:21px;height:21px}
+.home11-phone .home11-wallet-avatar svg{display:block;width:19px;height:19px}
 .home11-phone .home11-wallet-identity{display:flex;flex-direction:column;justify-content:center;gap:2px;flex:0 1 auto;min-width:0}
 /* Wallet name follows the 16/22 section-title role; address follows the 12/16 label role. */
 .home11-phone .home11-wallet-name{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:16px;font-weight:700;line-height:22px}
@@ -300,7 +304,8 @@ html[data-demo-theme="dark"] .home11-phone{
 @container home11-device (max-width:340px){
   .home11-phone .home11-wallet-header{gap:4px}
   .home11-phone .home11-wallet-summary{gap:4px}
-  .home11-phone .home11-wallet-avatar{width:30px;height:30px}
+  .home11-phone .home11-wallet-avatar{width:30px;height:30px;border-radius:10px}
+  .home11-phone .home11-wallet-avatar svg{width:18px;height:18px}
   .home11-phone .phone-network{font-size:10px;gap:4px}
 }
 
