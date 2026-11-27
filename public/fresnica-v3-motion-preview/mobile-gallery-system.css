@@ -178,6 +178,8 @@ html[data-demo-theme="dark"] #v3-availability .phone-network{color:#c5cec8}
 .home11-phone .gallery-sample-grid .gallery-app-card:hover{background:var(--native-background)}
 .home11-phone{
   --gallery-accent-blue-bg:#e9efff;--gallery-accent-blue-ink:#356ae6;
+  /* Wallet identity stays light with a dark glyph in both color schemes. */
+  --gallery-wallet-badge-bg:#e9efff;--gallery-wallet-badge-ink:#1e2d52;
   --gallery-app-nova-bg:#eeeaff;--gallery-app-nova-ink:#6956c8;
   --gallery-app-orbit-bg:var(--gallery-accent-blue-bg);--gallery-app-orbit-ink:var(--gallery-accent-blue-ink);
   --gallery-app-atlas-bg:#fff0df;--gallery-app-atlas-ink:#c96a16;
@@ -228,7 +230,7 @@ html[data-demo-theme="dark"] .home11-phone{
 .home11-phone .home11-wallet-avatar{
   display:grid;place-items:center;flex:none;width:34px;height:34px;
   border-radius:11px;
-  background:var(--gallery-accent-blue-bg);color:var(--gallery-accent-blue-ink);
+  background:var(--gallery-wallet-badge-bg);color:var(--gallery-wallet-badge-ink);
 }
 .home11-phone .home11-wallet-avatar svg{display:block;width:19px;height:19px}
 .home11-phone .home11-wallet-identity{display:flex;flex-direction:column;justify-content:center;gap:2px;flex:0 1 auto;min-width:0}
