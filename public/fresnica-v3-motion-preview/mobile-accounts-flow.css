@@ -42,3 +42,10 @@
 .home11-phone.accounts-flow-phone .accounts-flow-alert{padding:11px 12px;border-radius:11px;background:var(--native-background);color:var(--native-content-secondary);font-size:11px;line-height:1.5}
 .home11-phone.accounts-flow-phone .accounts-flow-alert b{display:block;color:var(--native-content-primary);margin-bottom:4px}
 @media(max-width:420px){.home11-phone.accounts-flow-phone .settings-detail-scroll{padding-left:13px;padding-right:13px}.home11-phone.accounts-flow-phone .accounts-row{padding:11px}}
+
+/* Keep titles centered while allowing an actual Reorder header action. */
+.home11-phone.accounts-flow-phone.secondary-phone .secondary-header{grid-template-columns:52px minmax(0,1fr)58px}
+.home11-phone.accounts-flow-phone .secondary-header-end{width:58px;height:44px;display:flex;align-items:center;justify-content:flex-end}
+.home11-phone.accounts-flow-phone .secondary-title{font-size:17px;line-height:1.3;letter-spacing:-.015em}
+.home11-phone.accounts-flow-phone .accounts-preview-error{display:block;min-height:36px;margin:7px auto 0;padding:7px 12px;border:0;background:transparent;color:var(--native-content-secondary);font-size:11px;cursor:pointer}
+.home11-phone.accounts-flow-phone .accounts-preview-error:focus-visible{outline:2px solid var(--native-primary);border-radius:8px}
