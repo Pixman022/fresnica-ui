@@ -48,7 +48,7 @@
 }
 .home11-phone .home-feature-overlay{z-index:18}
 .home11-phone .home-feature-sheet{
-  width:100%;max-height:min(85%,650px);display:flex;flex-direction:column;overflow:hidden;
+  position:relative;z-index:1;width:100%;max-height:min(85%,650px);display:flex;flex-direction:column;overflow:hidden;
   padding:16px 17px max(23px,env(safe-area-inset-bottom));
   border-top:1px solid var(--native-separator);
   border-radius:22px 22px 0 0;background:var(--native-surface);color:var(--native-content-primary)
