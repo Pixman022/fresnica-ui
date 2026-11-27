@@ -45,6 +45,27 @@
 .home11-phone .secondary-action:focus-visible{outline:2px solid var(--native-primary);outline-offset:2px}
 .home11-phone .secondary-section-title{margin:22px 0 10px;font-size:14px;font-weight:700;color:var(--native-content-primary);letter-spacing:-.02em}
 .home11-phone .secondary-card{background:var(--native-surface);border:1px solid var(--native-separator);border-radius:15px;overflow:hidden}
+
+/* Asset detail variants: XLM has a single accessible Reserve disclosure. */
+.home11-phone .secondary-reserve-toggle{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:54px;
+  padding:13px;border:0;background:transparent;color:var(--native-content-primary);
+  font:inherit;font-size:12px;font-weight:650;text-align:left;cursor:pointer
+}
+.home11-phone .secondary-reserve-toggle:focus-visible{outline:2px solid var(--native-primary);outline-offset:-3px;border-radius:12px}
+.home11-phone .secondary-reserve-right{display:inline-flex;align-items:center;gap:9px;white-space:nowrap}
+.home11-phone .secondary-reserve-right strong{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+.home11-phone .secondary-reserve-right svg{width:17px;height:17px;fill:none;stroke:var(--native-content-secondary);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;transition:transform .18s ease}
+.home11-phone .secondary-reserve-toggle[aria-expanded="true"] .secondary-reserve-right svg{transform:rotate(180deg)}
+.home11-phone .secondary-reserve-details{border-top:1px solid var(--native-separator)}
+.home11-phone .secondary-reserve-details[hidden]{display:none}
+.home11-phone .secondary-reserve-details .secondary-pair:last-of-type{border-bottom:0}
+.home11-phone .secondary-reserve-note{margin:0;padding:2px 13px 13px;font-size:10px;line-height:1.45;color:var(--native-content-secondary)}
+.home11-phone .secondary-asset-mark.is-usdc{background:var(--gallery-accent-blue-bg);color:var(--gallery-accent-blue-ink)}
+.home11-phone .secondary-asset-mark.is-aqua{background:var(--gallery-app-nova-bg);color:var(--gallery-app-nova-ink)}
+.home11-phone .secondary-asset-mark svg{display:block;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media(prefers-reduced-motion:reduce){.home11-phone .secondary-reserve-right svg{transition:none}}
+
 .home11-phone .secondary-pair{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:49px;padding:11px 13px;border-bottom:1px solid var(--native-separator)}
 .home11-phone .secondary-pair:last-child{border-bottom:0}
 .home11-phone .secondary-pair span{color:var(--native-content-secondary);font-size:11px}
