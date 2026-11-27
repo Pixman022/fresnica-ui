@@ -521,6 +521,17 @@
     const id=button.dataset.id;
     const a=button.dataset.action;
     if(!a)return;
+    if(a==="disconnect-app"){
+      const connection=state.connections().find(c=>c.origin===button.dataset.origin);
+      if(!connection)return;
+      openSheet("disconnect-app","Disconnect preview","断开示例连接",
+        '<p class="settings-detail-sheet-copy">'+escape(tr(
+          "Remove this preview connection? Real wallet permissions will not change.",
+          "移除这条示例连接？真实钱包授权不会改变。"))+'</p>'+
+        sheetActions("Disconnect","断开","disconnect-app"),button);
+      overlay.dataset.origin=connection.origin;
+      return;
+    }
     if(a==="account-detail"){
       const account=accounts.find(x=>String(x.id)===button.dataset.id);
       if(!account)return;
@@ -566,6 +577,12 @@
       closeSheet();applyPick(kind,value,button);return;
     }
     const kind=button.dataset.confirm;if(!kind)return;
+    if(kind==="disconnect-app"){
+      const success=state.disconnect(overlay.dataset.origin);
+      closeSheet();render();
+      if(success)displayToast("Preview connection removed","示例连接已移除");
+      return;
+    }
     if(kind==="avatars"||kind==="developer"){
       settings[kind]=true;saveSettings();logEvent(kind+"-enabled");closeSheet();render();
       displayToast("Preview preference saved","示例设置已保存");return;
@@ -584,20 +601,21 @@
         const name=modalInput("name"),publicAddress=modalInput("address");
         const accountType=sheetBody.querySelector('[name="accountType"]')?.value||"sample";
         if(!name){displayToast("Enter a name","请输入名称");return;}
-        if(!isAccount&&!/^[GC][A-Z2-7]{55}$/.test(publicAddress)){
-          displayToast("Use a 56-character Stellar public address","请输入 56 位 Stellar 公开地址");return;
+        if(!isAccount&&!/^G[A-Z2-7]{55}$/.test(publicAddress)){
+          displayToast("Use a 56-character Stellar G address","请输入完整的 56 位 Stellar G 地址");return;
         }
+        const memo=modalInput("memo").slice(0,64);
         if(isAccount&&!kind.startsWith("edit")&&accountType==="watch-only"&&!/^[GC][A-Z2-7]{55}$/.test(publicAddress)){
           displayToast("Enter a full G/C public address for watch-only","只读账户需填写完整 G/C 公开地址");return;
         }
         if(kind.startsWith("edit")){
           if(found<0)return;
           items[found].name=name;
-          if(!isAccount)items[found].address=publicAddress;
+          if(!isAccount){items[found].address=publicAddress;items[found].memo=memo;}
         }else{
           items.push({id:String(Date.now()),name,
             address:isAccount?(accountType==="watch-only"?publicAddress:"—"):publicAddress,
-            ...(isAccount?{type:accountType,hidden:false}:{})});
+            ...(isAccount?{type:accountType,hidden:false}:{memo})});
         }
       }
       if(isAccount){if(!saveAccounts())return;}
