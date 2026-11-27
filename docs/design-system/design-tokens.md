@@ -50,8 +50,11 @@ Compact status labels use a background plus an explicit `on-*-container` foregro
 | `--Fresnica-surface-high` | `#EDEEF0` | `#202623` |
 | `--Fresnica-surface-highest` | `#E8E8EA` | `#29332E` |
 | `--Fresnica-text-color` | `#1A1C1D` | `#F4F7F5` |
+| `--Fresnica-text-color-body` | `#1A1C1D` | `#E8EFEB` |
 | `--Fresnica-text-color-secondary` | `#3F4942` | `#C5CEC8` |
 | `--Fresnica-border-color` | `#E3E3E5` | `#303934` |
+
+The additive `content-body` semantic role in token source **1.1.1** softens regular dense text in dark mode without dimming critical amounts/headings. Use `--Fresnica-semantic-content-body` for ordinary list titles/body copy. The approved 1.1.0 brand palette, inverse surfaces and danger labels stay unchanged. Intentional pure-white inverse buttons, logo/QR graphics and light-theme sample surfaces are exceptions, not a default dark UI surface.
 
 `--Fresnica-surface-lowest` is the reserved public canvas token for an app shell or full-screen background. It intentionally has no component-library consumer yet. Components must use `--Fresnica-surface`, `--Fresnica-surface-low`, `--Fresnica-surface-high`, or `--Fresnica-surface-highest` according to their layer; do not use `surface-lowest` as a generic white/black replacement.
 
