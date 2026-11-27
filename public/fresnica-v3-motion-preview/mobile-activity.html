@@ -532,6 +532,7 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 }
 </style>
 <link rel="stylesheet" href="./mobile-gallery-system.css" />
+<link rel="stylesheet" href="./mobile-activity-enhancements.css" />
 </head>
 <body>
 <div class="preview-shell">
@@ -553,15 +554,34 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 <div class="preview-stage">
 <main aria-label="Activity history">
 <div class="home11-display">
-<div class="home11-phone" aria-label="Fresnica Activity history preview">
+<div class="home11-phone gallery-activity-page" aria-label="Fresnica Activity history preview">
       <span class="phone-island" aria-hidden="true"></span>
-      <div class="phone-header"><h1 class="gallery-screen-title">Activity</h1><button type="button" class="gallery-header-action gallery-activity-filter-trigger" aria-label="筛选交易 / Filter activity" title="Filter activity" aria-haspopup="dialog" aria-expanded="false" aria-controls="gallery-activity-filter-dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M7 12h10M10 17h4"/></svg></button></div>
+      <div class="phone-header"><h1 class="gallery-screen-title">Activity</h1><div class="gallery-activity-header-actions">
+  <button type="button" class="gallery-header-action gallery-activity-search-trigger" aria-label="Search activity" title="Search activity" aria-expanded="false" aria-controls="gallery-activity-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7"/><path d="m16 16 5 5"/></svg></button>
+  <button type="button" class="gallery-header-action gallery-activity-filter-trigger" aria-label="筛选交易 / Filter activity" title="Filter activity" aria-haspopup="dialog" aria-expanded="false" aria-controls="gallery-activity-filter-dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M7 12h10M10 17h4"/></svg></button>
+</div></div>
       <div class="home11-scroll">
-<h2 class="gallery-section-title">Today <small>Nov 26</small></h2>
-<section class="gallery-panel" aria-label="Today"><a class="gallery-row" data-activity-kind="received" href="./mobile-transaction-details.html?tx=received-usdc" aria-label="received-usdc details"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg></span><span class="gallery-row-copy"><b>Received USDC</b></span><span class="gallery-row-right"><strong class="gallery-positive">+250.00</strong><small>USDC</small></span></a><a class="gallery-row" data-activity-kind="sent" href="./mobile-transaction-details.html?tx=sent-xlm" aria-label="sent-xlm details"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17V7h10M7 7l10 10"/></svg></span><span class="gallery-row-copy"><b>Sent XLM</b></span><span class="gallery-row-right"><strong>-45.00</strong><small>XLM</small></span></a></section>
-<h2 class="gallery-section-title">Yesterday <small>Nov 25</small></h2>
-<section class="gallery-panel" aria-label="Yesterday"><a class="gallery-row" data-activity-kind="swapped" href="./mobile-transaction-details.html?tx=swapped-xlm" aria-label="swapped-xlm details"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/></svg></span><span class="gallery-row-copy"><b>Swapped XLM to USDC</b></span><span class="gallery-row-right"><strong class="gallery-positive">+120.00</strong><small>USDC</small></span></a><a class="gallery-row" data-activity-kind="received" href="./mobile-transaction-details.html?tx=received-xlm" aria-label="received-xlm details"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg></span><span class="gallery-row-copy"><b>Received XLM</b></span><span class="gallery-row-right"><strong class="gallery-positive">+900.00</strong><small>XLM</small></span></a></section>
-
+<div id="gallery-activity-search" class="gallery-activity-search" hidden>
+  <div class="gallery-activity-search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7"/><path d="m16 16 5 5"/></svg>
+    <input type="search" class="gallery-activity-search-input" autocomplete="off" aria-label="Search activity" placeholder="Search activity">
+    <button type="button" class="gallery-activity-search-clear" aria-label="Clear search" title="Clear search">×</button>
+  </div>
+  <small class="gallery-activity-search-hint">Searches loaded activity only</small>
+</div>
+<h2 class="gallery-section-title" data-activity-day="0"><span>Today</span><small data-activity-date>Nov 26</small></h2>
+<section class="gallery-panel" aria-label="Today"><a class="gallery-row" data-activity-kind="received" data-activity-direction="incoming" data-activity-family="payment" data-activity-asset="USDC" data-activity-amount="250" data-activity-status="completed" href="./mobile-transaction-details.html?tx=received-usdc" aria-label="received-usdc details"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg></span><span class="gallery-row-copy"><b>Received USDC</b><small class="gallery-activity-row-meta"><time data-activity-clock="10:42">10:42</time><span class="gallery-activity-status" data-status="completed">Completed</span></small></span><span class="gallery-row-right"><strong class="gallery-positive">+250.00</strong><small>USDC</small></span></a><a class="gallery-row" data-activity-kind="sent" data-activity-direction="outgoing" data-activity-family="payment" data-activity-asset="XLM" data-activity-amount="45" data-activity-status="completed" href="./mobile-transaction-details.html?tx=sent-xlm" aria-label="sent-xlm details"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17V7h10M7 7l10 10"/></svg></span><span class="gallery-row-copy"><b>Sent XLM</b><small class="gallery-activity-row-meta"><time data-activity-clock="09:18">09:18</time><span class="gallery-activity-status" data-status="completed">Completed</span></small></span><span class="gallery-row-right"><strong>-45.00</strong><small>XLM</small></span></a></section>
+<h2 class="gallery-section-title" data-activity-day="1"><span>Yesterday</span><small data-activity-date>Nov 25</small></h2>
+<section class="gallery-panel" aria-label="Yesterday"><a class="gallery-row" data-activity-kind="swapped" data-activity-direction="exchange" data-activity-family="swap" data-activity-asset="USDC" data-activity-amount="120" data-activity-status="completed" href="./mobile-transaction-details.html?tx=swapped-xlm" aria-label="swapped-xlm details"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16m-4 14 4-4-4-4m4 4H4"/></svg></span><span class="gallery-row-copy"><b>Swapped XLM to USDC</b><small class="gallery-activity-row-meta"><time data-activity-clock="16:25">16:25</time><span class="gallery-activity-status" data-status="completed">Completed</span></small></span><span class="gallery-row-right"><strong class="gallery-positive">+120.00</strong><small>USDC</small></span></a><a class="gallery-row" data-activity-kind="received" data-activity-direction="incoming" data-activity-family="payment" data-activity-asset="XLM" data-activity-amount="900" data-activity-status="completed" href="./mobile-transaction-details.html?tx=received-xlm" aria-label="received-xlm details"><span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg></span><span class="gallery-row-copy"><b>Received XLM</b><small class="gallery-activity-row-meta"><time data-activity-clock="11:06">11:06</time><span class="gallery-activity-status" data-status="completed">Completed</span></small></span><span class="gallery-row-right"><strong class="gallery-positive">+900.00</strong><small>XLM</small></span></a><div class="gallery-row gallery-activity-sample-extra" data-activity-kind="sent" data-activity-direction="outgoing" data-activity-family="payment" data-activity-asset="XLM" data-activity-amount="" data-activity-status="failed" hidden>
+  <span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17V7h10M7 7l10 10"/></svg></span>
+  <span class="gallery-row-copy"><b>Failed XLM payment</b><small class="gallery-activity-row-meta"><time data-activity-clock="08:24">08:24</time><span class="gallery-activity-status" data-status="failed">Failed</span></small></span>
+  <span class="gallery-row-right"><strong>—</strong><small>XLM</small></span>
+</div>
+<div class="gallery-row gallery-activity-sample-extra" data-activity-kind="received" data-activity-direction="incoming" data-activity-family="payment" data-activity-asset="XLM" data-activity-amount="0.02" data-activity-status="completed" data-activity-marked="true" hidden>
+  <span class="gallery-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg></span>
+  <span class="gallery-row-copy"><b>Received XLM</b><small class="gallery-activity-row-meta"><time data-activity-clock="07:32">07:32</time><span class="gallery-activity-status" data-status="completed">Completed</span></small></span>
+  <span class="gallery-row-right"><strong class="gallery-positive">+0.02</strong><small>XLM</small></span>
+</div></section>
+<div class="gallery-activity-no-match" role="status" hidden><strong>No matching activity</strong><small>Try a different search or filter.</small></div>
 </div>
       <nav class="phone-tabs" aria-label="Wallet main navigation">
   <span class="home11-nav-item is-current" aria-current="page"><svg class="lucide lucide-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</span>
@@ -586,12 +606,48 @@ html.preview-immersive .home11-phone .home11-action-sheet{
   <div class="home11-action-backdrop" data-activity-filter-dismiss="true"></div>
   <section id="gallery-activity-filter-dialog" class="home11-action-sheet gallery-activity-filter-sheet" role="dialog" aria-modal="true" aria-labelledby="gallery-activity-filter-title">
     <span class="home11-action-handle" aria-hidden="true"></span>
-    <div class="home11-action-heading"><h2 id="gallery-activity-filter-title">Filter activity</h2><button type="button" class="home11-sheet-close" data-activity-filter-dismiss="true" aria-label="Close filter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
-    <div class="gallery-activity-options" role="group" aria-label="Transaction type">
-      <button type="button" class="gallery-activity-option" data-activity-filter="all" aria-pressed="true">All activity<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg></button>
-      <button type="button" class="gallery-activity-option" data-activity-filter="received" aria-pressed="false">Received<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg></button>
-      <button type="button" class="gallery-activity-option" data-activity-filter="sent" aria-pressed="false">Sent<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg></button>
-      <button type="button" class="gallery-activity-option" data-activity-filter="swapped" aria-pressed="false">Swapped<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg></button>
+    <div class="home11-action-heading"><h2 id="gallery-activity-filter-title">Filter activity</h2><button type="button" class="home11-sheet-close" data-activity-filter-dismiss="true" aria-label="Close filter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="gallery-activity-filter-modes" role="tablist" aria-label="Filter options">
+      <button type="button" role="tab" class="is-current" aria-selected="true" data-activity-tab="basic">Basic</button>
+      <button type="button" role="tab" aria-selected="false" data-activity-tab="advanced">Advanced</button>
+    </div>
+    <div class="gallery-activity-filter-scroll">
+      <div class="gallery-activity-filter-basic" data-activity-pane="basic" role="tabpanel">
+        <div class="gallery-activity-options" role="group" aria-label="Transaction type">
+          <button type="button" class="gallery-activity-option" data-activity-filter="all" aria-pressed="true">All activity<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg></button>
+          <button type="button" class="gallery-activity-option" data-activity-filter="received" aria-pressed="false">Received<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg></button>
+          <button type="button" class="gallery-activity-option" data-activity-filter="sent" aria-pressed="false">Sent<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg></button>
+          <button type="button" class="gallery-activity-option" data-activity-filter="swapped" aria-pressed="false">Swapped<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg></button>
+        </div>
+      </div>
+      <div class="gallery-activity-filter-advanced" data-activity-pane="advanced" role="tabpanel" hidden>
+        <fieldset><legend>Direction</legend><div class="gallery-activity-chips" data-activity-choice-group="direction">
+          <button type="button" data-activity-choice="all">All</button><button type="button" data-activity-choice="incoming">Incoming</button><button type="button" data-activity-choice="outgoing">Outgoing</button>
+        </div></fieldset>
+        <fieldset><legend>Operation type</legend><div class="gallery-activity-chips" data-activity-choice-group="family">
+          <button type="button" data-activity-choice="all">All</button><button type="button" data-activity-choice="payment">Payments</button><button type="button" data-activity-choice="swap">Swaps</button><button type="button" data-activity-choice="account">Account</button><button type="button" data-activity-choice="trustline">Trustline</button><button type="button" data-activity-choice="other">Other</button>
+        </div></fieldset>
+        <fieldset><legend>Asset</legend><input type="search" class="gallery-activity-field" data-activity-asset-search placeholder="Search code or issuer" aria-label="Search asset">
+          <div class="gallery-activity-chips" data-activity-choice-group="asset"><button type="button" data-activity-choice="all">All</button><button type="button" data-activity-choice="XLM" data-activity-asset-issuer="Stellar native asset">XLM</button><button type="button" data-activity-choice="USDC" data-activity-asset-issuer="GCPQ...R7KM">USDC</button></div>
+        </fieldset>
+        <fieldset><legend>Amount</legend><div class="gallery-activity-amount"><select class="gallery-activity-field" data-activity-amount-mode aria-label="Amount comparison"><option value="any">Any</option><option value="greater">Greater than</option><option value="less">Less than</option></select><input type="number" min="0" step="any" inputmode="decimal" class="gallery-activity-field" data-activity-amount-value placeholder="Amount" aria-label="Amount value" disabled></div></fieldset>
+        <div class="gallery-activity-switches">
+          <label><span>Hide dust<small>Hide incoming amounts under 1</small></span><input type="checkbox" data-activity-switch="hideDust"></label>
+          <label><span>Show marked<small>Include hidden sample records</small></span><input type="checkbox" data-activity-switch="showMarked"></label>
+          <label><span>Show failed<small>Include failed sample operations</small></span><input type="checkbox" data-activity-switch="showFailed"></label>
+        </div>
+        <button type="button" class="gallery-activity-manage-hidden">Manage hidden assets <span>›</span></button>
+        <div class="gallery-activity-hidden-assets" hidden><span class="gallery-activity-control-label">Hide assets from the list</span>
+          <label><input type="checkbox" value="XLM" data-activity-hide-asset>XLM</label>
+          <label><input type="checkbox" value="USDC" data-activity-hide-asset>USDC</label>
+        </div>
+        <p class="gallery-activity-loaded-note">Filters apply to loaded sample records only.</p>
+      </div>
+    </div>
+    <p class="gallery-activity-filter-error" role="alert" hidden></p>
+    <div class="gallery-activity-filter-actions">
+      <button type="button" class="gallery-activity-reset">Reset</button>
+      <button type="button" class="gallery-activity-apply">Apply</button>
     </div>
   </section>
 </div>
