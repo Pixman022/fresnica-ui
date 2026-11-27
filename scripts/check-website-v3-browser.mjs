@@ -1875,6 +1875,8 @@ try{
             addressLineHeight:parseFloat(getComputedStyle(address).lineHeight),
             buttonWidth:switcher.getBoundingClientRect().width,
             buttonHeight:switcher.getBoundingClientRect().height,
+            switchIconSize:switcher.querySelector('svg').getBoundingClientRect().width,
+            switchIconPath:switcher.querySelector('svg path')?.getAttribute('d'),
             summaryWidth:group.width,allowedWidth:usable*.618,
             summaryRight:group.right,networkLeft:network.getBoundingClientRect().left,
             nameClipped:name.scrollWidth>name.clientWidth+1,
@@ -1890,12 +1892,20 @@ try{
         assert(wallet.nameFont>=16&&wallet.nameLineHeight>=22&&
           wallet.addressFont>=12&&wallet.addressLineHeight>=16&&
           wallet.buttonWidth>=44&&wallet.buttonHeight>=44&&
+          wallet.switchIconSize===16&&wallet.switchIconPath==='m7 10 5 5 5-5'&&
           wallet.summaryWidth<=wallet.allowedWidth+2&&
           wallet.summaryRight<=wallet.networkLeft+1,
           'Wallet header typography/target/golden ratio violation at '+width+
             'px: '+JSON.stringify({config,wallet}));
         console.log('[V3 gallery] '+config.lang+'/'+config.theme+' wallet-'+width+' '+JSON.stringify(wallet));
       }
+      await gallery.locator('.home11-wallet-switch').click();
+      assert(await gallery.locator('.home11-wallet-switch').getAttribute('aria-expanded')==='true'&&
+        await gallery.locator('#home11-wallet-selector').isVisible(),
+        'Wallet chevron did not open wallet selector: '+JSON.stringify(config));
+      await gallery.locator('.home11-wallet-switch').click();
+      assert(await gallery.locator('.home11-wallet-switch').getAttribute('aria-expanded')==='false',
+        'Wallet chevron did not close wallet selector: '+JSON.stringify(config));
       const homeImage=path.join(dest,'gallery-home-'+config.theme+'-'+config.lang+'.png');
       await gallery.locator('.home11-phone').screenshot({path:homeImage,animations:'disabled'});
       captures.push(path.relative(dest,homeImage));
@@ -1906,13 +1916,13 @@ try{
       const nativeAsset=await gallery.evaluate(()=>({
         symbol:document.querySelector('[data-asset-label]')?.textContent.trim(),
         reserveHidden:document.querySelector('[data-asset-reserve-section]')?.hidden,
-        issuedHidden:document.querySelector('[data-asset-issued-section]')?.hidden,
+        issuedInformationAbsent:!document.querySelector('[data-asset-issued-section]'),
         reserve:document.querySelector('[data-asset-reserve]')?.textContent.trim(),
         buttonHeight:document.querySelector('[data-asset-reserve-toggle]')?.getBoundingClientRect().height,
         activeRoute:document.querySelector('.preview-nav a.is-current')?.getAttribute('href')
       }));
       assert(nativeAsset.symbol==='XLM'&&!nativeAsset.reserveHidden&&
-        nativeAsset.issuedHidden&&nativeAsset.reserve==='12 XLM'&&
+        nativeAsset.issuedInformationAbsent&&nativeAsset.reserve==='12 XLM'&&
         nativeAsset.buttonHeight>=44&&nativeAsset.activeRoute?.includes('asset=xlm'),
         'XLM asset-only Reserve contract failed: '+JSON.stringify({config,nativeAsset}));
       const reserveToggle=gallery.locator('[data-asset-reserve-toggle]');
@@ -1936,15 +1946,16 @@ try{
         await gallery.locator('[data-asset-reserve-details]').isHidden(),
         'XLM Reserve disclosure failed to collapse');
 
-      // USDC is a separate issued-asset route with issuer and its own activity.
+      // USDC is a separate issued-asset route with issuer subtitle and own activity.
       await gallery.goto(new URL('mobile-asset-details.html?asset=usdc',base).href,
         {waitUntil:'load',timeout:45000});
       const issuedAsset=await gallery.evaluate(()=>({
         symbol:document.querySelector('[data-asset-label]')?.textContent.trim(),
         balance:document.querySelector('[data-asset-balance]')?.textContent.trim(),
         reserveHidden:document.querySelector('[data-asset-reserve-section]')?.hidden,
-        issuedHidden:document.querySelector('[data-asset-issued-section]')?.hidden,
-        issuer:document.querySelector('[data-asset-issuer]')?.textContent.trim(),
+        issuedInformationAbsent:!document.querySelector('[data-asset-issued-section]'),
+        issuerSubtitle:document.querySelector('[data-asset-note]')?.textContent.trim(),
+        oldInfoLabelPresent:document.querySelector('.secondary-scroll')?.textContent.includes('Asset information'),
         activity:[...document.querySelectorAll('[data-asset-activity-list] a')].map(x=>({
           label:x.textContent.trim(),href:x.getAttribute('href')
         })),
@@ -1952,8 +1963,9 @@ try{
         activeRoute:document.querySelector('.preview-nav a.is-current')?.getAttribute('href')
       }));
       assert(issuedAsset.symbol==='USDC'&&issuedAsset.balance==='250.00'&&
-        issuedAsset.reserveHidden&&!issuedAsset.issuedHidden&&
-        issuedAsset.issuer==='GCPQ...R7KM'&&issuedAsset.symbolIcon&&
+        issuedAsset.reserveHidden&&issuedAsset.issuedInformationAbsent&&
+        issuedAsset.issuerSubtitle==='GCPQ...R7KM'&&!issuedAsset.oldInfoLabelPresent&&
+        issuedAsset.symbolIcon&&
         issuedAsset.activity.length===1&&
         issuedAsset.activity[0].href?.includes('received-usdc')&&
         issuedAsset.activeRoute?.includes('asset=usdc'),
