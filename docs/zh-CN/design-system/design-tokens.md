@@ -45,11 +45,14 @@ Inverse 操作在浅色模式使用 `#111214` 配白字，深色模式使用白�
 | --- | --- | --- |
 | `--Fresnica-bg-color` | `#F9F9FB` | `#101312` |
 | `--Fresnica-bg-color-secondary` | `#F3F3F5` | `#171B19` |
-| `--Fresnica-surface-lowest` | `#FFFFFF` | `#101312` |
+| 新增的 1.1.1 `content-body` 语义层让深色普通列表标题和正文使用 `#E8EFEB`，标题、金额等关键数值仍用 `content-primary`。白色反色按钮、Logo/二维码和浅色模式样例是有意的例外，不应将纯白背景用作普通深色组件底板。
+
+`--Fresnica-surface-lowest` | `#FFFFFF` | `#101312` |
 | `--Fresnica-surface` | `#FFFFFF` | `#171B19` |
 | `--Fresnica-surface-high` | `#EDEEF0` | `#202623` |
 | `--Fresnica-surface-highest` | `#E8E8EA` | `#29332E` |
 | `--Fresnica-text-color` | `#1A1C1D` | `#F4F7F5` |
+| `--Fresnica-text-color-body` | `#1A1C1D` | `#E8EFEB` |
 | `--Fresnica-text-color-secondary` | `#3F4942` | `#C5CEC8` |
 | `--Fresnica-border-color` | `#E3E3E5` | `#303934` |
 
