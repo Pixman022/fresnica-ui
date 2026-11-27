@@ -6,8 +6,8 @@
 <meta name="color-scheme" content="dark" />
 <meta name="robots" content="noindex,nofollow,noarchive" />
 <meta name="referrer" content="no-referrer" />
-<meta name="description" content="Fresnica Home 1.1, identical information to original Home example with Fresnica UI 1.1 styling." />
-<title>Fresnica — 首页示例 1.1</title>
+<meta name="description" content="Fresnica wallet home interface preview." />
+<title>Fresnica — 首页</title>
 <link rel="stylesheet" href="./m15-typography.css" />
 <style>
 /* Sidebar navigation for standalone sample pages only. */
@@ -532,6 +532,16 @@ html.preview-immersive .home11-phone .home11-action-sheet{
 }
 </style>
 <link rel="stylesheet" href="./mobile-gallery-system.css" />
+<style>
+/* Active Home: brand in the header and wallet identity where the balance was. */
+.home11-phone .phone-brand .brand-icon img{display:block;width:28px;height:28px}
+.home11-phone .home11-account-overview{padding:var(--native-space-md) 0 0}
+.home11-phone .home11-account-overview .home11-wallet-summary{width:max-content;max-width:100%;gap:var(--native-space-sm)}
+.home11-phone .home11-account-overview .home11-wallet-avatar{width:42px;height:42px;border-radius:13px}
+.home11-phone .home11-account-overview .home11-wallet-avatar svg{width:22px;height:22px}
+.home11-phone .home11-account-overview .home11-wallet-name{font-size:18px;line-height:24px}
+.home11-phone .home11-account-overview .home11-wallet-address{font-size:12px;line-height:17px}
+</style>
 </head>
 <body>
 <div class="preview-shell">
@@ -545,25 +555,25 @@ html.preview-immersive .home11-phone .home11-action-sheet{
   <div class="preview-menu-label">PAGES</div>
   <nav class="preview-nav" aria-label="切换示例页面">
     <a href="./mobile-demo.html" class=""><span class="preview-nav-icon"><svg class="lucide lucide-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span><span class="preview-nav-copy"><strong>首页示例</strong><small>Home screen preview</small></span></a>
-    <a href="./mobile-demo-1-1.html" class="is-current" aria-current="page"><span class="preview-nav-icon"><svg class="lucide lucide-layout-dashboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span><span class="preview-nav-copy"><strong>首页示例 1.1</strong><small>Design system · 1.1</small></span></a>
+    <a href="./mobile-demo-1-1.html" class="is-current" aria-current="page"><span class="preview-nav-icon"><svg class="lucide lucide-layout-dashboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span><span class="preview-nav-copy"><strong>首页</strong><small>Wallet overview</small></span></a>
     <a href="./wallet-home.html" class=""><span class="preview-nav-icon"><svg class="lucide lucide-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span class="preview-nav-copy"><strong>钱包首页</strong><small>SuperWallet / Tokens</small></span></a>
   </nav>
   <p class="preview-sidebar-foot">STELLAR / FRESNICA</p>
 </aside>
 <div class="preview-stage">
-<main aria-label="Home screen 1.1">
+<main aria-label="Fresnica Home">
 <div class="home11-display">
-<div class="home11-phone" aria-label="Fresnica home screen 1.1 preview">
+<div class="home11-phone" aria-label="Fresnica home screen preview">
       <span class="phone-island" aria-hidden="true"></span>
-      <div class="phone-header home11-wallet-header">
-  <div class="home11-wallet-summary">
-    <span class="home11-wallet-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 9V6a3 3 0 0 1 3-3h12"/><path d="M21 11h-4a2 2 0 0 0 0 4h4"/><path d="M17 13h.01"/></svg></span>
-    <span class="home11-wallet-identity"><strong class="home11-wallet-name">SuperWallet</strong><small class="home11-wallet-address">GB3U…EH3W</small></span>
-    <button type="button" class="home11-wallet-switch" aria-label="切换钱包 / Switch wallet" title="切换钱包 / Switch wallet" aria-expanded="false" aria-controls="home11-wallet-selector" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>
-  </div>
-<span class="phone-network"><span class="phone-network-dot" aria-hidden="true"></span>Stellar Mainnet</span></div>
+      <div class="phone-header"><span class="phone-brand"><span class="brand-icon" aria-hidden="true"><img src="./Fresnica-logo.svg" alt="" width="28" height="28" /></span><strong>Fresnica</strong></span><span class="phone-network"><span class="phone-network-dot" aria-hidden="true"></span>Stellar Mainnet</span></div>
       <div class="home11-scroll">
-      <div class="phone-overview"><span class="phone-label">Total balance</span><strong>546,213.02 <small>XLM</small></strong></div>
+      <div class="home11-account-overview" aria-label="Current wallet">
+    <div class="home11-wallet-summary">
+      <span class="home11-wallet-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 9V6a3 3 0 0 1 3-3h12"/><path d="M21 11h-4a2 2 0 0 0 0 4h4"/><path d="M17 13h.01"/></svg></span>
+      <span class="home11-wallet-identity"><strong class="home11-wallet-name">SuperWallet</strong><small class="home11-wallet-address">GB3U…EH3W</small></span>
+      <button type="button" class="home11-wallet-switch" aria-label="切换钱包 / Switch wallet" title="切换钱包 / Switch wallet" aria-expanded="false" aria-controls="home11-wallet-selector" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>
+    </div>
+       </div>
       <div class="phone-quick"><a href="./mobile-send.html" class="gallery-quick-link"><span class="phone-quick-icon"><svg class="lucide lucide-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" /><path d="M7 17 17 7" /></svg></span>Send</a><a href="./mobile-swap.html" class="gallery-quick-link"><span class="phone-quick-icon"><svg class="lucide lucide-arrow-left-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4" /><path d="M4 7h16" /><path d="m16 21 4-4-4-4" /><path d="M20 17H4" /></svg></span>Swap</a><a href="./mobile-receive.html" class="gallery-quick-link"><span class="phone-quick-icon"><svg class="lucide lucide-arrow-down-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7 7 17" /><path d="M17 17H7V7" /></svg></span>Receive</a></div>
       <div class="phone-list">
         <div class="phone-list-header"><b>Your assets</b><button type="button" class="phone-asset-add" aria-label="Add asset" data-gallery-preview-action="Add asset"><svg class="lucide lucide-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Add</button></div>
