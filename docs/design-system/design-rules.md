@@ -37,6 +37,8 @@ The current product scope is Stellar only. Network labels, nodes and examples mu
 - Filled-primary actions and selected controls use the mode-specific **on-primary** foreground: Light `#FFFFFF` on `#0F7954`, Dark `#101312` on `#00CA8A`.
 - This applies to primary buttons, loading primary buttons, active Tabs, selected Pagination and picker items, and primary Modal actions in every interactive state.
 - Do not apply a universal white-on-green rule in dark mode; maintain the reviewed WCAG AA contrast pairs (Light 5.41:1; Dark 8.73:1).
+- Dark-mode text hierarchy: `content-primary` (`#F4F7F5`) for headings, amounts and critical values; `content-body` (`#E8EFEB`) for ordinary list labels and body copy; `content-secondary` (`#C5CEC8`) for supporting text; `content-muted` (`#8E9A93`) for less important metadata. Light-mode `content-body` equals `content-primary` (`#1A1C1D`). Never reduce primary value contrast to solve body-text glare.
+- White or near-white non-text surfaces are allowed only for deliberate inverse controls, essential monochrome logos/QR codes or light-theme samples. In dark-mode standard asset badges, icons, cards and transient notices use neutral surface/content tokens rather than bright white blocks; essential graphic boundaries must meet 3:1 against adjacent colors.
 - Purple filled controls must use a foreground that passes WCAG AA; soft purple containers use `--Fresnica-accent-purple-color-bg` and `--Fresnica-accent-purple-color`.
 - Disabled controls may reduce opacity but must remain legible.
 
@@ -52,7 +54,7 @@ The current product scope is Stellar only. Network labels, nodes and examples mu
 ## Component rules
 
 - **Button**: primary uses the 1.1.0 green/on-primary pair for the active theme and is reserved for the dominant action; default/dashed stay on neutral surfaces. Copy, Max/All, direction switching and other secondary actions remain neutral. `inverse` is reserved for Swap and similarly rare core actions that intentionally invert black/white across themes.
-- **Tabs**: active tab is green with white text; inactive tabs use secondary text.
+- **Tabs**: active tab is green with the mode-specific `on-primary` text (white in light mode, dark in dark mode); inactive tabs use secondary text.
 - **Card**: use semantic surfaces and subtle borders; avoid ornamental game patterns in wallet flows.
 - **Input and Select**: 48px default touch height, neutral surface, visible green focus ring.
 - **Modal and Drawer**: conventional rounded fintech surfaces with focus trapping and a strong overlay hierarchy.
