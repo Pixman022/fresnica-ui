@@ -5,7 +5,8 @@
     { file: "mobile-activity.html", en: "Activity", zh: "交易活动", subtitle: "Transaction history", subtitleZh: "交易历史", kind: "activity" },
     { file: "mobile-dapps.html", en: "dApps", zh: "生态应用", subtitle: "App connections", subtitleZh: "应用连接", kind: "dapps" },
     { file: "mobile-settings.html", en: "Settings", zh: "设置", subtitle: "Wallet preferences", subtitleZh: "钱包偏好设置", kind: "settings" },
-    { file: "mobile-asset-details.html", en: "Asset details", zh: "资产详情", subtitle: "Stellar asset", subtitleZh: "Stellar 资产", kind: "asset" },
+    { file: "mobile-asset-details.html?asset=xlm", en: "XLM details", zh: "XLM 资产详情", subtitle: "Native asset", subtitleZh: "原生资产", kind: "asset" },
+    { file: "mobile-asset-details.html?asset=usdc", en: "USDC details", zh: "USDC 资产详情", subtitle: "Issued asset", subtitleZh: "发行资产", kind: "asset" },
     { file: "mobile-transaction-details.html", en: "Transaction details", zh: "交易详情", subtitle: "Activity record", subtitleZh: "交易记录", kind: "transaction" },
     { file: "mobile-send.html", en: "Send", zh: "发送", subtitle: "Payment preview", subtitleZh: "付款示例", kind: "send" },
     { file: "mobile-receive.html", en: "Receive", zh: "接收", subtitle: "Address preview", subtitleZh: "地址示例", kind: "receive" },
@@ -15,7 +16,11 @@
     { file: "wallet-home.html", en: "Wallet Home", zh: "钱包首页", subtitle: "Wallet reference", subtitleZh: "钱包参考页", kind: "reference" },
   ];
   const file = location.pathname.split("/").pop() || "mobile-demo-1-1.html";
-  const current = pages.find((item) => item.file === file) || pages[0];
+  const assetParam = new URLSearchParams(location.search).get("asset")?.toLowerCase() || "xlm";
+  const route = file === "mobile-asset-details.html" ? file + "?asset=" + assetParam : file;
+  const current = pages.find((item) => item.file === route) ||
+    (file === "mobile-asset-details.html" ?
+      {file:route,en:"Asset details",zh:"资产详情",kind:"asset"} : pages[0]);
   const t = {
     "Home": "首页", "Activity": "活动", "Actions": "操作", "dApps": "应用", "Settings": "设置",
     "Stellar Mainnet": "Stellar 主网", "STELLAR / WALLET": "STELLAR / 钱包",
