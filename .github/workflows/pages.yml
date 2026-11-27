@@ -93,7 +93,11 @@ jobs:
                       test "$(grep -o 'class="gallery-screen-title"' "$source/fresnica-v3-motion-preview/$page" | wc -l)" -eq 1
                   done
                   # Keep the gallery concise; protect essential content and the demo-only disclosure.
-                  grep -Fq '<span class="phone-label">Total balance</span>' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'class="home11-account-overview" aria-label="Current wallet"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  grep -Fq 'src="./Fresnica-logo.svg"' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  ! grep -Fq '<span class="phone-label">Total balance</span>' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
+                  test -s "$source/fresnica-v3-motion-preview/mobile-demo-1-1-reference.html"
+                  grep -Fq 'file: "mobile-demo-1-1-reference.html"' "$source/fresnica-v3-motion-preview/mobile-gallery-system.js"
                   ! grep -Fq 'Stellar assets, all in view.' "$source/fresnica-v3-motion-preview/mobile-demo-1-1.html"
                   ! grep -Fq 'Wallet transactions on Stellar.' "$source/fresnica-v3-motion-preview/mobile-activity.html"
                   ! grep -Fq 'Open a compatible Stellar app and review its request before connecting.' "$source/fresnica-v3-motion-preview/mobile-dapps.html"
