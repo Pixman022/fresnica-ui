@@ -3,18 +3,16 @@
   const phone = document.querySelector(".home11-phone.gallery-activity-page");
   const trigger = phone?.querySelector(".gallery-activity-filter-trigger");
   const overlay = phone?.querySelector(".gallery-activity-filter-overlay");
-  const searchToggle = phone?.querySelector(".gallery-activity-search-trigger");
-  const searchPanel = phone?.querySelector(".gallery-activity-search");
   const searchInput = phone?.querySelector(".gallery-activity-search-input");
   const clearSearch = phone?.querySelector(".gallery-activity-search-clear");
   const noMatch = phone?.querySelector(".gallery-activity-no-match");
   const sections = [...(phone?.querySelectorAll(".home11-scroll .gallery-panel") || [])];
   const rows = sections.flatMap(section => [...section.querySelectorAll("[data-activity-kind]")]);
-  if (!trigger || !overlay || !searchToggle || !searchPanel || !searchInput || !clearSearch || !noMatch ||
+  if (!trigger || !overlay || !searchInput || !clearSearch || !noMatch ||
       !sections.length || !rows.length) return;
 
   const defaults = () => ({
-    kind: "all", direction: "all", family: "all", asset: "all",
+    direction: "all", family: "all", asset: "all",
     amountMode: "any", amount: "", hideDust: false, showMarked: false,
     showFailed: false, hiddenAssets: [],
   });
@@ -24,8 +22,6 @@
   const labels = {
     "Search activity": "搜索交易", "Clear search": "清除搜索",
     "Searches loaded activity only": "仅搜索已加载的交易",
-    "Filter options": "筛选选项", "Basic": "基础", "Advanced": "高级",
-    "All activity": "全部记录", "Received": "已收款", "Sent": "已发送", "Swapped": "已兑换",
     "Direction": "方向", "All": "全部", "Incoming": "收入", "Outgoing": "支出",
     "Operation type": "操作类型", "Payments": "支付", "Swaps": "兑换", "Account": "账户",
     "Trustline": "信任线", "Other": "其他", "Asset": "资产", "Search asset": "搜索资产",
@@ -77,8 +73,6 @@
     });
     searchInput.placeholder = locale("Search activity");
     searchInput.setAttribute("aria-label", locale("Search activity"));
-    searchToggle.setAttribute("aria-label", locale("Search activity"));
-    searchToggle.title = locale("Search activity");
     clearSearch.setAttribute("aria-label", locale("Clear search"));
     clearSearch.title = locale("Clear search");
     overlay.querySelector("[data-activity-asset-search]").placeholder = locale("Search code or issuer");
@@ -111,7 +105,6 @@
     const family = row.dataset.activityFamily || "other";
     const direction = row.dataset.activityDirection || "";
     const amount = row.dataset.activityAmount === "" ? null : Number(row.dataset.activityAmount);
-    if (applied.kind !== "all" && applied.kind !== type) return false;
     if (applied.direction !== "all" && applied.direction !== direction) return false;
     if (applied.family !== "all" && applied.family !== family) return false;
     if (applied.asset !== "all" && applied.asset !== asset) return false;
@@ -148,22 +141,8 @@
     const changed = Object.keys(applied).some(key => key === "hiddenAssets" ?
       applied.hiddenAssets.length > 0 : applied[key] !== defaults()[key]);
     trigger.classList.toggle("is-filtered", changed);
-    searchToggle.classList.toggle("is-active", !searchPanel.hidden && searchInput.value.trim().length > 0);
   };
 
-  searchToggle.addEventListener("click", () => {
-    if (!searchPanel.hidden) {
-      searchInput.value = "";
-      searchPanel.hidden = true;
-      searchToggle.setAttribute("aria-expanded","false");
-      refreshRows();
-      searchToggle.focus();
-      return;
-    }
-    searchPanel.hidden = false;
-    searchToggle.setAttribute("aria-expanded","true");
-    searchInput.focus();
-  });
   searchInput.addEventListener("input", refreshRows);
   clearSearch.addEventListener("click", () => {
     searchInput.value = "";
@@ -176,20 +155,7 @@
     trigger.setAttribute("aria-expanded","false");
     if (restoreFocus) trigger.focus();
   };
-  const tabButtons = [...overlay.querySelectorAll("[data-activity-tab]")];
-  const panes = [...overlay.querySelectorAll("[data-activity-pane]")];
-  const setTab = value => {
-    tabButtons.forEach(button => {
-      const active = button.dataset.activityTab === value;
-      button.classList.toggle("is-current",active);
-      button.setAttribute("aria-selected",String(active));
-    });
-    panes.forEach(pane => pane.hidden = pane.dataset.activityPane !== value);
-  };
   const syncChoices = () => {
-    overlay.querySelectorAll("[data-activity-filter]").forEach(button => {
-      button.setAttribute("aria-pressed",String(button.dataset.activityFilter === draft.kind));
-    });
     overlay.querySelectorAll("[data-activity-choice-group]").forEach(group => {
       const value = draft[group.dataset.activityChoiceGroup];
       group.querySelectorAll("[data-activity-choice]").forEach(button => {
@@ -212,21 +178,16 @@
   trigger.addEventListener("click", () => {
     if (!overlay.hidden) { close(true); return; }
     draft = {...applied, hiddenAssets:[...applied.hiddenAssets]};
-    setTab("basic");
     syncChoices();
     overlay.querySelector(".gallery-activity-hidden-assets").hidden = true;
     overlay.querySelector("[data-activity-asset-search]").value = "";
     overlay.querySelectorAll("[data-activity-choice-group='asset'] button").forEach(button => button.hidden = false);
     overlay.hidden = false;
     trigger.setAttribute("aria-expanded","true");
-    tabButtons[0].focus();
+    overlay.querySelector('[data-activity-choice-group="direction"] [data-activity-choice="all"]')?.focus();
   });
   overlay.addEventListener("click", (event) => {
     if (event.target.closest("[data-activity-filter-dismiss]")) { close(true); return; }
-    const tab = event.target.closest("[data-activity-tab]");
-    if (tab) { setTab(tab.dataset.activityTab); tab.focus(); return; }
-    const quick = event.target.closest("[data-activity-filter]");
-    if (quick) { draft.kind = quick.dataset.activityFilter; syncChoices(); return; }
     const chip = event.target.closest("[data-activity-choice]");
     if (chip) {
       draft[chip.closest("[data-activity-choice-group]").dataset.activityChoiceGroup] = chip.dataset.activityChoice;
