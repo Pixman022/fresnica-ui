@@ -12,7 +12,7 @@
 .home11-phone.gallery-activity-page .gallery-activity-search-field{
   display:flex;align-items:center;gap:var(--native-space-sm);width:100%;max-width:100%;min-width:0;
   min-height:var(--native-tap-target);padding:0 var(--native-space-md);box-sizing:border-box;
-  background:var(--native-surface);border:1px solid var(--native-separator);border-radius:var(--native-radius-control)
+  background:transparent;border:1px solid var(--native-separator);border-radius:var(--native-radius-control)
 }
 .home11-phone.gallery-activity-page .gallery-activity-search-field svg{flex:none;width:18px;height:18px;color:var(--native-content-secondary)}
 .home11-phone.gallery-activity-page .gallery-activity-search-input{
