@@ -1982,7 +1982,13 @@ try{
       const activityImage=path.join(dest,'gallery-activity-'+config.theme+'-'+config.lang+'.png');
       await gallery.locator('.home11-phone').screenshot({path:activityImage,animations:'disabled'});
       captures.push(path.relative(dest,activityImage));
-      await gallery.locator('.gallery-activity-search-trigger').click();
+      assert(await gallery.locator('.gallery-activity-search-input').isVisible()&&
+        await gallery.locator('.gallery-activity-search-trigger').count()===0&&
+        await gallery.evaluate(()=>{
+          const search=document.querySelector('.gallery-activity-search');
+          return search&&!search.hidden&&search.nextElementSibling?.classList.contains('home11-scroll');
+        }),
+        'Activity search must stay visible above the scrolling list');
       await gallery.locator('.gallery-activity-search-input').fill('USDC');
       assert(await visibleActivity()===2,'Activity search should match loaded USDC operations');
       await gallery.locator('.gallery-activity-search-input').fill('no-such-demo-operation');
@@ -1990,14 +1996,16 @@ try{
         'Activity no-match search behavior failed');
       await gallery.locator('.gallery-activity-search-clear').click();
       assert(await visibleActivity()===4,'Clearing Activity search should restore four rows');
-      await gallery.locator('.gallery-activity-search-trigger').click();
       await gallery.locator('.gallery-activity-filter-trigger').click();
-      await gallery.locator('[data-activity-filter="sent"]').click();
+      assert(await gallery.locator('[data-activity-tab]').count()===0&&
+        await gallery.locator('[data-activity-filter]').count()===0&&
+        await gallery.locator('.gallery-activity-filter-advanced').isVisible(),
+        'Activity filter should display advanced controls without a Basic/Advanced switch');
+      await gallery.locator('[data-activity-choice-group="direction"] [data-activity-choice="outgoing"]').click();
       await gallery.locator('.gallery-activity-apply').click();
-      assert(await visibleActivity()===1,'Activity basic Sent filter failed');
+      assert(await visibleActivity()===1,'Activity outgoing direction filter failed');
       await gallery.locator('.gallery-activity-filter-trigger').click();
-      await gallery.locator('[data-activity-filter="all"]').click();
-      await gallery.locator('[data-activity-tab="advanced"]').click();
+      await gallery.locator('[data-activity-choice-group="direction"] [data-activity-choice="all"]').click();
       await gallery.locator('[data-activity-choice-group="family"] [data-activity-choice="payment"]').click();
       await gallery.locator('[data-activity-choice-group="asset"] [data-activity-choice="XLM"]').click();
       await gallery.locator('[data-activity-amount-mode]').selectOption('greater');
@@ -2005,7 +2013,6 @@ try{
       await gallery.locator('.gallery-activity-apply').click();
       assert(await visibleActivity()===1,'Activity advanced combined filters failed');
       await gallery.locator('.gallery-activity-filter-trigger').click();
-      await gallery.locator('[data-activity-tab="advanced"]').click();
       await gallery.locator('[data-activity-amount-mode]').selectOption('any');
       await gallery.locator('[data-activity-switch="showFailed"]').check();
       await gallery.locator('.gallery-activity-apply').click();
@@ -2014,7 +2021,6 @@ try{
         'Activity failed-record option failed');
       await gallery.locator('.gallery-activity-filter-trigger').click();
       await gallery.locator('.gallery-activity-reset').click();
-      await gallery.locator('[data-activity-tab="advanced"]').click();
       await gallery.locator('[data-activity-switch="showMarked"]').check();
       await gallery.locator('[data-activity-switch="hideDust"]').check();
       await gallery.locator('.gallery-activity-apply').click();
