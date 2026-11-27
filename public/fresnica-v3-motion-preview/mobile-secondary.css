@@ -120,3 +120,7 @@
 html.preview-immersive .secondary-phone .secondary-header{padding: max(16px,env(safe-area-inset-top)) 12px 12px!important}
 html.preview-immersive .secondary-phone .secondary-footer{padding-bottom:max(16px,env(safe-area-inset-bottom))!important}
 @media(prefers-reduced-motion:reduce){.home11-phone .secondary-switch-pair{transition:none}}
+
+/* Ordinary secondary-screen row labels use the softer body role; amounts remain strong. */
+.home11-phone .secondary-history-copy b,.home11-phone .secondary-network-copy b{color:var(--native-content-body)}
+html[data-demo-theme="dark"] .home11-phone .secondary-toast{background:var(--native-surface-raised);color:var(--native-content-body);border:1px solid var(--native-border);box-shadow:none}
