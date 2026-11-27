@@ -73,4 +73,4 @@ html.v3-theme-dark.m10-framed .site-header.on-dark {
 
 /* Kept for V3 body-copy consumers; site headings and financial amounts retain content-primary.
    Pure-white logo/QR imagery, inverse controls and purpose-built particles remain exceptions. */
-html.v3-theme-dark #v3-workspace .dp-asset-row .dp-asset-name{color:var(--Fresnica-text-color-body)}
+html.v3-theme-dark #v3-workspace .dp-asset-row > div:not(.dp-asset-values) > b{color:var(--Fresnica-text-color-body)}
