@@ -4,10 +4,9 @@
   const networkTrigger = phone?.querySelector(".home11-network-trigger");
   const categoryTrigger = phone?.querySelector(".home11-category-trigger");
   const addTrigger = phone?.querySelector(".phone-asset-add");
-  const refreshTrigger = phone?.querySelector(".home11-refresh");
   const assetList = phone?.querySelector(".phone-list");
   const scroll = phone?.querySelector(".home11-scroll");
-  if (!phone || !networkTrigger || !categoryTrigger || !addTrigger || !refreshTrigger || !assetList || !scroll) return;
+  if (!phone || !networkTrigger || !categoryTrigger || !addTrigger || !assetList || !scroll) return;
 
   const walletPopup = phone.querySelector("#home11-wallet-selector");
   const walletSwitch = phone.querySelector(".home11-wallet-switch");
@@ -111,8 +110,6 @@
       connected: t("connected", "已连接"), offline: t("offline", "离线"),
       loading: t("loading", "加载中"), error: t("unavailable", "不可用")
     }[status]));
-    refreshTrigger.classList.toggle("is-loading", status === "loading");
-    refreshTrigger.disabled = status === "loading";
     addTrigger.hidden = category !== "assets" || status !== "connected" || network !== "mainnet";
     const canShow = status === "connected" && network === "mainnet";
     rows.forEach(row => { row.hidden = !canShow || category !== "assets"; });
@@ -160,7 +157,6 @@
   networkTrigger.addEventListener("click", () => open("network", networkTrigger));
   categoryTrigger.addEventListener("click", () => open("category", categoryTrigger));
   addTrigger.addEventListener("click", () => { addMode = "catalog"; selectedAsset = null; open("add", addTrigger); });
-  refreshTrigger.addEventListener("click", refresh);
 
   // A pull gesture previews the loading and reloaded states; it never requests network data.
   let touchStart = null;
