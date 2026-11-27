@@ -112,3 +112,12 @@
 .home11-phone.gallery-dapps-enhanced .gallery-dapps-more-item:focus-visible{
   outline:2px solid var(--native-primary);outline-offset:2px
 }
+
+/* Reviewed preview connections share one store with Settings; no live wallet authorization. */
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-connected-entry{align-items:flex-start;gap:9px;padding:12px}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-connected-entry .gallery-row-icon{width:32px;height:32px;font-size:16px}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-connected-entry .gallery-row-copy{min-width:0;flex:1}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-connected-entry .gallery-row-copy b{font-size:12px}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-connected-entry .gallery-row-copy small{font-size:10px;overflow-wrap:anywhere}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-disconnect{flex:none;max-width:110px;min-height:36px;padding:6px 8px;border:1px solid var(--native-separator);border-radius:10px;background:transparent;color:var(--native-content-primary);font-weight:600;font-size:10px;line-height:1.3;font-family:inherit;cursor:pointer}
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-disconnect:focus-visible{outline:2px solid var(--native-primary);outline-offset:1px}
