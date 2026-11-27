@@ -4,12 +4,11 @@
   const trigger = phone?.querySelector(".gallery-activity-filter-trigger");
   const overlay = phone?.querySelector(".gallery-activity-filter-overlay");
   const searchInput = phone?.querySelector(".gallery-activity-search-input");
-  const searchHint = phone?.querySelector(".gallery-activity-search-hint");
   const clearSearch = phone?.querySelector(".gallery-activity-search-clear");
   const noMatch = phone?.querySelector(".gallery-activity-no-match");
   const sections = [...(phone?.querySelectorAll(".home11-scroll .gallery-panel") || [])];
   const rows = sections.flatMap(section => [...section.querySelectorAll("[data-activity-kind]")]);
-  if (!trigger || !overlay || !searchInput || !searchHint || !clearSearch || !noMatch ||
+  if (!trigger || !overlay || !searchInput || !clearSearch || !noMatch ||
       !sections.length || !rows.length) return;
 
   const defaults = () => ({
@@ -22,7 +21,6 @@
   const zh = () => document.documentElement.lang.startsWith("zh");
   const labels = {
     "Search activity": "搜索交易", "Clear search": "清除搜索",
-    "Loaded records only": "仅搜索已加载记录",
     "Direction": "方向", "All": "全部", "Incoming": "收入", "Outgoing": "支出",
     "Operation type": "操作类型", "Payments": "支付", "Swaps": "兑换", "Account": "账户",
     "Trustline": "信任线", "Other": "其他", "Asset": "资产", "Search asset": "搜索资产",
@@ -143,7 +141,6 @@
       applied.hiddenAssets.length > 0 : applied[key] !== defaults()[key]);
     trigger.classList.toggle("is-filtered", changed);
     const isSearching = searchInput.value.trim().length > 0;
-    searchHint.hidden = !isSearching;
     clearSearch.hidden = !isSearching;
   };
 
