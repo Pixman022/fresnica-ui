@@ -72,9 +72,9 @@
   });
 
   const assetInfo = {
-    xlm: { symbol: "XLM", balance: "546,213.0231432", label: "Stellar native asset", type: "Native asset", reserve: "12 XLM" },
-    usdc: { symbol: "USDC", balance: "250.00", label: "Stellar-issued asset", type: "Issued asset", issuer: "GCPQ...R7KM" },
-    aqua: { symbol: "AQUA", balance: "860.00", label: "Stellar-issued asset", type: "Issued asset", issuer: "GBZA...T4WN" },
+    xlm: { symbol: "XLM", balance: "546,213.0231432", label: "Stellar native asset", reserve: "12 XLM" },
+    usdc: { symbol: "USDC", balance: "250.00", issuer: "GCPQ...R7KM" },
+    aqua: { symbol: "AQUA", balance: "860.00", issuer: "GBZA...T4WN" },
   };
   if (phone.dataset.secondaryScreen === "asset-details") {
     const asset = new URLSearchParams(location.search).get("asset")?.toLowerCase() || "xlm";
@@ -96,9 +96,7 @@
     set("[data-asset-balance]", chosen.balance);
     set("[data-asset-symbol]", chosen.symbol);
     const reserveSection = phone.querySelector("[data-asset-reserve-section]");
-    const issuedSection = phone.querySelector("[data-asset-issued-section]");
     if (reserveSection) reserveSection.hidden = !native;
-    if (issuedSection) issuedSection.hidden = native;
     if (native) {
       set("[data-asset-reserve]", chosen.reserve);
       const toggle = phone.querySelector("[data-asset-reserve-toggle]");
@@ -109,19 +107,13 @@
         details.hidden = expanded;
         toggle.setAttribute("aria-expanded", String(!expanded));
       });
-    } else {
-      set("[data-asset-issuer]", chosen.issuer);
-      const type = phone.querySelector("[data-asset-type]");
-      if (type) {
-        type.dataset.galleryEn = chosen.type;
-        type.dataset.galleryZh = "发行资产";
-        type.textContent = say(type.dataset.galleryEn, type.dataset.galleryZh);
-      }
     }
+    // For issued Stellar assets, the identity subtitle is the abbreviated
+    // G-address of the issuer shown elsewhere in this illustrative gallery.
     const note = phone.querySelector("[data-asset-note]");
     if (note) {
-      note.dataset.galleryEn = chosen.label;
-      note.dataset.galleryZh = native ? "Stellar 原生资产" : "Stellar 发行资产";
+      note.dataset.galleryEn = native ? chosen.label : chosen.issuer;
+      note.dataset.galleryZh = native ? "Stellar 原生资产" : chosen.issuer;
       note.textContent = say(note.dataset.galleryEn, note.dataset.galleryZh);
     }
     const activityTitle = phone.querySelector("[data-asset-activity-title]");
