@@ -17,7 +17,7 @@
 .home11-phone .settings-detail-note{margin:10px 2px 17px;color:var(--native-content-secondary);font-size:10.5px;line-height:1.55}
 .home11-phone .settings-detail-empty{text-align:center;padding:28px 16px;color:var(--native-content-secondary);font-size:12px;line-height:1.6}
 .home11-phone .settings-detail-empty b{display:block;color:var(--native-content-primary);font-size:13px;margin-bottom:5px}
-.home11-phone .settings-detail-cta{display:flex;align-items:center;justify-content:center;min-height:45px;width:100%;margin:12px 0 0;padding:10px 12px;background:var(--native-primary);color:var(--native-on-primary);border:0;border-radius:12px;font:600 12px inherit;font-family:inherit;text-decoration:none;text-align:center;cursor:pointer}
+.home11-phone .settings-detail-cta{display:flex;align-items:center;justify-content:center;min-height:45px;width:100%;margin:12px 0 0;padding:10px 12px;background:var(--native-primary);color:var(--native-on-primary);border:0;border-radius:12px;font-weight:600;font-size:12px;font-family:inherit;text-decoration:none;text-align:center;cursor:pointer}
 .home11-phone .settings-detail-cta.is-muted{background:var(--native-surface);color:var(--native-content-primary);border:1px solid var(--native-separator)}
 .home11-phone .settings-detail-field{display:flex;flex-direction:column;gap:7px;margin:12px 0}
 .home11-phone .settings-detail-field label{font-size:11px;font-weight:600;color:var(--native-content-secondary)}
@@ -29,7 +29,7 @@
 .home11-phone .settings-detail-switch[aria-checked="true"]{background:var(--native-primary)}
 .home11-phone .settings-detail-switch[aria-checked="true"]::after{transform:translateX(14px)}
 .home11-phone .settings-detail-inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
-.home11-phone .settings-detail-mini{min-height:34px;padding:6px 9px;border:1px solid var(--native-separator);border-radius:9px;background:var(--native-background);color:var(--native-content-primary);font:600 11px inherit;font-family:inherit;cursor:pointer}
+.home11-phone .settings-detail-mini{min-height:34px;padding:6px 9px;border:1px solid var(--native-separator);border-radius:9px;background:var(--native-background);color:var(--native-content-primary);font-weight:600;font-size:11px;font-family:inherit;cursor:pointer}
 .home11-phone .settings-detail-mini:disabled{opacity:.38;cursor:not-allowed}
 .home11-phone .settings-detail-mini.danger{color:#c36355}
 .home11-phone .settings-detail-account{padding:12px 13px;border-bottom:1px solid var(--native-separator)}
@@ -48,7 +48,7 @@
 .home11-phone .settings-detail-sheet-close{display:grid;place-items:center;width:44px;height:44px;flex:none;border:0;border-radius:100%;background:var(--native-background);color:var(--native-content-primary);font-size:20px;cursor:pointer}
 .home11-phone .settings-detail-sheet-copy{margin:5px 0 13px;color:var(--native-content-secondary);font-size:11px;line-height:1.55}
 .home11-phone .settings-detail-dialog-actions{display:flex;gap:8px;margin-top:16px}
-.home11-phone .settings-detail-dialog-actions button{min-height:44px;flex:1;border:0;border-radius:11px;background:var(--native-primary);color:var(--native-on-primary);font:600 12px inherit;font-family:inherit;cursor:pointer}
+.home11-phone .settings-detail-dialog-actions button{min-height:44px;flex:1;border:0;border-radius:11px;background:var(--native-primary);color:var(--native-on-primary);font-weight:600;font-size:12px;font-family:inherit;cursor:pointer}
 .home11-phone .settings-detail-dialog-actions button.secondary{background:var(--native-background);color:var(--native-content-primary)}
 .home11-phone .settings-detail-toast{position:absolute;z-index:25;bottom:20px;left:16px;right:16px;margin:0 auto;max-width:max-content;padding:9px 14px;border-radius:10px;background:var(--native-content-primary);color:var(--native-background);font-size:11px;line-height:1.4;text-align:center}
 .home11-phone .settings-detail-toast[hidden]{display:none}
