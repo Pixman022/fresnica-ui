@@ -1859,14 +1859,16 @@ try{
           sameFont:getComputedStyle(popular).fontSize===getComputedStyle(recent).fontSize,
           sameWeight:getComputedStyle(popular).fontWeight===getComputedStyle(recent).fontWeight,
           sharedGrid:scroll.querySelector('[data-dapps-recent-list]')?.classList.contains('gallery-sample-grid'),
-          recentWithinPage:recent.parentElement===scroll
+          recentWithinPage:recent.parentElement===scroll,
+          emptySurface:getComputedStyle(scroll.querySelector('[data-dapps-recent-empty]')).backgroundColor===
+            getComputedStyle(scroll.querySelector('[data-gallery-demo-apps]')).backgroundColor
         };
       });
       assert(await gallery.locator('[data-dapps-tab]').count()===0&&
         await gallery.locator('[data-dapps-search]').isVisible()&&
         dappsSections.titleCount===3&&dappsSections.recentOrder&&
         dappsSections.sameFont&&dappsSections.sameWeight&&
-        dappsSections.sharedGrid&&dappsSections.recentWithinPage,
+        dappsSections.sharedGrid&&dappsSections.recentWithinPage&&dappsSections.emptySurface,
         'dApps sections must be Popular, Recent, Connected with matching heading and grid styles: '+
           JSON.stringify({config,dappsSections}));
       await gallery.locator('[data-dapps-search]').fill('nova');

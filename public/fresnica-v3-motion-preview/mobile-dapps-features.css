@@ -32,6 +32,9 @@
   margin:0;padding:26px 12px;border:1px solid var(--native-separator);border-radius:14px;
   font-size:12px;text-align:center;color:var(--native-content-secondary)
 }
+.home11-phone.gallery-dapps-enhanced .gallery-dapps-recent-empty{
+  background:var(--native-surface);border-radius:16px
+}
 .home11-phone.gallery-dapps-enhanced .gallery-dapps-recent-list{
   grid-template-columns:repeat(3,minmax(0,1fr))
 }
