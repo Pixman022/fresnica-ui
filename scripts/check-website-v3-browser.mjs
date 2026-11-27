@@ -1918,6 +1918,10 @@ try{
       assert(await gallery.locator('.gallery-dapps-recent-item').count()===2&&
         (await gallery.locator('.gallery-section-title:visible').allTextContents()).some(x=>x.includes('Connected apps'))===false,
         'dApps manual preview should be added only to Recent, not connections');
+      await gallery.reload({waitUntil:'load'});
+      await gallery.locator('[data-dapps-tab="recent"]').click();
+      assert(await gallery.locator('.gallery-dapps-recent-item').count()===2,
+        'dApps Recent should persist within the current browser session');
       await gallery.locator('[data-dapps-tab="home"]').click();
       assert((await gallery.locator('.gallery-section-title:visible').last().textContent()).includes(
         config.lang==='zh'?'已连接的应用':'Connected apps'),
